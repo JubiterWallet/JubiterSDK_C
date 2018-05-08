@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\device">
+      <UniqueIdentifier>{ea6878b4-5daf-4c1a-9656-09aa49b8d304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\device">
+      <UniqueIdentifier>{dd032b90-1d21-433b-936d-8c1e8feb9e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\token">
+      <UniqueIdentifier>{b8d6da8a-9ddd-4bf3-b59b-6a3a0c4a031e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\token">
+      <UniqueIdentifier>{f5e56ceb-43a8-4aa3-93d2-dc4b4ad97496}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\JUB_SDK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\device\ApduBuilder.hpp">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\device\DeviceManager.hpp">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\device\DeviceTypeBase.hpp">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\device\JubiterHidDevice.hpp">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\token\TokenInterface.hpp">
+      <Filter>Header Files\token</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\token\HardwareTokenImpl.hpp">
+      <Filter>Header Files\token</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\token\TokenManager.hpp">
+      <Filter>Header Files\token</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\device\ApduBuilder.cpp">
+      <Filter>Source Files\device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\device\DeviceManager.cpp">
+      <Filter>Source Files\device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp">
+      <Filter>Source Files\device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\token\HardwareTokenImpl.cpp">
+      <Filter>Source Files\token</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\token\TokenManager.cpp">
+      <Filter>Source Files\token</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
