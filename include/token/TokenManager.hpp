@@ -9,26 +9,12 @@ namespace jub {
 	class TokenManager
 	{
 	public:
-		//TokenInterface* getToken(int index) {return 0};
+		TokenManager();
 		~TokenManager();
 		bool enumToken();
 		int getTokenCount() { return m_token_list.size(); };
-		void getHandleList(JUB_UINT16 hlist[MAX_DEVICE]) {
-			int index = 0;
-			for (auto it : m_token_list)
-			{
-				hlist[index] = it.first;
-				index++;
-			}
-		};
-		TokenInterface* getToken(JUB_UINT16 index) {
-			auto it = m_token_list.find(index);
-			if (it != m_token_list.end())
-			{
-				return it->second;
-			}
-			return nullptr;
-		};
+		void getHandleList(JUB_UINT16 hlist[MAX_DEVICE]);
+		TokenInterface* getToken(JUB_UINT16 index);
 		void clearToken();
 
 	private:

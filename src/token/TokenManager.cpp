@@ -5,19 +5,24 @@
 
 namespace jub {
 
-	bool TokenManager::enumToken() {
+	TokenManager::TokenManager()
+	{
 
-#ifdef WIN32
-		return _enumTokenHid();
-#endif
 	}
-
 	TokenManager::~TokenManager() { 
 #ifdef WIN32
 		hid_exit();
 #endif
 		clearToken();
 	};
+
+
+	bool TokenManager::enumToken() {
+
+#ifdef WIN32
+		return _enumTokenHid();
+#endif
+	}
 
 	bool TokenManager::_enumTokenHid() {
 		clearToken();
@@ -47,6 +52,24 @@ namespace jub {
 		{
 			delete it.second;
 		}
+	}
+
+
+	void TokenManager::getHandleList(JUB_UINT16 hlist[MAX_DEVICE]) {
+		int index = 0;
+		for (auto it : m_token_list)
+		{
+			hlist[index] = it.first;
+			index++;
+		}
+	}
+	TokenInterface* TokenManager::getToken(JUB_UINT16 index) {
+		auto it = m_token_list.find(index);
+		if (it != m_token_list.end())
+		{
+			return it->second;
+		}
+		return nullptr;
 	}
 
 }

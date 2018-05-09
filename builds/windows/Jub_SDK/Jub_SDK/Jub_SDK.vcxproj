@@ -132,6 +132,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\context\ContextBTC.h" />
+    <ClInclude Include="..\..\..\..\include\context\ContextManager.hpp" />
     <ClInclude Include="..\..\..\..\include\device\ApduBuilder.hpp" />
     <ClInclude Include="..\..\..\..\include\device\DeviceManager.hpp" />
     <ClInclude Include="..\..\..\..\include\device\DeviceTypeBase.hpp" />

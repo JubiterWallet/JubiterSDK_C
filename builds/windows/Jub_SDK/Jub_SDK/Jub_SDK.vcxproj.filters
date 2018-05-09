@@ -25,6 +25,9 @@
     <Filter Include="Source Files\token">
       <UniqueIdentifier>{f5e56ceb-43a8-4aa3-93d2-dc4b4ad97496}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\context">
+      <UniqueIdentifier>{43ffabbd-5757-4c12-92d1-52cb2d842216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -53,6 +56,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\include\token\TokenManager.hpp">
       <Filter>Header Files\token</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\context\ContextManager.hpp">
+      <Filter>Header Files\context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\context\ContextBTC.h">
+      <Filter>Header Files\context</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

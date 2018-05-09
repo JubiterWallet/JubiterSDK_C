@@ -172,6 +172,25 @@ enum JUB_ENUM_BOOL
     BOOL_NR_ITEMS
 };
 
+
+enum JUB_BTC_TRANS_TYPE
+{
+	p2pkh = 0,
+	//p2pwpkh,
+	p2sh_p2wpkh
+	/*
+	p2sh_multisig,
+	p2wsh_multisig,
+	p2sh_p2wsh_multisig,
+	*/
+};
+struct CONTEXT_CONFIG_BTC {
+	char* main_path;
+	int forkID;
+	JUB_BTC_TRANS_TYPE type;
+};
+
+
 /*****************************************************************************
 * @function name : Jub_ListDeviceHid
 * @in param : 
@@ -200,6 +219,26 @@ JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 deviceID);
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
+
+
+/*****************************************************************************
+* @function name : Jub_DisconnetDeviceHid
+* @in param :
+* @out param :
+* @last change :
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV Jub_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg , IN JUB_UINT16 deviceID,  OUT JUB_UINT16* contextID);
+
+
+/*****************************************************************************
+* @function name : JUB_ClearContext
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID);
 
 
 
