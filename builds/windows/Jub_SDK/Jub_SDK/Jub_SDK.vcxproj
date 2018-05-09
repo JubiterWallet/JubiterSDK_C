@@ -144,6 +144,7 @@
     <ClInclude Include="..\..\..\..\include\token\TokenManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\context\ContextBTC.cpp" />
     <ClCompile Include="..\..\..\..\src\device\ApduBuilder.cpp" />
     <ClCompile Include="..\..\..\..\src\device\DeviceManager.cpp" />
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp" />

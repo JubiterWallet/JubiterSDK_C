@@ -12,6 +12,7 @@ class TokenInterface {
     /* functions */
     virtual JUB_RV connectToken() = 0;
 	virtual JUB_RV disconnectToken() = 0;
+	virtual JUB_RV getHDNode_BTC(int index, std::string& xpub) = 0;
 
 };
 

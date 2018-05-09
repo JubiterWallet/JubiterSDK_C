@@ -20,12 +20,20 @@ namespace jub {
 		};
 		~ContextBTC() {};
 
+
+		JUB_RV getHDNode(int index, std::string& xpub);
+
 	private:
 		std::string _main_path;
 		int _forkid;
 		JUB_BTC_TRANS_TYPE _type;
 		JUB_UINT16 _deviceID;
 	};
+
+
+
+
+
 
 
 

@@ -57,3 +57,9 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID)
 	Singleton<jub::ContextManager<jub::ContextBTC> >::GetInstance()->clearContext(contextID);
 	return JUBR_OK;
 }
+
+
+JUB_RV JUB_SignTransactionBTC(IN INPUT_BTC inputs[], IN OUTPUT_BTC outputs[], OUT char* raw)
+{
+	return JUBR_OK;
+}

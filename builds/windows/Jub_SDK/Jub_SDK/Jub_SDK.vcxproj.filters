@@ -28,6 +28,9 @@
     <Filter Include="Header Files\context">
       <UniqueIdentifier>{43ffabbd-5757-4c12-92d1-52cb2d842216}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\context">
+      <UniqueIdentifier>{bf94f2db-d25e-45a9-8e8e-74eff14d9f6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\token\TokenManager.cpp">
       <Filter>Source Files\token</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\context\ContextBTC.cpp">
+      <Filter>Source Files\context</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

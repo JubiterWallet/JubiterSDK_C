@@ -190,6 +190,22 @@ struct CONTEXT_CONFIG_BTC {
 	JUB_BTC_TRANS_TYPE type;
 };
 
+struct INPUT_BTC
+{
+	char* preHash;
+	int   preIndex;
+	JUB_UINT64 amount;
+	int   addressIndex;
+};
+
+struct OUTPUT_BTC
+{
+	char* address;
+	JUB_UINT64 amount;
+	JUB_BBOOL change;
+	char* path;
+};
+
 
 /*****************************************************************************
 * @function name : Jub_ListDeviceHid
@@ -241,6 +257,14 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID);
 
 
+/*****************************************************************************
+* @function name : JUB_SignTransactionBTC
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTransactionBTC(IN INPUT_BTC inputs[], IN OUTPUT_BTC outputs[], OUT char* raw);
 
 #ifdef __cplusplus
 }

@@ -1,6 +1,8 @@
 #include <JUB_SDK.h>
 #include <token/TokenInterface.hpp>
 #include <token/HardwareTokenImpl.hpp>
+#include <utility/util.hpp>
+#include <cassert>
 
 
 namespace jub {
@@ -21,6 +23,76 @@ namespace jub {
 	{
 		return _device->disconnect();
 	}
+
+
+	JUB_RV HardwareTokenImpl::getHDNode_BTC(int index, std::string& xpub)
+	{
+		SWITCH_TO_BTC_APP
+
+
+
+		return JUBR_OK;
+	}
+
+	JUB_RV HardwareTokenImpl::_selectApp(const JUB_BYTE PKIAID[8]) {
+		APDU apdu(0x00, 0xA4, 0x04, 0x00, sizeof(PKIAID), PKIAID);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+		
+		return JUBR_OK;
+	}
+
+
+	JUB_RV HardwareTokenImpl::_sendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *pRetData /*= nullptr*/,
+		JUB_ULONG *pulRetLen /*= nullptr*/,
+		JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
+
+		JUB_CHECK_NULL(_apduBuiler);
+		JUB_CHECK_NULL(_device);
+
+		JUB_BYTE retdata[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = { 0, };
+		JUB_ULONG ulRetLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
+
+		std::vector<JUB_BYTE> sendApdu;
+		if (JUBR_OK == _apduBuiler->buildApdu(apdu, sendApdu))
+		{
+			if (JUBR_OK != _device->sendData(sendApdu.data(), sendApdu.size(), retdata, &ulRetLen, ulMiliSecondTimeout))
+			{
+				return JUBR_TRANSMIT_DEVICE_ERROR;
+			}
+
+			if (NULL == pulRetLen)
+			{
+				wRet = retdata[ulRetLen - 2] * 0x100 + retdata[ulRetLen - 1];
+				return JUBR_OK;
+			}
+
+			if (NULL == pRetData)
+			{
+				*pulRetLen = ulRetLen - 2;
+				wRet = (retdata[ulRetLen - 2] * 0x100 + retdata[ulRetLen - 1]);
+				return JUBR_OK;
+			}
+
+			if (*pulRetLen < (ulRetLen - 2))
+			{
+				*pulRetLen = ulRetLen - 2;
+				return JUBR_BUFFER_TOO_SMALL;
+			}
+
+			*pulRetLen = ulRetLen - 2;
+			memcpy(pRetData, retdata, ulRetLen - 2);
+
+			wRet = retdata[ulRetLen - 2] * 0x100 + retdata[ulRetLen - 1];
+			return JUBR_OK;
+		}
+
+		return JUBR_TRANSMIT_DEVICE_ERROR;
+	}
+
 
 
 }  // namespace jub
