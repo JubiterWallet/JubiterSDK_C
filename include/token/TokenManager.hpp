@@ -1,6 +1,6 @@
 #ifndef __TokenManager__
 #define __TokenManager__
-#include <vector>
+#include <map>
 #include <token/TokenInterface.hpp>
 
 namespace jub {
@@ -13,17 +13,27 @@ namespace jub {
 		~TokenManager();
 		bool enumToken();
 		int getTokenCount() { return m_token_list.size(); };
-		TokenInterface* getToken(JUB_UINT16 index) {
-			if (index>m_token_list.size())
+		void getHandleList(JUB_UINT16 hlist[MAX_DEVICE]) {
+			int index = 0;
+			for (auto it : m_token_list)
 			{
-				return nullptr;
+				hlist[index] = it.first;
+				index++;
 			}
-			return m_token_list[index];
 		};
+		TokenInterface* getToken(JUB_UINT16 index) {
+			auto it = m_token_list.find(index);
+			if (it != m_token_list.end())
+			{
+				return it->second;
+			}
+			return nullptr;
+		};
+		void clearToken();
 
 	private:
 		bool _enumTokenHid();
-		std::vector<TokenInterface*>  m_token_list;
+		std::map<JUB_UINT16, TokenInterface*> m_token_list;
 	};
 
 }

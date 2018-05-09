@@ -16,13 +16,11 @@ namespace jub {
 #ifdef WIN32
 		hid_exit();
 #endif
-		for (auto token : m_token_list)
-		{
-			delete token;
-		}
+		clearToken();
 	};
 
 	bool TokenManager::_enumTokenHid() {
+		clearToken();
 		if (0 != hid_init())
 		{
 			return false;
@@ -33,13 +31,22 @@ namespace jub {
 		while (hid_dev)
 		{
 			HardwareTokenImpl* token = new HardwareTokenImpl(hid_dev->path);
-
-			m_token_list.push_back(token);
+			JUB_UINT16 handle = rand();
+			m_token_list.insert(std::make_pair(handle, token));
 			hid_dev = hid_dev->next;
 		}
 
 		hid_free_enumeration(hid_dev_head);
 		return true;
+	}
+
+
+	void TokenManager::clearToken()
+	{
+		for (auto it : m_token_list)
+		{
+			delete it.second;
+		}
 	}
 
 }

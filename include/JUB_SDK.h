@@ -189,7 +189,7 @@ JUB_RV Jub_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 index);
+JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 deviceID);
 
 
 /*****************************************************************************
@@ -199,7 +199,7 @@ JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 index);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 index);
+JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
 
 
 

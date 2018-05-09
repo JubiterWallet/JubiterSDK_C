@@ -2,7 +2,7 @@
 #ifndef __Apdu__
 #define __Apdu__
 
-#include <JUB_SDK.hore.h>
+#include <JUB_SDK.h>
 #include <vector>
 
 namespace jub {

@@ -10,24 +10,14 @@
 JUB_RV Jub_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 {
 	Singleton<jub::TokenManager>::GetInstance()->enumToken();
-	int deviceCount = Singleton<jub::TokenManager>::GetInstance()->getTokenCount();
-	if (deviceCount > MAX_DEVICE)
-	{
-		return JUBR_ERROR;
-	}
-	for (JUB_UINT16 i = 0; i < deviceCount; i++)
-	{
-		deviceIDs[i] = i;
-	}
-
-	deviceIDs[deviceCount] = 0xffff;
+	Singleton<jub::TokenManager>::GetInstance()->getHandleList(deviceIDs);
 
 	return JUBR_OK;
 }
 
-JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 index)
+JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 deviceID)
 {
-	auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(index);
+	auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(deviceID);
 	if (nullptr != token)
 	{
 		return token->connectToken();
@@ -35,9 +25,9 @@ JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 index)
 	return JUBR_ERROR;
 }
 
-JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 index)
+JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID)
 {
-	auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(index);
+	auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(deviceID);
 	if (nullptr != token)
 	{
 		return token->disconnectToken();
