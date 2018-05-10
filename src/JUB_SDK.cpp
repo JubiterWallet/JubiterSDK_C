@@ -59,7 +59,22 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID)
 }
 
 
-JUB_RV JUB_SignTransactionBTC(IN INPUT_BTC inputs[], IN OUTPUT_BTC outputs[], OUT char* raw)
+JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID , IN INPUT_BTC inputs[], IN JUB_UINT16 iCount, IN OUTPUT_BTC outputs[], IN JUB_UINT16 oCount, IN JUB_UINT32 locktime, OUT JUB_CHAR_PTR_PTR raw)
 {
-	return JUBR_OK;
+	std::vector<INPUT_BTC> vInputs(inputs, inputs + iCount);
+	std::vector<OUTPUT_BTC> vOutputs(outputs, outputs + oCount);
+
+	auto context = Singleton<jub::ContextManager<jub::ContextBTC> >::GetInstance()->getContext(contextID);
+	if (context != nullptr)
+	{
+		std::string raw;
+		auto rv = context->signTX(vInputs, vOutputs, locktime,raw);
+		if (rv == JUBR_OK)
+		{
+			//
+		}
+	}
+
+
+	return JUBR_ERROR;
 }

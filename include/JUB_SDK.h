@@ -185,25 +185,25 @@ enum JUB_BTC_TRANS_TYPE
 	*/
 };
 struct CONTEXT_CONFIG_BTC {
-	char* main_path;
-	int forkID;
-	JUB_BTC_TRANS_TYPE type;
+	JUB_CHAR_PTR		main_path;
+	JUB_UINT16			forkID;
+	JUB_BTC_TRANS_TYPE	type;
 };
 
 struct INPUT_BTC
 {
-	char* preHash;
-	int   preIndex;
-	JUB_UINT64 amount;
-	int   addressIndex;
+	JUB_CHAR_PTR	preHash;
+	JUB_UINT16      preIndex;
+	JUB_UINT64		amount;
+	JUB_UINT16		addressIndex;
 };
 
 struct OUTPUT_BTC
 {
-	char* address;
-	JUB_UINT64 amount;
-	JUB_BBOOL change;
-	char* path;
+	JUB_CHAR_PTR	address;
+	JUB_UINT64		amount;
+	JUB_BBOOL		change;
+	JUB_CHAR_PTR	path;
 };
 
 
@@ -264,7 +264,7 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SignTransactionBTC(IN INPUT_BTC inputs[], IN OUTPUT_BTC outputs[], OUT char* raw);
+JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID ,IN INPUT_BTC inputs[], IN JUB_UINT16 iCount, IN OUTPUT_BTC outputs[],  IN JUB_UINT16 oCount, IN JUB_UINT32 locktime, OUT JUB_CHAR_PTR_PTR raw);
 
 #ifdef __cplusplus
 }

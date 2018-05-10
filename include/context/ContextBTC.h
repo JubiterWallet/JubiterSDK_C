@@ -5,7 +5,7 @@
 
 #include <JUB_SDK.h>
 #include <string>
-
+#include <vector>
 
 namespace jub {
 
@@ -22,6 +22,7 @@ namespace jub {
 
 
 		JUB_RV getHDNode(int index, std::string& xpub);
+		JUB_RV signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime , std::string& raw);
 
 	private:
 		std::string _main_path;

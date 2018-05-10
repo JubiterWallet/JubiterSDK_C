@@ -34,6 +34,22 @@ namespace jub {
 		return JUBR_OK;
 	}
 
+
+	JUB_RV HardwareTokenImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type, 
+		JUB_UINT16 input_count,
+		std::vector<JUB_UINT64> input_amount, 
+		std::vector<std::string> input_path,
+		std::vector<JUB_UINT16> change_index, 
+		std::vector<std::string> change_path, 
+		std::vector<JUB_BYTE> unsiged_trans)
+	{
+		SWITCH_TO_BTC_APP
+
+		return JUBR_OK;
+
+	}
+
+
 	JUB_RV HardwareTokenImpl::_selectApp(const JUB_BYTE PKIAID[8]) {
 		APDU apdu(0x00, 0xA4, 0x04, 0x00, sizeof(PKIAID), PKIAID);
 		JUB_UINT16 ret = 0;
@@ -44,6 +60,7 @@ namespace jub {
 		
 		return JUBR_OK;
 	}
+
 
 
 	JUB_RV HardwareTokenImpl::_sendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *pRetData /*= nullptr*/,

@@ -31,6 +31,18 @@
     <Filter Include="Source Files\context">
       <UniqueIdentifier>{bf94f2db-d25e-45a9-8e8e-74eff14d9f6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\libBTC">
+      <UniqueIdentifier>{102f53c1-f2a3-4653-b6a8-366b56302f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps">
+      <UniqueIdentifier>{2410a02c-ba37-4d84-a589-d6e010cdc706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\polarssl">
+      <UniqueIdentifier>{56cb9b09-6f4e-4831-bf86-79527bcd3377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\base58">
+      <UniqueIdentifier>{0c52c268-4d07-481d-9946-9ab366daa087}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -66,6 +78,54 @@
     <ClInclude Include="..\..\..\..\include\context\ContextBTC.h">
       <Filter>Header Files\context</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\libBTC\libBTC.hpp">
+      <Filter>Header Files\libBTC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\formats\base58.h">
+      <Filter>deps\base58</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\formats\bech32.h">
+      <Filter>deps\base58</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\formats\hash.h">
+      <Filter>deps\base58</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\check_config.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\config.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\md.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\md_wrap.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\md2.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\md4.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\md5.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\platform.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\ripemd160.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\sha1.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\sha256.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\deps\polarssl\sha512.h">
+      <Filter>deps\polarssl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
@@ -88,6 +148,42 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\context\ContextBTC.cpp">
       <Filter>Source Files\context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\formats\base58.cpp">
+      <Filter>deps\base58</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\formats\bech32.cpp">
+      <Filter>deps\base58</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\md.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\md_wrap.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\md2.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\md4.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\md5.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\platform.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\ripemd160.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\sha1.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\sha256.c">
+      <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\deps\polarssl\sha512.c">
+      <Filter>deps\polarssl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,12 +23,13 @@
 #include <algorithm>
 
 
-#include "util.hpp"
+#include "util.h"
 #include "op_codes.h"
 
-using namespace jub::script;
+using namespace bitcoin::script;
 
-namespace jub {
+namespace bitcoin {
+	namespace util {
 		const char g_hexBytes[][3] = {
 			"00","01","02","03","04","05","06","07","08","09","0a","0b","0c","0d","0e","0f",
 			"10","11","12","13","14","15","16","17","18","19","1a","1b","1c","1d","1e","1f",
@@ -152,7 +153,7 @@ namespace jub {
 				{
 					insert(end(), OP_PUSHDATA4);
 					uint8_t _data[4] = { 0x00, };
-					WriteLE32(_data, (uint32_t)rhs.size());
+					WriteLE32(_data, rhs.size());
 					insert(end(), _data, _data + sizeof(_data));
 				}
 				insert(end(), rhs.begin(), rhs.end());
@@ -258,7 +259,7 @@ namespace jub {
 				if (end() - m_cur_it < 1)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				m_last_op_it = m_cur_it;
@@ -269,7 +270,7 @@ namespace jub {
 				if (end() - m_cur_it < 2)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint16_t d = ReadLE16(&(*m_cur_it));
@@ -283,7 +284,7 @@ namespace jub {
 				if (end() - m_cur_it < 4)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint32_t d = ReadLE32(&(*m_cur_it));
@@ -297,7 +298,7 @@ namespace jub {
 				if (end() - m_cur_it < 8)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint64_t d = ReadLE64(&(*m_cur_it));
@@ -310,7 +311,7 @@ namespace jub {
 				if (end() - m_cur_it < 2)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint16_t d = ReadBE16(&(*m_cur_it));
@@ -324,7 +325,7 @@ namespace jub {
 				if (end() - m_cur_it < 4)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint32_t d = ReadBE32(&(*m_cur_it));
@@ -339,7 +340,7 @@ namespace jub {
 				if (end() - m_cur_it < 8)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint64_t d = ReadBE64(&(*m_cur_it));
@@ -354,7 +355,7 @@ namespace jub {
 				if (end() - m_cur_it < len)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uchar_vector v;
@@ -371,7 +372,7 @@ namespace jub {
 				if (m_cur_it == end())
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 
@@ -398,7 +399,7 @@ namespace jub {
 				if (end() - m_cur_it < (int)len)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				v.clear();
@@ -412,10 +413,10 @@ namespace jub {
 			{
 				uint64_t len = read_compact_size();
 
-				if ((uint64_t)(end() - m_cur_it) < len)
+				if (end() - m_cur_it < len)
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				v.clear();
@@ -431,7 +432,7 @@ namespace jub {
 				if (m_cur_it == end())
 				{
 					std::string _err = "error in data index: ";
-					_err += to_string(m_last_op_it - begin());
+					_err += std::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint64_t len = 0;
@@ -467,5 +468,7 @@ namespace jub {
 			std::vector<unsigned char>::iterator m_cur_it;
 			std::vector<unsigned char>::iterator m_last_op_it;
 		};
+	}
 }
+typedef bitcoin::util::uchar_vector uchar_vector;
 #endif

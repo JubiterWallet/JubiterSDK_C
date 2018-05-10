@@ -15,7 +15,7 @@ namespace jub {
 	};
 
 #define SWITCH_TO_BTC_APP  do {				\
-		_selectApp(PKIAID_BTC);         \
+		_selectApp(PKIAID_BTC);				\
 	} while (0);                        
 
 
@@ -35,6 +35,9 @@ class HardwareTokenImpl : public TokenInterface {
     virtual JUB_RV connectToken();
 	virtual JUB_RV disconnectToken();
 	virtual JUB_RV getHDNode_BTC(int index, std::string& xpub);
+	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count, std::vector<JUB_UINT64> input_amount, std::vector<std::string> input_path, std::vector<JUB_UINT16> change_index, \
+		std::vector<std::string> change_path, std::vector<JUB_BYTE> unsiged_trans);
+
 
 	private:
 
@@ -43,7 +46,7 @@ class HardwareTokenImpl : public TokenInterface {
 	JUB_RV _sendApdu(const APDU *apdu, JUB_UINT16 &wRet,
 		JUB_BYTE *pRetData = nullptr,
 		JUB_ULONG *pulRetLen = nullptr,
-		JUB_ULONG ulMiliSecondTimeout = 120000);
+		JUB_ULONG ulMiliSecondTimeout = 120000); 
 
     std::shared_ptr<ApduBuilder> _apduBuiler;
     std::shared_ptr<device_type> _device;

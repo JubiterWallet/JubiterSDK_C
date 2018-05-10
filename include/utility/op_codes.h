@@ -3,7 +3,7 @@
 #ifndef COINPASS_BIO_OPCODE_HPP
 #define COINPASS_BIO_OPCODE_HPP
 
-namespace jub
+namespace bitcoin
 {
 	namespace script
 	{
