@@ -67,14 +67,42 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID , IN INPUT_BTC inputs[], I
 	auto context = Singleton<jub::ContextManager<jub::ContextBTC> >::GetInstance()->getContext(contextID);
 	if (context != nullptr)
 	{
-		std::string raw;
-		auto rv = context->signTX(vInputs, vOutputs, locktime,raw);
+		std::string str_raw;
+		auto rv = context->signTX(vInputs, vOutputs, locktime, str_raw);
 		if (rv == JUBR_OK)
 		{
-			//
+			*raw = new char[str_raw.size() + 1];
+			memset(*raw, 0x00, str_raw.size() + 1);
+			memcpy_s(*raw, str_raw.size(), str_raw.c_str(), str_raw.size());
+			return JUBR_OK;
 		}
+		return rv;
 	}
 
+
+	return JUBR_ERROR;
+}
+
+
+JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID)
+{
+	auto context = Singleton<jub::ContextManager<jub::ContextBTC> >::GetInstance()->getContext(contextID);
+	if (context != nullptr)
+	{
+		return context->showVirtualPwd();
+	}
+
+	return JUBR_ERROR;
+}
+
+
+JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry)
+{
+	auto context = Singleton<jub::ContextManager<jub::ContextBTC> >::GetInstance()->getContext(contextID);
+	if (context != nullptr)
+	{
+		return context->verifyPIN(pinMix, retry);
+	}
 
 	return JUBR_ERROR;
 }

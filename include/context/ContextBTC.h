@@ -22,6 +22,8 @@ namespace jub {
 
 
 		JUB_RV getHDNode(int index, std::string& xpub);
+		JUB_RV showVirtualPwd();
+		JUB_RV verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
 		JUB_RV signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime , std::string& raw);
 
 	private:

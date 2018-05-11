@@ -7,15 +7,16 @@
 #include <device/ApduBuilder.hpp>
 #include <device/JubiterHidDevice.hpp>
 #include <memory>
+#include <utility/util.hpp>
 
 namespace jub {
 
 	constexpr JUB_BYTE PKIAID_BTC[8] = {
-		0xA0, 0x00, 0x00, 0x06, 0x47, 0x2F, 0x00, 0x01
+		0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x25, 0x01
 	};
 
 #define SWITCH_TO_BTC_APP  do {				\
-		_selectApp(PKIAID_BTC);				\
+		JUB_VERIFY_RV(_selectApp(PKIAID_BTC));				\
 	} while (0);                        
 
 
@@ -35,18 +36,38 @@ class HardwareTokenImpl : public TokenInterface {
     virtual JUB_RV connectToken();
 	virtual JUB_RV disconnectToken();
 	virtual JUB_RV getHDNode_BTC(int index, std::string& xpub);
-	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count, std::vector<JUB_UINT64> input_amount, std::vector<std::string> input_path, std::vector<JUB_UINT16> change_index, \
-		std::vector<std::string> change_path, std::vector<JUB_BYTE> unsiged_trans);
+
+	virtual JUB_RV showVirtualPwd();
+	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);
+	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count, 
+		std::vector<JUB_UINT64> input_amount, 
+		std::vector<std::string> input_path, 
+		std::vector<JUB_UINT16> change_index, 
+		std::vector<std::string> change_path, 
+		std::vector<JUB_BYTE> unsiged_trans,
+		std::vector<JUB_BYTE>& raw
+		);
+
+
 
 
 	private:
 
 	JUB_RV _selectApp(const JUB_BYTE PKIAID[8]);
 
+	JUB_RV _tranPack(const DataSlice &apduData,
+		JUB_BYTE sigType,
+		JUB_ULONG sendLenOnce,
+		int finalData = false,
+		int bOnce = false);
+
 	JUB_RV _sendApdu(const APDU *apdu, JUB_UINT16 &wRet,
 		JUB_BYTE *pRetData = nullptr,
 		JUB_ULONG *pulRetLen = nullptr,
-		JUB_ULONG ulMiliSecondTimeout = 120000); 
+		JUB_ULONG ulMiliSecondTimeout = 1200000); 
+
+
+
 
     std::shared_ptr<ApduBuilder> _apduBuiler;
     std::shared_ptr<device_type> _device;

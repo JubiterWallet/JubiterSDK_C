@@ -157,6 +157,7 @@ typedef JUB_ULONG JUB_RV;
 #define JUBR_CONNECT_DEVICE_ERROR	0x00000061UL
 #define JUBR_TRANSMIT_DEVICE_ERROR	0x00000062UL
 #define JUBR_NOT_CONNECT_DEVICE	    0x00000063UL
+#define JUBR_DEVICE_PIN_ERROR	    0x00000064UL
 
 #define JUBR_ACCT_SYNC_DATA_FINISH  0x00000070UL
 
@@ -265,6 +266,26 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID);
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID ,IN INPUT_BTC inputs[], IN JUB_UINT16 iCount, IN OUTPUT_BTC outputs[],  IN JUB_UINT16 oCount, IN JUB_UINT32 locktime, OUT JUB_CHAR_PTR_PTR raw);
+
+
+/*****************************************************************************
+* @function name : JUB_ShowVirtualPwd
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID);
+
+/*****************************************************************************
+* @function name : JUB_VerifyPIN
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID ,IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
+
 
 #ifdef __cplusplus
 }

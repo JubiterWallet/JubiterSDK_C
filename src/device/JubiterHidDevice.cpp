@@ -15,21 +15,18 @@ JubiterHidDevice::JubiterHidDevice()
 
 JubiterHidDevice::~JubiterHidDevice() {}
 
-JUB_RV JubiterHidDevice::connect(const std::string path /* = ""*/) {
-    int ret = hid_init();
-    if (ret != 0) {
-        return JUBR_INIT_DEVICE_LIB_ERROR;
-    }
-
-    // vid, pid can be parsed from params
-    m_handle = hid_open_path(path.c_str());
-    if (NULL == m_handle) {
-        return JUBR_CONNECT_DEVICE_ERROR;
-    }
-
+JUB_RV JubiterHidDevice::connect(const std::string path) {
+	int ret = hid_init();
+	if (ret != 0) {
+		return JUBR_INIT_DEVICE_LIB_ERROR;
+	}
+	// vid, pid can be parsed from params
+	m_handle = hid_open_path(path.c_str());
+	if (NULL == m_handle) {
+		return JUBR_CONNECT_DEVICE_ERROR;
+	}
 	_path = path;
-
-    return JUBR_OK;
+	return JUBR_OK;
 }
 
 JUB_RV JubiterHidDevice::disconnect() {
@@ -88,45 +85,49 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
         }
     }
 
-    std::vector<JUB_BYTE> bufferSend;
-
-    bufferSend.push_back(0);
-    bufferSend.push_back(cid[0]);
-    bufferSend.push_back(cid[1]);
-    bufferSend.push_back(cid[2]);
-    bufferSend.push_back(cid[3]);
-    bufferSend.push_back(0x83);
-
     JUB_ULONG offset = 0;
     JUB_ULONG nPackets = 0;
     while (offset < sendLen) {
+		std::vector<JUB_BYTE> bufferSend;
+
+		bufferSend.push_back(0);
+		bufferSend.push_back(cid[0]);
+		bufferSend.push_back(cid[1]);
+		bufferSend.push_back(cid[2]);
+		bufferSend.push_back(cid[3]);
+
+		constexpr JUB_ULONG first_pack_max_len = HID_PACKET_SIZE - HID_PACKET_HEAD_FRIST;
+		constexpr JUB_ULONG next_pack_max_len = HID_PACKET_SIZE - HID_PACKET_HEAD_ROUND;
         if (0 == offset) {
+
+			bufferSend.push_back(0x83);
+
             // first packet
             bufferSend.push_back((JUB_BYTE)(sendLen & 0xff00));
             bufferSend.push_back((JUB_BYTE)(sendLen & 0x00ff));
 
-            if (sendLen < HID_PACKET_SIZE - HID_PACKET_HEAD_FRIST) {
+            if (sendLen < first_pack_max_len) {
                 bufferSend.insert(bufferSend.end(), sendData,
                                   sendData + sendLen);
                 offset = sendLen;
             } else {
                 bufferSend.insert(
                     bufferSend.end(), sendData,
-                    sendData + (HID_PACKET_SIZE - HID_PACKET_HEAD_FRIST));
-                offset = HID_PACKET_SIZE - HID_PACKET_HEAD_FRIST;
+                    sendData + (first_pack_max_len));
+                offset = first_pack_max_len;
             }
         } else {
             bufferSend.push_back((JUB_BYTE)(nPackets++));
 
-            if (sendLen - offset < HID_PACKET_SIZE - HID_PACKET_HEAD_ROUND) {
+            if (sendLen - offset < next_pack_max_len) {
                 bufferSend.insert(bufferSend.end(), sendData + offset,
-                                  sendData + (sendLen - offset));
+                                  sendData + sendLen);
                 offset += sendLen - offset;
             } else {
                 bufferSend.insert(
                     bufferSend.end(), sendData + offset,
-                    sendData + (HID_PACKET_SIZE - HID_PACKET_HEAD_ROUND));
-                offset += HID_PACKET_SIZE - HID_PACKET_HEAD_ROUND;
+                    sendData + offset + next_pack_max_len);
+                offset += next_pack_max_len;
             }
         }
 

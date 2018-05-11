@@ -16,7 +16,7 @@ public:
 
     virtual JUB_RV sendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG sendLen, 
                             OUT JUB_BYTE_PTR pRetData, INOUT JUB_ULONG_PTR pulRetLen, 
-                            IN JUB_ULONG ulMiliSecondTimeout = 120000) = 0;
+                            IN JUB_ULONG ulMiliSecondTimeout = 1200000) = 0;
 };
 
 #define FT3KHN_READWRITE_SIZE_ONCE_NEW 4096

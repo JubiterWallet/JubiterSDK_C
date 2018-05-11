@@ -31,7 +31,7 @@ namespace jub {
 			return false;
 		}
 	
-		auto hid_dev = hid_enumerate(0, 0);
+		auto hid_dev = hid_enumerate(VID, PID);
 		auto hid_dev_head = hid_dev;
 		while (hid_dev)
 		{

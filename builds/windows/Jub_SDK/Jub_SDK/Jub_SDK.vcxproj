@@ -181,6 +181,7 @@
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp" />
     <ClCompile Include="..\..\..\..\src\token\HardwareTokenImpl.cpp" />
     <ClCompile Include="..\..\..\..\src\token\TokenManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\utility\util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

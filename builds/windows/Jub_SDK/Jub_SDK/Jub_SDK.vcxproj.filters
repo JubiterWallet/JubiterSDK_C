@@ -43,6 +43,9 @@
     <Filter Include="deps\base58">
       <UniqueIdentifier>{0c52c268-4d07-481d-9946-9ab366daa087}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\utility">
+      <UniqueIdentifier>{426ad477-8275-4fcf-a2f5-7a1bcfc5a387}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\deps\polarssl\sha512.c">
       <Filter>deps\polarssl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\utility\util.cpp">
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

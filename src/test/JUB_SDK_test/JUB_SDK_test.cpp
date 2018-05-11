@@ -4,10 +4,12 @@
 #include "stdafx.h"
 #include "../../../include/JUB_SDK.h"
 #include <vector>
-
+#include <iostream>
+using namespace std;
 
 int main()
 {
+
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
 	Jub_ListDeviceHid(deviceIDs);
 
@@ -22,6 +24,25 @@ int main()
 	JUB_UINT16 contextID = 0;
 	Jub_CreateContextBTC(cfg, deviceIDs[0], &contextID);
 
+
+	JUB_ShowVirtualPwd(contextID);
+
+	//输入pin的位置，横着数123456789
+	cout << "1 2 3" << endl;
+	cout << "4 5 6" << endl;
+	cout << "7 8 9" << endl;
+
+
+	JUB_RV  rv = JUBR_ERROR;
+	while (rv)
+	{
+		char str[9];
+		cin.getline(str, 9);
+		cout << str << endl;
+
+		JUB_ULONG retry;
+		rv = JUB_VerifyPIN(contextID, str, retry);
+	}
 
 	std::vector<INPUT_BTC> inputs;
 	std::vector<OUTPUT_BTC> outputs;
@@ -38,12 +59,13 @@ int main()
 	output1.address = "18MSnVZFj6hcsWxAM2qL88XHzRFRZCN49u";
 	output1.amount = 5000;
 	output1.change = false;
-
-
 	outputs.push_back(output1);
 
 	char* raw = nullptr;
-	JUB_SignTransactionBTC(contextID, &inputs[0], inputs.size(), &outputs[0], outputs.size(), 0, &raw);
+	JUB_SignTransactionBTC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
+
+	if (raw)
+		delete raw;
     return 0;
 }
 

@@ -16,9 +16,22 @@ namespace jub {
 		return JUBR_OK;
 	}
 
+	JUB_RV ContextBTC::showVirtualPwd()
+	{
+		auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(_deviceID);
+		JUB_CHECK_NULL(token);
+		return token->showVirtualPwd();
+	}
+
+	JUB_RV ContextBTC::verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry)
+	{
+		auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(_deviceID);
+		JUB_CHECK_NULL(token);
+		return token->verifyPIN(pinMix, retry);
+	}
+
 	JUB_RV ContextBTC::signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, std::string& raw)
 	{
-
 		auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(_deviceID);
 		JUB_CHECK_NULL(token);
 
@@ -48,8 +61,10 @@ namespace jub {
 		uchar_vector unsigned_trans;
 		jub::btc::serializeTX_p2pkh(_type,inputs, outputs,locktime, unsigned_trans);
 
-		token->signTX_BTC(_type, (JUB_UINT16)inputs.size(), vinput_amount, vinput_path, vchange_index, vchange_path, unsigned_trans);
+		uchar_vector v_raw;
+		token->signTX_BTC(_type, (JUB_UINT16)inputs.size(), vinput_amount, vinput_path, vchange_index, vchange_path, unsigned_trans, v_raw);
 
+		raw = v_raw.getHex();
 		return JUBR_OK;
 
 	}
