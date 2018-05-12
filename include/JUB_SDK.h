@@ -196,7 +196,7 @@ struct INPUT_BTC
 	JUB_CHAR_PTR	preHash;
 	JUB_UINT16      preIndex;
 	JUB_UINT64		amount;
-	JUB_UINT16		addressIndex;
+	JUB_UINT64		addressIndex;
 };
 
 struct OUTPUT_BTC
@@ -272,7 +272,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID ,IN INPUT_BTC inputs[], IN
 * @function name : JUB_ShowVirtualPwd
 * @in param : 
 * @out param : 
-* @last change : 
+* @last change : q
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID);
@@ -287,6 +287,23 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID ,IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
 
 
+/*****************************************************************************
+* @function name : JUB_GetHDNodeBTC
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, JUB_UINT64	nodeIndex,OUT JUB_CHAR_PTR_PTR xpub);
+
+/*****************************************************************************
+* @function name : JUB_FreeMemory
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
 #ifdef __cplusplus
 }
 #endif

@@ -7,6 +7,7 @@
 #include <vector>
 #include <utility/uchar_vector.h>
 #include <formats/base58.h>
+#include <formats/bech32.h>
 
 namespace jub {
 	namespace btc {
@@ -19,6 +20,35 @@ namespace jub {
 
 		constexpr JUB_BYTE p2sh_version = 0x05;
 		constexpr JUB_BYTE p2pkh_version = 0x00;
+
+		constexpr JUB_CHAR_PTR segwit_hrl = "bc";
+
+		typedef std::vector<uint8_t> bech32_data;
+
+
+		template<int frombits, int tobits, bool pad>
+		bool convertbits(bech32_data& out, const bech32_data& in) {
+			int acc = 0;
+			int bits = 0;
+			const int maxv = (1 << tobits) - 1;
+			const int max_acc = (1 << (frombits + tobits - 1)) - 1;
+			for (size_t i = 0; i < in.size(); ++i) {
+				int value = in[i];
+				acc = ((acc << frombits) | value) & max_acc;
+				bits += frombits;
+				while (bits >= tobits) {
+					bits -= tobits;
+					out.push_back((acc >> bits) & maxv);
+				}
+			}
+			if (pad) {
+				if (bits) out.push_back((acc << (tobits - bits)) & maxv);
+			}
+			else if (bits >= frombits || ((acc << (tobits - bits)) & maxv)) {
+				return false;
+			}
+			return true;
+		}
 
 		JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& script_pub)
 		{
@@ -42,15 +72,38 @@ namespace jub {
 				}
 				else
 					return JUBR_ERROR;
-
-
 				return JUBR_OK;
 			}
+			else
+			{
+				std::pair<std::string, bech32_data> dec = bech32::decode(address);
+				if (dec.first != segwit_hrl)
+				{
+					return JUBR_ERROR;
+				}
+				bech32_data conv;
+				convertbits<5, 8, false>(conv, bech32_data(dec.second.begin() + 1, dec.second.end()));
+
+				if (conv.size() == 0x14)//p2wpkh
+				{
+					script_pub << (JUB_BYTE)0x00;
+					script_pub & conv;
+				}
+				else if (conv.size() == 0x20)//p2wsh
+				{
+					script_pub << (JUB_BYTE)0x00;
+					script_pub & conv;
+				}
+				else
+					return JUBR_ERROR;
+
+			}
+		
 
 			return JUBR_ERROR;
 		}
 
-		JUB_RV serializeTX_p2pkh(JUB_BTC_TRANS_TYPE type,std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, uchar_vector& unsigned_raw)
+		JUB_RV serializeUnsignedTX(JUB_BTC_TRANS_TYPE type,std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, uchar_vector& unsigned_raw)
 		{
 			uchar_vector unsinged_trans;
 			unsinged_trans << Version1;

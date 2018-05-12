@@ -5,7 +5,17 @@
 #include "../../../include/JUB_SDK.h"
 #include <vector>
 #include <iostream>
+#include <json/json.h>
+#include <iostream>  
+#include <fstream>  
 using namespace std;
+
+void error_exit(char* message)
+{
+	cout << message << endl;
+	getchar();
+	exit(0);
+}
 
 int main()
 {
@@ -13,59 +23,120 @@ int main()
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
 	Jub_ListDeviceHid(deviceIDs);
 
-	Jub_ConnetDeviceHid(deviceIDs[0]);
-
-
-	CONTEXT_CONFIG_BTC cfg;
-	cfg.main_path = "m/44'/0'/0'";
-	cfg.forkID = 0;
-	cfg.type = JUB_BTC_TRANS_TYPE::p2pkh;
-
-	JUB_UINT16 contextID = 0;
-	Jub_CreateContextBTC(cfg, deviceIDs[0], &contextID);
-
-
-	JUB_ShowVirtualPwd(contextID);
-
-	//输入pin的位置，横着数123456789
-	cout << "1 2 3" << endl;
-	cout << "4 5 6" << endl;
-	cout << "7 8 9" << endl;
-
-
-	JUB_RV  rv = JUBR_ERROR;
-	while (rv)
+	JUB_RV rv = Jub_ConnetDeviceHid(deviceIDs[0]);
+	if (rv != JUBR_OK)
 	{
-		char str[9];
-		cin.getline(str, 9);
-		cout << str << endl;
-
-		JUB_ULONG retry;
-		rv = JUB_VerifyPIN(contextID, str, retry);
+		error_exit("cannot find JubtierWallet");
 	}
 
-	std::vector<INPUT_BTC> inputs;
-	std::vector<OUTPUT_BTC> outputs;
-
-	INPUT_BTC input1;
-	input1.preHash = "6b19d2b4c9d7e0dc177077fcdd23c5a224a14246a4f728ea3244a08969b41385";
-	input1.addressIndex = 0x00;
-	input1.preIndex = 0x01;
-	input1.amount = 10000;
-	inputs.push_back(input1);
+	Json::Reader reader;
+	Json::Value root;
+	ifstream in("test.json", ios::binary);
+	if (!in.is_open())
+	{
+		error_exit("Error opening json file\n");
+	}
 
 
-	OUTPUT_BTC output1;
-	output1.address = "18MSnVZFj6hcsWxAM2qL88XHzRFRZCN49u";
-	output1.amount = 5000;
-	output1.change = false;
-	outputs.push_back(output1);
+	if (!reader.parse(in, root))
+	{
+		error_exit("Error parse json file\n");
+	}
 
-	char* raw = nullptr;
-	JUB_SignTransactionBTC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
+	try
+	{
+		CONTEXT_CONFIG_BTC cfg;
+		cfg.main_path = (char*)root["main_path"].asCString();
+		cfg.forkID = 0;
+		if (root["p2sh-segwit"].asBool())
+		{
+			cfg.type = p2sh_p2wpkh;
+		}
+		else
+			cfg.type = p2pkh;
 
-	if (raw)
-		delete raw;
+
+		JUB_UINT16 contextID = 0;
+		Jub_CreateContextBTC(cfg, deviceIDs[0], &contextID);
+
+
+		std::vector<INPUT_BTC> inputs;
+		std::vector<OUTPUT_BTC> outputs;
+		int input_number = root["inputs"].size();
+
+		for (int i = 0;i < input_number;i++)
+		{
+			INPUT_BTC input;
+			input.preHash = (char*)root["inputs"][i]["preHash"].asCString();
+			input.preIndex = root["inputs"][i]["preIndex"].asInt();
+			input.addressIndex = root["inputs"][i]["addressIndex"].asInt();
+			input.amount = root["inputs"][i]["amount"].asInt();
+			inputs.push_back(input);
+		}
+
+
+		int output_number = root["outputs"].size();
+
+
+
+		for (int i = 0; i< output_number; i++)
+		{
+			OUTPUT_BTC output;
+			output.address = (char*)root["outputs"][i]["address"].asCString();
+			output.amount = root["outputs"][i]["amount"].asInt();
+			output.change = root["outputs"][i]["change"].asBool();
+			if (output.change)
+			{
+				output.path = (char*)root["outputs"][i]["path"].asCString();
+			}
+			outputs.push_back(output);
+		}
+
+		JUB_RV  rv = JUBR_ERROR;
+		while (rv)
+		{
+			JUB_ShowVirtualPwd(contextID);
+			//输入pin的位置，横着数123456789
+			cout << "1 2 3" << endl;
+			cout << "4 5 6" << endl;
+			cout << "7 8 9" << endl;
+
+
+			char str[9];
+			cin.getline(str, 9);
+			cout << str << endl;
+
+			JUB_ULONG retry;
+			rv = JUB_VerifyPIN(contextID, str, retry);
+			if (rv != JUBR_OK)
+			{
+				cout << "wrong pin!!" << endl;
+			}
+		}
+
+
+		char* raw = nullptr;
+		rv = JUB_SignTransactionBTC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
+
+		JUB_ClearContext(contextID);
+		if (rv != JUBR_OK || raw == nullptr)
+		{
+			error_exit("error sign tx");
+		}
+		if (raw)
+		{ 
+			cout << raw;
+			JUB_FreeMemory(raw);
+		}
+			
+
+	}
+	catch (const std::exception&)
+	{
+		error_exit("Error format json file\n");
+	}
+
+	getchar();
     return 0;
 }
 

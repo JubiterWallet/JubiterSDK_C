@@ -10,10 +10,13 @@
 namespace jub {
 
 
-	JUB_RV ContextBTC::getHDNode(int index, std::string& xpub)
+	JUB_RV ContextBTC::getHDNode(JUB_UINT64 index, std::string& xpub)
 	{
 		auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(_deviceID);
-		return JUBR_OK;
+		JUB_CHECK_NULL(token);
+		std::string path = _main_path + "/" + std::to_string(index);
+
+		return token->getHDNode_BTC(path, xpub);;
 	}
 
 	JUB_RV ContextBTC::showVirtualPwd()
@@ -53,13 +56,13 @@ namespace jub {
 			if (outputs[i].change)
 			{
 				vchange_index.push_back((JUB_UINT16)i);
-				vchange_path.push_back(outputs[i].path);
+				vchange_path.push_back(_main_path + outputs[i].path);
 			}
 		}
 
 		//build unsinged transaction
 		uchar_vector unsigned_trans;
-		jub::btc::serializeTX_p2pkh(_type,inputs, outputs,locktime, unsigned_trans);
+		jub::btc::serializeUnsignedTX(_type,inputs, outputs,locktime, unsigned_trans);
 
 		uchar_vector v_raw;
 		token->signTX_BTC(_type, (JUB_UINT16)inputs.size(), vinput_amount, vinput_path, vchange_index, vchange_path, unsigned_trans, v_raw);

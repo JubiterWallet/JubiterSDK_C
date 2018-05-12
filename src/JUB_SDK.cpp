@@ -3,12 +3,55 @@
 #include <token/TokenManager.hpp>
 #include <context/ContextManager.hpp>
 #include <context/ContextBTC.h>
+#include <set>
+#include <utility/util.hpp>
+
+static std::set<JUB_CHAR_CPTR> memPtrs;
+
+inline JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf) {
+
+	*memPtr = (new char[strBuf.size() + 1]{ 0 });
+	if (nullptr == *memPtr) {
+		return JUBR_HOST_MEMORY;
+	}
+
+	if (0 == strBuf.size()) {
+		return JUBR_OK;
+	}
+
+	memcpy(*memPtr, strBuf.data(), strBuf.size());
+
+	if (!memPtrs.insert(*memPtr).second) {
+		return JUBR_REPEAT_MEMORY_PTR;
+	}
+
+	return JUBR_OK;
+}
+
+
+JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
+	JUB_CHECK_NULL(memPtr);
+
+	auto pos = memPtrs.find(memPtr);
+	if (memPtrs.end() == pos) {
+		return JUBR_INVALID_MEMORY_PTR;
+	}
+
+	delete[] memPtr;
+	memPtr = nullptr;
+
+	memPtrs.erase(pos);
+	return JUBR_OK;
+}
+
+
 /*****************************************************************************
 * @function name : Jub_ListDeviceHid
 * @in param : 
 * @out param : 
 * @last change : 
 *****************************************************************************/
+
 JUB_RV Jub_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 {
 	Singleton<jub::TokenManager>::GetInstance()->enumToken();
@@ -71,9 +114,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID , IN INPUT_BTC inputs[], I
 		auto rv = context->signTX(vInputs, vOutputs, locktime, str_raw);
 		if (rv == JUBR_OK)
 		{
-			*raw = new char[str_raw.size() + 1];
-			memset(*raw, 0x00, str_raw.size() + 1);
-			memcpy_s(*raw, str_raw.size(), str_raw.c_str(), str_raw.size());
+			JUB_VERIFY_RV(_allocMem(raw, str_raw));
 			return JUBR_OK;
 		}
 		return rv;
@@ -105,4 +146,16 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_UL
 	}
 
 	return JUBR_ERROR;
+}
+
+
+JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, JUB_UINT64	nodeIndex, OUT JUB_CHAR_PTR_PTR xpub)
+{
+	auto context = Singleton<jub::ContextManager<jub::ContextBTC> >::GetInstance()->getContext(contextID);
+	JUB_CHECK_NULL(context);
+	std::string str_xpub;
+	JUB_VERIFY_RV(context->getHDNode(nodeIndex, str_xpub));
+	JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
+	return JUBR_OK;
+	
 }

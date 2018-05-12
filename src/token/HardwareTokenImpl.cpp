@@ -9,6 +9,13 @@
 
 namespace jub {
 
+	constexpr JUB_BYTE mainnet_p2pkh = 0x00;
+	constexpr JUB_BYTE mainnet_p2sh = 0x01;
+	constexpr JUB_BYTE mainnet_p2wpkh = 0x02;
+	constexpr JUB_BYTE mainnet_p2wsh = 0x03;
+	constexpr JUB_BYTE mainnet_p2sh_p2wpkh = 0x04;
+	constexpr JUB_BYTE mainnet_p2sh_p2wsh = 0x05;
+
 	HardwareTokenImpl::HardwareTokenImpl(std::string path) 
 		:_apduBuiler(std::make_shared<JubApudBuiler>()),_device(std::make_shared<device_type>()),_path(path){
 
@@ -27,10 +34,24 @@ namespace jub {
 	}
 
 
-	JUB_RV HardwareTokenImpl::getHDNode_BTC(int index, std::string& xpub)
+	JUB_RV HardwareTokenImpl::getHDNode_BTC(std::string path, std::string& xpub)
 	{
 		SWITCH_TO_BTC_APP
 
+		
+		uchar_vector vPath(path);
+		uchar_vector apduData = toTlv(0x08, vPath);
+		APDU apdu(0x00, 0xe6, 0x00, 0x00,apduData.size(), apduData.data());
+
+		JUB_BYTE retData[2048] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+		uchar_vector vXpub(retData, retData + retLen);
+		xpub = vXpub.getHex();
 
 
 		return JUBR_OK;
@@ -50,12 +71,6 @@ namespace jub {
 
 
 		constexpr JUB_UINT32 sendLenOnce = 230;
-		constexpr JUB_BYTE mainnet_p2pkh = 0x00;
-		constexpr JUB_BYTE mainnet_p2sh = 0x01;
-		constexpr JUB_BYTE mainnet_p2wpkh = 0x02;
-		constexpr JUB_BYTE mainnet_p2wsh = 0x03;
-		constexpr JUB_BYTE mainnet_p2sh_p2wpkh = 0x04;
-		constexpr JUB_BYTE mainnet_p2sh_p2wsh = 0x05;
 
 		JUB_BYTE sigType;
 		switch (type)
@@ -119,8 +134,8 @@ namespace jub {
 		for (size_t i = 0; i < change_index.size(); i++)
 		{
 			change_LV << (JUB_BYTE)change_index[i];
-			change_LV << (JUB_BYTE)change_path.size();
-			change_LV << change_path.size();
+			change_LV << (JUB_BYTE)change_path[i].length();
+			change_LV << change_path[i];
 		}
 
 		changeIndexTLV = toTlv(0x10, change_LV);

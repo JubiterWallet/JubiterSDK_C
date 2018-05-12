@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="deps">
+      <UniqueIdentifier>{22bc8c4b-54dd-4fbe-aae7-1338fd57c12c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -31,6 +34,15 @@
     </ClCompile>
     <ClCompile Include="JUB_SDK_test.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\deps\jsoncpp\src\lib_json\json_reader.cpp">
+      <Filter>deps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\deps\jsoncpp\src\lib_json\json_value.cpp">
+      <Filter>deps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\deps\jsoncpp\src\lib_json\json_writer.cpp">
+      <Filter>deps</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

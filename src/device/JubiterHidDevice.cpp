@@ -9,6 +9,8 @@
 #include <device/JubiterHidDevice.hpp>
 #include <utility/util.hpp>
 
+#include <iostream>  
+#include <utility/uchar_vector.h>
 namespace jub {
 JubiterHidDevice::JubiterHidDevice()
     : pid(PID), vid(VID), m_handle(NULL), firstCmd(true) {}
@@ -53,6 +55,9 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
     if (NULL == m_handle) {
         JUB_VERIFY_RV(connect(_path));
     }
+	uchar_vector log(sendData, sendData+ sendLen);
+	std::cout << log.getHex() << std::endl << std::endl;
+
 
     // fix cid
     JUB_BYTE cid[] = {0x00, 0x00, 0x00, 0x01};

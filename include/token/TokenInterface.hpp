@@ -13,7 +13,7 @@ class TokenInterface {
     /* functions */
     virtual JUB_RV connectToken() = 0;
 	virtual JUB_RV disconnectToken() = 0;
-	virtual JUB_RV getHDNode_BTC(int index, std::string& xpub) = 0;
+	virtual JUB_RV getHDNode_BTC(std::string path, std::string& xpub) = 0;
 	virtual JUB_RV showVirtualPwd() = 0;
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
 	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count,std::vector<JUB_UINT64> input_amount,std::vector<std::string> input_path,std::vector<JUB_UINT16> change_index,     \

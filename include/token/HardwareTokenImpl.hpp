@@ -35,7 +35,7 @@ class HardwareTokenImpl : public TokenInterface {
     /* functions */
     virtual JUB_RV connectToken();
 	virtual JUB_RV disconnectToken();
-	virtual JUB_RV getHDNode_BTC(int index, std::string& xpub);
+	virtual JUB_RV getHDNode_BTC(std::string path, std::string& xpub);
 
 	virtual JUB_RV showVirtualPwd();
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);
