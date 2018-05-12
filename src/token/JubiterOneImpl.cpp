@@ -147,24 +147,57 @@ namespace jub {
 
 
 		//  sign transactions
-		apdu.SetApdu(0x00, 0x2A, 0x00, sigType, 0);
-		JUB_VERIFY_RV(_sendApdu(&apdu, ret));
-		if (0x9000 != ret) {
-			return JUBR_TRANSMIT_DEVICE_ERROR;
-		}
-
-		// get transactions
-		JUB_BYTE retData[2048] = { 0 };
+		JUB_BYTE retData[2] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
 
-		apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
+		apdu.SetApdu(0x00, 0x2A, 0x00, sigType, 0);
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
 		if (0x9000 != ret) {
 			return JUBR_TRANSMIT_DEVICE_ERROR;
 		}
 
+		// get transactions (pack by pack)
+		if (2 != retLen) { // total length
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+
+		JUB_UINT16 totalReadLen = ReadBE16(retData);
+		DataChunk sigRawTx(totalReadLen, 0x00);
+
+		constexpr JUB_UINT16 readLenOnce = 256;
+		apdu.le = readLenOnce;
+		JUB_ULONG ulRetLen = readLenOnce;
+
+		apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
+		JUB_UINT16 ulTimes = 0;
+		for (ulTimes = 0; ulTimes < (totalReadLen / readLenOnce); ulTimes++) {
+
+			JUB_UINT16 offset = ulTimes * readLenOnce;
+			apdu.p1 = offset >> 8;
+			apdu.p2 = offset & 0x00ff;
+
+			JUB_VERIFY_RV(_sendApdu(&apdu, ret, sigRawTx.data() + ulTimes * readLenOnce, &ulRetLen));
+			if (0x9000 != ret) {
+				return JUBR_TRANSMIT_DEVICE_ERROR;
+			}
+		}
+
+		apdu.le = totalReadLen % readLenOnce;
+		if (apdu.le) {
+			JUB_UINT16 offset = ulTimes * readLenOnce;
+			apdu.p1 = offset >> 8;
+			apdu.p2 = offset & 0x00ff;
+
+			ulRetLen = totalReadLen - ulTimes * readLenOnce;
+
+			JUB_VERIFY_RV(_sendApdu(&apdu, ret, sigRawTx.data() + ulTimes * readLenOnce, &ulRetLen));
+			if (0x9000 != ret) {
+				return JUBR_TRANSMIT_DEVICE_ERROR;
+			}
+		}
+
 		raw.clear();
-		raw.insert(raw.end(), retData, retData + retLen);
+		raw = sigRawTx;
 		return JUBR_OK;
 
 	}
