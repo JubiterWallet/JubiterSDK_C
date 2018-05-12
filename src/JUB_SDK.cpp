@@ -7,13 +7,9 @@
 #include <token/TokenInterface.hpp>
 #include <context/ContextBTC.h>
 #include <token/JubiterOneImpl.h>
+#include <utility/Singleton.h>
+#include <device/JubiterBLEDevice.hpp>
 
-
-#ifdef _WIN32 // modify later..
-#define HID_MODE
-#else
-#define BLE_MODE
-#endif
 
 static std::set<JUB_CHAR_CPTR> memPtrs;
 
@@ -195,5 +191,137 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, JUB_UINT64	nodeIndex, OUT JUB_C
 	return JUBR_OK;
 	
 }
+
+
+/// ble device APIs //////////////////////////////////////////
+// only works in ble (android and ios)
+
+//#if defined(ANDROID) || defined(TARGET_OS_IPHONE)
+
+
+using BLE_device_map = Singleton<xManager<JUB_ULONG>>;
+
+
+JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
+#ifdef BLE_MODE
+
+	auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+	if (!bleDevice) {
+		return JUBR_ERROR;
+	}
+
+	return bleDevice->initialize(
+	{ param.param, param.callBack, param.scanCallBack, param.discCallBack });
+
+#else
+	return JUBR_IMPL_NOT_SUPPORT;
+#endif
+}
+
+JUB_RV JUB_enumDevices() {
+#ifdef BLE_MODE
+
+	auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+
+	if (!bleDevice) {
+		return JUBR_ERROR;
+	}
+
+	return bleDevice->scan();
+
+#else
+	return JUBR_IMPL_NOT_SUPPORT;
+#endif
+}
+
+JUB_RV JUB_stopEnumDevices() {
+#ifdef BLE_MODE
+
+	auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+	if (!bleDevice) {
+		return JUBR_ERROR;
+	}
+
+	return bleDevice->stopScan();
+#else
+	return JUBR_IMPL_NOT_SUPPORT;
+#endif
+}
+
+JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID, JUB_UINT32 connectType,
+	JUB_UINT16* pDevice_ID, JUB_UINT32 timeout) {
+#ifdef BLE_MODE
+
+	auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+
+	if (!bleDevice) {
+		return JUBR_ERROR;
+	}
+	JUB_ULONG DevHandle;
+
+	JUB_RV rv = bleDevice->connect(bBLEUUID, connectType, &DevHandle, timeout);
+
+	if (JUBR_OK == rv)
+	{
+		*pDevice_ID = BLE_device_map::GetInstance()->addOne(&DevHandle);
+
+		jub::JubiterOneImpl* token = new jub::JubiterOneImpl(bleDevice);
+		jub::TokenManager::GetInstance()->addOne(token);
+	}
+
+	return rv;
+
+#else
+	return JUBR_IMPL_NOT_SUPPORT;
+#endif
+}
+
+JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
+#ifdef BLE_MODE
+
+	auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+
+	if (!bleDevice) {
+		return JUBR_ERROR;
+	}
+
+	return bleDevice->cancelConnect(bBLEUUID);
+#else
+	return JUBR_IMPL_NOT_SUPPORT;
+#endif
+}
+
+JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
+#ifdef BLE_MODE
+	auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+
+	if (!bleDevice) {
+		return JUBR_ERROR;
+	}
+
+	JUB_ULONG devHandle =  *BLE_device_map::GetInstance()->getOne(deviceID);
+
+	return bleDevice->disconnect(devHandle);
+#else
+	return JUBR_IMPL_NOT_SUPPORT;
+#endif
+}
+
+JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
+#ifdef BLE_MODE
+
+	auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+
+	if (!bleDevice) {
+		return JUBR_ERROR;
+	}
+	JUB_ULONG devHandle = *BLE_device_map::GetInstance()->getOne(deviceID);
+
+	return bleDevice->isConnect(devHandle);
+#else
+	return JUBR_IMPL_NOT_SUPPORT;
+#endif
+}
+//#endif // #if defined(ANDROID) || defined(TARGET_OS_IPHONE)
 
 

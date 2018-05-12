@@ -57,9 +57,6 @@
     <ClInclude Include="..\..\..\..\include\device\ApduBuilder.hpp">
       <Filter>Header Files\device</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\device\DeviceManager.hpp">
-      <Filter>Header Files\device</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\include\device\DeviceTypeBase.hpp">
       <Filter>Header Files\device</Filter>
     </ClInclude>
@@ -126,15 +123,15 @@
     <ClInclude Include="..\..\..\..\include\token\JubiterOneImpl.h">
       <Filter>Header Files\token</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\device\JubiterBLEDevice.hpp">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\device\ApduBuilder.cpp">
-      <Filter>Source Files\device</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\device\DeviceManager.cpp">
       <Filter>Source Files\device</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp">
@@ -184,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\token\JubiterOneImpl.cpp">
       <Filter>Source Files\token</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\device\JubiterBLEDevice.cpp">
+      <Filter>Source Files\device</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

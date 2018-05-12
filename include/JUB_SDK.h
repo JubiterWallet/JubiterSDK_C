@@ -38,6 +38,14 @@
 #define LCOV_EXCL_STOP()
 
 
+
+#ifdef _WIN32 // modify later..
+#define HID_MODE
+#else
+#define BLE_MODE
+#endif
+
+
 /* === Library typedef: === */
 #ifndef IN
     #define IN
@@ -304,6 +312,60 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, JUB_UINT64	nodeIndex,OUT JUB_CH
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
+
+
+
+/// ble device APIs //////////////////////////////////////////
+#define DEV_SUCCESS 0               /**< no error */
+#define DEV_TIMEOUT 1               /**< conn time out */
+#define DEV_COMMUNICATION_ERROR 612 /**< generic error */
+#define DEV_RESPONSE_TIMEOUT 613    /**< timeout */
+#define DEV_NOT_SUPPORTED 614       /**< request is not supported */
+#define DEV_NO_DEVICE 615           /**< no device>*/
+
+typedef int(*DEV_ReadCallBack)(JUB_ULONG devHandle, JUB_BYTE_PTR data,
+	JUB_UINT32 dataLen);
+
+typedef void(*DEV_ScanCallBack)(JUB_BYTE_PTR devName, JUB_BYTE_PTR uuid,
+	JUB_UINT32 type);
+
+typedef void(*DEV_DiscCallBack)(JUB_BYTE_PTR uuid);
+
+typedef struct _DEVICE_INIT_PARAM_ {
+	void* param;
+	DEV_ReadCallBack callBack;
+	DEV_ScanCallBack scanCallBack;
+	DEV_DiscCallBack discCallBack;
+} DEVICE_INIT_PARAM;
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param);
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_enumDevices();
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_stopEnumDevices();
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_connectDevice(
+	JUB_BYTE_PTR bBLEUUID,    /**< ble device UUID */
+	JUB_UINT32 connectType,   /**< ble device connect type */
+	JUB_UINT16* pDevice_ID, /**< output ble device connect handle */
+	JUB_UINT32 timeout);
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID);
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID);
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID);
+
+
+
+
 #ifdef __cplusplus
 }
 #endif

@@ -23,6 +23,7 @@ namespace jub {
 class JubiterOneImpl : public TokenInterface {
    public:
 	   JubiterOneImpl(std::string path);
+	   JubiterOneImpl(device_type* device);
     ~JubiterOneImpl();
 
    public:

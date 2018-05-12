@@ -6,11 +6,12 @@
 #include <utility/Singleton.h>
 #include <utility/xManager.hpp>
 
-#ifdef _WIN32 // modify later..
+#ifdef HID_MODE // modify later..
 #include <device/JubiterHidDevice.hpp>
 using device_type = jub::JubiterHidDevice;
 #else
-using device_type = JubiterBLEDevice;
+#include <device/JubiterBLEDevice.hpp>
+using device_type = jub::JubiterBLEDevice;
 #endif
 
 

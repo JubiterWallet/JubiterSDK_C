@@ -1,31 +1,32 @@
-
-#include <jub/device/DeviceManager.hpp>
-#include <jub/device/JubiterBLEDevice.hpp>
-#include <jub/utility/util.hpp>
+#include <JUB_SDK.h>
+#include <device/JubiterBLEDevice.hpp>
+#include <utility/util.hpp>
 #include <bleTransmit/bleTransmit.h>
+#include <utility/Singleton.h>
 
 namespace jub {
 
 JubiterBLEDevice::JubiterBLEDevice()
     : _param{nullptr, BLE_ReadCallBack, BLE_ScanCallBack, BLE_DiscCallBack},
       _handle(0) {
-    _status = FT_BLE_Initialize(_param);
+
 }
 
 JubiterBLEDevice::~JubiterBLEDevice() { disconnect(); }
 
-JUB_RV JubiterBLEDevice::connect(const std::string& params /* = ""*/) {
+JUB_RV JubiterBLEDevice::connect(const std::string path) {
     // parse parms
-    //     unsigned char guid[] = "0000-0000-0000";
-    //
-    //     FT_BLE_ConnDev(guid, 0, &_handle, 12000);
+//     unsigned char guid[] = "0000-0000-0000";
+//
+//     FT_BLE_ConnDev(guid, 0, &_handle, 12000);
 
     return JUBR_OK;
 }
 
 JUB_RV JubiterBLEDevice::disconnect() {
-    if (0 != _handle) {
-        FT_BLE_DisConn(_handle);
+    if (0 != _handle &&
+		IFD_SUCCESS == FT_BLE_DisConn(_handle)) {
+        
         _handle = 0;
     }
 
@@ -37,7 +38,9 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
                                   OUT JUB_BYTE_PTR pRetData,
                                   INOUT JUB_ULONG_PTR pulRetLen,
                                   IN JUB_ULONG ulMiliSecondTimeout) {
-    if (0 == FT_BLE_IsConn(_handle)) {
+
+
+    if (0 == _handle || IFD_SUCCESS != FT_BLE_IsConn(_handle)) {
         return JUBR_NOT_CONNECT_DEVICE;
     }
 
@@ -49,12 +52,19 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
 
 unsigned int JubiterBLEDevice::initialize(const BLE_INIT_PARAM& params) {
     
-	outerParams = params;
-    return JUBR_OK;
+	// init with inner _param
+	_param.param = params.param;
+	unsigned int ret = FT_BLE_Initialize(_param);
+	if (IFD_SUCCESS == ret) {
+		outerParams = params;
+	}
+
+    return ret;
 }
 
 unsigned int JubiterBLEDevice::finalize() { 
 
+	outerParams = {0, 0, 0, 0};
 	return FT_BLE_Finalize(); 
 }
 
@@ -118,10 +128,10 @@ void JubiterBLEDevice::setHandle(unsigned long handle) {
 int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
                                        unsigned char* data,
                                        unsigned int dataLen) {
-    if (!(IS_BLE_MODE)) {
-        return IFD_NOT_SUPPORTED;
-    }
-
+#ifndef BLE_MODE
+	return IFD_NOT_SUPPORTED;
+#endif // BLE_MODE
+       
     // analyse data here...
 
     auto bleDevice = getThis();
@@ -131,15 +141,15 @@ int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
         }
     }
 
-    return 0;
+    return IFD_SUCCESS;
 }
 
 void JubiterBLEDevice::BLE_ScanCallBack(unsigned char* devName,
                                         unsigned char* uuid,
                                         unsigned int type) {
-    if (!(IS_BLE_MODE)) {
-        return;
-    }
+#ifndef BLE_MODE
+	return ;
+#endif // BLE_MODE
 
     auto bleDevice = getThis();
     if (bleDevice) {
@@ -152,9 +162,9 @@ void JubiterBLEDevice::BLE_ScanCallBack(unsigned char* devName,
 }
 
 void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
-    if (!(IS_BLE_MODE)) {
-        return;
-    }
+#ifndef BLE_MODE
+	return ;
+#endif // BLE_MODE
 
     auto bleDevice = getThis();
     if (bleDevice) {
@@ -168,9 +178,8 @@ void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
     return;
 }
 
-std::shared_ptr<jub::JubiterBLEDevice> JubiterBLEDevice::getThis() {
-    return std::static_pointer_cast<jub::JubiterBLEDevice>(
-        jub::DeviceManager::getDevice());
+jub::JubiterBLEDevice* JubiterBLEDevice::getThis() {
+    return Singleton<jub::JubiterBLEDevice>::GetInstance();
 }
 
 }  // namespace jub

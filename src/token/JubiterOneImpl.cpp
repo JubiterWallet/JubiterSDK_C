@@ -21,6 +21,12 @@ namespace jub {
 		:_apduBuiler(std::make_shared<JubApudBuiler>()),_device(std::make_shared<device_type>()),_path(path){
 
 	};
+	JubiterOneImpl::JubiterOneImpl(device_type* device)
+		:_apduBuiler(std::make_shared<JubApudBuiler>()), _device(device)
+	{
+
+	}
+
 	JubiterOneImpl::~JubiterOneImpl() {};
 
 	JUB_RV JubiterOneImpl::connectToken()
