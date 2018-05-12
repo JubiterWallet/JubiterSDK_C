@@ -20,16 +20,10 @@ namespace jub {
 	} while (0);                        
 
 
-class HardwareTokenImpl : public TokenInterface {
+class JubiterOneImpl : public TokenInterface {
    public:
-    HardwareTokenImpl(std::string path);
-    ~HardwareTokenImpl();
-
-#ifdef _WIN32 // modify later..
-	using device_type = JubiterHidDevice;
-#else
-	using device_type = JubiterBLEDevice;
-#endif
+	   JubiterOneImpl(std::string path);
+    ~JubiterOneImpl();
 
    public:
     /* functions */
@@ -48,9 +42,6 @@ class HardwareTokenImpl : public TokenInterface {
 		std::vector<JUB_BYTE>& raw
 		);
 
-
-
-
 	private:
 
 	JUB_RV _selectApp(const JUB_BYTE PKIAID[8]);
@@ -65,9 +56,6 @@ class HardwareTokenImpl : public TokenInterface {
 		JUB_BYTE *pRetData = nullptr,
 		JUB_ULONG *pulRetLen = nullptr,
 		JUB_ULONG ulMiliSecondTimeout = 1200000); 
-
-
-
 
     std::shared_ptr<ApduBuilder> _apduBuiler;
     std::shared_ptr<device_type> _device;

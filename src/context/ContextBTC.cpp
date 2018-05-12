@@ -1,10 +1,9 @@
 #include <context/ContextBTC.h>
-#include <token/TokenManager.hpp>
 #include <JUB_SDK.h>
-#include <utility/Singleton.h>
 #include <utility/util.hpp>
 #include <utility/uchar_vector.h>
 #include <libBTC/libBTC.hpp>
+#include <token/TokenInterface.hpp>
 
 
 namespace jub {
@@ -12,7 +11,7 @@ namespace jub {
 
 	JUB_RV ContextBTC::getHDNode(JUB_UINT64 index, std::string& xpub)
 	{
-		auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(_deviceID);
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
 		std::string path = _main_path + "/" + std::to_string(index);
 
@@ -21,21 +20,21 @@ namespace jub {
 
 	JUB_RV ContextBTC::showVirtualPwd()
 	{
-		auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(_deviceID);
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
 		return token->showVirtualPwd();
 	}
 
 	JUB_RV ContextBTC::verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry)
 	{
-		auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(_deviceID);
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
 		return token->verifyPIN(pinMix, retry);
 	}
 
 	JUB_RV ContextBTC::signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, std::string& raw)
 	{
-		auto token = Singleton<jub::TokenManager>::GetInstance()->getToken(_deviceID);
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
 
 		//deal inputs

@@ -151,16 +151,15 @@
     <ClInclude Include="..\..\..\..\deps\polarssl\sha256.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\sha512.h" />
     <ClInclude Include="..\..\..\..\include\context\ContextBTC.h" />
-    <ClInclude Include="..\..\..\..\include\context\ContextManager.hpp" />
     <ClInclude Include="..\..\..\..\include\device\ApduBuilder.hpp" />
     <ClInclude Include="..\..\..\..\include\device\DeviceManager.hpp" />
     <ClInclude Include="..\..\..\..\include\device\DeviceTypeBase.hpp" />
     <ClInclude Include="..\..\..\..\include\device\JubiterHidDevice.hpp" />
     <ClInclude Include="..\..\..\..\include\JUB_SDK.h" />
     <ClInclude Include="..\..\..\..\include\libBTC\libBTC.hpp" />
-    <ClInclude Include="..\..\..\..\include\token\HardwareTokenImpl.hpp" />
+    <ClInclude Include="..\..\..\..\include\token\JubiterOneImpl.h" />
     <ClInclude Include="..\..\..\..\include\token\TokenInterface.hpp" />
-    <ClInclude Include="..\..\..\..\include\token\TokenManager.hpp" />
+    <ClInclude Include="..\..\..\..\include\utility\xManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\deps\formats\base58.cpp" />
@@ -180,8 +179,7 @@
     <ClCompile Include="..\..\..\..\src\device\DeviceManager.cpp" />
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp" />
-    <ClCompile Include="..\..\..\..\src\token\HardwareTokenImpl.cpp" />
-    <ClCompile Include="..\..\..\..\src\token\TokenManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\token\JubiterOneImpl.cpp" />
     <ClCompile Include="..\..\..\..\src\utility\util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

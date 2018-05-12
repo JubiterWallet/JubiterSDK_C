@@ -17,6 +17,24 @@ JubiterHidDevice::JubiterHidDevice()
 
 JubiterHidDevice::~JubiterHidDevice() {}
 
+std::vector<std::string> JubiterHidDevice::enumDevice()
+{
+	std::vector<std::string> token_list;
+	if (0 != hid_init())
+	{
+		return token_list;
+	}
+
+	auto hid_dev = hid_enumerate(VID, PID);
+	auto hid_dev_head = hid_dev;
+	while (hid_dev)
+	{
+		token_list.push_back(hid_dev->path);
+	}
+
+	hid_free_enumeration(hid_dev_head);
+}
+
 JUB_RV JubiterHidDevice::connect(const std::string path) {
 	int ret = hid_init();
 	if (ret != 0) {

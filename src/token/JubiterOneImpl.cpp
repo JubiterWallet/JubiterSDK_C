@@ -1,6 +1,6 @@
 #include <JUB_SDK.h>
 #include <token/TokenInterface.hpp>
-#include <token/HardwareTokenImpl.hpp>
+#include <token/JubiterOneImpl.h>
 #include <utility/util.hpp>
 #include <utility/util.h>
 #include <cassert>
@@ -16,25 +16,26 @@ namespace jub {
 	constexpr JUB_BYTE mainnet_p2sh_p2wpkh = 0x04;
 	constexpr JUB_BYTE mainnet_p2sh_p2wsh = 0x05;
 
-	HardwareTokenImpl::HardwareTokenImpl(std::string path) 
+	
+	JubiterOneImpl::JubiterOneImpl(std::string path)
 		:_apduBuiler(std::make_shared<JubApudBuiler>()),_device(std::make_shared<device_type>()),_path(path){
 
 	};
-	HardwareTokenImpl::~HardwareTokenImpl() {};
+	JubiterOneImpl::~JubiterOneImpl() {};
 
-	JUB_RV HardwareTokenImpl::connectToken()
+	JUB_RV JubiterOneImpl::connectToken()
 	{
 		return _device->connect(_path);
 	}
 
 
-	JUB_RV HardwareTokenImpl::disconnectToken()
+	JUB_RV JubiterOneImpl::disconnectToken()
 	{
 		return _device->disconnect();
 	}
 
 
-	JUB_RV HardwareTokenImpl::getHDNode_BTC(std::string path, std::string& xpub)
+	JUB_RV JubiterOneImpl::getHDNode_BTC(std::string path, std::string& xpub)
 	{
 		SWITCH_TO_BTC_APP
 
@@ -58,7 +59,7 @@ namespace jub {
 	}
 
 
-	JUB_RV HardwareTokenImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type, 
+	JUB_RV JubiterOneImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type,
 		JUB_UINT16 input_count,
 		std::vector<JUB_UINT64> input_amount, 
 		std::vector<std::string> input_path,
@@ -168,7 +169,7 @@ namespace jub {
 
 	}
 
-	JUB_RV HardwareTokenImpl::showVirtualPwd()
+	JUB_RV JubiterOneImpl::showVirtualPwd()
 	{
 		JUB_CHECK_NULL(_device);
 		SWITCH_TO_BTC_APP
@@ -184,7 +185,7 @@ namespace jub {
 
 		return JUBR_OK;
 	}
-	JUB_RV HardwareTokenImpl::verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry)
+	JUB_RV JubiterOneImpl::verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry)
 	{
 
 		JUB_CHECK_NULL(_device);
@@ -218,7 +219,7 @@ namespace jub {
 
 	}
 
-	JUB_RV HardwareTokenImpl::_selectApp(const JUB_BYTE PKIAID[8]) {
+	JUB_RV JubiterOneImpl::_selectApp(const JUB_BYTE PKIAID[8]) {
 		APDU apdu(0x00, 0xA4, 0x04, 0x00, 8, PKIAID);
 		JUB_UINT16 ret = 0;
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret));
@@ -229,7 +230,7 @@ namespace jub {
 		return JUBR_OK;
 	}
 
-	JUB_RV HardwareTokenImpl::_tranPack(const DataSlice &apduData, JUB_BYTE sigType,JUB_ULONG sendLenOnce, int finalData/* = false*/,int bOnce/* = false*/) {
+	JUB_RV JubiterOneImpl::_tranPack(const DataSlice &apduData, JUB_BYTE sigType,JUB_ULONG sendLenOnce, int finalData/* = false*/,int bOnce/* = false*/) {
 
 		if (apduData.empty()) {
 			return JUBR_ERROR;
@@ -288,7 +289,7 @@ namespace jub {
 
 
 
-	JUB_RV HardwareTokenImpl::_sendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *pRetData /*= nullptr*/,
+	JUB_RV JubiterOneImpl::_sendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *pRetData /*= nullptr*/,
 		JUB_ULONG *pulRetLen /*= nullptr*/,
 		JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
 
@@ -334,7 +335,5 @@ namespace jub {
 
 		return JUBR_TRANSMIT_DEVICE_ERROR;
 	}
-
-
 
 }  // namespace jub

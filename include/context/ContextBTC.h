@@ -6,6 +6,8 @@
 #include <JUB_SDK.h>
 #include <string>
 #include <vector>
+#include <utility/Singleton.h>
+#include <utility/xManager.hpp>
 
 namespace jub {
 
@@ -21,10 +23,10 @@ namespace jub {
 		~ContextBTC() {};
 
 
-		JUB_RV getHDNode(JUB_UINT64 index, std::string& xpub);
-		JUB_RV showVirtualPwd();
-		JUB_RV verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
-		JUB_RV signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime , std::string& raw);
+		virtual JUB_RV getHDNode(JUB_UINT64 index, std::string& xpub);
+		virtual JUB_RV showVirtualPwd();
+		virtual JUB_RV verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
+		virtual JUB_RV signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime , std::string& raw);
 
 	private:
 		std::string _main_path;
@@ -34,10 +36,7 @@ namespace jub {
 	};
 
 
-
-
-
-
+	using ContextManager_BTC = Singleton<xManager<jub::ContextBTC>>;
 
 
 }

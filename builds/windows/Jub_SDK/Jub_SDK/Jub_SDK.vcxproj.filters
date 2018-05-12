@@ -69,15 +69,6 @@
     <ClInclude Include="..\..\..\..\include\token\TokenInterface.hpp">
       <Filter>Header Files\token</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\token\HardwareTokenImpl.hpp">
-      <Filter>Header Files\token</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\token\TokenManager.hpp">
-      <Filter>Header Files\token</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\context\ContextManager.hpp">
-      <Filter>Header Files\context</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\include\context\ContextBTC.h">
       <Filter>Header Files\context</Filter>
     </ClInclude>
@@ -129,6 +120,12 @@
     <ClInclude Include="..\..\..\..\deps\polarssl\sha512.h">
       <Filter>deps\polarssl</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\utility\xManager.hpp">
+      <Filter>Header Files\context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\token\JubiterOneImpl.h">
+      <Filter>Header Files\token</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
@@ -142,12 +139,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp">
       <Filter>Source Files\device</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\token\HardwareTokenImpl.cpp">
-      <Filter>Source Files\token</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\token\TokenManager.cpp">
-      <Filter>Source Files\token</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\context\ContextBTC.cpp">
       <Filter>Source Files\context</Filter>
@@ -190,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\utility\util.cpp">
       <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\token\JubiterOneImpl.cpp">
+      <Filter>Source Files\token</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
