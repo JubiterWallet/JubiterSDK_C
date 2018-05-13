@@ -181,7 +181,7 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_UL
 }
 
 
-JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, JUB_UINT64	nodeIndex, OUT JUB_CHAR_PTR_PTR xpub)
+JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN JUB_UINT64	nodeIndex, OUT JUB_CHAR_PTR_PTR xpub)
 {
 	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
 	JUB_CHECK_NULL(context);
@@ -190,6 +190,49 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, JUB_UINT64	nodeIndex, OUT JUB_C
 	JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
 	return JUBR_OK;
 	
+}
+
+JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN JUB_UINT16 bshow, OUT JUB_CHAR_PTR_PTR address)
+{
+	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
+	JUB_CHECK_NULL(context);
+	std::string str_address;
+	JUB_VERIFY_RV(context->getAddres(addressIndex, bshow,str_address));
+	JUB_VERIFY_RV(_allocMem(address, str_address));
+	return JUBR_OK;
+}
+
+
+JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT DEVICE_INFO& info)
+{
+	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+	JUB_CHECK_NULL(token);
+	JUB_VERIFY_RV(token->getPinRetry(info.pin_retry));
+	JUB_VERIFY_RV(token->getPinMaxRetry(info.pin_max_retry));
+	JUB_BYTE sn[25] = { 0 };
+	JUB_BYTE label[33] = { 0 };
+	JUB_VERIFY_RV(token->getSN(sn));
+	memcpy_s(info.sn, 24, sn, 24);
+	JUB_VERIFY_RV(token->getLabel(label));
+	memcpy_s(info.label, 32,label, 32);
+	return JUBR_OK;
+}
+
+JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID)
+{
+	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+	if (token == nullptr)
+		return BOOL_FALSE;
+	return (JUB_ENUM_BOOL)token->isInitialize();
+
+}
+
+JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID)
+{
+	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+	if (token == nullptr)
+		return BOOL_FALSE;
+	return (JUB_ENUM_BOOL)token->isBootLoader();
 }
 
 

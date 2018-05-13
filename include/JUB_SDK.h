@@ -39,10 +39,10 @@
 
 
 
-#ifdef _WIN32 // modify later..
-#define HID_MODE
-#else
+#if defined(ANDROID) || defined(TARGET_OS_IPHONE)
 #define BLE_MODE
+#else
+#define HID_MODE
 #endif
 
 
@@ -181,6 +181,13 @@ enum JUB_ENUM_BOOL
     BOOL_NR_ITEMS
 };
 
+struct DEVICE_INFO {
+	JUB_CHAR label[32];
+	JUB_CHAR sn[24];
+	JUB_BYTE pin_retry;
+	JUB_BYTE pin_max_retry;
+};
+
 
 enum JUB_BTC_TRANS_TYPE
 {
@@ -247,6 +254,36 @@ JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
 
 
 /*****************************************************************************
+* @function name : Jub_GetDeviceInfo
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT DEVICE_INFO& info);
+
+
+/*****************************************************************************
+* @function name : JUB_IsInitialize
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID);
+
+
+/*****************************************************************************
+* @function name : JUB_IsBootLoader
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID);
+
+
+/*****************************************************************************
 * @function name : Jub_DisconnetDeviceHid
 * @in param :
 * @out param :
@@ -302,7 +339,17 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID ,IN JUB_CHAR_PTR pinMix, OUT JUB_UL
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, JUB_UINT64	nodeIndex,OUT JUB_CHAR_PTR_PTR xpub);
+JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN JUB_UINT64	nodeIndex,OUT JUB_CHAR_PTR_PTR xpub);
+
+
+/*****************************************************************************
+* @function name : JUB_GetAddressBTC
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN JUB_UINT16 bshow, OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
 * @function name : JUB_FreeMemory
@@ -312,6 +359,9 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, JUB_UINT64	nodeIndex,OUT JUB_CH
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
+
+
+
 
 
 

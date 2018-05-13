@@ -15,7 +15,16 @@ namespace jub {
 		JUB_CHECK_NULL(token);
 		std::string path = _main_path + "/" + std::to_string(index);
 
-		return token->getHDNode_BTC(path, xpub);;
+		return token->getHDNode_BTC(path, xpub);
+	}
+
+	JUB_RV ContextBTC::getAddres(JUB_UINT64 index, JUB_UINT16 bshow, std::string& address)
+	{
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+		std::string path = _main_path + "/" + std::to_string(index);
+
+		return token->getAddress_BTC(_type,path, bshow ,address);
 	}
 
 	JUB_RV ContextBTC::showVirtualPwd()

@@ -64,6 +64,43 @@ namespace jub {
 		return JUBR_OK;
 	}
 
+	JUB_RV JubiterOneImpl::getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 bshow, std::string& address)
+	{
+		SWITCH_TO_BTC_APP
+		uchar_vector vPath(path);
+		uchar_vector apduData = toTlv(0x08, vPath);
+		JUB_BYTE p1 = 0x00;
+		if (bshow)
+		{
+			p1 = 0x01;
+		}
+
+		JUB_BYTE sigType;
+		switch (type)
+		{
+		case p2pkh:
+			sigType = mainnet_p2pkh;
+			break;
+		case p2sh_p2wpkh:
+			sigType = mainnet_p2sh_p2wpkh;
+			break;
+		default:
+			break;
+		}
+		APDU apdu(0x00, 0xf6, p1, sigType, apduData.size(), apduData.data());
+
+		JUB_BYTE retData[2048] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+		uchar_vector vAddress(retData, retData + retLen);
+		address = vAddress.getHex();
+		return JUBR_OK;
+	}
+
 
 	JUB_RV JubiterOneImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type,
 		JUB_UINT16 input_count,
@@ -252,16 +289,120 @@ namespace jub {
 		else if (0x9000 != ret) {
 			return JUBR_TRANSMIT_DEVICE_ERROR;
 		}
-
-
 		return JUBR_OK;
 
+	}
+
+	bool  JubiterOneImpl::isInitialize()
+	{
+		uchar_vector apdu_data = "DFFF028105";
+		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		auto rv = _sendApdu(&apdu, ret, retData, &retLen);
+		if (rv == JUBR_OK)
+		{
+			if (retData[0] == 0x5a)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool   JubiterOneImpl::isBootLoader()
+	{
+		APDU apdu(0x00, 0xa4, 0x00, 0x00, 0x00);
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		auto rv = _sendApdu(&apdu, ret, retData, &retLen);
+		if (rv == JUBR_OK && ret  == 0x6e00)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	JUB_RV JubiterOneImpl::getSN(JUB_BYTE sn[25])
+	{
+		uchar_vector apdu_data = " DFFF028101";
+		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 == ret)
+		{
+			memset(sn, 0x00, 25);
+			memcpy_s(sn, 24, retData, 24);
+		}
+
+		return JUBR_OK;
+	}
+
+	JUB_RV JubiterOneImpl::getLabel(JUB_BYTE label[33])
+	{
+		uchar_vector apdu_data = " DFFF028104";
+		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 == ret)
+		{
+			memset(label, 0x00, 33);
+			memcpy_s(label, 32, retData, 32);
+		}
+
+		return JUBR_OK;
+	}
+
+	JUB_RV JubiterOneImpl::getPinRetry(JUB_BYTE& retry)
+	{
+		uchar_vector apdu_data = " DFFF028102";
+		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 == ret)
+		{
+			retry = retData[0];
+		}
+
+		return JUBR_OK;
+	}
+
+	JUB_RV JubiterOneImpl::getPinMaxRetry(JUB_BYTE& max_retry)
+	{
+		uchar_vector apdu_data = " DFFF028103";
+		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 == ret)
+		{
+			max_retry = retData[0];
+		}
+
+		return JUBR_OK;
 	}
 
 	JUB_RV JubiterOneImpl::_selectApp(const JUB_BYTE PKIAID[8]) {
 		APDU apdu(0x00, 0xA4, 0x04, 0x00, 8, PKIAID);
 		JUB_UINT16 ret = 0;
-		JUB_VERIFY_RV(_sendApdu(&apdu, ret));
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
 		if (0x9000 != ret) {
 			return JUBR_TRANSMIT_DEVICE_ERROR;
 		}

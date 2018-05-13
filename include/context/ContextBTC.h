@@ -24,6 +24,7 @@ namespace jub {
 
 
 		virtual JUB_RV getHDNode(JUB_UINT64 index, std::string& xpub);
+		virtual JUB_RV getAddres(JUB_UINT64 index, JUB_UINT16 bshow, std::string& address);
 		virtual JUB_RV showVirtualPwd();
 		virtual JUB_RV verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
 		virtual JUB_RV signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime , std::string& raw);
