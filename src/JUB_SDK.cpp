@@ -203,18 +203,41 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN
 }
 
 
-JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT DEVICE_INFO& info)
+JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
 {
 	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
 	JUB_CHECK_NULL(token);
+	/*
 	JUB_VERIFY_RV(token->getPinRetry(info.pin_retry));
 	JUB_VERIFY_RV(token->getPinMaxRetry(info.pin_max_retry));
-	JUB_BYTE sn[25] = { 0 };
-	JUB_BYTE label[33] = { 0 };
 	JUB_VERIFY_RV(token->getSN(sn));
+	JUB_VERIFY_RV(token->getLabel(label));*/
+
+	//选主安全域，不需要判断返回值，用来拿到后面的数据
+	token->isBootLoader();
+
+	JUB_BYTE sn[24] = { 0 };
+	JUB_BYTE label[32] = { 0 };
+	JUB_BYTE retry = 0;
+	JUB_BYTE max_retry = 0;
+	JUB_BYTE ble_version[4] = { 0 };
+	JUB_BYTE fw_version[4] = { 0 };
+
+	token->getPinRetry(retry);
+	token->getPinMaxRetry(max_retry);
+	token->getSN(sn);
+	token->getLabel(label);
+	token->getBleVersion(ble_version);
+	token->getFwVersion(fw_version);
+
+
 	memcpy_s(info.sn, 24, sn, 24);
-	JUB_VERIFY_RV(token->getLabel(label));
 	memcpy_s(info.label, 32,label, 32);
+	info.pin_retry = retry;
+	info.pin_max_retry = max_retry;
+	memcpy_s(info.ble_version, 4, ble_version, 4);
+	memcpy_s(info.firmware_version, 4, fw_version, 4);
+
 	return JUBR_OK;
 }
 
@@ -233,6 +256,22 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID)
 	if (token == nullptr)
 		return BOOL_FALSE;
 	return (JUB_ENUM_BOOL)token->isBootLoader();
+}
+
+
+JUB_RV JUB_EnumApplets()
+{
+	return JUBR_IMPL_NOT_SUPPORT;
+}
+
+JUB_RV JUB_CurrentAppletID()
+{
+	return JUBR_IMPL_NOT_SUPPORT;
+}
+
+JUB_RV JUB_SelectApplet()
+{
+	return JUBR_IMPL_NOT_SUPPORT;
 }
 
 

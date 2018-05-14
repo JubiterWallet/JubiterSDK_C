@@ -36,10 +36,12 @@ class JubiterOneImpl : public TokenInterface {
 	virtual JUB_RV showVirtualPwd();
 	virtual bool   isInitialize();
 	virtual bool   isBootLoader();
-	virtual JUB_RV getSN(JUB_BYTE sn[25]);
-	virtual JUB_RV getLabel(JUB_BYTE label[33]);
+	virtual JUB_RV getSN(JUB_BYTE sn[24]);
+	virtual JUB_RV getLabel(JUB_BYTE label[32]);
 	virtual JUB_RV getPinRetry(JUB_BYTE& retry);
 	virtual JUB_RV getPinMaxRetry(JUB_BYTE& max_retry);
+	virtual JUB_RV getBleVersion(JUB_BYTE ble_version[4]);
+	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]);
 
 
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);

@@ -181,11 +181,13 @@ enum JUB_ENUM_BOOL
     BOOL_NR_ITEMS
 };
 
-struct DEVICE_INFO {
+struct JUB_DEVICE_INFO {
 	JUB_CHAR label[32];
 	JUB_CHAR sn[24];
-	JUB_BYTE pin_retry;
-	JUB_BYTE pin_max_retry;
+	JUB_UINT16 pin_retry;
+	JUB_UINT16 pin_max_retry;
+	JUB_CHAR ble_version[4];
+	JUB_CHAR firmware_version[4];
 };
 
 
@@ -260,7 +262,7 @@ JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT DEVICE_INFO& info);
+JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info);
 
 
 /*****************************************************************************
@@ -359,6 +361,36 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
+
+
+/*****************************************************************************
+* @function name : Jub_EnumApplets
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_EnumApplets();
+
+
+/*****************************************************************************
+* @function name : Jub_CurrentAppletID
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CurrentAppletID();
+
+
+/*****************************************************************************
+* @function name : Jub_SelectApplet
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SelectApplet();
 
 
 

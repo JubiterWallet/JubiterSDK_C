@@ -30,9 +30,11 @@ std::vector<std::string> JubiterHidDevice::enumDevice()
 	while (hid_dev)
 	{
 		token_list.push_back(hid_dev->path);
+		hid_dev = hid_dev->next;
 	}
 
 	hid_free_enumeration(hid_dev_head);
+	return token_list;
 }
 
 JUB_RV JubiterHidDevice::connect(const std::string path) {

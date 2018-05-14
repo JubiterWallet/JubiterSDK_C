@@ -296,7 +296,7 @@ namespace jub {
 	bool  JubiterOneImpl::isInitialize()
 	{
 		uchar_vector apdu_data = "DFFF028105";
-		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
 		JUB_BYTE retData[1024] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
 		JUB_UINT16 ret = 0;
@@ -314,7 +314,7 @@ namespace jub {
 
 	bool   JubiterOneImpl::isBootLoader()
 	{
-		APDU apdu(0x00, 0xa4, 0x00, 0x00, 0x00);
+		APDU apdu(0x00, 0xa4, 0x04, 0x00, 0x00);
 		JUB_BYTE retData[1024] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
 		JUB_UINT16 ret = 0;
@@ -327,10 +327,55 @@ namespace jub {
 		return false;
 	}
 
-	JUB_RV JubiterOneImpl::getSN(JUB_BYTE sn[25])
+	JUB_RV JubiterOneImpl::getBleVersion(JUB_BYTE ble_version[4])
 	{
-		uchar_vector apdu_data = " DFFF028101";
-		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		uchar_vector apdu_data = "DFFF028100";
+		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 == ret)
+		{
+			memset(ble_version, 0x00, 4);
+			memcpy_s(ble_version, 4, retData, 4);
+			for (size_t i =0;	i<4;	i++)
+			{
+				ble_version[i] = ble_version[i] + 0x30;
+			}
+			return JUBR_OK;
+		}
+
+		return JUBR_ERROR;
+	}
+	JUB_RV JubiterOneImpl::getFwVersion(JUB_BYTE fw_version[4])
+	{
+		uchar_vector apdu_data = "DFFF028003";
+		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 == ret)
+		{
+			memset(fw_version, 0x00, 4);
+			memcpy_s(fw_version, 4, retData, 4);
+			for (size_t i = 0; i < 4; i++)
+			{
+				fw_version[i] = fw_version[i] + 0x30;
+			}
+			return JUBR_OK;
+		}
+
+		return JUBR_ERROR;
+	}
+
+	JUB_RV JubiterOneImpl::getSN(JUB_BYTE sn[24])
+	{
+		uchar_vector apdu_data = "DFFF028101";
+		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
 		JUB_BYTE retData[1024] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
 		JUB_UINT16 ret = 0;
@@ -340,15 +385,16 @@ namespace jub {
 		{
 			memset(sn, 0x00, 25);
 			memcpy_s(sn, 24, retData, 24);
+			return JUBR_OK;
 		}
 
-		return JUBR_OK;
+		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterOneImpl::getLabel(JUB_BYTE label[33])
+	JUB_RV JubiterOneImpl::getLabel(JUB_BYTE label[32])
 	{
-		uchar_vector apdu_data = " DFFF028104";
-		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		uchar_vector apdu_data = "DFFF028104";
+		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
 		JUB_BYTE retData[1024] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
 		JUB_UINT16 ret = 0;
@@ -356,17 +402,18 @@ namespace jub {
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
 		if (0x9000 == ret)
 		{
-			memset(label, 0x00, 33);
+			memset(label, 0x00, 32);
 			memcpy_s(label, 32, retData, 32);
+			return JUBR_OK;
 		}
 
-		return JUBR_OK;
+		return JUBR_ERROR;
 	}
 
 	JUB_RV JubiterOneImpl::getPinRetry(JUB_BYTE& retry)
 	{
-		uchar_vector apdu_data = " DFFF028102";
-		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		uchar_vector apdu_data = "DFFF028102";
+		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
 		JUB_BYTE retData[1024] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
 		JUB_UINT16 ret = 0;
@@ -375,15 +422,16 @@ namespace jub {
 		if (0x9000 == ret)
 		{
 			retry = retData[0];
+			return JUBR_OK;
 		}
 
-		return JUBR_OK;
+		return JUBR_ERROR;
 	}
 
 	JUB_RV JubiterOneImpl::getPinMaxRetry(JUB_BYTE& max_retry)
 	{
-		uchar_vector apdu_data = " DFFF028103";
-		APDU apdu(0x80, 0xe2, 0x00, 0x00, apdu_data.size(), apdu_data.data());
+		uchar_vector apdu_data = "DFFF028103";
+		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
 		JUB_BYTE retData[1024] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
 		JUB_UINT16 ret = 0;
@@ -392,9 +440,10 @@ namespace jub {
 		if (0x9000 == ret)
 		{
 			max_retry = retData[0];
+			return JUBR_OK;
 		}
 
-		return JUBR_OK;
+		return JUBR_ERROR;
 	}
 
 	JUB_RV JubiterOneImpl::_selectApp(const JUB_BYTE PKIAID[8]) {

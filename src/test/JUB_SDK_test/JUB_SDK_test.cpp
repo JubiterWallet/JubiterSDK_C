@@ -29,6 +29,23 @@ int main()
 		error_exit("cannot find JubtierWallet");
 	}
 
+
+	JUB_DEVICE_INFO info;
+	rv = Jub_GetDeviceInfo(deviceIDs[0], info);
+	if (rv == JUBR_OK)
+	{
+		cout << "device Label :" << info.label << endl;
+		cout << "device sn :" << info.sn << endl;
+		cout << "device pinRetry :" << info.pin_retry << endl;
+		cout << "device pinMaxRetry :" << info.pin_max_retry << endl;
+		JUB_BYTE ble_version[5] = { 0 };
+		JUB_BYTE fw_version[5] = { 0 };
+		memcpy_s(ble_version, 5, info.ble_version, 4);
+		memcpy_s(fw_version, 5, info.firmware_version, 4);
+		cout << "device ble_version :" << ble_version << endl;
+		cout << "device fw_version :" << fw_version << endl;
+	}
+
 	Json::Reader reader;
 	Json::Value root;
 	ifstream in("test.json", ios::binary);
@@ -95,12 +112,12 @@ int main()
 		JUB_RV  rv = JUBR_ERROR;
 		while (rv)
 		{
-			JUB_ShowVirtualPwd(contextID);
 			//输入pin的位置，横着数123456789
 			cout << "1 2 3" << endl;
 			cout << "4 5 6" << endl;
 			cout << "7 8 9" << endl;
 
+			JUB_ShowVirtualPwd(contextID);
 
 			char str[9];
 			cin.getline(str, 9);
