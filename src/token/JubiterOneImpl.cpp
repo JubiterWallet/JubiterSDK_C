@@ -46,7 +46,8 @@ namespace jub {
 		SWITCH_TO_BTC_APP
 
 		
-		uchar_vector vPath(path);
+		uchar_vector vPath;
+		vPath << path;
 		uchar_vector apduData = toTlv(0x08, vPath);
 		APDU apdu(0x00, 0xe6, 0x00, 0x00,apduData.size(), apduData.data());
 
@@ -57,17 +58,17 @@ namespace jub {
 		if (0x9000 != ret) {
 			return JUBR_TRANSMIT_DEVICE_ERROR;
 		}
-		uchar_vector vXpub(retData, retData + retLen);
-		xpub = vXpub.getHex();
 
-
+		xpub = (JUB_CHAR_PTR)retData;
 		return JUBR_OK;
 	}
 
 	JUB_RV JubiterOneImpl::getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 bshow, std::string& address)
 	{
 		SWITCH_TO_BTC_APP
-		uchar_vector vPath(path);
+		uchar_vector vPath;
+		vPath << path;
+
 		uchar_vector apduData = toTlv(0x08, vPath);
 		JUB_BYTE p1 = 0x00;
 		if (bshow)
@@ -81,11 +82,12 @@ namespace jub {
 		case p2pkh:
 			sigType = mainnet_p2pkh;
 			break;
+			/*
 		case p2sh_p2wpkh:
 			sigType = mainnet_p2sh_p2wpkh;
-			break;
+			break;*/
 		default:
-			break;
+			return JUBR_IMPL_NOT_SUPPORT;
 		}
 		APDU apdu(0x00, 0xf6, p1, sigType, apduData.size(), apduData.data());
 
@@ -96,8 +98,7 @@ namespace jub {
 		if (0x9000 != ret) {
 			return JUBR_TRANSMIT_DEVICE_ERROR;
 		}
-		uchar_vector vAddress(retData, retData + retLen);
-		address = vAddress.getHex();
+		address = (JUB_CHAR_PTR)retData;
 		return JUBR_OK;
 	}
 
@@ -111,7 +112,7 @@ namespace jub {
 		std::vector<JUB_BYTE> unsiged_trans,
 		std::vector<JUB_BYTE>& raw)
 	{
-		SWITCH_TO_BTC_APP
+		//SWITCH_TO_BTC_APP
 
 
 		constexpr JUB_UINT32 sendLenOnce = 230;
@@ -122,11 +123,12 @@ namespace jub {
 		case p2pkh:
 			sigType = mainnet_p2pkh;
 			break;
-		case p2sh_p2wpkh:
+			/*
+			case p2sh_p2wpkh:
 			sigType = mainnet_p2sh_p2wpkh;
-			break;
+			break;*/
 		default:
-			break;
+			return JUBR_IMPL_NOT_SUPPORT;
 		}
 
 		// number of input
@@ -383,7 +385,7 @@ namespace jub {
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
 		if (0x9000 == ret)
 		{
-			memset(sn, 0x00, 25);
+			memset(sn, 0x00, 24);
 			memcpy_s(sn, 24, retData, 24);
 			return JUBR_OK;
 		}

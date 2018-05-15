@@ -75,8 +75,12 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
     if (NULL == m_handle) {
         JUB_VERIFY_RV(connect(_path));
     }
+
+#ifdef _DEBUG
 	uchar_vector log(sendData, sendData+ sendLen);
 	std::cout << log.getHex() << std::endl << std::endl;
+#endif
+
 
 
     // fix cid

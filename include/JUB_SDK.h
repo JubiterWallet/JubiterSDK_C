@@ -351,7 +351,7 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN JUB_UINT64	nodeIndex,OUT JUB
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN JUB_UINT16 bshow, OUT JUB_CHAR_PTR_PTR address);
+JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
 * @function name : JUB_FreeMemory

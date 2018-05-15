@@ -192,7 +192,7 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN JUB_UINT64	nodeIndex, OUT JU
 	
 }
 
-JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN JUB_UINT16 bshow, OUT JUB_CHAR_PTR_PTR address)
+JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address)
 {
 	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
 	JUB_CHECK_NULL(context);
