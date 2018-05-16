@@ -13,8 +13,8 @@ class JubiterBLEDevice : public DeviceTypeBase {
 
    public:
 	// for common device
-	   virtual JUB_RV connect(const std::string path);
-	   virtual JUB_RV disconnect();
+    virtual JUB_RV connect(const std::string path);
+    virtual JUB_RV disconnect();
 
     virtual JUB_RV sendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG sendLen,
                             OUT JUB_BYTE_PTR pRetData,

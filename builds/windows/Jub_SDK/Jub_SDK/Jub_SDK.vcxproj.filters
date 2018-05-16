@@ -126,6 +126,9 @@
     <ClInclude Include="..\..\..\..\include\device\JubiterBLEDevice.hpp">
       <Filter>Header Files\device</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\device\Fido.h">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
@@ -183,6 +186,9 @@
       <Filter>Source Files\token</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\device\JubiterBLEDevice.cpp">
+      <Filter>Source Files\device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\device\Fido.cpp">
       <Filter>Source Files\device</Filter>
     </ClCompile>
   </ItemGroup>
