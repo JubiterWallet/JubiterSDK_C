@@ -13,7 +13,7 @@ namespace jub {
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
-		std::string path = _main_path + "/0/" + std::to_string(index);
+		std::string path = _main_path + "/0/" + jub::to_string(index);
 
 		return token->getHDNode_BTC(path, xpub);
 	}
@@ -22,7 +22,7 @@ namespace jub {
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
-		std::string path = _main_path + "/0/" + std::to_string(index);
+		std::string path = _main_path + "/0/" + to_string(index);
 
 		return token->getAddress_BTC(_type,path, bshow ,address);
 	}
@@ -52,7 +52,7 @@ namespace jub {
 		for (auto input : inputs)
 		{
 			vinput_amount.push_back(input.amount);
-			vinput_path.push_back(_main_path + "/0/" + std::to_string(input.addressIndex));
+			vinput_path.push_back(_main_path + "/0/" + jub::to_string(input.addressIndex));
 		}
 
 
