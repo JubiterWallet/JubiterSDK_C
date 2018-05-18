@@ -1,3 +1,8 @@
+
+#include <JUB_SDK.h>
+
+#ifdef HID_MODE
+
 #ifdef _WIN32  // current test windows, may be works in mac/linux ...
 
 #ifdef _WIN32
@@ -301,3 +306,5 @@ int JubiterHidDevice::read(unsigned char* data, size_t length) {
 }  // namespace jub
 
 #endif  // _WIN32
+
+#endif //HID_MODE

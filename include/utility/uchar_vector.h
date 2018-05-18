@@ -259,7 +259,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < 1)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				m_last_op_it = m_cur_it;
@@ -270,7 +270,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < 2)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint16_t d = ReadLE16(&(*m_cur_it));
@@ -284,7 +284,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < 4)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint32_t d = ReadLE32(&(*m_cur_it));
@@ -298,7 +298,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < 8)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint64_t d = ReadLE64(&(*m_cur_it));
@@ -311,7 +311,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < 2)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint16_t d = ReadBE16(&(*m_cur_it));
@@ -325,7 +325,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < 4)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint32_t d = ReadBE32(&(*m_cur_it));
@@ -340,7 +340,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < 8)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint64_t d = ReadBE64(&(*m_cur_it));
@@ -355,7 +355,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < len)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uchar_vector v;
@@ -372,7 +372,7 @@ namespace bitcoin {
 				if (m_cur_it == end())
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 
@@ -399,7 +399,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < (int)len)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				v.clear();
@@ -416,7 +416,7 @@ namespace bitcoin {
 				if (end() - m_cur_it < len)
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				v.clear();
@@ -432,7 +432,7 @@ namespace bitcoin {
 				if (m_cur_it == end())
 				{
 					std::string _err = "error in data index: ";
-					_err += std::to_string(m_last_op_it - begin());
+					_err += jub::to_string(m_last_op_it - begin());
 					throw std::runtime_error(_err);
 				}
 				uint64_t len = 0;

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
-#include <jub/JUB_core.h>
+#include <JUB_SDK.h>
 
 
 #define ERR_INVALID_CMD   0x01; //The command in the request is unknown/invalid

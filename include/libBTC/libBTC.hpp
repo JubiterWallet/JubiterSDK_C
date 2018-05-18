@@ -117,7 +117,7 @@ namespace jub {
 			for (auto input : inputs)
 			{
 				//preHash
-				uchar_vector preHash = input.preHash;
+				uchar_vector preHash = std::string(input.preHash);
 				preHash.reverse();
 				unsinged_trans << preHash;
 				//preIndex
