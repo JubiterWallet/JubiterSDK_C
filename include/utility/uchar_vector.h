@@ -77,6 +77,11 @@ namespace bitcoin {
 				m_last_op_it = begin();
 			}
 
+			uchar_vector(char* hex) {
+				this->setHex(std::string(hex));  m_cur_it = begin();
+				m_last_op_it = begin();
+			}
+
 			uchar_vector& operator+=(const std::vector<unsigned char>& rhs)
 			{
 				this->insert(this->end(), rhs.begin(), rhs.end());

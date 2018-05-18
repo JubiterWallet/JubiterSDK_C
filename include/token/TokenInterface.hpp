@@ -40,7 +40,7 @@ class TokenInterface {
 	virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 bshow, std::string& address) = 0;
 };
 
-using TokenManager = Singleton<xManager<jub::TokenInterface>>;
+using TokenManager = Singleton<xManager<jub::TokenInterface *>>;
 
 }  // namespace jub
 #endif  // __TokenInterface__

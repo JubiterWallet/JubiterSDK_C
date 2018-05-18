@@ -345,7 +345,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID, JUB_UINT32 connectType,
 
 	if (JUBR_OK == rv)
 	{
-		*pDevice_ID = BLE_device_map::GetInstance()->addOne(&DevHandle);
+		*pDevice_ID = BLE_device_map::GetInstance()->addOne(DevHandle);
 
 		jub::JubiterOneImpl* token = new jub::JubiterOneImpl(bleDevice);
 		jub::TokenManager::GetInstance()->addOne(token);
@@ -381,7 +381,7 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
 		return JUBR_ERROR;
 	}
 
-	JUB_ULONG devHandle =  *BLE_device_map::GetInstance()->getOne(deviceID);
+	JUB_ULONG devHandle =  BLE_device_map::GetInstance()->getOne(deviceID);
 
 	return bleDevice->disconnect(devHandle);
 #else
@@ -397,7 +397,7 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
 	if (!bleDevice) {
 		return JUBR_ERROR;
 	}
-	JUB_ULONG devHandle = *BLE_device_map::GetInstance()->getOne(deviceID);
+	JUB_ULONG devHandle = BLE_device_map::GetInstance()->getOne(deviceID);
 
 	return bleDevice->isConnect(devHandle);
 #else
