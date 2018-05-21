@@ -19,12 +19,18 @@ public:
 		}
 	};
 
-	JUB_UINT16 addOne(T x) {
+	JUB_UINT16 addOne(T* x) {
 
 		JUB_UINT16 contextID = rand();
 		_list.insert(std::make_pair(contextID, x));
 		return contextID;
 	};
+
+    JUB_UINT16 addOne(JUB_UINT16 ID, T* x) {
+        _list.insert(std::make_pair(ID, x));
+
+        return ID;
+    };
 
 	void clearOne(JUB_UINT16 ID)
 	{
@@ -36,7 +42,7 @@ public:
 		}
 	}
 
-	T getOne(JUB_UINT16 ID)
+	T* getOne(JUB_UINT16 ID)
 	{
 		auto it = _list.find(ID);
 		if (it != _list.end())
@@ -57,7 +63,7 @@ public:
 
 
 private:
-	std::map<JUB_UINT16, T> _list;
+	std::map<JUB_UINT16, T*> _list;
 };
 
 #endif

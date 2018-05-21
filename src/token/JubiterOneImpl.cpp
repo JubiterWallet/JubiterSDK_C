@@ -341,7 +341,7 @@ namespace jub {
 		if (0x9000 == ret)
 		{
 			memset(ble_version, 0x00, 4);
-			memcpy_s(ble_version, 4, retData, 4);
+			memcpy(ble_version, retData, 4);
 			for (size_t i =0;	i<4;	i++)
 			{
 				ble_version[i] = ble_version[i] + 0x30;
@@ -363,7 +363,7 @@ namespace jub {
 		if (0x9000 == ret)
 		{
 			memset(fw_version, 0x00, 4);
-			memcpy_s(fw_version, 4, retData, 4);
+			memcpy(fw_version, retData, 4);
 			for (size_t i = 0; i < 4; i++)
 			{
 				fw_version[i] = fw_version[i] + 0x30;
@@ -386,7 +386,7 @@ namespace jub {
 		if (0x9000 == ret)
 		{
 			memset(sn, 0x00, 24);
-			memcpy_s(sn, 24, retData, 24);
+			memcpy(sn, retData, 24);
 			return JUBR_OK;
 		}
 
@@ -405,7 +405,7 @@ namespace jub {
 		if (0x9000 == ret)
 		{
 			memset(label, 0x00, 32);
-			memcpy_s(label, 32, retData, 32);
+			memcpy(label, retData, 32);
 			return JUBR_OK;
 		}
 

@@ -9,46 +9,37 @@
 #include <sstream>
 #include "endian.h"
 
-#if defined(__ANDROID__)
-#define rand __rand
-#include <stdlib.h>
-#undef rand
 
-extern int rand(void)
-{
-	return __rand();
-}
-#endif
 
 /*
-* ×Ö·û´®·Ö¸îº¯Êý
+* ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ö¸îº¯ï¿½ï¿½
 */
 std::vector<std::string> split(std::string str, std::string pattern);
 /*
-* ºÏ²¢×Ö·û´®
+* ï¿½Ï²ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 */
 std::string join(std::vector<std::string> v, std::string pattern);
 
 /*
-* char * -> Ê®Áù½øÖÆ×Ö·û´®×ª»»
+* char * -> Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½×ªï¿½ï¿½
 */
 std::string CharPtr2HexStr(std::vector<unsigned char> v);
 /*
-* Ê®Áù½øÖÆ×Ö·û´®×ª»» -> char *
+* Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½×ªï¿½ï¿½ -> char *
 */
 std::vector<unsigned char> HexStr2CharPtr(std::string str);
 
 /*
-* ×ÖµäÅÅÐò
+* ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½
 */
 std::vector<char*> sortLexicographically(std::vector<char*> v);
 std::vector<std::string> sortLexicographically(std::vector<std::string> v);
 
 
-//·­×ª
+//ï¿½ï¿½×ª
 void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen);
 
-//×Ö·û´®Êý×é·ÅÈëvector
+//ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vector
 std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]);
 
 

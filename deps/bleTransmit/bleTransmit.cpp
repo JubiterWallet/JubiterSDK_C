@@ -5,6 +5,8 @@
 //  Copyright © 1998-2016, FEITIAN Technologies Co., Ltd. All rights reserved.
 //
 
+#include <utils/logUtils.h>
+#include <bleTransmit/android/BTManager.h>
 #include "bleTransmit.h"
 
 #if defined(JSSAFE)
@@ -39,6 +41,19 @@ CK_FUNCTION_INFO(BLE_Initialize)
 #endif
 {
     unsigned int ret = IFD_SUCCESS;
+
+    BT_INIT_PARAM mParam;
+    mParam.param = param.param;
+    mParam.callBack = param.callBack;
+    mParam.discCallBack = param.discCallBack;
+    mParam.scanCallBack = param.scanCallBack;
+
+    ret = FT_BTManager::GetInstance()->initialize(mParam);
+    if (0 != ret)
+    {
+        LOG_ERR("BLE initialize failed");
+    }
+
     return ret;
 }
 
@@ -57,6 +72,13 @@ CK_FUNCTION_INFO(BLE_Scan)
 #endif
 {
     unsigned int ret = IFD_SUCCESS;
+
+    ret = FT_BTManager::GetInstance()->btStartScan(4, 60);
+    if (0 != ret)
+    {
+        LOG_ERR("BLE Scan failed： %8x", ret);
+    }
+
     return ret;
 }
 
@@ -66,6 +88,13 @@ CK_FUNCTION_INFO(BLE_StopScan)
 #endif
 {
     unsigned int ret = IFD_SUCCESS;
+
+    ret = FT_BTManager::GetInstance()->btStopScan();
+    if (0 != ret)
+    {
+        LOG_ERR("BLE Stop Scan Failed");
+    }
+
     return ret;
 }
 
@@ -78,6 +107,14 @@ CK_FUNCTION_INFO(BLE_ConnDev)
 #endif
 {
     unsigned int ret = IFD_SUCCESS;
+
+    LOG_ERR("===>>> BLE_ConnDev - connectType: %d", connectType);
+    ret = FT_BTManager::GetInstance()->btConnect(bBLEUUID, pDevHandle, timeout);
+    if (0 != ret) {
+        LOG_ERR("BLE Connect failed: %08X", ret);
+    } else {
+        LOG_ERR("句柄111： %ld", *pDevHandle);
+    }
 
     return ret;
 }
@@ -100,6 +137,11 @@ CK_FUNCTION_INFO(BLE_DisConn)
 #endif
 {
     unsigned int ret = IFD_SUCCESS;
+
+    ret = FT_BTManager::GetInstance()->btDisconnect(devHandle);
+    if (0 != ret) {
+        LOG_ERR("BLE btDisconnect failed: %08x", ret);
+    }
 
     return ret;
 }
@@ -125,6 +167,14 @@ CK_FUNCTION_INFO(BLE_SendAPDU)
 #endif
 {
     unsigned int ret = IFD_SUCCESS;
+
+    BYTE recv[2048] = {0};
+    ULONG recvLen = 2048;
+    ret = FT_BTManager::GetInstance()->btAsyncTransmit(devHandle, apdu, apduLen);
+    if (0 != ret)
+    {
+        LOG_ERR("btSyncTransmit failed: %08X", ret);
+    }
 
     return ret;
 }

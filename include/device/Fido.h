@@ -11,6 +11,14 @@
 #include <JUB_SDK.h>
 
 
+// 协议头
+#define CMD_PING        0x81  // ping test cmd header
+#define CMD_KEEP_ALIVE  0x82  // device keep alive cmd header
+#define CMD_MSG         0x83  // messge cmd header
+#define CMD_ERROR       0xBF  // error response cmd header
+
+
+
 #define ERR_INVALID_CMD   0x01; //The command in the request is unknown/invalid
 #define ERR_INVALID_PAR   0x02; //The parameter(s) of the command is/are invalid or missing
 #define ERR_INVALID_LEN   0x03; //The length of the request is invalid
@@ -26,6 +34,9 @@
 
 
 typedef std::vector<unsigned char> MSGTYPE;
+
+static bool mIsError = false;
+static bool mIsKeepAlive = false;
 
 typedef struct {
     std::string  name;
@@ -50,14 +61,14 @@ public:
 
     virtual unsigned int clear();
 
-    virtual unsigned int sendAPDU (
-            unsigned long  devHandle,
-            unsigned char* bOrder,
-            unsigned int   orderLen,
-            unsigned char* bResponse,
-            unsigned int*  responseLen,
-            unsigned int   timeout = 2000
-    );
+//    virtual unsigned int sendAPDU (
+//            unsigned long  devHandle,
+//            unsigned char* bOrder,
+//            unsigned int   orderLen,
+//            unsigned char* bResponse,
+//            unsigned int*  responseLen,
+//            unsigned int   timeout = 2000
+//    );
 
     static int RecvCallBack (
             unsigned long  devHandle,
@@ -70,14 +81,18 @@ public:
             MSGTYPE* vRecv
     );
 
-    virtual unsigned int sendToDev (
-            unsigned long  devHandle,
-            unsigned char* pSendMsg,
-            unsigned int   ulSendMsgLen,
-            unsigned char* pRecvMsg,
-            unsigned int*  pulRecvLen,
-            unsigned int   timeout = 2000
-    );
+    virtual bool hasError();
+
+    virtual bool isKeepAlive();
+
+//    virtual unsigned int sendToDev (
+//            unsigned long  devHandle,
+//            unsigned char* pSendMsg,
+//            unsigned int   ulSendMsgLen,
+//            unsigned char* pRecvMsg,
+//            unsigned int*  pulRecvLen,
+//            unsigned int   timeout = 2000
+//    );
 
     virtual unsigned int basicApduAddHeadAndLength(
             unsigned char paramHeader,
@@ -119,7 +134,6 @@ public:
 
 
 private:
-//    CK_INITPARAM mParam;
 
     slotInfo     mSlotInfo[100];
 
@@ -128,15 +142,15 @@ private:
     pthread_mutex_t mSendRecvMutex; /**< sendToDev 互斥锁，防止指令重入 */
     pthread_mutex_t mRecvBufMutex;  /**< 接收数据存储区互斥锁 */
 
-
     // 异步消息处理，用于判断是否操时
     struct timeval  mStart;         /**< 指令开始时间 */
     unsigned long   mTimeUsed;      /**< 已耗时 */
 
-    // 接收数据BUG
     MSGTYPE         mRecvMsg;       /**< 接收数据缓冲区 */
 
     bool  mIsInit;
+
+    unsigned char cmdHeader;
 };
 
 Fido* GetFido();

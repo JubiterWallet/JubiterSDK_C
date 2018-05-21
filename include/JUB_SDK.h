@@ -172,6 +172,7 @@ typedef JUB_ULONG JUB_RV;
 #define JUBR_DEVICE_BUSY            0x00001001
 #define JUBR_TRANSACT_TIMEOUT       0x00001002
 #define JUBR_OTHER_ERROR            0x00001003
+#define JUBR_CMD_ERROR              0x00001004
 
 #define JUBR_CUSTOM_DEFINED         0x80000000UL
 

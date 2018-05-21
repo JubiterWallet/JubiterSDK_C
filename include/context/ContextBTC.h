@@ -37,7 +37,7 @@ namespace jub {
 	};
 
 
-	using ContextManager_BTC = Singleton<xManager<jub::ContextBTC*>>;
+	using ContextManager_BTC = Singleton<xManager<jub::ContextBTC>>;
 
 
 }
