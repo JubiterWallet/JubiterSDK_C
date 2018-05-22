@@ -126,8 +126,15 @@ bool Fido::getRecv(MSGTYPE *vRecv) {
 			break;
 		}
 
-		if (mRecvMsg.size() <= FIDO_HEADER_LEN)
-			break;
+        // 当数据为空时，继续等待接收
+        if (mRecvMsg.size() == 0 ){
+            break;
+        }
+        // 当有数据，但是数据长度小于等于3时均为异常
+		if (mRecvMsg.size() <= FIDO_HEADER_LEN) {
+            mIsError = true;
+            break;
+        }
 
 		unsigned int recvLen = CTOI(&mRecvMsg[1]);
 		int fLen = 0;

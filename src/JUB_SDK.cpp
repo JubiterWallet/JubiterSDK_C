@@ -215,7 +215,7 @@ JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
     JUB_VERIFY_RV(token->getSN(sn));
     JUB_VERIFY_RV(token->getLabel(label));*/
 
-	//閫変富瀹夊叏鍩燂紝涓嶉渶瑕佸垽鏂繑鍥炲�硷紝鐢ㄦ潵鎷垮埌鍚庨潰鐨勬暟鎹?
+	//选主安全域，不需要判断返回值，用来拿到后面的数据
 	token->isBootLoader();
 
     JUB_BYTE sn[24] = { 0 };
@@ -401,6 +401,9 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
         return JUBR_ERROR;
     }
     JUB_ULONG *devHandle = BLE_device_map::GetInstance()->getOne(deviceID);
+    if (devHandle == NULL) {
+        return JUBR_CONNECT_DEVICE_ERROR;
+    }
 
     return bleDevice->isConnect(*devHandle);
 #else

@@ -66,7 +66,7 @@ namespace jub {
 		}
 
 		// 解析fido协议
-
+        ret = JUBR_OK;
 		struct timeval  mStart;         /**< 指令开始时间 */
 		struct timeval end;
 		// 开始计算超时
@@ -123,7 +123,7 @@ namespace jub {
 			}
 		}
 
-		return JUBR_OK;
+		return ret;
 	}
 
 	unsigned int JubiterBLEDevice::initialize(const BLE_INIT_PARAM& params) {

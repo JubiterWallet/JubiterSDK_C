@@ -158,7 +158,14 @@ CK_FUNCTION_INFO(BLE_IsConn)
 {
     unsigned int ret = 0;
 
-    return ret;
+    // 注:这里返回的状态注意区分
+    ret = FT_BTManager::GetInstance()->btIsConnected(devHandle);
+    if (0 == ret) {
+        LOG_ERR("btIsConnected: %08x", ret);
+        ret = -1;
+    }
+
+    return 0;
 }
 
 CK_FUNCTION_INFO(BLE_SendAPDU)

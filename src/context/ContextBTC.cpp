@@ -73,10 +73,10 @@ namespace jub {
 		jub::btc::serializeUnsignedTX(_type,inputs, outputs,locktime, unsigned_trans);
 
 		uchar_vector v_raw;
-		token->signTX_BTC(_type, (JUB_UINT16)inputs.size(), vinput_amount, vinput_path, vchange_index, vchange_path, unsigned_trans, v_raw);
+		int ret = token->signTX_BTC(_type, (JUB_UINT16)inputs.size(), vinput_amount, vinput_path, vchange_index, vchange_path, unsigned_trans, v_raw);
 
 		raw = v_raw.getHex();
-		return JUBR_OK;
+		return ret;
 
 	}
 
