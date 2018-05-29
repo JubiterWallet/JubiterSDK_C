@@ -52,9 +52,9 @@ void verify_pin(JUB_UINT16 contextID)
 
 		JUB_ShowVirtualPwd(contextID);
 
-		cin.ignore();
-		char str[9] = { 0 };
-		cin.getline(str, 9);
+
+ 		char str[9] = { 0 };
+		cin >> str;
 		cout << str << endl;
 
 		JUB_ULONG retry;
@@ -67,22 +67,79 @@ void verify_pin(JUB_UINT16 contextID)
 }
 
 
+void show_address_test(JUB_UINT16 contextID)
+{
+	int change = 0;
+	JUB_UINT64 index = 0;
+	cout << "please input change level (non-zero means 1):" << endl;
+	cin >> change;
+	cout << "please input index " << endl;
+	cin >> index;
+
+	BIP32_Path path;
+	path.change = JUB_ENUM_BOOL(change);
+	path.addressIndex = index;
+
+	JUB_CHAR_PTR address;
+	JUB_RV rv = JUB_GetAddressBTC(contextID, path, BOOL_TRUE, &address);
+	if (rv != JUBR_OK)
+	{
+		cout << "show address error" << endl;
+	}
+	cout << "show address is : " << address << endl;
+	JUB_FreeMemory(address);
+}
+
+
+void set_my_address_test(JUB_UINT16 contextID)
+{
+	verify_pin(contextID);
+	int change = 0;
+	JUB_UINT64 index = 0;
+	cout << "please input change level (non-zero means 1):" << endl;
+	cin >> change;
+	cout << "please input index " << endl;
+	cin >> index;
+
+	BIP32_Path path;
+	path.change = JUB_ENUM_BOOL(change);
+	path.addressIndex = index;
+
+	JUB_CHAR_PTR address = "";
+	JUB_RV rv = JUB_SetMyAddressBTC(contextID, path, &address);
+	if (rv != JUBR_OK)
+	{
+		cout << "set address error" << endl;
+	}
+	else
+	{
+		cout << "set my address is : " << address << endl;
+		JUB_FreeMemory(address);
+	}
+
+}
+
 
 void get_address_test(JUB_UINT16 contextID, Json::Value root)
 {
-	verify_pin(contextID);
+
 	try
 	{
 		int input_number = root["inputs"].size();
 		for (int i = 0;i < input_number;i++)
 		{
 			JUB_CHAR_PTR xpub;
-			JUB_RV rv = JUB_GetHDNodeBTC(contextID, root["inputs"][i]["addressIndex"].asInt(), &xpub);
+
+			BIP32_Path path;
+			path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
+			path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
+
+			JUB_RV rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
 			cout << "input " << i << " xpub : " << xpub << endl;
 			JUB_FreeMemory(xpub);
 
 			JUB_CHAR_PTR address;
-			rv = JUB_GetAddressBTC(contextID, root["inputs"][i]["addressIndex"].asInt(), BOOL_FALSE, &address);
+			rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
 			if (rv != JUBR_OK)
 			{
 				error_exit("get address error!");
@@ -100,7 +157,7 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root)
 }
 
 
-void transaction_test(JUB_UINT16 contextID, Json::Value root)
+void transaction_test(JUB_UINT16 contextID, Json::Value root, JUB_BTC_UNIT_TYPE unit)
 {
 	verify_pin(contextID);
 	try
@@ -114,7 +171,8 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 			INPUT_BTC input;
 			input.preHash = (char*)root["inputs"][i]["preHash"].asCString();
 			input.preIndex = root["inputs"][i]["preIndex"].asInt();
-			input.addressIndex = root["inputs"][i]["addressIndex"].asInt();
+			input.path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
+			input.path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
 			input.amount = root["inputs"][i]["amount"].asInt();
 			inputs.push_back(input);
 		}
@@ -129,13 +187,17 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 			OUTPUT_BTC output;
 			output.address = (char*)root["outputs"][i]["address"].asCString();
 			output.amount = root["outputs"][i]["amount"].asInt();
-			output.change = root["outputs"][i]["change"].asBool();
-			if (output.change)
+			output.change_address = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
+			if (output.change_address)
 			{
-				output.path = (char*)root["outputs"][i]["path"].asCString();
+				output.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
+				output.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
 			}
 			outputs.push_back(output);
 		}
+
+
+		JUB_SetUnitBTC(contextID, unit);
 
 
 		char* raw = nullptr;
@@ -150,8 +212,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 			cout << raw;
 			JUB_FreeMemory(raw);
 		}
-
-
+		
 	}
 	catch (...)
 	{
@@ -209,7 +270,13 @@ int main()
 		cout << "|******* Jubiter Wallet Test ********|" << endl;
 		cout << "| 1. get_device_info_test            |" << endl;
 		cout << "| 2. get_address_test.               |" << endl;
-		cout << "| 3. transaction_test test.          |" << endl;
+		cout << "| 3. show_address_test.              |" << endl;
+		cout << "| 4. transaction_test_BTC  test.     |" << endl;
+		cout << "| 5. transaction_test_cBTC test.     |" << endl;
+		cout << "| 6. transaction_test_mBTC test.     |" << endl;
+		cout << "| 7. transaction_test_uBTC test.     |" << endl;
+		cout << "| 8. transaction_test_satoshi test.  |" << endl;
+		cout << "| 9. set_my_address_test.            |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
@@ -226,7 +293,25 @@ int main()
 			get_address_test(contextID, root);
 			break;
 		case 3:
-			transaction_test(contextID, root);
+			show_address_test(contextID);
+			break;
+		case 4:
+			transaction_test(contextID, root,BTC);
+			break;
+		case 5:
+			transaction_test(contextID, root,cBTC);
+			break;
+		case 6:
+			transaction_test(contextID, root,mBTC);
+			break;
+		case 7:
+			transaction_test(contextID, root,uBTC);
+			break;
+		case 8:
+			transaction_test(contextID, root,Satoshi);
+			break;
+		case 9:
+			set_my_address_test(contextID);
 			break;
 		case 0:
 			exit(0);

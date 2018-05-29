@@ -19,21 +19,27 @@ namespace jub {
 			_forkid = cfg.forkID;
 			_type = cfg.type;
 			_deviceID = deviceID;
+			_unit_type = mBTC;
 		};
 		~ContextBTC() {};
 
 
-		virtual JUB_RV getHDNode(JUB_UINT64 index, std::string& xpub);
-		virtual JUB_RV getAddres(JUB_UINT64 index, JUB_UINT16 bshow, std::string& address);
+		virtual JUB_RV getHDNode(BIP32_Path path, std::string& xpub);
+		virtual JUB_RV getAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address);
+		virtual JUB_RV setMyAddress(BIP32_Path path, std::string& address);
 		virtual JUB_RV showVirtualPwd();
 		virtual JUB_RV verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
 		virtual JUB_RV signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime , std::string& raw);
+		virtual JUB_RV setUnit(JUB_BTC_UNIT_TYPE unit_type);
 
 	private:
+
+		std::string full_bip32_path(BIP32_Path path);
 		std::string _main_path;
 		int _forkid;
 		JUB_BTC_TRANS_TYPE _type;
 		JUB_UINT16 _deviceID;
+		JUB_BTC_UNIT_TYPE _unit_type;
 	};
 
 

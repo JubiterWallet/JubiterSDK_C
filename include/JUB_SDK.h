@@ -210,6 +210,23 @@ enum JUB_BTC_TRANS_TYPE
 	p2sh_p2wsh_multisig,
 	*/
 };
+
+
+enum JUB_BTC_UNIT_TYPE
+{
+	BTC = 0x00,
+	cBTC,
+	mBTC,
+	uBTC,
+	Satoshi
+};
+
+struct BIP32_Path
+{
+	JUB_ENUM_BOOL  change;
+	JUB_UINT64     addressIndex;
+};
+
 struct CONTEXT_CONFIG_BTC {
 	JUB_CHAR_PTR		main_path;
 	JUB_UINT16			forkID;
@@ -221,15 +238,15 @@ struct INPUT_BTC
 	JUB_CHAR_PTR	preHash;
 	JUB_UINT16      preIndex;
 	JUB_UINT64		amount;
-	JUB_UINT64		addressIndex;
+	BIP32_Path   path;
 };
 
 struct OUTPUT_BTC
 {
 	JUB_CHAR_PTR	address;
 	JUB_UINT64		amount;
-	JUB_BBOOL		change;
-	JUB_CHAR_PTR	path;
+	JUB_ENUM_BOOL   change_address;
+	BIP32_Path      path;
 };
 
 
@@ -349,7 +366,7 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID ,IN JUB_CHAR_PTR pinMix, OUT JUB_UL
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN JUB_UINT64	nodeIndex,OUT JUB_CHAR_PTR_PTR xpub);
+JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path,OUT JUB_CHAR_PTR_PTR xpub);
 
 
 /*****************************************************************************
@@ -359,7 +376,27 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN JUB_UINT64	nodeIndex,OUT JUB
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address);
+JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address);
+
+
+
+/*****************************************************************************
+* @function name : JUB_SetMyAddressBTC
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_CHAR_PTR_PTR address);
+
+/*****************************************************************************
+* @function name : JUB_SetUnitBTC
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID, IN JUB_BTC_UNIT_TYPE unit);
 
 /*****************************************************************************
 * @function name : JUB_FreeMemory

@@ -183,25 +183,44 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_UL
 }
 
 
-JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN JUB_UINT64	nodeIndex, OUT JUB_CHAR_PTR_PTR xpub)
+JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR xpub)
 {
     auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
     JUB_CHECK_NULL(context);
     std::string str_xpub;
-    JUB_VERIFY_RV(context->getHDNode(nodeIndex, str_xpub));
+    JUB_VERIFY_RV(context->getHDNode(path, str_xpub));
     JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
     return JUBR_OK;
 
 }
 
-JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN JUB_UINT64 addressIndex, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address)
+
+JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID, IN JUB_BTC_UNIT_TYPE unit)
+{
+	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
+	JUB_CHECK_NULL(context);
+
+	return context->setUnit(unit);
+}
+
+JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address)
 {
     auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
     JUB_CHECK_NULL(context);
     std::string str_address;
-    JUB_VERIFY_RV(context->getAddres(addressIndex, bshow, str_address));
+    JUB_VERIFY_RV(context->getAddress(path, bshow, str_address));
     JUB_VERIFY_RV(_allocMem(address, str_address));
     return JUBR_OK;
+}
+
+JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_CHAR_PTR_PTR address)
+{
+	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
+	JUB_CHECK_NULL(context);
+	std::string str_address;
+	JUB_VERIFY_RV(context->getAddress(path, 0x02, str_address));
+	JUB_VERIFY_RV(_allocMem(address, str_address));
+	return JUBR_OK;
 }
 
 
@@ -259,6 +278,9 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID)
         return BOOL_FALSE;
     return (JUB_ENUM_BOOL)token->isBootLoader();
 }
+
+
+
 
 
 JUB_RV JUB_EnumApplets()

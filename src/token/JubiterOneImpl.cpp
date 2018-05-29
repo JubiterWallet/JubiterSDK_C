@@ -63,19 +63,14 @@ namespace jub {
 		return JUBR_OK;
 	}
 
-	JUB_RV JubiterOneImpl::getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 bshow, std::string& address)
+	JUB_RV JubiterOneImpl::getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address)
 	{
-		SWITCH_TO_BTC_APP
+		//SWITCH_TO_BTC_APP
 		uchar_vector vPath;
 		vPath << path;
 
 		uchar_vector apduData = toTlv(0x08, vPath);
-		JUB_BYTE p1 = 0x00;
-		if (bshow)
-		{
-			p1 = 0x01;
-		}
-
+		JUB_BYTE p1 = (JUB_BYTE)tag;
 		JUB_BYTE sigType;
 		switch (type)
 		{
@@ -424,6 +419,19 @@ namespace jub {
 		if (0x9000 == ret)
 		{
 			retry = retData[0];
+			return JUBR_OK;
+		}
+
+		return JUBR_ERROR;
+	}
+
+	JUB_RV JubiterOneImpl::setUnit_BTC(JUB_BTC_UNIT_TYPE unit)
+	{
+		APDU apdu(0x00, 0xfa, JUB_BYTE(unit), 0x00, 0x00);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret));
+		if (0x9000 == ret)
+		{
 			return JUBR_OK;
 		}
 

@@ -8,23 +8,36 @@
 
 namespace jub {
 
-
-	JUB_RV ContextBTC::getHDNode(JUB_UINT64 index, std::string& xpub)
+	std::string ContextBTC::full_bip32_path(BIP32_Path path)
 	{
-		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
-		JUB_CHECK_NULL(token);
-		std::string path = _main_path + "/0/" + jub::to_string(index);
-
-		return token->getHDNode_BTC(path, xpub);
+		return _main_path + "/" + jub::to_string(path.change) + "/" + jub::to_string(path.addressIndex);
 	}
 
-	JUB_RV ContextBTC::getAddres(JUB_UINT64 index, JUB_UINT16 bshow, std::string& address)
+	JUB_RV ContextBTC::getHDNode(BIP32_Path path, std::string& xpub)
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
-		std::string path = _main_path + "/0/" + to_string(index);
+		std::string str_path = full_bip32_path(path);
 
-		return token->getAddress_BTC(_type,path, bshow ,address);
+		return token->getHDNode_BTC(str_path, xpub);
+	}
+
+	JUB_RV ContextBTC::getAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address)
+	{
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+		std::string str_path = full_bip32_path(path);
+
+		return token->getAddress_BTC(_type, str_path, tag ,address);
+	}
+
+	JUB_RV ContextBTC::setMyAddress(BIP32_Path path, std::string& address)
+	{
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+		std::string str_path = full_bip32_path(path);
+
+		return token->getAddress_BTC(_type, str_path, 0x03, address);
 	}
 
 	JUB_RV ContextBTC::showVirtualPwd()
@@ -41,10 +54,18 @@ namespace jub {
 		return token->verifyPIN(pinMix, retry);
 	}
 
+	JUB_RV ContextBTC::setUnit(JUB_BTC_UNIT_TYPE unit_type)
+	{
+		_unit_type = unit_type;
+		return JUBR_OK;
+	}
+
 	JUB_RV ContextBTC::signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, std::string& raw)
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
+
+		JUB_VERIFY_RV(token->setUnit_BTC(_unit_type));
 
 		//deal inputs
 		std::vector<JUB_UINT64> vinput_amount;
@@ -52,7 +73,7 @@ namespace jub {
 		for (auto input : inputs)
 		{
 			vinput_amount.push_back(input.amount);
-			vinput_path.push_back(_main_path + "/0/" + jub::to_string(input.addressIndex));
+			vinput_path.push_back(full_bip32_path(input.path));
 		}
 
 
@@ -61,10 +82,10 @@ namespace jub {
 		std::vector<std::string> vchange_path;
 		for (std::size_t i = 0, e = outputs.size(); i != e; ++i)
 		{ 
-			if (outputs[i].change)
+			if (outputs[i].change_address)
 			{
 				vchange_index.push_back((JUB_UINT16)i);
-				vchange_path.push_back(_main_path + outputs[i].path);
+				vchange_path.push_back(full_bip32_path(outputs[i].path));
 			}
 		}
 
