@@ -13,8 +13,10 @@ using namespace std;
 void error_exit(char* message)
 {
 	cout << message << endl;
-	getchar();
-	exit(0);
+	cout << "press any key to exit" << endl;
+	char str[9] = { 0 };
+	cin >> str;
+	//exit(0);
 }
 
 
@@ -24,7 +26,8 @@ void get_device_info_test(JUB_UINT16 deviceID)
 	JUB_RV rv = Jub_GetDeviceInfo(deviceID, info);
 	if (rv != JUBR_OK)
 	{
-		error_exit("get device info error");
+		cout << "get device info error" << endl;
+		return;
 	}
 
 	cout << "device Label :" << info.label << endl;
@@ -142,7 +145,8 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root)
 			rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
 			if (rv != JUBR_OK)
 			{
-				error_exit("get address error!");
+				cout << "get address error" << endl;
+				return;
 			}
 			cout << "input " << i << " address : " << address << endl;
 			JUB_FreeMemory(address);
@@ -203,9 +207,16 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root, JUB_BTC_UNIT_TYPE 
 		char* raw = nullptr;
 		JUB_RV rv = JUB_SignTransactionBTC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
 
+		if (rv == JUBR_USER_CANCEL)
+		{
+			cout << "User cancel the transaction !" << endl;
+			return;
+		}
 		if (rv != JUBR_OK || raw == nullptr)
 		{
-			error_exit("error sign tx");
+			cout << "error sign tx" << endl;
+			return;
+
 		}
 		if (raw)
 		{

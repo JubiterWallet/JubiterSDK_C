@@ -118,10 +118,10 @@ namespace jub {
 		case p2pkh:
 			sigType = mainnet_p2pkh;
 			break;
-			/*
-			case p2sh_p2wpkh:
+			
+		case p2sh_p2wpkh:
 			sigType = mainnet_p2sh_p2wpkh;
-			break;*/
+			break;
 		default:
 			return JUBR_IMPL_NOT_SUPPORT;
 		}
@@ -192,6 +192,10 @@ namespace jub {
 
 		apdu.SetApdu(0x00, 0x2A, 0x00, sigType, 0);
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x6f08 == ret)
+		{
+			return JUBR_USER_CANCEL;
+		}
 		if (0x9000 != ret) {
 			return JUBR_TRANSMIT_DEVICE_ERROR;
 		}
