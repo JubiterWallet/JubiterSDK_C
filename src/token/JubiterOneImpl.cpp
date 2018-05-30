@@ -65,7 +65,10 @@ namespace jub {
 
 	JUB_RV JubiterOneImpl::getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address)
 	{
-		//SWITCH_TO_BTC_APP
+		if (tag != 0x02)
+		{
+			SWITCH_TO_BTC_APP
+		}
 		uchar_vector vPath;
 		vPath << path;
 
@@ -77,10 +80,9 @@ namespace jub {
 		case p2pkh:
 			sigType = mainnet_p2pkh;
 			break;
-			/*
 		case p2sh_p2wpkh:
 			sigType = mainnet_p2sh_p2wpkh;
-			break;*/
+			break;
 		default:
 			return JUBR_IMPL_NOT_SUPPORT;
 		}
@@ -339,12 +341,9 @@ namespace jub {
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
 		if (0x9000 == ret)
 		{
+			uchar_vector version(retData, retData + retLen);
 			memset(ble_version, 0x00, 4);
-			memcpy(ble_version, retData, 4);
-			for (size_t i =0;	i<4;	i++)
-			{
-				ble_version[i] = ble_version[i] + 0x30;
-			}
+			memcpy(ble_version, version.getHex().c_str(), 4);
 			return JUBR_OK;
 		}
 
@@ -361,12 +360,9 @@ namespace jub {
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
 		if (0x9000 == ret)
 		{
+			uchar_vector version(retData, retData + retLen);
 			memset(fw_version, 0x00, 4);
-			memcpy(fw_version, retData, 4);
-			for (size_t i = 0; i < 4; i++)
-			{
-				fw_version[i] = fw_version[i] + 0x30;
-			}
+			memcpy(fw_version, version.getHex().c_str(), 4);
 			return JUBR_OK;
 		}
 

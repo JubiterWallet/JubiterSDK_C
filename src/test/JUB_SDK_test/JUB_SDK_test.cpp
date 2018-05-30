@@ -88,6 +88,7 @@ void show_address_test(JUB_UINT16 contextID)
 	if (rv != JUBR_OK)
 	{
 		cout << "show address error" << endl;
+		return;
 	}
 	cout << "show address is : " << address << endl;
 	JUB_FreeMemory(address);
