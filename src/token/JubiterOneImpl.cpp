@@ -99,6 +99,55 @@ namespace jub {
 		return JUBR_OK;
 	}
 
+	JUB_RV JubiterOneImpl::enumApplet()
+	{
+		{
+			// select main safe scope
+			APDU apdu(0x00, 0xa4, 0x04, 0x00, 0x00);
+			JUB_UINT16 ret = 0;
+			JUB_VERIFY_RV(_sendApdu(&apdu, ret));
+			if (0x9000 != ret) {
+				return JUBR_TRANSMIT_DEVICE_ERROR;
+			}
+		}
+
+		// send apdu, then decide which coin types supports.
+		APDU apdu(0x80, 0xCB, 0x80, 0x00, 0x05,
+			(const JUB_BYTE *)"\xDF\xFF\x02\x81\x06");
+		// JUB_BYTE retData[1024] = { 0 };
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+
+		DataChunk tlvData(retData, retData + retLen);
+		auto appList = parseTlv(tlvData);
+
+		return JUBR_OK;
+	}
+
+	JUB_RV JubiterOneImpl::getDeviceCert(std::string& cert)
+	{
+		uchar_vector apdu_data = "A60483021318";
+		APDU apdu(0x80, 0xca, 0xbf, 0x21, apdu_data.size(), apdu_data.data());
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 == ret)
+		{
+			uchar_vector vcert(retData, retData + retLen);
+			cert = vcert.getHex();
+			return JUBR_OK;
+		}
+
+		return JUBR_ERROR;
+	}
+
 
 	JUB_RV JubiterOneImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type,
 		JUB_UINT16 input_count,

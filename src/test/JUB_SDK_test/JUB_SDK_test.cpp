@@ -23,7 +23,7 @@ void error_exit(char* message)
 void get_device_info_test(JUB_UINT16 deviceID)
 {
 	JUB_DEVICE_INFO info;
-	JUB_RV rv = Jub_GetDeviceInfo(deviceID, info);
+	JUB_RV rv = JUB_GetDeviceInfo(deviceID, info);
 	if (rv != JUBR_OK)
 	{
 		cout << "get device info error" << endl;
@@ -236,13 +236,16 @@ int main()
 {
 
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
-	Jub_ListDeviceHid(deviceIDs);
+	JUB_ListDeviceHid(deviceIDs);
 
-	JUB_RV rv = Jub_ConnetDeviceHid(deviceIDs[0]);
+	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
 	if (rv != JUBR_OK)
 	{
 		error_exit("cannot find JubtierWallet");
 	}
+
+
+	rv = JUB_EnumApplets(deviceIDs[0]);
 
 	Json::Reader reader;
 	Json::Value root;
@@ -269,7 +272,7 @@ int main()
 		}
 		else
 			cfg.type = p2pkh;
-		Jub_CreateContextBTC(cfg, deviceIDs[0], &contextID);
+		JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);
 	}
 	catch (...)
 	{

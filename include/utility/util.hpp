@@ -207,6 +207,7 @@ template<size_t Size> using DataArray = std::array<uint8_t, Size>;
 * A block of data with a run-time variable size.
 */
 typedef std::vector<JUB_UCHAR> DataChunk;
+typedef std::vector<DataChunk> DataChunkList;
 
 /**
 * Concatenates several data slices into a single buffer.
@@ -221,6 +222,7 @@ std::string SHA2Pwd(const DataSlice &password);
 
 
 DataChunk toTlv(uint8_t tag, const DataSlice &data);
+DataChunkList parseTlv(const DataSlice &data);
 
 } // namespace jub end
 

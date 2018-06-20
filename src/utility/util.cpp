@@ -263,6 +263,41 @@ bool StripPKCSPadding(DataChunk &data, unsigned long block_size)
 	return true;
 }
 
+DataChunkList parseTlv(const DataSlice &data) {
+	DataChunkList dataList;
+
+	for (auto pos = data.begin(); pos < data.end(); ) {
+		++pos; // tag, one byte
+
+		unsigned int len = 0;
+
+		if (*pos == 0x82) {
+			++pos; // 0x82
+			len = *pos << 8; // high
+
+			++pos; // low
+			len |= *pos & 0xff;
+
+			++pos; // value
+		}
+		else if (*pos == 0x81) {
+			++pos; // 0x81
+			len = *pos;
+
+			++pos; // value
+		}
+		else {
+			len = *pos;
+			++pos; // value
+		}
+
+		dataList.push_back(DataChunk(pos, pos + len));
+		pos += len;
+	}
+
+	return dataList;
+}
+
 DataChunk toTlv(uint8_t tag, const DataSlice &data) {
 
 	DataChunk tlvData;

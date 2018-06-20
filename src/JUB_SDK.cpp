@@ -61,7 +61,7 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
 * @last change : 
 *****************************************************************************/
 
-JUB_RV Jub_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
+JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 {
 #ifdef HID_MODE
 
@@ -86,7 +86,7 @@ JUB_RV Jub_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 }
 
 
-JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 deviceID)
+JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID)
 {
 #ifdef HID_MODE
     auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
@@ -100,7 +100,7 @@ JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 deviceID)
     return JUBR_ERROR;
 }
 
-JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID)
+JUB_RV JUB_DisconnetDeviceHid(IN JUB_UINT16 deviceID)
 {
 #ifdef HID_MODE
     auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
@@ -116,7 +116,7 @@ JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID)
 }
 
 
-JUB_RV Jub_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg, IN JUB_UINT16 deviceID, OUT JUB_UINT16* contextID)
+JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg, IN JUB_UINT16 deviceID, OUT JUB_UINT16* contextID)
 {
     if (nullptr == jub::TokenManager::GetInstance()->getOne(deviceID))
     {
@@ -223,8 +223,21 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_
 	return JUBR_OK;
 }
 
+JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR cert)
+{
+	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+	JUB_CHECK_NULL(token);
+	//选主安全域，不需要判断返回值，用来拿到后面的数据
+	token->isBootLoader();
 
-JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
+	std::string str_cert;
+	JUB_VERIFY_RV(token->getDeviceCert(str_cert));
+	JUB_VERIFY_RV(_allocMem(cert, str_cert));
+	return JUBR_OK;
+}
+
+
+JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
 {
     auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
     JUB_CHECK_NULL(token);
@@ -283,9 +296,13 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID)
 
 
 
-JUB_RV JUB_EnumApplets()
+JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID)
 {
-    return JUBR_IMPL_NOT_SUPPORT;
+	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+	if (token == nullptr)
+		return JUBR_ERROR;
+
+	return token->enumApplet();
 }
 
 JUB_RV JUB_CurrentAppletID()

@@ -33,6 +33,8 @@ class TokenInterface {
 	virtual JUB_RV getBleVersion(JUB_BYTE ble_version[4]) = 0;
 	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]) = 0;
 	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit) = 0;
+	virtual JUB_RV enumApplet() = 0;
+	virtual JUB_RV getDeviceCert(std::string& cert) = 0;
 
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
 	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count,std::vector<JUB_UINT64> input_amount,std::vector<std::string> input_path,std::vector<JUB_UINT16> change_index,     \

@@ -258,7 +258,7 @@ struct OUTPUT_BTC
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]);
+JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]);
 
 
 /*****************************************************************************
@@ -268,7 +268,7 @@ JUB_RV Jub_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 deviceID);
+JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID);
 
 
 /*****************************************************************************
@@ -278,7 +278,7 @@ JUB_RV Jub_ConnetDeviceHid(IN JUB_UINT16 deviceID);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
+JUB_RV JUB_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
 
 
 /*****************************************************************************
@@ -288,7 +288,18 @@ JUB_RV Jub_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info);
+JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info);
+
+
+
+/*****************************************************************************
+* @function name : JUB_GetDeviceCert
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR cert);
 
 
 /*****************************************************************************
@@ -318,7 +329,7 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID);
 * @last change :
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg , IN JUB_UINT16 deviceID,  OUT JUB_UINT16* contextID);
+JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg , IN JUB_UINT16 deviceID,  OUT JUB_UINT16* contextID);
 
 
 /*****************************************************************************
@@ -416,7 +427,7 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_EnumApplets();
+JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID);
 
 
 /*****************************************************************************
