@@ -42,6 +42,26 @@ void get_device_info_test(JUB_UINT16 deviceID)
 	cout << "device fw_version :" << fw_version << endl;
 }
 
+void send_apud_test(JUB_UINT16 deviceID)
+{
+	cout << "please input apdu in hex:" << endl;
+	char apdu[4096+6] = { 0 };
+	cin >> apdu;
+
+	char* response = nullptr;
+	JUB_RV rv = JUB_SendOneApdu(deviceID, apdu, &response);
+
+	if (rv != JUBR_OK)
+	{
+		cout << "device error";
+		return;
+	}
+	
+	cout << response <<endl;
+	return;
+}
+
+
 
 void verify_pin(JUB_UINT16 contextID)
 {
@@ -292,6 +312,7 @@ int main()
 		cout << "| 7. transaction_test_uBTC test.     |" << endl;
 		cout << "| 8. transaction_test_satoshi test.  |" << endl;
 		cout << "| 9. set_my_address_test.            |" << endl;
+		cout << "| 10. send_one_apdu_test.            |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
@@ -327,6 +348,9 @@ int main()
 			break;
 		case 9:
 			set_my_address_test(contextID);
+			break;
+		case 10:
+			send_apud_test(deviceIDs[0]);
 			break;
 		case 0:
 			exit(0);

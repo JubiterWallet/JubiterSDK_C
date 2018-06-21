@@ -45,6 +45,7 @@ class JubiterOneImpl : public TokenInterface {
 	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
 	virtual JUB_RV enumApplet();
 	virtual JUB_RV getDeviceCert(std::string& cert);
+	virtual JUB_RV sendOneApdu(const std::string& apdu, std::string& response);
 
 
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);

@@ -148,6 +148,19 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
+	JUB_RV JubiterOneImpl::sendOneApdu(const std::string& apdu, std::string& response)
+	{
+		uchar_vector sendApdu(apdu);
+		JUB_BYTE retdata[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = { 0, };
+		JUB_ULONG ulRetLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
+		JUB_RV rv = _device->sendData(sendApdu.data(), sendApdu.size(), retdata, &ulRetLen);
+		if(rv !=  JUBR_OK)
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		uchar_vector vResponse(retdata, retdata + ulRetLen);
+		response = vResponse.getHex();
+		return JUBR_OK;
+	}
+
 
 	JUB_RV JubiterOneImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type,
 		JUB_UINT16 input_count,

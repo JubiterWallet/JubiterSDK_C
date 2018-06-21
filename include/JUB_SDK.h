@@ -302,6 +302,18 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR cert);
 
 
+
+/*****************************************************************************
+* @function name : JUB_SendOneApdu
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID, IN JUB_CHAR_PTR apdu , OUT JUB_CHAR_PTR_PTR response);
+
+
+
 /*****************************************************************************
 * @function name : JUB_IsInitialize
 * @in param : 

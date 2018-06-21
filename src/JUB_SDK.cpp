@@ -237,6 +237,19 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR cert)
 }
 
 
+JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID, IN JUB_CHAR_PTR apdu, OUT JUB_CHAR_PTR_PTR response)
+{
+	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+	JUB_CHECK_NULL(token);
+
+	std::string str_response;
+	JUB_VERIFY_RV(token->sendOneApdu(apdu, str_response));
+	JUB_VERIFY_RV(_allocMem(response, str_response));
+	return JUBR_OK;
+
+}
+
+
 JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
 {
     auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
