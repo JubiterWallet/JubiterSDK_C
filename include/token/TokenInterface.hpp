@@ -33,7 +33,7 @@ class TokenInterface {
 	virtual JUB_RV getBleVersion(JUB_BYTE ble_version[4]) = 0;
 	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]) = 0;
 	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit) = 0;
-	virtual JUB_RV enumApplet() = 0;
+	virtual JUB_RV enumApplet(std::string& applet_list) = 0;
 	virtual JUB_RV getDeviceCert(std::string& cert) = 0;
 	virtual JUB_RV sendOneApdu(const std::string& apdu, std::string& response) = 0;
 

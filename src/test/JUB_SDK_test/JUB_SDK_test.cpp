@@ -58,6 +58,7 @@ void send_apud_test(JUB_UINT16 deviceID)
 	}
 	
 	cout << response <<endl;
+	JUB_FreeMemory(response);
 	return;
 }
 
@@ -264,8 +265,8 @@ int main()
 		error_exit("cannot find JubtierWallet");
 	}
 
-
-	rv = JUB_EnumApplets(deviceIDs[0]);
+	char* applist;
+	rv = JUB_EnumApplets(deviceIDs[0],&applist);
 
 	Json::Reader reader;
 	Json::Value root;

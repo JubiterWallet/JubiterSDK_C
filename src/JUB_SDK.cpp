@@ -309,13 +309,16 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID)
 
 
 
-JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID)
+JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR applist)
 {
 	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
 	if (token == nullptr)
 		return JUBR_ERROR;
 
-	return token->enumApplet();
+	std::string str_applist;
+	JUB_VERIFY_RV(token->enumApplet(str_applist));
+	JUB_VERIFY_RV(_allocMem(applist, str_applist));
+	return JUBR_OK;
 }
 
 JUB_RV JUB_CurrentAppletID()

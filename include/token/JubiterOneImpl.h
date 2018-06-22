@@ -15,6 +15,10 @@ namespace jub {
 		0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x25, 0x01
 	};
 
+	constexpr JUB_BYTE PKIAID_MAIN[8] = {
+		0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
+	};
+
 #define SWITCH_TO_BTC_APP  do {				\
 		JUB_VERIFY_RV(_selectApp(PKIAID_BTC));				\
 	} while (0);                        
@@ -43,7 +47,7 @@ class JubiterOneImpl : public TokenInterface {
 	virtual JUB_RV getBleVersion(JUB_BYTE ble_version[4]);
 	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]);
 	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
-	virtual JUB_RV enumApplet();
+	virtual JUB_RV enumApplet(std::string& applet_list);
 	virtual JUB_RV getDeviceCert(std::string& cert);
 	virtual JUB_RV sendOneApdu(const std::string& apdu, std::string& response);
 

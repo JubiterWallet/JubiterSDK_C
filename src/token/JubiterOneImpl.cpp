@@ -99,7 +99,7 @@ namespace jub {
 		return JUBR_OK;
 	}
 
-	JUB_RV JubiterOneImpl::enumApplet()
+	JUB_RV JubiterOneImpl::enumApplet(std::string& applet_list)
 	{
 		{
 			// select main safe scope
@@ -125,6 +125,18 @@ namespace jub {
 
 		DataChunk tlvData(retData, retData + retLen);
 		auto appList = parseTlv(tlvData);
+
+
+		for (auto appid : appList)
+		{
+			uchar_vector id(appid);
+			uchar_vector mainid(PKIAID_MAIN, 8);
+			if(id == mainid)
+				continue;
+			applet_list += id.getHex();
+			applet_list += " ";
+		}
+
 
 		return JUBR_OK;
 	}

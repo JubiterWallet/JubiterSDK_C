@@ -439,7 +439,7 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID);
+JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,OUT JUB_CHAR_PTR_PTR applist);
 
 
 /*****************************************************************************
