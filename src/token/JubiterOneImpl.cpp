@@ -41,15 +41,26 @@ namespace jub {
 	}
 
 
-	JUB_RV JubiterOneImpl::getHDNode_BTC(std::string path, std::string& xpub)
+	JUB_RV JubiterOneImpl::getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub)
 	{
 		SWITCH_TO_BTC_APP
 
-		
 		uchar_vector vPath;
 		vPath << path;
 		uchar_vector apduData = toTlv(0x08, vPath);
-		APDU apdu(0x00, 0xe6, 0x00, 0x00,apduData.size(), apduData.data());
+		JUB_BYTE p2 = 0x00;
+		switch (type)
+		{
+		case p2pkh:
+			p2 = 0x00;
+			break;
+		case p2sh_p2wpkh:
+			p2 = 0x01;
+			break;
+		default:
+			break;
+		}
+		APDU apdu(0x00, 0xe6, 0x00, p2,apduData.size(), apduData.data());
 
 		JUB_BYTE retData[2048] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
@@ -127,6 +138,7 @@ namespace jub {
 		auto appList = parseTlv(tlvData);
 
 
+		int appindex = 0;
 		for (auto appid : appList)
 		{
 			uchar_vector id(appid);
@@ -139,6 +151,32 @@ namespace jub {
 
 
 		return JUBR_OK;
+	}
+
+
+	JUB_RV JubiterOneImpl::getAppletVersion(std::string appID, std::string& version)
+	{
+		uchar_vector id(appID);
+
+		APDU apdu(0x00, 0xA4, 0x04, 0x00, 8, &id[0]);
+
+		JUB_UINT16 ret = 0;
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+
+		if (retData[2] == 0x84 && retData[3] == 0x04)
+		{
+			uchar_vector v_version(&retData[4], 4);
+			version = v_version.getHex();
+			return JUBR_OK;
+		}
+
+		return JUBR_ERROR;
+
 	}
 
 	JUB_RV JubiterOneImpl::getDeviceCert(std::string& cert)
@@ -338,6 +376,23 @@ namespace jub {
 
 		return JUBR_OK;
 	}
+
+	JUB_RV JubiterOneImpl::cancelVirtualPwd()
+	{
+		JUB_CHECK_NULL(_device);
+		//SWITCH_TO_BTC_APP
+		
+		APDU apdu(0x00, 0x29, 0x80, 0x00, 0x00);
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+
+		return JUBR_OK;
+	}
 	JUB_RV JubiterOneImpl::verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry)
 	{
 
@@ -512,6 +567,22 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
+	JUB_RV JubiterOneImpl::setTimeout_BTC(JUB_UINT16 timeout)
+	{
+		JUB_UINT16 p1 = timeout >> 8;
+		JUB_UINT16 p2 = timeout & 0xFF;
+		APDU apdu(0x00, 0xfb, p1, p2, 0x00);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret));
+		if (0x9000 == ret)
+		{
+			return JUBR_OK;
+		}
+
+		return JUBR_ERROR;
+	}
+
+	
 	JUB_RV JubiterOneImpl::getPinMaxRetry(JUB_BYTE& max_retry)
 	{
 		uchar_vector apdu_data = "DFFF028103";

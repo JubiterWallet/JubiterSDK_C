@@ -8,7 +8,22 @@
 #include <json/json.h>
 #include <iostream>  
 #include <fstream>  
+#include <string>
+#include <sstream>
 using namespace std;
+
+using std::getline;
+using std::istringstream;
+
+
+vector<string> split(const string &str, char delim, bool skip_empty = true) {
+	istringstream iss(str);
+	vector<string> elems;
+	for (string item; getline(iss, item, delim); )
+		if (skip_empty && item.empty()) continue;
+		else elems.push_back(item);
+	return elems;
+}
 
 void error_exit(char* message)
 {
@@ -22,6 +37,25 @@ void error_exit(char* message)
 
 void get_device_info_test(JUB_UINT16 deviceID)
 {
+
+	char* applist;
+	JUB_EnumApplets(deviceID, &applist);
+	std::string str_applist = applist;
+	JUB_FreeMemory(applist);
+
+	auto v_applist = split(str_applist, ' ');
+
+	for (auto appid : v_applist)
+	{
+		char* version;
+		auto rv = JUB_GetAppletVersion(deviceID,(char*)appid.c_str(),&version);
+		if (rv == JUBR_OK)
+		{
+			cout << appid << " version : " << version << endl;;
+		}
+	}
+
+
 	JUB_DEVICE_INFO info;
 	JUB_RV rv = JUB_GetDeviceInfo(deviceID, info);
 	if (rv != JUBR_OK)
@@ -40,6 +74,18 @@ void get_device_info_test(JUB_UINT16 deviceID)
 	memcpy_s(fw_version, 5, info.firmware_version, 4);
 	cout << "device ble_version :" << ble_version << endl;
 	cout << "device fw_version :" << fw_version << endl;
+}
+
+
+void set_timeout_test(JUB_UINT16 contextID)
+{
+
+	cout << "* Please enter timeout in second ( < 600 ):" << endl;
+
+	int timeout = 0;
+	cin >> timeout;
+	JUB_SetTimeOut(contextID,timeout);
+
 }
 
 void send_apud_test(JUB_UINT16 deviceID)
@@ -74,18 +120,29 @@ void verify_pin(JUB_UINT16 contextID)
 		cout << "4 5 6" << endl;
 		cout << "7 8 9" << endl;
 
+
+		cout << "to cancel the virtualpwd iput 'c'" << endl;
 		JUB_ShowVirtualPwd(contextID);
 
 
  		char str[9] = { 0 };
+
+
 		cin >> str;
 		cout << str << endl;
+
+		if (str[0] == 'c' || str[0] == 'C')
+		{
+			cout << "cancel the VirtualPwd "<< endl;
+			JUB_CancelVirtualPwd(contextID);
+			return;
+		}
 
 		JUB_ULONG retry;
 		rv = JUB_VerifyPIN(contextID, str, retry);
 		if (rv != JUBR_OK)
 		{
-			cout << "wrong pin!!" << endl;
+			cout << "wrong pin!! pin retry : " << retry << endl;
 		}
 	}
 }
@@ -150,6 +207,14 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root)
 
 	try
 	{
+		JUB_CHAR_PTR main_xpub;
+		JUB_RV rv = JUB_GetMainHDNodeBTC(contextID, &main_xpub);
+
+		cout << "Main xpub : " << main_xpub << endl;
+		JUB_FreeMemory(main_xpub);
+
+
+
 		int input_number = root["inputs"].size();
 		for (int i = 0;i < input_number;i++)
 		{
@@ -183,8 +248,38 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root)
 }
 
 
-void transaction_test(JUB_UINT16 contextID, Json::Value root, JUB_BTC_UNIT_TYPE unit)
+void transaction_test(JUB_UINT16 contextID, Json::Value root)
 {
+	JUB_BTC_UNIT_TYPE unit = mBTC;
+
+	cout << "Please input BTCunit on JubiterBLD£º" << endl;
+	cout << "1: BTC" << endl;
+	cout << "2: cBTC" << endl;
+	cout << "3: mBTC" << endl;
+	cout << "4: uBTC" << endl;
+	cout << "5: Satoshi" << endl;
+
+	int choice = 0;
+	cin >> choice;
+
+	switch (choice) {
+	case 1:
+		unit = BTC;
+		break;
+	case 2:
+		unit = cBTC;
+		break;
+	case 3:
+		unit = mBTC;
+		break;
+	case 4:
+		unit = uBTC;
+		break;
+	case 5:
+		unit = Satoshi;
+		break;
+	}
+
 	verify_pin(contextID);
 	try
 	{
@@ -307,13 +402,11 @@ int main()
 		cout << "| 1. get_device_info_test            |" << endl;
 		cout << "| 2. get_address_test.               |" << endl;
 		cout << "| 3. show_address_test.              |" << endl;
-		cout << "| 4. transaction_test_BTC  test.     |" << endl;
-		cout << "| 5. transaction_test_cBTC test.     |" << endl;
-		cout << "| 6. transaction_test_mBTC test.     |" << endl;
-		cout << "| 7. transaction_test_uBTC test.     |" << endl;
-		cout << "| 8. transaction_test_satoshi test.  |" << endl;
-		cout << "| 9. set_my_address_test.            |" << endl;
-		cout << "| 10. send_one_apdu_test.            |" << endl;
+		cout << "| 4. transaction_test.               |" << endl;
+		cout << "| 5. set_my_address_test.            |" << endl;
+		cout << "| 6. send_one_apdu_test.             |" << endl;
+		cout << "| 7. set_timeout_test.               |" << endl;
+		cout << "| 99. get_version.                   |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
@@ -333,25 +426,20 @@ int main()
 			show_address_test(contextID);
 			break;
 		case 4:
-			transaction_test(contextID, root,BTC);
+			transaction_test(contextID, root);
 			break;
 		case 5:
-			transaction_test(contextID, root,cBTC);
-			break;
-		case 6:
-			transaction_test(contextID, root,mBTC);
-			break;
-		case 7:
-			transaction_test(contextID, root,uBTC);
-			break;
-		case 8:
-			transaction_test(contextID, root,Satoshi);
-			break;
-		case 9:
 			set_my_address_test(contextID);
 			break;
-		case 10:
+		case 6:
 			send_apud_test(deviceIDs[0]);
+			break;
+		case 7:
+			set_timeout_test(contextID);
+			break;
+
+		case 99:
+			cout << JUB_GetVersion() << endl;
 			break;
 		case 0:
 			exit(0);

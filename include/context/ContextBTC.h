@@ -25,12 +25,16 @@ namespace jub {
 
 
 		virtual JUB_RV getHDNode(BIP32_Path path, std::string& xpub);
+		virtual JUB_RV getMainHDNode(std::string& xpub);
+
 		virtual JUB_RV getAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address);
 		virtual JUB_RV setMyAddress(BIP32_Path path, std::string& address);
 		virtual JUB_RV showVirtualPwd();
+		virtual JUB_RV cancelVirtualPwd();
 		virtual JUB_RV verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
 		virtual JUB_RV signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime , std::string& raw);
 		virtual JUB_RV setUnit(JUB_BTC_UNIT_TYPE unit_type);
+		virtual JUB_RV setTimeout(JUB_UINT16 timeout);
 
 	private:
 
@@ -40,6 +44,7 @@ namespace jub {
 		JUB_BTC_TRANS_TYPE _type;
 		JUB_UINT16 _deviceID;
 		JUB_BTC_UNIT_TYPE _unit_type;
+		JUB_UINT16 _timeout;
 	};
 
 

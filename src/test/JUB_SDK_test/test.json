@@ -1,7 +1,7 @@
 {
   "ver": "01000000",
-  "p2sh-segwit" : false,
-  "main_path" : "m/44'/0'/0'",
+  "p2sh-segwit" : true,
+  "main_path" : "m/49'/0'/0'",
   "inputs": [
     {
       "preHash": "2a2e910f9fb2b04f7f1ddbfb4ab05785250c2b395f572ce591167c8451f0891e",
@@ -24,7 +24,7 @@
   ],
   "outputs": [
     {
-      "address": "39aRP2an1wHq9aRri4mKSNBi9JSmUpFrBy",
+      "address": "3MA1nkDJhthnC7DxoixmhLiXTyFo1eKJu7",
       "amount": 3744000,
       "change_address": false,
       "bip32_path":{
@@ -35,7 +35,7 @@
     {
       "address": "1JpuFuiBfMzm99JzZG4rpZexxjortaH42t",
       "amount": 1018920,
-      "change_address": true,
+      "change_address": false,
       "bip32_path":{
         "change" :false,
         "addressIndex":0

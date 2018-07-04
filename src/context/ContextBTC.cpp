@@ -19,7 +19,14 @@ namespace jub {
 		JUB_CHECK_NULL(token);
 		std::string str_path = full_bip32_path(path);
 
-		return token->getHDNode_BTC(str_path, xpub);
+		return token->getHDNode_BTC(_type,str_path, xpub);
+	}
+
+	JUB_RV ContextBTC::getMainHDNode(std::string& xpub)
+	{
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+		return token->getHDNode_BTC(_type, _main_path, xpub);
 	}
 
 	JUB_RV ContextBTC::getAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address)
@@ -45,6 +52,13 @@ namespace jub {
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
 		return token->showVirtualPwd();
+	}	
+	
+	JUB_RV ContextBTC::cancelVirtualPwd()
+	{
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+		return token->cancelVirtualPwd();
 	}
 
 	JUB_RV ContextBTC::verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry)
@@ -60,12 +74,19 @@ namespace jub {
 		return JUBR_OK;
 	}
 
+	JUB_RV ContextBTC::setTimeout(JUB_UINT16 timeout)
+	{
+		_timeout = timeout;
+		return JUBR_OK;
+	}
+
 	JUB_RV ContextBTC::signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, std::string& raw)
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
 
 		JUB_VERIFY_RV(token->setUnit_BTC(_unit_type));
+		JUB_VERIFY_RV(token->setTimeout_BTC(_timeout));
 
 		//deal inputs
 		std::vector<JUB_UINT64> vinput_amount;

@@ -167,6 +167,7 @@ typedef JUB_ULONG JUB_RV;
 #define JUBR_NOT_CONNECT_DEVICE	    0x00000063UL
 #define JUBR_DEVICE_PIN_ERROR	    0x00000064UL
 #define JUBR_USER_CANCEL    	    0x00000065UL
+#define JUBR_ERROR_ARGS    	        0x00000066UL
 
 #define JUBR_ACCT_SYNC_DATA_FINISH  0x00000070UL
 
@@ -249,7 +250,6 @@ struct OUTPUT_BTC
 	JUB_ENUM_BOOL   change_address;
 	BIP32_Path      path;
 };
-
 
 /*****************************************************************************
 * @function name : Jub_ListDeviceHid
@@ -373,6 +373,18 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID ,IN INPUT_BTC inputs[], IN
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID);
 
+
+
+/*****************************************************************************
+* @function name : JUB_cancelVirtualPwd
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID);
+
+
 /*****************************************************************************
 * @function name : JUB_VerifyPIN
 * @in param : 
@@ -391,6 +403,17 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID ,IN JUB_CHAR_PTR pinMix, OUT JUB_UL
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path,OUT JUB_CHAR_PTR_PTR xpub);
+
+
+/*****************************************************************************
+* @function name : JUB_GetMainHDNodeBTC
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID, OUT JUB_CHAR_PTR_PTR xpub);
+
 
 
 /*****************************************************************************
@@ -422,6 +445,17 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID, IN JUB_BTC_UNIT_TYPE unit);
 
+
+/*****************************************************************************
+* @function name : JUB_SetTimeOut
+* @in param : 
+timeout: how many s
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID, IN JUB_UINT16 timeout);
+
 /*****************************************************************************
 * @function name : JUB_FreeMemory
 * @in param : 
@@ -439,27 +473,28 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,OUT JUB_CHAR_PTR_PTR applist);
+JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,OUT JUB_CHAR_PTR_PTR appList);
+
 
 
 /*****************************************************************************
-* @function name : Jub_CurrentAppletID
+* @function name : JUB_GetAppletVersion
 * @in param : 
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CurrentAppletID();
+JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,IN JUB_CHAR_PTR appID,OUT JUB_CHAR_PTR_PTR version);
 
 
 /*****************************************************************************
-* @function name : Jub_SelectApplet
+* @function name : JUB_GetVersion
 * @in param : 
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SelectApplet();
+JUB_CHAR_PTR JUB_GetVersion();
 
 
 

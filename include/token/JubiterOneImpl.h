@@ -34,10 +34,11 @@ class JubiterOneImpl : public TokenInterface {
     /* functions */
     virtual JUB_RV connectToken();
 	virtual JUB_RV disconnectToken();
-	virtual JUB_RV getHDNode_BTC(std::string path, std::string& xpub);
+	virtual JUB_RV getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
 	virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address);
 
 	virtual JUB_RV showVirtualPwd();
+	virtual JUB_RV cancelVirtualPwd();
 	virtual bool   isInitialize();
 	virtual bool   isBootLoader();
 	virtual JUB_RV getSN(JUB_BYTE sn[24]);
@@ -47,7 +48,9 @@ class JubiterOneImpl : public TokenInterface {
 	virtual JUB_RV getBleVersion(JUB_BYTE ble_version[4]);
 	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]);
 	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
+	virtual JUB_RV setTimeout_BTC(JUB_UINT16 timeout);
 	virtual JUB_RV enumApplet(std::string& applet_list);
+	virtual JUB_RV getAppletVersion(std::string appID, std::string& version);
 	virtual JUB_RV getDeviceCert(std::string& cert);
 	virtual JUB_RV sendOneApdu(const std::string& apdu, std::string& response);
 
