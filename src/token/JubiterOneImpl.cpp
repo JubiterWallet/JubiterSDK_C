@@ -181,7 +181,8 @@ namespace jub {
 
 	JUB_RV JubiterOneImpl::getDeviceCert(std::string& cert)
 	{
-		uchar_vector apdu_data = "A60483021318";
+
+		uchar_vector apdu_data = "A60483021518";
 		APDU apdu(0x80, 0xca, 0xbf, 0x21, apdu_data.size(), apdu_data.data());
 		JUB_BYTE retData[1024] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
@@ -190,7 +191,7 @@ namespace jub {
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
 		if (0x9000 == ret)
 		{
-			uchar_vector vcert(retData, retData + retLen);
+			uchar_vector vcert(retData + 4, retData + retLen);
 			cert = vcert.getHex();
 			return JUBR_OK;
 		}

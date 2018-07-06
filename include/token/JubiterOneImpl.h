@@ -34,8 +34,23 @@ class JubiterOneImpl : public TokenInterface {
     /* functions */
     virtual JUB_RV connectToken();
 	virtual JUB_RV disconnectToken();
+
+	//BTC functions
 	virtual JUB_RV getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
 	virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address);
+	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
+	virtual JUB_RV setTimeout_BTC(JUB_UINT16 timeout);
+	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count,
+		std::vector<JUB_UINT64> input_amount,
+		std::vector<std::string> input_path,
+		std::vector<JUB_UINT16> change_index,
+		std::vector<std::string> change_path,
+		std::vector<JUB_BYTE> unsiged_trans,
+		std::vector<JUB_BYTE>& raw
+	);
+
+	
+
 
 	virtual JUB_RV showVirtualPwd();
 	virtual JUB_RV cancelVirtualPwd();
@@ -47,8 +62,7 @@ class JubiterOneImpl : public TokenInterface {
 	virtual JUB_RV getPinMaxRetry(JUB_BYTE& max_retry);
 	virtual JUB_RV getBleVersion(JUB_BYTE ble_version[4]);
 	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]);
-	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
-	virtual JUB_RV setTimeout_BTC(JUB_UINT16 timeout);
+
 	virtual JUB_RV enumApplet(std::string& applet_list);
 	virtual JUB_RV getAppletVersion(std::string appID, std::string& version);
 	virtual JUB_RV getDeviceCert(std::string& cert);
@@ -56,14 +70,7 @@ class JubiterOneImpl : public TokenInterface {
 
 
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);
-	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count, 
-		std::vector<JUB_UINT64> input_amount, 
-		std::vector<std::string> input_path, 
-		std::vector<JUB_UINT16> change_index, 
-		std::vector<std::string> change_path, 
-		std::vector<JUB_BYTE> unsiged_trans,
-		std::vector<JUB_BYTE>& raw
-		);
+
 
 	private:
 

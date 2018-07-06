@@ -74,6 +74,13 @@ void get_device_info_test(JUB_UINT16 deviceID)
 	memcpy_s(fw_version, 5, info.firmware_version, 4);
 	cout << "device ble_version :" << ble_version << endl;
 	cout << "device fw_version :" << fw_version << endl;
+
+
+	char* cert;
+	rv = JUB_GetDeviceCert(deviceID, &cert);
+
+	cout << "device cert is :" << cert << endl;
+	JUB_FreeMemory(cert);
 }
 
 
