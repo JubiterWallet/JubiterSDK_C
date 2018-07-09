@@ -456,6 +456,18 @@ timeout: how many s
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID, IN JUB_UINT16 timeout);
 
+
+
+/*****************************************************************************
+* @function name : JUB_QueryBattery
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE& percent);
+
+
 /*****************************************************************************
 * @function name : JUB_FreeMemory
 * @in param : 

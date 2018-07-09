@@ -49,7 +49,7 @@ class JubiterOneImpl : public TokenInterface {
 		std::vector<JUB_BYTE>& raw
 	);
 
-	
+	virtual JUB_RV queryBattery(JUB_BYTE &percent);
 
 
 	virtual JUB_RV showVirtualPwd();

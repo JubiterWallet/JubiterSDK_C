@@ -213,6 +213,24 @@ namespace jub {
 	}
 
 
+	JUB_RV JubiterOneImpl::queryBattery(JUB_BYTE &percent)
+	{
+		JUB_CHECK_NULL(_device);
+
+		APDU apdu(0x00, 0xD6, 0xFE, 0xED, 0x01);
+		JUB_BYTE retData[1024] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+
+		percent = retData[0];
+		return JUBR_OK;
+	}
+
+
 	JUB_RV JubiterOneImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type,
 		JUB_UINT16 input_count,
 		std::vector<JUB_UINT64> input_amount, 

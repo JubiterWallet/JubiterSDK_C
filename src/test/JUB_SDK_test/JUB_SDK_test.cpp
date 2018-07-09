@@ -402,6 +402,7 @@ int main()
 		error_exit("Error format json file\n");
 	}
 
+
 	while (true)
 	{
 		cout << "--------------------------------------" << endl;

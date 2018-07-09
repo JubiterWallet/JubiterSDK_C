@@ -232,6 +232,20 @@ JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID, IN JUB_UINT16 timeout)
 	return context->setTimeout(timeout * 2);
 }
 
+
+JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE& percent)
+{
+
+#ifdef BLE_MODE
+	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+	JUB_CHECK_NULL(token);
+	JUB_VERIFY_RV(token->queryBattery(percent));
+	return JUBR_OK;
+#else
+	return JUBR_IMPL_NOT_SUPPORT;
+#endif;
+}
+
 JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID, IN JUB_BTC_UNIT_TYPE unit)
 {
 	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
