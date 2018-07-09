@@ -44,7 +44,7 @@ namespace jub {
 		JUB_CHECK_NULL(token);
 		std::string str_path = full_bip32_path(path);
 
-		return token->getAddress_BTC(_type, str_path, 0x03, address);
+		return token->getAddress_BTC(_type, str_path, 0x02, address);
 	}
 
 	JUB_RV ContextBTC::showVirtualPwd()

@@ -9,6 +9,16 @@
 #include <memory>
 #include <utility/util.hpp>
 
+
+#ifdef HID_MODE // modify later..
+#include <device/JubiterHidDevice.hpp>
+using device_type = jub::JubiterHidDevice;
+#else
+#include <device/JubiterBLEDevice.hpp>
+using device_type = jub::JubiterBLEDevice;
+#endif
+
+
 namespace jub {
 
 	constexpr JUB_BYTE PKIAID_BTC[8] = {
@@ -24,11 +34,11 @@ namespace jub {
 	} while (0);                        
 
 
-class JubiterOneImpl : public TokenInterface {
+class JubiterBLDImpl : public TokenInterface {
    public:
-	   JubiterOneImpl(std::string path);
-	   JubiterOneImpl(device_type* device);
-    ~JubiterOneImpl();
+	   JubiterBLDImpl(std::string path);
+	   JubiterBLDImpl(device_type* device);
+    ~JubiterBLDImpl();
 
    public:
     /* functions */

@@ -120,14 +120,20 @@
     <ClInclude Include="..\..\..\..\include\utility\xManager.hpp">
       <Filter>Header Files\context</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\token\JubiterOneImpl.h">
-      <Filter>Header Files\token</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\include\device\JubiterBLEDevice.hpp">
       <Filter>Header Files\device</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\include\device\Fido.h">
       <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\token\BTCTokenInterface.hpp">
+      <Filter>Header Files\token</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\token\ETHTokenInterface.hpp">
+      <Filter>Header Files\token</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\token\JubiterBLDImpl.h">
+      <Filter>Header Files\token</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,14 +188,14 @@
     <ClCompile Include="..\..\..\..\src\utility\util.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\token\JubiterOneImpl.cpp">
-      <Filter>Source Files\token</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\src\device\JubiterBLEDevice.cpp">
       <Filter>Source Files\device</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\device\Fido.cpp">
       <Filter>Source Files\device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\token\JubiterBLDImpl.cpp">
+      <Filter>Source Files\token</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

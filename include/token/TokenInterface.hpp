@@ -5,19 +5,14 @@
 #include <vector>
 #include <utility/Singleton.h>
 #include <utility/xManager.hpp>
+#include "BTCTokenInterface.hpp"
+#include "ETHTokenInterface.hpp"
 
-#ifdef HID_MODE // modify later..
-#include <device/JubiterHidDevice.hpp>
-using device_type = jub::JubiterHidDevice;
-#else
-#include <device/JubiterBLEDevice.hpp>
-using device_type = jub::JubiterBLEDevice;
-#endif
 
 
 namespace jub {
 
-class TokenInterface {
+class TokenInterface:public BTCTokenInterface,public ETHTokenInterface {
    public:
     /* functions */
     virtual JUB_RV connectToken() = 0;
@@ -32,8 +27,6 @@ class TokenInterface {
 	virtual JUB_RV getPinMaxRetry(JUB_BYTE& max_retry) = 0;
 	virtual JUB_RV getBleVersion(JUB_BYTE ble_version[4]) = 0;
 	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]) = 0;
-	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit) = 0;
-	virtual JUB_RV setTimeout_BTC(JUB_UINT16 timeout) = 0;
 	virtual JUB_RV enumApplet(std::string& applet_list) = 0;
 	virtual JUB_RV getAppletVersion(std::string appID, std::string& version) = 0;
 	virtual JUB_RV getDeviceCert(std::string& cert) = 0;
@@ -42,11 +35,6 @@ class TokenInterface {
 	virtual JUB_RV queryBattery(JUB_BYTE &percent) = 0;
 
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
-	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count, std::vector<JUB_UINT64> input_amount, std::vector<std::string> input_path, std::vector<JUB_UINT16> change_index, \
-		std::vector<std::string> change_path, std::vector<JUB_BYTE> unsiged_trans, std::vector<JUB_BYTE>& raw) = 0;
-
-	virtual JUB_RV getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub) = 0;
-	virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 bshow, std::string& address) = 0;
 };
 
 using TokenManager = Singleton<xManager<jub::TokenInterface>>;

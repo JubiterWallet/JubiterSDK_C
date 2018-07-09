@@ -1,6 +1,6 @@
 #include <JUB_SDK.h>
 #include <token/TokenInterface.hpp>
-#include <token/JubiterOneImpl.h>
+#include <token/JubiterBLDImpl.h>
 #include <utility/util.hpp>
 #include <utility/util.h>
 #include <cassert>
@@ -17,31 +17,31 @@ namespace jub {
 	constexpr JUB_BYTE mainnet_p2sh_p2wsh = 0x05;
 
 	
-	JubiterOneImpl::JubiterOneImpl(std::string path)
+	JubiterBLDImpl::JubiterBLDImpl(std::string path)
 		:_apduBuiler(std::make_shared<JubApudBuiler>()),_device(std::make_shared<device_type>()),_path(path){
 
 	};
-	JubiterOneImpl::JubiterOneImpl(device_type* device)
+	JubiterBLDImpl::JubiterBLDImpl(device_type* device)
 		:_apduBuiler(std::make_shared<JubApudBuiler>()), _device(device)
 	{
 
 	}
 
-	JubiterOneImpl::~JubiterOneImpl() {};
+	JubiterBLDImpl::~JubiterBLDImpl() {};
 
-	JUB_RV JubiterOneImpl::connectToken()
+	JUB_RV JubiterBLDImpl::connectToken()
 	{
 		return _device->connect(_path);
 	}
 
 
-	JUB_RV JubiterOneImpl::disconnectToken()
+	JUB_RV JubiterBLDImpl::disconnectToken()
 	{
 		return _device->disconnect();
 	}
 
 
-	JUB_RV JubiterOneImpl::getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub)
+	JUB_RV JubiterBLDImpl::getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub)
 	{
 		SWITCH_TO_BTC_APP
 
@@ -74,7 +74,7 @@ namespace jub {
 		return JUBR_OK;
 	}
 
-	JUB_RV JubiterOneImpl::getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address)
+	JUB_RV JubiterBLDImpl::getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address)
 	{
 		if (tag != 0x02)
 		{
@@ -110,7 +110,7 @@ namespace jub {
 		return JUBR_OK;
 	}
 
-	JUB_RV JubiterOneImpl::enumApplet(std::string& applet_list)
+	JUB_RV JubiterBLDImpl::enumApplet(std::string& applet_list)
 	{
 		{
 			// select main safe scope
@@ -154,7 +154,7 @@ namespace jub {
 	}
 
 
-	JUB_RV JubiterOneImpl::getAppletVersion(std::string appID, std::string& version)
+	JUB_RV JubiterBLDImpl::getAppletVersion(std::string appID, std::string& version)
 	{
 		uchar_vector id(appID);
 
@@ -179,7 +179,7 @@ namespace jub {
 
 	}
 
-	JUB_RV JubiterOneImpl::getDeviceCert(std::string& cert)
+	JUB_RV JubiterBLDImpl::getDeviceCert(std::string& cert)
 	{
 
 		uchar_vector apdu_data = "A60483021518";
@@ -199,7 +199,7 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterOneImpl::sendOneApdu(const std::string& apdu, std::string& response)
+	JUB_RV JubiterBLDImpl::sendOneApdu(const std::string& apdu, std::string& response)
 	{
 		uchar_vector sendApdu(apdu);
 		JUB_BYTE retdata[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = { 0, };
@@ -213,7 +213,7 @@ namespace jub {
 	}
 
 
-	JUB_RV JubiterOneImpl::queryBattery(JUB_BYTE &percent)
+	JUB_RV JubiterBLDImpl::queryBattery(JUB_BYTE &percent)
 	{
 		JUB_CHECK_NULL(_device);
 
@@ -231,7 +231,7 @@ namespace jub {
 	}
 
 
-	JUB_RV JubiterOneImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type,
+	JUB_RV JubiterBLDImpl::signTX_BTC(JUB_BTC_TRANS_TYPE type,
 		JUB_UINT16 input_count,
 		std::vector<JUB_UINT64> input_amount, 
 		std::vector<std::string> input_path,
@@ -379,7 +379,7 @@ namespace jub {
 
 	}
 
-	JUB_RV JubiterOneImpl::showVirtualPwd()
+	JUB_RV JubiterBLDImpl::showVirtualPwd()
 	{
 		JUB_CHECK_NULL(_device);
 		SWITCH_TO_BTC_APP
@@ -396,7 +396,7 @@ namespace jub {
 		return JUBR_OK;
 	}
 
-	JUB_RV JubiterOneImpl::cancelVirtualPwd()
+	JUB_RV JubiterBLDImpl::cancelVirtualPwd()
 	{
 		JUB_CHECK_NULL(_device);
 		//SWITCH_TO_BTC_APP
@@ -412,7 +412,7 @@ namespace jub {
 
 		return JUBR_OK;
 	}
-	JUB_RV JubiterOneImpl::verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry)
+	JUB_RV JubiterBLDImpl::verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry)
 	{
 
 		JUB_CHECK_NULL(_device);
@@ -444,7 +444,7 @@ namespace jub {
 
 	}
 
-	bool  JubiterOneImpl::isInitialize()
+	bool  JubiterBLDImpl::isInitialize()
 	{
 		uchar_vector apdu_data = "DFFF028105";
 		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
@@ -463,7 +463,7 @@ namespace jub {
 		return false;
 	}
 
-	bool   JubiterOneImpl::isBootLoader()
+	bool   JubiterBLDImpl::isBootLoader()
 	{
 		APDU apdu(0x00, 0xa4, 0x04, 0x00, 0x00);
 		JUB_BYTE retData[1024] = { 0 };
@@ -478,7 +478,7 @@ namespace jub {
 		return false;
 	}
 
-	JUB_RV JubiterOneImpl::getBleVersion(JUB_BYTE ble_version[4])
+	JUB_RV JubiterBLDImpl::getBleVersion(JUB_BYTE ble_version[4])
 	{
 		uchar_vector apdu_data = "DFFF028100";
 		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
@@ -497,7 +497,7 @@ namespace jub {
 
 		return JUBR_ERROR;
 	}
-	JUB_RV JubiterOneImpl::getFwVersion(JUB_BYTE fw_version[4])
+	JUB_RV JubiterBLDImpl::getFwVersion(JUB_BYTE fw_version[4])
 	{
 		uchar_vector apdu_data = "DFFF028003";
 		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
@@ -517,7 +517,7 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterOneImpl::getSN(JUB_BYTE sn[24])
+	JUB_RV JubiterBLDImpl::getSN(JUB_BYTE sn[24])
 	{
 		uchar_vector apdu_data = "DFFF028101";
 		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
@@ -536,7 +536,7 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterOneImpl::getLabel(JUB_BYTE label[32])
+	JUB_RV JubiterBLDImpl::getLabel(JUB_BYTE label[32])
 	{
 		uchar_vector apdu_data = "DFFF028104";
 		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
@@ -555,7 +555,7 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterOneImpl::getPinRetry(JUB_BYTE& retry)
+	JUB_RV JubiterBLDImpl::getPinRetry(JUB_BYTE& retry)
 	{
 		uchar_vector apdu_data = "DFFF028102";
 		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
@@ -573,7 +573,7 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterOneImpl::setUnit_BTC(JUB_BTC_UNIT_TYPE unit)
+	JUB_RV JubiterBLDImpl::setUnit_BTC(JUB_BTC_UNIT_TYPE unit)
 	{
 		APDU apdu(0x00, 0xfa, JUB_BYTE(unit), 0x00, 0x00);
 		JUB_UINT16 ret = 0;
@@ -586,7 +586,7 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterOneImpl::setTimeout_BTC(JUB_UINT16 timeout)
+	JUB_RV JubiterBLDImpl::setTimeout_BTC(JUB_UINT16 timeout)
 	{
 		JUB_UINT16 p1 = timeout >> 8;
 		JUB_UINT16 p2 = timeout & 0xFF;
@@ -602,7 +602,7 @@ namespace jub {
 	}
 
 	
-	JUB_RV JubiterOneImpl::getPinMaxRetry(JUB_BYTE& max_retry)
+	JUB_RV JubiterBLDImpl::getPinMaxRetry(JUB_BYTE& max_retry)
 	{
 		uchar_vector apdu_data = "DFFF028103";
 		APDU apdu(0x80, 0xcb, 0x80, 0x00, apdu_data.size(), apdu_data.data());
@@ -620,7 +620,7 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterOneImpl::_selectApp(const JUB_BYTE PKIAID[8]) {
+	JUB_RV JubiterBLDImpl::_selectApp(const JUB_BYTE PKIAID[8]) {
 		APDU apdu(0x00, 0xA4, 0x04, 0x00, 8, PKIAID);
 		JUB_UINT16 ret = 0;
 		JUB_BYTE retData[1024] = { 0 };
@@ -633,7 +633,7 @@ namespace jub {
 		return JUBR_OK;
 	}
 
-	JUB_RV JubiterOneImpl::_tranPack(const DataSlice &apduData, JUB_BYTE sigType,JUB_ULONG sendLenOnce, int finalData/* = false*/,int bOnce/* = false*/) {
+	JUB_RV JubiterBLDImpl::_tranPack(const DataSlice &apduData, JUB_BYTE sigType,JUB_ULONG sendLenOnce, int finalData/* = false*/,int bOnce/* = false*/) {
 
 		if (apduData.empty()) {
 			return JUBR_ERROR;
@@ -692,7 +692,7 @@ namespace jub {
 
 
 
-	JUB_RV JubiterOneImpl::_sendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *pRetData /*= nullptr*/,
+	JUB_RV JubiterBLDImpl::_sendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *pRetData /*= nullptr*/,
 		JUB_ULONG *pulRetLen /*= nullptr*/,
 		JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
 

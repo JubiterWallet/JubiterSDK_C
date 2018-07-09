@@ -158,7 +158,9 @@
     <ClInclude Include="..\..\..\..\include\device\JubiterHidDevice.hpp" />
     <ClInclude Include="..\..\..\..\include\JUB_SDK.h" />
     <ClInclude Include="..\..\..\..\include\libBTC\libBTC.hpp" />
-    <ClInclude Include="..\..\..\..\include\token\JubiterOneImpl.h" />
+    <ClInclude Include="..\..\..\..\include\token\BTCTokenInterface.hpp" />
+    <ClInclude Include="..\..\..\..\include\token\ETHTokenInterface.hpp" />
+    <ClInclude Include="..\..\..\..\include\token\JubiterBLDImpl.h" />
     <ClInclude Include="..\..\..\..\include\token\TokenInterface.hpp" />
     <ClInclude Include="..\..\..\..\include\utility\xManager.hpp" />
   </ItemGroup>
@@ -181,7 +183,7 @@
     <ClCompile Include="..\..\..\..\src\device\JubiterBLEDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp" />
-    <ClCompile Include="..\..\..\..\src\token\JubiterOneImpl.cpp" />
+    <ClCompile Include="..\..\..\..\src\token\JubiterBLDImpl.cpp" />
     <ClCompile Include="..\..\..\..\src\utility\util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

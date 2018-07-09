@@ -6,7 +6,7 @@
 #include <utility/util.hpp>
 #include <token/TokenInterface.hpp>
 #include <context/ContextBTC.h>
-#include <token/JubiterOneImpl.h>
+#include <token/JubiterBLDImpl.h>
 #include <utility/Singleton.h>
 #include <device/JubiterBLEDevice.hpp>
 #include <string.h>
@@ -70,7 +70,7 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 
 	for (auto path : path_list)
 	{
-		jub::JubiterOneImpl* token = new jub::JubiterOneImpl(path);
+		jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(path);
 		jub::TokenManager::GetInstance()->addOne(token);
 	}
 
@@ -269,7 +269,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_
 	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
 	JUB_CHECK_NULL(context);
 	std::string str_address;
-	JUB_VERIFY_RV(context->getAddress(path, 0x02, str_address));
+	JUB_VERIFY_RV(context->setMyAddress(path, str_address));
 	JUB_VERIFY_RV(_allocMem(address, str_address));
 	return JUBR_OK;
 }
@@ -465,7 +465,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID, JUB_UINT32 connectType,
     {
         *pDevice_ID = BLE_device_map::GetInstance()->addOne(pDevHandle);
         LOG_INF("JUB_connectDevice rv: %d", pDevice_ID);
-        jub::JubiterOneImpl* token = new jub::JubiterOneImpl(bleDevice);
+        jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(bleDevice);
         jub::TokenManager::GetInstance()->addOne(*pDevice_ID, token);
     }
 
