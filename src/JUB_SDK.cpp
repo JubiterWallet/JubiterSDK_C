@@ -6,6 +6,8 @@
 #include <utility/util.hpp>
 #include <token/interface/TokenInterface.hpp>
 #include <context/ContextBTC.h>
+#include <context/ContextETH.h>
+#include <context/Context.h>
 #include <token/JubiterBLDImpl.h>
 #include <utility/Singleton.h>
 #include <device/JubiterBLEDevice.hpp>
@@ -120,18 +122,19 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg, IN JUB_UINT16 deviceID, O
 {
     if (nullptr == jub::TokenManager::GetInstance()->getOne(deviceID))
     {
-        return JUBR_ERROR;
+        return JUBR_ERROR_ARGS;
     }
     jub::ContextBTC* context = new jub::ContextBTC(cfg, deviceID);
-    JUB_UINT16 _contextID = jub::ContextManager_BTC::GetInstance()->addOne(context);
+    JUB_UINT16 _contextID = jub::ContextManager::GetInstance()->addOne(context);
     *contextID = _contextID;
+	context->activeSelf();
     return JUBR_OK;
 }
 
 
 JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID)
 {
-    jub::ContextManager_BTC::GetInstance()->clearOne(contextID);
+    jub::ContextManager::GetInstance()->clearOne(contextID);
     return JUBR_OK;
 }
 
@@ -140,8 +143,9 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID , IN INPUT_BTC inputs[], I
 {
     std::vector<INPUT_BTC> vInputs(inputs, inputs + iCount);
     std::vector<OUTPUT_BTC> vOutputs(outputs, outputs + oCount);
+	JUB_CHECK_CONTEXT_BTC(contextID);
 
-    auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
+    jub::ContextBTC* context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
     if (context != nullptr)
     {
         std::string str_raw;
@@ -161,7 +165,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID , IN INPUT_BTC inputs[], I
 
 JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID)
 {
-    auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
+    auto context = jub::ContextManager::GetInstance()->getOne(contextID);
     if (context != nullptr)
     {
         return context->showVirtualPwd();
@@ -172,7 +176,7 @@ JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID)
 
 JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID)
 {
-	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
+	auto context = jub::ContextManager::GetInstance()->getOne(contextID);
 	if (context != nullptr)
 	{
 		return context->cancelVirtualPwd();
@@ -184,7 +188,7 @@ JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID)
 
 JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry)
 {
-    auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
+    auto context = jub::ContextManager::GetInstance()->getOne(contextID);
     if (context != nullptr)
     {
         return context->verifyPIN(pinMix, retry);
@@ -196,8 +200,8 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_UL
 
 JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR xpub)
 {
-    auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
-    JUB_CHECK_NULL(context);
+	JUB_CHECK_CONTEXT_BTC(contextID);
+    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
     std::string str_xpub;
     JUB_VERIFY_RV(context->getHDNode(path, str_xpub));
     JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
@@ -208,8 +212,10 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHA
 
 JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID, OUT JUB_CHAR_PTR_PTR xpub)
 {
-	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
-	JUB_CHECK_NULL(context);
+
+	JUB_CHECK_CONTEXT_BTC(contextID);
+
+	auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_xpub;
 	JUB_VERIFY_RV(context->getMainHDNode(str_xpub));
 	JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
@@ -220,7 +226,7 @@ JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID, OUT JUB_CHAR_PTR_PTR xpub)
 
 JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID, IN JUB_UINT16 timeout)
 {
-	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
+	auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
 	JUB_CHECK_NULL(context);
 
 	if (timeout > 600)
@@ -247,16 +253,17 @@ JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE& percent)
 
 JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID, IN JUB_BTC_UNIT_TYPE unit)
 {
-	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
-	JUB_CHECK_NULL(context);
+	JUB_CHECK_CONTEXT_BTC(contextID);
+	auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
+
 
 	return context->setUnit(unit);
 }
 
 JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address)
 {
-    auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
-    JUB_CHECK_NULL(context);
+	JUB_CHECK_CONTEXT_BTC(contextID);
+    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
     std::string str_address;
     JUB_VERIFY_RV(context->getAddress(path, bshow, str_address));
     JUB_VERIFY_RV(_allocMem(address, str_address));
@@ -265,8 +272,8 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENU
 
 JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_CHAR_PTR_PTR address)
 {
-	auto context = jub::ContextManager_BTC::GetInstance()->getOne(contextID);
-	JUB_CHECK_NULL(context);
+	JUB_CHECK_CONTEXT_BTC(contextID);
+	auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_address;
 	JUB_VERIFY_RV(context->setMyAddress(path, str_address));
 	JUB_VERIFY_RV(_allocMem(address, str_address));
@@ -383,6 +390,19 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID, IN JUB_CHAR_PTR appID, OUT J
 	JUB_VERIFY_RV(_allocMem(version, str_version));
 	return JUBR_OK;
 
+}
+
+JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg, IN JUB_UINT16 deviceID, OUT JUB_UINT16* contextID)
+{
+	if (nullptr == jub::TokenManager::GetInstance()->getOne(deviceID))
+	{
+		return JUBR_ERROR_ARGS;
+	}
+	jub::ContextETH* context = new jub::ContextETH(cfg, deviceID);
+	JUB_UINT16 _contextID = jub::ContextManager::GetInstance()->addOne(context);
+	*contextID = _contextID;
+	context->activeSelf();
+	return JUBR_OK;
 }
 
 JUB_CHAR_PTR JUB_GetVersion()

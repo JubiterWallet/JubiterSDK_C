@@ -63,7 +63,7 @@ namespace jub {
 		for (auto appid : appList)
 		{
 			uchar_vector id(appid);
-			uchar_vector mainid(PKIAID_MAIN, 8);
+			uchar_vector mainid(PKIAID_FIDO, 8);
 			if(id == mainid)
 				continue;
 			applet_list += id.getHex();
@@ -79,7 +79,7 @@ namespace jub {
 	{
 		uchar_vector id(appID);
 
-		APDU apdu(0x00, 0xA4, 0x04, 0x00, 8, &id[0]);
+		APDU apdu(0x00, 0xA4, 0x04, 0x00, id.size(), &id[0]);
 
 		JUB_UINT16 ret = 0;
 		JUB_BYTE retData[1024] = { 0 };
@@ -154,7 +154,7 @@ namespace jub {
 	JUB_RV JubiterBLDImpl::showVirtualPwd()
 	{
 		JUB_CHECK_NULL(_device);
-		SWITCH_TO_BTC_APP
+		//SWITCH_TO_BTC_APP
 
 		APDU apdu(0x00, 0x29, 0x00, 0x00, 0x00);
 		JUB_BYTE retData[1024] = { 0 };
@@ -190,7 +190,7 @@ namespace jub {
 		JUB_CHECK_NULL(_device);
 
 		// select app first 
-		SWITCH_TO_BTC_APP
+		//SWITCH_TO_BTC_APP
 
 		DataChunk pinCoord;
 		//auto pinData = buildData({ pin });
@@ -364,8 +364,8 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterBLDImpl::_selectApp(const JUB_BYTE PKIAID[8]) {
-		APDU apdu(0x00, 0xA4, 0x04, 0x00, 8, PKIAID);
+	JUB_RV JubiterBLDImpl::_selectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
+		APDU apdu(0x00, 0xA4, 0x04, 0x00, length, PKIAID);
 		JUB_UINT16 ret = 0;
 		JUB_BYTE retData[1024] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);

@@ -47,27 +47,6 @@ namespace jub {
 		return token->getAddress_BTC(_type, str_path, 0x02, address);
 	}
 
-	JUB_RV ContextBTC::showVirtualPwd()
-	{
-		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
-		JUB_CHECK_NULL(token);
-		return token->showVirtualPwd();
-	}	
-	
-	JUB_RV ContextBTC::cancelVirtualPwd()
-	{
-		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
-		JUB_CHECK_NULL(token);
-		return token->cancelVirtualPwd();
-	}
-
-	JUB_RV ContextBTC::verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry)
-	{
-		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
-		JUB_CHECK_NULL(token);
-		return token->verifyPIN(pinMix, retry);
-	}
-
 	JUB_RV ContextBTC::setUnit(JUB_BTC_UNIT_TYPE unit_type)
 	{
 		_unit_type = unit_type;
@@ -78,6 +57,13 @@ namespace jub {
 	{
 		_timeout = timeout;
 		return JUBR_OK;
+	}
+
+	JUB_RV ContextBTC::activeSelf()
+	{
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+		return token->selectApplet_BTC();
 	}
 
 	JUB_RV ContextBTC::signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, std::string& raw)

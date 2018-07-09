@@ -355,9 +355,8 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 	}
 }
 
-int main()
+void BTC_test()
 {
-
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
 	JUB_ListDeviceHid(deviceIDs);
 
@@ -368,7 +367,7 @@ int main()
 	}
 
 	char* applist;
-	rv = JUB_EnumApplets(deviceIDs[0],&applist);
+	rv = JUB_EnumApplets(deviceIDs[0], &applist);
 
 	Json::Reader reader;
 	Json::Value root;
@@ -455,6 +454,71 @@ int main()
 			continue;
 		}
 	}
+}
+
+void ETH_test()
+{
+
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_ListDeviceHid(deviceIDs);
+
+	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+	if (rv != JUBR_OK)
+	{
+		error_exit("cannot find JubtierWallet");
+	}
+
+	CONTEXT_CONFIG_ETH cfg;
+	cfg.main_path = "m/44'/0'/0'";
+	cfg.chainID = -4;
+	JUB_UINT16 contextID = 0;
+	rv = JUB_CreateContextETH(cfg, deviceIDs[0],&contextID);
+}
+
+int main()
+{
+
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_ListDeviceHid(deviceIDs);
+
+	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+	if (rv != JUBR_OK)
+	{
+		error_exit("cannot find JubtierWallet");
+	}
+
+
+	while (true)
+
+	{
+		cout << "--------------------------------------" << endl;
+		cout << "|******* Jubiter Wallet Test ********|" << endl;
+		cout << "| 1. BTC_test.                       |" << endl;
+		cout << "| 2. ETH_test.                       |" << endl;
+		cout << "| 0. exit.                           |" << endl;
+		cout << "--------------------------------------" << endl;
+		cout << "* Please enter your choice:" << endl;
+
+
+		int choice = 0;
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			BTC_test();
+			break;
+		case 2:
+			ETH_test();
+			break;
+		case 0:
+			exit(0);
+		default:
+			continue;
+		}
+
+	}
+
 
     return 0;
 }

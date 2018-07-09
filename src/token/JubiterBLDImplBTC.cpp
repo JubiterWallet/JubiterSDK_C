@@ -16,11 +16,26 @@ namespace jub {
 	constexpr JUB_BYTE mainnet_p2sh_p2wpkh = 0x04;
 	constexpr JUB_BYTE mainnet_p2sh_p2wsh = 0x05;
 
+	constexpr JUB_BYTE PKIAID_BTC[16] = {
+		0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x42, 0x54, 0x43, 0x01
+	};
+
+
+#define SWITCH_TO_BTC_APP  do {				                    \
+		JUB_VERIFY_RV(_selectApp(PKIAID_BTC,16));				\
+	} while (0)                                                 \
+
+
+
+	JUB_RV JubiterBLDImpl::selectApplet_BTC()
+	{
+		SWITCH_TO_BTC_APP;
+		return JUBR_OK;
+	}
+
 	JUB_RV JubiterBLDImpl::getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub)
 	{
-		SWITCH_TO_BTC_APP
-
-			uchar_vector vPath;
+		uchar_vector vPath;
 		vPath << path;
 		uchar_vector apduData = toTlv(0x08, vPath);
 		JUB_BYTE p2 = 0x00;
@@ -53,10 +68,6 @@ namespace jub {
 
 	JUB_RV JubiterBLDImpl::getAddress_BTC(JUB_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 tag, std::string& address)
 	{
-		if (tag != 0x02)
-		{
-			SWITCH_TO_BTC_APP
-		}
 		uchar_vector vPath;
 		vPath << path;
 

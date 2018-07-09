@@ -235,6 +235,12 @@ struct CONTEXT_CONFIG_BTC {
 	JUB_BTC_TRANS_TYPE	type;
 };
 
+
+struct CONTEXT_CONFIG_ETH {
+	JUB_CHAR_PTR		main_path;
+	int					chainID;
+};
+
 struct INPUT_BTC
 {
 	JUB_CHAR_PTR	preHash;
@@ -335,7 +341,7 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID);
 
 
 /*****************************************************************************
-* @function name : Jub_DisconnetDeviceHid
+* @function name : JUB_CreateContextBTC
 * @in param :
 * @out param :
 * @last change :
@@ -435,6 +441,19 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENU
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_CHAR_PTR_PTR address);
+
+
+
+/*****************************************************************************
+* @function name : JUB_CreateContextETH
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg, IN JUB_UINT16 deviceID, OUT JUB_UINT16* contextID);
+
+
 
 /*****************************************************************************
 * @function name : JUB_SetUnitBTC

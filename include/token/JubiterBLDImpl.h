@@ -21,22 +21,12 @@ using device_type = jub::JubiterBLEDevice;
 
 namespace jub {
 
-	constexpr JUB_BYTE PKIAID_BTC[8] = {
-		0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x25, 0x01
-	};
 
-	constexpr JUB_BYTE PKIAID_MAIN[8] = {
+
+	constexpr JUB_BYTE PKIAID_FIDO[8] = {
 		0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
 	};
 
-
-	constexpr JUB_BYTE PKIAID_ETH[8] = {
-		0xA0, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00
-	};
-
-#define SWITCH_TO_BTC_APP  do {				                \
-		JUB_VERIFY_RV(_selectApp(PKIAID_BTC));				\
-	} while (0);                                            \
 
 
 class JubiterBLDImpl : public TokenInterface {
@@ -51,6 +41,7 @@ class JubiterBLDImpl : public TokenInterface {
 	virtual JUB_RV disconnectToken();
 
 	//BTC functions
+	virtual JUB_RV selectApplet_BTC();
 	virtual JUB_RV getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
 	virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address);
 	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
@@ -64,9 +55,13 @@ class JubiterBLDImpl : public TokenInterface {
 		std::vector<JUB_BYTE>& raw
 	);
 
+	//ETH functions
+
+	virtual JUB_RV selectApplet_ETH();
+
+
+	//common token functions
 	virtual JUB_RV queryBattery(JUB_BYTE &percent);
-
-
 	virtual JUB_RV showVirtualPwd();
 	virtual JUB_RV cancelVirtualPwd();
 	virtual bool   isInitialize();
@@ -89,7 +84,7 @@ class JubiterBLDImpl : public TokenInterface {
 
 	private:
 
-	JUB_RV _selectApp(const JUB_BYTE PKIAID[8]);
+	JUB_RV _selectApp(const JUB_BYTE PKIAID[],JUB_BYTE length);
 
 	JUB_RV _tranPack(const DataSlice &apduData,
 		JUB_BYTE sigType,

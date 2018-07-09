@@ -9,6 +9,8 @@ namespace jub {
 	class ETHTokenInterface {
 
 	public:
+		virtual JUB_RV selectApplet_ETH() = 0;
+
 	};
 
 }

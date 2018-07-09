@@ -138,6 +138,12 @@
     <ClInclude Include="..\..\..\..\include\token\interface\TokenInterface.hpp">
       <Filter>Header Files\token\interface</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\context\Context.h">
+      <Filter>Header Files\context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\context\ContextETH.h">
+      <Filter>Header Files\context</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
@@ -205,6 +211,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImplETH.cpp">
       <Filter>Source Files\token</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\context\Context.cpp">
+      <Filter>Source Files\context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\context\ContextETH.cpp">
+      <Filter>Source Files\context</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
