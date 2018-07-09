@@ -14,9 +14,8 @@
 
 
 static std::set<JUB_CHAR_CPTR> memPtrs;
-static constexpr char* Version = "0.5.0.180704";
-
-
+static constexpr char* Version_Format = "0.6.0.%02d%02d%02d";
+static char Version[20];
 
 inline JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf) {
 
@@ -388,6 +387,41 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID, IN JUB_CHAR_PTR appID, OUT J
 
 JUB_CHAR_PTR JUB_GetVersion()
 {
+	std::string monthes[] =
+	{
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	};
+
+	std::string dateStr = __DATE__;
+
+	int year = atoi(dateStr.substr(dateStr.length() - 2).c_str());
+
+	int month = 0;
+	for (int i = 0; i < 12; i++)
+	{
+		if (dateStr.find(monthes[i]) != std::string::npos)
+		{
+			month = i + 1;
+			break;
+		}
+	}
+
+	std::string dayStr = dateStr.substr(4, 2);
+	int day = atoi(dayStr.c_str());
+
+	sprintf(Version, Version_Format, year, month, day);
+
 	return Version;
 }
 
