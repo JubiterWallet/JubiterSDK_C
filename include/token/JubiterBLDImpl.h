@@ -3,7 +3,7 @@
 #define __HardwareTokenImpl__
 
 #include <JUB_SDK.h>
-#include <token/TokenInterface.hpp>
+#include <token/interface/TokenInterface.hpp>
 #include <device/ApduBuilder.hpp>
 #include <device/JubiterHidDevice.hpp>
 #include <memory>
@@ -29,9 +29,14 @@ namespace jub {
 		0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
 	};
 
-#define SWITCH_TO_BTC_APP  do {				\
+
+	constexpr JUB_BYTE PKIAID_ETH[8] = {
+		0xA0, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00
+	};
+
+#define SWITCH_TO_BTC_APP  do {				                \
 		JUB_VERIFY_RV(_selectApp(PKIAID_BTC));				\
-	} while (0);                        
+	} while (0);                                            \
 
 
 class JubiterBLDImpl : public TokenInterface {

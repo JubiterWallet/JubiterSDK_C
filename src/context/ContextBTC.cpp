@@ -3,7 +3,7 @@
 #include <utility/util.hpp>
 #include <utility/uchar_vector.h>
 #include <libBTC/libBTC.hpp>
-#include <token/TokenInterface.hpp>
+#include <token/interface/TokenInterface.hpp>
 
 
 namespace jub {

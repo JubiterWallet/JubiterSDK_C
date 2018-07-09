@@ -4,7 +4,7 @@
 #include <set>
 #include <algorithm>
 #include <utility/util.hpp>
-#include <token/TokenInterface.hpp>
+#include <token/interface/TokenInterface.hpp>
 #include <context/ContextBTC.h>
 #include <token/JubiterBLDImpl.h>
 #include <utility/Singleton.h>
