@@ -47,8 +47,6 @@ namespace jub {
 
 	private:
 
-		std::string full_bip32_path(BIP32_Path path);
-		std::string _main_path;
 		int _forkid;
 		JUB_BTC_TRANS_TYPE _type;
 		JUB_BTC_UNIT_TYPE _unit_type;

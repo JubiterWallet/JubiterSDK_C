@@ -4,6 +4,7 @@
 #include <utility/util.h>
 #include <cassert>
 #include <utility/uchar_vector.h>
+#include <utility/util.h>
 
 
 namespace jub {
@@ -15,14 +16,13 @@ namespace jub {
 // 	};
 
 
-	constexpr JUB_BYTE PKIAID_ETH[15] = {
-		0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x45, 0x54, 0x48, 0x01
+	constexpr JUB_BYTE PKIAID_ETH[13] = {
+		0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x42, 0x4C, 0x44, 0x45, 0x54, 0x48, 0x01
 	};
 
 
-
 #define SWITCH_TO_ETH_APP  do {				                    \
-		JUB_VERIFY_RV(_selectApp(PKIAID_ETH,15));				\
+		JUB_VERIFY_RV(_selectApp(PKIAID_ETH,13));				\
 	} while (0);                                                \
 
 
@@ -33,6 +33,80 @@ namespace jub {
 	}
 
 
+	JUB_RV JubiterBLDImpl::getAddress_ETH(std::string path, JUB_UINT16 tag, std::string& address)
+	{
+		uchar_vector data(path.begin(), path.end());
 
+		APDU apdu(0x00, 0xf6, 0x00, (JUB_BYTE)tag, data.size(), data.data(),0x14);
+
+		JUB_BYTE retData[2048] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+		uchar_vector v_address(retData,retLen);
+		address = "0x" + v_address.getHex();
+		return JUBR_OK;
+	}
+
+
+	JUB_RV JubiterBLDImpl::getHDNode_ETH(std::string path, std::string& pubkey)
+	{
+		uchar_vector data(path.begin(), path.end());
+
+		APDU apdu(0x00, 0xe6, 0x00, 0x00, data.size(), data.data());
+
+		JUB_BYTE retData[2048] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+		uchar_vector v_pubkey(retData, retLen);
+		pubkey = "0x" + v_pubkey.getHex();
+		return JUBR_OK;
+	}
+
+	JUB_RV JubiterBLDImpl::signTX_ETH(bool Is_ERC20, std::vector<JUB_BYTE> nonce, std::vector<JUB_BYTE> gasLimit, std::vector<JUB_BYTE> gasPrice,
+		std::vector<JUB_BYTE> To, std::vector<JUB_BYTE> value, std::vector<JUB_BYTE> input, std::vector<JUB_BYTE> path, std::vector<JUB_BYTE> chainID, std::vector<JUB_BYTE>& raw)
+	{
+
+		uchar_vector data;
+
+		data << toTlv(0x41, nonce);
+		data << toTlv(0x42, gasLimit);
+		data << toTlv(0x43, gasPrice);
+		data << toTlv(0x44, To);
+		data << toTlv(0x45, value);
+		data << toTlv(0x46, input);
+		data << toTlv(0x47, path);
+		data << toTlv(0x48, chainID);
+
+
+		JUB_BYTE ins = 0x2a;
+		if (Is_ERC20)
+		{
+			ins = 0xc8;
+		}
+
+		//one pack can do it 
+		APDU apdu(0x00, ins, 0x01, 0x00, data.size(), data.data());
+
+		JUB_BYTE retData[2048] = { 0 };
+		JUB_ULONG retLen = sizeof(retData);
+		JUB_UINT16 ret = 0;
+		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x9000 != ret) {
+			return JUBR_TRANSMIT_DEVICE_ERROR;
+		}
+
+		raw.clear();
+		raw.insert(raw.end(), retData, retData + retLen);
+
+		return JUBR_OK;
+	}
 
 }

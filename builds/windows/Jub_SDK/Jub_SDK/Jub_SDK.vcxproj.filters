@@ -49,6 +49,12 @@
     <Filter Include="Header Files\token\interface">
       <UniqueIdentifier>{0ae04d6f-2cfb-4a84-b6bc-a5cb3fd33b07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\libETH">
+      <UniqueIdentifier>{8a032be4-05ba-4fd5-95e6-cdd34c78c3c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\libETH">
+      <UniqueIdentifier>{616f0cc6-9d7e-4e1a-abfe-6e62edcfe3ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -144,6 +150,12 @@
     <ClInclude Include="..\..\..\..\include\context\ContextETH.h">
       <Filter>Header Files\context</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\libETH\ByteConverter.h">
+      <Filter>Header Files\libETH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\libETH\ERC20Abi.h">
+      <Filter>Header Files\libETH</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
@@ -217,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\context\ContextETH.cpp">
       <Filter>Source Files\context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\libETH\ByteConverter.cpp">
+      <Filter>Source Files\libETH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\libETH\ERC20Abi.cpp">
+      <Filter>Source Files\libETH</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

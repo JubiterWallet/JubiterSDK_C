@@ -8,10 +8,6 @@
 
 namespace jub {
 
-	std::string ContextBTC::full_bip32_path(BIP32_Path path)
-	{
-		return _main_path + "/" + jub::to_string(path.change) + "/" + jub::to_string(path.addressIndex);
-	}
 
 	JUB_RV ContextBTC::getHDNode(BIP32_Path path, std::string& xpub)
 	{
@@ -101,7 +97,7 @@ namespace jub {
 		jub::btc::serializeUnsignedTX(_type,inputs, outputs,locktime, unsigned_trans);
 
 		uchar_vector v_raw;
-		int ret = token->signTX_BTC(_type, (JUB_UINT16)inputs.size(), vinput_amount, vinput_path, vchange_index, vchange_path, unsigned_trans, v_raw);
+		JUB_RV ret = token->signTX_BTC(_type, (JUB_UINT16)inputs.size(), vinput_amount, vinput_path, vchange_index, vchange_path, unsigned_trans, v_raw);
 
 		raw = v_raw.getHex();
 		return ret;

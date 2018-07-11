@@ -405,6 +405,61 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg, IN JUB_UINT16 deviceID, O
 	return JUBR_OK;
 }
 
+
+JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address)
+{
+	JUB_CHECK_CONTEXT_ETH(contextID);
+	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
+	std::string str_address;
+	JUB_VERIFY_RV(context->getAddress(path, bshow, str_address));
+	JUB_VERIFY_RV(_allocMem(address, str_address));
+	return JUBR_OK;
+}
+
+
+JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey)
+{
+	JUB_CHECK_CONTEXT_ETH(contextID);
+	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
+	std::string str_pubkey;
+	JUB_VERIFY_RV(context->getHDNode(path, str_pubkey));
+	JUB_VERIFY_RV(_allocMem(pubkey, str_pubkey));
+	return JUBR_OK;
+}
+
+
+
+JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID, IN BIP32_Path path, IN JUB_UINT32 nonce,
+	IN JUB_UINT32 gasLimit,
+	IN JUB_CHAR_PTR gasPriceInWei,
+	IN JUB_CHAR_PTR to,
+	IN JUB_CHAR_PTR valueInWei,
+	IN JUB_CHAR_PTR input,
+	OUT JUB_CHAR_PTR_PTR raw
+)
+{
+	JUB_CHECK_CONTEXT_ETH(contextID);
+	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
+	std::string str_raw;
+	JUB_VERIFY_RV(context->signTransaction(path, nonce, gasLimit, gasPriceInWei,to,valueInWei,input,str_raw));
+	JUB_VERIFY_RV(_allocMem(raw, str_raw));
+	return JUBR_OK;
+}
+
+
+
+JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR token_to, IN JUB_CHAR_PTR token_value, OUT JUB_CHAR_PTR_PTR abi)
+{
+	JUB_CHECK_CONTEXT_ETH(contextID);
+
+	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
+	std::string str_abi;
+	JUB_VERIFY_RV(context->buildERC20Abi(token_to, token_value, str_abi));
+	JUB_VERIFY_RV(_allocMem(abi, str_abi));
+	return JUBR_OK;
+
+}
+
 JUB_CHAR_PTR JUB_GetVersion()
 {
 	std::string monthes[] =

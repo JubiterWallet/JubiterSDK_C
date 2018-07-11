@@ -456,6 +456,62 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg, IN JUB_UINT16 deviceID, O
 
 
 /*****************************************************************************
+* @function name : JUB_GetAddressBTC
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address);
+
+
+
+/*****************************************************************************
+* @function name : brief
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey);
+
+
+
+
+/*****************************************************************************
+* @function name : JUB_SignTransactionETH
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID, IN BIP32_Path path, IN JUB_UINT32 nonce, 
+	IN JUB_UINT32 gasLimit,
+	IN JUB_CHAR_PTR gasPriceInWei,
+	IN JUB_CHAR_PTR to,
+	IN JUB_CHAR_PTR valueInWei,
+	IN JUB_CHAR_PTR input,
+	OUT JUB_CHAR_PTR_PTR raw
+	);
+
+
+
+
+/*****************************************************************************
+* @function name : JUB_BuildERC20AbiETH
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR token_to, IN JUB_CHAR_PTR token_value, OUT JUB_CHAR_PTR_PTR abi);
+
+
+
+
+
+
+/*****************************************************************************
 * @function name : JUB_SetUnitBTC
 * @in param : 
 * @out param : 

@@ -42,10 +42,10 @@ namespace jub {
 		switch (type)
 		{
 		case p2pkh:
-			p2 = 0x00;
+			p2 = 0x00;   //xpub  format
 			break;
 		case p2sh_p2wpkh:
-			p2 = 0x01;
+			p2 = 0x01;   //ypub  format
 			break;
 		default:
 			break;

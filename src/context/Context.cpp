@@ -29,4 +29,9 @@ namespace jub {
 		return token->verifyPIN(pinMix, retry);
 	}
 
+	std::string Context::full_bip32_path(BIP32_Path path)
+	{
+		return _main_path + "/" + jub::to_string(path.change) + "/" + jub::to_string(path.addressIndex);
+	}
+
 }

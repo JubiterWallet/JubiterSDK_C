@@ -468,11 +468,101 @@ void ETH_test()
 		error_exit("cannot find JubtierWallet");
 	}
 
+	char* applist;
+	rv = JUB_EnumApplets(deviceIDs[0], &applist);
+
+
+
+	Json::Reader reader;
+	Json::Value root;
+	ifstream in("testETH.json", ios::binary);
+	if (!in.is_open())
+	{
+		error_exit("Error opening json file\n");
+	}
+
+	if (!reader.parse(in, root))
+	{
+		error_exit("Error parse json file\n");
+	}
+
+
+
+
 	CONTEXT_CONFIG_ETH cfg;
-	cfg.main_path = "m/44'/0'/0'";
-	cfg.chainID = -4;
+	cfg.main_path = (char*)root["main_path"].asCString();
+	cfg.chainID = root["chainID"].asInt();
 	JUB_UINT16 contextID = 0;
 	rv = JUB_CreateContextETH(cfg, deviceIDs[0],&contextID);
+
+	BIP32_Path path;
+	path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
+	path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
+
+	char* pubkey = nullptr;
+	rv = JUB_GetHDNodeETH(contextID, path, &pubkey);
+
+	cout << pubkey << endl;
+	JUB_FreeMemory(pubkey);
+
+	char* address = nullptr;
+	rv = JUB_GetAddressETH(contextID, path, BOOL_TRUE, &address);
+	cout << address << endl;
+	JUB_FreeMemory(address);
+
+
+	//ETH Test
+
+	uint32_t nonce = root["ETH"]["nonce"].asDouble();
+	uint32_t gasLimit = root["ETH"]["gasLimit"].asDouble();
+	char* gasPriceInWei = (char*)root["ETH"]["gasPriceInWei"].asCString();
+	char* valueInWei = (char*)root["ETH"]["valueInWei"].asCString();
+	char* to = (char*)root["ETH"]["to"].asCString();
+	char* data = (char*)root["ETH"]["data"].asCString();
+
+
+	char* raw = nullptr;
+	rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_SignTransactionETH Error!" << endl;
+	}
+	else
+	{
+		cout << raw << endl;
+		JUB_FreeMemory(raw);
+	}
+
+	//ERC-20 Test
+
+	nonce = root["ERC20"]["nonce"].asDouble();
+	gasLimit = root["ERC20"]["gasLimit"].asDouble();
+	gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
+	to = (char*)root["ERC20"]["contract_address"].asCString();
+	char* token_to = (char*)root["ERC20"]["token_to"].asCString();
+	char* token_value = (char*)root["ERC20"]["token_value"].asCString();
+
+	path.change = (JUB_ENUM_BOOL)root["ERC20"]["bip32_path"]["change"].asBool();
+	path.addressIndex = root["ERC20"]["bip32_path"]["addressIndex"].asUInt();
+
+	char* abi = nullptr;
+	rv = JUB_BuildERC20AbiETH(contextID, token_to, token_value, &abi);
+
+
+	rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, 0, abi, &raw);
+
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_SignTransactionETH for ERC20 Error!" << endl;
+	}
+	else
+	{
+		cout << raw << endl;
+		JUB_FreeMemory(raw);
+	}
+
+
+
 }
 
 int main()

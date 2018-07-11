@@ -29,6 +29,9 @@ namespace jub {
 
 	protected:
 		JUB_UINT16 _deviceID;
+		std::string _main_path;
+
+		std::string full_bip32_path(BIP32_Path path);
 
 	};
 

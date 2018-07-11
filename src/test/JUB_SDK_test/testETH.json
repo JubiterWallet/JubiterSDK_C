@@ -1,0 +1,28 @@
+{
+  "main_path":"m/60'/0'/0'",
+  "chainID":1,
+  "ETH": {
+    "nonce" : 10086,
+    "gasLimit":21000,
+    "gasPriceInWei":"6000000000",
+    "to":"0x23f9b127209e936563449306a9dde42820ab27b6",
+    "valueInWei":"654321000000000",
+    "data":"",
+    "bip32_path":{
+      "change" :false,
+      "addressIndex":0
+    }
+  },
+  "ERC20":{
+    "nonce" : 10086,
+    "gasLimit":40000,
+    "gasPriceInWei":"6000000000",
+    "token_to":"0x23f9b127209e936563449306a9dde42820ab27b6",
+    "token_value":"654321000000000",
+    "contract_address":"0xf230b790e05390fc8295f4d3f60332c93bed42e2",
+    "bip32_path":{
+      "change" :false,
+      "addressIndex":0
+    }
+  }
+}
