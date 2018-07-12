@@ -1,12 +1,12 @@
 {
-  "main_path":"m/60'/0'/0'",
+  "main_path":"m/44'/60'/0'",
   "chainID":1,
   "ETH": {
-    "nonce" : 10086,
+    "nonce" : 2,
     "gasLimit":21000,
-    "gasPriceInWei":"6000000000",
-    "to":"0x23f9b127209e936563449306a9dde42820ab27b6",
-    "valueInWei":"654321000000000",
+    "gasPriceInWei":"2000000000",
+    "to":"0xb2a6370773B7a146816941C12105B5830189618C",
+    "valueInWei":"500000000000000",
     "data":"",
     "bip32_path":{
       "change" :false,

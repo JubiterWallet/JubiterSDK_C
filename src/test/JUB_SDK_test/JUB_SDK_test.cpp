@@ -78,6 +78,11 @@ void get_device_info_test(JUB_UINT16 deviceID)
 
 	char* cert;
 	rv = JUB_GetDeviceCert(deviceID, &cert);
+	if (rv != JUBR_OK)
+	{
+		cout << " JUB_GetDeviceCert error " << endl;
+		return;
+	}
 
 	cout << "device cert is :" << cert << endl;
 	JUB_FreeMemory(cert);
@@ -405,15 +410,12 @@ void BTC_test()
 	while (true)
 	{
 		cout << "--------------------------------------" << endl;
-		cout << "|******* Jubiter Wallet Test ********|" << endl;
-		cout << "| 1. get_device_info_test            |" << endl;
-		cout << "| 2. get_address_test.               |" << endl;
-		cout << "| 3. show_address_test.              |" << endl;
-		cout << "| 4. transaction_test.               |" << endl;
-		cout << "| 5. set_my_address_test.            |" << endl;
-		cout << "| 6. send_one_apdu_test.             |" << endl;
-		cout << "| 7. set_timeout_test.               |" << endl;
-		cout << "| 99. get_version.                   |" << endl;
+		cout << "|******* Jubiter Wallet BTC  ********|" << endl;
+		cout << "| 1. get_address_test.               |" << endl;
+		cout << "| 2. show_address_test.              |" << endl;
+		cout << "| 3. transaction_test.               |" << endl;
+		cout << "| 4. set_my_address_test.            |" << endl;
+		cout << "| 5. set_timeout_test.               |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
@@ -424,29 +426,19 @@ void BTC_test()
 		switch (choice)
 		{
 		case 1:
-			get_device_info_test(deviceIDs[0]);
-			break;
-		case 2:
 			get_address_test(contextID, root);
 			break;
-		case 3:
+		case 2:
 			show_address_test(contextID);
 			break;
-		case 4:
+		case 3:
 			transaction_test(contextID, root);
 			break;
-		case 5:
+		case 4:
 			set_my_address_test(contextID);
 			break;
-		case 6:
-			send_apud_test(deviceIDs[0]);
-			break;
-		case 7:
+		case 5:
 			set_timeout_test(contextID);
-			break;
-
-		case 99:
-			cout << JUB_GetVersion() << endl;
 			break;
 		case 0:
 			exit(0);
@@ -456,8 +448,121 @@ void BTC_test()
 	}
 }
 
+
+void get_address_pubkey_ETH(JUB_UINT16 contextID)
+{
+	int change = 0;
+	JUB_UINT64 index = 0;
+	cout << "please input change level (non-zero means 1):" << endl;
+	cin >> change;
+	cout << "please input index " << endl;
+	cin >> index;
+
+	BIP32_Path path;
+	path.change = JUB_ENUM_BOOL(change);
+	path.addressIndex = index;
+
+
+	char* pubkey = nullptr;
+	JUB_RV rv = JUB_GetHDNodeETH(contextID, path, &pubkey);
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_GetHDNodeETH  error!" << endl;
+		return;
+	}
+
+	cout << "pubkey:  "<< pubkey << endl;
+	JUB_FreeMemory(pubkey);
+
+	char* address = nullptr;
+	rv = JUB_GetAddressETH(contextID, path, BOOL_TRUE, &address);
+
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_GetAddressETH  error!" << endl;
+		return;
+	}
+	cout << "address: " <<address << endl;
+	JUB_FreeMemory(address);
+}
+
+
+void transaction_test_ETH(JUB_UINT16 contextID,Json::Value root)
+{
+
+	verify_pin(contextID);
+
+
+	BIP32_Path path;
+	path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
+	path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
+
+
+	//ETH Test
+
+	uint32_t nonce = root["ETH"]["nonce"].asDouble();
+	uint32_t gasLimit = root["ETH"]["gasLimit"].asDouble();
+	char* gasPriceInWei = (char*)root["ETH"]["gasPriceInWei"].asCString();
+	char* valueInWei = (char*)root["ETH"]["valueInWei"].asCString();
+	char* to = (char*)root["ETH"]["to"].asCString();
+	char* data = (char*)root["ETH"]["data"].asCString();
+
+
+	char* raw = nullptr;
+	JUB_RV rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_SignTransactionETH Error!" << endl;
+	}
+	else
+	{
+		cout << "raw : " << raw << endl;
+		JUB_FreeMemory(raw);
+	}
+
+
+}
+
+
+void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root)
+{
+
+	verify_pin(contextID);
+	//ERC-20 Test
+
+	uint32_t nonce = root["ERC20"]["nonce"].asDouble();
+	uint32_t gasLimit = root["ERC20"]["gasLimit"].asDouble();
+	char* gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
+	char* to = (char*)root["ERC20"]["contract_address"].asCString();
+	char* token_to = (char*)root["ERC20"]["token_to"].asCString();
+	char* token_value = (char*)root["ERC20"]["token_value"].asCString();
+
+	BIP32_Path path;
+	path.change = (JUB_ENUM_BOOL)root["ERC20"]["bip32_path"]["change"].asBool();
+	path.addressIndex = root["ERC20"]["bip32_path"]["addressIndex"].asUInt();
+
+	char* abi = nullptr;
+	JUB_RV rv = JUB_BuildERC20AbiETH(contextID, token_to, token_value, &abi);
+
+	char* raw = nullptr;
+	rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, 0, abi, &raw);
+
+	JUB_FreeMemory(abi);
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_SignTransactionETH for ERC20 Error!" << endl;
+	}
+	else
+	{
+		cout << raw << endl;
+		JUB_FreeMemory(raw);
+	}
+
+}
+
 void ETH_test()
 {
+
 
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
 	JUB_ListDeviceHid(deviceIDs);
@@ -486,83 +591,47 @@ void ETH_test()
 		error_exit("Error parse json file\n");
 	}
 
-
-
-
 	CONTEXT_CONFIG_ETH cfg;
 	cfg.main_path = (char*)root["main_path"].asCString();
 	cfg.chainID = root["chainID"].asInt();
 	JUB_UINT16 contextID = 0;
-	rv = JUB_CreateContextETH(cfg, deviceIDs[0],&contextID);
-
-	BIP32_Path path;
-	path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
-	path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
-
-	char* pubkey = nullptr;
-	rv = JUB_GetHDNodeETH(contextID, path, &pubkey);
-
-	cout << pubkey << endl;
-	JUB_FreeMemory(pubkey);
-
-	char* address = nullptr;
-	rv = JUB_GetAddressETH(contextID, path, BOOL_TRUE, &address);
-	cout << address << endl;
-	JUB_FreeMemory(address);
+	rv = JUB_CreateContextETH(cfg, deviceIDs[0], &contextID);
 
 
-	//ETH Test
-
-	uint32_t nonce = root["ETH"]["nonce"].asDouble();
-	uint32_t gasLimit = root["ETH"]["gasLimit"].asDouble();
-	char* gasPriceInWei = (char*)root["ETH"]["gasPriceInWei"].asCString();
-	char* valueInWei = (char*)root["ETH"]["valueInWei"].asCString();
-	char* to = (char*)root["ETH"]["to"].asCString();
-	char* data = (char*)root["ETH"]["data"].asCString();
-
-
-	char* raw = nullptr;
-	rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
-	if (rv != JUBR_OK)
+	while (true)
 	{
-		cout << "JUB_SignTransactionETH Error!" << endl;
+		cout << "--------------------------------------" << endl;
+		cout << "|******* Jubiter Wallet ETH  ********|" << endl;
+		cout << "| 1. show_address_pubkey_test.       |" << endl;
+		cout << "| 2. transaction_test.               |" << endl;
+		cout << "| 3. transaction_ERC20_test.         |" << endl;
+		cout << "| 4. set_timeout_test.               |" << endl;
+		cout << "| 0. exit.                           |" << endl;
+		cout << "--------------------------------------" << endl;
+		cout << "* Please enter your choice:" << endl;
+
+
+		int choice = 0;
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			get_address_pubkey_ETH(contextID);
+			break;
+		case 2:
+			transaction_test_ETH(contextID,root);
+			break;
+		case 3:
+			transaction_ERC20_ETH(contextID, root);
+			break;
+		case 0:
+			exit(0);
+		default:
+			continue;
+		}
+
 	}
-	else
-	{
-		cout << raw << endl;
-		JUB_FreeMemory(raw);
-	}
-
-	//ERC-20 Test
-
-	nonce = root["ERC20"]["nonce"].asDouble();
-	gasLimit = root["ERC20"]["gasLimit"].asDouble();
-	gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
-	to = (char*)root["ERC20"]["contract_address"].asCString();
-	char* token_to = (char*)root["ERC20"]["token_to"].asCString();
-	char* token_value = (char*)root["ERC20"]["token_value"].asCString();
-
-	path.change = (JUB_ENUM_BOOL)root["ERC20"]["bip32_path"]["change"].asBool();
-	path.addressIndex = root["ERC20"]["bip32_path"]["addressIndex"].asUInt();
-
-	char* abi = nullptr;
-	rv = JUB_BuildERC20AbiETH(contextID, token_to, token_value, &abi);
-
-
-	rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, 0, abi, &raw);
-
-	if (rv != JUBR_OK)
-	{
-		cout << "JUB_SignTransactionETH for ERC20 Error!" << endl;
-	}
-	else
-	{
-		cout << raw << endl;
-		JUB_FreeMemory(raw);
-	}
-
-
-
 }
 
 int main()
@@ -583,8 +652,11 @@ int main()
 	{
 		cout << "--------------------------------------" << endl;
 		cout << "|******* Jubiter Wallet Test ********|" << endl;
-		cout << "| 1. BTC_test.                       |" << endl;
-		cout << "| 2. ETH_test.                       |" << endl;
+		cout << "| 1. get_device_info_test            |" << endl;
+		cout << "| 2. send_one_apdu_test.             |" << endl;
+		cout << "| 3. BTC_test.                       |" << endl;
+		cout << "| 4. ETH_test.                       |" << endl;
+		cout << "| 99. get_version.                   |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
@@ -596,11 +668,20 @@ int main()
 		switch (choice)
 		{
 		case 1:
-			BTC_test();
+			get_device_info_test(deviceIDs[0]);
 			break;
 		case 2:
+			send_apud_test(deviceIDs[0]);
+		case 3:
+			BTC_test();
+			break;
+		case 4:
 			ETH_test();
 			break;
+		case 99:
+			cout << JUB_GetVersion() << endl;
+			break;
+
 		case 0:
 			exit(0);
 		default:

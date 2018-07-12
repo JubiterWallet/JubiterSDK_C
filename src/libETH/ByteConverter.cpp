@@ -64,10 +64,20 @@ vector<uint8_t> ByteConverter::charStrToBytes(const uint8_t *in) {
     }
 
     size_t lenstr = strlen(ptr);
+	char tmpeven[256] = { 0 };
+	if (lenstr % 2 != 0)
+	{
+		tmpeven[0] = 0x30;
+		strcpy(&tmpeven[1], ptr);
+		lenstr += 1;
+	}
+	else
+		strcpy(tmpeven, ptr);
+
     for (int i=0; i<lenstr; i+=2) {
         char c[3];
-        c[0] = *(ptr+i);
-        c[1] = *(ptr+i+1);
+        c[0] = *(tmpeven +i);
+        c[1] = *(tmpeven +i+1);
         c[2] = 0x00;
         uint8_t val = strtol(c, nullptr, 16);
         out.push_back(val);

@@ -52,8 +52,17 @@ namespace jub {
 		std::vector<JUB_BYTE> v_gasLimit = ByteConverter::numberToBytes(gasLimit);
 		std::vector<JUB_BYTE> v_gasPriceInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(gasPriceInWei));
 		std::vector<JUB_BYTE> v_to = ByteConverter::stringToBytes(to);
-		std::vector<JUB_BYTE> v_valueInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(valueInWei));
-		std::vector<JUB_BYTE> v_input = ByteConverter::stringToBytes(input);
+		std::vector<JUB_BYTE> v_valueInWei;
+		if (valueInWei != nullptr && strlen(valueInWei) != 0)
+		{
+			v_valueInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(valueInWei));
+		}
+					
+		std::vector<JUB_BYTE> v_input;
+		if (input != nullptr && strlen(input) != 0)
+		{
+			 v_input = ByteConverter::stringToBytes(input);
+		}
 
 		std::string str_path = full_bip32_path(path);
 		std::vector<JUB_BYTE> v_path(str_path.begin(),str_path.end());
@@ -63,13 +72,13 @@ namespace jub {
 
 
 		bool Is_ERC20 = false;
-		if (0 == memcmp(input,"a9059cbb",4)) // erc20 function sign
+		if (0 == memcmp(input,"0xa9059cbb",6)) // erc20 function sign
 		{
 			Is_ERC20 = true;
 		}
 
 		uchar_vector v_raw;
-		JUB_RV rv = token->signTX_ETH(Is_ERC20,v_nonce, v_gasLimit, v_gasPriceInWei, v_to, v_valueInWei, v_input, v_path, v_chainID, v_raw);
+		JUB_RV rv = token->signTX_ETH(Is_ERC20,v_nonce, v_gasPriceInWei,v_gasLimit, v_to, v_valueInWei, v_input, v_path, v_chainID, v_raw);
 
 
 		raw = "0x" + v_raw.getHex();

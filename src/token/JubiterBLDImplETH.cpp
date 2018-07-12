@@ -70,15 +70,15 @@ namespace jub {
 		return JUBR_OK;
 	}
 
-	JUB_RV JubiterBLDImpl::signTX_ETH(bool Is_ERC20, std::vector<JUB_BYTE> nonce, std::vector<JUB_BYTE> gasLimit, std::vector<JUB_BYTE> gasPrice,
+	JUB_RV JubiterBLDImpl::signTX_ETH(bool Is_ERC20, std::vector<JUB_BYTE> nonce, std::vector<JUB_BYTE> gasPrice , std::vector<JUB_BYTE> gasLimit,
 		std::vector<JUB_BYTE> To, std::vector<JUB_BYTE> value, std::vector<JUB_BYTE> input, std::vector<JUB_BYTE> path, std::vector<JUB_BYTE> chainID, std::vector<JUB_BYTE>& raw)
 	{
 
 		uchar_vector data;
 
 		data << toTlv(0x41, nonce);
-		data << toTlv(0x42, gasLimit);
-		data << toTlv(0x43, gasPrice);
+		data << toTlv(0x42, gasPrice);
+		data << toTlv(0x43, gasLimit);
 		data << toTlv(0x44, To);
 		data << toTlv(0x45, value);
 		data << toTlv(0x46, input);
