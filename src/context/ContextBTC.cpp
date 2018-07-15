@@ -46,13 +46,22 @@ namespace jub {
 	JUB_RV ContextBTC::setUnit(JUB_BTC_UNIT_TYPE unit_type)
 	{
 		_unit_type = unit_type;
-		return JUBR_OK;
+
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+
+		JUB_VERIFY_RV(token->setUnit_BTC(_unit_type));
+
 	}
 
 	JUB_RV ContextBTC::setTimeout(JUB_UINT16 timeout)
 	{
 		_timeout = timeout;
-		return JUBR_OK;
+
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+
+		JUB_VERIFY_RV(token->setTimeout_BTC(_timeout));
 	}
 
 	JUB_RV ContextBTC::activeSelf()
@@ -67,8 +76,8 @@ namespace jub {
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
 
-		JUB_VERIFY_RV(token->setUnit_BTC(_unit_type));
-		JUB_VERIFY_RV(token->setTimeout_BTC(_timeout));
+		//JUB_VERIFY_RV(token->setUnit_BTC(_unit_type));
+		//JUB_VERIFY_RV(token->setTimeout_BTC(_timeout));
 
 		//deal inputs
 		std::vector<JUB_UINT64> vinput_amount;

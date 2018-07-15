@@ -605,7 +605,7 @@ void ETH_test()
 		cout << "| 1. show_address_pubkey_test.       |" << endl;
 		cout << "| 2. transaction_test.               |" << endl;
 		cout << "| 3. transaction_ERC20_test.         |" << endl;
-		cout << "| 4. set_timeout_test.               |" << endl;
+		//cout << "| 4. set_timeout_test.               |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
@@ -632,6 +632,56 @@ void ETH_test()
 		}
 
 	}
+}
+
+void getVersion(JUB_UINT16 deviceID)
+{
+	cout << "~~~~~~~~~~~Device Version ~~~~~~~~~~~~~~" << endl;
+
+	JUB_DEVICE_INFO info;
+	JUB_RV rv = JUB_GetDeviceInfo(deviceID, info);
+	if (rv != JUBR_OK)
+	{
+		cout << "get device info error" << endl;
+		return;
+	}
+
+
+	JUB_BYTE ble_version[5] = { 0 };
+	JUB_BYTE fw_version[5] = { 0 };
+	memcpy_s(ble_version, 5, info.ble_version, 4);
+	memcpy_s(fw_version, 5, info.firmware_version, 4);
+	cout << "device ble_version :" << ble_version << endl;
+	cout << "device fw_version :" << fw_version << endl;
+
+	cout << "~~~~~~~~~~~Applet Version ~~~~~~~~~~~~~~" << endl;
+
+
+	char* applist;
+	JUB_EnumApplets(deviceID, &applist);
+	std::string str_applist = applist;
+	JUB_FreeMemory(applist);
+
+	auto v_applist = split(str_applist, ' ');
+
+	for (auto appid : v_applist)
+	{
+		char* version;
+		auto rv = JUB_GetAppletVersion(deviceID, (char*)appid.c_str(), &version);
+		if (rv == JUBR_OK)
+		{
+			cout << appid << " version : " << version << endl;;
+		}
+	}
+
+	cout << "~~~~~~~~~~~SDK    Version ~~~~~~~~~~~~~~" << endl;
+
+
+
+	cout <<"SDK Version:"<< JUB_GetVersion() << endl;
+
+
+
 }
 
 int main()
@@ -679,7 +729,7 @@ int main()
 			ETH_test();
 			break;
 		case 99:
-			cout << JUB_GetVersion() << endl;
+			getVersion(deviceIDs[0]);
 			break;
 
 		case 0:
