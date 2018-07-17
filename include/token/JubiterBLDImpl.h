@@ -45,7 +45,6 @@ class JubiterBLDImpl : public TokenInterface {
 	virtual JUB_RV getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
 	virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address);
 	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
-	virtual JUB_RV setTimeout_BTC(JUB_UINT16 timeout);
 	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count,
 		std::vector<JUB_UINT64> input_amount,
 		std::vector<std::string> input_path,
@@ -92,6 +91,8 @@ class JubiterBLDImpl : public TokenInterface {
 
 
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);
+
+	virtual JUB_RV setTimeout(JUB_UINT16 timeout);
 
 
 	private:

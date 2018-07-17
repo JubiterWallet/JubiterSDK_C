@@ -24,12 +24,14 @@ namespace jub {
 		virtual JUB_RV cancelVirtualPwd();
 		virtual JUB_RV verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
 		virtual JUB_RV activeSelf() = 0;
+		virtual JUB_RV setTimeout(JUB_UINT16 timeout);
 
 		virtual Context* GetClassType(void){return this;}
 
 	protected:
 		JUB_UINT16 _deviceID;
 		std::string _main_path;
+		JUB_UINT16 _timeout;
 
 		std::string full_bip32_path(BIP32_Path path);
 

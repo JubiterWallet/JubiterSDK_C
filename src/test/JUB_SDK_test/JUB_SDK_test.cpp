@@ -185,7 +185,7 @@ void show_address_test(JUB_UINT16 contextID)
 }
 
 
-void set_my_address_test(JUB_UINT16 contextID)
+void set_my_address_test_BTC(JUB_UINT16 contextID)
 {
 	verify_pin(contextID);
 	int change = 0;
@@ -201,6 +201,35 @@ void set_my_address_test(JUB_UINT16 contextID)
 
 	JUB_CHAR_PTR address = "";
 	JUB_RV rv = JUB_SetMyAddressBTC(contextID, path, &address);
+	if (rv != JUBR_OK)
+	{
+		cout << "set address error" << endl;
+	}
+	else
+	{
+		cout << "set my address is : " << address << endl;
+		JUB_FreeMemory(address);
+	}
+
+}
+
+
+void set_my_address_test_ETH(JUB_UINT16 contextID)
+{
+	verify_pin(contextID);
+	int change = 0;
+	JUB_UINT64 index = 0;
+	cout << "please input change level (non-zero means 1):" << endl;
+	cin >> change;
+	cout << "please input index " << endl;
+	cin >> index;
+
+	BIP32_Path path;
+	path.change = JUB_ENUM_BOOL(change);
+	path.addressIndex = index;
+
+	JUB_CHAR_PTR address = "";
+	JUB_RV rv = JUB_SetMyAddressETH(contextID, path, &address);
 	if (rv != JUBR_OK)
 	{
 		cout << "set address error" << endl;
@@ -435,7 +464,7 @@ void BTC_test()
 			transaction_test(contextID, root);
 			break;
 		case 4:
-			set_my_address_test(contextID);
+			set_my_address_test_BTC(contextID);
 			break;
 		case 5:
 			set_timeout_test(contextID);
@@ -618,7 +647,8 @@ void ETH_test()
 		cout << "| 1. show_address_pubkey_test.       |" << endl;
 		cout << "| 2. transaction_test.               |" << endl;
 		cout << "| 3. transaction_ERC20_test.         |" << endl;
-		//cout << "| 4. set_timeout_test.               |" << endl;
+		cout << "| 4. set_my_address_test.            |" << endl;
+		cout << "| 5. set_timeout_test.               |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
@@ -637,6 +667,12 @@ void ETH_test()
 			break;
 		case 3:
 			transaction_ERC20_ETH(contextID, root);
+			break;
+		case 4:
+			set_my_address_test_ETH(contextID);
+			break;
+		case 5:
+			set_timeout_test(contextID);
 			break;
 		case 0:
 			exit(0);

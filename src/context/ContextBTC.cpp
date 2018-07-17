@@ -54,16 +54,6 @@ namespace jub {
 
 	}
 
-	JUB_RV ContextBTC::setTimeout(JUB_UINT16 timeout)
-	{
-		_timeout = timeout;
-
-		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
-		JUB_CHECK_NULL(token);
-
-		JUB_VERIFY_RV(token->setTimeout_BTC(_timeout));
-	}
-
 	JUB_RV ContextBTC::activeSelf()
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);

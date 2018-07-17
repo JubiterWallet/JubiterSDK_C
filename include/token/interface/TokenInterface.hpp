@@ -35,6 +35,7 @@ class TokenInterface:public BTCTokenInterface,public ETHTokenInterface {
 	virtual JUB_RV queryBattery(JUB_BYTE &percent) = 0;
 
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
+	virtual JUB_RV setTimeout(JUB_UINT16 timeout) = 0;
 };
 
 using TokenManager = Singleton<xManager<jub::TokenInterface>>;

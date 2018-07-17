@@ -468,13 +468,26 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENU
 
 
 /*****************************************************************************
-* @function name : brief
+* @function name : JUB_GetHDNodeETH
 * @in param : format 0x00 for hex,0x01 for xpub
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetHDNodeETH(IN JUB_BYTE format ,IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey);
+
+
+
+
+/*****************************************************************************
+* @function name : JUB_SetMyAddressETH
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_CHAR_PTR_PTR address);
+
 
 
 

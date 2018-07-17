@@ -25,6 +25,15 @@ namespace jub {
 		return token->getAddress_ETH(str_path, tag, address);
 	}
 
+	JUB_RV ContextETH::setMyAddress(BIP32_Path path, std::string& address)
+	{
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+		std::string str_path = full_bip32_path(path);
+
+		return token->getAddress_ETH(str_path, 0x02, address);
+	}
+
 	JUB_RV ContextETH::getHDNode(JUB_BYTE format, BIP32_Path path, std::string& pubkey)
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);

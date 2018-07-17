@@ -262,20 +262,5 @@ namespace jub {
 		return JUBR_ERROR;
 	}
 
-	JUB_RV JubiterBLDImpl::setTimeout_BTC(JUB_UINT16 timeout)
-	{
-		JUB_UINT16 p1 = timeout >> 8;
-		JUB_UINT16 p2 = timeout & 0xFF;
-		APDU apdu(0x00, 0xfb, p1, p2, 0x00);
-		JUB_UINT16 ret = 0;
-		JUB_VERIFY_RV(_sendApdu(&apdu, ret));
-		if (0x9000 == ret)
-		{
-			return JUBR_OK;
-		}
-
-		return JUBR_ERROR;
-	}
-
 
 }
