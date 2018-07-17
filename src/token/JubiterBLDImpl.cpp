@@ -205,6 +205,10 @@ namespace jub {
 		JUB_ULONG retLen = sizeof(retData);
 		JUB_UINT16 ret = 0;
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+		if (0x6985 == ret) //locked
+		{
+			return JUBR_PIN_LOCKED;
+		}
 		if (0x63C0 == (ret & 0xfff0)) {
 			retry = (ret & 0xf);
 			return JUBR_DEVICE_PIN_ERROR;

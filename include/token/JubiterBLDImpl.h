@@ -59,7 +59,7 @@ class JubiterBLDImpl : public TokenInterface {
 
 	virtual JUB_RV selectApplet_ETH();
 	virtual JUB_RV getAddress_ETH(std::string path, JUB_UINT16 tag, std::string& address);
-	virtual JUB_RV getHDNode_ETH(std::string path, std::string& pubkey);
+	virtual JUB_RV getHDNode_ETH(JUB_BYTE format,std::string path, std::string& pubkey);
 	virtual JUB_RV signTX_ETH(bool Is_ERC20, std::vector<JUB_BYTE> nonce, 
 		std::vector<JUB_BYTE> gasPrice,
 		std::vector<JUB_BYTE> gasLimit,

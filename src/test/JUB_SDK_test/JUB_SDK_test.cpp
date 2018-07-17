@@ -464,15 +464,28 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID)
 
 
 	char* pubkey = nullptr;
-	JUB_RV rv = JUB_GetHDNodeETH(contextID, path, &pubkey);
+	JUB_RV rv = JUB_GetHDNodeETH(0x00,contextID, path, &pubkey);
 	if (rv != JUBR_OK)
 	{
 		cout << "JUB_GetHDNodeETH  error!" << endl;
 		return;
 	}
 
-	cout << "pubkey:  "<< pubkey << endl;
+	cout << "pubkey in  hex format :  "<< pubkey << endl;
 	JUB_FreeMemory(pubkey);
+
+
+	pubkey = nullptr;
+	rv = JUB_GetHDNodeETH(0x01, contextID, path, &pubkey);
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_GetHDNodeETH  error!" << endl;
+		return;
+	}
+
+	cout << "pubkey in xpub format :  " << pubkey << endl;
+	JUB_FreeMemory(pubkey);
+
 
 	char* address = nullptr;
 	rv = JUB_GetAddressETH(contextID, path, BOOL_TRUE, &address);

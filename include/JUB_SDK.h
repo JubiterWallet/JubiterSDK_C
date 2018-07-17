@@ -168,6 +168,7 @@ typedef JUB_ULONG JUB_RV;
 #define JUBR_DEVICE_PIN_ERROR	    0x00000064UL
 #define JUBR_USER_CANCEL    	    0x00000065UL
 #define JUBR_ERROR_ARGS    	        0x00000066UL
+#define JUBR_PIN_LOCKED    	        0x00000067UL
 
 #define JUBR_ACCT_SYNC_DATA_FINISH  0x00000070UL
 
@@ -468,12 +469,12 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENU
 
 /*****************************************************************************
 * @function name : brief
-* @in param : 
+* @in param : format 0x00 for hex,0x01 for xpub
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey);
+JUB_RV JUB_GetHDNodeETH(IN JUB_BYTE format ,IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey);
 
 
 

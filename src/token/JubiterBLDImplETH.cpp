@@ -47,11 +47,19 @@ namespace jub {
 	}
 
 
-	JUB_RV JubiterBLDImpl::getHDNode_ETH(std::string path, std::string& pubkey)
+	JUB_RV JubiterBLDImpl::getHDNode_ETH(JUB_BYTE format, std::string path, std::string& pubkey)
 	{
-		uchar_vector data(path.begin(), path.end());
+		uchar_vector vPath;
+		vPath << path;
+		uchar_vector apduData = toTlv(0x08, vPath);
 
-		APDU apdu(0x00, 0xe6, 0x00, 0x00, data.size(), data.data());
+		//0x00 for hex,0x01 for xpub
+		if (format != 0x00 && format != 0x01)
+		{
+			return JUBR_ERROR_ARGS;
+		}
+
+		APDU apdu(0x00, 0xe6, 0x00, format, apduData.size(), apduData.data());
 
 		JUB_BYTE retData[2048] = { 0 };
 		JUB_ULONG retLen = sizeof(retData);
@@ -60,8 +68,17 @@ namespace jub {
 		if (0x9000 != ret) {
 			return JUBR_TRANSMIT_DEVICE_ERROR;
 		}
-		uchar_vector v_pubkey(retData, retLen);
-		pubkey = "0x" + v_pubkey.getHex();
+
+		if (format == 0x00)
+		{
+			uchar_vector v_pubkey(retData, retLen);
+			pubkey = "0x" + v_pubkey.getHex();
+		}
+		else if (format == 0x01)
+		{
+			pubkey = (JUB_CHAR_PTR)retData;
+		}
+
 		return JUBR_OK;
 	}
 

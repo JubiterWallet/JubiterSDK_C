@@ -417,12 +417,12 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENU
 }
 
 
-JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey)
+JUB_RV JUB_GetHDNodeETH(IN JUB_BYTE format ,IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey)
 {
 	JUB_CHECK_CONTEXT_ETH(contextID);
 	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_pubkey;
-	JUB_VERIFY_RV(context->getHDNode(path, str_pubkey));
+	JUB_VERIFY_RV(context->getHDNode(format,path, str_pubkey));
 	JUB_VERIFY_RV(_allocMem(pubkey, str_pubkey));
 	return JUBR_OK;
 }
