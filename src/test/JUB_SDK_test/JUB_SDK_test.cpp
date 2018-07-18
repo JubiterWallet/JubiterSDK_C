@@ -33,7 +33,7 @@ void error_exit(char* message)
 	cin >> str;
 	//exit(0);
 }
-
+void main_test();
 
 void get_device_info_test(JUB_UINT16 deviceID)
 {
@@ -445,7 +445,7 @@ void BTC_test()
 		cout << "| 3. transaction_test.               |" << endl;
 		cout << "| 4. set_my_address_test.            |" << endl;
 		cout << "| 5. set_timeout_test.               |" << endl;
-		cout << "| 0. exit.                           |" << endl;
+		cout << "| 0. return.                         |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
 
@@ -470,7 +470,7 @@ void BTC_test()
 			set_timeout_test(contextID);
 			break;
 		case 0:
-			exit(0);
+			main_test();
 		default:
 			continue;
 		}
@@ -493,7 +493,32 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID)
 
 
 	char* pubkey = nullptr;
-	JUB_RV rv = JUB_GetHDNodeETH(0x00,contextID, path, &pubkey);
+	JUB_RV rv = JUB_GetMainHDNodeETH(contextID,HEX,&pubkey);
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_GetMainHDNodeETH  error!" << endl;
+		return;
+	}
+
+	cout << "MainXpub in  hex format :  " << pubkey << endl;
+	JUB_FreeMemory(pubkey);
+
+
+
+	pubkey = nullptr;
+	rv = JUB_GetMainHDNodeETH(contextID, XPUB, &pubkey);
+	if (rv != JUBR_OK)
+	{
+		cout << "JUB_GetMainHDNodeETH  error!" << endl;
+		return;
+	}
+
+	cout << "MainXpub in  xpub format :  " << pubkey << endl;
+	JUB_FreeMemory(pubkey);
+
+
+	pubkey = nullptr;
+	rv = JUB_GetHDNodeETH(contextID,HEX,path, &pubkey);
 	if (rv != JUBR_OK)
 	{
 		cout << "JUB_GetHDNodeETH  error!" << endl;
@@ -505,7 +530,7 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID)
 
 
 	pubkey = nullptr;
-	rv = JUB_GetHDNodeETH(0x01, contextID, path, &pubkey);
+	rv = JUB_GetHDNodeETH(contextID,XPUB,path, &pubkey);
 	if (rv != JUBR_OK)
 	{
 		cout << "JUB_GetHDNodeETH  error!" << endl;
@@ -649,7 +674,7 @@ void ETH_test()
 		cout << "| 3. transaction_ERC20_test.         |" << endl;
 		cout << "| 4. set_my_address_test.            |" << endl;
 		cout << "| 5. set_timeout_test.               |" << endl;
-		cout << "| 0. exit.                           |" << endl;
+		cout << "| 0. return.                         |" << endl;
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
 
@@ -675,7 +700,7 @@ void ETH_test()
 			set_timeout_test(contextID);
 			break;
 		case 0:
-			exit(0);
+			main_test();
 		default:
 			continue;
 		}
@@ -733,7 +758,7 @@ void getVersion(JUB_UINT16 deviceID)
 
 }
 
-int main()
+void main_test()
 {
 
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
@@ -745,9 +770,9 @@ int main()
 		error_exit("cannot find JubtierWallet");
 	}
 
+	auto deviceID = deviceIDs[0];
 
 	while (true)
-
 	{
 		cout << "--------------------------------------" << endl;
 		cout << "|******* Jubiter Wallet Test ********|" << endl;
@@ -767,10 +792,10 @@ int main()
 		switch (choice)
 		{
 		case 1:
-			get_device_info_test(deviceIDs[0]);
+			get_device_info_test(deviceID);
 			break;
 		case 2:
-			send_apud_test(deviceIDs[0]);
+			send_apud_test(deviceID);
 		case 3:
 			BTC_test();
 			break;
@@ -778,7 +803,7 @@ int main()
 			ETH_test();
 			break;
 		case 99:
-			getVersion(deviceIDs[0]);
+			getVersion(deviceID);
 			break;
 
 		case 0:
@@ -789,6 +814,12 @@ int main()
 
 	}
 
+}
+
+int main()
+{
+
+	main_test();
 
     return 0;
 }

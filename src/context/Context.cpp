@@ -37,6 +37,8 @@ namespace jub {
 		JUB_CHECK_NULL(token);
 
 		JUB_VERIFY_RV(token->setTimeout(_timeout));
+
+		return JUBR_OK;
 	}
 
 	std::string Context::full_bip32_path(BIP32_Path path)

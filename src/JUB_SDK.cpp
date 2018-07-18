@@ -149,7 +149,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID , IN INPUT_BTC inputs[], I
     if (context != nullptr)
     {
         std::string str_raw;
-        auto rv = context->signTX(vInputs, vOutputs, locktime, str_raw);
+        auto rv = jub::AutoContext<jub::ContextBTC>(context)->signTX(vInputs, vOutputs, locktime, str_raw);
         if (rv == JUBR_OK)
         {
             JUB_VERIFY_RV(_allocMem(raw, str_raw));
@@ -168,7 +168,7 @@ JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID)
     auto context = jub::ContextManager::GetInstance()->getOne(contextID);
     if (context != nullptr)
     {
-        return context->showVirtualPwd();
+        return jub::AutoContext<jub::Context>(context)->showVirtualPwd();
     }
 
     return JUBR_ERROR;
@@ -179,7 +179,7 @@ JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID)
 	auto context = jub::ContextManager::GetInstance()->getOne(contextID);
 	if (context != nullptr)
 	{
-		return context->cancelVirtualPwd();
+		return jub::AutoContext<jub::Context>(context)->cancelVirtualPwd();
 	}
 
 	return JUBR_ERROR;
@@ -191,7 +191,7 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_UL
     auto context = jub::ContextManager::GetInstance()->getOne(contextID);
     if (context != nullptr)
     {
-        return context->verifyPIN(pinMix, retry);
+        return jub::AutoContext<jub::Context>(context)->verifyPIN(pinMix, retry);
     }
 
     return JUBR_ERROR;
@@ -203,7 +203,7 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHA
 	JUB_CHECK_CONTEXT_BTC(contextID);
     auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
     std::string str_xpub;
-    JUB_VERIFY_RV(context->getHDNode(path, str_xpub));
+    JUB_VERIFY_RV(jub::AutoContext<jub::ContextBTC>(context)->getHDNode(path, str_xpub));
     JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
     return JUBR_OK;
 
@@ -217,7 +217,7 @@ JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID, OUT JUB_CHAR_PTR_PTR xpub)
 
 	auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_xpub;
-	JUB_VERIFY_RV(context->getMainHDNode(str_xpub));
+	JUB_VERIFY_RV(jub::AutoContext<jub::ContextBTC>(context)->getMainHDNode(str_xpub));
 	JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
 	return JUBR_OK;
 
@@ -265,7 +265,7 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENU
 	JUB_CHECK_CONTEXT_BTC(contextID);
     auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
     std::string str_address;
-    JUB_VERIFY_RV(context->getAddress(path, bshow, str_address));
+    JUB_VERIFY_RV(jub::AutoContext<jub::ContextBTC>(context)->getAddress(path, bshow, str_address));
     JUB_VERIFY_RV(_allocMem(address, str_address));
     return JUBR_OK;
 }
@@ -275,7 +275,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_
 	JUB_CHECK_CONTEXT_BTC(contextID);
 	auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_address;
-	JUB_VERIFY_RV(context->setMyAddress(path, str_address));
+	JUB_VERIFY_RV(jub::AutoContext<jub::ContextBTC>(context)->setMyAddress(path, str_address));
 	JUB_VERIFY_RV(_allocMem(address, str_address));
 	return JUBR_OK;
 }
@@ -421,19 +421,31 @@ JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_
 	JUB_CHECK_CONTEXT_ETH(contextID);
 	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_address;
-	JUB_VERIFY_RV(context->setMyAddress(path, str_address));
+	JUB_VERIFY_RV(jub::AutoContext<jub::ContextETH>(context)->setMyAddress(path, str_address));
 	JUB_VERIFY_RV(_allocMem(address, str_address));
 	return JUBR_OK;
 }
 
 
-JUB_RV JUB_GetHDNodeETH(IN JUB_BYTE format ,IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey)
+JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID, IN JUB_ETH_PUB_FORMAT format, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey)
 {
 	JUB_CHECK_CONTEXT_ETH(contextID);
 	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_pubkey;
-	JUB_VERIFY_RV(context->getHDNode(format,path, str_pubkey));
+	JUB_VERIFY_RV(jub::AutoContext<jub::ContextETH>(context)->getHDNode(format,path, str_pubkey));
 	JUB_VERIFY_RV(_allocMem(pubkey, str_pubkey));
+	return JUBR_OK;
+}
+
+
+
+JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID, IN JUB_ETH_PUB_FORMAT format, OUT JUB_CHAR_PTR_PTR xpub)
+{
+	JUB_CHECK_CONTEXT_ETH(contextID);
+	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
+	std::string str_xpub;
+	JUB_VERIFY_RV(jub::AutoContext<jub::ContextETH>(context)->getMainHDNode(format, str_xpub));
+	JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
 	return JUBR_OK;
 }
 
@@ -451,7 +463,7 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID, IN BIP32_Path path, IN JU
 	JUB_CHECK_CONTEXT_ETH(contextID);
 	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_raw;
-	JUB_VERIFY_RV(context->signTransaction(path, nonce, gasLimit, gasPriceInWei,to,valueInWei,input,str_raw));
+	JUB_VERIFY_RV(jub::AutoContext<jub::ContextETH>(context)->signTransaction(path, nonce, gasLimit, gasPriceInWei,to,valueInWei,input,str_raw));
 	JUB_VERIFY_RV(_allocMem(raw, str_raw));
 	return JUBR_OK;
 }
@@ -464,7 +476,7 @@ JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR token_to, I
 
 	auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->getOne(contextID);
 	std::string str_abi;
-	JUB_VERIFY_RV(context->buildERC20Abi(token_to, token_value, str_abi));
+	JUB_VERIFY_RV(jub::AutoContext<jub::ContextETH>(context)->buildERC20Abi(token_to, token_value, str_abi));
 	JUB_VERIFY_RV(_allocMem(abi, str_abi));
 	return JUBR_OK;
 

@@ -11,7 +11,7 @@ template <class T>
 class xManager
 {
 public:
-	xManager() {};
+	xManager() { _last = nullptr; };
 	~xManager() {
 		for (auto it : _list)
 		{
@@ -32,6 +32,10 @@ public:
         return ID;
     };
 
+	T* getLast() {
+		return _last;
+	};
+
 	void clearOne(JUB_UINT16 ID)
 	{
 		auto it = _list.find(ID);
@@ -47,6 +51,7 @@ public:
 		auto it = _list.find(ID);
 		if (it != _list.end())
 		{
+			_last = it->second;
 			return it->second;
 		}
 		return nullptr;
@@ -64,6 +69,7 @@ public:
 
 private:
 	std::map<JUB_UINT16, T*> _list;
+	T* _last;
 };
 
 #endif

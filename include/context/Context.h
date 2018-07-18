@@ -6,10 +6,27 @@
 #include <JUB_SDK.h>
 #include <string>
 #include <vector>
+#include <iostream>
 #include <utility/Singleton.h>
 #include <utility/xManager.hpp>
 
 namespace jub {
+
+	template <class T>
+	class AutoContext {
+		T* p;
+	public:
+		AutoContext(T* pp) :p(pp) {};
+		T* operator ->() { 
+			if (jub::ContextManager::GetInstance()->getLast() != p)
+			{
+				//active the context
+				p->activeSelf();
+			}
+			return p; 
+		}
+	};
+
 
 	class Context {
 	public:

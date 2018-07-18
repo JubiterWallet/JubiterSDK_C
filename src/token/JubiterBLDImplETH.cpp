@@ -17,7 +17,7 @@ namespace jub {
 
 
 #define SWITCH_TO_ETH_APP  do {				                    \
-		JUB_VERIFY_RV(_selectApp(PKIAID_ETH,13));				\
+		JUB_VERIFY_RV(_selectApp(PKIAID_ETH,16));				\
 	} while (0);                                                \
 
 
@@ -49,12 +49,13 @@ namespace jub {
 
 	JUB_RV JubiterBLDImpl::getHDNode_ETH(JUB_BYTE format, std::string path, std::string& pubkey)
 	{
+		//path = "m/44'/60'/0'";
 		uchar_vector vPath;
 		vPath << path;
 		uchar_vector apduData = toTlv(0x08, vPath);
 
 		//0x00 for hex,0x01 for xpub
-		if (format != 0x00 && format != 0x01)
+		if (format != JUB_ETH_PUB_FORMAT::HEX && format != JUB_ETH_PUB_FORMAT::XPUB)
 		{
 			return JUBR_ERROR_ARGS;
 		}

@@ -224,6 +224,13 @@ enum JUB_BTC_UNIT_TYPE
 	Satoshi
 };
 
+
+enum JUB_ETH_PUB_FORMAT
+{
+	HEX = 0x00,
+	XPUB = 0x01
+};
+
 struct BIP32_Path
 {
 	JUB_ENUM_BOOL  change;
@@ -474,10 +481,19 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENU
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetHDNodeETH(IN JUB_BYTE format ,IN JUB_UINT16 contextID, IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey);
+JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID, IN JUB_ETH_PUB_FORMAT format , IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey);
 
 
 
+
+/*****************************************************************************
+* @function name : JUB_GetMainHDNodeETH
+* @in param : 
+* @out param : 
+* @last change : 
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID, IN JUB_ETH_PUB_FORMAT format, OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
 * @function name : JUB_SetMyAddressETH

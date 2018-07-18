@@ -52,13 +52,18 @@ namespace jub {
 
 		JUB_VERIFY_RV(token->setUnit_BTC(_unit_type));
 
+		return JUBR_OK;
+
 	}
 
 	JUB_RV ContextBTC::activeSelf()
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
-		return token->selectApplet_BTC();
+		JUB_VERIFY_RV(token->selectApplet_BTC());
+		JUB_VERIFY_RV(token->setTimeout(_timeout));
+		JUB_VERIFY_RV(token->setUnit_BTC(_unit_type));
+		return JUBR_OK;
 	}
 
 	JUB_RV ContextBTC::signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, std::string& raw)

@@ -27,6 +27,7 @@ namespace jub {
 			_type = cfg.type;
 			_deviceID = deviceID;
 			_unit_type = mBTC;
+			_timeout = 120 * 2;
 		};
 		~ContextBTC() {};
 

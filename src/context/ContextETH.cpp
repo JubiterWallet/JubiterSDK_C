@@ -12,7 +12,10 @@ namespace jub {
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
 		JUB_CHECK_NULL(token);
-		return token->selectApplet_ETH();
+		JUB_VERIFY_RV(token->selectApplet_ETH());
+		JUB_VERIFY_RV(token->setTimeout(_timeout));
+		//ETH don`t set unit
+		return JUBR_OK;
 	}
 
 
@@ -23,6 +26,14 @@ namespace jub {
 		std::string str_path = full_bip32_path(path);
 
 		return token->getAddress_ETH(str_path, tag, address);
+	}
+
+	JUB_RV ContextETH::getMainHDNode(JUB_BYTE format, std::string& xpub)
+	{
+		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+		JUB_CHECK_NULL(token);
+
+		return token->getHDNode_ETH(format,_main_path, xpub);
 	}
 
 	JUB_RV ContextETH::setMyAddress(BIP32_Path path, std::string& address)
@@ -81,7 +92,7 @@ namespace jub {
 
 
 		bool Is_ERC20 = false;
-		if (0 == memcmp(input,"0xa9059cbb",6)) // erc20 function sign
+		if (0 == memcmp(input,"0xa9059cbb",10)) // erc20 function sign
 		{
 			Is_ERC20 = true;
 		}
