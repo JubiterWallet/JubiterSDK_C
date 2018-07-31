@@ -93,6 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/formats</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,6 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/formats</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4819</DisableSpecificWarnings>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
