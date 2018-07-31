@@ -1,7 +1,7 @@
 {
   "ver": "01000000",
-  "p2sh-segwit" : false,
-  "main_path" : "m/44'/0'/0'",
+  "p2sh-segwit" : true,
+  "main_path" : "m/49'/0'/0'",
   "inputs": [
     {
       "preHash": "2a2e910f9fb2b04f7f1ddbfb4ab05785250c2b395f572ce591167c8451f0891e",
