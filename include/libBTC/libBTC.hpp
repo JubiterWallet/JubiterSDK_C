@@ -138,6 +138,12 @@ namespace jub {
 				unsinged_trans && script_pub;
 			}
 
+			//witness 00
+			if (type == p2sh_p2wpkh)
+			{
+				unsinged_trans << (JUB_BYTE)0x00;
+			}
+
 			unsinged_trans << locktime;
 			unsigned_raw = unsinged_trans;
 			return JUBR_OK;

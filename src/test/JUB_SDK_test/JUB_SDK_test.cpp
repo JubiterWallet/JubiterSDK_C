@@ -796,6 +796,7 @@ void main_test()
 			break;
 		case 2:
 			send_apud_test(deviceID);
+			break;
 		case 3:
 			BTC_test();
 			break;
