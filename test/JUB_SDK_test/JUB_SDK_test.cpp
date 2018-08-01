@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "../../../include/JUB_SDK.h"
+#include "../../include/JUB_SDK.h"
 #include <vector>
 #include <iostream>
 #include <json/json.h>
