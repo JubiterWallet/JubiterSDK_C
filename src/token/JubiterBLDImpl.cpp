@@ -63,9 +63,6 @@ namespace jub {
 		for (auto appid : appList)
 		{
 			uchar_vector id(appid);
-			uchar_vector mainid(PKIAID_FIDO, 8);
-			if(id == mainid)
-				continue;
 			applet_list += id.getHex();
 			applet_list += " ";
 		}
@@ -79,21 +76,57 @@ namespace jub {
 	{
 		uchar_vector id(appID);
 
-		APDU apdu(0x00, 0xA4, 0x04, 0x00, id.size(), &id[0]);
-
-		JUB_UINT16 ret = 0;
-		JUB_BYTE retData[1024] = { 0 };
-		JUB_ULONG retLen = sizeof(retData);
-		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
-		if (0x9000 != ret) {
-			return JUBR_TRANSMIT_DEVICE_ERROR;
-		}
-
-		if (retData[2] == 0x84 && retData[3] == 0x04)
+		uchar_vector FidoId(PKIAID_FIDO, 8);
+		if (id == FidoId)
 		{
-			uchar_vector v_version(&retData[4], 4);
+			//select 
+			APDU apdu(0x00, 0xA4, 0x04, 0x00, id.size(), &id[0]);
+
+			JUB_UINT16 ret = 0;
+			JUB_BYTE retData[1024] = { 0 };
+			JUB_ULONG retLen = sizeof(retData);
+			JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+			if (0x9000 != ret) {
+				return JUBR_TRANSMIT_DEVICE_ERROR;
+			}
+
+			//get version
+
+
+			uchar_vector apdu_data = "DFFF028001";
+
+			APDU apdu_version(0x80, 0xE2, 0x80, 0x00, apdu_data.size(), &apdu_data[0],0x00);
+
+			JUB_BYTE retData_version[1024] = { 0 };
+			JUB_ULONG retLen_version = sizeof(retData_version);
+			JUB_VERIFY_RV(_sendApdu(&apdu_version, ret, retData_version, &retLen_version));
+			if (0x9000 != ret) {
+				return JUBR_TRANSMIT_DEVICE_ERROR;
+			}
+
+			uchar_vector v_version(&retData_version[6], 4);
 			version = v_version.getHex();
 			return JUBR_OK;
+		}
+		else
+		{
+			APDU apdu(0x00, 0xA4, 0x04, 0x00, id.size(), &id[0]);
+
+			JUB_UINT16 ret = 0;
+			JUB_BYTE retData[1024] = { 0 };
+			JUB_ULONG retLen = sizeof(retData);
+			JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
+			if (0x9000 != ret) {
+				return JUBR_TRANSMIT_DEVICE_ERROR;
+			}
+
+			if (retData[2] == 0x84 && retData[3] == 0x04)
+			{
+				uchar_vector v_version(&retData[4], 4);
+				version = v_version.getHex();
+				return JUBR_OK;
+			}
+
 		}
 
 		return JUBR_ERROR;
