@@ -95,6 +95,11 @@ class JubiterBLDImpl : public TokenInterface {
 	virtual JUB_RV setTimeout(JUB_UINT16 timeout);
 
 
+	// get function
+	std::string getPath() { return _path; };
+
+
+
 	private:
 
 	JUB_RV _selectApp(const JUB_BYTE PKIAID[],JUB_BYTE length);

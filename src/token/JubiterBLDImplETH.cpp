@@ -89,7 +89,14 @@ namespace jub {
 
 		uchar_vector data;
 
-		data << toTlv(0x41, nonce);
+		if (nonce[0] == 0x00)
+		{
+			data << (JUB_BYTE)0x41;
+			data << (JUB_BYTE)0x00;
+		}
+		else
+			data << toTlv(0x41, nonce);
+
 		data << toTlv(0x42, gasPrice);
 		data << toTlv(0x43, gasLimit);
 		data << toTlv(0x44, To);

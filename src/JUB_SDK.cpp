@@ -69,10 +69,28 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 
     auto path_list = jub::JubiterHidDevice::enumDevice();
 
+	auto isInManager = [](std::string path)-> bool {
+
+		auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
+		for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++)
+		{
+			auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->getOne(i);
+			if (path == token->getPath())
+			{
+				return true;
+			}
+		}
+		return false;
+	
+	};
+
 	for (auto path : path_list)
 	{
-		jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(path);
-		jub::TokenManager::GetInstance()->addOne(token);
+		if (!isInManager(path))
+		{
+			jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(path);
+			jub::TokenManager::GetInstance()->addOne(token);
+		}
 	}
 
 	auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
