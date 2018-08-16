@@ -36,6 +36,8 @@ public:
 		return _last;
 	};
 
+	void clearLast() { _last = nullptr; };
+
 	void clearOne(JUB_UINT16 ID)
 	{
 		auto it = _list.find(ID);

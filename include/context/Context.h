@@ -12,21 +12,6 @@
 
 namespace jub {
 
-	template <class T>
-	class AutoContext {
-		T* p;
-	public:
-		AutoContext(T* pp) :p(pp) {};
-		T* operator ->() { 
-			if (jub::ContextManager::GetInstance()->getLast() != p)
-			{
-				//active the context
-				p->activeSelf();
-			}
-			return p; 
-		}
-	};
-
 
 	class Context {
 	public:
@@ -57,6 +42,21 @@ namespace jub {
 
 	using ContextManager = Singleton<xManager<jub::Context>>;
 
+
+	template <class T>
+	class AutoContext {
+		T* p;
+	public:
+		AutoContext(T* pp) :p(pp) {};
+		T* operator ->() {
+			if (jub::ContextManager::GetInstance()->getLast() != p)
+			{
+				//active the context
+				p->activeSelf();
+			}
+			return p;
+		}
+	};
 }
 
 

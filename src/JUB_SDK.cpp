@@ -16,7 +16,7 @@
 
 
 static std::set<JUB_CHAR_CPTR> memPtrs;
-static constexpr char* Version_Format = "0.6.0.%02d%02d%02d";
+static constexpr char* Version_Format = "0.8.0.%02d%02d%02d";
 static char Version[20];
 
 inline JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf) {
@@ -74,8 +74,8 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 		auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
 		for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++)
 		{
-			auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->getOne(i);
-			if (path == token->getPath())
+			auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->getOne(vDeviceIDs[i]);
+			if (token && path == token->getPath())
 			{
 				return true;
 			}
@@ -303,7 +303,7 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR cert)
 	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
 	JUB_CHECK_NULL(token);
 	//选主安全域，不需要判断返回值，用来拿到后面的数据
-	token->isBootLoader();
+	JUB_IsBootLoader(deviceID);
 
 	std::string str_cert;
 	JUB_VERIFY_RV(token->getDeviceCert(str_cert));
@@ -336,7 +336,8 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
     JUB_VERIFY_RV(token->getLabel(label));*/
 
 	//选主安全域，不需要判断返回值，用来拿到后面的数据
-	token->isBootLoader();
+	JUB_IsBootLoader(deviceID);
+
 
     JUB_BYTE sn[24] = { 0 };
     JUB_BYTE label[32] = { 0 };
@@ -377,11 +378,9 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID)
     auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
     if (token == nullptr)
         return BOOL_FALSE;
+	jub::ContextManager::GetInstance()->clearLast();
     return (JUB_ENUM_BOOL)token->isBootLoader();
 }
-
-
-
 
 
 JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR applist)
