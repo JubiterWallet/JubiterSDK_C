@@ -69,6 +69,20 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 
     auto path_list = jub::JubiterHidDevice::enumDevice();
 
+
+	//deal removed key 
+	auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
+	for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++)
+	{
+		auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->getOne(vDeviceIDs[i]);
+		if (std::find(std::begin(path_list), std::end(path_list), token->getPath()) == std::end(path_list))
+		{
+			//removed key
+			jub::TokenManager::GetInstance()->clearOne(vDeviceIDs[i]);
+		}
+	}
+
+	//deal inserted key
 	auto isInManager = [](std::string path)-> bool {
 
 		auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
@@ -81,22 +95,23 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 			}
 		}
 		return false;
-	
+
 	};
 
 	for (auto path : path_list)
 	{
 		if (!isInManager(path))
 		{
+			//new inserted key
 			jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(path);
 			jub::TokenManager::GetInstance()->addOne(token);
 		}
 	}
 
-	auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
-	for (JUB_UINT16 i=0 ; i < std::min((size_t)MAX_DEVICE, vDeviceIDs.size()); i++)
+	auto _vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
+	for (JUB_UINT16 i=0 ; i < std::min((size_t)MAX_DEVICE, _vDeviceIDs.size()); i++)
 	{
-		deviceIDs[i] = vDeviceIDs[i];
+		deviceIDs[i] = _vDeviceIDs[i];
 	}
 #else
     return JUBR_IMPL_NOT_SUPPORT;

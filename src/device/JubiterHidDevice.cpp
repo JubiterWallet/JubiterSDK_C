@@ -18,17 +18,15 @@
 #include <utility/uchar_vector.h>
 namespace jub {
 JubiterHidDevice::JubiterHidDevice()
-    : pid(PID), vid(VID), m_handle(NULL), firstCmd(true) {}
+    : pid(PID), vid(VID), m_handle(NULL), firstCmd(true) {
+	hid_init();
+}
 
-JubiterHidDevice::~JubiterHidDevice() {}
+JubiterHidDevice::~JubiterHidDevice() { hid_exit(); }
 
 std::vector<std::string> JubiterHidDevice::enumDevice()
 {
 	std::vector<std::string> token_list;
-	if (0 != hid_init())
-	{
-		return token_list;
-	}
 
 	auto hid_dev = hid_enumerate(VID, PID);
 	auto hid_dev_head = hid_dev;

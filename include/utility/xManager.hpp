@@ -13,17 +13,14 @@ class xManager
 public:
 	xManager() { _last = nullptr; };
 	~xManager() {
-		for (auto it : _list)
-		{
-			delete it.second;
-		}
+		clearAll();
 	};
 
 	JUB_UINT16 addOne(T* x) {
 
-		JUB_UINT16 contextID = rand();
-		_list.insert(std::make_pair(contextID, x));
-		return contextID;
+		JUB_UINT16 ID = rand();
+		_list.insert(std::make_pair(ID, x));
+		return ID;
 	};
 
     JUB_UINT16 addOne(JUB_UINT16 ID, T* x) {
@@ -46,6 +43,15 @@ public:
 			delete it->second;
 			_list.erase(it);
 		}
+	}
+
+	void clearAll()
+	{
+		for (auto it : _list)
+		{
+			delete it.second;
+		}
+		_list.clear();
 	}
 
 	T* getOne(JUB_UINT16 ID)
