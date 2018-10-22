@@ -75,7 +75,7 @@ public:
 	}
 
 
-private:
+protected:
 	std::map<JUB_UINT16, T*> _list;
 	T* _last;
 };

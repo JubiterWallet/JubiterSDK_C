@@ -39,24 +39,27 @@ namespace jub {
 
 	};
 
-
-	using ContextManager = Singleton<xManager<jub::Context>>;
-
-
-	template <class T>
-	class AutoContext {
-		T* p;
+	class AutoContextManager :public xManager<jub::Context>
+	{
 	public:
-		AutoContext(T* pp) :p(pp) {};
-		T* operator ->() {
-			if (jub::ContextManager::GetInstance()->getLast() != p)
+		jub::Context* getOne(JUB_UINT16 ID)
+		{
+			auto it = _list.find(ID);
+			if (it != _list.end())
 			{
-				//active the context
-				p->activeSelf();
+				if (_last != it->second)
+				{
+					it->second->activeSelf();
+				}
+				_last = it->second;
+				return it->second;
 			}
-			return p;
+			return nullptr;
 		}
 	};
+
+
+	using ContextManager = Singleton<AutoContextManager>;
 }
 
 

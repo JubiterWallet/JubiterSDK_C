@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jub_SDK", "Jub_SDK\Jub_SDK.vcxproj", "{007D5BC1-AD87-4C25-99D2-5920EE8589A1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JUB_SDK_test", "test\JUB_SDK_test.vcxproj", "{3B5B260F-21F3-4452-A0DC-A6E97782059A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{007D5BC1-AD87-4C25-99D2-5920EE8589A1} = {007D5BC1-AD87-4C25-99D2-5920EE8589A1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
