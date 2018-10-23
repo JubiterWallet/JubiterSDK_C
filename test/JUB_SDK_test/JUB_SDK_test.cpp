@@ -389,6 +389,87 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 	}
 }
 
+void BCH_test()
+{
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_ListDeviceHid(deviceIDs);
+
+	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+	if (rv != JUBR_OK)
+	{
+		error_exit("cannot find JubtierWallet");
+	}
+
+	Json::Reader reader;
+	Json::Value root;
+	ifstream in("testBCH.json", ios::binary);
+	if (!in.is_open())
+	{
+		error_exit("Error opening json file\n");
+	}
+
+	if (!reader.parse(in, root))
+	{
+		error_exit("Error parse json file\n");
+	}
+	JUB_UINT16 contextID = 0;
+
+	try
+	{
+		CONTEXT_CONFIG_BTC cfg;
+		cfg.main_path = (char*)root["main_path"].asCString();
+		cfg.forkID = root["forkid"].asInt();
+		cfg.type = p2pkh;
+		JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);
+	}
+	catch (...)
+	{
+		error_exit("Error format json file\n");
+	}
+
+
+	while (true)
+	{
+		cout << "--------------------------------------" << endl;
+		cout << "|******* Jubiter Wallet BCH  ********|" << endl;
+		cout << "| 1. get_address_test.               |" << endl;
+		cout << "| 2. show_address_test.              |" << endl;
+		cout << "| 3. transaction_test.               |" << endl;
+		cout << "| 4. set_my_address_test.            |" << endl;
+		cout << "| 5. set_timeout_test.               |" << endl;
+		cout << "| 0. return.                         |" << endl;
+		cout << "--------------------------------------" << endl;
+		cout << "* Please enter your choice:" << endl;
+
+		int choice = 0;
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			get_address_test(contextID, root);
+			break;
+		case 2:
+			show_address_test(contextID);
+			break;
+		case 3:
+			transaction_test(contextID, root);
+			break;
+		case 4:
+			set_my_address_test_BTC(contextID);
+			break;
+		case 5:
+			set_timeout_test(contextID);
+			break;
+		case 0:
+			main_test();
+		default:
+			continue;
+		}
+	}
+
+}
+
 void BTC_test()
 {
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
@@ -779,7 +860,8 @@ void main_test()
 		cout << "| 1. get_device_info_test            |" << endl;
 		cout << "| 2. send_one_apdu_test.             |" << endl;
 		cout << "| 3. BTC_test.                       |" << endl;
-		cout << "| 4. ETH_test.                       |" << endl;
+		cout << "| 4. BCH_test.                       |" << endl;
+		cout << "| 5. ETH_test & ETC_test.            |" << endl;
 		cout << "| 99. get_version.                   |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
@@ -801,6 +883,9 @@ void main_test()
 			BTC_test();
 			break;
 		case 4:
+			BCH_test();
+			break;
+		case 5:
 			ETH_test();
 			break;
 		case 99:

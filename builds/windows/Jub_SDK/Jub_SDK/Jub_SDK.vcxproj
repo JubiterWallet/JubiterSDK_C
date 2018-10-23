@@ -165,6 +165,8 @@
     <ClInclude Include="..\..\..\..\include\device\JubiterBLEDevice.hpp" />
     <ClInclude Include="..\..\..\..\include\device\JubiterHidDevice.hpp" />
     <ClInclude Include="..\..\..\..\include\JUB_SDK.h" />
+    <ClInclude Include="..\..\..\..\include\libBCH\cashaddr.h" />
+    <ClInclude Include="..\..\..\..\include\libBCH\libBCH.hpp" />
     <ClInclude Include="..\..\..\..\include\libBTC\libBTC.hpp" />
     <ClInclude Include="..\..\..\..\include\libETH\ByteConverter.h" />
     <ClInclude Include="..\..\..\..\include\libETH\ERC20Abi.h" />
@@ -195,6 +197,7 @@
     <ClCompile Include="..\..\..\..\src\device\JubiterBLEDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp" />
+    <ClCompile Include="..\..\..\..\src\libBCH\cashaddr.cc" />
     <ClCompile Include="..\..\..\..\src\libETH\ByteConverter.cpp" />
     <ClCompile Include="..\..\..\..\src\libETH\ERC20Abi.cpp" />
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImpl.cpp" />

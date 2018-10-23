@@ -3,6 +3,7 @@
 #include <utility/util.hpp>
 #include <utility/uchar_vector.h>
 #include <libBTC/libBTC.hpp>
+#include <libBCH/libBCH.hpp>
 #include <token/interface/TokenInterface.hpp>
 
 
@@ -63,6 +64,7 @@ namespace jub {
 		JUB_VERIFY_RV(token->selectApplet_BTC());
 		JUB_VERIFY_RV(token->setTimeout(_timeout));
 		JUB_VERIFY_RV(token->setUnit_BTC(_unit_type));
+		JUB_VERIFY_RV(token->setForkID_BTC(_forkid));
 		return JUBR_OK;
 	}
 
@@ -98,7 +100,17 @@ namespace jub {
 
 		//build unsinged transaction
 		uchar_vector unsigned_trans;
-		jub::btc::serializeUnsignedTX(_type,inputs, outputs,locktime, unsigned_trans);
+
+		if (_forkid == 0) //BTC
+		{
+			jub::btc::serializeUnsignedTX(_type, inputs, outputs, locktime, unsigned_trans);
+		}
+		else if (_forkid == 0x40) //BCH
+		{
+			jub::bch::serializeUnsignedTX(_type, inputs, outputs, locktime, unsigned_trans);
+		}
+		else
+			return JUBR_IMPL_NOT_SUPPORT;
 
 		uchar_vector v_raw;
 		JUB_RV ret = token->signTX_BTC(_type, (JUB_UINT16)inputs.size(), vinput_amount, vinput_path, vchange_index, vchange_path, unsigned_trans, v_raw);

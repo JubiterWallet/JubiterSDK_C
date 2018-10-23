@@ -55,6 +55,12 @@
     <Filter Include="Source Files\libETH">
       <UniqueIdentifier>{616f0cc6-9d7e-4e1a-abfe-6e62edcfe3ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\libBCH">
+      <UniqueIdentifier>{3036bf01-72ff-4f32-abc8-5ac392a1174e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\libBCH">
+      <UniqueIdentifier>{a825574e-98d6-4181-bd1e-02c17b1a8a89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -156,6 +162,12 @@
     <ClInclude Include="..\..\..\..\include\libETH\ERC20Abi.h">
       <Filter>Header Files\libETH</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\libBCH\cashaddr.h">
+      <Filter>Header Files\libBCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\libBCH\libBCH.hpp">
+      <Filter>Header Files\libBTC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
@@ -235,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\libETH\ERC20Abi.cpp">
       <Filter>Source Files\libETH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\libBCH\cashaddr.cc">
+      <Filter>Source Files\libBCH</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

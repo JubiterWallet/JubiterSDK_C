@@ -11,6 +11,7 @@ namespace jub {
 	public:
 		virtual JUB_RV selectApplet_BTC() = 0;
 		virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit) = 0;
+		virtual JUB_RV setForkID_BTC(JUB_UINT16 forkID) = 0;
 		virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count, std::vector<JUB_UINT64> input_amount, std::vector<std::string> input_path, std::vector<JUB_UINT16> change_index, \
 			std::vector<std::string> change_path, std::vector<JUB_BYTE> unsiged_trans, std::vector<JUB_BYTE>& raw) = 0;
 
