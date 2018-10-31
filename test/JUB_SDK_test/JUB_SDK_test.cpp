@@ -15,7 +15,6 @@
 #include <sstream>
 #include <iostream>
 #include <cstring>
-#include <hidapi/hidapi.h>
 using namespace std;
 
 using std::getline;
