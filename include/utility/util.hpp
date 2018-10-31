@@ -12,6 +12,8 @@
 #include <sstream>
 #include <iterator>
 #include <cassert>
+#include <iostream>
+#include <cstring>
 
 #include <JUB_SDK.h>
 #include "endian.h"

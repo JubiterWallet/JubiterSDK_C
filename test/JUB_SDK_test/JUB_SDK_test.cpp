@@ -1,7 +1,10 @@
 // JUB_SDK_test.cpp : Defines the entry point for the console application.
 //
 
+#ifdef _WIN32
 #include "stdafx.h"
+#endif
+
 #include "../../include/JUB_SDK.h"
 #include <vector>
 #include <iostream>
@@ -10,6 +13,9 @@
 #include <fstream>  
 #include <string>
 #include <sstream>
+#include <iostream>
+#include <cstring>
+#include <hidapi/hidapi.h>
 using namespace std;
 
 using std::getline;
@@ -70,8 +76,8 @@ void get_device_info_test(JUB_UINT16 deviceID)
 	cout << "device pinMaxRetry :" << info.pin_max_retry << endl;
 	JUB_BYTE ble_version[5] = { 0 };
 	JUB_BYTE fw_version[5] = { 0 };
-	memcpy_s(ble_version, 5, info.ble_version, 4);
-	memcpy_s(fw_version, 5, info.firmware_version, 4);
+	memcpy(ble_version, info.ble_version, 4);
+	memcpy(fw_version, info.firmware_version, 4);
 	cout << "device ble_version :" << ble_version << endl;
 	cout << "device fw_version :" << fw_version << endl;
 
@@ -127,7 +133,7 @@ void verify_pin(JUB_UINT16 contextID)
 	JUB_RV rv = JUBR_ERROR;
 	while (rv)
 	{
-		//ÊäÈëpinµÄÎ»ÖÃ£¬ºá×ÅÊý123456789
+		//ï¿½ï¿½ï¿½ï¿½pinï¿½ï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½123456789
 		cout << "1 2 3" << endl;
 		cout << "4 5 6" << endl;
 		cout << "7 8 9" << endl;
@@ -293,7 +299,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 {
 	JUB_BTC_UNIT_TYPE unit = mBTC;
 
-	cout << "Please input BTCunit on JubiterBLD£º" << endl;
+	cout << "Please input BTCunit on JubiterBLDï¿½ï¿½" << endl;
 	cout << "1: BTC" << endl;
 	cout << "2: cBTC" << endl;
 	cout << "3: mBTC" << endl;
@@ -804,8 +810,8 @@ void getVersion(JUB_UINT16 deviceID)
 
 	JUB_BYTE ble_version[5] = { 0 };
 	JUB_BYTE fw_version[5] = { 0 };
-	memcpy_s(ble_version, 5, info.ble_version, 4);
-	memcpy_s(fw_version, 5, info.firmware_version, 4);
+	memcpy(ble_version, info.ble_version, 4);
+	memcpy(fw_version, info.firmware_version, 4);
 	cout << "device ble_version :" << ble_version << endl;
 	cout << "device fw_version :" << fw_version << endl;
 
@@ -904,9 +910,7 @@ void main_test()
 
 int main()
 {
-
 	main_test();
-
     return 0;
 }
 

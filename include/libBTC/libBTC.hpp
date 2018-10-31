@@ -21,7 +21,7 @@ namespace jub {
 		constexpr JUB_BYTE p2sh_version = 0x05;
 		constexpr JUB_BYTE p2pkh_version = 0x00;
 
-		constexpr JUB_CHAR_PTR segwit_hrl = "bc";
+		constexpr char segwit_hrl[] = "bc";
 
 		typedef std::vector<uint8_t> bech32_data;
 
@@ -77,7 +77,7 @@ namespace jub {
 			else
 			{
 				std::pair<std::string, bech32_data> dec = bech32::decode(address);
-				if (dec.first != segwit_hrl)
+				if (dec.first != std::string(segwit_hrl))
 				{
 					return JUBR_ERROR;
 				}
@@ -131,7 +131,7 @@ namespace jub {
 			for (auto output : outputs)
 			{
 				//amount
-				unsinged_trans << output.amount;
+				unsinged_trans << (uint64_t)output.amount;
 				//script_pub
 				uchar_vector script_pub;
 				if (JUBR_OK != buildScriptPubFromAddress(output.address, script_pub))

@@ -281,7 +281,7 @@ JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE& percent)
 	return JUBR_OK;
 #else
 	return JUBR_IMPL_NOT_SUPPORT;
-#endif;
+#endif
 }
 
 JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID, IN JUB_BTC_UNIT_TYPE unit)
@@ -317,7 +317,7 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR cert)
 {
 	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
 	JUB_CHECK_NULL(token);
-	//Ñ¡Ö÷°²È«Óò£¬²»ÐèÒªÅÐ¶Ï·µ»ØÖµ£¬ÓÃÀ´ÄÃµ½ºóÃæµÄÊý¾Ý
+	//Ñ¡ï¿½ï¿½ï¿½ï¿½È«ï¿½ò£¬²ï¿½ï¿½ï¿½Òªï¿½Ð¶Ï·ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JUB_IsBootLoader(deviceID);
 
 	std::string str_cert;
@@ -350,7 +350,7 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
     JUB_VERIFY_RV(token->getSN(sn));
     JUB_VERIFY_RV(token->getLabel(label));*/
 
-	//Ñ¡Ö÷°²È«Óò£¬²»ÐèÒªÅÐ¶Ï·µ»ØÖµ£¬ÓÃÀ´ÄÃµ½ºóÃæµÄÊý¾Ý
+	//Ñ¡ï¿½ï¿½ï¿½ï¿½È«ï¿½ò£¬²ï¿½ï¿½ï¿½Òªï¿½Ð¶Ï·ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	JUB_IsBootLoader(deviceID);
 
 

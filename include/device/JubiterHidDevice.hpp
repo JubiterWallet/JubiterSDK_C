@@ -5,8 +5,6 @@
 
 #ifdef HID_MODE
 
-#ifdef _WIN32
-
 #include <hidapi/hidapi/hidapi.h>
 #include <device/DeviceTypeBase.hpp>
 #include <vector>
@@ -55,10 +53,6 @@ class JubiterHidDevice : public DeviceTypeBase {
 };
 
 }
-
-
-#endif // #ifdef _WIN32
-
 
 #endif // HID_MODE
 #endif  // __JubiterHidDevice__

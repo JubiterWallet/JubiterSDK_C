@@ -134,7 +134,7 @@ namespace jub {
 		uchar_vector amountTLV;
 		for (auto amount : input_amount)
 		{
-			amountTLV << amount;
+			amountTLV << (uint64_t)amount;
 		}
 		apduData << toTlv(0x0e, amountTLV);
 

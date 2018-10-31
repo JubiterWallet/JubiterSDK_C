@@ -16,5 +16,15 @@ include_directories(${CMAKE_SOURCE_DIR}/deps)
 
 ADD_LIBRARY(JUB_SDK STATIC ${SRC_LIST})
 
-message("==========================")
-message("${SRC_LIST}")
+# test endian.h
+find_path(ENDIAN_PATH endian.h)
+find_path(SYS_ENDIAN_PATH sys/endian.h)
+
+if(ENDIAN_PATH)
+    message("ENDIAN_PATH = ${ENDIAN_PATH}")
+    target_compile_definitions(JUB_SDK PRIVATE HAVE_ENDIAN_H=1)
+elseif(SYS_ENDIAN_PATH)
+    message("SYS_ENDIAN_PATH = ${SYS_ENDIAN_PATH}")
+    target_compile_definitions(JUB_SDK PRIVATE HAVE_SYS_ENDIAN_H=1)
+endif()
+

@@ -95,7 +95,7 @@ namespace jub {
 			for (auto output : outputs)
 			{
 				//amount
-				unsinged_trans << output.amount;
+				unsinged_trans << (uint64_t)output.amount;
 				//script_pub
 				uchar_vector script_pub;
 				if (JUBR_OK != buildScriptPubFromAddress(output.address, script_pub))

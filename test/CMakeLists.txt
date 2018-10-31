@@ -32,18 +32,18 @@ if(MSVC)   # msvc
 
     endif()
 
+    SET(HID_API_LIBRARY debug ${HID_API_LIBRARY_DEBUG} optimized ${HID_API_LIBRARY_RELEASE})
+
 endif()
 
-
-SET(JUB_SDK_LIBRARY debug ${JUB_SDK_LIBRARY_DEBUG} optimized ${JUB_SDK_LIBRARY_RELEASE})
-SET(HID_API_LIBRARY debug ${HID_API_LIBRARY_DEBUG} optimized ${HID_API_LIBRARY_RELEASE})
-
-
-message("==========================")
-message("${CMAKE_SIZEOF_VOID_P}  ${JUB_SDK_LIBRARY}   ${HID_API_LIBRARY} " )
-
-add_executable(test "JUB_SDK_test/JUB_SDK_test.cpp" ${SRC_LIST})
+add_executable(JUB_test "JUB_SDK_test/JUB_SDK_test.cpp" ${SRC_LIST})
 
 #user lib
-target_link_libraries(test PRIVATE JUB_SDK ${HID_API_LIBRARY} Setupapi)
+if(msvc)
+    target_link_libraries(JUB_test PRIVATE JUB_SDK ${HID_API_LIBRARY} Setupapi)
+else()
+    target_link_libraries(JUB_test PRIVATE JUB_SDK hidapi-hidraw)  
+endif(msvc)
+
+
 
