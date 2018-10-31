@@ -166,7 +166,7 @@
       <Filter>Header Files\libBCH</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\include\libBCH\libBCH.hpp">
-      <Filter>Header Files\libBTC</Filter>
+      <Filter>Header Files\libBCH</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
