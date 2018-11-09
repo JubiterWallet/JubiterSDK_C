@@ -41,6 +41,8 @@ add_executable(JUB_test "JUB_SDK_test/JUB_SDK_test.cpp" ${SRC_LIST})
 #user lib
 if(msvc)
     target_link_libraries(JUB_test PRIVATE JUB_SDK ${HID_API_LIBRARY} Setupapi)
+elseif(APPLE)
+    target_link_libraries(JUB_test PRIVATE JUB_SDK hidapi)
 else()
     target_link_libraries(JUB_test PRIVATE JUB_SDK hidapi-hidraw)  
 endif(msvc)

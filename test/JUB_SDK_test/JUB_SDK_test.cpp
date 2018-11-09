@@ -40,8 +40,21 @@ void error_exit(char* message)
 }
 void main_test();
 
-void get_device_info_test(JUB_UINT16 deviceID)
+void get_device_info_test()
 {
+
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_ListDeviceHid(deviceIDs);
+
+
+	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+	if (rv != JUBR_OK)
+	{
+		error_exit("cannot find JubtierWallet");
+	}
+
+	JUB_UINT16 deviceID = deviceIDs[0];
+
 
 	char* applist;
 	JUB_EnumApplets(deviceID, &applist);
@@ -62,7 +75,7 @@ void get_device_info_test(JUB_UINT16 deviceID)
 
 
 	JUB_DEVICE_INFO info;
-	JUB_RV rv = JUB_GetDeviceInfo(deviceID, info);
+	rv = JUB_GetDeviceInfo(deviceID, info);
 	if (rv != JUBR_OK)
 	{
 		cout << "get device info error" << endl;
@@ -105,14 +118,26 @@ void set_timeout_test(JUB_UINT16 contextID)
 
 }
 
-void send_apud_test(JUB_UINT16 deviceID)
+void send_apud_test()
 {
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_ListDeviceHid(deviceIDs);
+
+
+	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+	if (rv != JUBR_OK)
+	{
+		error_exit("cannot find JubtierWallet");
+	}
+
+	JUB_UINT16 deviceID = deviceIDs[0];
+
 	cout << "please input apdu in hex:" << endl;
 	char apdu[4096+6] = { 0 };
 	cin >> apdu;
 
 	char* response = nullptr;
-	JUB_RV rv = JUB_SendOneApdu(deviceID, apdu, &response);
+	rv = JUB_SendOneApdu(deviceID, apdu, &response);
 
 	if (rv != JUBR_OK)
 	{
@@ -794,12 +819,24 @@ void ETH_test()
 	}
 }
 
-void getVersion(JUB_UINT16 deviceID)
+void getVersion()
 {
 	cout << "~~~~~~~~~~~Device Version ~~~~~~~~~~~~~~" << endl;
 
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_ListDeviceHid(deviceIDs);
+
+
+	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+	if (rv != JUBR_OK)
+	{
+		error_exit("cannot find JubtierWallet");
+	}
+
+	JUB_UINT16 deviceID = deviceIDs[0];
+
 	JUB_DEVICE_INFO info;
-	JUB_RV rv = JUB_GetDeviceInfo(deviceID, info);
+	rv = JUB_GetDeviceInfo(deviceID, info);
 	if (rv != JUBR_OK)
 	{
 		cout << "get device info error" << endl;
@@ -850,11 +887,13 @@ void main_test()
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
 	JUB_ListDeviceHid(deviceIDs);
 
+
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
 	if (rv != JUBR_OK)
 	{
 		error_exit("cannot find JubtierWallet");
 	}
+	
 
 	auto deviceID = deviceIDs[0];
 
@@ -872,6 +911,7 @@ void main_test()
 		cout << "--------------------------------------" << endl;
 		cout << "* Please enter your choice:" << endl;
 
+		JUB_DisconnetDeviceHid(deviceIDs[0]);
 
 		int choice = 0;
 		cin >> choice;
@@ -879,10 +919,10 @@ void main_test()
 		switch (choice)
 		{
 		case 1:
-			get_device_info_test(deviceID);
+			get_device_info_test();
 			break;
 		case 2:
-			send_apud_test(deviceID);
+			send_apud_test();
 			break;
 		case 3:
 			BTC_test();
@@ -894,7 +934,7 @@ void main_test()
 			ETH_test();
 			break;
 		case 99:
-			getVersion(deviceID);
+			getVersion();
 			break;
 
 		case 0:
