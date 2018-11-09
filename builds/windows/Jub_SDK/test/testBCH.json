@@ -1,40 +1,31 @@
 {
   "ver": "01000000",
   "forkid" : 64,
-  "main_path" : "m/44'/145'/0'",
+  "main_path" : "m/44'/0'/0'",
   "inputs": [
     {
-      "preHash": "2a2e910f9fb2b04f7f1ddbfb4ab05785250c2b395f572ce591167c8451f0891e",
-      "preIndex": 1,
-      "amount": 4920000,
+      "preHash": "c2f212115bd0035286c5b9cc3f8f05716af949f91e77d7748874d5fa7660969c",
+      "preIndex": 0,
+      "amount": 1347280,
       "bip32_path":{
         "change" :false,
-        "addressIndex":0
-      }
-    },
-    {
-      "preHash": "0fe4fafd846b18fe545bbc2dcb70ecb1290ec0de6219cd2299cd0a1561c8d583",
-      "preIndex": 0,
-      "amount": 10492,
-      "bip32_path":{
-        "change" :true,
         "addressIndex":0
       }
     }
   ],
   "outputs": [
     {
-      "address": "bitcoincash:ppm2qsznhks23z7629mms6s4cwef74vcwvn0h829pq",
-      "amount": 3744000,
+      "address": "bitcoincash:qz6zrmzswc2y926g34gjdz77urjlfv24yqs9xmqdru",
+      "amount": 100000,
       "change_address": false,
       "bip32_path":{
         "change" :false,
-        "addressIndex":0
+        "addressIndex":1
       }
     },
     {
       "address": "bitcoincash:qrpcjnmaauzq5rlu9rppcktllspnknypgve5r9r5r0",
-      "amount": 1018920,
+      "amount": 1237280,
       "change_address": false,
       "bip32_path":{
         "change" :false,
