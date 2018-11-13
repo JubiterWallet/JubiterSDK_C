@@ -1,0 +1,5 @@
+编译工程文件已经迁移到CMake
+1.安装CMake 3+
+2.Mac和Linux需要安装hidapi
+2.mkdir build & cd build & cmake ..
+3.make
