@@ -264,7 +264,12 @@ namespace jub {
 
 	JUB_RV JubiterBLDImpl::setForkID_BTC(JUB_UINT16 forkID)
 	{
-		APDU apdu(0x00, 0xf5, 0x00, JUB_BYTE(forkID), 0x00);
+		JUB_BYTE coin_type = 0;
+		if (forkID == 0x40)  //bch
+		{
+			coin_type = 0x01;
+		}
+		APDU apdu(0x00, 0xf5, coin_type, JUB_BYTE(forkID), 0x00);
 		JUB_UINT16 ret = 0;
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret));
 		if (0x9000 == ret)
