@@ -946,9 +946,40 @@ void main_test()
 	}
 
 }
+#ifdef _WIN32 
+#include <windows.h> 
+
+#else 
+
+#endif
+
+void monitor_test()
+{
+	while (true)
+	{
+		JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0 };
+		fill_n(deviceIDs, MAX_DEVICE, 0xffff);
+		auto count = 0;
+		JUB_RV rv = JUB_ListDeviceHid(deviceIDs);
+		for (auto id : deviceIDs)
+		{
+			if (id != 0xffff)
+			{
+				count++;
+			}
+		}
+		cout << count << endl;
+#ifdef _WIN32 
+		Sleep(1000);
+#else 
+		usleep(100 * 1000);
+#endif
+	}
+}
 
 int main()
 {
+	//monitor_test();
 	main_test();
     return 0;
 }

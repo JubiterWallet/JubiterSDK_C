@@ -3,6 +3,7 @@
 #define __xManager__
 
 #include <JUB_SDK.h>
+#include <ctime>
 #include <map>
 #include <vector>
 #include "util.h"
@@ -11,16 +12,23 @@ template <class T>
 class xManager
 {
 public:
-	xManager() { _last = nullptr; };
+	xManager() { _ID = 0;_last = nullptr; };
 	~xManager() {
 		clearAll();
 	};
 
 	JUB_UINT16 addOne(T* x) {
+		//srand((unsigned int)(time(NULL)));
+		//JUB_UINT16 ID = rand();
+		if (_ID == 65535)
+		{
+			_ID = 0;
+		}
+		JUB_UINT16 ID  = _ID++;
 
-		JUB_UINT16 ID = rand();
+		//std::cout << "Add ID:" << ID << std::endl;
 		_list.insert(std::make_pair(ID, x));
-		return ID;
+		return _ID;
 	};
 
     JUB_UINT16 addOne(JUB_UINT16 ID, T* x) {
@@ -37,6 +45,7 @@ public:
 
 	void clearOne(JUB_UINT16 ID)
 	{
+		//std::cout << "Clear ID:" << ID << std::endl;
 		auto it = _list.find(ID);
 		if (it != _list.end())
 		{
@@ -78,6 +87,7 @@ public:
 protected:
 	std::map<JUB_UINT16, T*> _list;
 	T* _last;
+	JUB_UINT16 _ID;
 };
 
 #endif

@@ -68,7 +68,7 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE])
 #ifdef HID_MODE
 
     auto path_list = jub::JubiterHidDevice::enumDevice();
-
+	//std::cout <<"** "<< path_list.size() << std::endl;
 
 	//deal removed key 
 	auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
