@@ -24,10 +24,10 @@ public:
 		{
 			_ID = 0;
 		}
-		JUB_UINT16 ID  = _ID++;
+		//JUB_UINT16 ID  = ++_ID;
 
 		//std::cout << "Add ID:" << ID << std::endl;
-		_list.insert(std::make_pair(ID, x));
+		_list.insert(std::make_pair(++_ID, x));
 		return _ID;
 	};
 
