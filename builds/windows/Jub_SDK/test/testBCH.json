@@ -4,9 +4,9 @@
   "main_path" : "m/44'/0'/0'",
   "inputs": [
     {
-      "preHash": "c2f212115bd0035286c5b9cc3f8f05716af949f91e77d7748874d5fa7660969c",
-      "preIndex": 0,
-      "amount": 1347280,
+      "preHash": "27e1e2e5ac5341abe893d2f4ef89b1b4a94cbe71fc0e3198ccf8e04847ab0ffd",
+      "preIndex": 1,
+      "amount": 1237280,
       "bip32_path":{
         "change" :false,
         "addressIndex":0
@@ -25,7 +25,7 @@
     },
     {
       "address": "bitcoincash:qrpcjnmaauzq5rlu9rppcktllspnknypgve5r9r5r0",
-      "amount": 1237280,
+      "amount": 1127280,
       "change_address": false,
       "bip32_path":{
         "change" :false,

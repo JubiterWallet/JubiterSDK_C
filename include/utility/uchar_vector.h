@@ -131,7 +131,7 @@ namespace bitcoin {
 			uchar_vector& operator<<(uint64_t data)
 			{
 				uint8_t _data[8] = { 0x00, };
-				WriteLE64(_data, (uint32_t)data);
+				WriteLE64(_data, (uint64_t)data);
 				insert(end(), _data, _data + sizeof(_data));
 				return *this;
 			}

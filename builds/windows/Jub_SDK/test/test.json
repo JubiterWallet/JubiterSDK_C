@@ -6,7 +6,7 @@
     {
       "preHash": "2a2e910f9fb2b04f7f1ddbfb4ab05785250c2b395f572ce591167c8451f0891e",
       "preIndex": 1,
-      "amount": 4920000,
+      "amount": 4944420633545,
       "bip32_path":{
         "change" :false,
         "addressIndex":0
@@ -24,8 +24,8 @@
   ],
   "outputs": [
     {
-      "address": "3MA1nkDJhthnC7DxoixmhLiXTyFo1eKJu7",
-      "amount": 3744000,
+      "address": "1XKDbZWr9dJnrQJ1WPawv2TtVeVES8u5M",
+      "amount": 3744400045565,
       "change_address": false,
       "bip32_path":{
         "change" :false,
@@ -33,7 +33,7 @@
       }
     },
     {
-      "address": "1JpuFuiBfMzm99JzZG4rpZexxjortaH42t",
+      "address": "1XKDbZWr9dJnrQJ1WPawv2TtVeVES8u5M",
       "amount": 1018920,
       "change_address": false,
       "bip32_path":{

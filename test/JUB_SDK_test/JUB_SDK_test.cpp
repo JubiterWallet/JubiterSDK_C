@@ -323,7 +323,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 {
 	JUB_BTC_UNIT_TYPE unit = mBTC;
 
-	cout << "Please input BTCunit on JubiterBLD��" << endl;
+	cout << "Please input BTCunit on JubiterBLD" << endl;
 	cout << "1: BTC" << endl;
 	cout << "2: cBTC" << endl;
 	cout << "3: mBTC" << endl;
@@ -365,7 +365,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 			input.preIndex = root["inputs"][i]["preIndex"].asInt();
 			input.path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
 			input.path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
-			input.amount = root["inputs"][i]["amount"].asInt();
+			input.amount = root["inputs"][i]["amount"].asUInt64();
 			inputs.push_back(input);
 		}
 
@@ -378,7 +378,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 		{
 			OUTPUT_BTC output;
 			output.address = (char*)root["outputs"][i]["address"].asCString();
-			output.amount = root["outputs"][i]["amount"].asInt();
+			output.amount = root["outputs"][i]["amount"].asUInt64();
 			output.change_address = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
 			if (output.change_address)
 			{
@@ -419,88 +419,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 	}
 }
 
-void BCH_test()
-{
-	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
-	JUB_ListDeviceHid(deviceIDs);
-
-	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-	if (rv != JUBR_OK)
-	{
-		error_exit("cannot find JubtierWallet");
-	}
-
-	Json::Reader reader;
-	Json::Value root;
-	ifstream in("testBCH.json", ios::binary);
-	if (!in.is_open())
-	{
-		error_exit("Error opening json file\n");
-	}
-
-	if (!reader.parse(in, root))
-	{
-		error_exit("Error parse json file\n");
-	}
-	JUB_UINT16 contextID = 0;
-
-	try
-	{
-		CONTEXT_CONFIG_BTC cfg;
-		cfg.main_path = (char*)root["main_path"].asCString();
-		cfg.forkID = root["forkid"].asInt();
-		cfg.type = p2pkh;
-		JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);
-	}
-	catch (...)
-	{
-		error_exit("Error format json file\n");
-	}
-
-
-	while (true)
-	{
-		cout << "--------------------------------------" << endl;
-		cout << "|******* Jubiter Wallet BCH  ********|" << endl;
-		cout << "| 1. get_address_test.               |" << endl;
-		cout << "| 2. show_address_test.              |" << endl;
-		cout << "| 3. transaction_test.               |" << endl;
-		cout << "| 4. set_my_address_test.            |" << endl;
-		cout << "| 5. set_timeout_test.               |" << endl;
-		cout << "| 0. return.                         |" << endl;
-		cout << "--------------------------------------" << endl;
-		cout << "* Please enter your choice:" << endl;
-
-		int choice = 0;
-		cin >> choice;
-
-		switch (choice)
-		{
-		case 1:
-			get_address_test(contextID, root);
-			break;
-		case 2:
-			show_address_test(contextID);
-			break;
-		case 3:
-			transaction_test(contextID, root);
-			break;
-		case 4:
-			set_my_address_test_BTC(contextID);
-			break;
-		case 5:
-			set_timeout_test(contextID);
-			break;
-		case 0:
-			main_test();
-		default:
-			continue;
-		}
-	}
-
-}
-
-void BTC_test()
+void BTC_test(char* json_file, JUB_ENUM_COINTYPE_BTC cointype)
 {
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
 	JUB_ListDeviceHid(deviceIDs);
@@ -514,15 +433,15 @@ void BTC_test()
 	char* applist;
 	rv = JUB_EnumApplets(deviceIDs[0], &applist);
 
-	Json::Reader reader;
+	Json::CharReaderBuilder builder;
 	Json::Value root;
-	ifstream in("test.json", ios::binary);
+	ifstream in(json_file, ios::binary);
 	if (!in.is_open())
 	{
 		error_exit("Error opening json file\n");
 	}
-
-	if (!reader.parse(in, root))
+	JSONCPP_STRING errs;
+	if (!parseFromStream(builder, in, &root, &errs))
 	{
 		error_exit("Error parse json file\n");
 	}
@@ -532,13 +451,23 @@ void BTC_test()
 	{
 		CONTEXT_CONFIG_BTC cfg;
 		cfg.main_path = (char*)root["main_path"].asCString();
-		cfg.forkID = 0;
-		if (root["p2sh-segwit"].asBool())
+		cfg.cointype = cointype;
+
+		if (cointype == COINBCH)
 		{
-			cfg.type = p2sh_p2wpkh;
+			cfg.transtype = p2pkh;
 		}
 		else
-			cfg.type = p2pkh;
+		{
+			if (root["p2sh-segwit"].asBool())
+			{
+				cfg.transtype = p2sh_p2wpkh;
+			}
+			else
+				cfg.transtype = p2pkh;
+		}
+
+
 		JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);
 	}
 	catch (...)
@@ -756,15 +685,15 @@ void ETH_test()
 
 
 
-	Json::Reader reader;
+	Json::CharReaderBuilder builder;
 	Json::Value root;
 	ifstream in("testETH.json", ios::binary);
 	if (!in.is_open())
 	{
 		error_exit("Error opening json file\n");
 	}
-
-	if (!reader.parse(in, root))
+	JSONCPP_STRING errs;
+	if (!parseFromStream(builder,in, &root , &errs))
 	{
 		error_exit("Error parse json file\n");
 	}
@@ -905,7 +834,8 @@ void main_test()
 		cout << "| 2. send_one_apdu_test.             |" << endl;
 		cout << "| 3. BTC_test.                       |" << endl;
 		cout << "| 4. BCH_test.                       |" << endl;
-		cout << "| 5. ETH_test & ETC_test.            |" << endl;
+		cout << "| 5. LTC_test.                       |" << endl;
+		cout << "| 6. ETH_test & ETC_test.            |" << endl;
 		cout << "| 99. get_version.                   |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
@@ -925,12 +855,15 @@ void main_test()
 			send_apud_test();
 			break;
 		case 3:
-			BTC_test();
+			BTC_test("test.json",COINBTC);
 			break;
 		case 4:
-			BCH_test();
+			BTC_test("testBCH.json",COINBCH);
 			break;
 		case 5:
+			BTC_test("testLTC.json", COINLTC);
+			break;
+		case 6:
 			ETH_test();
 			break;
 		case 99:

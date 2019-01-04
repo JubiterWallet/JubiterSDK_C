@@ -21,6 +21,9 @@ namespace jub {
 		constexpr JUB_BYTE p2sh_version = 0x05;
 		constexpr JUB_BYTE p2pkh_version = 0x00;
 
+		constexpr JUB_BYTE p2sh_version_LTC = 0x32;
+		constexpr JUB_BYTE p2pkh_version_LTC = 0x30;
+
 		constexpr char segwit_hrl[] = "bc";
 
 		typedef std::vector<uint8_t> bech32_data;
@@ -56,13 +59,13 @@ namespace jub {
 			bool rv = base58::DecodeBase58Check(address, vScript_pub);
 			if (rv)
 			{
-				if (vScript_pub[0] == p2sh_version) // p2sh
+				if (vScript_pub[0] == p2sh_version || vScript_pub[0] == p2sh_version_LTC) // p2sh
 				{
 					script_pub << OP_HASH160;
 					script_pub & uchar_vector(vScript_pub.begin() + 1, vScript_pub.end());
 					script_pub << OP_EQUAL;
 				}
-				else if (vScript_pub[0] == p2pkh_version) //p2pkh
+				else if (vScript_pub[0] == p2pkh_version || vScript_pub[0] == p2pkh_version_LTC) //p2pkh
 				{
 					script_pub << OP_DUP;
 					script_pub << OP_HASH160;

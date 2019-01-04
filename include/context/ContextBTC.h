@@ -23,10 +23,10 @@ namespace jub {
 		ContextBTC(CONTEXT_CONFIG_BTC cfg,JUB_UINT16 deviceID)
 		{
 			_main_path = cfg.main_path;
-			_forkid = cfg.forkID;
-			_type = cfg.type;
+			_transtype = cfg.transtype;
 			_deviceID = deviceID;
-			_unit_type = mBTC;
+			_unittype = mBTC;
+			_cointype = cfg.cointype;
 			_timeout = 120 * 2;
 		};
 		~ContextBTC() {};
@@ -48,9 +48,9 @@ namespace jub {
 
 	private:
 
-		int _forkid;
-		JUB_BTC_TRANS_TYPE _type;
-		JUB_BTC_UNIT_TYPE _unit_type;
+		JUB_ENUM_COINTYPE_BTC _cointype;
+		JUB_BTC_TRANS_TYPE    _transtype;
+		JUB_BTC_UNIT_TYPE	  _unittype;
 
 	};
 

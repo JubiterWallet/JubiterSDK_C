@@ -16,7 +16,7 @@
 
 
 static std::set<JUB_CHAR_CPTR> memPtrs;
-static constexpr char* Version_Format = "1.0.0.%02d%02d%02d";
+static constexpr char* Version_Format = "1.1.0.%02d%02d%02d";
 static char Version[20];
 
 inline JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf) {
@@ -160,8 +160,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg, IN JUB_UINT16 deviceID, O
     jub::ContextBTC* context = new jub::ContextBTC(cfg, deviceID);
     JUB_UINT16 _contextID = jub::ContextManager::GetInstance()->addOne(context);
     *contextID = _contextID;
-	context->activeSelf();
-    return JUBR_OK;
+	return context->activeSelf();
 }
 
 

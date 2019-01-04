@@ -17,6 +17,12 @@
     <Text Include="..\..\..\..\test\JUB_SDK_test\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\test\JUB_SDK_test\JUB_SDK_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\test\JUB_SDK_test\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\deps\jsoncpp\src\lib_json\json_reader.cpp">
       <Filter>deps</Filter>
     </ClCompile>
@@ -25,12 +31,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\deps\jsoncpp\src\lib_json\json_writer.cpp">
       <Filter>deps</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\test\JUB_SDK_test\JUB_SDK_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\test\JUB_SDK_test\stdafx.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

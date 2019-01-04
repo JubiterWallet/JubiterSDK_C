@@ -192,6 +192,13 @@ enum JUB_ENUM_BOOL
     BOOL_NR_ITEMS
 };
 
+enum JUB_ENUM_COINTYPE_BTC
+{
+	COINBTC = 0,
+	COINBCH,
+	COINLTC
+};
+
 struct JUB_DEVICE_INFO {
 	JUB_CHAR label[32];
 	JUB_CHAR sn[24];
@@ -238,9 +245,9 @@ struct BIP32_Path
 };
 
 struct CONTEXT_CONFIG_BTC {
-	JUB_CHAR_PTR		main_path;
-	JUB_UINT16			forkID;
-	JUB_BTC_TRANS_TYPE	type;
+	JUB_ENUM_COINTYPE_BTC   cointype = { JUB_ENUM_COINTYPE_BTC::COINBTC };
+	JUB_CHAR_PTR			main_path;
+	JUB_BTC_TRANS_TYPE		transtype;
 };
 
 
@@ -254,7 +261,7 @@ struct INPUT_BTC
 	JUB_CHAR_PTR	preHash;
 	JUB_UINT16      preIndex;
 	JUB_UINT64		amount;
-	BIP32_Path   path;
+	BIP32_Path      path;
 };
 
 struct OUTPUT_BTC
