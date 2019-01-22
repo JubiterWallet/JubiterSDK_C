@@ -15,6 +15,7 @@
 #include <sstream>
 #include <iostream>
 #include <cstring>
+#include <thread>
 using namespace std;
 
 using std::getline;
@@ -879,12 +880,6 @@ void main_test()
 	}
 
 }
-#ifdef _WIN32 
-#include <windows.h> 
-
-#else 
-
-#endif
 
 void monitor_test()
 {
@@ -902,11 +897,8 @@ void monitor_test()
 			}
 		}
 		cout << count << endl;
-#ifdef _WIN32 
-		Sleep(1000);
-#else 
-		usleep(100 * 1000);
-#endif
+
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 }
 
