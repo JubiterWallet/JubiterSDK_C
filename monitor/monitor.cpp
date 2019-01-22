@@ -7,7 +7,6 @@
 #include <atomic>
 
 using namespace std;
-static int count = 0;
 static std::atomic_bool isInsert{false};
 
 void get_device_info_test()
@@ -64,7 +63,6 @@ int hotplug_callback(struct libusb_context *ctx, struct libusb_device *dev,
   } else {
     printf("Unhandled event %d\n", event);
   }
-  count++;
   return 0;
 }
 
@@ -100,8 +98,8 @@ int main (void) {
   libusb_hotplug_callback_handle handle;
   int rc;
   libusb_init(NULL);
-  rc = libusb_hotplug_register_callback(NULL, LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED |
-                                        LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT, 0, 0x096e, 0x0891,
+  rc = libusb_hotplug_register_callback(NULL, (libusb_hotplug_event)(LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED |
+                                        LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT), LIBUSB_HOTPLUG_NO_FLAGS, 0x096e, 0x0891,
                                         LIBUSB_HOTPLUG_MATCH_ANY, hotplug_callback, NULL,
                                         &handle);
   if (LIBUSB_SUCCESS != rc) {
