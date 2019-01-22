@@ -15,7 +15,7 @@ void get_device_info_test()
 	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
 	JUB_ListDeviceHid(deviceIDs);
 
-  cout << "deviceID :" << deviceIDs[0] <<std::endl;
+  //cout << "deviceID :" << deviceIDs[0] <<std::endl;
 
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
 	if (rv != JUBR_OK)
@@ -68,17 +68,22 @@ int hotplug_callback(struct libusb_context *ctx, struct libusb_device *dev,
 
 
 
-void worker_thread()
+void worker_thread(bool wait_event)
 {
   while (1) {
-    libusb_handle_events_completed(NULL, NULL);
+    if(wait_event)
+      libusb_handle_events_completed(NULL, NULL);
+
     if(isInsert)
     {
-      std::this_thread::sleep_for(std::chrono::seconds(1));
       libusb_lock_events(NULL);
       try{
         //sometime exception
-         get_device_info_test();
+        std::cout << "Thread id :" << std::this_thread::get_id() << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        get_device_info_test();
+        
+
       }
       catch(...)
       {
@@ -87,10 +92,8 @@ void worker_thread()
 
       libusb_unlock_events(NULL);
     }
-    isInsert = false;
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
-
 }
 
 
@@ -107,7 +110,8 @@ int main (void) {
     libusb_exit(NULL);
     return EXIT_FAILURE;
   }
-  std::thread worker(worker_thread);
+  std::thread worker(worker_thread,true);
+  std::thread worker2(worker_thread,false);
   while (1) {
     //libusb_handle_events_completed(NULL, NULL);
     auto start = std::chrono::system_clock::now();
