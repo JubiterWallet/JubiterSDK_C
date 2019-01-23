@@ -36,6 +36,8 @@ void get_device_info_test()
 
 	cout << "device cert is :" << cert << endl;
 	JUB_FreeMemory(cert);
+
+  JUB_DisconnetDeviceHid(deviceIDs[0]);
 }
 
 
@@ -80,7 +82,7 @@ void worker_thread(bool wait_event)
       try{
         //sometime exception
         std::cout << "Thread id :" << std::this_thread::get_id() << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::seconds(2));
         get_device_info_test();
         
 
@@ -121,7 +123,7 @@ int main (void) {
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::cout << "main thread elapsed time: " << elapsed_seconds.count() << "s\n";
   }
-  worker.join();
+  //worker.join();
   libusb_hotplug_deregister_callback(NULL, handle);
   libusb_exit(NULL);
   return 0;
