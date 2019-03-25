@@ -168,6 +168,9 @@
     <ClInclude Include="..\..\..\..\include\libBCH\libBCH.hpp">
       <Filter>Header Files\libBCH</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\device\DeviceIOLogHelper.hpp">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">

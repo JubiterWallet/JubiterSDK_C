@@ -193,7 +193,7 @@ namespace jub {
 
 		apdu.SetApdu(0x00, 0x2A, 0x00, sigType, 0);
 		JUB_VERIFY_RV(_sendApdu(&apdu, ret, retData, &retLen));
-		if (0x6f08 == ret)
+		if (0x6f09 == ret)
 		{
 			return JUBR_USER_CANCEL;
 		}

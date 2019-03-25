@@ -14,7 +14,11 @@
 
 #include <iostream>  
 #include <utility/uchar_vector.h>
+#include <device/DeviceIOLogHelper.hpp>
+
 namespace jub {
+
+
 JubiterHidDevice::JubiterHidDevice()
     : pid(PID), vid(VID), m_handle(NULL), firstCmd(true) {
 	hid_init();
@@ -78,8 +82,7 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
     }
 
 #ifdef _DEBUG
-	uchar_vector log(sendData, sendData+ sendLen);
-	std::cout << log.getHex() << std::endl << std::endl;
+	DeviceIOLogHelper  handler(sendData, sendLen, pRetData, pulRetLen);
 #endif
 
 
