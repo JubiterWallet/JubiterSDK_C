@@ -378,13 +378,14 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 		for (int i = 0; i < output_number; i++)
 		{
 			OUTPUT_BTC output;
-			output.address = (char*)root["outputs"][i]["address"].asCString();
-			output.amount = root["outputs"][i]["amount"].asUInt64();
-			output.change_address = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
-			if (output.change_address)
+			output.type = OUTPUT_BTC_TYPE::P2PKH;
+			output.output_p2pkh.address = (char*)root["outputs"][i]["address"].asCString();
+			output.output_p2pkh.amount = root["outputs"][i]["amount"].asUInt64();
+			output.output_p2pkh.change_address = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
+			if (output.output_p2pkh.change_address)
 			{
-				output.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
-				output.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
+				output.output_p2pkh.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
+				output.output_p2pkh.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
 			}
 			outputs.push_back(output);
 		}
@@ -418,6 +419,166 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root)
 	{
 		error_exit("Error format json file\n");
 	}
+}
+
+void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root)
+{
+	verify_pin(contextID);
+	try
+	{
+		std::vector<INPUT_BTC> inputs;
+		std::vector<OUTPUT_BTC> outputs;
+		int input_number = root["inputs"].size();
+
+		for (int i = 0;i < input_number;i++)
+		{
+			INPUT_BTC input;
+			input.preHash = (char*)root["inputs"][i]["preHash"].asCString();
+			input.preIndex = root["inputs"][i]["preIndex"].asInt();
+			input.path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
+			input.path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
+			input.amount = root["inputs"][i]["amount"].asUInt64();
+			inputs.push_back(input);
+		}
+
+
+		int output_number = root["outputs"].size();
+
+
+
+		for (int i = 0; i < output_number; i++)
+		{
+			OUTPUT_BTC output;
+			output.type = OUTPUT_BTC_TYPE::P2PKH;
+			output.output_p2pkh.address = (char*)root["outputs"][i]["address"].asCString();
+			output.output_p2pkh.amount = root["outputs"][i]["amount"].asUInt64();
+			output.output_p2pkh.change_address = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
+			if (output.output_p2pkh.change_address)
+			{
+				output.output_p2pkh.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
+				output.output_p2pkh.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
+			}
+			outputs.push_back(output);
+		}
+
+
+
+		OUTPUT_BTC USDT_outputs[2] = {};
+		JUB_BuildUSDTOutputs(contextID, (char*)root["USDT_to"].asCString(), root["USDT_amount"].asUInt64(), USDT_outputs);
+		outputs.emplace_back(USDT_outputs[0]);
+		outputs.emplace_back(USDT_outputs[1]);
+
+
+		char* raw = nullptr;
+		JUB_RV rv = JUB_SignTransactionBTC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
+
+		if (rv == JUBR_USER_CANCEL)
+		{
+			cout << "User cancel the transaction !" << endl;
+			return;
+		}
+		if (rv != JUBR_OK || raw == nullptr)
+		{
+			cout << "error sign tx" << endl;
+			return;
+
+		}
+		if (raw)
+		{
+			cout << raw;
+			JUB_FreeMemory(raw);
+		}
+
+	}
+	catch (...)
+	{
+		error_exit("Error format json file\n");
+	}
+}
+
+void USDT_test(char* json_file)
+{
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_ListDeviceHid(deviceIDs);
+
+	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+	if (rv != JUBR_OK)
+	{
+		error_exit("cannot find JubtierWallet");
+	}
+
+	char* applist;
+	rv = JUB_EnumApplets(deviceIDs[0], &applist);
+
+	Json::CharReaderBuilder builder;
+	Json::Value root;
+	ifstream in(json_file, ios::binary);
+	if (!in.is_open())
+	{
+		error_exit("Error opening json file\n");
+	}
+	JSONCPP_STRING errs;
+	if (!parseFromStream(builder, in, &root, &errs))
+	{
+		error_exit("Error parse json file\n");
+	}
+	JUB_UINT16 contextID = 0;
+
+	try
+	{
+		CONTEXT_CONFIG_BTC cfg;
+		cfg.main_path = (char*)root["main_path"].asCString();
+		cfg.cointype = COINBTC;
+		cfg.transtype = p2pkh;
+
+		JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);
+	}
+	catch (...)
+	{
+		error_exit("Error format json file\n");
+	}
+
+	while (true)
+	{
+		cout << "--------------------------------------" << endl;
+		cout << "|******* Jubiter Wallet USDT ********|" << endl;
+		cout << "| 1. get_address_test.               |" << endl;
+		cout << "| 2. show_address_test.              |" << endl;
+		cout << "| 3. transaction_test.               |" << endl;
+		cout << "| 4. set_my_address_test.            |" << endl;
+		cout << "| 5. set_timeout_test.               |" << endl;
+		cout << "| 0. return.                         |" << endl;
+		cout << "--------------------------------------" << endl;
+		cout << "* Please enter your choice:" << endl;
+
+		int choice = 0;
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			get_address_test(contextID, root);
+			break;
+		case 2:
+			show_address_test(contextID);
+			break;
+		case 3:
+			transactionUSDT_test(contextID, root);
+			break;
+		case 4:
+			set_my_address_test_BTC(contextID);
+			break;
+		case 5:
+			set_timeout_test(contextID);
+			break;
+		case 0:
+			main_test();
+		default:
+			continue;
+		}
+	}
+
+
 }
 
 void BTC_test(char* json_file, JUB_ENUM_COINTYPE_BTC cointype)
@@ -836,7 +997,8 @@ void main_test()
 		cout << "| 3. BTC_test.                       |" << endl;
 		cout << "| 4. BCH_test.                       |" << endl;
 		cout << "| 5. LTC_test.                       |" << endl;
-		cout << "| 6. ETH_test & ETC_test.            |" << endl;
+		cout << "| 6. USDT_test.                      |" << endl;
+		cout << "| 7. ETH_test & ETC_test.            |" << endl;
 		cout << "| 99. get_version.                   |" << endl;
 		cout << "| 0. exit.                           |" << endl;
 		cout << "--------------------------------------" << endl;
@@ -865,6 +1027,9 @@ void main_test()
 			BTC_test("testLTC.json", COINLTC);
 			break;
 		case 6:
+			USDT_test("testUSDT.json");
+			break;
+		case 7:
 			ETH_test();
 			break;
 		case 99:

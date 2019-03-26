@@ -42,15 +42,15 @@ namespace jub {
 
 
 
-
+		virtual JUB_RV buildUSDTOutputs(IN JUB_CHAR_PTR USDT_to, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
 		virtual ContextBTC* GetClassType(void) { return this; }
 		virtual JUB_RV activeSelf();
 
 	private:
 
-		JUB_ENUM_COINTYPE_BTC _cointype;
-		JUB_BTC_TRANS_TYPE    _transtype;
-		JUB_BTC_UNIT_TYPE	  _unittype;
+		JUB_ENUM_COINTYPE_BTC _cointype{ COINBTC };
+		JUB_BTC_TRANS_TYPE    _transtype{ p2pkh };
+		JUB_BTC_UNIT_TYPE	  _unittype{ mBTC };
 
 	};
 

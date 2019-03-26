@@ -94,15 +94,36 @@ namespace jub {
 			unsinged_trans << (JUB_BYTE)outputs.size();
 			for (auto output : outputs)
 			{
-				//amount
-				unsinged_trans << (uint64_t)output.amount;
-				//script_pub
-				uchar_vector script_pub;
-				if (JUBR_OK != buildScriptPubFromAddress(output.address, script_pub))
+				switch (output.type)
 				{
-					return JUBR_ERROR;
+				case OUTPUT_BTC_TYPE::P2PKH:
+				{
+					//amount
+					unsinged_trans << (uint64_t)output.output_p2pkh.amount;
+					//script_pub
+					uchar_vector script_pub;
+					if (JUBR_OK != buildScriptPubFromAddress(output.output_p2pkh.address, script_pub))
+					{
+						return JUBR_ERROR;
+					}
+					unsinged_trans && script_pub;
 				}
-				unsinged_trans && script_pub;
+				break;
+				case OUTPUT_BTC_TYPE::RETURN0:
+				{
+					unsinged_trans << (uint64_t)output.output_return0.amount;
+					uchar_vector script_pub;
+					script_pub << (JUB_BYTE)0x6a; //op_return0
+					script_pub << output.output_return0.data_len;
+					script_pub.insert(script_pub.end(), output.output_return0.data, output.output_return0.data + output.output_return0.data_len);
+
+					unsinged_trans && script_pub;
+				}
+				break;
+
+				default:
+					break;
+				}
 			}
 			unsinged_trans << locktime;
 			unsigned_raw = unsinged_trans;

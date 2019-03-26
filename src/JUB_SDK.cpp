@@ -171,6 +171,16 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID)
 }
 
 
+JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR USDT_to, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2])
+{
+	JUB_CHECK_CONTEXT_BTC(contextID);
+	jub::ContextBTC* context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->getOne(contextID);
+	JUB_CHECK_NULL(context);
+
+	return context->buildUSDTOutputs(USDT_to, amount, outputs);
+}
+
+
 JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID , IN INPUT_BTC inputs[], IN JUB_UINT16 iCount, IN OUTPUT_BTC outputs[], IN JUB_UINT16 oCount, IN JUB_UINT32 locktime, OUT JUB_CHAR_PTR_PTR raw)
 {
     std::vector<INPUT_BTC> vInputs(inputs, inputs + iCount);

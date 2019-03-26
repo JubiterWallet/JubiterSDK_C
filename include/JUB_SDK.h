@@ -264,12 +264,36 @@ struct INPUT_BTC
 	BIP32_Path      path;
 };
 
-struct OUTPUT_BTC
+enum OUTPUT_BTC_TYPE
+{
+	P2PKH = 0x00,
+	RETURN0 = 0x01
+};
+
+struct OUTPUT_P2PKH
 {
 	JUB_CHAR_PTR	address;
 	JUB_UINT64		amount;
 	JUB_ENUM_BOOL   change_address;
 	BIP32_Path      path;
+};
+
+struct OUTPUT_RETURN0
+{
+	JUB_UINT64		amount;
+	JUB_UINT16      data_len;
+	JUB_BYTE        data[40];	
+};
+
+
+struct OUTPUT_BTC
+{
+	OUTPUT_BTC_TYPE type;
+	union 
+	{
+		OUTPUT_P2PKH   output_p2pkh;
+		OUTPUT_RETURN0 output_return0;
+	};
 };
 
 /*****************************************************************************
@@ -373,6 +397,16 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg , IN JUB_UINT16 deviceID, 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID);
+
+
+/*****************************************************************************
+* @function name : JUB_BuildUSDTOutputs
+* @in param :
+* @out param :
+* @last change : build the return0 and dust 2 outputs
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR USDT_to, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
 
 
 /*****************************************************************************

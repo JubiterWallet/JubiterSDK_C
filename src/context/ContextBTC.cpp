@@ -68,6 +68,28 @@ namespace jub {
 		return JUBR_OK;
 	}
 
+	JUB_RV ContextBTC::buildUSDTOutputs(IN JUB_CHAR_PTR USDT_to, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2])
+	{
+		//build return0 output
+		outputs[0].type = OUTPUT_BTC_TYPE::RETURN0;
+		outputs[0].output_return0.amount = 0;
+		outputs[0].output_return0.data_len = 20;
+		uchar_vector usdt_data = "6f6d6e69000000000000001f";
+		uint8_t amountBE[8] = { 0x00, };
+		WriteBE64(amountBE, amount);
+		usdt_data.insert(usdt_data.end(), amountBE, amountBE + 8);
+		memcpy(outputs[0].output_return0.data, &usdt_data[0],20);
+
+
+		//build dust output
+		outputs[1].type = OUTPUT_BTC_TYPE::P2PKH;
+		outputs[1].output_p2pkh.address = USDT_to;
+		outputs[1].output_p2pkh.amount = 546;
+		outputs[1].output_p2pkh.change_address = BOOL_FALSE;
+
+		return JUBR_OK;
+	}
+
 	JUB_RV ContextBTC::signTX(std::vector<INPUT_BTC> inputs, std::vector<OUTPUT_BTC> outputs, JUB_UINT32 locktime, std::string& raw)
 	{
 		auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
@@ -91,11 +113,15 @@ namespace jub {
 		std::vector<std::string> vchange_path;
 		for (std::size_t i = 0, e = outputs.size(); i != e; ++i)
 		{ 
-			if (outputs[i].change_address)
+			if (outputs[i].type == OUTPUT_BTC_TYPE::P2PKH)
 			{
-				vchange_index.push_back((JUB_UINT16)i);
-				vchange_path.push_back(full_bip32_path(outputs[i].path));
+				if (outputs[i].output_p2pkh.change_address)
+				{
+					vchange_index.push_back((JUB_UINT16)i);
+					vchange_path.push_back(full_bip32_path(outputs[i].output_p2pkh.path));
+				}
 			}
+
 		}
 
 		//build unsinged transaction
