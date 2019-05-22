@@ -528,7 +528,7 @@ void USDT_test(char* json_file)
 	{
 		CONTEXT_CONFIG_BTC cfg;
 		cfg.main_path = (char*)root["main_path"].asCString();
-		cfg.cointype = COINBTC;
+		cfg.cointype = COINUSDT;
 		cfg.transtype = p2pkh;
 
 		JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);

@@ -128,7 +128,7 @@ namespace jub {
 		uchar_vector unsigned_trans;
 		JUB_RV ret = JUBR_OK;
 
-		if (_cointype == COINBTC || _cointype == COINLTC) //BTC&LTC
+		if (_cointype == COINBTC || _cointype == COINLTC || _cointype == COINUSDT) //BTC&LTC
 		{
 			ret = jub::btc::serializeUnsignedTX(_transtype, inputs, outputs, locktime, unsigned_trans);
 		}
