@@ -5,18 +5,18 @@
 #ifndef JUBITER_FIDO_FIDO_H
 #define JUBITER_FIDO_FIDO_H
 
-#include <stdio.h>
 #include <vector>
 #include <string>
-#include <JUB_SDK.h>
+#include <mutex>
+#include <condition_variable>
 
+#include <jub/JUB_core.h>
 
 // 协议头
 #define CMD_PING        0x81  // ping test cmd header
 #define CMD_KEEP_ALIVE  0x82  // device keep alive cmd header
 #define CMD_MSG         0x83  // messge cmd header
 #define CMD_ERROR       0xBF  // error response cmd header
-
 
 
 #define ERR_INVALID_CMD   0x01; //The command in the request is unknown/invalid
@@ -35,122 +35,85 @@
 
 typedef std::vector<unsigned char> MSGTYPE;
 
-static bool mIsError = false;
-static bool mIsKeepAlive = false;
-
-typedef struct {
-    std::string  name;
-    std::string  uuid;
-    JUB_ULONG    devType;
-    unsigned int ulHeader;
-} slotInfo;
-
-
 class Fido
 {
 public:
-    friend Fido* GetFido();
-
-    virtual ~Fido();
-
-    Fido();
-
-public:
-
-    virtual unsigned int finalize();
-
-    virtual unsigned int clear();
-
-//    virtual unsigned int sendAPDU (
-//            unsigned long  devHandle,
-//            unsigned char* bOrder,
-//            unsigned int   orderLen,
-//            unsigned char* bResponse,
-//            unsigned int*  responseLen,
-//            unsigned int   timeout = 2000
-//    );
-
-    static int RecvCallBack (
-            unsigned long  devHandle,
-            unsigned char* data,
-            unsigned int   dataLen
-    );
-
-    virtual bool getRecv (
-            /**< recvMsg */
-            MSGTYPE* vRecv
-    );
-
-    virtual bool hasError();
-
-    virtual bool isKeepAlive();
-
-//    virtual unsigned int sendToDev (
-//            unsigned long  devHandle,
-//            unsigned char* pSendMsg,
-//            unsigned int   ulSendMsgLen,
-//            unsigned char* pRecvMsg,
-//            unsigned int*  pulRecvLen,
-//            unsigned int   timeout = 2000
-//    );
-
-    virtual unsigned int basicApduAddHeadAndLength(
-            unsigned char paramHeader,
-            unsigned char* pSendMsg,
-            unsigned int   ulSendMsgLen,
-            unsigned char* pRecvMsg,
-            unsigned int*  pulRecvLen
-
-    );
-
-    virtual unsigned int wrapFidoApdu(
-            unsigned char paramHeader,
-            unsigned char* pSendMsg,
-            unsigned int   ulSendMsgLen,
-            unsigned char* pRecvMsg,
-            unsigned int*  pulRecvLen
-    );
-
-    virtual unsigned int parseFidoApdu(
-            unsigned char *pSendMsg,
-            unsigned int ulSendMsgLen,
-            unsigned char *pRecvMsg,
-            unsigned int *pulRecvLen
-    );
-
-    virtual unsigned int removePkgIndex(
-            unsigned char *pSendMsg,
-            unsigned int ulSendMsgLen,
-            unsigned char *pRecvMsg,
-            unsigned int *pulRecvLen
-    );
-
-    virtual unsigned int removeCmdHeadAndStateCode(
-            unsigned char *pSendMsg,
-            unsigned int ulSendMsgLen,
-            unsigned char *pRecvMsg,
-            unsigned int *pulRecvLen
-    );
-
+    static Fido& instance();
 
 private:
+    ~Fido();
+    Fido() = default;
+    Fido(const Fido& ) = delete;
+    Fido& operator=(const Fido) = delete;
 
-    slotInfo     mSlotInfo[100];
+public:
+    unsigned int finalize();
+    unsigned int clear();
+    static int RecvCallBack (
+                             unsigned long  devHandle,
+                             unsigned char* data,
+                             unsigned int   dataLen
+                             );
+    MSGTYPE response();
 
-    // 互斥锁，设备添加与删除
-    pthread_mutex_t      mMutex;
-    pthread_mutex_t mSendRecvMutex; /**< sendToDev 互斥锁，防止指令重入 */
-    pthread_mutex_t mRecvBufMutex;  /**< 接收数据存储区互斥锁 */
+    unsigned int basicApduAddHeadAndLength(
+                                           unsigned char paramHeader,
+                                           unsigned char* pSendMsg,
+                                           unsigned int   ulSendMsgLen,
+                                           unsigned char* pRecvMsg,
+                                           unsigned int*  pulRecvLen
+                                           );
 
-    // 异步消息处理，用于判断是否操时
-    struct timeval  mStart;         /**< 指令开始时间 */
-    unsigned long   mTimeUsed;      /**< 已耗时 */
+    unsigned int wrapFidoApdu(
+                              unsigned char paramHeader,
+                              unsigned char* pSendMsg,
+                              unsigned int   ulSendMsgLen,
+                              unsigned char* pRecvMsg,
+                              unsigned int*  pulRecvLen
+                              );
 
-    MSGTYPE         mRecvMsg;       /**< 接收数据缓冲区 */
+    unsigned int parseFidoApdu(
+                               unsigned char *pSendMsg,
+                               unsigned int ulSendMsgLen,
+                               unsigned char *pRecvMsg,
+                               unsigned int *pulRecvLen
+                               );
 
-    bool  mIsInit;
+    unsigned int removePkgIndex(
+                                unsigned char *pSendMsg,
+                                unsigned int ulSendMsgLen,
+                                unsigned char *pRecvMsg,
+                                unsigned int *pulRecvLen
+                                );
 
+    unsigned int removeCmdHeadAndStateCode(
+                                           unsigned char *pSendMsg,
+                                           unsigned int ulSendMsgLen,
+                                           unsigned char *pRecvMsg,
+                                           unsigned int *pulRecvLen
+                                           );
+
+    void stopReceiving();
+
+    std::cv_status waitForReceive(unsigned long timeOut);
+
+    enum class ResponseStatus {
+        empty,          // have not receive
+        receiving,      // not complete
+        done,           // complete
+        invalid,        // receive, but not valid
+    };
+
+    ResponseStatus checkResponse();
+
+private:
+    std::mutex dog;
+    std::condition_variable waiter;
+
+    MSGTYPE mRecvMsg;       /**< 接收数据缓冲区 */
     unsigned char cmdHeader;
+    unsigned char pkgSeq = 0;
+    bool hasError = false;
 };
 
 Fido* GetFido();
