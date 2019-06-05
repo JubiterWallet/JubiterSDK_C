@@ -26,6 +26,8 @@ extern "C"
 
 
 
+unsigned int  ADDPRE(BLESetLibConfig(char * companyFirstTag[] ,char * companySecondTag[],unsigned char*supportProductType));
+    
 unsigned int  ADDPRE(BLEInitialize(BLE_AUX_INIT_PARAM* initPara));
 //模块使用结束函数
 unsigned int  ADDPRE(BLEFinalizedBLE());
@@ -44,10 +46,12 @@ unsigned int  ADDPRE(BLEDisconnect(unsigned long ulHandle));
 unsigned int  ADDPRE(BLESendData(unsigned long ulHandle,const unsigned char* bData, unsigned int dlen));
 //查询连接状态
 bool          ADDPRE(BLEIsConnected(unsigned long ulHandle));
-
+//设置是否重连
+void          ADDPRE(BLESetIsReConnected(bool on));
+//获取库版本
+unsigned int  ADDPRE(BLEGetLibVersion(char * libVersion));
+    
 #ifdef __cplusplus
 }
 #endif
-
-    
 #endif /* BLEInterface_h */

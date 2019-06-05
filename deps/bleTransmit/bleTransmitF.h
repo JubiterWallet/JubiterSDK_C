@@ -36,7 +36,7 @@ CK_FUNCTION_INFO(BLE_ConnDev)
  unsigned char* bBLEUUID,      /**< ble device UUID */
  unsigned int   connectType,   /**< ble device connect type */
  unsigned long* pDevHandle,    /**< output ble device connect handle */
- unsigned int   timeout = 3000 /**< timeout */
+ unsigned int   timeout = 3000 /**< 连接操时时间 */
  );
 #endif
 

@@ -12,6 +12,15 @@
 #define BT_ERR_ENV           0x8000003
 #define BT_ERR_CONTEXT       0x8000004
 
+#define BT_ERR_NOT_ENABLE              0x8000005
+#define BT_ERR_NOT_SUPPORT             0x8000006
+#define BT_ERR_NO_LOCATION_PERMISSION  0x8000007
+#define BT_ERR_CONNECT_FAIL            0x8000008
+#define BT_ERR_TRANSMIT_ERROR          0x8000009
+#define BT_ERR_BOND_FAIL               0x8000010
+
+
+
 #ifdef  JSSAFE
 #define BTManager    JS_BTManager
 #else
