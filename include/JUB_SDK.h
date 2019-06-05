@@ -37,13 +37,21 @@
 #define LCOV_EXCL_START(text)
 #define LCOV_EXCL_STOP()
 
-
-
-#if defined(ANDROID) || defined(TARGET_OS_IPHONE)
-#define BLE_MODE  
-#else
+#if defined(_WIN32)
 #define HID_MODE
-#endif
+#elif defined(__APPLE__)
+// see https://sourceforge.net/p/predef/mailman/message/34497133/
+#include <TargetConditionals.h>
+#if TARGET_OS_OSX // mac osx
+#define HID_MODE
+#elif TARGET_OS_IOS // ios
+#define BLE_MODE  
+#endif // #if TARGET_OS_OSX
+#elif defined(__ANDROID__)
+#define BLE_MODE  
+#else //other
+HID_MODE
+#endif // #if defined(_WIN32)
 
 
 /* === Library typedef: === */
