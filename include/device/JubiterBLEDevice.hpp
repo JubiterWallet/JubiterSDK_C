@@ -1,9 +1,9 @@
 #ifndef __JubiterBLEDevice__
 #define __JubiterBLEDevice__
 
-#include <jub/device/DeviceTypeBase.hpp>
+#include <device/DeviceTypeBase.hpp>
 
-#if USE_BLE_DEVICE
+#ifdef BLE_MODE
 #include <memory>
 #include <bleTransmit/bleTransmit.h>
 
@@ -16,7 +16,7 @@ class JubiterBLEDevice : public DeviceTypeBase {
 
    public:
     // for common device
-    virtual JUB_RV connect(const std::string& params = "");
+    virtual JUB_RV connect(const std::string path = "");
     virtual JUB_RV disconnect();
 
     virtual JUB_RV sendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG sendLen,

@@ -10,7 +10,7 @@
 #include <mutex>
 #include <condition_variable>
 
-#include <jub/JUB_core.h>
+#include <JUB_SDK.h>
 
 // 协议头
 #define CMD_PING        0x81  // ping test cmd header

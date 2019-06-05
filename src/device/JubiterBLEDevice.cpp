@@ -1,15 +1,15 @@
-#include <jub/device/JubiterBLEDevice.hpp>
-#include <jub/utility/uchar_vector.h>
+#include <device/JubiterBLEDevice.hpp>
+#include <utility/uchar_vector.h>
 
 #if USE_BLE_DEVICE
 #include <unistd.h>
 #include <sys/time.h>
 
-#include <jub/device/DeviceManager.hpp>
-#include <jub/utility/util.hpp>
+#include <device/DeviceManager.hpp>
+#include <utility/util.hpp>
 #include <bleTransmit/bleTransmit.h>
 //#include <logUtils.h>
-#include <jub/device/Fido.h>
+#include <device/Fido.h>
 
 #ifdef __ANDROID__
 #include <bleTransmit/android/BTManager.h>
@@ -60,7 +60,7 @@ JUB_RV JubiterBLEDevice::matchErrorCode(int error) {
 #endif
 }
 
-JUB_RV JubiterBLEDevice::connect(const std::string& params /* = ""*/) {
+JUB_RV JubiterBLEDevice::connect(const std::string params /* = ""*/) {
     // parse parms
 //     unsigned char guid[] = "0000-0000-0000";
 //

@@ -4,10 +4,10 @@
 #include <unistd.h>
 #include <mutex>
 
-#include <jub/JUB_core.h>
+#include <JUB_SDK.h>
 #include <bleTransmit/bleTransmit.h>
-#include <jub/device/Fido.h>
-#include <jub/utility/Debug.hpp>
+#include <device/Fido.h>
+#include <utility/Debug.hpp>
 
 #define __PASTE(x, y)                           x##y
 #define ADDPRE(name)                           __PASTE(FT_, name)
