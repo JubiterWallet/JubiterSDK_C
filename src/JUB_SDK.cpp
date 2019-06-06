@@ -290,7 +290,7 @@ JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE& percent)
 	return JUBR_OK;
 #else
 	return JUBR_IMPL_NOT_SUPPORT;
-#endif;
+#endif
 }
 
 JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID, IN JUB_BTC_UNIT_TYPE unit)
