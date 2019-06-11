@@ -613,6 +613,7 @@
 					../../include,
 					../../deps/bleTransmit,
 					../../deps/,
+					../../deps/bleTransmit/ios,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -630,6 +631,7 @@
 					../../include,
 					../../deps/bleTransmit,
 					../../deps/,
+					../../deps/bleTransmit/ios,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

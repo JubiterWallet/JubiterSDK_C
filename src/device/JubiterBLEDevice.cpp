@@ -1,11 +1,11 @@
 #include <device/JubiterBLEDevice.hpp>
 #include <utility/uchar_vector.h>
 
-#if USE_BLE_DEVICE
+#ifdef BLE_MODE
 #include <unistd.h>
 #include <sys/time.h>
 
-#include <device/DeviceManager.hpp>
+//#include <device/DeviceManager.hpp>
 #include <utility/util.hpp>
 #include <bleTransmit/bleTransmit.h>
 //#include <logUtils.h>
@@ -89,7 +89,7 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
     if (    0 == _handle
         || !FT_BLE_IsConn(_handle)
         ) {
-        JUB_RET_ERROR(JUBR_NOT_CONNECT_DEVICE);
+        return JUBR_NOT_CONNECT_DEVICE;
     }
 
     auto& fido = Fido::instance();
@@ -102,7 +102,7 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
 
     int ret = FT_BLE_SendAPDU(_handle, const_cast<unsigned char *>(_sendMsg), _sendLen);
     if (ret != 0) {
-        JUB_RET_ERROR(matchErrorCode(ret));
+        return matchErrorCode(ret);
     }
 
     auto status = fido.waitForReceive(ulMiliSecondTimeout);
@@ -220,9 +220,9 @@ void JubiterBLEDevice::setConnectStatuteFalse(){
 int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
                                        unsigned char* data,
                                        unsigned int dataLen) {
-    if (!(IS_BLE_MODE)) {
-        return IFD_NOT_SUPPORTED;
-    }
+//    if (!(IS_BLE_MODE)) {
+//        return IFD_NOT_SUPPORTED;
+//    }
 
     // analyse data here...
 
@@ -237,9 +237,9 @@ int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
 void JubiterBLEDevice::BLE_ScanCallBack(unsigned char* devName,
                                         unsigned char* uuid,
                                         unsigned int type) {
-    if (!(IS_BLE_MODE)) {
-        return;
-    }
+//    if (!(IS_BLE_MODE)) {
+//        return;
+//    }
 
     auto bleDevice = getThis();
     if (bleDevice) {
@@ -252,9 +252,9 @@ void JubiterBLEDevice::BLE_ScanCallBack(unsigned char* devName,
 }
 
 void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
-    if (!(IS_BLE_MODE)) {
-        return;
-    }
+//    if (!(IS_BLE_MODE)) {
+//        return;
+//    }
 
     auto bleDevice = getThis();
     if (bleDevice) {
@@ -303,11 +303,6 @@ void JubiterBLEDevice::extraSetting() {
     FT_BLESetIsReConnected(true);
 #endif // #if TARGET_OS_OSX
 #endif
-}
-
-std::shared_ptr<jub::JubiterBLEDevice> JubiterBLEDevice::getThis() {
-    return std::static_pointer_cast<jub::JubiterBLEDevice>(
-        jub::DeviceManager::getDevice());
 }
 
 }  // namespace jub

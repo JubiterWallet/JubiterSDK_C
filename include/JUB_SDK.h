@@ -185,6 +185,14 @@ typedef JUB_ULONG JUB_RV;
 #define JUBR_OTHER_ERROR            0x00001003
 #define JUBR_CMD_ERROR              0x00001004
 
+
+//*************** Bluetooth ********************
+#define JUBR_DEVICE_BUSY                      0x00001001UL
+#define JUBR_TRANSACT_TIMEOUT                 0x00001002UL
+#define JUBR_OTHER_ERROR                      0x00001003UL
+#define JUBR_CMD_ERROR                        0x00001004UL
+#define JUBR_BT_BOND_FAILED                   0x00001005UL
+
 #define JUBR_CUSTOM_DEFINED         0x80000000UL
 
 
