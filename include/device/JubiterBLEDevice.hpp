@@ -61,7 +61,7 @@ class JubiterBLEDevice : public DeviceTypeBase {
 
     JUB_RV matchErrorCode(int error);
 
-    static std::shared_ptr<jub::JubiterBLEDevice> getThis();
+    //static std::shared_ptr<jub::JubiterBLEDevice> getThis();
 
     // check ble version, and set ble library reconnect flag
     void extraSetting();

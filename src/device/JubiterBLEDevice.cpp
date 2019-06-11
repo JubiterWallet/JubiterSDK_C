@@ -8,6 +8,8 @@
 //#include <device/DeviceManager.hpp>
 #include <utility/util.hpp>
 #include <bleTransmit/bleTransmit.h>
+#include <utility/Singleton.h>
+#include <device/JubiterBLEDevice.hpp>
 //#include <logUtils.h>
 #include <device/Fido.h>
 
@@ -226,7 +228,7 @@ int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
 
     // analyse data here...
 
-    auto bleDevice = getThis();
+     auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
     if (bleDevice) {
         Fido::RecvCallBack(devHandle, data, dataLen);
     }
@@ -241,7 +243,7 @@ void JubiterBLEDevice::BLE_ScanCallBack(unsigned char* devName,
 //        return;
 //    }
 
-    auto bleDevice = getThis();
+     auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
     if (bleDevice) {
         if (bleDevice->outerParams.scanCallBack) {
             bleDevice->outerParams.scanCallBack(devName, uuid, type);
@@ -256,7 +258,7 @@ void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
 //        return;
 //    }
 
-    auto bleDevice = getThis();
+    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
     if (bleDevice) {
 		bleDevice->setHandle(0);
         bleDevice->setConnectStatuteFalse();
