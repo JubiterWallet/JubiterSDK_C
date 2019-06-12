@@ -76,7 +76,7 @@ void get_device_info_test()
 
 
 	JUB_DEVICE_INFO info;
-	rv = JUB_GetDeviceInfo(deviceID, info);
+	rv = JUB_GetDeviceInfo(deviceID, &info);
 	if (rv != JUBR_OK)
 	{
 		cout << "get device info error" << endl;
@@ -182,7 +182,7 @@ void verify_pin(JUB_UINT16 contextID)
 		}
 
 		JUB_ULONG retry;
-		rv = JUB_VerifyPIN(contextID, str, retry);
+		rv = JUB_VerifyPIN(contextID, str, &retry);
 		if (rv != JUBR_OK)
 		{
 			cout << "wrong pin!! pin retry : " << retry << endl;
@@ -927,7 +927,7 @@ void getVersion()
 	JUB_UINT16 deviceID = deviceIDs[0];
 
 	JUB_DEVICE_INFO info;
-	rv = JUB_GetDeviceInfo(deviceID, info);
+	rv = JUB_GetDeviceInfo(deviceID, &info);
 	if (rv != JUBR_OK)
 	{
 		cout << "get device info error" << endl;

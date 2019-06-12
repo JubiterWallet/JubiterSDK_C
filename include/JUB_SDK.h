@@ -180,13 +180,11 @@ typedef JUB_ULONG JUB_RV;
 
 #define JUBR_ACCT_SYNC_DATA_FINISH  0x00000070UL
 
-
-//*************** Bluetooth ********************
-#define JUBR_DEVICE_BUSY                      0x00001001UL
-#define JUBR_TRANSACT_TIMEOUT                 0x00001002UL
-#define JUBR_OTHER_ERROR                      0x00001003UL
-#define JUBR_CMD_ERROR                        0x00001004UL
-#define JUBR_BT_BOND_FAILED                   0x00001005UL
+#define JUBR_DEVICE_BUSY            0x00001001
+#define JUBR_TRANSACT_TIMEOUT       0x00001002
+#define JUBR_OTHER_ERROR            0x00001003
+#define JUBR_CMD_ERROR              0x00001004
+#define JUBR_BT_BOND_FAILED         0x00001005
 
 #define JUBR_CUSTOM_DEFINED         0x80000000UL
 
@@ -196,34 +194,33 @@ typedef JUB_ULONG JUB_RV;
 #ifdef __cplusplus
 extern "C" {
 #endif
-enum JUB_ENUM_BOOL
+typedef enum
 {
     BOOL_FALSE = 0,
     BOOL_TRUE,
     BOOL_NR_ITEMS
-};
+} JUB_ENUM_BOOL;
 
-enum JUB_ENUM_COINTYPE_BTC
+typedef enum
 {
-	COINBTC = 0,
-	COINBCH,
-	COINLTC,
-	COINUSDT
-};
+    COINBTC,
+    COINBCH,
+    COINLTC,
+    COINUSDT,
+    Default = COINBTC
+} JUB_ENUM_COINTYPE_BTC;
 
-struct JUB_DEVICE_INFO {
+typedef struct {
 	JUB_CHAR label[32];
 	JUB_CHAR sn[24];
 	JUB_UINT16 pin_retry;
 	JUB_UINT16 pin_max_retry;
 	JUB_CHAR ble_version[4];
 	JUB_CHAR firmware_version[4];
-};
+} JUB_DEVICE_INFO;
+typedef JUB_DEVICE_INFO* JUB_DEVICE_INFO_PTR;
 
-typedef JUB_DEVICE_INFO JUB_PTR    JUB_DEVICE_INFO_PTR;
-
-
-enum JUB_BTC_TRANS_TYPE
+typedef enum
 {
 	p2pkh = 0,
 	//p2pwpkh,
@@ -233,74 +230,75 @@ enum JUB_BTC_TRANS_TYPE
 	p2wsh_multisig,
 	p2sh_p2wsh_multisig,
 	*/
-};
+} JUB_BTC_TRANS_TYPE;
 
 
-enum JUB_BTC_UNIT_TYPE
+typedef enum
 {
 	BTC = 0x00,
 	cBTC,
 	mBTC,
 	uBTC,
 	Satoshi
-};
+} JUB_BTC_UNIT_TYPE;
 
 
-enum JUB_ETH_PUB_FORMAT
+typedef enum
 {
 	HEX = 0x00,
 	XPUB = 0x01
-};
+} JUB_ETH_PUB_FORMAT;
 
-struct BIP32_Path
+typedef struct
 {
 	JUB_ENUM_BOOL  change;
 	JUB_UINT64     addressIndex;
-};
+} BIP32_Path;
 
-struct CONTEXT_CONFIG_BTC {
-	JUB_ENUM_COINTYPE_BTC   cointype = { JUB_ENUM_COINTYPE_BTC::COINBTC };
+typedef struct  {
+    JUB_ENUM_COINTYPE_BTC   cointype;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
+
 	JUB_CHAR_PTR			main_path;
 	JUB_BTC_TRANS_TYPE		transtype;
-};
+} CONTEXT_CONFIG_BTC;
 
 
-struct CONTEXT_CONFIG_ETH {
+typedef struct  {
 	JUB_CHAR_PTR		main_path;
 	int					chainID;
-};
+} CONTEXT_CONFIG_ETH;
 
-struct INPUT_BTC
+typedef struct
 {
 	JUB_CHAR_PTR	preHash;
 	JUB_UINT16      preIndex;
 	JUB_UINT64		amount;
 	BIP32_Path      path;
-};
+} INPUT_BTC;
 
-enum OUTPUT_BTC_TYPE
+typedef enum
 {
 	P2PKH = 0x00,
 	RETURN0 = 0x01
-};
+} OUTPUT_BTC_TYPE;
 
-struct OUTPUT_P2PKH
+typedef struct
 {
 	JUB_CHAR_PTR	address;
 	JUB_UINT64		amount;
 	JUB_ENUM_BOOL   change_address;
 	BIP32_Path      path;
-};
+} OUTPUT_P2PKH;
 
-struct OUTPUT_RETURN0
+typedef struct
 {
 	JUB_UINT64		amount;
 	JUB_UINT16      data_len;
 	JUB_BYTE        data[40];	
-};
+} OUTPUT_RETURN0;
 
 
-struct OUTPUT_BTC
+typedef struct
 {
 	OUTPUT_BTC_TYPE type;
 	union 
@@ -308,7 +306,7 @@ struct OUTPUT_BTC
 		OUTPUT_P2PKH   output_p2pkh;
 		OUTPUT_RETURN0 output_return0;
 	};
-};
+} OUTPUT_BTC;
 
 /*****************************************************************************
 * @function name : Jub_ListDeviceHid
@@ -401,7 +399,6 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID);
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg , IN JUB_UINT16 deviceID,  OUT JUB_UINT16* contextID);
-
 
 /*****************************************************************************
 * @function name : JUB_ClearContext

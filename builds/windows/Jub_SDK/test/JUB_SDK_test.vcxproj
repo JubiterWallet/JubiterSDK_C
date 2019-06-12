@@ -152,7 +152,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\x64\Release;$(SolutionDir)..\..\..\deps\hidapi\libhidapi\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Jub_SDK.lib;hidapi.lib;Setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Jub_SDK.lib;hidapi_vs2017.lib;Setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
