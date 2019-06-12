@@ -180,11 +180,6 @@ typedef JUB_ULONG JUB_RV;
 
 #define JUBR_ACCT_SYNC_DATA_FINISH  0x00000070UL
 
-#define JUBR_DEVICE_BUSY            0x00001001
-#define JUBR_TRANSACT_TIMEOUT       0x00001002
-#define JUBR_OTHER_ERROR            0x00001003
-#define JUBR_CMD_ERROR              0x00001004
-
 
 //*************** Bluetooth ********************
 #define JUBR_DEVICE_BUSY                      0x00001001UL
@@ -224,6 +219,8 @@ struct JUB_DEVICE_INFO {
 	JUB_CHAR ble_version[4];
 	JUB_CHAR firmware_version[4];
 };
+
+typedef JUB_DEVICE_INFO JUB_PTR    JUB_DEVICE_INFO_PTR;
 
 
 enum JUB_BTC_TRANS_TYPE
@@ -350,7 +347,7 @@ JUB_RV JUB_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info);
+JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO_PTR info);
 
 
 
@@ -464,7 +461,7 @@ JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID ,IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
+JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID ,IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG_PTR retry);
 
 
 /*****************************************************************************
@@ -628,7 +625,7 @@ JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID, IN JUB_UINT16 timeout);
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE& percent);
+JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE_PTR percent);
 
 
 /*****************************************************************************

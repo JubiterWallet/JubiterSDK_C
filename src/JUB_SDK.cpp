@@ -228,12 +228,12 @@ JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID)
 }
 
 
-JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry)
+JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG_PTR retry)
 {
     auto context = jub::ContextManager::GetInstance()->getOne(contextID);
     if (context != nullptr)
     {
-        return context->verifyPIN(pinMix, retry);
+        return context->verifyPIN(pinMix, *retry);
     }
 
     return JUBR_ERROR;
@@ -280,13 +280,13 @@ JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID, IN JUB_UINT16 timeout)
 }
 
 
-JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE& percent)
+JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE_PTR percent)
 {
 
 #ifdef BLE_MODE
 	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
 	JUB_CHECK_NULL(token);
-	JUB_VERIFY_RV(token->queryBattery(percent));
+	JUB_VERIFY_RV(token->queryBattery(*percent));
 	return JUBR_OK;
 #else
 	return JUBR_IMPL_NOT_SUPPORT;
@@ -349,7 +349,7 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID, IN JUB_CHAR_PTR apdu, OUT JUB_CHA
 }
 
 
-JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
+JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO_PTR info)
 {
     auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
     JUB_CHECK_NULL(token);
@@ -378,12 +378,12 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO& info)
     token->getFwVersion(fw_version);
 
 
-    memcpy(info.sn, sn, 24);
-    memcpy(info.label, label, 32);
-    info.pin_retry = retry;
-    info.pin_max_retry = max_retry;
-    memcpy(info.ble_version, ble_version, 4);
-    memcpy(info.firmware_version, fw_version, 4);
+    memcpy(info->sn, sn, 24);
+    memcpy(info->label, label, 32);
+    info->pin_retry = retry;
+    info->pin_max_retry = max_retry;
+    memcpy(info->ble_version, ble_version, 4);
+    memcpy(info->firmware_version, fw_version, 4);
 
     return JUBR_OK;
 }

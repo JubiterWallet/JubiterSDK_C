@@ -1,6 +1,8 @@
 //
 // Created by zhaojifeng on 2018/4/17.
 //
+
+#ifdef BLE_MODE
 #include <unistd.h>
 #include <mutex>
 
@@ -320,3 +322,4 @@ unsigned int Fido::removeCmdHeadAndStateCode(unsigned char *pSendMsg, unsigned i
 
     return ret;
 }
+#endif
