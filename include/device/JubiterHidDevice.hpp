@@ -23,6 +23,7 @@ namespace jub {
 
 
 #define HID_PACKET_GNU_SIZE 64
+#define FIDO2_WAIT_FLAG    0xbb
 
 class JubiterHidDevice : public DeviceTypeBase {
    public:

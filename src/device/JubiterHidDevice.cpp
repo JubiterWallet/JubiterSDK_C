@@ -178,15 +178,18 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
     JUB_BYTE buff[HID_PACKET_SIZE] = {0};
 
     while (true) {
-        memset(buff, 0, sizeof(buff));
+		
+		do 
+		{
+			memset(buff, 0, sizeof(buff));
+			int res =
+				hid_read_timeout(m_handle, buff, sizeof(buff), ulMiliSecondTimeout);
+			if (res <= 0) {
+				disconnect();
+				return JUBR_TRANSMIT_DEVICE_ERROR;
+			}
+		} while (buff[4] == FIDO2_WAIT_FLAG);//fido2 protocol
 
-        // here hid lib skip the first 0x00
-        int res =
-            hid_read_timeout(m_handle, buff, sizeof(buff), ulMiliSecondTimeout);
-        if (res <= 0) {
-            disconnect();
-            return JUBR_TRANSMIT_DEVICE_ERROR;
-        }
 
         if (0 == offset) {
             // first packet
