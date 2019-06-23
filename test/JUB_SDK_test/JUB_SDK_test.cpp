@@ -105,6 +105,18 @@ void get_device_info_test()
 
 	cout << "device cert is :" << cert << endl;
 	JUB_FreeMemory(cert);
+
+	char* coinList;
+	rv = Jub_EnumSupportCoins(deviceID, &coinList);
+	if (rv != JUBR_OK)
+	{
+		cout << " Jub_EnumSupportCoins error " << endl;
+		return;
+	}
+
+	cout << "support coin list is :" << coinList << endl;
+	JUB_FreeMemory(coinList);
+
 }
 
 

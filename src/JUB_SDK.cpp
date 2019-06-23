@@ -420,6 +420,19 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR applist)
 }
 
 
+JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR coinsList)
+{
+	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+	if (token == nullptr)
+		return JUBR_ERROR;
+
+	std::string str_coinsList;
+	JUB_VERIFY_RV(token->enumSupportCoins(str_coinsList));
+	JUB_VERIFY_RV(_allocMem(coinsList, str_coinsList));
+	return JUBR_OK;
+}
+
+
 JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID, IN JUB_CHAR_PTR appID, OUT JUB_CHAR_PTR_PTR version)
 {
 	auto token = jub::TokenManager::GetInstance()->getOne(deviceID);

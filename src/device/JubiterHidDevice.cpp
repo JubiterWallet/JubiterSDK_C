@@ -176,6 +176,7 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
     offset = 0;
     JUB_ULONG playloadSize = 0;
     JUB_BYTE buff[HID_PACKET_SIZE] = {0};
+	int res = 0;
 
     while (true) {
 		
@@ -188,7 +189,7 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
 				disconnect();
 				return JUBR_TRANSMIT_DEVICE_ERROR;
 			}
-		} while (buff[4] == FIDO2_WAIT_FLAG);//fido2 protocol
+		} while (res> 5 && buff[4] == FIDO2_WAIT_FLAG);//fido2 protocol
 
 
         if (0 == offset) {

@@ -647,6 +647,17 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,OUT JUB_CHAR_PTR_PTR appList);
 
 
 /*****************************************************************************
+* @function name : Jub_EnumSupportCoins
+* @in param :
+* @out param :
+* @last change :
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR coinsList);
+
+
+
+/*****************************************************************************
 * @function name : JUB_GetAppletVersion
 * @in param : 
 * @out param : 

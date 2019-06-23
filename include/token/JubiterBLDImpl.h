@@ -19,14 +19,20 @@ using device_type = jub::JubiterBLEDevice;
 #endif
 
 
+
+
 namespace jub {
-
-
 
 	constexpr JUB_BYTE PKIAID_FIDO[8] = {
 		0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
 	};
 
+
+	typedef struct _stAppInfos_ {
+		DataChunk appId;
+		std::string coinName;
+		std::string minimumAppletVersion;
+	} stAppInfos;
 
 
 class JubiterBLDImpl : public TokenInterface {
@@ -87,6 +93,7 @@ class JubiterBLDImpl : public TokenInterface {
 
 	virtual JUB_RV enumApplet(std::string& applet_list);
 	virtual JUB_RV getAppletVersion(std::string appID, std::string& version);
+	virtual JUB_RV enumSupportCoins(std::string& coinList);
 	virtual JUB_RV getDeviceCert(std::string& cert);
 	virtual JUB_RV sendOneApdu(const std::string& apdu, std::string& response);
 
@@ -98,7 +105,7 @@ class JubiterBLDImpl : public TokenInterface {
 
 	// get function
 	std::string getPath() { return _path; };
-
+	static stAppInfos g_appinfo[];
 
 
 	private:

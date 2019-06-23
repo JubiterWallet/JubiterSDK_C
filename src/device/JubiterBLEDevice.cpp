@@ -1,5 +1,6 @@
 #include <device/JubiterBLEDevice.hpp>
 #include <utility/uchar_vector.h>
+#include <device/DeviceIOLogHelper.hpp>
 
 #ifdef BLE_MODE
 #include <unistd.h>
@@ -93,6 +94,10 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
         ) {
         return JUBR_NOT_CONNECT_DEVICE;
     }
+
+#ifdef _DEBUG
+	DeviceIOLogHelper  handler(sendData, sendLen, pRetData, pulRetLen);
+#endif
 
     auto& fido = Fido::instance();
     fido.clear();

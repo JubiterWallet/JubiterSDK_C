@@ -7,6 +7,37 @@
 
 
 namespace jub {
+
+	stAppInfos JubiterBLDImpl::g_appinfo[] = {
+		{{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
+		  0x42, 0x54, 0x43, 0x01},
+		 "BTC",
+		 "0000000"},
+		{{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
+		  0x45, 0x54, 0x48, 0x01},
+		 "ETH",
+		 "0000000"},
+		// BTC and ETH index position fixed, start adding new apps below:
+		{{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
+		0x45, 0x54, 0x48, 0x01},
+		 "ETC",
+		 "01010000"},
+		{{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
+		0x42, 0x54, 0x43, 0x01},
+		 "BCH",
+		 "01070003",
+		},
+		{{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
+		0x42, 0x54, 0x43, 0x01},
+		 "LTC",
+		 "01070003",
+		},
+		{{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
+		0x42, 0x54, 0x43, 0x01},
+		 "USDT",
+		 "01080002"
+		}
+	};
 	
 	JubiterBLDImpl::JubiterBLDImpl(std::string path)
 		:_apduBuiler(std::make_shared<JubApudBuiler>()),_device(std::make_shared<device_type>()),_path(path){
@@ -71,10 +102,46 @@ namespace jub {
 		return JUBR_OK;
 	}
 
+	JUB_RV JubiterBLDImpl::enumSupportCoins(std::string& coinList) {
+
+		std::string applet_list;
+		enumApplet(applet_list);
+
+		auto v_applist = split(applet_list, " ");
+
+		for (auto appid : v_applist)
+		{
+			std::string version;
+			auto rv = getAppletVersion(appid, version);
+			if (rv == JUBR_OK)
+			{
+				for (auto appInfo : JubiterBLDImpl::g_appinfo)
+				{
+					uchar_vector _appid(appInfo.appId);
+					if (_appid .getHex() == appid)
+					{
+						if (appInfo.minimumAppletVersion < version)
+						{
+							coinList += appInfo.coinName;
+							coinList += " ";
+						}
+					}
+				}
+			}
+		}
+
+		return JUBR_OK;
+	}
+
 
 	JUB_RV JubiterBLDImpl::getAppletVersion(std::string appID, std::string& version)
 	{
+
 		uchar_vector id(appID);
+		if (appID.length() == 0)
+		{
+			return JUBR_ARGUMENTS_BAD;
+		}
 
 		uchar_vector FidoId(PKIAID_FIDO, 8);
 		if (id == FidoId)

@@ -29,6 +29,7 @@ class TokenInterface:public BTCTokenInterface,public ETHTokenInterface {
 	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]) = 0;
 	virtual JUB_RV enumApplet(std::string& applet_list) = 0;
 	virtual JUB_RV getAppletVersion(std::string appID, std::string& version) = 0;
+	virtual JUB_RV enumSupportCoins(std::string& coinList) = 0;
 	virtual JUB_RV getDeviceCert(std::string& cert) = 0;
 	virtual JUB_RV sendOneApdu(const std::string& apdu, std::string& response) = 0;
 
