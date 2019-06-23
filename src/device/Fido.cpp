@@ -2,11 +2,11 @@
 // Created by zhaojifeng on 2018/4/17.
 //
 
+#include <JUB_SDK.h>
 #ifdef BLE_MODE
 #include <unistd.h>
 #include <mutex>
 
-#include <JUB_SDK.h>
 #include <bleTransmit/bleTransmit.h>
 #include <device/Fido.h>
 #include <utility/Debug.hpp>
