@@ -1,17 +1,15 @@
 #include <utility/util.hpp>
 
-
 namespace jub {
 
-
 /*
- * 字符串拆分
+ * String splitting function
 */
-std::vector<std::string> split(std::string str, std::string pattern)
-{
+std::vector<std::string> split(std::string str, std::string pattern) {
+
 	std::string::size_type pos;
 	std::vector<std::string> result;
-	str += pattern; // 扩展字符串以方便操作
+	str += pattern; // extend the string for convenience
 	size_t size = str.size();
 
 	for (size_t i = 0; i<size; i++) {
@@ -27,10 +25,10 @@ std::vector<std::string> split(std::string str, std::string pattern)
 }
 
 /*
- * 合并字符串
+ * Merge string function
 */
-std::string join(std::vector<std::string> v, std::string pattern)
-{
+std::string join(std::vector<std::string> v, std::string pattern) {
+
 	std::string strJoin;
 	int i = 0;
 	auto sz = v.size();
@@ -46,7 +44,7 @@ std::string join(std::vector<std::string> v, std::string pattern)
 }
 
 /*
- * char array<uint8_t, 32> -> 十六进制字符串转换
+ * char array<uint8_t, 32> -> Hexadecimal string conversion
  */
 std::string CharArray2HexStr(std::array<uint8_t, 32> v) {
 
@@ -55,7 +53,7 @@ std::string CharArray2HexStr(std::array<uint8_t, 32> v) {
 
     size_t len = v.size();
     for (size_t i(0); i < len; ++i) {
-        if ((int)v[i] <= 0x0F) {
+        if (0x0F >= (int)v[i]) {
             ss << 0;
         }
         ss << (int)v[i];
@@ -65,7 +63,7 @@ std::string CharArray2HexStr(std::array<uint8_t, 32> v) {
 }
 
 /*
- * 十六进制字符串转换 -> char array<uint8_t, 32>
+ * Hexadecimal string conversion -> char array<uint8_t, 32>
  */
 /*
 std::array<uint8_t, 32> HexStr2CharArray(std::string str) {
@@ -87,16 +85,16 @@ std::array<uint8_t, 32> HexStr2CharArray(std::string str) {
 }*/
 
 /*
- * char * -> 十六进制字符串转换
+ * std::vector<unsigned char> -> Hexadecimal string conversion
 */
-std::string CharPtr2HexStr(std::vector<unsigned char> v)
-{
+std::string CharPtr2HexStr(std::vector<unsigned char> v) {
+
 	std::stringstream ss;
 	ss << std::hex;
 
 	size_t len = v.size();
 	for (size_t i(0); i < len; ++i) {
-		if ((int)v[i] <= 0x0F) {
+		if (0x0F >= (int)v[i]) {
 			ss << 0;
 		}
 		ss << (int)v[i];
@@ -106,11 +104,11 @@ std::string CharPtr2HexStr(std::vector<unsigned char> v)
 }
 
 /*
-* 十六进制字符串转换 -> char *
+* Hexadecimal string conversion -> std::vector<unsigned char>
 */
 /*
-std::vector<unsigned char> HexStr2CharPtr(std::string str)
-{
+std::vector<unsigned char> HexStr2CharPtr(std::string str) {
+
 	std::vector<unsigned char> v;
 
 	auto l = str.size();
@@ -128,20 +126,20 @@ std::vector<unsigned char> HexStr2CharPtr(std::string str)
 */
 
 /*
- * char * -> 十六进制字符串转换
+ * std::vector<unsigned char> -> Hexadecimal string conversion
  */
-std::string ETHCharPtr2HexStr(std::vector<unsigned char> v)
-{
+std::string ETHCharPtr2HexStr(std::vector<unsigned char> v) {
+
     std::string str = ETH_PRDFIX;
     str += CharPtr2HexStr(v);
     return str;
 }
 /*
- * 十六进制字符串转换 -> char *
+ * Hexadecimal string conversion -> std::vector<unsigned char>
  */
 /*
-std::vector<unsigned char> ETHHexStr2CharPtr(std::string str)
-{
+std::vector<unsigned char> ETHHexStr2CharPtr(std::string str) {
+
     std::string _str = str;
     size_t pos = _str.find(ETH_PRDFIX);
     _str.erase(pos, strlen(ETH_PRDFIX));
@@ -149,10 +147,10 @@ std::vector<unsigned char> ETHHexStr2CharPtr(std::string str)
 }*/
 
 /*
- * 字典排序
+ * Dictionary order
 */
-std::vector<char*> sortLexicographically(std::vector<char*> v)
-{
+std::vector<char*> sortLexicographically(std::vector<char*> v) {
+
 	std::sort(v.begin(), v.end(), [](char* a, char* b) {
 		return strcmp(a, b) < 0;
 	});
@@ -161,8 +159,8 @@ std::vector<char*> sortLexicographically(std::vector<char*> v)
 }
 
 //
-std::vector<std::string> sortLexicographically(std::vector<std::string> v)
-{
+std::vector<std::string> sortLexicographically(std::vector<std::string> v) {
+
 	std::sort(v.begin(), v.end(), [](std::string a, std::string b) {
 		return strcmp(a.c_str(), b.c_str()) < 0;
 	});
@@ -170,12 +168,11 @@ std::vector<std::string> sortLexicographically(std::vector<std::string> v)
 	return v;
 }
 
-//
-void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen)
-{
+// flip
+void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen) {
+
 	unsigned char tmp = 0;
-	for (unsigned long i = 0; i < ulBufferLen / 2; ++i)
-	{
+	for (unsigned long i = 0; i < ulBufferLen / 2; ++i) {
 		tmp = pBuffer[i];
 		pBuffer[i] = pBuffer[ulBufferLen - i - 1];
 		pBuffer[ulBufferLen - i - 1] = tmp;
@@ -183,18 +180,16 @@ void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen)
 }
 
 //
-std::vector<std::string> CharPtrArr2StrVector(const char* Arr[])
-{
+std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]) {
+
 	std::vector<std::string> v;
-	if (Arr == nullptr)
-	{
+	if (nullptr == Arr) {
 		return v;
 	}
 
 	int l = 0;
 	const char* p = Arr[l];
-	while (p)
-	{
+	while (p) {
 		v.push_back(p);
 		l++;
 		p = Arr[l];
@@ -203,62 +198,70 @@ std::vector<std::string> CharPtrArr2StrVector(const char* Arr[])
 	return v;
 }
 
-std::string
-dataToString(const DataSlice &slice)
-{
+std::string dataToString(const DataSlice &slice) {
 	// Due to a bug, lots of AirBitz encrypted blobs end with a null byte.
 	// Get rid of those:
 	auto size = slice.size();
-	if (0 < size && !slice.data()[size - 1])
+	if (   0 < size
+        && !slice.data()[size - 1]
+        ) {
 		size--;
+    }
 
 	return std::string(reinterpret_cast<const char *>(slice.data()), size);
 }
 
-DataChunk
-buildData(std::initializer_list<DataSlice> slices)
-{
+DataChunk buildData(std::initializer_list<DataSlice> slices) {
+
 	size_t size = 0;
-	for (auto slice : slices)
+    for (auto slice : slices) {
 		size += slice.size();
+    }
 
 	DataChunk out;
 	out.reserve(size);
-	for (auto slice : slices)
+    for (auto slice : slices) {
 		out.insert(out.end(), slice.begin(), slice.end());
+    }
+
 	return out;
 }
 
 /*
-bool AddPKCSPadding(DataChunk &data, unsigned int block_size)
-{
+bool AddPKCSPadding(DataChunk &data, unsigned int block_size) {
+
 	if (data.empty()) {
 		return false;
 	}
 
 	auto padLen = block_size - (data.size() % block_size);
-	for (auto i = 0; i < padLen; i++)
-		data.push_back((unsigned char)padLen);
+    for (auto i = 0; i < padLen; i++) {
+        data.push_back((unsigned char)padLen);
+    }
 
 	return true;
 }*/
 
-bool StripPKCSPadding(DataChunk &data, unsigned long block_size)
-{
+bool StripPKCSPadding(DataChunk &data, unsigned long block_size) {
+
 	if (data.empty()) {
 		return false;
 	}
 
-	if (data.size() < block_size)
+    if (data.size() < block_size) {
 		return false;
+    }
 
 	auto padValue = data.back();
-	if ((padValue > block_size) || (padValue == 0)) {
+	if (   (block_size < padValue)
+        || (        0 == padValue)
+        ) {
 		return false;
 	}
 
-	for (auto i = 0; i < padValue; i++)
+    for (auto i = 0; i < padValue; i++) {
 		data.pop_back();
+    }
 
 	return true;
 }
@@ -271,7 +274,7 @@ DataChunkList parseTlv(const DataSlice &data) {
 
 		unsigned int len = 0;
 
-		if (*pos == 0x82) {
+		if (0x82 == (*pos)) {
 			++pos; // 0x82
 			len = *pos << 8; // high
 
@@ -280,7 +283,7 @@ DataChunkList parseTlv(const DataSlice &data) {
 
 			++pos; // value
 		}
-		else if (*pos == 0x81) {
+		else if (0x81 == (*pos)) {
 			++pos; // 0x81
 			len = *pos;
 
@@ -305,12 +308,12 @@ DataChunk toTlv(uint8_t tag, const DataSlice &data) {
 	unsigned int len = static_cast<unsigned int>(data.size());
 
 	tlvData.push_back(tag);
-	if (len >= 0x100) {   // max size: two bytes 2^16
+	if (0x100 <= len) {   // max size: two bytes 2^16
 		tlvData.push_back(0x82);
 		tlvData.push_back(len >> 8);
 		tlvData.push_back(len & 0xFF);
 	}
-	else if (len > 0x80) {
+	else if (0x80 < len) {
 		tlvData.push_back(0x81);
 		tlvData.push_back(len);
 	}

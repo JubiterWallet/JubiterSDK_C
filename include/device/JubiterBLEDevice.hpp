@@ -4,17 +4,19 @@
 #include <device/DeviceTypeBase.hpp>
 
 #ifdef BLE_MODE
+
 #include <memory>
 #include <bleTransmit/bleTransmit.h>
 
 namespace jub {
 
 class JubiterBLEDevice : public DeviceTypeBase {
-   public:
+
+public:
     JubiterBLEDevice();
     ~JubiterBLEDevice();
 
-   public:
+public:
     // for common device
     virtual JUB_RV connect(const std::string path = "");
     virtual JUB_RV disconnect();
@@ -24,7 +26,7 @@ class JubiterBLEDevice : public DeviceTypeBase {
                             INOUT JUB_ULONG_PTR pulRetLen,
                             IN JUB_ULONG ulMiliSecondTimeout = 1200000);
 
-   public:
+public:
     // for ble device
     virtual unsigned int initialize(const BLE_INIT_PARAM& params);
     virtual unsigned int finalize();
@@ -50,7 +52,7 @@ class JubiterBLEDevice : public DeviceTypeBase {
 
     BLE_INIT_PARAM outerParams;
 
-   protected:
+protected:
     static int BLE_ReadCallBack(unsigned long devHandle, unsigned char* data,
                                 unsigned int dataLen);
 
@@ -66,14 +68,14 @@ class JubiterBLEDevice : public DeviceTypeBase {
     // check ble version, and set ble library reconnect flag
     void extraSetting();
 
-   protected:
+protected:
     /* data */
     BLE_INIT_PARAM _param;
     unsigned long _handle;
     bool _connected;
-};
+}; // class JubiterBLEDevice end
 
-}  // namespace jub
+}  // namespace jub end
 
 #endif  // USE_BLE_DEVICE
 #endif  // __JubiterBLEDevice__

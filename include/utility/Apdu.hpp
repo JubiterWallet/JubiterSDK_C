@@ -8,7 +8,8 @@
 namespace jub {
 
 class APDU {
-   public:
+
+public:
     APDU() {
         cla = 0;
         ins = 0;
@@ -21,18 +22,22 @@ class APDU {
     APDU(JUB_ULONG ncla, JUB_ULONG nins, JUB_ULONG np1, JUB_ULONG np2,
          JUB_ULONG nlc, const JUB_BYTE* pData = nullptr, JUB_ULONG nle = 0)
         : cla(ncla), ins(nins), p1(np1), p2(np2), lc(nlc), le(nle) {
-        if (0 != lc && nullptr != pData) {
+        if (         0 != lc
+            && nullptr != pData
+            ) {
             SetData(pData, lc);
-        } else
+        }
+        else {
             data.clear();
+        }
     }
     ~APDU() {}
 
-   public:
+public:
     JUB_ULONG cla, ins, p1, p2, lc, le;
     std::vector<JUB_BYTE> data;
 
-   public:
+public:
     void SetApdu(JUB_ULONG ncla, JUB_ULONG nins, JUB_ULONG np1, JUB_ULONG np2,
                  JUB_ULONG nlc, JUB_BYTE* pData = nullptr, JUB_ULONG nle = 0) {
         cla = ncla;
@@ -41,9 +46,12 @@ class APDU {
         p2 = np2;
         lc = nlc;
         le = nle;
-        if (0 != lc && nullptr != pData) {
+        if (         0 != lc
+            && nullptr != pData
+            ) {
             SetData(pData, lc);
-        } else {
+        }
+        else {
             data.clear();
         }
     }
@@ -53,7 +61,8 @@ class APDU {
         data.resize(ulDataSize);
         data.insert(data.begin(), pData, pData + ulDataSize);
     }
-};
+}; // class APDU end
 
-}
+} // namespace jub end
+
 #endif  // __Apdu__

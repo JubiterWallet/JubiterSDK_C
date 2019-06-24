@@ -1,4 +1,3 @@
-
 #ifndef __HardwareTokenImpl__
 #define __HardwareTokenImpl__
 
@@ -8,7 +7,7 @@
 #include <device/JubiterHidDevice.hpp>
 #include <memory>
 #include <utility/util.hpp>
-
+#include <utility/uchar_vector.h>
 
 #ifdef HID_MODE // modify later..
 #include <device/JubiterHidDevice.hpp>
@@ -18,30 +17,25 @@ using device_type = jub::JubiterHidDevice;
 using device_type = jub::JubiterBLEDevice;
 #endif
 
-
-
-
 namespace jub {
 
-	constexpr JUB_BYTE PKIAID_FIDO[8] = {
-		0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
-	};
+constexpr JUB_BYTE PKIAID_FIDO[8] = {
+    0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
+};
 
-
-	typedef struct _stAppInfos_ {
-		DataChunk appId;
-		std::string coinName;
-		std::string minimumAppletVersion;
-	} stAppInfos;
-
+typedef struct _stAppInfos_ {
+    DataChunk appId;
+    std::string coinName;
+    std::string minimumAppletVersion;
+} stAppInfos;
 
 class JubiterBLDImpl : public TokenInterface {
-   public:
-	   JubiterBLDImpl(std::string path);
-	   JubiterBLDImpl(device_type* device);
+public:
+    JubiterBLDImpl(std::string path);
+    JubiterBLDImpl(device_type* device);
     ~JubiterBLDImpl();
 
-   public:
+public:
     /* functions */
     virtual JUB_RV connectToken();
 	virtual JUB_RV disconnectToken();
@@ -52,31 +46,30 @@ class JubiterBLDImpl : public TokenInterface {
 	virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address);
 	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
 	virtual JUB_RV setCoinType_BTC(JUB_ENUM_COINTYPE_BTC type);
-	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count,
-		std::vector<JUB_UINT64> input_amount,
-		std::vector<std::string> input_path,
-		std::vector<JUB_UINT16> change_index,
-		std::vector<std::string> change_path,
-		std::vector<JUB_BYTE> unsiged_trans,
-		std::vector<JUB_BYTE>& raw
-	);
+	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type,
+                              JUB_UINT16 input_count,
+                              std::vector<JUB_UINT64> input_amount,
+                              std::vector<std::string> input_path,
+                              std::vector<JUB_UINT16> change_index,
+                              std::vector<std::string> change_path,
+                              std::vector<JUB_BYTE> unsiged_trans,
+                              std::vector<JUB_BYTE>& raw);
 
 	//ETH functions
 
 	virtual JUB_RV selectApplet_ETH();
 	virtual JUB_RV getAddress_ETH(std::string path, JUB_UINT16 tag, std::string& address);
 	virtual JUB_RV getHDNode_ETH(JUB_BYTE format,std::string path, std::string& pubkey);
-	virtual JUB_RV signTX_ETH(bool Is_ERC20, std::vector<JUB_BYTE> nonce, 
-		std::vector<JUB_BYTE> gasPrice,
-		std::vector<JUB_BYTE> gasLimit,
-		std::vector<JUB_BYTE> To, 
-		std::vector<JUB_BYTE> value, 
-		std::vector<JUB_BYTE> data, 
-		std::vector<JUB_BYTE> path, 
-		std::vector<JUB_BYTE> chainID,
-		std::vector<JUB_BYTE>& raw);
-
-
+	virtual JUB_RV signTX_ETH(bool Is_ERC20,
+                              std::vector<JUB_BYTE> nonce,
+                              std::vector<JUB_BYTE> gasPrice,
+                              std::vector<JUB_BYTE> gasLimit,
+                              std::vector<JUB_BYTE> To,
+                              std::vector<JUB_BYTE> value,
+                              std::vector<JUB_BYTE> data,
+                              std::vector<JUB_BYTE> path,
+                              std::vector<JUB_BYTE> chainID,
+                              std::vector<JUB_BYTE>& raw);
 
 	//common token functions
 	virtual JUB_RV queryBattery(JUB_BYTE &percent);
@@ -97,19 +90,16 @@ class JubiterBLDImpl : public TokenInterface {
 	virtual JUB_RV getDeviceCert(std::string& cert);
 	virtual JUB_RV sendOneApdu(const std::string& apdu, std::string& response);
 
-
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);
 
 	virtual JUB_RV setTimeout(JUB_UINT16 timeout);
 
-
 	// get function
 	std::string getPath() { return _path; };
+
 	static stAppInfos g_appinfo[];
 
-
-	private:
-
+private:
 	JUB_RV _selectApp(const JUB_BYTE PKIAID[],JUB_BYTE length);
 
 	JUB_RV _tranPack(const DataSlice &apduData,
@@ -126,7 +116,8 @@ class JubiterBLDImpl : public TokenInterface {
     std::shared_ptr<ApduBuilder> _apduBuiler;
     std::shared_ptr<device_type> _device;
 	std::string _path;
+}; // class JubiterBLDImpl end
 
-};
-}  // namespace jub
+}  // namespace jub end
+
 #endif  // __HardwareTokenImpl__

@@ -8,12 +8,11 @@
 #include "BTCTokenInterface.hpp"
 #include "ETHTokenInterface.hpp"
 
-
-
 namespace jub {
 
-class TokenInterface:public BTCTokenInterface,public ETHTokenInterface {
-   public:
+class TokenInterface : public BTCTokenInterface,
+                       public ETHTokenInterface {
+public:
     /* functions */
     virtual JUB_RV connectToken() = 0;
 	virtual JUB_RV disconnectToken() = 0;
@@ -37,9 +36,9 @@ class TokenInterface:public BTCTokenInterface,public ETHTokenInterface {
 
 	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
 	virtual JUB_RV setTimeout(JUB_UINT16 timeout) = 0;
-};
+}; // class TokenInterface end
 
 using TokenManager = Singleton<xManager<jub::TokenInterface>>;
 
-}  // namespace jub
+}  // namespace jub end
 #endif  // __TokenInterface__

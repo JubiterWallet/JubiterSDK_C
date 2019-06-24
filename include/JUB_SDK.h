@@ -3,32 +3,32 @@
 
 // Generic helper definitions for shared library support
 #if defined _MSC_VER || defined __CYGWIN__
-#define JUB_COINCORE_DLL_IMPORT extern "C" __declspec(dllimport)
-#define JUB_COINCORE_DLL_EXPORT extern "C" __declspec(dllexport)
-#define JUB_COINCORE_DLL_LOCAL
+    #define JUB_COINCORE_DLL_IMPORT extern "C" __declspec(dllimport)
+    #define JUB_COINCORE_DLL_EXPORT extern "C" __declspec(dllexport)
+    #define JUB_COINCORE_DLL_LOCAL
 #else
-#if __GNUC__ >= 4
-#define JUB_COINCORE_DLL_IMPORT __attribute__((visibility("default")))
-#define JUB_COINCORE_DLL_EXPORT __attribute__((visibility("default")))
-#define JUB_COINCORE_DLL_LOCAL __attribute__((visibility("internal")))
-#else
-#define JUB_COINCORE_DLL_IMPORT
-#define JUB_COINCORE_DLL_EXPORT
-#define JUB_COINCORE_DLL_LOCAL
-#endif
-#endif
+    #if __GNUC__ >= 4
+        #define JUB_COINCORE_DLL_IMPORT __attribute__((visibility("default")))
+        #define JUB_COINCORE_DLL_EXPORT __attribute__((visibility("default")))
+        #define JUB_COINCORE_DLL_LOCAL  __attribute__((visibility("internal")))
+    #else
+        #define JUB_COINCORE_DLL_IMPORT
+        #define JUB_COINCORE_DLL_EXPORT
+        #define JUB_COINCORE_DLL_LOCAL
+    #endif // #if __GNUC__ >= 4
+#endif // #if defined _MSC_VER || defined __CYGWIN__
 
 // Tag to deprecate functions and methods.
 // Gives a compiler warning when they are used.
 #if defined _MSC_VER || defined __CYGWIN__
-#define BC_DEPRECATED __declspec(deprecated)
+    #define BC_DEPRECATED __declspec(deprecated)
 #else
-#if __GNUC__ >= 4
-#define JUB_DEPRECATED __attribute__((deprecated))
-#else
-#define JUB_DEPRECATED
-#endif
-#endif
+    #if __GNUC__ >= 4
+        #define JUB_DEPRECATED __attribute__((deprecated))
+    #else
+        #define JUB_DEPRECATED
+    #endif // #if __GNUC__ >= 4
+#endif // #if defined _MSC_VER || defined __CYGWIN__
 
 // Avoid namespace conflict between boost::placeholders and std::placeholders.
 #define BOOST_BIND_NO_PLACEHOLDERS
@@ -38,47 +38,46 @@
 #define LCOV_EXCL_STOP()
 
 #if defined(_WIN32)
-#define HID_MODE
+    #define HID_MODE
 #elif defined(__APPLE__)
 // see https://sourceforge.net/p/predef/mailman/message/34497133/
-#include <TargetConditionals.h>
-#if TARGET_OS_OSX // mac osx
-#define HID_MODE
-#elif TARGET_OS_IOS // ios
-#define BLE_MODE  
-#endif // #if TARGET_OS_OSX
+    #include <TargetConditionals.h>
+    #if TARGET_OS_OSX // mac osx
+        #define HID_MODE
+    #elif TARGET_OS_IOS // ios
+        #define BLE_MODE
+    #endif // #if TARGET_OS_OSX
 #elif defined(__ANDROID__)
-#define BLE_MODE  
+    #define BLE_MODE
 #else //other
-HID_MODE
+    HID_MODE
 #endif // #if defined(_WIN32)
-
 
 /* === Library typedef: === */
 #ifndef IN
     #define IN
-#endif
+#endif // #ifndef IN
 
 #ifndef OUT
     #define OUT
-#endif
+#endif // #ifndef OUT
 
 #ifndef INOUT
     #define INOUT
-#endif
+#endif // #ifndef INOUT
 
-#define JUB_TRUE 1
-#define JUB_FALSE 0
+#define JUB_TRUE    1
+#define JUB_FALSE   0
 
 #ifndef JUB_DISABLE_TRUE_FALSE
-#ifndef FALSE
-    #define FALSE JUB_FALSE
-#endif
+    #ifndef FALSE
+        #define FALSE JUB_FALSE
+    #endif // #ifndef FALSE
 
-#ifndef TRUE
-    #define TRUE JUB_TRUE
-#endif
-#endif
+    #ifndef TRUE
+        #define TRUE JUB_TRUE
+    #endif // #ifndef TRUE
+#endif // #ifndef JUB_DISABLE_TRUE_FALSE
 
 /* an unsigned 8-bit value */
 typedef unsigned char JUB_BYTE;
@@ -148,7 +147,6 @@ typedef JUB_ULONG JUB_RV;
 #define JUBR_ADD_COIN_TYPE_ERROR	0x00000012UL
 #define JUBR_UNKNOWN_COIN_TYPE	    0x00000013UL
 
-
 #define JUBR_WALLET_ALREADY_EXIST	0x00000020UL
 #define JUBR_CREATE_WALLET_ERROR	0x00000021UL
 #define JUBR_WALLET_NOT_EXIST    	0x00000022UL
@@ -188,21 +186,17 @@ typedef JUB_ULONG JUB_RV;
 
 #define JUBR_CUSTOM_DEFINED         0x80000000UL
 
-
-
-
 #ifdef __cplusplus
 extern "C" {
-#endif
-typedef enum
-{
+#endif // #ifdef __cplusplus
+
+typedef enum {
     BOOL_FALSE = 0,
     BOOL_TRUE,
     BOOL_NR_ITEMS
 } JUB_ENUM_BOOL;
 
-typedef enum
-{
+typedef enum {
     COINBTC,
     COINBCH,
     COINLTC,
@@ -220,8 +214,7 @@ typedef struct {
 } JUB_DEVICE_INFO;
 typedef JUB_DEVICE_INFO* JUB_DEVICE_INFO_PTR;
 
-typedef enum
-{
+typedef enum {
 	p2pkh = 0,
 	//p2pwpkh,
 	p2sh_p2wpkh
@@ -232,9 +225,7 @@ typedef enum
 	*/
 } JUB_BTC_TRANS_TYPE;
 
-
-typedef enum
-{
+typedef enum {
 	BTC = 0x00,
 	cBTC,
 	mBTC,
@@ -242,458 +233,464 @@ typedef enum
 	Satoshi
 } JUB_BTC_UNIT_TYPE;
 
-
-typedef enum
-{
+typedef enum {
 	HEX = 0x00,
 	XPUB = 0x01
 } JUB_ETH_PUB_FORMAT;
 
-typedef struct
-{
-	JUB_ENUM_BOOL  change;
-	JUB_UINT64     addressIndex;
+typedef struct {
+	JUB_ENUM_BOOL change;
+	JUB_UINT64    addressIndex;
 } BIP32_Path;
 
-typedef struct  {
+typedef struct {
     JUB_ENUM_COINTYPE_BTC   cointype;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
 
 	JUB_CHAR_PTR			main_path;
 	JUB_BTC_TRANS_TYPE		transtype;
 } CONTEXT_CONFIG_BTC;
 
-
-typedef struct  {
+typedef struct {
 	JUB_CHAR_PTR		main_path;
 	int					chainID;
 } CONTEXT_CONFIG_ETH;
 
-typedef struct
-{
+typedef struct {
 	JUB_CHAR_PTR	preHash;
 	JUB_UINT16      preIndex;
 	JUB_UINT64		amount;
 	BIP32_Path      path;
 } INPUT_BTC;
 
-typedef enum
-{
+typedef enum {
 	P2PKH = 0x00,
 	RETURN0 = 0x01
 } OUTPUT_BTC_TYPE;
 
-typedef struct
-{
+typedef struct {
 	JUB_CHAR_PTR	address;
 	JUB_UINT64		amount;
 	JUB_ENUM_BOOL   change_address;
 	BIP32_Path      path;
 } OUTPUT_P2PKH;
 
-typedef struct
-{
+typedef struct {
 	JUB_UINT64		amount;
 	JUB_UINT16      data_len;
 	JUB_BYTE        data[40];	
 } OUTPUT_RETURN0;
 
-
-typedef struct
-{
+typedef struct {
 	OUTPUT_BTC_TYPE type;
-	union 
-	{
+	union {
 		OUTPUT_P2PKH   output_p2pkh;
 		OUTPUT_RETURN0 output_return0;
 	};
 } OUTPUT_BTC;
 
 /*****************************************************************************
-* @function name : Jub_ListDeviceHid
-* @in param : 
-* @out param : deviceIDs device list
+* @function name : JUB_ListDeviceHid
+* @in  param :
+* @out param : deviceIDs - device ID list
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]);
 
-
 /*****************************************************************************
-* @function name : Jub_ConnetDeviceHid
-* @in param : 
-* @out param : 
+* @function name : JUB_ConnetDeviceHid
+* @in  param : deviceID - device ID
+* @out param :
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID);
 
-
 /*****************************************************************************
-* @function name : Jub_DisconnetDeviceHid
-* @in param : 
+* @function name : JUB_DisconnetDeviceHid
+* @in  param : deviceID - device ID
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_DisconnetDeviceHid(IN JUB_UINT16 deviceID);
 
-
 /*****************************************************************************
-* @function name : Jub_GetDeviceInfo
-* @in param : 
-* @out param : 
+* @function name : JUB_GetDeviceInfo
+* @in  param : deviceID - device ID
+* @out param : info - device info
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID, OUT JUB_DEVICE_INFO_PTR info);
-
-
+JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
+                         OUT JUB_DEVICE_INFO_PTR info);
 
 /*****************************************************************************
 * @function name : JUB_GetDeviceCert
-* @in param : 
-* @out param : 
+* @in  param : deviceID - device ID
+* @out param : cert - device certificate
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR cert);
-
-
+JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
+                         OUT JUB_CHAR_PTR_PTR cert);
 
 /*****************************************************************************
 * @function name : JUB_SendOneApdu
-* @in param : 
-* @out param : 
+* @in  param : deviceID - device ID
+*            : apdu - one apdu
+* @out param : response
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID, IN JUB_CHAR_PTR apdu , OUT JUB_CHAR_PTR_PTR response);
-
-
+JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
+                       IN JUB_CHAR_PTR apdu ,
+                       OUT JUB_CHAR_PTR_PTR response);
 
 /*****************************************************************************
 * @function name : JUB_IsInitialize
-* @in param : 
+* @in  param : deviceID - device ID
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID);
 
-
 /*****************************************************************************
 * @function name : JUB_IsBootLoader
-* @in param : 
+* @in  param : deviceID - device ID
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID);
 
-
 /*****************************************************************************
 * @function name : JUB_CreateContextBTC
-* @in param :
-* @out param :
+* @in  param : cfg
+*            : deviceID - device ID
+* @out param : contextID
 * @last change :
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg , IN JUB_UINT16 deviceID,  OUT JUB_UINT16* contextID);
+JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
+                            IN JUB_UINT16 deviceID,
+                            OUT JUB_UINT16* contextID);
 
 /*****************************************************************************
 * @function name : JUB_ClearContext
-* @in param : 
+* @in  param : contextID - context ID
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID);
 
-
 /*****************************************************************************
 * @function name : JUB_BuildUSDTOutputs
-* @in param :
-* @out param :
+* @in  param : contextID - context ID
+*            : USDT_to - to address
+*            : amount
+* @out param : outputs
 * @last change : build the return0 and dust 2 outputs
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR USDT_to, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
-
+JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
+                            IN JUB_CHAR_PTR USDT_to,
+                            IN JUB_UINT64 amount,
+                            OUT OUTPUT_BTC outputs[2]);
 
 /*****************************************************************************
 * @function name : JUB_SignTransactionBTC
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : inputs
+*            : iCount
+*            : outputs
+*            : oCount
+*            : lockTime
+* @out param : raw
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID ,IN INPUT_BTC inputs[], IN JUB_UINT16 iCount, IN OUTPUT_BTC outputs[],  IN JUB_UINT16 oCount, IN JUB_UINT32 locktime, OUT JUB_CHAR_PTR_PTR raw);
-
+JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
+                              IN INPUT_BTC inputs[], IN JUB_UINT16 iCount,
+                              IN OUTPUT_BTC outputs[], IN JUB_UINT16 oCount,
+                              IN JUB_UINT32 lockTime,
+                              OUT JUB_CHAR_PTR_PTR raw);
 
 /*****************************************************************************
 * @function name : JUB_ShowVirtualPwd
-* @in param : 
+* @in  param : contextID - context ID
 * @out param : 
-* @last change : q
+* @last change :
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID);
 
-
-
 /*****************************************************************************
-* @function name : JUB_cancelVirtualPwd
-* @in param : 
+* @function name : JUB_CancelVirtualPwd
+* @in  param : contextID - context ID
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID);
 
-
 /*****************************************************************************
 * @function name : JUB_VerifyPIN
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : pinMix
+* @out param : retry
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID ,IN JUB_CHAR_PTR pinMix, OUT JUB_ULONG_PTR retry);
-
+JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
+                     IN JUB_CHAR_PTR pinMix,
+                     OUT JUB_ULONG_PTR retry);
 
 /*****************************************************************************
 * @function name : JUB_GetHDNodeBTC
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : path
+* @out param : xpub
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path,OUT JUB_CHAR_PTR_PTR xpub);
-
+JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID,
+                        IN BIP32_Path path,
+                        OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
 * @function name : JUB_GetMainHDNodeBTC
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+* @out param : xpub
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID, OUT JUB_CHAR_PTR_PTR xpub);
-
-
+JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID,
+                            OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
 * @function name : JUB_GetAddressBTC
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : path
+*            : bShow
+* @out param : address
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address);
-
-
+JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
+                         IN BIP32_Path path,
+                         IN JUB_ENUM_BOOL bShow,
+                         OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
 * @function name : JUB_SetMyAddressBTC
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : path
+* @out param : address
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_CHAR_PTR_PTR address);
-
-
+JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
+                           IN BIP32_Path path,
+                           OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
 * @function name : JUB_CreateContextETH
-* @in param : 
-* @out param : 
+* @in  param : cfg
+*            : deviceID - device ID
+* @out param : contextID
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg, IN JUB_UINT16 deviceID, OUT JUB_UINT16* contextID);
-
-
+JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
+                            IN JUB_UINT16 deviceID,
+                            OUT JUB_UINT16* contextID);
 
 /*****************************************************************************
-* @function name : JUB_GetAddressBTC
-* @in param : 
-* @out param : 
+* @function name : JUB_GetAddressETH
+* @in  param : contextID - context ID
+*            : path
+*            : bShow
+* @out param : address
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path	path, IN JUB_ENUM_BOOL bshow, OUT JUB_CHAR_PTR_PTR address);
-
-
+JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
+                         IN BIP32_Path path,
+                         IN JUB_ENUM_BOOL bShow,
+                         OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
 * @function name : JUB_GetHDNodeETH
-* @in param : format 0x00 for hex,0x01 for xpub
-* @out param : 
+* @in  param : contextID - context ID
+*            : format - 0x00 for hex;
+*                       0x01 for xpub
+*            : path
+* @out param : pubkey
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID, IN JUB_ETH_PUB_FORMAT format , IN BIP32_Path	path, OUT JUB_CHAR_PTR_PTR pubkey);
-
-
-
+JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
+                        IN JUB_ETH_PUB_FORMAT format,
+                        IN BIP32_Path path,
+                        OUT JUB_CHAR_PTR_PTR pubkey);
 
 /*****************************************************************************
 * @function name : JUB_GetMainHDNodeETH
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : format - 0x00 for hex;
+*                       0x01 for xpub
+* @out param : xpub
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID, IN JUB_ETH_PUB_FORMAT format, OUT JUB_CHAR_PTR_PTR xpub);
+JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
+                            IN JUB_ETH_PUB_FORMAT format,
+                            OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
 * @function name : JUB_SetMyAddressETH
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : path
+* @out param : address
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID, IN BIP32_Path path, OUT JUB_CHAR_PTR_PTR address);
-
-
-
-
+JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
+                           IN BIP32_Path path,
+                           OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
 * @function name : JUB_SignTransactionETH
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : path
+*            : nonce - nonce
+*            : gasLimit - gas limit
+*            : gasPriceInWei - gas price in wei
+*            : to
+*            : valueInWei - value in wei
+*            : input
+* @out param : raw
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID, IN BIP32_Path path, IN JUB_UINT32 nonce, 
-	IN JUB_UINT32 gasLimit,
-	IN JUB_CHAR_PTR gasPriceInWei,
-	IN JUB_CHAR_PTR to,
-	IN JUB_CHAR_PTR valueInWei,
-	IN JUB_CHAR_PTR input,
-	OUT JUB_CHAR_PTR_PTR raw
-	);
-
-
-
+JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
+                              IN BIP32_Path path,
+                              IN JUB_UINT32 nonce,
+                              IN JUB_UINT32 gasLimit,
+                              IN JUB_CHAR_PTR gasPriceInWei,
+                              IN JUB_CHAR_PTR to,
+                              IN JUB_CHAR_PTR valueInWei,
+                              IN JUB_CHAR_PTR input,
+                              OUT JUB_CHAR_PTR_PTR raw);
 
 /*****************************************************************************
 * @function name : JUB_BuildERC20AbiETH
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : token_to
+*            : token_value
+* @out param : abi
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID, IN JUB_CHAR_PTR token_to, IN JUB_CHAR_PTR token_value, OUT JUB_CHAR_PTR_PTR abi);
-
-
-
-
-
+JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
+                            IN JUB_CHAR_PTR token_to, IN JUB_CHAR_PTR token_value,
+                            OUT JUB_CHAR_PTR_PTR abi);
 
 /*****************************************************************************
 * @function name : JUB_SetUnitBTC
-* @in param : 
-* @out param : 
+* @in  param : contextID - context ID
+*            : unit
+* @out param :
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID, IN JUB_BTC_UNIT_TYPE unit);
-
+JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID,
+                      IN JUB_BTC_UNIT_TYPE unit);
 
 /*****************************************************************************
 * @function name : JUB_SetTimeOut
-* @in param : 
-timeout: how many s
+* @in  param : contextID - context ID
+*            : timeout - how many s
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID, IN JUB_UINT16 timeout);
 
-
-
 /*****************************************************************************
 * @function name : JUB_QueryBattery
-* @in param : 
-* @out param : 
+* @in  param : deviceID - device ID
+* @out param : percent
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID, OUT JUB_BYTE_PTR percent);
-
+JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID,
+                        OUT JUB_BYTE_PTR percent);
 
 /*****************************************************************************
 * @function name : JUB_FreeMemory
-* @in param : 
+* @in  param : memPtr
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
 
-
 /*****************************************************************************
-* @function name : Jub_EnumApplets
-* @in param : 
-* @out param : 
+* @function name : JUB_EnumApplets
+* @in  param : deviceID - device ID
+* @out param : appList - applet list
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,OUT JUB_CHAR_PTR_PTR appList);
-
-
+JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
+                       OUT JUB_CHAR_PTR_PTR appList);
 
 /*****************************************************************************
 * @function name : Jub_EnumSupportCoins
-* @in param :
-* @out param :
+* @in  param : deviceID - device ID
+* @out param : coinsList - coin list
 * @last change :
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID, OUT JUB_CHAR_PTR_PTR coinsList);
-
-
+JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID,
+                            OUT JUB_CHAR_PTR_PTR coinsList);
 
 /*****************************************************************************
 * @function name : JUB_GetAppletVersion
-* @in param : 
-* @out param : 
+* @in  param : deviceID - device ID
+*            : appID - applet ID
+* @out param : version - applet version
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,IN JUB_CHAR_PTR appID,OUT JUB_CHAR_PTR_PTR version);
-
+JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
+                            IN JUB_CHAR_PTR appID,
+                            OUT JUB_CHAR_PTR_PTR version);
 
 /*****************************************************************************
 * @function name : JUB_GetVersion
-* @in param : 
+* @in  param :
 * @out param : 
 * @last change : 
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_CHAR_PTR JUB_GetVersion();
-
-
-
-
-
+JUB_CHAR_PTR JUB_GetVersion(void);
 
 /// ble device APIs //////////////////////////////////////////
 #define DEV_SUCCESS 0               /**< no error */
 #define DEV_TIMEOUT 1               /**< conn time out */
 #define DEV_COMMUNICATION_ERROR 612 /**< generic error */
-#define DEV_RESPONSE_TIMEOUT 613    /**< timeout */
-#define DEV_NOT_SUPPORTED 614       /**< request is not supported */
-#define DEV_NO_DEVICE 615           /**< no device>*/
+#define DEV_RESPONSE_TIMEOUT    613 /**< timeout */
+#define DEV_NOT_SUPPORTED       614 /**< request is not supported */
+#define DEV_NO_DEVICE           615 /**< no device>*/
 
-typedef int(*DEV_ReadCallBack)(JUB_ULONG devHandle, JUB_BYTE_PTR data,
-	JUB_UINT32 dataLen);
+typedef int(*DEV_ReadCallBack)(JUB_ULONG devHandle, JUB_BYTE_PTR data, JUB_UINT32 dataLen);
 
-typedef void(*DEV_ScanCallBack)(JUB_BYTE_PTR devName, JUB_BYTE_PTR uuid,
-	JUB_UINT32 type);
+typedef void(*DEV_ScanCallBack)(JUB_BYTE_PTR devName, JUB_BYTE_PTR uuid, JUB_UINT32 type);
 
 typedef void(*DEV_DiscCallBack)(JUB_BYTE_PTR uuid);
 
@@ -708,15 +705,15 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param);
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_enumDevices();
+JUB_RV JUB_enumDevices(void);
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_stopEnumDevices();
+JUB_RV JUB_stopEnumDevices(void);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_connectDevice(
-	JUB_BYTE_PTR bBLEUUID,    /**< ble device UUID */
-	JUB_UINT32 connectType,   /**< ble device connect type */
+	JUB_BYTE_PTR bBLEUUID,  /**< ble device UUID */
+	JUB_UINT32 connectType, /**< ble device connect type */
 	JUB_UINT16* pDevice_ID, /**< output ble device connect handle */
 	JUB_UINT32 timeout);
 
@@ -729,10 +726,7 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID);
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID);
 
-
-
-
 #ifdef __cplusplus
 }
-#endif
+#endif // #ifdef __cplusplus
 #endif /* JUB_CORE_H */

@@ -1,4 +1,3 @@
-
 #ifndef __DeviceTypeBase__
 #define __DeviceTypeBase__
 
@@ -7,8 +6,8 @@
 
 namespace jub {
 
-class DeviceTypeBase
-{
+class DeviceTypeBase {
+
 public:
     /* functions */
     virtual JUB_RV connect(const std::string path ) = 0;
@@ -17,9 +16,9 @@ public:
     virtual JUB_RV sendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG sendLen, 
                             OUT JUB_BYTE_PTR pRetData, INOUT JUB_ULONG_PTR pulRetLen, 
                             IN JUB_ULONG ulMiliSecondTimeout = 1200000) = 0;
-};
+}; // class DeviceTypeBase end
 
 #define FT3KHN_READWRITE_SIZE_ONCE_NEW 4096
-}
+} // namespace jub end
 
 #endif // __DeviceTypeBase__

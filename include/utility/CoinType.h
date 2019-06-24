@@ -2,7 +2,7 @@
 //  CoinType.h
 //
 //  Created by Pan Min on 2018/1/5.
-//  Copyright © 2018年 Jubiter. All rights reserved.
+//  Copyright © 2018年 JuBiter. All rights reserved.
 //
 
 #ifndef __Jub_CoinType__
@@ -220,5 +220,6 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-} // end namespace jub
+
+} // namespace jub end
 #endif /* __Jub_CoinType__ */

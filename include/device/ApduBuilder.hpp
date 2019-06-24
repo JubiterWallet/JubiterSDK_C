@@ -1,4 +1,3 @@
-
 #ifndef __ApduBuilder__
 #define __ApduBuilder__
 
@@ -7,7 +6,8 @@
 namespace jub {
 
 class ApduBuilder {
-   public:
+
+public:
     /* functions */
     virtual JUB_RV buildApdu(const APDU *apdu,
                              std::vector<JUB_BYTE> &safeApdu) = 0;
@@ -19,10 +19,11 @@ class ApduBuilder {
     // do something (for example: decrypt data)
     virtual JUB_RV unPackData(std::vector<JUB_BYTE> &dest,
                               std::vector<JUB_BYTE> &src) = 0;
-};
+}; // class ApduBuilder end
 
 class JubApudBuiler : public ApduBuilder {
-   public:
+
+public:
     /* functions */
     virtual JUB_RV buildApdu(const APDU *apdu, std::vector<JUB_BYTE> &safeApdu);
 
@@ -31,7 +32,7 @@ class JubApudBuiler : public ApduBuilder {
 
     virtual JUB_RV unPackData(std::vector<JUB_BYTE> &dest,
                               std::vector<JUB_BYTE> &src);
-};
+}; // class JubApudBuiler end
 
-}  // namespace jub
+}  // namespace jub end
 #endif  // __ApduBuilder__

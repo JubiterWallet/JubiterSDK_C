@@ -3,7 +3,9 @@
 //
 
 #include <JUB_SDK.h>
+
 #ifdef BLE_MODE
+
 #include <unistd.h>
 #include <mutex>
 
@@ -17,23 +19,25 @@
 #define CTOI(x)   (unsigned int)(*(x) * 0x100           \
                   | (*((x) + 1)))
 
-#define CHECK_CMD(x, header)    if (x != header) {                          \
-                                    DEBUG_ERR(">>>> CMD HEADER ERROR");     \
-                                    fido.hasError = true;                   \
-                                    fido.stopReceiving();                   \
-                                }                                           \
+#define CHECK_CMD(x, header)                \
+if (x != header) {                          \
+    DEBUG_ERR(">>>> CMD HEADER ERROR");     \
+    fido.hasError = true;                   \
+    fido.stopReceiving();                   \
+}                                           \
 
-#define CHECK_SEQ(x, seq)    if (!(  ( x == 0x00                            \
-                                    && x == seq)                            \
-                                 || (( x == (seq + 1)                       \
-                                    && ( x > 0x00                           \
-                                    && x <= 0x7F)))                         \
-                                 )) {           \
-                                 DEBUG_ERR(">>>> SEQ ERROR");               \
-                                 fido.hasError = true;                      \
-                                 fido.stopReceiving();                      \
-                                 return 0;                                  \
-                             }                                              \
+#define CHECK_SEQ(x, seq)                   \
+if (!(  ( x == 0x00                         \
+       && x == seq)                         \
+    || (( x == (seq + 1)                    \
+     && ( x > 0x00                          \
+       && x <= 0x7F)))                      \
+    )) {                                    \
+    DEBUG_ERR(">>>> SEQ ERROR");            \
+    fido.hasError = true;                   \
+    fido.stopReceiving();                   \
+    return 0;                               \
+}                                           \
 
 Fido& Fido::instance() {
     static Fido instance;
@@ -62,8 +66,11 @@ int Fido::RecvCallBack(unsigned long devHandle,
                        unsigned int dataLen) {
     DEBUG_LOG("recv data: %s\n", jub::ByteArray2String(data, dataLen).c_str());
 
-    // todo: ios 中存在上层data空指针的情况导致崩溃， 有必要在通讯库中处理空指针判断
-    if (data == NULL || dataLen == 0) {
+    // todo: There is an upper-level data null pointer in ios that causes crashes,
+    //       It is necessary to handle null pointer judgments in the communication library.
+    if (NULL == data
+        || 0 == dataLen
+        ) {
         return 0;
     }
 
@@ -74,20 +81,24 @@ int Fido::RecvCallBack(unsigned long devHandle,
 
     // check package
     switch (data[0]) {
-        case CMD_KEEP_ALIVE:  // 过滤keep live
-            return 0;
-        case CMD_ERROR:
-            DEBUG_ERR(">>>> BF ERROR");
-            // notification have error
-            fido.stopReceiving();
-            return 0;
-        case CMD_MSG:
-        default:
-            break;
+    case CMD_KEEP_ALIVE:  // Filtering keep live
+    {
+        return 0;
+    } // case CMD_KEEP_ALIVE end
+    case CMD_ERROR:
+    {
+        DEBUG_ERR(">>>> BF ERROR");
+        // notification have error
+        fido.stopReceiving();
+        return 0;
+    } // case CMD_ERROR end
+    case CMD_MSG:
+    default:
+        break;
     } // switch (data[0]) end
 
-    // 非首包,单包检测
-    if (fido.mRecvMsg.size() > 0) {
+    // Non-first packet, single packet detection
+    if (0 < fido.mRecvMsg.size()) {
         CHECK_SEQ(data[0], fido.pkgSeq);
         fido.pkgSeq = data[0];
     }
@@ -127,7 +138,7 @@ Fido::ResponseStatus Fido::checkResponse() {
         return Fido::ResponseStatus::empty;
     }
 
-    if (mRecvMsg.size() <= FIDO_HEADER_LEN) {
+    if (FIDO_HEADER_LEN >= mRecvMsg.size()) {
         return Fido::ResponseStatus::invalid;
     }
 
@@ -142,7 +153,9 @@ Fido::ResponseStatus Fido::checkResponse() {
     if (recvLen > 17) {
         fLen = (recvLen - 17) / 19;
         int lastLen = (recvLen - 17) % 19;
-        if (lastLen > 0) fLen += 1;
+        if (0 < lastLen) {
+            fLen += 1;
+        }
     }
 
     // 数据长度判断，是否接收完成
@@ -159,7 +172,7 @@ unsigned int Fido::basicApduAddHeadAndLength(unsigned char paramHeader,
                                              unsigned char *pRecvMsg,
                                              unsigned int *pulRecvLen) {
     unsigned int ret = JUBR_OK;
-    if (pRecvMsg == NULL) {
+    if (NULL == pRecvMsg) {
         ret = JUBR_ARGUMENTS_BAD;
         return ret;
     }
@@ -183,7 +196,7 @@ unsigned int Fido::wrapFidoApdu(unsigned char paramHeader,
                                 unsigned char *pRecvMsg,
                                 unsigned int *pulRecvLen) {
     unsigned int ret = JUBR_OK;
-    if (pRecvMsg == NULL) {
+    if (NULL == pRecvMsg) {
         ret = JUBR_ARGUMENTS_BAD;
         return ret;
     }
@@ -192,9 +205,10 @@ unsigned int Fido::wrapFidoApdu(unsigned char paramHeader,
         // 缓存当前协议头
         cmdHeader = paramHeader;
         ret = basicApduAddHeadAndLength(paramHeader, pSendMsg, ulSendMsgLen, pRecvMsg, pulRecvLen);
-        if (ret != 0)
+        if (0 != ret) {
             break;
-        if (*pulRecvLen <= FIDO_BLOCK_SIZE) {
+        }
+        if (FIDO_BLOCK_SIZE >= (*pulRecvLen)) {
             break;
         }
 
@@ -222,7 +236,7 @@ unsigned int Fido::wrapFidoApdu(unsigned char paramHeader,
             fIndex++;
         }
 
-        *pulRecvLen = cmd.size();
+        *pulRecvLen = (unsigned int)cmd.size();
         memcpy(pRecvMsg, &cmd[0], *pulRecvLen);
     } while (0);
 
@@ -233,20 +247,21 @@ unsigned int Fido::parseFidoApdu(unsigned char *pSendMsg, unsigned int ulSendMsg
                                  unsigned char *pRecvMsg, unsigned int *pulRecvLen) {
     DEBUG_LOG("enter parseFidoApdu");
     unsigned int ret = JUBR_OK;
-    if (pRecvMsg == NULL) {
+    if (NULL == pRecvMsg) {
         ret = JUBR_ARGUMENTS_BAD;
         return ret;
     }
 
     do {
         unsigned char tempMsg[512] = {0,};
-        unsigned int tempLen = (unsigned int) sizeof(tempMsg);
+        unsigned int tempLen = (unsigned int) sizeof(tempMsg)/sizeof(unsigned char);
         ret = removePkgIndex(pSendMsg, ulSendMsgLen, tempMsg, &tempLen);
-        if (ret != 0)
+        if (0 != ret) {
             break;
+        }
 
         ret = removeCmdHeadAndStateCode(tempMsg, tempLen, pRecvMsg, pulRecvLen);
-        tempLen = (unsigned int) sizeof(tempMsg);
+        tempLen = (unsigned int) sizeof(tempMsg)/sizeof(unsigned char);
     } while (0);
 
     return ret;
@@ -256,14 +271,14 @@ unsigned int Fido::removePkgIndex(unsigned char *pSendMsg, unsigned int ulSendMs
                                   unsigned char *pRecvMsg, unsigned int *pulRecvLen) {
     DEBUG_LOG("enter removePkgIndex");
     unsigned int ret = JUBR_OK;
-    if (pRecvMsg == NULL) {
+    if (NULL == pRecvMsg) {
         ret = JUBR_ARGUMENTS_BAD;
         return ret;
     }
 
     do {
         unsigned int recvLen = CTOI(&pSendMsg[1]) + FIDO_HEADER_LEN;
-        if (recvLen <= FIDO_BLOCK_SIZE) {
+        if (FIDO_BLOCK_SIZE >= recvLen) {
             *pulRecvLen = ulSendMsgLen;
             memcpy(pRecvMsg, pSendMsg, ulSendMsgLen);
             break;
@@ -296,7 +311,7 @@ unsigned int Fido::removePkgIndex(unsigned char *pSendMsg, unsigned int ulSendMs
             break;
         }
 
-        *pulRecvLen = temp.size();
+        *pulRecvLen = (unsigned int)temp.size();
         memcpy(pRecvMsg, &temp[0], *pulRecvLen);
     } while (0);
 
@@ -308,7 +323,7 @@ unsigned int Fido::removeCmdHeadAndStateCode(unsigned char *pSendMsg, unsigned i
     DEBUG_LOG("enter removeCmdHeadAndStateCode");
 
     unsigned int ret = JUBR_OK;
-    if (pRecvMsg == NULL) {
+    if (NULL == pRecvMsg) {
         ret = JUBR_ARGUMENTS_BAD;
         return ret;
     }
@@ -316,7 +331,7 @@ unsigned int Fido::removeCmdHeadAndStateCode(unsigned char *pSendMsg, unsigned i
     do {
         MSGTYPE temp;
         temp.insert(temp.end(), pSendMsg + FIDO_HEADER_LEN, pSendMsg + ulSendMsgLen);
-        *pulRecvLen = temp.size();
+        *pulRecvLen = (unsigned int)temp.size();
         memcpy(pRecvMsg, &temp[0], *pulRecvLen);
     } while (0);
 

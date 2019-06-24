@@ -23,15 +23,15 @@ namespace jub {
 
 
 #define HID_PACKET_GNU_SIZE 64
-#define FIDO2_WAIT_FLAG    0xbb
+#define FIDO2_WAIT_FLAG     0xbb
 
 class JubiterHidDevice : public DeviceTypeBase {
-   public:
+
+public:
     JubiterHidDevice();
     ~JubiterHidDevice();
 
-   public:
-
+public:
 	static  std::vector<std::string> enumDevice();
     virtual JUB_RV connect(const std::string path);
     virtual JUB_RV disconnect();
@@ -41,19 +41,19 @@ class JubiterHidDevice : public DeviceTypeBase {
                             INOUT JUB_ULONG_PTR pulRetLen,
                             IN JUB_ULONG ulMiliSecondTimeout = 1200000);
 
-   protected:
+protected:
 	int write(const unsigned char *data, size_t length);
 	int read(unsigned char *data, size_t length);
 
-   protected:
+protected:
     hid_device* m_handle;
     unsigned short vid;
     unsigned short pid;
 	std::string _path;
 	bool firstCmd;
-};
+}; // class JubiterHidDevice end
 
-}
+} // namespace jub end
 
 #endif // HID_MODE
 #endif  // __JubiterHidDevice__

@@ -3,14 +3,10 @@
 #define __xManager__
 
 #include <JUB_SDK.h>
-#include <ctime>
 #include <map>
-#include <vector>
-#include "util.h"
 
 template <class T>
-class xManager
-{
+class xManager {
 public:
 	xManager() { _ID = 0;_last = nullptr; };
 	~xManager() {
@@ -20,8 +16,7 @@ public:
 	JUB_UINT16 addOne(T* x) {
 		//srand((unsigned int)(time(NULL)));
 		//JUB_UINT16 ID = rand();
-		if (_ID == 65535)
-		{
+		if (65535 == _ID) {
 			_ID = 0;
 		}
 		//JUB_UINT16 ID  = ++_ID;
@@ -43,31 +38,25 @@ public:
 
 	void clearLast() { _last = nullptr; };
 
-	void clearOne(JUB_UINT16 ID)
-	{
+	void clearOne(JUB_UINT16 ID) {
 		//std::cout << "Clear ID:" << ID << std::endl;
 		auto it = _list.find(ID);
-		if (it != _list.end())
-		{
+		if (it != _list.end()) {
 			delete it->second;
 			_list.erase(it);
 		}
 	}
 
-	void clearAll()
-	{
-		for (auto it : _list)
-		{
+	void clearAll() {
+		for (auto it : _list) {
 			delete it.second;
 		}
 		_list.clear();
 	}
 
-	T* getOne(JUB_UINT16 ID)
-	{
+	T* getOne(JUB_UINT16 ID) {
 		auto it = _list.find(ID);
-		if (it != _list.end())
-		{
+		if (it != _list.end()) {
 			_last = it->second;
 			return it->second;
 		}
@@ -76,18 +65,16 @@ public:
 
 	std::vector<JUB_UINT16> getHandleList() {
 		std::vector<JUB_UINT16> h_list;
-		for (auto it : _list)
-		{
+		for (auto it : _list) {
 			h_list.push_back(it.first);
 		}
 		return h_list;
 	}
 
-
 protected:
 	std::map<JUB_UINT16, T*> _list;
 	T* _last;
 	JUB_UINT16 _ID;
-};
+}; // class xManager end
 
 #endif

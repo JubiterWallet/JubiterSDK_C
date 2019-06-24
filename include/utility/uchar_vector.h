@@ -159,7 +159,7 @@ namespace bitcoin {
 				{
 					insert(end(), OP_PUSHDATA4);
 					uint8_t _data[4] = { 0x00, };
-					WriteLE32(_data, rhs.size());
+					WriteLE32(_data, (uint16_t)rhs.size());
 					insert(end(), _data, _data + sizeof(_data));
 				}
 				insert(end(), rhs.begin(), rhs.end());

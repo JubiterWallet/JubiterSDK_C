@@ -6,45 +6,28 @@
 
 namespace jub {
 
-	class BTCTokenInterface {
+class BTCTokenInterface {
 
-	public:
-		virtual JUB_RV selectApplet_BTC() = 0;
-		virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit) = 0;
-		virtual JUB_RV setCoinType_BTC(JUB_ENUM_COINTYPE_BTC type) = 0;
-		virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type, JUB_UINT16 input_count, std::vector<JUB_UINT64> input_amount, std::vector<std::string> input_path, std::vector<JUB_UINT16> change_index, \
-			std::vector<std::string> change_path, std::vector<JUB_BYTE> unsiged_trans, std::vector<JUB_BYTE>& raw) = 0;
+public:
+    virtual JUB_RV selectApplet_BTC() = 0;
+    virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit) = 0;
+    virtual JUB_RV setCoinType_BTC(JUB_ENUM_COINTYPE_BTC type) = 0;
+    virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type,
+                              JUB_UINT16 input_count,
+                              std::vector<JUB_UINT64> input_amount,
+                              std::vector<std::string> input_path,
+                              std::vector<JUB_UINT16> change_index,
+                              std::vector<std::string> change_path,
+                              std::vector<JUB_BYTE> unsiged_trans,
+                              std::vector<JUB_BYTE>& raw) = 0;
 
-		virtual JUB_RV getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub) = 0;
-		virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 bshow, std::string& address) = 0;
-	};
+    virtual JUB_RV getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub) = 0;
+    virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,
+                                  std::string path,
+                                  JUB_UINT16 tag,
+                                  std::string& address) = 0;
+}; // class BTCTokenInterface end
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} // namespace jub end
 
 #endif

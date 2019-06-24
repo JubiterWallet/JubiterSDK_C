@@ -6,13 +6,12 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-//#include <device/DeviceManager.hpp>
 #include <utility/util.hpp>
 #include <bleTransmit/bleTransmit.h>
-#include <utility/Singleton.h>
 #include <device/JubiterBLEDevice.hpp>
-//#include <logUtils.h>
 #include <device/Fido.h>
+#include <utility/Singleton.h>
+#include <utility/uchar_vector.h>
 
 #ifdef __ANDROID__
 #include <bleTransmit/android/BTManager.h>
@@ -21,49 +20,52 @@
 #include "BLEInterface.h"
 #endif
 
-
 namespace jub {
 
-JubiterBLEDevice::JubiterBLEDevice()
-    : _param{nullptr, BLE_ReadCallBack, BLE_ScanCallBack, BLE_DiscCallBack},
-      _handle(0), _connected(false) {
+JubiterBLEDevice::JubiterBLEDevice():
+    _param{nullptr, BLE_ReadCallBack, BLE_ScanCallBack, BLE_DiscCallBack},
+    _handle(0),
+    _connected(false) {
 
 }
 
-JubiterBLEDevice::~JubiterBLEDevice() { disconnect(); }
-
+JubiterBLEDevice::~JubiterBLEDevice() {
+    disconnect();
+}
 
 JUB_RV JubiterBLEDevice::matchErrorCode(int error) {
+
 #ifdef __ANDROID__
-    switch (error) {
-        case BT_SUCCESS:
-            return JUBR_OK;
-        case BT_ERR_CONNECT_FAIL:
-            return JUBR_CONNECT_DEVICE_ERROR;
-        case BT_ERR_BOND_FAIL:
-            return JUBR_BT_BOND_FAILED;
-        case BT_ERR_NOT_ENABLE:
-        case BT_ERR_NOT_SUPPORT:
-        case BT_ERR_NO_LOCATION_PERMISSION:
-        case BT_ERR_TRANSMIT_ERROR:
-        default:
-            return JUBR_TRANSMIT_DEVICE_ERROR;
-    } // switch (error) end
+switch (error) {
+    case BT_SUCCESS:
+        return JUBR_OK;
+    case BT_ERR_CONNECT_FAIL:
+        return JUBR_CONNECT_DEVICE_ERROR;
+    case BT_ERR_BOND_FAIL:
+        return JUBR_BT_BOND_FAILED;
+    case BT_ERR_NOT_ENABLE:
+    case BT_ERR_NOT_SUPPORT:
+    case BT_ERR_NO_LOCATION_PERMISSION:
+    case BT_ERR_TRANSMIT_ERROR:
+    default:
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+} // switch (error) end
 #else
-    switch ((unsigned long)error) {
-        case CKR_OK:
-            return JUBR_OK;
-        case CKR_BLE_BOND_FAIL:
-            return JUBR_BT_BOND_FAILED;
-        case CKR_BLE_CONNECT_FAIL:
-            return JUBR_CONNECT_DEVICE_ERROR;
-        default:
-            return JUBR_TRANSMIT_DEVICE_ERROR;
-    } // switch ((unsigned long)error) end
+switch ((unsigned long)error) {
+    case CKR_OK:
+        return JUBR_OK;
+    case CKR_BLE_BOND_FAIL:
+        return JUBR_BT_BOND_FAILED;
+    case CKR_BLE_CONNECT_FAIL:
+        return JUBR_CONNECT_DEVICE_ERROR;
+    default:
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+} // switch ((unsigned long)error) end
 #endif
 }
 
 JUB_RV JubiterBLEDevice::connect(const std::string params /* = ""*/) {
+
     // parse parms
 //     unsigned char guid[] = "0000-0000-0000";
 //
@@ -73,6 +75,7 @@ JUB_RV JubiterBLEDevice::connect(const std::string params /* = ""*/) {
 }
 
 JUB_RV JubiterBLEDevice::disconnect() {
+
     if (             0 != _handle
         && IFD_SUCCESS == FT_BLE_DisConn(_handle)
         ) {
@@ -103,18 +106,20 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
     fido.clear();
 
     unsigned char _sendMsg[2048] = {0,};
-    unsigned int _sendLen = (unsigned int) sizeof(_sendMsg);
+    unsigned int _sendLen = (unsigned int) sizeof(_sendMsg)/sizeof(unsigned char);
     // 封装fido协议
-    fido.wrapFidoApdu(CMD_MSG, const_cast<unsigned char *>(sendData), sendLen, _sendMsg, &_sendLen);
+    fido.wrapFidoApdu(CMD_MSG, const_cast<unsigned char *>(sendData), (unsigned int)sendLen, _sendMsg, &_sendLen);
 
     int ret = FT_BLE_SendAPDU(_handle, const_cast<unsigned char *>(_sendMsg), _sendLen);
-    if (ret != 0) {
+    if (0 != ret) {
         return matchErrorCode(ret);
     }
 
     auto status = fido.waitForReceive(ulMiliSecondTimeout);
-    if (!_connected) { return JUBR_NOT_CONNECT_DEVICE; };
-    if (status == std::cv_status::timeout) {
+    if (!_connected) {
+        return JUBR_NOT_CONNECT_DEVICE;
+    }
+    if (std::cv_status::timeout == status) {
         return JUBR_TRANSACT_TIMEOUT;
     }
 
@@ -137,13 +142,13 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
         return JUBR_OK;
     }
 
-    ret = fido.parseFidoApdu(resp.data(), resp.size(), pRetData, (unsigned int *) pulRetLen);
+    ret = fido.parseFidoApdu(resp.data(), (unsigned int)resp.size(), pRetData, (unsigned int *) pulRetLen);
 
     return matchErrorCode(ret);
 }
 
 unsigned int JubiterBLEDevice::initialize(const BLE_INIT_PARAM& params) {
-    
+
 	// init with inner _param
 	_param.param = params.param;
 	unsigned int ret = FT_BLE_Initialize(_param);
@@ -151,7 +156,7 @@ unsigned int JubiterBLEDevice::initialize(const BLE_INIT_PARAM& params) {
 		outerParams = params;
 	}
 
-    return matchErrorCode(ret);
+    return (unsigned int)matchErrorCode(ret);
 }
 
 unsigned int JubiterBLEDevice::finalize() { 
@@ -162,18 +167,19 @@ unsigned int JubiterBLEDevice::finalize() {
 
 unsigned int JubiterBLEDevice::scan() { 
 
-	return matchErrorCode(FT_BLE_Scan());
+	return (unsigned int)matchErrorCode(FT_BLE_Scan());
 }
 
 unsigned int JubiterBLEDevice::stopScan() { 
 
-	return matchErrorCode(FT_BLE_StopScan());
+	return (unsigned int)matchErrorCode(FT_BLE_StopScan());
 }
 
 unsigned int JubiterBLEDevice::connect(unsigned char* bBLEUUID,
                                        unsigned int connectType,
                                        unsigned long* pDevHandle,
                                        unsigned int timeout) {
+
     unsigned int ret =
         FT_BLE_ConnDev(bBLEUUID, connectType, pDevHandle, timeout);
     if (IFD_SUCCESS == ret) {
@@ -181,7 +187,8 @@ unsigned int JubiterBLEDevice::connect(unsigned char* bBLEUUID,
         _connected = true;
     }
     extraSetting();
-    return matchErrorCode(ret);
+
+    return (unsigned int)matchErrorCode(ret);
 }
 
 unsigned int JubiterBLEDevice::cancelConnect(unsigned char* bBLEUUID) {
@@ -190,19 +197,18 @@ unsigned int JubiterBLEDevice::cancelConnect(unsigned char* bBLEUUID) {
 	_handle = 0;
     _connected = false;
 
-	return matchErrorCode(ret);
+	return (unsigned int)matchErrorCode(ret);
 }
 
 unsigned int JubiterBLEDevice::disconnect(unsigned long handle) { 
 
 	unsigned int ret = FT_BLE_DisConn(handle);
-
 	if (IFD_SUCCESS == ret) {
 		_handle = 0;
         _connected = false;
 	}
 
-	return matchErrorCode(ret);
+	return (unsigned int)matchErrorCode(ret);
 }
 
 unsigned int JubiterBLEDevice::isConnect(unsigned long handle) { 
@@ -220,7 +226,8 @@ void JubiterBLEDevice::setHandle(unsigned long handle) {
 	_handle = handle;
 }
 
-void JubiterBLEDevice::setConnectStatuteFalse(){
+void JubiterBLEDevice::setConnectStatuteFalse() {
+
     _connected = false;
 }
 
@@ -233,7 +240,7 @@ int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
 
     // analyse data here...
 
-     auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
     if (bleDevice) {
         Fido::RecvCallBack(devHandle, data, dataLen);
     }
@@ -248,7 +255,7 @@ void JubiterBLEDevice::BLE_ScanCallBack(unsigned char* devName,
 //        return;
 //    }
 
-     auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
     if (bleDevice) {
         if (bleDevice->outerParams.scanCallBack) {
             bleDevice->outerParams.scanCallBack(devName, uuid, type);
@@ -272,6 +279,7 @@ void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
             bleDevice->outerParams.discCallBack(uuid);
         }
 	}
+
     return;
 }
 
@@ -283,35 +291,49 @@ void JubiterBLEDevice::extraSetting() {
     // cmd: 00A40400
     uchar_vector cmd("00A40400");
     unsigned char resp[0x100] = {0,};
-    JUB_ULONG respLen = sizeof(resp);
+    JUB_ULONG respLen = sizeof(resp)/sizeof(unsigned char);
     auto rv = sendData(cmd.data(), cmd.size(), resp, &respLen);
-    if (rv != JUBR_OK) { return; }
-    if (respLen < 2) { return; }
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    if (2 > respLen) {
+        return;
+    }
+
     JUB_RV ret = 0;
     ret = resp[respLen - 2] * 0x100 + resp[respLen - 1];
-    if (ret != 0x9000) { return;}
+    if (0x9000 != ret) {
+        return;
+    }
 
     // cmd:  80CB800005DFFF028100
     // resp: 2003D86A571205504A7542697465722D71686A769000
     cmd.setHex("80CB800005DFFF028100");
-    respLen = sizeof(resp);
+    respLen = sizeof(resp)/sizeof(unsigned char);
     rv = sendData(cmd.data(), cmd.size(), resp, &respLen);
-    if ( rv != JUBR_OK) { return; }
-    if ( respLen < 4) { return; }
+    if (JUBR_OK != rv) {
+        return;
+    }
+    if (4 > respLen) {
+        return;
+    }
     ret = resp[respLen - 2] * 0x100;
     ret += resp[respLen - 1];
-    if (ret != 0x9000) { return; }
-    if (   resp[0] != 0x20
-        || resp[1] != 0x03
+    if (0x9000 != ret) {
+        return;
+    }
+    if (   0x20 != resp[0]
+        || 0x03 != resp[1]
         ) {
         return;
     }
 
     FT_BLESetIsReConnected(true);
-#endif // #if TARGET_OS_OSX
-#endif
+#endif // #if TARGET_OS_IOS
+#endif // #if defined(__APPLE__)
 }
 
-}  // namespace jub
+}  // namespace jub end
 
 #endif // USE_BLE_DEVICE
