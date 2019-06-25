@@ -7,35 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EADCCDB822A7C21C008F2EF5 /* bleTransmit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDB522A7C21B008F2EF5 /* bleTransmit.cpp */; };
-		EADCCDD022A7C25D008F2EF5 /* md4.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDBD22A7C25D008F2EF5 /* md4.c */; };
-		EADCCDD122A7C25D008F2EF5 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDC122A7C25D008F2EF5 /* sha1.c */; };
-		EADCCDD222A7C25D008F2EF5 /* platform.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDC322A7C25D008F2EF5 /* platform.c */; };
-		EADCCDD322A7C25D008F2EF5 /* ripemd160.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDC622A7C25D008F2EF5 /* ripemd160.c */; };
-		EADCCDD422A7C25D008F2EF5 /* md2.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDC822A7C25D008F2EF5 /* md2.c */; };
-		EADCCDD522A7C25D008F2EF5 /* md_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDC922A7C25D008F2EF5 /* md_wrap.c */; };
-		EADCCDD622A7C25D008F2EF5 /* sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDCB22A7C25D008F2EF5 /* sha256.c */; };
-		EADCCDD722A7C25D008F2EF5 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDCC22A7C25D008F2EF5 /* md5.c */; };
-		EADCCDD822A7C25D008F2EF5 /* sha512.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDCD22A7C25D008F2EF5 /* sha512.c */; };
-		EADCCDD922A7C25D008F2EF5 /* md.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDCE22A7C25D008F2EF5 /* md.c */; };
-		EADCCE1B22A7D6BA008F2EF5 /* JubiterBLDImplETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0522A7D6BA008F2EF5 /* JubiterBLDImplETH.cpp */; };
-		EADCCE1C22A7D6BA008F2EF5 /* JubiterBLDImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0622A7D6BA008F2EF5 /* JubiterBLDImpl.cpp */; };
-		EADCCE1D22A7D6BA008F2EF5 /* JubiterBLDImplBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0722A7D6BA008F2EF5 /* JubiterBLDImplBTC.cpp */; };
-		EADCCE1E22A7D6BA008F2EF5 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0A22A7D6BA008F2EF5 /* Context.cpp */; };
-		EADCCE1F22A7D6BA008F2EF5 /* ContextBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0B22A7D6BA008F2EF5 /* ContextBTC.cpp */; };
-		EADCCE2022A7D6BA008F2EF5 /* ContextETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0C22A7D6BA008F2EF5 /* ContextETH.cpp */; };
-		EADCCE2122A7D6BA008F2EF5 /* cashaddr.cc in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0E22A7D6BA008F2EF5 /* cashaddr.cc */; };
-		EADCCE2222A7D6BA008F2EF5 /* ByteConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1022A7D6BA008F2EF5 /* ByteConverter.cpp */; };
-		EADCCE2322A7D6BA008F2EF5 /* ERC20Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1122A7D6BA008F2EF5 /* ERC20Abi.cpp */; };
-		EADCCE2422A7D6BA008F2EF5 /* JUB_SDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1222A7D6BA008F2EF5 /* JUB_SDK.cpp */; };
-		EADCCE2522A7D6BA008F2EF5 /* JubiterHidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1422A7D6BA008F2EF5 /* JubiterHidDevice.cpp */; };
-		EADCCE2622A7D6BA008F2EF5 /* JubiterBLEDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1522A7D6BA008F2EF5 /* JubiterBLEDevice.cpp */; };
-		EADCCE2722A7D6BA008F2EF5 /* ApduBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1722A7D6BA008F2EF5 /* ApduBuilder.cpp */; };
-		EADCCE2822A7D6BA008F2EF5 /* Fido.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1822A7D6BA008F2EF5 /* Fido.cpp */; };
-		EADCCE2922A7D6BA008F2EF5 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1A22A7D6BA008F2EF5 /* util.cpp */; };
-		EADCCE2E22A8AD08008F2EF5 /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE2C22A8AD08008F2EF5 /* base58.cpp */; };
-		EADCCE2F22A8AD08008F2EF5 /* bech32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE2D22A8AD08008F2EF5 /* bech32.cpp */; };
-		EADCCE3122AF8489008F2EF5 /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE3022AF8489008F2EF5 /* Debug.cpp */; };
+		6732D41522C218E400FB9A5A /* ContextBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D41222C218E300FB9A5A /* ContextBTC.cpp */; };
+		6732D41622C218E400FB9A5A /* ContextETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D41322C218E300FB9A5A /* ContextETH.cpp */; };
+		6732D41722C218E400FB9A5A /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D41422C218E400FB9A5A /* Context.cpp */; };
+		6732D41C22C218F100FB9A5A /* ApduBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D41822C218F100FB9A5A /* ApduBuilder.cpp */; };
+		6732D41D22C218F100FB9A5A /* Fido.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D41922C218F100FB9A5A /* Fido.cpp */; };
+		6732D41E22C218F100FB9A5A /* JubiterHidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D41A22C218F100FB9A5A /* JubiterHidDevice.cpp */; };
+		6732D41F22C218F100FB9A5A /* JubiterBLEDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D41B22C218F100FB9A5A /* JubiterBLEDevice.cpp */; };
+		6732D42222C218FF00FB9A5A /* ERC20Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D42022C218FF00FB9A5A /* ERC20Abi.cpp */; };
+		6732D42322C218FF00FB9A5A /* ByteConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D42122C218FF00FB9A5A /* ByteConverter.cpp */; };
+		6732D42522C2193800FB9A5A /* cashaddr.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6732D42422C2193800FB9A5A /* cashaddr.cc */; };
+		6732D42922C2194400FB9A5A /* JubiterBLDImplETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D42622C2194400FB9A5A /* JubiterBLDImplETH.cpp */; };
+		6732D42A22C2194400FB9A5A /* JubiterBLDImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D42722C2194400FB9A5A /* JubiterBLDImpl.cpp */; };
+		6732D42B22C2194400FB9A5A /* JubiterBLDImplBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D42822C2194400FB9A5A /* JubiterBLDImplBTC.cpp */; };
+		6732D42E22C2194F00FB9A5A /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D42C22C2194F00FB9A5A /* util.cpp */; };
+		6732D42F22C2194F00FB9A5A /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D42D22C2194F00FB9A5A /* Debug.cpp */; };
+		6732D43422C219BC00FB9A5A /* JUB_SDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D43322C219BC00FB9A5A /* JUB_SDK.cpp */; };
+		6732D44122C2205400FB9A5A /* bleTransmit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D43F22C2205400FB9A5A /* bleTransmit.cpp */; };
+		6732D44C22C220AD00FB9A5A /* base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D44722C220AD00FB9A5A /* base58.cpp */; };
+		6732D44D22C220AD00FB9A5A /* bech32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6732D44B22C220AD00FB9A5A /* bech32.cpp */; };
+		6732D46622C220F300FB9A5A /* sha256.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D45022C220F100FB9A5A /* sha256.c */; };
+		6732D46722C220F300FB9A5A /* sha512.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D45522C220F200FB9A5A /* sha512.c */; };
+		6732D46822C220F300FB9A5A /* md.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D45822C220F200FB9A5A /* md.c */; };
+		6732D46922C220F300FB9A5A /* md4.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D45922C220F200FB9A5A /* md4.c */; };
+		6732D46A22C220F300FB9A5A /* platform.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D45B22C220F200FB9A5A /* platform.c */; };
+		6732D46B22C220F300FB9A5A /* ripemd160.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D45E22C220F200FB9A5A /* ripemd160.c */; };
+		6732D46C22C220F300FB9A5A /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D46022C220F200FB9A5A /* sha1.c */; };
+		6732D46D22C220F300FB9A5A /* md_wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D46122C220F200FB9A5A /* md_wrap.c */; };
+		6732D46E22C220F300FB9A5A /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D46322C220F200FB9A5A /* md5.c */; };
+		6732D46F22C220F300FB9A5A /* md2.c in Sources */ = {isa = PBXBuildFile; fileRef = 6732D46522C220F300FB9A5A /* md2.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,83 +51,86 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6732D3E722C2175C00FB9A5A /* ContextBTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextBTC.h; path = ../../../include/context/ContextBTC.h; sourceTree = "<group>"; };
+		6732D3E822C2175C00FB9A5A /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Context.h; path = ../../../include/context/Context.h; sourceTree = "<group>"; };
+		6732D3E922C2175D00FB9A5A /* ContextETH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextETH.h; path = ../../../include/context/ContextETH.h; sourceTree = "<group>"; };
+		6732D3EB22C2178800FB9A5A /* JubiterBLEDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JubiterBLEDevice.hpp; path = ../../../include/device/JubiterBLEDevice.hpp; sourceTree = "<group>"; };
+		6732D3EC22C2178800FB9A5A /* DeviceTypeBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DeviceTypeBase.hpp; path = ../../../include/device/DeviceTypeBase.hpp; sourceTree = "<group>"; };
+		6732D3ED22C2178800FB9A5A /* JubiterHidDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JubiterHidDevice.hpp; path = ../../../include/device/JubiterHidDevice.hpp; sourceTree = "<group>"; };
+		6732D3EE22C2178800FB9A5A /* ApduBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ApduBuilder.hpp; path = ../../../include/device/ApduBuilder.hpp; sourceTree = "<group>"; };
+		6732D3EF22C2178800FB9A5A /* DeviceIOLogHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DeviceIOLogHelper.hpp; path = ../../../include/device/DeviceIOLogHelper.hpp; sourceTree = "<group>"; };
+		6732D3F022C2178800FB9A5A /* Fido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fido.h; path = ../../../include/device/Fido.h; sourceTree = "<group>"; };
+		6732D3F122C2179400FB9A5A /* JUB_SDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUB_SDK.h; sourceTree = "<group>"; };
+		6732D3F822C217FE00FB9A5A /* cashaddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cashaddr.h; path = ../../../include/libBCH/cashaddr.h; sourceTree = "<group>"; };
+		6732D3F922C217FE00FB9A5A /* libBCH.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = libBCH.hpp; path = ../../../include/libBCH/libBCH.hpp; sourceTree = "<group>"; };
+		6732D3FA22C2180D00FB9A5A /* libBTC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = libBTC.hpp; path = ../../../include/libBTC/libBTC.hpp; sourceTree = "<group>"; };
+		6732D3FB22C2181900FB9A5A /* ByteConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ByteConverter.h; path = ../../../include/libETH/ByteConverter.h; sourceTree = "<group>"; };
+		6732D3FC22C2181900FB9A5A /* ERC20Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC20Abi.h; path = ../../../include/libETH/ERC20Abi.h; sourceTree = "<group>"; };
+		6732D3FD22C2182500FB9A5A /* JubiterBLDImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBLDImpl.h; path = ../../../include/token/JubiterBLDImpl.h; sourceTree = "<group>"; };
+		6732D3FE22C2183500FB9A5A /* TokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TokenInterface.hpp; path = ../../../include/token/interface/TokenInterface.hpp; sourceTree = "<group>"; };
+		6732D3FF22C2183500FB9A5A /* ETHTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ETHTokenInterface.hpp; path = ../../../include/token/interface/ETHTokenInterface.hpp; sourceTree = "<group>"; };
+		6732D40022C2183500FB9A5A /* BTCTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BTCTokenInterface.hpp; path = ../../../include/token/interface/BTCTokenInterface.hpp; sourceTree = "<group>"; };
+		6732D40122C2186A00FB9A5A /* util.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = util.hpp; path = ../../../include/utility/util.hpp; sourceTree = "<group>"; };
+		6732D40222C2186A00FB9A5A /* byteswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = byteswap.h; path = ../../../include/utility/byteswap.h; sourceTree = "<group>"; };
+		6732D40322C2186A00FB9A5A /* xManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = xManager.hpp; path = ../../../include/utility/xManager.hpp; sourceTree = "<group>"; };
+		6732D40422C2186A00FB9A5A /* Apdu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Apdu.hpp; path = ../../../include/utility/Apdu.hpp; sourceTree = "<group>"; };
+		6732D40522C2186A00FB9A5A /* CoinType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoinType.h; path = ../../../include/utility/CoinType.h; sourceTree = "<group>"; };
+		6732D40622C2186A00FB9A5A /* endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = endian.h; path = ../../../include/utility/endian.h; sourceTree = "<group>"; };
+		6732D40722C2186A00FB9A5A /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = ../../../include/utility/util.h; sourceTree = "<group>"; };
+		6732D40822C2186A00FB9A5A /* Debug.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Debug.hpp; path = ../../../include/utility/Debug.hpp; sourceTree = "<group>"; };
+		6732D40922C2186A00FB9A5A /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Singleton.h; path = ../../../include/utility/Singleton.h; sourceTree = "<group>"; };
+		6732D40A22C2186A00FB9A5A /* op_codes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = op_codes.h; path = ../../../include/utility/op_codes.h; sourceTree = "<group>"; };
+		6732D40B22C2186A00FB9A5A /* uchar_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uchar_vector.h; path = ../../../include/utility/uchar_vector.h; sourceTree = "<group>"; };
+		6732D41222C218E300FB9A5A /* ContextBTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContextBTC.cpp; path = ../../src/context/ContextBTC.cpp; sourceTree = "<group>"; };
+		6732D41322C218E300FB9A5A /* ContextETH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContextETH.cpp; path = ../../src/context/ContextETH.cpp; sourceTree = "<group>"; };
+		6732D41422C218E400FB9A5A /* Context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Context.cpp; path = ../../src/context/Context.cpp; sourceTree = "<group>"; };
+		6732D41822C218F100FB9A5A /* ApduBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ApduBuilder.cpp; path = ../../src/device/ApduBuilder.cpp; sourceTree = "<group>"; };
+		6732D41922C218F100FB9A5A /* Fido.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Fido.cpp; path = ../../src/device/Fido.cpp; sourceTree = "<group>"; };
+		6732D41A22C218F100FB9A5A /* JubiterHidDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterHidDevice.cpp; path = ../../src/device/JubiterHidDevice.cpp; sourceTree = "<group>"; };
+		6732D41B22C218F100FB9A5A /* JubiterBLEDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBLEDevice.cpp; path = ../../src/device/JubiterBLEDevice.cpp; sourceTree = "<group>"; };
+		6732D42022C218FF00FB9A5A /* ERC20Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC20Abi.cpp; path = ../../src/libETH/ERC20Abi.cpp; sourceTree = "<group>"; };
+		6732D42122C218FF00FB9A5A /* ByteConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteConverter.cpp; path = ../../src/libETH/ByteConverter.cpp; sourceTree = "<group>"; };
+		6732D42422C2193800FB9A5A /* cashaddr.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cashaddr.cc; path = ../../src/libBCH/cashaddr.cc; sourceTree = "<group>"; };
+		6732D42622C2194400FB9A5A /* JubiterBLDImplETH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBLDImplETH.cpp; path = ../../src/token/JubiterBLDImplETH.cpp; sourceTree = "<group>"; };
+		6732D42722C2194400FB9A5A /* JubiterBLDImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBLDImpl.cpp; path = ../../src/token/JubiterBLDImpl.cpp; sourceTree = "<group>"; };
+		6732D42822C2194400FB9A5A /* JubiterBLDImplBTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBLDImplBTC.cpp; path = ../../src/token/JubiterBLDImplBTC.cpp; sourceTree = "<group>"; };
+		6732D42C22C2194F00FB9A5A /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = util.cpp; path = ../../src/utility/util.cpp; sourceTree = "<group>"; };
+		6732D42D22C2194F00FB9A5A /* Debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Debug.cpp; path = ../../src/utility/Debug.cpp; sourceTree = "<group>"; };
+		6732D43322C219BC00FB9A5A /* JUB_SDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK.cpp; path = ../../src/JUB_SDK.cpp; sourceTree = "<group>"; };
+		6732D43E22C2205400FB9A5A /* bleTransmitF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bleTransmitF.h; path = ../../deps/bleTransmit/bleTransmitF.h; sourceTree = "<group>"; };
+		6732D43F22C2205400FB9A5A /* bleTransmit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bleTransmit.cpp; path = ../../deps/bleTransmit/bleTransmit.cpp; sourceTree = "<group>"; };
+		6732D44022C2205400FB9A5A /* bleTransmit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bleTransmit.h; path = ../../deps/bleTransmit/bleTransmit.h; sourceTree = "<group>"; };
+		6732D44322C2208000FB9A5A /* ErrorCodesAndMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorCodesAndMacros.h; path = ../../deps/bleTransmit/ios/ErrorCodesAndMacros.h; sourceTree = "<group>"; };
+		6732D44422C2208000FB9A5A /* BLEInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLEInterface.h; path = ../../deps/bleTransmit/ios/BLEInterface.h; sourceTree = "<group>"; };
+		6732D44522C2208000FB9A5A /* BLETemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLETemplate.h; path = ../../deps/bleTransmit/ios/BLETemplate.h; sourceTree = "<group>"; };
+		6732D44722C220AD00FB9A5A /* base58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base58.cpp; path = ../../deps/formats/base58.cpp; sourceTree = "<group>"; };
+		6732D44822C220AD00FB9A5A /* bech32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bech32.h; path = ../../deps/formats/bech32.h; sourceTree = "<group>"; };
+		6732D44922C220AD00FB9A5A /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = ../../deps/formats/hash.h; sourceTree = "<group>"; };
+		6732D44A22C220AD00FB9A5A /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base58.h; path = ../../deps/formats/base58.h; sourceTree = "<group>"; };
+		6732D44B22C220AD00FB9A5A /* bech32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bech32.cpp; path = ../../deps/formats/bech32.cpp; sourceTree = "<group>"; };
+		6732D45022C220F100FB9A5A /* sha256.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha256.c; path = ../../deps/polarssl/sha256.c; sourceTree = "<group>"; };
+		6732D45122C220F200FB9A5A /* sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha256.h; path = ../../deps/polarssl/sha256.h; sourceTree = "<group>"; };
+		6732D45222C220F200FB9A5A /* md.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md.h; path = ../../deps/polarssl/md.h; sourceTree = "<group>"; };
+		6732D45322C220F200FB9A5A /* sha512.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha512.h; path = ../../deps/polarssl/sha512.h; sourceTree = "<group>"; };
+		6732D45422C220F200FB9A5A /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha1.h; path = ../../deps/polarssl/sha1.h; sourceTree = "<group>"; };
+		6732D45522C220F200FB9A5A /* sha512.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha512.c; path = ../../deps/polarssl/sha512.c; sourceTree = "<group>"; };
+		6732D45622C220F200FB9A5A /* md2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md2.h; path = ../../deps/polarssl/md2.h; sourceTree = "<group>"; };
+		6732D45722C220F200FB9A5A /* ripemd160.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ripemd160.h; path = ../../deps/polarssl/ripemd160.h; sourceTree = "<group>"; };
+		6732D45822C220F200FB9A5A /* md.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = md.c; path = ../../deps/polarssl/md.c; sourceTree = "<group>"; };
+		6732D45922C220F200FB9A5A /* md4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = md4.c; path = ../../deps/polarssl/md4.c; sourceTree = "<group>"; };
+		6732D45A22C220F200FB9A5A /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md5.h; path = ../../deps/polarssl/md5.h; sourceTree = "<group>"; };
+		6732D45B22C220F200FB9A5A /* platform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = platform.c; path = ../../deps/polarssl/platform.c; sourceTree = "<group>"; };
+		6732D45C22C220F200FB9A5A /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../deps/polarssl/config.h; sourceTree = "<group>"; };
+		6732D45D22C220F200FB9A5A /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = platform.h; path = ../../deps/polarssl/platform.h; sourceTree = "<group>"; };
+		6732D45E22C220F200FB9A5A /* ripemd160.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ripemd160.c; path = ../../deps/polarssl/ripemd160.c; sourceTree = "<group>"; };
+		6732D45F22C220F200FB9A5A /* md_wrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md_wrap.h; path = ../../deps/polarssl/md_wrap.h; sourceTree = "<group>"; };
+		6732D46022C220F200FB9A5A /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha1.c; path = ../../deps/polarssl/sha1.c; sourceTree = "<group>"; };
+		6732D46122C220F200FB9A5A /* md_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = md_wrap.c; path = ../../deps/polarssl/md_wrap.c; sourceTree = "<group>"; };
+		6732D46222C220F200FB9A5A /* md4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md4.h; path = ../../deps/polarssl/md4.h; sourceTree = "<group>"; };
+		6732D46322C220F200FB9A5A /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = md5.c; path = ../../deps/polarssl/md5.c; sourceTree = "<group>"; };
+		6732D46422C220F300FB9A5A /* check_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = check_config.h; path = ../../deps/polarssl/check_config.h; sourceTree = "<group>"; };
+		6732D46522C220F300FB9A5A /* md2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = md2.c; path = ../../deps/polarssl/md2.c; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		EADCCDB522A7C21B008F2EF5 /* bleTransmit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bleTransmit.cpp; path = ../../../../../../../../../deps/bleTransmit/bleTransmit.cpp; sourceTree = "<group>"; };
-		EADCCDB622A7C21C008F2EF5 /* bleTransmitF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bleTransmitF.h; path = ../../../../../../../../../deps/bleTransmit/bleTransmitF.h; sourceTree = "<group>"; };
-		EADCCDB722A7C21C008F2EF5 /* bleTransmit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bleTransmit.h; path = ../../../../../../../../../deps/bleTransmit/bleTransmit.h; sourceTree = "<group>"; };
-		EADCCDBA22A7C25D008F2EF5 /* md_wrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md_wrap.h; sourceTree = "<group>"; };
-		EADCCDBB22A7C25D008F2EF5 /* check_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = check_config.h; sourceTree = "<group>"; };
-		EADCCDBC22A7C25D008F2EF5 /* md2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md2.h; sourceTree = "<group>"; };
-		EADCCDBD22A7C25D008F2EF5 /* md4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md4.c; sourceTree = "<group>"; };
-		EADCCDBE22A7C25D008F2EF5 /* ripemd160.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ripemd160.h; sourceTree = "<group>"; };
-		EADCCDBF22A7C25D008F2EF5 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		EADCCDC022A7C25D008F2EF5 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
-		EADCCDC122A7C25D008F2EF5 /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
-		EADCCDC222A7C25D008F2EF5 /* sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha256.h; sourceTree = "<group>"; };
-		EADCCDC322A7C25D008F2EF5 /* platform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = platform.c; sourceTree = "<group>"; };
-		EADCCDC422A7C25D008F2EF5 /* md.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md.h; sourceTree = "<group>"; };
-		EADCCDC522A7C25D008F2EF5 /* sha512.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha512.h; sourceTree = "<group>"; };
-		EADCCDC622A7C25D008F2EF5 /* ripemd160.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ripemd160.c; sourceTree = "<group>"; };
-		EADCCDC722A7C25D008F2EF5 /* md4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md4.h; sourceTree = "<group>"; };
-		EADCCDC822A7C25D008F2EF5 /* md2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md2.c; sourceTree = "<group>"; };
-		EADCCDC922A7C25D008F2EF5 /* md_wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md_wrap.c; sourceTree = "<group>"; };
-		EADCCDCA22A7C25D008F2EF5 /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
-		EADCCDCB22A7C25D008F2EF5 /* sha256.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha256.c; sourceTree = "<group>"; };
-		EADCCDCC22A7C25D008F2EF5 /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
-		EADCCDCD22A7C25D008F2EF5 /* sha512.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha512.c; sourceTree = "<group>"; };
-		EADCCDCE22A7C25D008F2EF5 /* md.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md.c; sourceTree = "<group>"; };
-		EADCCDCF22A7C25D008F2EF5 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		EADCCDDD22A7CCF2008F2EF5 /* BTCTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BTCTokenInterface.hpp; sourceTree = "<group>"; };
-		EADCCDDE22A7CCF2008F2EF5 /* ETHTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ETHTokenInterface.hpp; sourceTree = "<group>"; };
-		EADCCDDF22A7CCF2008F2EF5 /* TokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TokenInterface.hpp; sourceTree = "<group>"; };
-		EADCCDE022A7CCF2008F2EF5 /* JubiterBLDImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JubiterBLDImpl.h; sourceTree = "<group>"; };
-		EADCCDE222A7CCF2008F2EF5 /* ContextETH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextETH.h; sourceTree = "<group>"; };
-		EADCCDE322A7CCF2008F2EF5 /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Context.h; sourceTree = "<group>"; };
-		EADCCDE422A7CCF2008F2EF5 /* ContextBTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextBTC.h; sourceTree = "<group>"; };
-		EADCCDE622A7CCF2008F2EF5 /* libBTC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = libBTC.hpp; sourceTree = "<group>"; };
-		EADCCDE722A7CCF2008F2EF5 /* JUB_SDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUB_SDK.h; sourceTree = "<group>"; };
-		EADCCDE922A7CCF2008F2EF5 /* libBCH.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = libBCH.hpp; sourceTree = "<group>"; };
-		EADCCDEA22A7CCF2008F2EF5 /* cashaddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cashaddr.h; sourceTree = "<group>"; };
-		EADCCDEC22A7CCF2008F2EF5 /* ByteConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteConverter.h; sourceTree = "<group>"; };
-		EADCCDED22A7CCF2008F2EF5 /* ERC20Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ERC20Abi.h; sourceTree = "<group>"; };
-		EADCCDEF22A7CCF2008F2EF5 /* ApduBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ApduBuilder.hpp; sourceTree = "<group>"; };
-		EADCCDF022A7CCF2008F2EF5 /* DeviceIOLogHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceIOLogHelper.hpp; sourceTree = "<group>"; };
-		EADCCDF122A7CCF2008F2EF5 /* DeviceTypeBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceTypeBase.hpp; sourceTree = "<group>"; };
-		EADCCDF222A7CCF2008F2EF5 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
-		EADCCDF322A7CCF2008F2EF5 /* Fido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fido.h; sourceTree = "<group>"; };
-		EADCCDF422A7CCF2008F2EF5 /* JubiterHidDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JubiterHidDevice.hpp; sourceTree = "<group>"; };
-		EADCCDF522A7CCF2008F2EF5 /* JubiterBLEDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JubiterBLEDevice.hpp; sourceTree = "<group>"; };
-		EADCCDF722A7CCF2008F2EF5 /* Apdu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Apdu.hpp; sourceTree = "<group>"; };
-		EADCCDF822A7CCF2008F2EF5 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
-		EADCCDF922A7CCF2008F2EF5 /* endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = endian.h; sourceTree = "<group>"; };
-		EADCCDFA22A7CCF2008F2EF5 /* uchar_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uchar_vector.h; sourceTree = "<group>"; };
-		EADCCDFB22A7CCF2008F2EF5 /* Debug.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Debug.hpp; sourceTree = "<group>"; };
-		EADCCDFC22A7CCF2008F2EF5 /* byteswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = byteswap.h; sourceTree = "<group>"; };
-		EADCCDFD22A7CCF2008F2EF5 /* xManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xManager.hpp; sourceTree = "<group>"; };
-		EADCCDFE22A7CCF2008F2EF5 /* op_codes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = op_codes.h; sourceTree = "<group>"; };
-		EADCCDFF22A7CCF2008F2EF5 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
-		EADCCE0022A7CCF2008F2EF5 /* DataTransfer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataTransfer.hpp; sourceTree = "<group>"; };
-		EADCCE0122A7CCF2008F2EF5 /* util.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = util.hpp; sourceTree = "<group>"; };
-		EADCCE0222A7CCF2008F2EF5 /* CoinType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinType.h; sourceTree = "<group>"; };
-		EADCCE0522A7D6BA008F2EF5 /* JubiterBLDImplETH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JubiterBLDImplETH.cpp; sourceTree = "<group>"; };
-		EADCCE0622A7D6BA008F2EF5 /* JubiterBLDImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JubiterBLDImpl.cpp; sourceTree = "<group>"; };
-		EADCCE0722A7D6BA008F2EF5 /* JubiterBLDImplBTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JubiterBLDImplBTC.cpp; sourceTree = "<group>"; };
-		EADCCE0A22A7D6BA008F2EF5 /* Context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Context.cpp; sourceTree = "<group>"; };
-		EADCCE0B22A7D6BA008F2EF5 /* ContextBTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContextBTC.cpp; sourceTree = "<group>"; };
-		EADCCE0C22A7D6BA008F2EF5 /* ContextETH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContextETH.cpp; sourceTree = "<group>"; };
-		EADCCE0E22A7D6BA008F2EF5 /* cashaddr.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cashaddr.cc; sourceTree = "<group>"; };
-		EADCCE1022A7D6BA008F2EF5 /* ByteConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ByteConverter.cpp; sourceTree = "<group>"; };
-		EADCCE1122A7D6BA008F2EF5 /* ERC20Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ERC20Abi.cpp; sourceTree = "<group>"; };
-		EADCCE1222A7D6BA008F2EF5 /* JUB_SDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JUB_SDK.cpp; sourceTree = "<group>"; };
-		EADCCE1422A7D6BA008F2EF5 /* JubiterHidDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JubiterHidDevice.cpp; sourceTree = "<group>"; };
-		EADCCE1522A7D6BA008F2EF5 /* JubiterBLEDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JubiterBLEDevice.cpp; sourceTree = "<group>"; };
-		EADCCE1622A7D6BA008F2EF5 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
-		EADCCE1722A7D6BA008F2EF5 /* ApduBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ApduBuilder.cpp; sourceTree = "<group>"; };
-		EADCCE1822A7D6BA008F2EF5 /* Fido.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fido.cpp; sourceTree = "<group>"; };
-		EADCCE1A22A7D6BA008F2EF5 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
-		EADCCE2C22A8AD08008F2EF5 /* base58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base58.cpp; path = ../../../../../../deps/formats/base58.cpp; sourceTree = "<group>"; };
-		EADCCE2D22A8AD08008F2EF5 /* bech32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bech32.cpp; path = ../../../../../../deps/formats/bech32.cpp; sourceTree = "<group>"; };
-		EADCCE3022AF8489008F2EF5 /* Debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Debug.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,11 +144,265 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6732D3E322C2163300FB9A5A /* JubSDK */ = {
+			isa = PBXGroup;
+			children = (
+				6732D3E522C2173400FB9A5A /* include */,
+				6732D3E422C2172900FB9A5A /* src */,
+			);
+			name = JubSDK;
+			sourceTree = "<group>";
+		};
+		6732D3E422C2172900FB9A5A /* src */ = {
+			isa = PBXGroup;
+			children = (
+				6732D40C22C2187B00FB9A5A /* context */,
+				6732D40D22C2188600FB9A5A /* device */,
+				6732D43322C219BC00FB9A5A /* JUB_SDK.cpp */,
+				6732D40E22C2189300FB9A5A /* libBCH */,
+				6732D40F22C218A100FB9A5A /* libETH */,
+				6732D41022C218AE00FB9A5A /* token */,
+				6732D41122C218BB00FB9A5A /* utility */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		6732D3E522C2173400FB9A5A /* include */ = {
+			isa = PBXGroup;
+			children = (
+				6732D3E622C2174500FB9A5A /* context */,
+				6732D3EA22C2176800FB9A5A /* device */,
+				6732D3F122C2179400FB9A5A /* JUB_SDK.h */,
+				6732D3F222C217A900FB9A5A /* libBCH */,
+				6732D3F322C217B800FB9A5A /* libBTC */,
+				6732D3F422C217C600FB9A5A /* libETH */,
+				6732D3F522C217D300FB9A5A /* token */,
+				6732D3F722C217EB00FB9A5A /* utility */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		6732D3E622C2174500FB9A5A /* context */ = {
+			isa = PBXGroup;
+			children = (
+				6732D3E822C2175C00FB9A5A /* Context.h */,
+				6732D3E722C2175C00FB9A5A /* ContextBTC.h */,
+				6732D3E922C2175D00FB9A5A /* ContextETH.h */,
+			);
+			name = context;
+			sourceTree = "<group>";
+		};
+		6732D3EA22C2176800FB9A5A /* device */ = {
+			isa = PBXGroup;
+			children = (
+				6732D3EE22C2178800FB9A5A /* ApduBuilder.hpp */,
+				6732D3EF22C2178800FB9A5A /* DeviceIOLogHelper.hpp */,
+				6732D3EC22C2178800FB9A5A /* DeviceTypeBase.hpp */,
+				6732D3F022C2178800FB9A5A /* Fido.h */,
+				6732D3EB22C2178800FB9A5A /* JubiterBLEDevice.hpp */,
+				6732D3ED22C2178800FB9A5A /* JubiterHidDevice.hpp */,
+			);
+			name = device;
+			sourceTree = "<group>";
+		};
+		6732D3F222C217A900FB9A5A /* libBCH */ = {
+			isa = PBXGroup;
+			children = (
+				6732D3F822C217FE00FB9A5A /* cashaddr.h */,
+				6732D3F922C217FE00FB9A5A /* libBCH.hpp */,
+			);
+			name = libBCH;
+			sourceTree = "<group>";
+		};
+		6732D3F322C217B800FB9A5A /* libBTC */ = {
+			isa = PBXGroup;
+			children = (
+				6732D3FA22C2180D00FB9A5A /* libBTC.hpp */,
+			);
+			name = libBTC;
+			sourceTree = "<group>";
+		};
+		6732D3F422C217C600FB9A5A /* libETH */ = {
+			isa = PBXGroup;
+			children = (
+				6732D3FB22C2181900FB9A5A /* ByteConverter.h */,
+				6732D3FC22C2181900FB9A5A /* ERC20Abi.h */,
+			);
+			name = libETH;
+			sourceTree = "<group>";
+		};
+		6732D3F522C217D300FB9A5A /* token */ = {
+			isa = PBXGroup;
+			children = (
+				6732D3F622C217E100FB9A5A /* interface */,
+				6732D3FD22C2182500FB9A5A /* JubiterBLDImpl.h */,
+			);
+			name = token;
+			sourceTree = "<group>";
+		};
+		6732D3F622C217E100FB9A5A /* interface */ = {
+			isa = PBXGroup;
+			children = (
+				6732D40022C2183500FB9A5A /* BTCTokenInterface.hpp */,
+				6732D3FF22C2183500FB9A5A /* ETHTokenInterface.hpp */,
+				6732D3FE22C2183500FB9A5A /* TokenInterface.hpp */,
+			);
+			name = interface;
+			sourceTree = "<group>";
+		};
+		6732D3F722C217EB00FB9A5A /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				6732D40422C2186A00FB9A5A /* Apdu.hpp */,
+				6732D40222C2186A00FB9A5A /* byteswap.h */,
+				6732D40522C2186A00FB9A5A /* CoinType.h */,
+				6732D40822C2186A00FB9A5A /* Debug.hpp */,
+				6732D40622C2186A00FB9A5A /* endian.h */,
+				6732D40A22C2186A00FB9A5A /* op_codes.h */,
+				6732D40922C2186A00FB9A5A /* Singleton.h */,
+				6732D40B22C2186A00FB9A5A /* uchar_vector.h */,
+				6732D40722C2186A00FB9A5A /* util.h */,
+				6732D40122C2186A00FB9A5A /* util.hpp */,
+				6732D40322C2186A00FB9A5A /* xManager.hpp */,
+			);
+			name = utility;
+			sourceTree = "<group>";
+		};
+		6732D40C22C2187B00FB9A5A /* context */ = {
+			isa = PBXGroup;
+			children = (
+				6732D41422C218E400FB9A5A /* Context.cpp */,
+				6732D41222C218E300FB9A5A /* ContextBTC.cpp */,
+				6732D41322C218E300FB9A5A /* ContextETH.cpp */,
+			);
+			name = context;
+			sourceTree = "<group>";
+		};
+		6732D40D22C2188600FB9A5A /* device */ = {
+			isa = PBXGroup;
+			children = (
+				6732D41822C218F100FB9A5A /* ApduBuilder.cpp */,
+				6732D41922C218F100FB9A5A /* Fido.cpp */,
+				6732D41B22C218F100FB9A5A /* JubiterBLEDevice.cpp */,
+				6732D41A22C218F100FB9A5A /* JubiterHidDevice.cpp */,
+			);
+			name = device;
+			sourceTree = "<group>";
+		};
+		6732D40E22C2189300FB9A5A /* libBCH */ = {
+			isa = PBXGroup;
+			children = (
+				6732D42422C2193800FB9A5A /* cashaddr.cc */,
+			);
+			name = libBCH;
+			sourceTree = "<group>";
+		};
+		6732D40F22C218A100FB9A5A /* libETH */ = {
+			isa = PBXGroup;
+			children = (
+				6732D42122C218FF00FB9A5A /* ByteConverter.cpp */,
+				6732D42022C218FF00FB9A5A /* ERC20Abi.cpp */,
+			);
+			name = libETH;
+			sourceTree = "<group>";
+		};
+		6732D41022C218AE00FB9A5A /* token */ = {
+			isa = PBXGroup;
+			children = (
+				6732D42722C2194400FB9A5A /* JubiterBLDImpl.cpp */,
+				6732D42822C2194400FB9A5A /* JubiterBLDImplBTC.cpp */,
+				6732D42622C2194400FB9A5A /* JubiterBLDImplETH.cpp */,
+			);
+			name = token;
+			sourceTree = "<group>";
+		};
+		6732D41122C218BB00FB9A5A /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				6732D42D22C2194F00FB9A5A /* Debug.cpp */,
+				6732D42C22C2194F00FB9A5A /* util.cpp */,
+			);
+			name = utility;
+			sourceTree = "<group>";
+		};
+		6732D43C22C2200A00FB9A5A /* deps */ = {
+			isa = PBXGroup;
+			children = (
+				6732D43D22C2204200FB9A5A /* bleTransmit */,
+				6732D44622C2209600FB9A5A /* formats */,
+				6732D44E22C220BD00FB9A5A /* polarssl */,
+			);
+			name = deps;
+			sourceTree = "<group>";
+		};
+		6732D43D22C2204200FB9A5A /* bleTransmit */ = {
+			isa = PBXGroup;
+			children = (
+				6732D43F22C2205400FB9A5A /* bleTransmit.cpp */,
+				6732D44022C2205400FB9A5A /* bleTransmit.h */,
+				6732D43E22C2205400FB9A5A /* bleTransmitF.h */,
+				6732D44222C2206700FB9A5A /* ios */,
+			);
+			name = bleTransmit;
+			sourceTree = "<group>";
+		};
+		6732D44222C2206700FB9A5A /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				6732D44422C2208000FB9A5A /* BLEInterface.h */,
+				6732D44522C2208000FB9A5A /* BLETemplate.h */,
+				6732D44322C2208000FB9A5A /* ErrorCodesAndMacros.h */,
+			);
+			name = ios;
+			sourceTree = "<group>";
+		};
+		6732D44622C2209600FB9A5A /* formats */ = {
+			isa = PBXGroup;
+			children = (
+				6732D44722C220AD00FB9A5A /* base58.cpp */,
+				6732D44A22C220AD00FB9A5A /* base58.h */,
+				6732D44B22C220AD00FB9A5A /* bech32.cpp */,
+				6732D44822C220AD00FB9A5A /* bech32.h */,
+				6732D44922C220AD00FB9A5A /* hash.h */,
+			);
+			name = formats;
+			sourceTree = "<group>";
+		};
+		6732D44E22C220BD00FB9A5A /* polarssl */ = {
+			isa = PBXGroup;
+			children = (
+				6732D46422C220F300FB9A5A /* check_config.h */,
+				6732D45C22C220F200FB9A5A /* config.h */,
+				6732D46122C220F200FB9A5A /* md_wrap.c */,
+				6732D45F22C220F200FB9A5A /* md_wrap.h */,
+				6732D45822C220F200FB9A5A /* md.c */,
+				6732D45222C220F200FB9A5A /* md.h */,
+				6732D46522C220F300FB9A5A /* md2.c */,
+				6732D45622C220F200FB9A5A /* md2.h */,
+				6732D45922C220F200FB9A5A /* md4.c */,
+				6732D46222C220F200FB9A5A /* md4.h */,
+				6732D46322C220F200FB9A5A /* md5.c */,
+				6732D45A22C220F200FB9A5A /* md5.h */,
+				6732D45B22C220F200FB9A5A /* platform.c */,
+				6732D45D22C220F200FB9A5A /* platform.h */,
+				6732D45E22C220F200FB9A5A /* ripemd160.c */,
+				6732D45722C220F200FB9A5A /* ripemd160.h */,
+				6732D46022C220F200FB9A5A /* sha1.c */,
+				6732D45422C220F200FB9A5A /* sha1.h */,
+				6732D45022C220F100FB9A5A /* sha256.c */,
+				6732D45122C220F200FB9A5A /* sha256.h */,
+				6732D45522C220F200FB9A5A /* sha512.c */,
+				6732D45322C220F200FB9A5A /* sha512.h */,
+			);
+			name = polarssl;
+			sourceTree = "<group>";
+		};
 		EADCCD6A22A7B380008F2EF5 = {
 			isa = PBXGroup;
 			children = (
-				EADCCD7522A7B380008F2EF5 /* JubSDK */,
+				6732D3E322C2163300FB9A5A /* JubSDK */,
 				EADCCD7422A7B380008F2EF5 /* Products */,
+				6732D43C22C2200A00FB9A5A /* deps */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,254 +412,6 @@
 				EADCCD7322A7B380008F2EF5 /* libJubSDK.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		EADCCD7522A7B380008F2EF5 /* JubSDK */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE0322A7D6BA008F2EF5 /* src */,
-				EADCCDDA22A7CCF2008F2EF5 /* include */,
-				EADCCDB322A7C1D3008F2EF5 /* deps */,
-			);
-			path = JubSDK;
-			sourceTree = "<group>";
-		};
-		EADCCDB322A7C1D3008F2EF5 /* deps */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE2B22A8ACC2008F2EF5 /* format */,
-				EADCCDB922A7C25D008F2EF5 /* polarssl */,
-				EADCCDB422A7C1FC008F2EF5 /* ble */,
-			);
-			name = deps;
-			path = JubSDK/deps;
-			sourceTree = "<group>";
-		};
-		EADCCDB422A7C1FC008F2EF5 /* ble */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDB522A7C21B008F2EF5 /* bleTransmit.cpp */,
-				EADCCDB722A7C21C008F2EF5 /* bleTransmit.h */,
-				EADCCDB622A7C21C008F2EF5 /* bleTransmitF.h */,
-			);
-			name = ble;
-			path = JubSDK/JubSDK/deps/ble;
-			sourceTree = "<group>";
-		};
-		EADCCDB922A7C25D008F2EF5 /* polarssl */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDBA22A7C25D008F2EF5 /* md_wrap.h */,
-				EADCCDBB22A7C25D008F2EF5 /* check_config.h */,
-				EADCCDBC22A7C25D008F2EF5 /* md2.h */,
-				EADCCDBD22A7C25D008F2EF5 /* md4.c */,
-				EADCCDBE22A7C25D008F2EF5 /* ripemd160.h */,
-				EADCCDBF22A7C25D008F2EF5 /* config.h */,
-				EADCCDC022A7C25D008F2EF5 /* md5.h */,
-				EADCCDC122A7C25D008F2EF5 /* sha1.c */,
-				EADCCDC222A7C25D008F2EF5 /* sha256.h */,
-				EADCCDC322A7C25D008F2EF5 /* platform.c */,
-				EADCCDC422A7C25D008F2EF5 /* md.h */,
-				EADCCDC522A7C25D008F2EF5 /* sha512.h */,
-				EADCCDC622A7C25D008F2EF5 /* ripemd160.c */,
-				EADCCDC722A7C25D008F2EF5 /* md4.h */,
-				EADCCDC822A7C25D008F2EF5 /* md2.c */,
-				EADCCDC922A7C25D008F2EF5 /* md_wrap.c */,
-				EADCCDCA22A7C25D008F2EF5 /* sha1.h */,
-				EADCCDCB22A7C25D008F2EF5 /* sha256.c */,
-				EADCCDCC22A7C25D008F2EF5 /* md5.c */,
-				EADCCDCD22A7C25D008F2EF5 /* sha512.c */,
-				EADCCDCE22A7C25D008F2EF5 /* md.c */,
-				EADCCDCF22A7C25D008F2EF5 /* platform.h */,
-			);
-			name = polarssl;
-			path = ../../../../../deps/polarssl;
-			sourceTree = "<group>";
-		};
-		EADCCDDA22A7CCF2008F2EF5 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDDB22A7CCF2008F2EF5 /* token */,
-				EADCCDE122A7CCF2008F2EF5 /* context */,
-				EADCCDE522A7CCF2008F2EF5 /* libBTC */,
-				EADCCDE722A7CCF2008F2EF5 /* JUB_SDK.h */,
-				EADCCDE822A7CCF2008F2EF5 /* libBCH */,
-				EADCCDEB22A7CCF2008F2EF5 /* libETH */,
-				EADCCDEE22A7CCF2008F2EF5 /* device */,
-				EADCCDF622A7CCF2008F2EF5 /* utility */,
-			);
-			name = include;
-			path = ../../../include;
-			sourceTree = "<group>";
-		};
-		EADCCDDB22A7CCF2008F2EF5 /* token */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDDC22A7CCF2008F2EF5 /* interface */,
-				EADCCDE022A7CCF2008F2EF5 /* JubiterBLDImpl.h */,
-			);
-			path = token;
-			sourceTree = "<group>";
-		};
-		EADCCDDC22A7CCF2008F2EF5 /* interface */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDDD22A7CCF2008F2EF5 /* BTCTokenInterface.hpp */,
-				EADCCDDE22A7CCF2008F2EF5 /* ETHTokenInterface.hpp */,
-				EADCCDDF22A7CCF2008F2EF5 /* TokenInterface.hpp */,
-			);
-			path = interface;
-			sourceTree = "<group>";
-		};
-		EADCCDE122A7CCF2008F2EF5 /* context */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDE222A7CCF2008F2EF5 /* ContextETH.h */,
-				EADCCDE322A7CCF2008F2EF5 /* Context.h */,
-				EADCCDE422A7CCF2008F2EF5 /* ContextBTC.h */,
-			);
-			path = context;
-			sourceTree = "<group>";
-		};
-		EADCCDE522A7CCF2008F2EF5 /* libBTC */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDE622A7CCF2008F2EF5 /* libBTC.hpp */,
-			);
-			path = libBTC;
-			sourceTree = "<group>";
-		};
-		EADCCDE822A7CCF2008F2EF5 /* libBCH */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDE922A7CCF2008F2EF5 /* libBCH.hpp */,
-				EADCCDEA22A7CCF2008F2EF5 /* cashaddr.h */,
-			);
-			path = libBCH;
-			sourceTree = "<group>";
-		};
-		EADCCDEB22A7CCF2008F2EF5 /* libETH */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDEC22A7CCF2008F2EF5 /* ByteConverter.h */,
-				EADCCDED22A7CCF2008F2EF5 /* ERC20Abi.h */,
-			);
-			path = libETH;
-			sourceTree = "<group>";
-		};
-		EADCCDEE22A7CCF2008F2EF5 /* device */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDEF22A7CCF2008F2EF5 /* ApduBuilder.hpp */,
-				EADCCDF022A7CCF2008F2EF5 /* DeviceIOLogHelper.hpp */,
-				EADCCDF122A7CCF2008F2EF5 /* DeviceTypeBase.hpp */,
-				EADCCDF222A7CCF2008F2EF5 /* ReadMe.md */,
-				EADCCDF322A7CCF2008F2EF5 /* Fido.h */,
-				EADCCDF422A7CCF2008F2EF5 /* JubiterHidDevice.hpp */,
-				EADCCDF522A7CCF2008F2EF5 /* JubiterBLEDevice.hpp */,
-			);
-			path = device;
-			sourceTree = "<group>";
-		};
-		EADCCDF622A7CCF2008F2EF5 /* utility */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCDF722A7CCF2008F2EF5 /* Apdu.hpp */,
-				EADCCDF822A7CCF2008F2EF5 /* Singleton.h */,
-				EADCCDF922A7CCF2008F2EF5 /* endian.h */,
-				EADCCDFA22A7CCF2008F2EF5 /* uchar_vector.h */,
-				EADCCDFB22A7CCF2008F2EF5 /* Debug.hpp */,
-				EADCCDFC22A7CCF2008F2EF5 /* byteswap.h */,
-				EADCCDFD22A7CCF2008F2EF5 /* xManager.hpp */,
-				EADCCDFE22A7CCF2008F2EF5 /* op_codes.h */,
-				EADCCDFF22A7CCF2008F2EF5 /* util.h */,
-				EADCCE0022A7CCF2008F2EF5 /* DataTransfer.hpp */,
-				EADCCE0122A7CCF2008F2EF5 /* util.hpp */,
-				EADCCE0222A7CCF2008F2EF5 /* CoinType.h */,
-			);
-			path = utility;
-			sourceTree = "<group>";
-		};
-		EADCCE0322A7D6BA008F2EF5 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE0422A7D6BA008F2EF5 /* token */,
-				EADCCE0922A7D6BA008F2EF5 /* context */,
-				EADCCE0D22A7D6BA008F2EF5 /* libBCH */,
-				EADCCE0F22A7D6BA008F2EF5 /* libETH */,
-				EADCCE1222A7D6BA008F2EF5 /* JUB_SDK.cpp */,
-				EADCCE1322A7D6BA008F2EF5 /* device */,
-				EADCCE1922A7D6BA008F2EF5 /* utility */,
-			);
-			name = src;
-			path = ../../../src;
-			sourceTree = "<group>";
-		};
-		EADCCE0422A7D6BA008F2EF5 /* token */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE0522A7D6BA008F2EF5 /* JubiterBLDImplETH.cpp */,
-				EADCCE0622A7D6BA008F2EF5 /* JubiterBLDImpl.cpp */,
-				EADCCE0722A7D6BA008F2EF5 /* JubiterBLDImplBTC.cpp */,
-			);
-			path = token;
-			sourceTree = "<group>";
-		};
-		EADCCE0922A7D6BA008F2EF5 /* context */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE0A22A7D6BA008F2EF5 /* Context.cpp */,
-				EADCCE0B22A7D6BA008F2EF5 /* ContextBTC.cpp */,
-				EADCCE0C22A7D6BA008F2EF5 /* ContextETH.cpp */,
-			);
-			path = context;
-			sourceTree = "<group>";
-		};
-		EADCCE0D22A7D6BA008F2EF5 /* libBCH */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE0E22A7D6BA008F2EF5 /* cashaddr.cc */,
-			);
-			path = libBCH;
-			sourceTree = "<group>";
-		};
-		EADCCE0F22A7D6BA008F2EF5 /* libETH */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE1022A7D6BA008F2EF5 /* ByteConverter.cpp */,
-				EADCCE1122A7D6BA008F2EF5 /* ERC20Abi.cpp */,
-			);
-			path = libETH;
-			sourceTree = "<group>";
-		};
-		EADCCE1322A7D6BA008F2EF5 /* device */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE1422A7D6BA008F2EF5 /* JubiterHidDevice.cpp */,
-				EADCCE1522A7D6BA008F2EF5 /* JubiterBLEDevice.cpp */,
-				EADCCE1622A7D6BA008F2EF5 /* ReadMe.md */,
-				EADCCE1722A7D6BA008F2EF5 /* ApduBuilder.cpp */,
-				EADCCE1822A7D6BA008F2EF5 /* Fido.cpp */,
-			);
-			path = device;
-			sourceTree = "<group>";
-		};
-		EADCCE1922A7D6BA008F2EF5 /* utility */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE3022AF8489008F2EF5 /* Debug.cpp */,
-				EADCCE1A22A7D6BA008F2EF5 /* util.cpp */,
-			);
-			path = utility;
-			sourceTree = "<group>";
-		};
-		EADCCE2B22A8ACC2008F2EF5 /* format */ = {
-			isa = PBXGroup;
-			children = (
-				EADCCE2C22A8AD08008F2EF5 /* base58.cpp */,
-				EADCCE2D22A8AD08008F2EF5 /* bech32.cpp */,
-			);
-			path = format;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -461,35 +470,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EADCCE1C22A7D6BA008F2EF5 /* JubiterBLDImpl.cpp in Sources */,
-				EADCCE2322A7D6BA008F2EF5 /* ERC20Abi.cpp in Sources */,
-				EADCCE2622A7D6BA008F2EF5 /* JubiterBLEDevice.cpp in Sources */,
-				EADCCDD922A7C25D008F2EF5 /* md.c in Sources */,
-				EADCCDD022A7C25D008F2EF5 /* md4.c in Sources */,
-				EADCCE2122A7D6BA008F2EF5 /* cashaddr.cc in Sources */,
-				EADCCE1E22A7D6BA008F2EF5 /* Context.cpp in Sources */,
-				EADCCDD422A7C25D008F2EF5 /* md2.c in Sources */,
-				EADCCDD322A7C25D008F2EF5 /* ripemd160.c in Sources */,
-				EADCCE2922A7D6BA008F2EF5 /* util.cpp in Sources */,
-				EADCCE2F22A8AD08008F2EF5 /* bech32.cpp in Sources */,
-				EADCCE2722A7D6BA008F2EF5 /* ApduBuilder.cpp in Sources */,
-				EADCCDD522A7C25D008F2EF5 /* md_wrap.c in Sources */,
-				EADCCDB822A7C21C008F2EF5 /* bleTransmit.cpp in Sources */,
-				EADCCE2222A7D6BA008F2EF5 /* ByteConverter.cpp in Sources */,
-				EADCCE2022A7D6BA008F2EF5 /* ContextETH.cpp in Sources */,
-				EADCCDD622A7C25D008F2EF5 /* sha256.c in Sources */,
-				EADCCDD722A7C25D008F2EF5 /* md5.c in Sources */,
-				EADCCE1B22A7D6BA008F2EF5 /* JubiterBLDImplETH.cpp in Sources */,
-				EADCCE2E22A8AD08008F2EF5 /* base58.cpp in Sources */,
-				EADCCE1D22A7D6BA008F2EF5 /* JubiterBLDImplBTC.cpp in Sources */,
-				EADCCDD222A7C25D008F2EF5 /* platform.c in Sources */,
-				EADCCE2822A7D6BA008F2EF5 /* Fido.cpp in Sources */,
-				EADCCE2522A7D6BA008F2EF5 /* JubiterHidDevice.cpp in Sources */,
-				EADCCE1F22A7D6BA008F2EF5 /* ContextBTC.cpp in Sources */,
-				EADCCDD122A7C25D008F2EF5 /* sha1.c in Sources */,
-				EADCCDD822A7C25D008F2EF5 /* sha512.c in Sources */,
-				EADCCE3122AF8489008F2EF5 /* Debug.cpp in Sources */,
-				EADCCE2422A7D6BA008F2EF5 /* JUB_SDK.cpp in Sources */,
+				6732D46E22C220F300FB9A5A /* md5.c in Sources */,
+				6732D46D22C220F300FB9A5A /* md_wrap.c in Sources */,
+				6732D46C22C220F300FB9A5A /* sha1.c in Sources */,
+				6732D46822C220F300FB9A5A /* md.c in Sources */,
+				6732D42A22C2194400FB9A5A /* JubiterBLDImpl.cpp in Sources */,
+				6732D42322C218FF00FB9A5A /* ByteConverter.cpp in Sources */,
+				6732D41722C218E400FB9A5A /* Context.cpp in Sources */,
+				6732D46B22C220F300FB9A5A /* ripemd160.c in Sources */,
+				6732D41F22C218F100FB9A5A /* JubiterBLEDevice.cpp in Sources */,
+				6732D46722C220F300FB9A5A /* sha512.c in Sources */,
+				6732D44122C2205400FB9A5A /* bleTransmit.cpp in Sources */,
+				6732D46922C220F300FB9A5A /* md4.c in Sources */,
+				6732D46A22C220F300FB9A5A /* platform.c in Sources */,
+				6732D41C22C218F100FB9A5A /* ApduBuilder.cpp in Sources */,
+				6732D41522C218E400FB9A5A /* ContextBTC.cpp in Sources */,
+				6732D41622C218E400FB9A5A /* ContextETH.cpp in Sources */,
+				6732D42222C218FF00FB9A5A /* ERC20Abi.cpp in Sources */,
+				6732D44C22C220AD00FB9A5A /* base58.cpp in Sources */,
+				6732D46F22C220F300FB9A5A /* md2.c in Sources */,
+				6732D46622C220F300FB9A5A /* sha256.c in Sources */,
+				6732D41D22C218F100FB9A5A /* Fido.cpp in Sources */,
+				6732D42E22C2194F00FB9A5A /* util.cpp in Sources */,
+				6732D42922C2194400FB9A5A /* JubiterBLDImplETH.cpp in Sources */,
+				6732D42F22C2194F00FB9A5A /* Debug.cpp in Sources */,
+				6732D44D22C220AD00FB9A5A /* bech32.cpp in Sources */,
+				6732D41E22C218F100FB9A5A /* JubiterHidDevice.cpp in Sources */,
+				6732D42522C2193800FB9A5A /* cashaddr.cc in Sources */,
+				6732D43422C219BC00FB9A5A /* JUB_SDK.cpp in Sources */,
+				6732D42B22C2194400FB9A5A /* JubiterBLDImplBTC.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,8 +624,8 @@
 				DEVELOPMENT_TEAM = MD27BY8JFU;
 				HEADER_SEARCH_PATHS = (
 					../../include,
+					../../deps,
 					../../deps/bleTransmit,
-					../../deps/,
 					../../deps/bleTransmit/ios,
 				);
 				OTHER_LDFLAGS = "-ObjC";
@@ -633,8 +642,8 @@
 				DEVELOPMENT_TEAM = MD27BY8JFU;
 				HEADER_SEARCH_PATHS = (
 					../../include,
+					../../deps,
 					../../deps/bleTransmit,
-					../../deps/,
 					../../deps/bleTransmit/ios,
 				);
 				OTHER_LDFLAGS = "-ObjC";
