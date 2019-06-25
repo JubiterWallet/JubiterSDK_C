@@ -258,7 +258,7 @@ JUB_RV JubiterBLDImpl::setCoinType_BTC(JUB_ENUM_COINTYPE_BTC type) {
     APDU apdu(0x00, 0xf5, (JUB_BYTE)type, 0x00, 0x00);
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_sendApdu(&apdu, ret));
-    if (0x9000 == ret) {
+    if (0x9000 == ret || 0x6d00 == ret) {
         return JUBR_OK;
     }
 
