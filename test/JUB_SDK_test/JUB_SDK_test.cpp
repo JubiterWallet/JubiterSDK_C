@@ -412,7 +412,7 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 			outputs.push_back(output);
 		}
 
-		OUTPUT_BTC USDT_outputs[2] = {0,};
+		OUTPUT_BTC USDT_outputs[2] = {};
 		JUB_BuildUSDTOutputs(contextID, (char*)root["USDT_to"].asCString(), root["USDT_amount"].asUInt64(), USDT_outputs);
 		outputs.emplace_back(USDT_outputs[0]);
 		outputs.emplace_back(USDT_outputs[1]);

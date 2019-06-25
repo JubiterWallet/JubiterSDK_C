@@ -10,6 +10,7 @@
 
 #include <device/JubiterHidDevice.hpp>
 #include <utility/util.hpp>
+#include <device/DeviceIOLogHelper.hpp>
 
 namespace jub {
 
