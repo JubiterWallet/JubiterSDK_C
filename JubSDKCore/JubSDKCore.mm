@@ -1257,7 +1257,7 @@
         return deviceID;
     }
     
-    return _lastError;
+    return NSUInteger(deviceID);
 }
 
 //JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID);
