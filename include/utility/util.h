@@ -14,11 +14,11 @@
 /*
 * String splitting function
 */
-std::vector<std::string> split(std::string str, std::string pattern);
+std::vector<std::string> Split(std::string str, std::string pattern);
 /*
 * Merge string function
 */
-std::string join(std::vector<std::string> v, std::string pattern);
+std::string Join(std::vector<std::string> v, std::string pattern);
 
 /*
 * std::vector<unsigned char> -> Hexadecimal string conversion
@@ -32,8 +32,8 @@ std::vector<unsigned char> HexStr2CharPtr(std::string str);
 /*
 * Dictionary order
 */
-std::vector<char*> sortLexicographically(std::vector<char*> v);
-std::vector<std::string> sortLexicographically(std::vector<std::string> v);
+std::vector<char*> SortLexicographically(std::vector<char*> v);
+std::vector<std::string> SortLexicographically(std::vector<std::string> v);
 
 // flip
 void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen);

@@ -2,54 +2,54 @@
 
 namespace jub {
 
-JUB_RV JubApudBuiler::buildApdu(const APDU *apdu,
-                                std::vector<JUB_BYTE> &safeApdu) {
+JUB_RV JubApudBuiler::BuildApdu(const APDU *apdu,
+                                std::vector<JUB_BYTE> &vSafeApdu) {
     // copy header
-    safeApdu.push_back((JUB_BYTE)apdu->cla);
-    safeApdu.push_back((JUB_BYTE)apdu->ins);
-    safeApdu.push_back((JUB_BYTE)apdu->p1);
-    safeApdu.push_back((JUB_BYTE)apdu->p2);
+    vSafeApdu.push_back((JUB_BYTE)apdu->cla);
+    vSafeApdu.push_back((JUB_BYTE)apdu->ins);
+    vSafeApdu.push_back((JUB_BYTE)apdu->p1);
+    vSafeApdu.push_back((JUB_BYTE)apdu->p2);
 
     if (0 != apdu->lc) {
         // get lc,data
         if (0xFF < apdu->lc) {
-            safeApdu.push_back((JUB_BYTE)( (apdu->lc) / 0x10000));
-            safeApdu.push_back((JUB_BYTE)(((apdu->lc) / 0x100) % 0x100));
-            safeApdu.push_back((JUB_BYTE)( (apdu->lc) % 0x100));
-            safeApdu.insert(safeApdu.end(), apdu->data.begin(),
-                            apdu->data.begin() + apdu->lc);
+            vSafeApdu.push_back((JUB_BYTE)( (apdu->lc)/0x10000));
+            vSafeApdu.push_back((JUB_BYTE)(((apdu->lc)/0x100)%0x100));
+            vSafeApdu.push_back((JUB_BYTE)( (apdu->lc)%0x100));
+            vSafeApdu.insert(vSafeApdu.end(), apdu->data.begin(),
+                             apdu->data.begin() + apdu->lc);
         }
         else {
-            safeApdu.push_back((JUB_BYTE)(apdu->lc));
-            safeApdu.insert(safeApdu.end(), apdu->data.begin(),
-                            apdu->data.begin() + apdu->lc);
+            vSafeApdu.push_back((JUB_BYTE)(apdu->lc));
+            vSafeApdu.insert(vSafeApdu.end(), apdu->data.begin(),
+                             apdu->data.begin() + apdu->lc);
         }
     }
 
     if (0 != apdu->le) {
         if (0xFF < apdu->le) {
-            safeApdu.push_back((JUB_BYTE)( (apdu->le) / 0x10000));
-            safeApdu.push_back((JUB_BYTE)(((apdu->le) / 0x100) % 0x100));
-            safeApdu.push_back((JUB_BYTE)( (apdu->le) % 0x100));
+            vSafeApdu.push_back((JUB_BYTE)( (apdu->le)/0x10000));
+            vSafeApdu.push_back((JUB_BYTE)(((apdu->le)/0x100)%0x100));
+            vSafeApdu.push_back((JUB_BYTE)( (apdu->le)%0x100));
         }
         else {
-            safeApdu.push_back((JUB_BYTE)(apdu->le));
+            vSafeApdu.push_back((JUB_BYTE)(apdu->le));
         }
     }
 
     return JUBR_OK;
 }
 
-JUB_RV JubApudBuiler::packData(std::vector<JUB_BYTE> &dest,
-                               std::vector<JUB_BYTE> &src) {
+JUB_RV JubApudBuiler::PackData(std::vector<JUB_BYTE> &vDest,
+                               std::vector<JUB_BYTE> &vSrc) {
 
-	dest = src;
+	vDest = vSrc;
     return JUBR_OK;
 }
 
-JUB_RV JubApudBuiler::unPackData(std::vector<JUB_BYTE> &dest,
-                                 std::vector<JUB_BYTE> &src) {
-	dest = src;
+JUB_RV JubApudBuiler::UnPackData(std::vector<JUB_BYTE> &vDest,
+                                 std::vector<JUB_BYTE> &vSrc) {
+	vDest = vSrc;
     return JUBR_OK;
 }
 

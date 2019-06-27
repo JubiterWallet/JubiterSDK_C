@@ -11,10 +11,10 @@
 
 #ifdef HID_MODE // modify later..
 #include <device/JubiterHidDevice.hpp>
-using device_type = jub::JubiterHidDevice;
+using DeviceType = jub::JubiterHidDevice;
 #else
 #include <device/JubiterBLEDevice.hpp>
-using device_type = jub::JubiterBLEDevice;
+using DeviceType = jub::JubiterBLEDevice;
 #endif
 
 namespace jub {
@@ -24,7 +24,7 @@ constexpr JUB_BYTE PKIAID_FIDO[8] = {
 };
 
 typedef struct _stAppInfos_ {
-    DataChunk appId;
+    DataChunk appID;
     std::string coinName;
     std::string minimumAppletVersion;
 } stAppInfos;
@@ -32,90 +32,92 @@ typedef struct _stAppInfos_ {
 class JubiterBLDImpl : public TokenInterface {
 public:
     JubiterBLDImpl(std::string path);
-    JubiterBLDImpl(device_type* device);
+    JubiterBLDImpl(DeviceType* device);
     ~JubiterBLDImpl();
 
 public:
     /* functions */
-    virtual JUB_RV connectToken();
-	virtual JUB_RV disconnectToken();
+    virtual JUB_RV ConnectToken();
+    virtual JUB_RV DisconnectToken();
 
-	//BTC functions
-	virtual JUB_RV selectApplet_BTC();
-	virtual JUB_RV getHDNode_BTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
-	virtual JUB_RV getAddress_BTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address);
-	virtual JUB_RV setUnit_BTC(JUB_BTC_UNIT_TYPE unit);
-	virtual JUB_RV setCoinType_BTC(JUB_ENUM_COINTYPE_BTC type);
-	virtual JUB_RV signTX_BTC(JUB_BTC_TRANS_TYPE type,
-                              JUB_UINT16 input_count,
-                              std::vector<JUB_UINT64> input_amount,
-                              std::vector<std::string> input_path,
-                              std::vector<JUB_UINT16> change_index,
-                              std::vector<std::string> change_path,
-                              std::vector<JUB_BYTE> unsiged_trans,
-                              std::vector<JUB_BYTE>& raw);
+    //BTC functions
+    virtual JUB_RV SelectAppletBTC();
+    virtual JUB_RV GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
+    virtual JUB_RV GetAddressBTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetUnitBTC(JUB_BTC_UNIT_TYPE unit);
+    virtual JUB_RV SetCoinTypeBTC(JUB_ENUM_COINTYPE_BTC type);
+    virtual JUB_RV SignTXBTC(JUB_BTC_TRANS_TYPE type,
+                             JUB_UINT16 inputCount,
+                             std::vector<JUB_UINT64> vInputAmount,
+                             std::vector<std::string> vInputPath,
+                             std::vector<JUB_UINT16> vChangeIndex,
+                             std::vector<std::string> vChangePath,
+                             std::vector<JUB_BYTE> vUnsigedTrans,
+                             std::vector<JUB_BYTE>& vRaw);
 
-	//ETH functions
+    //ETH functions
 
-	virtual JUB_RV selectApplet_ETH();
-	virtual JUB_RV getAddress_ETH(std::string path, JUB_UINT16 tag, std::string& address);
-	virtual JUB_RV getHDNode_ETH(JUB_BYTE format,std::string path, std::string& pubkey);
-	virtual JUB_RV signTX_ETH(bool Is_ERC20,
-                              std::vector<JUB_BYTE> nonce,
-                              std::vector<JUB_BYTE> gasPrice,
-                              std::vector<JUB_BYTE> gasLimit,
-                              std::vector<JUB_BYTE> To,
-                              std::vector<JUB_BYTE> value,
-                              std::vector<JUB_BYTE> data,
-                              std::vector<JUB_BYTE> path,
-                              std::vector<JUB_BYTE> chainID,
-                              std::vector<JUB_BYTE>& raw);
+    virtual JUB_RV SelectAppletETH();
+    virtual JUB_RV GetAddressETH(std::string path, JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV GetHDNodeETH(JUB_BYTE format,std::string path, std::string& pubkey);
+    virtual JUB_RV SignTXETH(bool bERC20,
+                             std::vector<JUB_BYTE> vNonce,
+                             std::vector<JUB_BYTE> vGasPrice,
+                             std::vector<JUB_BYTE> vGasLimit,
+                             std::vector<JUB_BYTE> vTo,
+                             std::vector<JUB_BYTE> vValue,
+                             std::vector<JUB_BYTE> vData,
+                             std::vector<JUB_BYTE> vPath,
+                             std::vector<JUB_BYTE> vChainID,
+                             std::vector<JUB_BYTE>& vRaw);
 
-	//common token functions
-	virtual JUB_RV queryBattery(JUB_BYTE &percent);
-	virtual JUB_RV showVirtualPwd();
-	virtual JUB_RV cancelVirtualPwd();
-	virtual bool   isInitialize();
-	virtual bool   isBootLoader();
-	virtual JUB_RV getSN(JUB_BYTE sn[24]);
-	virtual JUB_RV getLabel(JUB_BYTE label[32]);
-	virtual JUB_RV getPinRetry(JUB_BYTE& retry);
-	virtual JUB_RV getPinMaxRetry(JUB_BYTE& max_retry);
-	virtual JUB_RV getBleVersion(JUB_BYTE ble_version[4]);
-	virtual JUB_RV getFwVersion(JUB_BYTE fw_version[4]);
+    //common token functions
+    virtual JUB_RV QueryBattery(JUB_BYTE &percent);
+    virtual JUB_RV ShowVirtualPwd();
+    virtual JUB_RV CancelVirtualPwd();
+    virtual bool   IsInitialize();
+    virtual bool   IsBootLoader();
+    virtual JUB_RV GetSN(JUB_BYTE sn[24]);
+    virtual JUB_RV GetLabel(JUB_BYTE label[32]);
+    virtual JUB_RV GetPinRetry(JUB_BYTE& retry);
+    virtual JUB_RV GetPinMaxRetry(JUB_BYTE& maxRetry);
+    virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]);
+    virtual JUB_RV GetFwVersion(JUB_BYTE fwVersion[4]);
 
-	virtual JUB_RV enumApplet(std::string& applet_list);
-	virtual JUB_RV getAppletVersion(std::string appID, std::string& version);
-	virtual JUB_RV enumSupportCoins(std::string& coinList);
-	virtual JUB_RV getDeviceCert(std::string& cert);
-	virtual JUB_RV sendOneApdu(const std::string& apdu, std::string& response);
+    virtual JUB_RV EnumApplet(std::string& applet_list);
+    virtual JUB_RV GetAppletVersion(std::string appID, std::string& version);
+    virtual JUB_RV EnumSupportCoins(std::string& coinList);
+    virtual JUB_RV GetDeviceCert(std::string& cert);
+    virtual JUB_RV SendOneApdu(const std::string& apdu, std::string& response);
 
-	virtual JUB_RV verifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);
+    virtual JUB_RV VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry);
 
-	virtual JUB_RV setTimeout(JUB_UINT16 timeout);
+    virtual JUB_RV SetTimeout(JUB_UINT16 timeout);
 
-	// get function
-	std::string getPath() { return _path; };
+    // get function
+    std::string GetPath() {
+        return _path;
+    };
 
-	static stAppInfos g_appinfo[];
+    static stAppInfos g_appInfo[];
 
 private:
-	JUB_RV _selectApp(const JUB_BYTE PKIAID[],JUB_BYTE length);
+    JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
+                      JUB_BYTE length);
 
-	JUB_RV _tranPack(const DataSlice &apduData,
-		JUB_BYTE sigType,
-		JUB_ULONG sendLenOnce,
-		int finalData = false,
-		int bOnce = false);
+    JUB_RV _TranPack(const DataSlice &apduData,
+                     JUB_BYTE sigType,
+                     JUB_ULONG ulSendOnceLen,
+                     int finalData = false,
+                     int bOnce = false);
 
-	JUB_RV _sendApdu(const APDU *apdu, JUB_UINT16 &wRet,
-		JUB_BYTE *pRetData = nullptr,
-		JUB_ULONG *pulRetLen = nullptr,
-		JUB_ULONG ulMiliSecondTimeout = 1200000); 
+    JUB_RV _SendApdu(const APDU *apdu, JUB_UINT16 &wRet,
+                     JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
+                     JUB_ULONG ulMiliSecondTimeout = 1200000);
 
     std::shared_ptr<ApduBuilder> _apduBuiler;
-    std::shared_ptr<device_type> _device;
-	std::string _path;
+    std::shared_ptr<DeviceType> _device;
+    std::string _path;
 }; // class JubiterBLDImpl end
 
 }  // namespace jub end

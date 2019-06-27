@@ -7,129 +7,129 @@
 
 namespace jub {
 
-JUB_RV ContextETH::activeSelf() {
+JUB_RV ContextETH::ActiveSelf() {
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->selectApplet_ETH());
-    JUB_VERIFY_RV(token->setTimeout(_timeout));
+    JUB_VERIFY_RV(token->SelectAppletETH());
+    JUB_VERIFY_RV(token->SetTimeout(_timeout));
 
     //ETH don`t set unit
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::getAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address) {
+JUB_RV ContextETH::GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address) {
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    std::string str_path = full_bip32_path(path);
-    JUB_VERIFY_RV(token->getAddress_ETH(str_path, tag, address));
+    std::string strPath = _FullBip32Path(path);
+    JUB_VERIFY_RV(token->GetAddressETH(strPath, tag, address));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::getMainHDNode(JUB_BYTE format, std::string& xpub) {
+JUB_RV ContextETH::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->getHDNode_ETH(format,_main_path, xpub));
+    JUB_VERIFY_RV(token->GetHDNodeETH(format, _mainPath, xpub));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::setMyAddress(BIP32_Path path, std::string& address) {
+JUB_RV ContextETH::SetMyAddress(BIP32_Path path, std::string& address) {
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    std::string str_path = full_bip32_path(path);
-    JUB_VERIFY_RV(token->getAddress_ETH(str_path, 0x02, address));
+    std::string strPath = _FullBip32Path(path);
+    JUB_VERIFY_RV(token->GetAddressETH(strPath, 0x02, address));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::getHDNode(JUB_BYTE format, BIP32_Path path, std::string& pubkey) {
+JUB_RV ContextETH::GetHDNode(JUB_BYTE format, BIP32_Path path, std::string& pubkey) {
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    std::string str_path = full_bip32_path(path);
-    JUB_VERIFY_RV(token->getHDNode_ETH(format,str_path, pubkey));
+    std::string strPath = _FullBip32Path(path);
+    JUB_VERIFY_RV(token->GetHDNodeETH(format, strPath, pubkey));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::signTransaction(IN BIP32_Path path,
+JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
                                    IN JUB_UINT32 nonce,
                                    IN JUB_UINT32 gasLimit,
                                    IN JUB_CHAR_PTR gasPriceInWei,
                                    IN JUB_CHAR_PTR to,
                                    IN JUB_CHAR_PTR valueInWei,
                                    IN JUB_CHAR_PTR input,
-                                   OUT std::string& raw) {
+                                   OUT std::string& strRaw) {
 
     JUB_CHECK_NULL(gasPriceInWei);
     JUB_CHECK_NULL(to);
     JUB_CHECK_NULL(valueInWei);
     JUB_CHECK_NULL(input);
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    std::vector<JUB_BYTE> v_nonce = ByteConverter::numberToBytes(nonce);
-    std::vector<JUB_BYTE> v_gasLimit = ByteConverter::numberToBytes(gasLimit);
-    std::vector<JUB_BYTE> v_gasPriceInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(gasPriceInWei));
-    std::vector<JUB_BYTE> v_to = ByteConverter::stringToBytes(to);
-    std::vector<JUB_BYTE> v_valueInWei;
+    std::vector<JUB_BYTE> vNonce = ByteConverter::numberToBytes(nonce);
+    std::vector<JUB_BYTE> vGasLimit = ByteConverter::numberToBytes(gasLimit);
+    std::vector<JUB_BYTE> vGasPriceInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(gasPriceInWei));
+    std::vector<JUB_BYTE> vTo = ByteConverter::stringToBytes(to);
+    std::vector<JUB_BYTE> vValueInWei;
     if (nullptr != valueInWei
         &&    0 != strlen(valueInWei)
         ) {
-        v_valueInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(valueInWei));
+        vValueInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(valueInWei));
     }
 
-    std::vector<JUB_BYTE> v_input;
+    std::vector<JUB_BYTE> vInput;
     if (nullptr != input
         &&    0 != strlen(input)
         ) {
-        v_input = ByteConverter::stringToBytes(input);
+        vInput = ByteConverter::stringToBytes(input);
     }
 
-    std::string str_path = full_bip32_path(path);
-    std::vector<JUB_BYTE> v_path(str_path.begin(),str_path.end());
+    std::string strPath = _FullBip32Path(path);
+    std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    std::vector<JUB_BYTE> v_chainID;
-    v_chainID.push_back(_chainID);
+    std::vector<JUB_BYTE> vChainID;
+    vChainID.push_back(_chainID);
 
-    bool Is_ERC20 = false;
+    bool bERC20 = false;
     if (0 == memcmp(input, "0xa9059cbb", 10)) { // erc20 function sign
-        Is_ERC20 = true;
+        bERC20 = true;
     }
 
-    uchar_vector v_raw;
-    JUB_VERIFY_RV(token->signTX_ETH(Is_ERC20,
-                                    v_nonce,
-                                    v_gasPriceInWei,
-                                    v_gasLimit,
-                                    v_to,
-                                    v_valueInWei,
-                                    v_input,
-                                    v_path,
-                                    v_chainID,
-                                    v_raw));
-    raw = "0x" + v_raw.getHex();
+    uchar_vector raw;
+    JUB_VERIFY_RV(token->SignTXETH(bERC20,
+                                   vNonce,
+                                   vGasPriceInWei,
+                                   vGasLimit,
+                                   vTo,
+                                   vValueInWei,
+                                   vInput,
+                                   vPath,
+                                   vChainID,
+                                   raw));
+    strRaw = "0x" + raw.getHex();
 
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::buildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::string& abi) {
+JUB_RV ContextETH::BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::string& abi) {
 
-    std::vector<JUB_BYTE> v_to = ByteConverter::stringToBytes(to);
-    std::vector<JUB_BYTE> v_value = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(value));
-    uchar_vector v_abi = jub::eth::ERC20Abi::serialize(v_to, v_value);
-    abi = "0x" + v_abi.getHex();
+    std::vector<JUB_BYTE> vTo = ByteConverter::stringToBytes(to);
+    std::vector<JUB_BYTE> vValue = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(value));
+    uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vTo, vValue);
+    abi = "0x" + vAbi.getHex();
 
     return JUBR_OK;
 }

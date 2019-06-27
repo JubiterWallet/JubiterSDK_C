@@ -15,40 +15,40 @@
 namespace jub {
 
 JubiterHidDevice::JubiterHidDevice():
-    pid(PID),
-    vid(VID),
-    m_handle(NULL),
-    firstCmd(true) {
+    _pid(PID),
+    _vid(VID),
+    _handle(NULL),
+    _bFirstCmd(true) {
         hid_init();
 }
 
 JubiterHidDevice::~JubiterHidDevice() { hid_exit(); }
 
-std::vector<std::string> JubiterHidDevice::enumDevice() {
+std::vector<std::string> JubiterHidDevice::EnumDevice() {
 
-	std::vector<std::string> token_list;
+	std::vector<std::string> vTokenList;
 
-	auto hid_dev = hid_enumerate(VID, PID);
-	auto hid_dev_head = hid_dev;
-	while (hid_dev) {
-		token_list.push_back(hid_dev->path);
-		hid_dev = hid_dev->next;
+	auto hidDev = hid_enumerate(_vid, _pid);
+	auto hidDevHead = hidDev;
+	while (hidDev) {
+		vTokenList.push_back(hidDev->path);
+		hidDev = hidDev->next;
 	}
 
-	hid_free_enumeration(hid_dev_head);
+	hid_free_enumeration(hidDevHead);
 
-	return token_list;
+	return vTokenList;
 }
 
-JUB_RV JubiterHidDevice::connect(const std::string path) {
+JUB_RV JubiterHidDevice::Connect(const std::string path) {
 
 	if (0 != hid_init()) {
 		return JUBR_INIT_DEVICE_LIB_ERROR;
 	}
 
 	// vid, pid can be parsed from params
-	m_handle = hid_open_path(path.c_str());
-	if (NULL == m_handle) {
+	_handle = hid_open_path(path.c_str());
+	if (NULL == _handle) {
 		return JUBR_CONNECT_DEVICE_ERROR;
 	}
 	_path = path;
@@ -56,13 +56,13 @@ JUB_RV JubiterHidDevice::connect(const std::string path) {
 	return JUBR_OK;
 }
 
-JUB_RV JubiterHidDevice::disconnect() {
+JUB_RV JubiterHidDevice::Disconnect() {
 
-    firstCmd = false;
+    _bFirstCmd = false;
 
-    if (NULL != m_handle) {
-        hid_close(m_handle);
-        m_handle = NULL;
+    if (NULL != _handle) {
+        hid_close(_handle);
+        _handle = NULL;
 
         if (0 != hid_exit()) {
             return JUBR_ERROR;
@@ -72,38 +72,34 @@ JUB_RV JubiterHidDevice::disconnect() {
     return JUBR_OK;
 }
 
-JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
-                                  IN JUB_ULONG sendLen,
-                                  OUT JUB_BYTE_PTR pRetData,
-                                  INOUT JUB_ULONG_PTR pulRetLen,
+JUB_RV JubiterHidDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
+                                  OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                                   IN JUB_ULONG ulMiliSecondTimeout) {
     // auto connect
-    if (NULL == m_handle) {
+    if (NULL == _handle) {
         JUB_VERIFY_RV(connect(_path));
     }
 
 #ifdef _DEBUG
-	DeviceIOLogHelper  handler(sendData, sendLen, pRetData, pulRetLen);
+	DeviceIOLogHelper  handler(sendData, ulSendLen, retData, *pulRetDataLen);
 #endif
 
     // fix cid
     JUB_BYTE cid[] = {0x00, 0x00, 0x00, 0x01};
-    if (firstCmd) {
-        firstCmd = false;
+    if (_bFirstCmd) {
+        _bFirstCmd = false;
 
-        std::vector<JUB_BYTE> bufferSend;
+        std::vector<JUB_BYTE> vBufferSend;
+        vBufferSend.push_back(0x00);
+        vBufferSend.push_back(cid[0]);
+        vBufferSend.push_back(cid[1]);
+        vBufferSend.push_back(cid[2]);
+        vBufferSend.push_back(cid[3]);
+        vBufferSend.push_back(0x86);
+        vBufferSend.push_back(0x00);
+        vBufferSend.push_back(0x00);
 
-        bufferSend.push_back(0x00);
-        bufferSend.push_back(cid[0]);
-        bufferSend.push_back(cid[1]);
-        bufferSend.push_back(cid[2]);
-        bufferSend.push_back(cid[3]);
-        bufferSend.push_back(0x86);
-        bufferSend.push_back(0x00);
-        bufferSend.push_back(0x00);
-
-        int res = 0;
-        res = write(bufferSend.data(), bufferSend.size());
+        int res = _Write(vBufferSend.data(), vBufferSend.size());
         if (0 > res) {
             disconnect();
             return JUBR_TRANSMIT_DEVICE_ERROR;
@@ -119,52 +115,51 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
 
     JUB_ULONG offset = 0;
     JUB_ULONG nPackets = 0;
-    while (offset < sendLen) {
-		std::vector<JUB_BYTE> bufferSend;
+    while (offset < ulSendLen) {
+		std::vector<JUB_BYTE> vBufferSend;
+		vBufferSend.push_back(0);
+		vBufferSend.push_back(cid[0]);
+		vBufferSend.push_back(cid[1]);
+		vBufferSend.push_back(cid[2]);
+		vBufferSend.push_back(cid[3]);
 
-		bufferSend.push_back(0);
-		bufferSend.push_back(cid[0]);
-		bufferSend.push_back(cid[1]);
-		bufferSend.push_back(cid[2]);
-		bufferSend.push_back(cid[3]);
-
-		constexpr JUB_ULONG first_pack_max_len = HID_PACKET_SIZE - HID_PACKET_HEAD_FRIST;
-		constexpr JUB_ULONG next_pack_max_len  = HID_PACKET_SIZE - HID_PACKET_HEAD_ROUND;
+		constexpr JUB_ULONG kFirstPackMaxLen = HID_PACKET_SIZE - HID_PACKET_HEAD_FRIST;
+		constexpr JUB_ULONG kNextPackMaxLen  = HID_PACKET_SIZE - HID_PACKET_HEAD_ROUND;
         if (0 == offset) {
-			bufferSend.push_back(0x83);
+			vBufferSend.push_back(0x83);
 
             // first packet
-            bufferSend.push_back((JUB_BYTE)(sendLen & 0xff00));
-            bufferSend.push_back((JUB_BYTE)(sendLen & 0x00ff));
+            vBufferSend.push_back((JUB_BYTE)(ulSendLen & 0xff00));
+            vBufferSend.push_back((JUB_BYTE)(ulSendLen & 0x00ff));
 
-            if (first_pack_max_len > sendLen) {
-                bufferSend.insert(bufferSend.end(), sendData,
-                                  sendData + sendLen);
-                offset = sendLen;
+            if (ulFirstPackMaxLen > ulSendLen) {
+                vBufferSend.insert(vBufferSend.end(), sendData,
+                                   sendData + ulSendLen);
+                offset = ulSendLen;
             }
             else {
-                bufferSend.insert(bufferSend.end(), sendData,
-                                  sendData + (first_pack_max_len));
-                offset = first_pack_max_len;
+                vBufferSend.insert(vBufferSend.end(), sendData,
+                                   sendData + (ulFirstPackMaxLen));
+                offset = ulFirstPackMaxLen;
             }
         }
         else {
-            bufferSend.push_back((JUB_BYTE)(nPackets++));
+            vBufferSend.push_back((JUB_BYTE)(nPackets++));
 
-            if (sendLen - offset < next_pack_max_len) {
-                bufferSend.insert(bufferSend.end(), sendData + offset,
-                                  sendData + sendLen);
-                offset += sendLen - offset;
+            if (ulSendLen - offset < ulNextPackMaxLen) {
+                vBufferSend.insert(vBufferSend.end(), sendData + offset,
+                                   sendData + ulSendLen);
+                offset += ulSendLen - offset;
             }
             else {
-                bufferSend.insert(bufferSend.end(), sendData + offset,
-                                  sendData + offset + next_pack_max_len);
-                offset += next_pack_max_len;
+                vBufferSend.insert(vBufferSend.end(), sendData + offset,
+                                   sendData + offset + ulNextPackMaxLen);
+                offset += ulNextPackMaxLen;
             }
         }
 
         int res = 0;
-        res = write(bufferSend.data(), bufferSend.size());
+        res = _Write(vBufferSend.data(), vBufferSend.size());
         if (0 > res) {
             disconnect();
             return JUBR_TRANSMIT_DEVICE_ERROR;
@@ -173,23 +168,23 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
 
     std::vector<JUB_BYTE> vRecv;
     offset = 0;
-    JUB_ULONG playloadSize = 0;
+    JUB_ULONG ulPlayloadSize = 0;
     JUB_BYTE buff[HID_PACKET_SIZE] = {0,};
     int res = 0;
     while (true) {
         do {
             memset(buff, 0, sizeof(buff));
-            res = hid_read_timeout(m_handle, buff, sizeof(buff), ulMiliSecondTimeout);
+            res = hid_read_timeout(_handle, buff, sizeof(buff), ulMiliSecondTimeout);
             if (res <= 0) {
                 disconnect();
                 return JUBR_TRANSMIT_DEVICE_ERROR;
             }
-        } while (res> 5 && buff[4] == FIDO2_WAIT_FLAG);//fido2 protocol
+        } while (res > 5 && buff[4] == FIDO2_WAIT_FLAG);//fido2 protocol
 
         if (0 == offset) {
             // first packet
             playloadSize = (buff[5] << 8) + buff[6];
-            if (*pulRetLen < playloadSize) {
+            if (*pulRetDataLen < playloadSize) {
                 return JUBR_BUFFER_TOO_SMALL;
             }
 
@@ -216,8 +211,8 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
         }
 
         if (offset >= playloadSize) {
-            *pulRetLen = playloadSize;
-            memcpy(pRetData, vRecv.data(), *pulRetLen);
+            *pulRetDataLen = playloadSize;
+            memcpy(retData, vRecv.data(), *pulRetDataLen);
 
             break;
         }
@@ -228,8 +223,8 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
     HID_3KHN_PACK sendHidPacket;
     HID_3KHN_PACK_READ_64 recvHidPacket;
 
-    int txPacketSize = sendLen;
-    int txOffset = 0, offset = 0, recvLen = *pulRetLen;
+    int txPacketSize = ulSendLen;
+    int txOffset = 0, offset = 0, recvLen = *pulRetDataLen;
     int txSize = 0;
 
     int rxPacketSize = 0;
@@ -237,11 +232,11 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
     int rxSize = 0;
     JUB_ULONG dwResult = 0, dwTimeOutTimes = 0;
 
-    while (sendLen) {
+    while (ulSendLen) {
         memset(&sendHidPacket, 0, sizeof(sendHidPacket));
         //-------------------------------------------------------------------------------
         //  prepare a data package
-        txSize = sendLen > 58 ? 58 : sendLen;
+        txSize = ulSendLen > 58 ? 58 : ulSendLen;
         if (0 == txSize) {
             break;
         }
@@ -254,13 +249,13 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
         memmove(sendHidPacket.uc6Buffer, sendData, txSize);
         txOffset += txSize;
         sendData += txSize;
-        sendLen -= txSize;
+        ulSendLen-= txSize;
         //-------------------------------------------------------------------------------
         //  send this package
         sendHidPacket.id = 0;
-        // ESLOG_INF(("send writeFile sendLen = %d\n",sendLen));
+        // ESLOG_INF(("send writeFile ulSendLen = %d\n", ulSendLen));
 
-        if (!write((JUB_BYTE*)(&sendHidPacket), sizeof(HID_3KHN_PACK))) {
+        if (!_Write((JUB_BYTE*)(&sendHidPacket), sizeof(HID_3KHN_PACK))) {
             disconnect();
             return JUBR_TRANSMIT_DEVICE_ERROR;
         } else {
@@ -292,9 +287,9 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
                            recvHidPacket.uc3BlockOffsetL;
                 rxSize = recvHidPacket.uc4BlockSizeH * 256 +
                          recvHidPacket.uc5BlockSizeL;
-                memmove(pRetData + rxOffset, recvHidPacket.uc6Buffer, rxSize);
+                memmove(retData + rxOffset, recvHidPacket.uc6Buffer, rxSize);
                 if (rxOffset + rxSize == rxPacketSize) {
-                    *pulRetLen = rxPacketSize;
+                    *pulRetDataLen = rxPacketSize;
                     break;
                 }
             }
@@ -302,12 +297,12 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
     }*/
 }
 
-int JubiterHidDevice::write(const unsigned char* data, size_t length) {
-    return hid_write(m_handle, data, length);
+int JubiterHidDevice::_Write(const unsigned char* data, size_t length) {
+    return hid_write(_handle, data, length);
 }
 
-int JubiterHidDevice::read(unsigned char* data, size_t length) {
-    return hid_read(m_handle, data, length);
+int JubiterHidDevice::_Read(unsigned char* data, size_t length) {
+    return hid_read(_handle, data, length);
 }
 
 }  // namespace jub end

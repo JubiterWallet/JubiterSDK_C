@@ -25,15 +25,15 @@ namespace jub {
 JubiterBLEDevice::JubiterBLEDevice():
     _param{nullptr, BLE_ReadCallBack, BLE_ScanCallBack, BLE_DiscCallBack},
     _handle(0),
-    _connected(false) {
+    _bConnected(false) {
 
 }
 
 JubiterBLEDevice::~JubiterBLEDevice() {
-    disconnect();
+    Disconnect();
 }
 
-JUB_RV JubiterBLEDevice::matchErrorCode(int error) {
+JUB_RV JubiterBLEDevice::MatchErrorCode(int error) {
 
 #ifdef __ANDROID__
 switch (error) {
@@ -64,7 +64,7 @@ switch ((unsigned long)error) {
 #endif
 }
 
-JUB_RV JubiterBLEDevice::connect(const std::string params /* = ""*/) {
+JUB_RV JubiterBLEDevice::Connect(const std::string params /* = ""*/) {
 
     // parse parms
 //     unsigned char guid[] = "0000-0000-0000";
@@ -74,7 +74,7 @@ JUB_RV JubiterBLEDevice::connect(const std::string params /* = ""*/) {
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLEDevice::disconnect() {
+JUB_RV JubiterBLEDevice::Disconnect() {
 
     if (             0 != _handle
         && IFD_SUCCESS == FT_BLE_DisConn(_handle)
@@ -86,10 +86,8 @@ JUB_RV JubiterBLEDevice::disconnect() {
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
-                                  IN JUB_ULONG sendLen,
-                                  OUT JUB_BYTE_PTR pRetData,
-                                  INOUT JUB_ULONG_PTR pulRetLen,
+JUB_RV JubiterBLEDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
+                                  OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                                   IN JUB_ULONG ulMiliSecondTimeout) {
 
     if (    0 == _handle
@@ -99,24 +97,24 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
     }
 
 #ifdef _DEBUG
-	DeviceIOLogHelper  handler(sendData, sendLen, pRetData, pulRetLen);
+	DeviceIOLogHelper  handler(sendData, ulSendLen, retData, *pulRetDataLen);
 #endif
 
     auto& fido = Fido::instance();
     fido.clear();
 
-    unsigned char _sendMsg[2048] = {0,};
-    unsigned int _sendLen = (unsigned int) sizeof(_sendMsg)/sizeof(unsigned char);
+    unsigned char sendMsg[2048] = {0,};
+    unsigned int uiSendLen = (unsigned int)sizeof(sendMsg)/sizeof(unsigned char);
     // 封装fido协议
-    fido.wrapFidoApdu(CMD_MSG, const_cast<unsigned char *>(sendData), (unsigned int)sendLen, _sendMsg, &_sendLen);
+    fido.wrapFidoApdu(CMD_MSG, const_cast<unsigned char *>(sendData), (unsigned int)ulSendLen, sendMsg, &uiSendLen);
 
-    int ret = FT_BLE_SendAPDU(_handle, const_cast<unsigned char *>(_sendMsg), _sendLen);
+    int ret = FT_BLE_SendAPDU(_handle, const_cast<unsigned char *>(sendMsg), uiSendLen);
     if (0 != ret) {
-        return matchErrorCode(ret);
+        return MatchErrorCode(ret);
     }
 
     auto status = fido.waitForReceive(ulMiliSecondTimeout);
-    if (!_connected) {
+    if (!_bConnected) {
         return JUBR_NOT_CONNECT_DEVICE;
     }
     if (std::cv_status::timeout == status) {
@@ -136,18 +134,18 @@ JUB_RV JubiterBLEDevice::sendData(IN JUB_BYTE_CPTR sendData,
     } // switch (respStatus) end
 
     auto resp = fido.response();
-    if (   NULL == pRetData
-        || NULL == pulRetLen
+    if (   NULL == retData
+        || NULL == pulRetDataLen
         ) {
         return JUBR_OK;
     }
 
-    ret = fido.parseFidoApdu(resp.data(), (unsigned int)resp.size(), pRetData, (unsigned int *) pulRetLen);
+    ret = fido.parseFidoApdu(resp.data(), (unsigned int)resp.size(), retData, (unsigned int *) pulRetDataLen);
 
-    return matchErrorCode(ret);
+    return MatchErrorCode(ret);
 }
 
-unsigned int JubiterBLEDevice::initialize(const BLE_INIT_PARAM& params) {
+unsigned int JubiterBLEDevice::Initialize(const BLE_INIT_PARAM& params) {
 
 	// init with inner _param
 	_param.param = params.param;
@@ -156,84 +154,82 @@ unsigned int JubiterBLEDevice::initialize(const BLE_INIT_PARAM& params) {
 		outerParams = params;
 	}
 
-    return (unsigned int)matchErrorCode(ret);
+    return (unsigned int)MatchErrorCode(ret);
 }
 
-unsigned int JubiterBLEDevice::finalize() { 
+unsigned int JubiterBLEDevice::Finalize() {
 
 	outerParams = {0, 0, 0, 0};
 	return FT_BLE_Finalize(); 
 }
 
-unsigned int JubiterBLEDevice::scan() { 
+unsigned int JubiterBLEDevice::Scan() {
 
-	return (unsigned int)matchErrorCode(FT_BLE_Scan());
+	return (unsigned int)MatchErrorCode(FT_BLE_Scan());
 }
 
-unsigned int JubiterBLEDevice::stopScan() { 
+unsigned int JubiterBLEDevice::StopScan() {
 
-	return (unsigned int)matchErrorCode(FT_BLE_StopScan());
+	return (unsigned int)MatchErrorCode(FT_BLE_StopScan());
 }
 
-unsigned int JubiterBLEDevice::connect(unsigned char* bBLEUUID,
+unsigned int JubiterBLEDevice::Connect(unsigned char* bBLEUUID,
                                        unsigned int connectType,
-                                       unsigned long* pDevHandle,
+                                       unsigned long* pdevHandle,
                                        unsigned int timeout) {
 
-    unsigned int ret =
-        FT_BLE_ConnDev(bBLEUUID, connectType, pDevHandle, timeout);
+    unsigned int ret = FT_BLE_ConnDev(bBLEUUID, connectType, pdevHandle, timeout);
     if (IFD_SUCCESS == ret) {
-        _handle = *pDevHandle;
-        _connected = true;
+        _handle = *pdevHandle;
+        _bConnected = true;
     }
-    extraSetting();
+    ExtraSetting();
 
-    return (unsigned int)matchErrorCode(ret);
+    return (unsigned int)MatchErrorCode(ret);
 }
 
-unsigned int JubiterBLEDevice::cancelConnect(unsigned char* bBLEUUID) {
+unsigned int JubiterBLEDevice::CancelConnect(unsigned char* bBLEUUID) {
 
 	unsigned int ret = FT_BLE_CancelConnDev(bBLEUUID);
 	_handle = 0;
-    _connected = false;
+    _bConnected = false;
 
-	return (unsigned int)matchErrorCode(ret);
+	return (unsigned int)MatchErrorCode(ret);
 }
 
-unsigned int JubiterBLEDevice::disconnect(unsigned long handle) { 
+unsigned int JubiterBLEDevice::Disconnect(unsigned long handle) {
 
 	unsigned int ret = FT_BLE_DisConn(handle);
 	if (IFD_SUCCESS == ret) {
 		_handle = 0;
-        _connected = false;
+        _bConnected = false;
 	}
 
-	return (unsigned int)matchErrorCode(ret);
+	return (unsigned int)MatchErrorCode(ret);
 }
 
-unsigned int JubiterBLEDevice::isConnect(unsigned long handle) { 
+unsigned int JubiterBLEDevice::IsConnect(unsigned long handle) {
 
 	return FT_BLE_IsConn(handle);
 }
 
-unsigned long JubiterBLEDevice::getHandle() { 
+unsigned long JubiterBLEDevice::GetHandle() {
 
-	return _handle; 
+	return _handle;
 }
 
-void JubiterBLEDevice::setHandle(unsigned long handle) {
+void JubiterBLEDevice::SetHandle(unsigned long handle) {
 
 	_handle = handle;
 }
 
-void JubiterBLEDevice::setConnectStatuteFalse() {
+void JubiterBLEDevice::SetConnectStatuteFalse() {
 
-    _connected = false;
+    _bConnected = false;
 }
 
 int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
-                                       unsigned char* data,
-                                       unsigned int dataLen) {
+                                       unsigned char* data, unsigned int uiDataLen) {
 //    if (!(IS_BLE_MODE)) {
 //        return IFD_NOT_SUPPORTED;
 //    }
@@ -242,7 +238,7 @@ int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
 
     auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
     if (bleDevice) {
-        Fido::RecvCallBack(devHandle, data, dataLen);
+        Fido::RecvCallBack(devHandle, data, uiDataLen);
     }
 
     return IFD_SUCCESS;
@@ -272,8 +268,8 @@ void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
 
     auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
     if (bleDevice) {
-		bleDevice->setHandle(0);
-        bleDevice->setConnectStatuteFalse();
+		bleDevice->SetHandle(0);
+        bleDevice->SetConnectStatuteFalse();
         Fido::instance().stopReceiving();
         if (bleDevice->outerParams.discCallBack) {
             bleDevice->outerParams.discCallBack(uuid);
@@ -283,7 +279,7 @@ void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
     return;
 }
 
-void JubiterBLEDevice::extraSetting() {
+void JubiterBLEDevice::ExtraSetting() {
 #if defined(__APPLE__)
 #include <TargetConditionals.h>
 #if TARGET_OS_IOS // ios
@@ -291,18 +287,17 @@ void JubiterBLEDevice::extraSetting() {
     // cmd: 00A40400
     uchar_vector cmd("00A40400");
     unsigned char resp[0x100] = {0,};
-    JUB_ULONG respLen = sizeof(resp)/sizeof(unsigned char);
-    auto rv = sendData(cmd.data(), cmd.size(), resp, &respLen);
+    JUB_ULONG ulRespLen = sizeof(resp)/sizeof(unsigned char);
+    auto rv = SendData(cmd.data(), cmd.size(), resp, &ulRespLen);
     if (JUBR_OK != rv) {
         return;
     }
 
-    if (2 > respLen) {
+    if (2 > ulRespLen) {
         return;
     }
 
-    JUB_RV ret = 0;
-    ret = resp[respLen - 2] * 0x100 + resp[respLen - 1];
+    JUB_RV ret = ret = resp[ulRespLen - 2] * 0x100 + resp[ulRespLen - 1];
     if (0x9000 != ret) {
         return;
     }
@@ -310,16 +305,16 @@ void JubiterBLEDevice::extraSetting() {
     // cmd:  80CB800005DFFF028100
     // resp: 2003D86A571205504A7542697465722D71686A769000
     cmd.setHex("80CB800005DFFF028100");
-    respLen = sizeof(resp)/sizeof(unsigned char);
-    rv = sendData(cmd.data(), cmd.size(), resp, &respLen);
+    ulRespLen = sizeof(resp)/sizeof(unsigned char);
+    rv = SendData(cmd.data(), cmd.size(), resp, &ulRespLen);
     if (JUBR_OK != rv) {
         return;
     }
-    if (4 > respLen) {
+    if (4 > ulRespLen) {
         return;
     }
-    ret = resp[respLen - 2] * 0x100;
-    ret += resp[respLen - 1];
+    ret = resp[ulRespLen - 2] * 0x100;
+    ret += resp[ulRespLen - 1];
     if (0x9000 != ret) {
         return;
     }

@@ -19,30 +19,32 @@ public:
     Context() {};
     virtual ~Context() {};
 
-    virtual JUB_RV showVirtualPwd();
-    virtual JUB_RV cancelVirtualPwd();
-    virtual JUB_RV verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
-    virtual JUB_RV activeSelf() = 0;
-    virtual JUB_RV setTimeout(JUB_UINT16 timeout);
+    virtual JUB_RV ShowVirtualPwd();
+    virtual JUB_RV CancelVirtualPwd();
+    virtual JUB_RV VerifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry);
+    virtual JUB_RV ActiveSelf() = 0;
+    virtual JUB_RV SetTimeout(JUB_UINT16 timeout);
 
-    virtual Context* GetClassType(void){return this;}
+    virtual Context* GetClassType(void) {
+        return this;
+    }
 
 protected:
-    JUB_UINT16 _deviceID;
-    std::string _main_path;
-    JUB_UINT16 _timeout;
+    JUB_UINT16  _deviceID;
+    std::string _mainPath;
+    JUB_UINT16  _timeout;
 
-    std::string full_bip32_path(BIP32_Path path);
+    std::string _FullBip32Path(BIP32_Path path);
 }; // class Context end
 
 class AutoContextManager : public xManager<jub::Context> {
 public:
-    jub::Context* getOne(JUB_UINT16 ID) {
+    jub::Context* GetOne(JUB_UINT16 ID) {
 
-        auto it = _list.find(ID);
-        if (it != _list.end()) {
+        auto it = _mapList.find(ID);
+        if (it != _mapList.end()) {
             if (_last != it->second) {
-                it->second->activeSelf();
+                it->second->ActiveSelf();
             }
             _last = it->second;
 

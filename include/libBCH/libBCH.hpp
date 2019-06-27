@@ -11,16 +11,16 @@ namespace jub {
 
 namespace bch {
 
-constexpr JUB_UINT32 Version1 = 0x01;
+constexpr JUB_UINT32 version1 = 0x01;
 constexpr JUB_UINT32 sequence = 0xffffffff;
 
-typedef std::vector<uint8_t> data;
+typedef std::vector<uint8_t> Data;
 
-constexpr JUB_BYTE type_bits_p2pkh = 0x00;
-constexpr JUB_BYTE type_bits_p2sh  = 0x08;
+constexpr JUB_BYTE TypeBitsP2PKH = 0x00;
+constexpr JUB_BYTE TypeBitsP2SH  = 0x08;
 
 template<int frombits, int tobits, bool pad>
-bool convertbits(data& out, const data& in) {
+bool convertbits(Data& out, const Data& in) {
 
     int acc = 0;
     int bits = 0;
@@ -37,7 +37,9 @@ bool convertbits(data& out, const data& in) {
     }
 
     if (pad) {
-        if (bits) out.push_back((acc << (tobits - bits)) & maxv);
+        if (bits) {
+            out.push_back((acc << (tobits - bits)) & maxv);
+        }
     }
     else if (   (bits >= frombits)
              || ((acc << (tobits - bits)) & maxv)
@@ -48,23 +50,23 @@ bool convertbits(data& out, const data& in) {
     return true;
 }
 
-JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& script_pub) {
+JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& scriptPub) {
 
-    auto pubkey_data_bit5 = cashaddr::Decode(address);
-    data pubkey_hash;
-    convertbits<5, 8, false>(pubkey_hash, data(pubkey_data_bit5.second.begin(), pubkey_data_bit5.second.end()));
+    auto pubkeyDataBit5 = cashaddr::Decode(address);
+    Data pubkeyHash;
+    convertbits<5, 8, false>(pubkeyHash, Data(pubkeyDataBit5.second.begin(), pubkeyDataBit5.second.end()));
 
-    if (type_bits_p2pkh == pubkey_hash[0]) { //p2pkh
-        script_pub << OP_DUP;
-        script_pub << OP_HASH160;
-        script_pub & uchar_vector(pubkey_hash.begin() + 1, pubkey_hash.end());
-        script_pub << OP_EQUALVERIFY;
-        script_pub << OP_CHECKSIG;
+    if (TypeBitsP2PKH == pubkeyHash[0]) { //p2pkh
+        scriptPub << OP_DUP;
+        scriptPub << OP_HASH160;
+        scriptPub & uchar_vector(pubkeyHash.begin() + 1, pubkeyHash.end());
+        scriptPub << OP_EQUALVERIFY;
+        scriptPub << OP_CHECKSIG;
     }
-    else if (type_bits_p2sh == pubkey_hash[0]) { //p2sh
-        script_pub << OP_HASH160;
-        script_pub & uchar_vector(pubkey_hash.begin() + 1, pubkey_hash.end());
-        script_pub << OP_EQUAL;
+    else if (TypeBitsP2SH == pubkeyHash[0]) { //p2sh
+        scriptPub << OP_HASH160;
+        scriptPub & uchar_vector(pubkeyHash.begin() + 1, pubkeyHash.end());
+        scriptPub << OP_EQUAL;
     }
     else {
         return JUBR_ERROR;
@@ -74,53 +76,53 @@ JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& script_pub) 
 }
 
 JUB_RV serializeUnsignedTX(JUB_BTC_TRANS_TYPE type,
-                           std::vector<INPUT_BTC> inputs,
-                           std::vector<OUTPUT_BTC> outputs,
+                           std::vector<INPUT_BTC> vInputs,
+                           std::vector<OUTPUT_BTC> vOutputs,
                            JUB_UINT32 lockTime,
-                           uchar_vector& unsigned_raw) {
+                           uchar_vector& unsignedRaw) {
 
-    uchar_vector unsinged_trans;
-    unsinged_trans << Version1;
+    uchar_vector unsingedTrans;
+    unsingedTrans << version1;
 
     //input
-    unsinged_trans << (JUB_BYTE)inputs.size();
-    for (auto input : inputs) {
+    unsingedTrans << (JUB_BYTE)vInputs.size();
+    for (auto input : vInputs) {
         //preHash
         uchar_vector preHash = std::string(input.preHash);
         preHash.reverse();
-        unsinged_trans << preHash;
+        unsingedTrans << preHash;
         //preIndex
-        unsinged_trans << (JUB_UINT32)input.preIndex;
+        unsingedTrans << (JUB_UINT32)input.preIndex;
         //sig
-        unsinged_trans << (JUB_BYTE)0;
-        unsinged_trans << sequence;
+        unsingedTrans << (JUB_BYTE)0;
+        unsingedTrans << sequence;
     }
 
     //output
-    unsinged_trans << (JUB_BYTE)outputs.size();
-    for (auto output : outputs) {
+    unsingedTrans << (JUB_BYTE)vOutputs.size();
+    for (auto output : vOutputs) {
         switch (output.type) {
         case OUTPUT_BTC_TYPE::P2PKH:
         {
             //amount
-            unsinged_trans << (uint64_t)output.output_p2pkh.amount;
+            unsingedTrans << (uint64_t)output.outputP2pkh.amount;
             //script_pub
-            uchar_vector script_pub;
-            if (JUBR_OK != buildScriptPubFromAddress(output.output_p2pkh.address, script_pub)) {
+            uchar_vector scriptPub;
+            if (JUBR_OK != buildScriptPubFromAddress(output.outputP2pkh.address, scriptPub)) {
                 return JUBR_ERROR;
             }
-            unsinged_trans && script_pub;
+            unsingedTrans && scriptPub;
             break;
         } // case OUTPUT_BTC_TYPE::P2PKH end
         case OUTPUT_BTC_TYPE::RETURN0:
         {
-            unsinged_trans << (uint64_t)output.output_return0.amount;
-            uchar_vector script_pub;
-            script_pub << (JUB_BYTE)0x6a; //op_return0
-            script_pub << output.output_return0.data_len;
-            script_pub.insert(script_pub.end(), output.output_return0.data, output.output_return0.data + output.output_return0.data_len);
+            unsingedTrans << (uint64_t)output.outputReturn0.amount;
+            uchar_vector scriptPub;
+            scriptPub << (JUB_BYTE)0x6a; //op_return0
+            scriptPub << output.outputReturn0.dataLen;
+            scriptPub.insert(scriptPub.end(), output.outputReturn0.data, output.outputReturn0.data + output.outputReturn0.dataLen);
 
-            unsinged_trans && script_pub;
+            unsingedTrans && scriptPub;
             break;
         } // case OUTPUT_BTC_TYPE::RETURN0 end
         default:
@@ -128,8 +130,8 @@ JUB_RV serializeUnsignedTX(JUB_BTC_TRANS_TYPE type,
         } // switch (output.type) end
     }
 
-    unsinged_trans << lockTime;
-    unsigned_raw = unsinged_trans;
+    unsingedTrans << lockTime;
+    unsignedRaw = unsingedTrans;
 
     return JUBR_OK;
 }

@@ -19,9 +19,19 @@ public:
         le = 0;
         data.clear();
     }
-    APDU(JUB_ULONG ncla, JUB_ULONG nins, JUB_ULONG np1, JUB_ULONG np2,
-         JUB_ULONG nlc, const JUB_BYTE* pData = nullptr, JUB_ULONG nle = 0)
-        : cla(ncla), ins(nins), p1(np1), p2(np2), lc(nlc), le(nle) {
+    APDU(JUB_ULONG ncla,
+         JUB_ULONG nins,
+         JUB_ULONG np1,
+         JUB_ULONG np2,
+         JUB_ULONG nlc,
+         const JUB_BYTE* pData = nullptr,
+         JUB_ULONG nle = 0) :
+        cla(ncla),
+        ins(nins),
+        p1(np1),
+        p2(np2),
+        lc(nlc),
+        le(nle) {
         if (         0 != lc
             && nullptr != pData
             ) {
@@ -38,8 +48,13 @@ public:
     std::vector<JUB_BYTE> data;
 
 public:
-    void SetApdu(JUB_ULONG ncla, JUB_ULONG nins, JUB_ULONG np1, JUB_ULONG np2,
-                 JUB_ULONG nlc, JUB_BYTE* pData = nullptr, JUB_ULONG nle = 0) {
+    void SetApdu(JUB_ULONG ncla,
+                 JUB_ULONG nins,
+                 JUB_ULONG np1,
+                 JUB_ULONG np2,
+                 JUB_ULONG nlc,
+                 JUB_BYTE* pData = nullptr,
+                 JUB_ULONG nle = 0) {
         cla = ncla;
         ins = nins;
         p1 = np1;

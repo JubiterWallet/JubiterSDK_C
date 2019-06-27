@@ -32,25 +32,24 @@ public:
     ~JubiterHidDevice();
 
 public:
-	static  std::vector<std::string> enumDevice();
-    virtual JUB_RV connect(const std::string path);
-    virtual JUB_RV disconnect();
+    static  std::vector<std::string> EnumDevice();
+    virtual JUB_RV Connect(const std::string path);
+    virtual JUB_RV Disconnect();
 
-    virtual JUB_RV sendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG sendLen,
-                            OUT JUB_BYTE_PTR pRetData,
-                            INOUT JUB_ULONG_PTR pulRetLen,
+    virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
+                            OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                             IN JUB_ULONG ulMiliSecondTimeout = 1200000);
 
 protected:
-	int write(const unsigned char *data, size_t length);
-	int read(unsigned char *data, size_t length);
+    int _Write(const unsigned char *data, size_t length);
+    int _Read(unsigned char *data, size_t length);
 
 protected:
-    hid_device* m_handle;
-    unsigned short vid;
-    unsigned short pid;
-	std::string _path;
-	bool firstCmd;
+    hid_device* _handle;
+    unsigned short _vid;
+    unsigned short _pid;
+    std::string _path;
+    bool _bFirstCmd;
 }; // class JubiterHidDevice end
 
 } // namespace jub end

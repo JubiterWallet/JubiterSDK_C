@@ -207,10 +207,10 @@ typedef enum {
 typedef struct {
 	JUB_CHAR label[32];
 	JUB_CHAR sn[24];
-	JUB_UINT16 pin_retry;
-	JUB_UINT16 pin_max_retry;
-	JUB_CHAR ble_version[4];
-	JUB_CHAR firmware_version[4];
+	JUB_UINT16 pinRetry;
+	JUB_UINT16 pinMaxRetry;
+	JUB_CHAR bleVersion[4];
+	JUB_CHAR firmwareVersion[4];
 } JUB_DEVICE_INFO;
 typedef JUB_DEVICE_INFO* JUB_DEVICE_INFO_PTR;
 
@@ -244,14 +244,14 @@ typedef struct {
 } BIP32_Path;
 
 typedef struct {
-    JUB_ENUM_COINTYPE_BTC   cointype;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
+    JUB_ENUM_COINTYPE_BTC   coinType;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
 
-	JUB_CHAR_PTR			main_path;
-	JUB_BTC_TRANS_TYPE		transtype;
+	JUB_CHAR_PTR			mainPath;
+	JUB_BTC_TRANS_TYPE		transType;
 } CONTEXT_CONFIG_BTC;
 
 typedef struct {
-	JUB_CHAR_PTR		main_path;
+	JUB_CHAR_PTR		mainPath;
 	int					chainID;
 } CONTEXT_CONFIG_ETH;
 
@@ -270,21 +270,21 @@ typedef enum {
 typedef struct {
 	JUB_CHAR_PTR	address;
 	JUB_UINT64		amount;
-	JUB_ENUM_BOOL   change_address;
+	JUB_ENUM_BOOL   changeAddress;
 	BIP32_Path      path;
 } OUTPUT_P2PKH;
 
 typedef struct {
 	JUB_UINT64		amount;
-	JUB_UINT16      data_len;
+	JUB_UINT16      dataLen;
 	JUB_BYTE        data[40];	
 } OUTPUT_RETURN0;
 
 typedef struct {
 	OUTPUT_BTC_TYPE type;
 	union {
-		OUTPUT_P2PKH   output_p2pkh;
-		OUTPUT_RETURN0 output_return0;
+		OUTPUT_P2PKH   outputP2pkh;
+		OUTPUT_RETURN0 outputReturn0;
 	};
 } OUTPUT_BTC;
 
@@ -389,14 +389,14 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID);
 /*****************************************************************************
 * @function name : JUB_BuildUSDTOutputs
 * @in  param : contextID - context ID
-*            : USDT_to - to address
+*            : USDTTo - to address
 *            : amount
 * @out param : outputs
 * @last change : build the return0 and dust 2 outputs
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
-                            IN JUB_CHAR_PTR USDT_to,
+                            IN JUB_CHAR_PTR USDTTo,
                             IN JUB_UINT64 amount,
                             OUT OUTPUT_BTC outputs[2]);
 
@@ -446,7 +446,7 @@ JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID);
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
                      IN JUB_CHAR_PTR pinMix,
-                     OUT JUB_ULONG_PTR retry);
+                     OUT JUB_ULONG_PTR pretry);
 
 /*****************************************************************************
 * @function name : JUB_GetHDNodeBTC
@@ -596,7 +596,7 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
-                            IN JUB_CHAR_PTR token_to, IN JUB_CHAR_PTR token_value,
+                            IN JUB_CHAR_PTR tokenTo, IN JUB_CHAR_PTR tokenValue,
                             OUT JUB_CHAR_PTR_PTR abi);
 
 /*****************************************************************************

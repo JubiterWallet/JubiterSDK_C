@@ -4,51 +4,51 @@
 
 namespace jub {
 
-JUB_RV Context::showVirtualPwd() {
+JUB_RV Context::ShowVirtualPwd() {
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->showVirtualPwd());
+    JUB_VERIFY_RV(token->ShowVirtualPwd());
 
     return JUBR_OK;
 }
 
-JUB_RV Context::cancelVirtualPwd() {
+JUB_RV Context::CancelVirtualPwd() {
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->cancelVirtualPwd());
+    JUB_VERIFY_RV(token->CancelVirtualPwd());
 
     return JUBR_OK;
 }
 
-JUB_RV Context::verifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry) {
+JUB_RV Context::VerifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry) {
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->verifyPIN(pinMix, retry));
+    JUB_VERIFY_RV(token->VerifyPIN(pinMix, retry));
 
     return JUBR_OK;
 }
 
-JUB_RV Context::setTimeout(JUB_UINT16 timeout) {
+JUB_RV Context::SetTimeout(JUB_UINT16 timeout) {
 
     _timeout = timeout;
 
-    auto token = jub::TokenManager::GetInstance()->getOne(_deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->setTimeout(_timeout));
+    JUB_VERIFY_RV(token->SetTimeout(_timeout));
 
     return JUBR_OK;
 }
 
-std::string Context::full_bip32_path(BIP32_Path path) {
+std::string Context::_FullBip32Path(BIP32_Path path) {
 
-    return _main_path + "/" + jub::to_string(path.change) + "/" + jub::to_string(path.addressIndex);
+    return _mainPath + "/" + jub::to_string(path.change) + "/" + jub::to_string(path.addressIndex);
 }
 
 } // namespace jub end

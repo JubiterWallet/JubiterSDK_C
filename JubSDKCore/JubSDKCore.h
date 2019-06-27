@@ -196,7 +196,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_BTC_UNIT_TYPE) {
 //    DEV_ScanCallBack scanCallBack;
 //    DEV_DiscCallBack discCallBack;
 //} DEVICE_INIT_PARAM;
-typedef  int(*ReadCallBack)(unsigned long int devHandle, unsigned char* data, unsigned int dataLen);
+typedef  int(*ReadCallBack)(unsigned long int devHandle, unsigned char* data, unsigned int uiDataLen);
 typedef void(*ScanCallBack)(unsigned char* devName, unsigned char* uuid, unsigned int type);
 typedef void(*DiscCallBack)(unsigned char* uuid);
 @interface DeviceInitParam : NSObject

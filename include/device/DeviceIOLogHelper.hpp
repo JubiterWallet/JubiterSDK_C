@@ -23,39 +23,39 @@
 class DeviceIOLogHelper {
 
 public:
-	DeviceIOLogHelper(JUB_BYTE_CPTR sendData,
-                      JUB_ULONG sendLen,
-                      JUB_BYTE_PTR pRetData,
-                      JUB_ULONG_PTR pulRetLen) {
+    DeviceIOLogHelper(JUB_BYTE_CPTR sendData,
+                      JUB_ULONG ulSendLen,
+                      JUB_BYTE_PTR retData,
+                      JUB_ULONG ulRetDataLen) {
 
-		_sendData = sendData;
-		_sendLen = sendLen;
-		_pRetData = pRetData;
-		_pulRetLen = pulRetLen;
-	}
-	~DeviceIOLogHelper() {
-		JUB_UINT16 wRet = _pRetData[*_pulRetLen - 2] * 0x100 + _pRetData[*_pulRetLen - 1];
-		auto style = Green ;
-		if (0x9000 != wRet) {
-			style = Red;
-		}
+        _sendData = sendData;
+        _ulSendLen = ulSendLen;
+        _retData = retData;
+        _ulRetDataLen = ulRetDataLen;
+    }
+    ~DeviceIOLogHelper() {
+        JUB_UINT16 wRet = _retData[_ulRetDataLen - 2] * 0x100 + _retData[_ulRetDataLen - 1];
+        auto style = Green ;
+        if (0x9000 != wRet) {
+            style = Red;
+        }
 
-		uchar_vector logSend(_sendData, _sendData + _sendLen);
-		std::cout << GRAY <<"<<" << style << logSend.getHex() << std::endl;
+        uchar_vector logSend(_sendData, _sendData + _ulSendLen);
+        std::cout << GRAY <<"<<" << style << logSend.getHex() << std::endl;
 
-		uchar_vector logRecv(_pRetData, _pRetData + *_pulRetLen);
-		std::cout << GRAY <<">>" << style << logRecv.getHex() << std::endl;
+        uchar_vector logRecv(_retData, _retData + _ulRetDataLen);
+        std::cout << GRAY <<">>" << style << logRecv.getHex() << std::endl;
 
-		std::cout << "------------------------------" << std::endl;
+        std::cout << "------------------------------" << std::endl;
 
-		std::cout << RESET;
-	}
+        std::cout << RESET;
+    }
 
 private:
-	JUB_BYTE_CPTR   _sendData;
-	JUB_ULONG       _sendLen;
-	JUB_BYTE_PTR    _pRetData;
-	JUB_ULONG_PTR   _pulRetLen;
+    JUB_BYTE_CPTR _sendData;
+    JUB_ULONG     _ulSendLen;
+    JUB_BYTE_PTR  _retData;
+    JUB_ULONG _ulRetDataLen;
 }; // class DeviceIOLogHelper end
 
 #endif //DeviceIOLogHelper

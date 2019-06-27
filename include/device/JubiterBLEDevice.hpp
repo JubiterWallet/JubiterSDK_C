@@ -18,61 +18,60 @@ public:
 
 public:
     // for common device
-    virtual JUB_RV connect(const std::string path = "");
-    virtual JUB_RV disconnect();
+    virtual JUB_RV Connect(const std::string path = "");
+    virtual JUB_RV Disconnect();
 
-    virtual JUB_RV sendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG sendLen,
-                            OUT JUB_BYTE_PTR pRetData,
-                            INOUT JUB_ULONG_PTR pulRetLen,
+    virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
+                            OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                             IN JUB_ULONG ulMiliSecondTimeout = 1200000);
 
 public:
     // for ble device
-    virtual unsigned int initialize(const BLE_INIT_PARAM& params);
-    virtual unsigned int finalize();
+    virtual unsigned int Initialize(const BLE_INIT_PARAM& params);
+    virtual unsigned int Finalize();
 
-    virtual unsigned int scan();
-    virtual unsigned int stopScan();
+    virtual unsigned int Scan();
+    virtual unsigned int StopScan();
 
-    virtual unsigned int connect(
-        unsigned char* bBLEUUID,   /**< ble device UUID */
-        unsigned int connectType,  /**< ble device connect type */
-        unsigned long* pDevHandle, /**< output ble device connect handle */
-        unsigned int timeout);
+    virtual unsigned int Connect(unsigned char* bBLEUUID,   /**< ble device UUID */
+                                 unsigned int connectType,  /**< ble device connect type */
+                                 unsigned long* pdevHandle, /**< output ble device connect handle */
+                                 unsigned int timeout);
 
-    virtual unsigned int cancelConnect(unsigned char* bBLEUUID);
+    virtual unsigned int CancelConnect(unsigned char* bBLEUUID);
 
-    virtual unsigned int disconnect(unsigned long handle);
-    virtual unsigned int isConnect(unsigned long handle);
+    virtual unsigned int Disconnect(unsigned long handle);
+    virtual unsigned int IsConnect(unsigned long handle);
 
-    virtual unsigned long getHandle();
-    virtual void setHandle(unsigned long handle);
+    virtual unsigned long GetHandle();
+    virtual void SetHandle(unsigned long handle);
 
-    virtual void setConnectStatuteFalse();
+    virtual void SetConnectStatuteFalse();
 
     BLE_INIT_PARAM outerParams;
 
 protected:
-    static int BLE_ReadCallBack(unsigned long devHandle, unsigned char* data,
-                                unsigned int dataLen);
+    static int BLE_ReadCallBack(unsigned long devHandle,
+                                unsigned char* data, unsigned int uiDataLen);
 
-    static void BLE_ScanCallBack(unsigned char* devName, unsigned char* uuid,
+    static void BLE_ScanCallBack(unsigned char* devName,
+                                 unsigned char* uuid,
                                  unsigned int type);
 
     static void BLE_DiscCallBack(unsigned char* uuid);
 
-    JUB_RV matchErrorCode(int error);
+    JUB_RV MatchErrorCode(int error);
 
     //static std::shared_ptr<jub::JubiterBLEDevice> getThis();
 
     // check ble version, and set ble library reconnect flag
-    void extraSetting();
+    void ExtraSetting();
 
 protected:
     /* data */
     BLE_INIT_PARAM _param;
     unsigned long _handle;
-    bool _connected;
+    bool _bConnected;
 }; // class JubiterBLEDevice end
 
 }  // namespace jub end

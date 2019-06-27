@@ -5,29 +5,29 @@ namespace jub {
 /*
  * String splitting function
 */
-std::vector<std::string> split(std::string str, std::string pattern) {
+std::vector<std::string> Split(std::string str, std::string pattern) {
 
 	std::string::size_type pos;
-	std::vector<std::string> result;
+	std::vector<std::string> vResult;
 	str += pattern; // extend the string for convenience
 	size_t size = str.size();
 
-	for (size_t i = 0; i<size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		pos = str.find(pattern, i);
 		if (pos < size) {
 			std::string s = str.substr(i, pos - i);
-			result.push_back(s);
+			vResult.push_back(s);
 			i = pos + pattern.size() - 1;
 		}
 	}
 
-	return result;
+	return vResult;
 }
 
 /*
  * Merge string function
 */
-std::string join(std::vector<std::string> v, std::string pattern) {
+std::string Join(std::vector<std::string> v, std::string pattern) {
 
 	std::string strJoin;
 	int i = 0;
@@ -149,7 +149,7 @@ std::vector<unsigned char> ETHHexStr2CharPtr(std::string str) {
 /*
  * Dictionary order
 */
-std::vector<char*> sortLexicographically(std::vector<char*> v) {
+std::vector<char*> SortLexicographically(std::vector<char*> v) {
 
 	std::sort(v.begin(), v.end(), [](char* a, char* b) {
 		return strcmp(a, b) < 0;
@@ -159,7 +159,7 @@ std::vector<char*> sortLexicographically(std::vector<char*> v) {
 }
 
 //
-std::vector<std::string> sortLexicographically(std::vector<std::string> v) {
+std::vector<std::string> SortLexicographically(std::vector<std::string> v) {
 
 	std::sort(v.begin(), v.end(), [](std::string a, std::string b) {
 		return strcmp(a.c_str(), b.c_str()) < 0;
@@ -172,7 +172,7 @@ std::vector<std::string> sortLexicographically(std::vector<std::string> v) {
 void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen) {
 
 	unsigned char tmp = 0;
-	for (unsigned long i = 0; i < ulBufferLen / 2; ++i) {
+	for (unsigned long i = 0; i < ulBufferLen/2; ++i) {
 		tmp = pBuffer[i];
 		pBuffer[i] = pBuffer[ulBufferLen - i - 1];
 		pBuffer[ulBufferLen - i - 1] = tmp;
@@ -198,7 +198,7 @@ std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]) {
 	return v;
 }
 
-std::string dataToString(const DataSlice &slice) {
+std::string DataToString(const DataSlice &slice) {
 	// Due to a bug, lots of AirBitz encrypted blobs end with a null byte.
 	// Get rid of those:
 	auto size = slice.size();
@@ -211,7 +211,7 @@ std::string dataToString(const DataSlice &slice) {
 	return std::string(reinterpret_cast<const char *>(slice.data()), size);
 }
 
-DataChunk buildData(std::initializer_list<DataSlice> slices) {
+DataChunk BuildData(std::initializer_list<DataSlice> slices) {
 
 	size_t size = 0;
     for (auto slice : slices) {
@@ -266,7 +266,7 @@ bool StripPKCSPadding(DataChunk &data, unsigned long block_size) {
 	return true;
 }
 
-DataChunkList parseTlv(const DataSlice &data) {
+DataChunkList ParseTlv(const DataSlice &data) {
 	DataChunkList dataList;
 
 	for (auto pos = data.begin(); pos < data.end(); ) {
@@ -301,7 +301,7 @@ DataChunkList parseTlv(const DataSlice &data) {
 	return dataList;
 }
 
-DataChunk toTlv(uint8_t tag, const DataSlice &data) {
+DataChunk ToTlv(uint8_t tag, const DataSlice &data) {
 
 	DataChunk tlvData;
 	

@@ -194,11 +194,11 @@
                                     encoding:NSUTF8StringEncoding];
     info.sn    = [NSString stringWithCString:deviceInfo.sn
                                     encoding:NSUTF8StringEncoding];
-    info.pinRetry    = deviceInfo.pin_retry;
-    info.pinMaxRetry = deviceInfo.pin_max_retry;
-    info.bleVersion  = [NSString stringWithCString:deviceInfo.ble_version
+    info.pinRetry    = deviceInfo.pinRetry;
+    info.pinMaxRetry = deviceInfo.pinMaxRetry;
+    info.bleVersion  = [NSString stringWithCString:deviceInfo.bleVersion
                                           encoding:NSUTF8StringEncoding];
-    info.firmwareVersion = [NSString stringWithCString:deviceInfo.firmware_version
+    info.firmwareVersion = [NSString stringWithCString:deviceInfo.firmwareVersion
                                               encoding:NSUTF8StringEncoding];
     
     return info;
@@ -308,16 +308,16 @@
     CONTEXT_CONFIG_BTC cfgBTC;
     switch (cfg.coinType) {
         case NS_COINBTC:
-        cfgBTC.cointype = COINBTC;
+        cfgBTC.coinType = COINBTC;
         break;
         case NS_COINBCH:
-        cfgBTC.cointype = COINBCH;
+        cfgBTC.coinType = COINBCH;
         break;
         case NS_COINLTC:
-        cfgBTC.cointype = COINLTC;
+        cfgBTC.coinType = COINLTC;
         break;
         case NS_COINUSDT:
-        cfgBTC.cointype = COINUSDT;
+        cfgBTC.coinType = COINUSDT;
         break;
         default:
         _lastError = JUBR_ARGUMENTS_BAD;
@@ -325,10 +325,10 @@
     }
     switch (cfg.transType) {
         case ns_p2pkh:
-        cfgBTC.transtype = p2pkh;
+        cfgBTC.transType = p2pkh;
         break;
         case ns_p2sh_p2wpkh:
-        cfgBTC.transtype = p2sh_p2wpkh;
+        cfgBTC.transType = p2sh_p2wpkh;
         break;
         default:
         _lastError = JUBR_ARGUMENTS_BAD;
@@ -337,7 +337,7 @@
     if (JUBR_OK != _lastError) {
         return 0;
     }
-    cfgBTC.main_path = (JUB_CHAR_PTR)[cfg.mainPath UTF8String];
+    cfgBTC.mainPath = (JUB_CHAR_PTR)[cfg.mainPath UTF8String];
     
     JUB_UINT16 contextID = 0;
     JUB_RV rv = JUB_CreateContextBTC(cfgBTC,
@@ -411,10 +411,10 @@
 //            }
 //            outputP2pkh.output.path.addressIndex = outputs[i].output_p2pkh.path.addressIndex;
             outputP2pkh.type = NS_P2PKH;
-            outputP2pkh.p2pkh.address = [NSString stringWithCString:outputs[i].output_p2pkh.address
+            outputP2pkh.p2pkh.address = [NSString stringWithCString:outputs[i].outputP2pkh.address
                                                            encoding:NSUTF8StringEncoding];
-            outputP2pkh.p2pkh.amount = outputs[i].output_p2pkh.amount;
-            switch (outputs[i].output_p2pkh.change_address) {
+            outputP2pkh.p2pkh.amount = outputs[i].outputP2pkh.amount;
+            switch (outputs[i].outputP2pkh.changeAddress) {
                 case BOOL_FALSE:
                 outputP2pkh.p2pkh.isChangeAddress = BOOL_NS_FALSE;
                 break;
@@ -425,7 +425,7 @@
                 outputP2pkh.p2pkh.isChangeAddress = BOOL_NS_NR_ITEMS;
                 break;
             }
-            switch (outputs[i].output_p2pkh.path.change) {
+            switch (outputs[i].outputP2pkh.path.change) {
                 case BOOL_FALSE:
                 outputP2pkh.p2pkh.path.change = BOOL_NS_FALSE;
                 break;
@@ -436,7 +436,7 @@
                 outputP2pkh.p2pkh.path.change = BOOL_NS_NR_ITEMS;
                 break;
             }
-            outputP2pkh.p2pkh.path.addressIndex = outputs[i].output_p2pkh.path.addressIndex;
+            outputP2pkh.p2pkh.path.addressIndex = outputs[i].outputP2pkh.path.addressIndex;
         }
         else if (RETURN0 == outputs[i].type) {
 //            outputReturn0.type = NS_RETURN0;
@@ -444,9 +444,9 @@
 //            outputReturn0.output.data = [NSString stringWithCharacters:(const unichar *)outputs[i].output_return0.data
 //                                                                length:(NSUInteger)outputs[i].output_return0.data_len];
             outputReturn0.type = NS_RETURN0;
-            outputReturn0.return0.amount = outputs[i].output_return0.amount;
-            outputReturn0.return0.data = [NSString stringWithCharacters:(const unichar *)outputs[i].output_return0.data
-                                                                 length:(NSUInteger)outputs[i].output_return0.data_len];
+            outputReturn0.return0.amount = outputs[i].outputReturn0.amount;
+            outputReturn0.return0.data = [NSString stringWithCharacters:(const unichar *)outputs[i].outputReturn0.data
+                                                                 length:(NSUInteger)outputs[i].outputReturn0.dataLen];
             
         }
         else {
@@ -553,43 +553,43 @@
 //        }
         if (NS_P2PKH == output.type) {
             pOutputs[i].type = P2PKH;
-            pOutputs[i].output_p2pkh.address = (JUB_CHAR_PTR)[output.p2pkh.address UTF8String];
-            pOutputs[i].output_p2pkh.amount = output.p2pkh.amount;
+            pOutputs[i].outputP2pkh.address = (JUB_CHAR_PTR)[output.p2pkh.address UTF8String];
+            pOutputs[i].outputP2pkh.amount = output.p2pkh.amount;
             switch (output.p2pkh.isChangeAddress) {
                 case BOOL_NS_FALSE:
-                pOutputs[i].output_p2pkh.change_address = BOOL_FALSE;
+                pOutputs[i].outputP2pkh.changeAddress = BOOL_FALSE;
                 break;
                 case BOOL_NS_TRUE:
-                pOutputs[i].output_p2pkh.change_address = BOOL_TRUE;
+                pOutputs[i].outputP2pkh.changeAddress = BOOL_TRUE;
                 break;
                 case BOOL_NS_NR_ITEMS:
-                pOutputs[i].output_p2pkh.change_address = BOOL_NR_ITEMS;
+                pOutputs[i].outputP2pkh.changeAddress = BOOL_NR_ITEMS;
                 break;
             }
-            pOutputs[i].output_p2pkh.path.addressIndex = output.p2pkh.path.addressIndex;
+            pOutputs[i].outputP2pkh.path.addressIndex = output.p2pkh.path.addressIndex;
             switch (output.p2pkh.path.change) {
                 case BOOL_NS_FALSE:
-                pOutputs[i].output_p2pkh.path.change = BOOL_FALSE;
+                pOutputs[i].outputP2pkh.path.change = BOOL_FALSE;
                 break;
                 case BOOL_NS_TRUE:
-                pOutputs[i].output_p2pkh.path.change = BOOL_TRUE;
+                pOutputs[i].outputP2pkh.path.change = BOOL_TRUE;
                 break;
                 case BOOL_NS_NR_ITEMS:
-                pOutputs[i].output_p2pkh.path.change = BOOL_NR_ITEMS;
+                pOutputs[i].outputP2pkh.path.change = BOOL_NR_ITEMS;
                 break;
             }
         }
         else if (NS_RETURN0 == output.type) {
             pOutputs[i].type = RETURN0;
-            pOutputs[i].output_return0.amount = output.return0.amount;
-            pOutputs[i].output_return0.data_len = [output.return0.data length];
-            if (sizeof(pOutputs[i].output_return0.data)/sizeof(JUB_BYTE) > pOutputs[i].output_return0.data_len) {
+            pOutputs[i].outputReturn0.amount = output.return0.amount;
+            pOutputs[i].outputReturn0.dataLen = [output.return0.data length];
+            if (sizeof(pOutputs[i].outputReturn0.data)/sizeof(JUB_BYTE) > pOutputs[i].outputReturn0.dataLen) {
                 _lastError = JUBR_ARGUMENTS_BAD;
                 break;
             }
-            memcpy(pOutputs[i].output_return0.data,
+            memcpy(pOutputs[i].outputReturn0.data,
                    (JUB_CHAR_PTR)[((OReturn0*)output).data UTF8String],
-                   pOutputs[i].output_return0.data_len);
+                   pOutputs[i].outputReturn0.dataLen);
         }
         else {
             _lastError = JUBR_ARGUMENTS_BAD;
@@ -811,7 +811,7 @@
     _lastError = JUBR_OK;
     
     CONTEXT_CONFIG_ETH cfgETH;
-    cfgETH.main_path = (JUB_CHAR_PTR)[cfg.mainPath UTF8String];
+    cfgETH.mainPath = (JUB_CHAR_PTR)[cfg.mainPath UTF8String];
     cfgETH.chainID = (int)cfg.chainID;
     JUB_UINT16 contextID = 0;
     JUB_RV rv = JUB_CreateContextETH(cfgETH,

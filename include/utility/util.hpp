@@ -45,9 +45,9 @@ template<class _Ty,
 	return (_Size);
 }
 
-std::vector<std::string> split(std::string str, std::string pattern);
+std::vector<std::string> Split(std::string str, std::string pattern);
 
-std::string join(std::vector<std::string> v, std::string pattern);
+std::string Join(std::vector<std::string> v, std::string pattern);
 
 std::string CharArray2HexStr(std::array<uint8_t, 32> v);
 
@@ -63,8 +63,8 @@ std::string ETHCharPtr2HexStr(std::vector<unsigned char> v);
 
 std::vector<unsigned char> ETHHexStr2CharPtr(std::string str);
 
-std::vector<char*> sortLexicographically(std::vector<char*> v);
-std::vector<std::string> sortLexicographically(std::vector<std::string> v);
+std::vector<char*> SortLexicographically(std::vector<char*> v);
+std::vector<std::string> SortLexicographically(std::vector<std::string> v);
 
 void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen);
 
@@ -218,8 +218,8 @@ JUB_RV decryptDataAES(const DataSlice &password, const DataSlice &data, DataChun
 
 std::string SHA2Pwd(const DataSlice &password);
 
-DataChunk toTlv(uint8_t tag, const DataSlice &data);
-DataChunkList parseTlv(const DataSlice &data);
+DataChunk ToTlv(uint8_t tag, const DataSlice &data);
+DataChunkList ParseTlv(const DataSlice &data);
 } // namespace jub end
 
 #endif // __util__

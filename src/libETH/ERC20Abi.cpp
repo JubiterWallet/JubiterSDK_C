@@ -6,9 +6,9 @@ namespace jub {
 
 namespace eth {
 
-const size_t ETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT = 32;
-const size_t ETH_METHOD_HASH_SIZE = 4;
-typedef std::array<uint8_t, ETH_METHOD_HASH_SIZE> EthereumContractMethodHash;
+const size_t kETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT = 32;
+const size_t kETH_METHOD_HASH_SIZE = 4;
+typedef std::array<uint8_t, kETH_METHOD_HASH_SIZE> EthereumContractMethodHash;
 
 struct BinaryData {
     const unsigned char* data;
@@ -40,8 +40,8 @@ protected:
 
 EthereumContractPayloadStream& operator<<(EthereumContractPayloadStream& stream, const std::vector<std::uint8_t>& data) {
 
-    static const std::array<uint8_t, ETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT> ZEROES = {0,};
-    stream.write_data(ZEROES.data(), ETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT - data.size());
+    static const std::array<uint8_t, kETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT> ZEROES = {0,};
+    stream.write_data(ZEROES.data(), kETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT - data.size());
     stream.write_data(&data[0], data.size());
 
     return stream;
