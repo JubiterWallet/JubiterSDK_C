@@ -185,7 +185,6 @@ JUB_RV JubiterBLDImpl::SignTXBTC(JUB_BTC_TRANS_TYPE type,
     //  sign transactions
     JUB_BYTE retData[2] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
-
     apdu.SetApdu(0x00, 0x2A, 0x00, sigType, 0);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x6f09 == ret) {
@@ -208,14 +207,14 @@ JUB_RV JubiterBLDImpl::SignTXBTC(JUB_BTC_TRANS_TYPE type,
     JUB_ULONG ulRetLen = kReadOnceLen;
 
     apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
-    JUB_UINT16 ulTimes = 0;
-    for (ulTimes = 0; ulTimes < (totalReadLen/kReadOnceLen); ulTimes++) {
+    JUB_UINT16 times = 0;
+    for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
 
-        JUB_UINT16 offset = ulTimes * kReadOnceLen;
+        JUB_UINT16 offset = times * kReadOnceLen;
         apdu.p1 = offset >> 8;
         apdu.p2 = offset & 0x00ff;
 
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret, sigRawTx.data() + ulTimes * kReadOnceLen, &ulRetLen));
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret, sigRawTx.data() + times * kReadOnceLen, &ulRetLen));
         if (0x9000 != ret) {
             return JUBR_TRANSMIT_DEVICE_ERROR;
         }
@@ -223,13 +222,13 @@ JUB_RV JubiterBLDImpl::SignTXBTC(JUB_BTC_TRANS_TYPE type,
 
     apdu.le = totalReadLen % kReadOnceLen;
     if (apdu.le) {
-        JUB_UINT16 offset = ulTimes * kReadOnceLen;
+        JUB_UINT16 offset = times * kReadOnceLen;
         apdu.p1 = offset >> 8;
         apdu.p2 = offset & 0x00ff;
 
-        ulRetDataLen = totalReadLen - ulTimes * kReadOnceLen;
+        ulRetLen = totalReadLen - times * kReadOnceLen;
 
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret, sigRawTx.data() + ulTimes * kReadOnceLen, &ulRetDataLen));
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret, sigRawTx.data() + times * kReadOnceLen, &ulRetLen));
         if (0x9000 != ret) {
             return JUBR_TRANSMIT_DEVICE_ERROR;
         }

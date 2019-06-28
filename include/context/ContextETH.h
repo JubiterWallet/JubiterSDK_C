@@ -13,7 +13,7 @@
 do {                                                                    \
     auto context = jub::ContextManager::GetInstance()->GetOne(x);       \
     JUB_CHECK_NULL(context);                                            \
-    if (typeid(context->GetClassType()) != typeid(jub::ContextETH)) {   \
+    if (typeid(*context->GetClassType()) != typeid(jub::ContextETH)) {  \
         return JUBR_ERROR_ARGS;                                         \
     }                                                                   \
 } while(0)

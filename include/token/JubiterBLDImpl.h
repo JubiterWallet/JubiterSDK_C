@@ -19,7 +19,7 @@ using DeviceType = jub::JubiterBLEDevice;
 
 namespace jub {
 
-constexpr JUB_BYTE PKIAID_FIDO[8] = {
+constexpr JUB_BYTE kPKIAID_FIDO[8] = {
     0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
 };
 
@@ -43,7 +43,7 @@ public:
     //BTC functions
     virtual JUB_RV SelectAppletBTC();
     virtual JUB_RV GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
-    virtual JUB_RV GetAddressBTC(JUB_BTC_TRANS_TYPE type,std::string path, JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV GetAddressBTC(JUB_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 tag, std::string& address);
     virtual JUB_RV SetUnitBTC(JUB_BTC_UNIT_TYPE unit);
     virtual JUB_RV SetCoinTypeBTC(JUB_ENUM_COINTYPE_BTC type);
     virtual JUB_RV SignTXBTC(JUB_BTC_TRANS_TYPE type,
@@ -84,7 +84,7 @@ public:
     virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]);
     virtual JUB_RV GetFwVersion(JUB_BYTE fwVersion[4]);
 
-    virtual JUB_RV EnumApplet(std::string& applet_list);
+    virtual JUB_RV EnumApplet(std::string& appletList);
     virtual JUB_RV GetAppletVersion(std::string appID, std::string& version);
     virtual JUB_RV EnumSupportCoins(std::string& coinList);
     virtual JUB_RV GetDeviceCert(std::string& cert);
@@ -95,7 +95,7 @@ public:
     virtual JUB_RV SetTimeout(JUB_UINT16 timeout);
 
     // get function
-    std::string GetPath() {
+    std::string getPath() {
         return _path;
     };
 

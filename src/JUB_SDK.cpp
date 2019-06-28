@@ -79,7 +79,7 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 		auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->getOne(vDeviceIDs[i]);
 		if (std::end(path_list) == std::find(std::begin(path_list), std::end(path_list), token->getPath())) {
 			//removed key
-			jub::TokenManager::GetInstance()->clearOne(vDeviceIDs[i]);
+			jub::TokenManager::GetInstance()->ClearOne(vDeviceIDs[i]);
 		}
 	}
 
@@ -102,7 +102,7 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 		if (!isInManager(path)) {
 			//new inserted key
 			jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(path);
-			jub::TokenManager::GetInstance()->addOne(token);
+			jub::TokenManager::GetInstance()->AddOne(token);
 		}
 	}
 
@@ -596,14 +596,14 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 * @last change :
 *****************************************************************************/
 JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
-                       OUT JUB_CHAR_PTR_PTR applist) {
+                       OUT JUB_CHAR_PTR_PTR appList) {
 
 	auto token = jub::TokenManager::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(token);
 
-	std::string str_applist;
-	JUB_VERIFY_RV(token->EnumApplet(str_applist));
-	JUB_VERIFY_RV(_allocMem(applist, str_applist));
+	std::string appletList;
+	JUB_VERIFY_RV(token->EnumApplet(appletList));
+	JUB_VERIFY_RV(_allocMem(appList, appletList));
 
 	return JUBR_OK;
 }

@@ -43,8 +43,8 @@ JUB_RV JubiterBLDImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::stri
     uchar_vector apduData = ToTlv(0x08, vPath);
 
     //0x00 for hex,0x01 for xpub
-    if (    JUB_ETH_PUB_FORMAT::HEX  != format
-        &&  JUB_ETH_PUB_FORMAT::XPUB != format
+    if (   JUB_ETH_PUB_FORMAT::HEX  != format
+        && JUB_ETH_PUB_FORMAT::XPUB != format
         ) {
         return JUBR_ERROR_ARGS;
     }

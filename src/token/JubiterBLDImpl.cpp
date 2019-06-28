@@ -3,46 +3,49 @@
 namespace jub {
 
 stAppInfos JubiterBLDImpl::g_appInfo[] = {
-    {{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
-      0x42, 0x54, 0x43, 0x01},
-     "BTC",
-     "0000000"},
-    {{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
-      0x45, 0x54, 0x48, 0x01},
-     "ETH",
-     "0000000"},
+    {
+        {0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x42, 0x54, 0x43, 0x01},
+        "BTC",
+        "0000000"
+    },
+    {
+        {0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x45, 0x54, 0x48, 0x01},
+        "ETH",
+        "0000000"
+    },
     // BTC and ETH index position fixed, start adding new apps below:
-    {{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
-    0x45, 0x54, 0x48, 0x01},
-     "ETC",
-     "01010000"},
-    {{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
-    0x42, 0x54, 0x43, 0x01},
-     "BCH",
-     "01070003",
+    {
+        {0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x45, 0x54, 0x48, 0x01},
+        "ETC",
+        "01010000"
     },
-    {{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
-    0x42, 0x54, 0x43, 0x01},
-     "LTC",
-     "01070003",
+    {
+        {0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x42, 0x54, 0x43, 0x01},
+        "BCH",
+        "01070003"
     },
-    {{0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00,
-    0x42, 0x54, 0x43, 0x01},
-     "USDT",
-     "01080002"
+    {
+        {0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x42, 0x54, 0x43, 0x01},
+        "LTC",
+        "01070003",
+    },
+    {
+        {0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x42, 0x54, 0x43, 0x01},
+        "USDT",
+        "01080002"
     }
 };
 
-JubiterBLDImpl::JubiterBLDImpl(std::string path):
-    _apduBuiler(std::make_shared<JubApudBuiler>()),
-    _device(std::make_shared<DeviceType>()),
-    _path(path) {
+JubiterBLDImpl::JubiterBLDImpl(std::string path)
+    :_apduBuiler(std::make_shared<JubApudBuiler>()),
+     _device(std::make_shared<DeviceType>()),
+     _path(path) {
 
 };
 
-JubiterBLDImpl::JubiterBLDImpl(DeviceType* device):
-    _apduBuiler(std::make_shared<JubApudBuiler>()),
-    _device(device) {
+JubiterBLDImpl::JubiterBLDImpl(DeviceType* device)
+    :_apduBuiler(std::make_shared<JubApudBuiler>()),
+     _device(device) {
 
 }
 
@@ -82,9 +85,8 @@ JUB_RV JubiterBLDImpl::EnumApplet(std::string& appletList) {
     DataChunk tlvData(retData, retData + ulRetDataLen);
     auto appList = ParseTlv(tlvData);
 
-//        int appindex = 0;
-    for (auto appid : appList) {
-        uchar_vector id(appid);
+    for (auto appID : appList) {
+        uchar_vector id(appID);
         appletList += id.getHex();
         appletList += " ";
     }
@@ -94,25 +96,30 @@ JUB_RV JubiterBLDImpl::EnumApplet(std::string& appletList) {
 
 JUB_RV JubiterBLDImpl::EnumSupportCoins(std::string& coinList) {
 
+    JUB_RV rv = JUBR_ERROR;
+
     std::string appletList;
     EnumApplet(appletList);
 
     auto vAppList = Split(appletList, " ");
-
     for (auto appID : vAppList) {
         std::string version;
-        auto rv = GetAppletVersion(appID, version);
-        if (JUBR_OK == rv) {
-            for (auto appInfo : JubiterBLDImpl::g_appInfo) {
-                uchar_vector _appID(appInfo.appID);
-                if (_appID.getHex() == appID) {
-                    if (appInfo.minimumAppletVersion < version) {
-                        coinList += appInfo.coinName;
-                        coinList += " ";
-                    }
+        rv = GetAppletVersion(appID, version);
+        if (JUBR_OK != rv) {
+            break;
+        }
+        for (auto appInfo : JubiterBLDImpl::g_appInfo) {
+            uchar_vector _appID(appInfo.appID);
+            if (_appID.getHex() == appID) {
+                if (appInfo.minimumAppletVersion < version) {
+                    coinList += appInfo.coinName;
+                    coinList += " ";
                 }
             }
         }
+    }
+    if (JUBR_OK != rv) {
+        return rv;
     }
 
     return JUBR_OK;
@@ -126,8 +133,8 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
     }
 
     JUB_UINT16 ret = 0;
-    uchar_vector fidoID(PKIAID_FIDO, 8);
-    if (id == fidoID) {
+    uchar_vector FidoID(kPKIAID_FIDO, 8);
+    if (id == FidoID) {
         //select
         APDU apdu(0x00, 0xA4, 0x04, 0x00, id.size(), &id[0]);
         JUB_BYTE retData[1024] = {0,};
@@ -193,14 +200,14 @@ JUB_RV JubiterBLDImpl::GetDeviceCert(std::string& cert) {
 JUB_RV JubiterBLDImpl::SendOneApdu(const std::string& apdu, std::string& response) {
 
     uchar_vector sendApdu(apdu);
-    JUB_BYTE retdata[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = {0,};
+    JUB_BYTE retData[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = {0,};
     JUB_ULONG ulRetDataLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
-    JUB_RV rv = _device->SendData(sendApdu.data(), sendApdu.size(), retdata, &ulRetDataLen);
+    JUB_RV rv = _device->SendData(sendApdu.data(), sendApdu.size(), retData, &ulRetDataLen);
     if(JUBR_OK != rv) {
         return JUBR_TRANSMIT_DEVICE_ERROR;
     }
 
-    uchar_vector vResponse(retdata, retdata + ulRetDataLen);
+    uchar_vector vResponse(retData, retData + ulRetDataLen);
     response = vResponse.getHex();
 
     return JUBR_OK;
@@ -273,8 +280,7 @@ JUB_RV JubiterBLDImpl::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry
                    std::back_inserter(pinCoord),
                    [](const char elem) {
                        return (uint8_t)(elem - 0x30);
-                   }
-    );
+                   });
 
     APDU apdu(0x00, 0x20, 0x02, 0x00, pinCoord.size(), pinCoord.data());
     //APDU apdu(0x00, 0x10, 0x00, 0x00, pinCoord.size(), pinCoord.data());
@@ -470,7 +476,7 @@ JUB_RV JubiterBLDImpl::_TranPack(const DataSlice &apduData, JUB_BYTE sigType, JU
     }
 
     // else send pack by pack
-    auto nextTimes = apduData.size()/ulSendOnceLen;
+    auto nextTimes = apduData.size() / ulSendOnceLen;
     auto left = apduData.size() % ulSendOnceLen;
 
     // split last pack
@@ -484,9 +490,9 @@ JUB_RV JubiterBLDImpl::_TranPack(const DataSlice &apduData, JUB_BYTE sigType, JU
     // pack by pack
     APDU apdu(0x00, 0xF8, 0x02, sigType, 0x00);
     apdu.lc = ulSendOnceLen;
-    JUB_UINT32 ulTimes = 0;
-    for (ulTimes = 0; ulTimes < nextTimes; ulTimes++) {
-        apdu.SetData(apduData.data() + ulTimes * ulSendOnceLen, apdu.lc);
+    JUB_UINT32 times = 0;
+    for (times = 0; times < nextTimes; times++) {
+        apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
             return JUBR_TRANSMIT_DEVICE_ERROR;
@@ -500,7 +506,7 @@ JUB_RV JubiterBLDImpl::_TranPack(const DataSlice &apduData, JUB_BYTE sigType, JU
             apdu.p1 = 0x03;
         }
 
-        apdu.SetData(apduData.data() + ulTimes * ulSendOnceLen, apdu.lc);
+        apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
             return JUBR_TRANSMIT_DEVICE_ERROR;
@@ -517,23 +523,23 @@ JUB_RV JubiterBLDImpl::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *r
     JUB_CHECK_NULL(_apduBuiler);
     JUB_CHECK_NULL(_device);
 
-    JUB_BYTE retdata[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = {0,};
+    JUB_BYTE _retData[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = {0,};
     JUB_ULONG ulRetDataLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
 
     std::vector<JUB_BYTE> vSendApdu;
     if (JUBR_OK == _apduBuiler->BuildApdu(apdu, vSendApdu)) {
-        if (JUBR_OK != _device->SendData(vSendApdu.data(), vSendApdu.size(), retdata, &ulRetDataLen, ulMiliSecondTimeout)) {
+        if (JUBR_OK != _device->SendData(vSendApdu.data(), vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
             return JUBR_TRANSMIT_DEVICE_ERROR;
         }
 
         if (NULL == pulRetDataLen) {
-            wRet = retdata[ulRetDataLen - 2] * 0x100 + retdata[ulRetDataLen - 1];
+            wRet = _retData[ulRetDataLen - 2] * 0x100 + _retData[ulRetDataLen - 1];
             return JUBR_OK;
         }
 
         if (NULL == retData) {
             *pulRetDataLen = ulRetDataLen - 2;
-            wRet = (retdata[ulRetDataLen - 2] * 0x100 + retdata[ulRetDataLen - 1]);
+            wRet = (_retData[ulRetDataLen - 2] * 0x100 + _retData[ulRetDataLen - 1]);
             return JUBR_OK;
         }
 
@@ -543,9 +549,9 @@ JUB_RV JubiterBLDImpl::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *r
         }
 
         *pulRetDataLen = ulRetDataLen - 2;
-        memcpy(retData, retdata, ulRetDataLen - 2);
+        memcpy(retData, _retData, ulRetDataLen - 2);
 
-        wRet = retdata[ulRetDataLen - 2] * 0x100 + retdata[ulRetDataLen - 1];
+        wRet = _retData[ulRetDataLen - 2] * 0x100 + _retData[ulRetDataLen - 1];
         return JUBR_OK;
     }
 

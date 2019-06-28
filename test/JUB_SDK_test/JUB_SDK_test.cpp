@@ -55,18 +55,18 @@ void get_device_info_test() {
 
 	JUB_UINT16 deviceID = deviceIDs[0];
 
-	char* applist;
-	JUB_EnumApplets(deviceID, &applist);
-	std::string str_applist = applist;
-	JUB_FreeMemory(applist);
+	char* appList;
+	JUB_EnumApplets(deviceID, &appList);
+	std::string appletList = appList;
+	JUB_FreeMemory(appList);
 
-	auto v_applist = split(str_applist, ' ');
+	auto vAppList = split(appletList, ' ');
 
-	for (auto appid : v_applist) {
+	for (auto appID : vAppList) {
 		char* version;
-		auto rv = JUB_GetAppletVersion(deviceID,(char*)appid.c_str(),&version);
+		auto rv = JUB_GetAppletVersion(deviceID,(char*)appID.c_str(),&version);
 		if (JUBR_OK == rv) {
-			cout << appid << " version : " << version << endl;;
+			cout << appID << " version : " << version << endl;;
 		}
 	}
 
@@ -79,14 +79,14 @@ void get_device_info_test() {
 
 	cout << "device Label :" << info.label << endl;
 	cout << "device sn :" << info.sn << endl;
-	cout << "device pinRetry :" << info.pin_retry << endl;
+	cout << "device pinRetry :" << info.pinRetry << endl;
 	cout << "device pinMaxRetry :" << info.pin_max_retry << endl;
-	JUB_BYTE ble_version[5] = {0,};
-	JUB_BYTE fw_version[5] = {0.};
-	memcpy(ble_version, info.ble_version, 4);
-	memcpy(fw_version, info.firmware_version, 4);
-	cout << "device ble_version :" << ble_version << endl;
-	cout << "device fw_version :" << fw_version << endl;
+	JUB_BYTE bleVersion[5] = {0,};
+	JUB_BYTE fwVersion[5] = {0,};
+	memcpy(bleVersion, info.bleVersion, 4);
+	memcpy(fwVersion, info.firmware_version, 4);
+	cout << "device bleVersion :" << bleVersion << endl;
+	cout << "device fwVersion :" << fwVersion << endl;
 
 	char* cert;
 	rv = JUB_GetDeviceCert(deviceID, &cert);
@@ -221,7 +221,7 @@ void set_my_address_test_BTC(JUB_UINT16 contextID) {
 
 	JUB_CHAR_PTR address = "";
 	JUB_RV rv = JUB_SetMyAddressBTC(contextID, path, &address);
-	if (rv != JUBR_OK) {
+	if (JUBR_OK != rv) {
 		cout << "set address error" << endl;
 	}
 	else {
@@ -258,14 +258,14 @@ void set_my_address_test_ETH(JUB_UINT16 contextID) {
 void get_address_test(JUB_UINT16 contextID, Json::Value root) {
 
 	try {
-		JUB_CHAR_PTR main_xpub;
-		JUB_RV rv = JUB_GetMainHDNodeBTC(contextID, &main_xpub);
+		JUB_CHAR_PTR mainXpub;
+		JUB_RV rv = JUB_GetMainHDNodeBTC(contextID, &mainXpub);
 
-		cout << "Main xpub : " << main_xpub << endl;
-		JUB_FreeMemory(main_xpub);
+		cout << "Main xpub : " << mainXpub << endl;
+		JUB_FreeMemory(mainXpub);
 
-		int input_number = root["inputs"].size();
-		for (int i = 0; i < input_number; i++) {
+		int inputNumber = root["inputs"].size();
+		for (int i = 0; i < inputNumber; i++) {
 			JUB_CHAR_PTR xpub;
 
 			BIP32_Path path;
@@ -327,9 +327,9 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
 	try {
 		std::vector<INPUT_BTC> inputs;
 		std::vector<OUTPUT_BTC> outputs;
-		int input_number = root["inputs"].size();
+		int inputNumber = root["inputs"].size();
 
-		for (int i = 0; i < input_number; i++) {
+		for (int i = 0; i < inputNumber; i++) {
 			INPUT_BTC input;
 			input.preHash = (char*)root["inputs"][i]["preHash"].asCString();
 			input.preIndex = root["inputs"][i]["preIndex"].asInt();
@@ -339,9 +339,9 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
 			inputs.push_back(input);
 		}
 
-		int output_number = root["outputs"].size();
+		int outputNumber = root["outputs"].size();
 
-		for (int i = 0; i < output_number; i++) {
+		for (int i = 0; i < outputNumber; i++) {
 			OUTPUT_BTC output;
 			output.type = OUTPUT_BTC_TYPE::P2PKH;
 			output.output_p2pkh.address = (char*)root["outputs"][i]["address"].asCString();
@@ -385,9 +385,9 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 	try {
 		std::vector<INPUT_BTC> inputs;
 		std::vector<OUTPUT_BTC> outputs;
-		int input_number = root["inputs"].size();
+		int inputNumber = root["inputs"].size();
 
-		for (int i = 0; i < input_number; i++) {
+		for (int i = 0; i < inputNumber; i++) {
 			INPUT_BTC input;
 			input.preHash = (char*)root["inputs"][i]["preHash"].asCString();
 			input.preIndex = root["inputs"][i]["preIndex"].asInt();
@@ -397,9 +397,9 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 			inputs.push_back(input);
 		}
 
-		int output_number = root["outputs"].size();
+		int outputNumber = root["outputs"].size();
 
-		for (int i = 0; i < output_number; i++) {
+		for (int i = 0; i < outputNumber; i++) {
 			OUTPUT_BTC output;
 			output.type = OUTPUT_BTC_TYPE::P2PKH;
 			output.output_p2pkh.address = (char*)root["outputs"][i]["address"].asCString();
@@ -450,8 +450,8 @@ void USDT_test(char* json_file) {
 		error_exit("cannot find JubtierWallet");
 	}
 
-	char* applist;
-	rv = JUB_EnumApplets(deviceIDs[0], &applist);
+	char* appList;
+	rv = JUB_EnumApplets(deviceIDs[0], &appList);
 
 	Json::CharReaderBuilder builder;
 	Json::Value root;
@@ -526,8 +526,8 @@ void BTC_test(char* json_file, JUB_ENUM_COINTYPE_BTC cointype) {
 		error_exit("cannot find JubtierWallet");
 	}
 
-	char* applist;
-	rv = JUB_EnumApplets(deviceIDs[0], &applist);
+	char* appList;
+	rv = JUB_EnumApplets(deviceIDs[0], &appList);
 
 	Json::CharReaderBuilder builder;
 	Json::Value root;
@@ -736,8 +736,8 @@ void ETH_test() {
 		error_exit("cannot find JubtierWallet");
 	}
 
-	char* applist;
-	rv = JUB_EnumApplets(deviceIDs[0], &applist);
+	char* appList;
+	rv = JUB_EnumApplets(deviceIDs[0], &appList);
     if (JUBR_OK != rv) {
         error_exit("JUB_EnumApplets error\n");
     }
@@ -822,26 +822,26 @@ void getVersion() {
 		return;
 	}
 
-	JUB_BYTE ble_version[5] = {0,};
-	JUB_BYTE fw_version[5] = {0,};
-	memcpy(ble_version, info.ble_version, 4);
-	memcpy(fw_version, info.firmware_version, 4);
-	cout << "device ble_version :" << ble_version << endl;
-	cout << "device fw_version :" << fw_version << endl;
+	JUB_BYTE bleVersion[5] = {0,};
+	JUB_BYTE fwVersion[5] = {0,};
+	memcpy(bleVersion, info.bleVersion, 4);
+	memcpy(fwVersion, info.firmware_version, 4);
+	cout << "device bleVersion :" << bleVersion << endl;
+	cout << "device fwVersion :" << fwVersion << endl;
 
 	cout << "~~~~~~~~~~~Applet Version ~~~~~~~~~~~~~~" << endl;
 
-	char* applist;
-	JUB_EnumApplets(deviceID, &applist);
-	std::string str_applist = applist;
-	JUB_FreeMemory(applist);
+	char* appList;
+	JUB_EnumApplets(deviceID, &appList);
+	std::string appletList = appList;
+	JUB_FreeMemory(appList);
 
-	auto v_applist = split(str_applist, ' ');
-	for (auto appid : v_applist) {
+	auto vAppList = split(appletList, ' ');
+	for (auto appID : vAppList) {
 		char* version;
-		auto rv = JUB_GetAppletVersion(deviceID, (char*)appid.c_str(), &version);
+		auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
 		if (JUBR_OK == rv) {
-			cout << appid << " version : " << version << endl;;
+			cout << appID << " version : " << version << endl;;
 		}
 	}
 

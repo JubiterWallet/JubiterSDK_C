@@ -12,10 +12,10 @@
 //typedef struct {
 //    JUB_CHAR label[32];
 //    JUB_CHAR sn[24];
-//    JUB_UINT16 pin_retry;
-//    JUB_UINT16 pin_max_retry;
-//    JUB_CHAR ble_version[4];
-//    JUB_CHAR firmware_version[4];
+//    JUB_UINT16 pinRetry;
+//    JUB_UINT16 pinMaxRetry;
+//    JUB_CHAR bleVersion[4];
+//    JUB_CHAR firmwareVersion[4];
 //} JUB_DEVICE_INFO;
 @implementation DeviceInfo
 @synthesize label;
