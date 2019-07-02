@@ -130,7 +130,7 @@ std::vector<unsigned char> HexStr2CharPtr(std::string str) {
  */
 std::string ETHCharPtr2HexStr(std::vector<unsigned char> v) {
 
-    std::string str = ETH_PRDFIX;
+    std::string str(ETH_PRDFIX);
     str += CharPtr2HexStr(v);
     return str;
 }

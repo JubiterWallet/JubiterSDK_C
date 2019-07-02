@@ -104,7 +104,7 @@ JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
     vChainID.push_back(_chainID);
 
     bool bERC20 = false;
-    if (0 == memcmp(input, "0xa9059cbb", 10)) { // erc20 function sign
+    if (0 == memcmp(input, ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))) { // erc20 function sign
         bERC20 = true;
     }
 
@@ -119,7 +119,7 @@ JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
                                    vPath,
                                    vChainID,
                                    raw));
-    strRaw = "0x" + raw.getHex();
+    strRaw = std::string(ETH_PRDFIX) + raw.getHex();
 
     return JUBR_OK;
 }
@@ -129,7 +129,7 @@ JUB_RV ContextETH::BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::strin
     std::vector<JUB_BYTE> vTo = ByteConverter::stringToBytes(to);
     std::vector<JUB_BYTE> vValue = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(value));
     uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vTo, vValue);
-    abi = "0x" + vAbi.getHex();
+    abi = std::string(ETH_PRDFIX) + vAbi.getHex();
 
     return JUBR_OK;
 }

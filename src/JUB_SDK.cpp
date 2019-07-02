@@ -723,8 +723,8 @@ JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
 * @function name : JUB_GetHDNodeETH
 * @in  param : contextID - context ID
-*            : format - 0x00 for hex;
-*                       0x01 for xpub
+*            : format - JUB_ETH_PUB_FORMAT::HEX (0x00) for hex;
+*                       JUB_ETH_PUB_FORMAT::XPUB(0x01) for xpub
 *            : path
 * @out param : pubkey
 * @last change :
@@ -749,8 +749,8 @@ JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
 * @function name : JUB_GetMainHDNodeETH
 * @in  param : contextID - context ID
-*            : format - 0x00 for hex;
-*                       0x01 for xpub
+*            : format - JUB_ETH_PUB_FORMAT::HEX (0x00) for hex;
+*                       JUB_ETH_PUB_FORMAT::XPUB(0x01) for xpub
 * @out param : xpub
 * @last change :
 *****************************************************************************/
