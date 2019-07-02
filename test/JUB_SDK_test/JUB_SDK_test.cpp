@@ -66,7 +66,7 @@ void get_device_info_test() {
 		char* version;
 		auto rv = JUB_GetAppletVersion(deviceID,(char*)appID.c_str(),&version);
 		if (JUBR_OK == rv) {
-			cout << appID << " version : " << version << endl;;
+			cout << appID << " version : " << version << endl;
 		}
 	}
 
@@ -841,7 +841,7 @@ void getVersion() {
 		char* version;
 		auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
 		if (JUBR_OK == rv) {
-			cout << appID << " version : " << version << endl;;
+			cout << appID << " version : " << version << endl;
 		}
 	}
 

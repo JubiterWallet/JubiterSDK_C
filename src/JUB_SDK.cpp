@@ -176,7 +176,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
     jub::ContextBTC* context = new jub::ContextBTC(cfg, deviceID);
     JUB_CHECK_NULL(context);
 
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);;
+    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
 
 	JUB_VERIFY_RV(context->ActiveSelf());
 
@@ -929,7 +929,7 @@ JUB_RV JUB_stopEnumDevices(void) {
 
 JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
                          JUB_UINT32 connectType,
-                         JUB_UINT16* pDevice_ID,
+                         JUB_UINT16* pDeviceID,
                          JUB_UINT32 timeout) {
 
 #ifdef BLE_MODE
@@ -943,10 +943,10 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
 //    LOG_INF("JUB_connectDevice rv: %lu", *pdevHandle);
     JUB_VERIFY_RV(rv);
 
-    *pDevice_ID = BLE_device_map::GetInstance()->AddOne(pdevHandle);
-//    LOG_INF("JUB_connectDevice rv: %hu", *pDevice_ID);
+    *pDeviceID = BLE_device_map::GetInstance()->AddOne(pdevHandle);
+//    LOG_INF("JUB_connectDevice rv: %hu", *pDeviceID);
     jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(bleDevice);
-    jub::TokenManager::GetInstance()->AddOne(*pDevice_ID, token);
+    jub::TokenManager::GetInstance()->AddOne(*pDeviceID, token);
 
     return rv;
 #else

@@ -411,7 +411,7 @@ typedef void(*DiscCallBack)(unsigned char* uuid);
 
 //JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,  /**< ble device UUID */
 //                         JUB_UINT32 connectType, /**< ble device connect type */
-//                         JUB_UINT16* pDevice_ID, /**< output ble device connect handle */
+//                         JUB_UINT16* pDeviceID,  /**< output ble device connect handle */
 //                         JUB_UINT32 timeout);
 - (NSUInteger)JUB_connectDevice:(NSString*)deviceName
                     connectType:(NSUInteger)connectType

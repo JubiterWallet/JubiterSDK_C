@@ -9,13 +9,15 @@
 #include <utility/xManager.hpp>
 #include <context/Context.h>
 
-#define JUB_CHECK_CONTEXT_ETH(x)                                        \
-do {                                                                    \
-    auto context = jub::ContextManager::GetInstance()->GetOne(x);       \
-    JUB_CHECK_NULL(context);                                            \
-    if (typeid(*context->GetClassType()) != typeid(jub::ContextETH)) {  \
-        return JUBR_ERROR_ARGS;                                         \
-    }                                                                   \
+#define JUB_CHECK_CONTEXT_ETH(x)                                    \
+do {                                                                \
+    auto context = jub::ContextManager::GetInstance()->GetOne(x);   \
+    JUB_CHECK_NULL(context);                                        \
+    const std::type_info& tCtx = typeid(*context);                  \
+    const std::type_info& tCtxETH = typeid(jub::ContextETH);        \
+    if (tCtx.hash_code() != tCtxETH.hash_code()) {                  \
+        return JUBR_ERROR_ARGS;                                     \
+    }                                                               \
 } while(0)
 
 namespace jub {
@@ -45,7 +47,6 @@ public:
                                    OUT std::string& raw);
 
     virtual JUB_RV BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::string& abi);
-    virtual ContextETH* GetClassType(void) { return this; }
     virtual JUB_RV ActiveSelf();
 
 private:

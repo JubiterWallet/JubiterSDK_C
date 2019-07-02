@@ -9,13 +9,15 @@
 #include <utility/xManager.hpp>
 #include <context/Context.h>
 
-#define JUB_CHECK_CONTEXT_BTC(x)                                        \
-do {                                                                    \
-    auto context = jub::ContextManager::GetInstance()->GetOne(x);       \
-    JUB_CHECK_NULL(context);                                            \
-    if (typeid(*context->GetClassType()) != typeid(jub::ContextBTC)) {  \
-	    return JUBR_ERROR_ARGS;                                         \
-    }                                                                   \
+#define JUB_CHECK_CONTEXT_BTC(x)                                    \
+do {                                                                \
+    auto context = jub::ContextManager::GetInstance()->GetOne(x);   \
+    JUB_CHECK_NULL(context);                                        \
+    const std::type_info& tCtx = typeid(*context);                  \
+    const std::type_info& tCtxBTC = typeid(jub::ContextBTC);        \
+    if (tCtx.hash_code() != tCtxBTC.hash_code()) {                  \
+        return JUBR_ERROR_ARGS;                                     \
+    }                                                               \
 } while(0)
 
 namespace jub {
@@ -42,7 +44,6 @@ public:
     virtual JUB_RV SetUnit(JUB_BTC_UNIT_TYPE unitType);
 
     virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
-    virtual ContextBTC* GetClassType(void) { return this; }
     virtual JUB_RV ActiveSelf();
 
 private:

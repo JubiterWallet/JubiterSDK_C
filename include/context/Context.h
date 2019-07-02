@@ -25,10 +25,6 @@ public:
     virtual JUB_RV ActiveSelf() = 0;
     virtual JUB_RV SetTimeout(JUB_UINT16 timeout);
 
-    virtual Context* GetClassType(void) {
-        return this;
-    }
-
 protected:
     JUB_UINT16  _deviceID;
     std::string _mainPath;
