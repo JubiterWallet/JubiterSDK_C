@@ -217,7 +217,7 @@ JUB_RV JubiterBLDImpl::QueryBattery(JUB_BYTE &percent) {
 
     JUB_CHECK_NULL(_device);
 
-    APDU apdu(0x00, 0xD6, 0xFE, 0xED, 0x01);
+    APDU apdu(0x00, 0xD6, 0xFE, 0xED, 0x00, NULL, 0x01);
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
