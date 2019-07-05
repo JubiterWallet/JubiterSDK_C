@@ -1,6 +1,10 @@
 #include "BigIntegerUtils.hh"
 #include "BigUnsignedInABase.hh"
 
+std::string bigUnsignedToString(const BigUnsigned &x, unsigned short base) {
+    return std::string(BigUnsignedInABase(x, base));
+}
+
 std::string bigUnsignedToString(const BigUnsigned &x) {
     return std::string(BigUnsignedInABase(x, 10));
 }

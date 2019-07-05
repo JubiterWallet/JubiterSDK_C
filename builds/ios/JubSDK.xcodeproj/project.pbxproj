@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67C4B58C22CC95F200F85860 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		67C4B58D22CC95F200F85860 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		67C4B5AC22CEFB6A00F85860 /* BigInteger.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67C4B5A322CEFB6A00F85860 /* BigInteger.cc */; };
+		67C4B5AD22CEFB6A00F85860 /* BigUnsigned.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67C4B5A422CEFB6A00F85860 /* BigUnsigned.cc */; };
+		67C4B5AE22CEFB6A00F85860 /* BigIntegerAlgorithms.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67C4B5A622CEFB6A00F85860 /* BigIntegerAlgorithms.cc */; };
+		67C4B5AF22CEFB6A00F85860 /* BigIntegerUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67C4B5A822CEFB6A00F85860 /* BigIntegerUtils.cc */; };
+		67C4B5B022CEFB6A00F85860 /* BigUnsignedInABase.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67C4B5AA22CEFB6A00F85860 /* BigUnsignedInABase.cc */; };
 		EADCCDB822A7C21C008F2EF5 /* bleTransmit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDB522A7C21B008F2EF5 /* bleTransmit.cpp */; };
 		EADCCDD022A7C25D008F2EF5 /* md4.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDBD22A7C25D008F2EF5 /* md4.c */; };
 		EADCCDD122A7C25D008F2EF5 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = EADCCDC122A7C25D008F2EF5 /* sha1.c */; };
@@ -25,7 +32,6 @@
 		EADCCE1F22A7D6BA008F2EF5 /* ContextBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0B22A7D6BA008F2EF5 /* ContextBTC.cpp */; };
 		EADCCE2022A7D6BA008F2EF5 /* ContextETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0C22A7D6BA008F2EF5 /* ContextETH.cpp */; };
 		EADCCE2122A7D6BA008F2EF5 /* cashaddr.cc in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE0E22A7D6BA008F2EF5 /* cashaddr.cc */; };
-		EADCCE2222A7D6BA008F2EF5 /* ByteConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1022A7D6BA008F2EF5 /* ByteConverter.cpp */; };
 		EADCCE2322A7D6BA008F2EF5 /* ERC20Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1122A7D6BA008F2EF5 /* ERC20Abi.cpp */; };
 		EADCCE2422A7D6BA008F2EF5 /* JUB_SDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1222A7D6BA008F2EF5 /* JUB_SDK.cpp */; };
 		EADCCE2522A7D6BA008F2EF5 /* JubiterHidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EADCCE1422A7D6BA008F2EF5 /* JubiterHidDevice.cpp */; };
@@ -51,6 +57,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		67C4B5A022CEFB6900F85860 /* NumberlikeArray.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NumberlikeArray.hh; path = ../../../../../deps/bigint/NumberlikeArray.hh; sourceTree = "<group>"; };
+		67C4B5A122CEFB6900F85860 /* BigUnsigned.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsigned.hh; path = ../../../../../deps/bigint/BigUnsigned.hh; sourceTree = "<group>"; };
+		67C4B5A222CEFB6900F85860 /* BigUnsignedInABase.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsignedInABase.hh; path = ../../../../../deps/bigint/BigUnsignedInABase.hh; sourceTree = "<group>"; };
+		67C4B5A322CEFB6A00F85860 /* BigInteger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigInteger.cc; path = ../../../../../deps/bigint/BigInteger.cc; sourceTree = "<group>"; };
+		67C4B5A422CEFB6A00F85860 /* BigUnsigned.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigUnsigned.cc; path = ../../../../../deps/bigint/BigUnsigned.cc; sourceTree = "<group>"; };
+		67C4B5A522CEFB6A00F85860 /* BigIntegerLibrary.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerLibrary.hh; path = ../../../../../deps/bigint/BigIntegerLibrary.hh; sourceTree = "<group>"; };
+		67C4B5A622CEFB6A00F85860 /* BigIntegerAlgorithms.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerAlgorithms.cc; path = ../../../../../deps/bigint/BigIntegerAlgorithms.cc; sourceTree = "<group>"; };
+		67C4B5A722CEFB6A00F85860 /* BigIntegerAlgorithms.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerAlgorithms.hh; path = ../../../../../deps/bigint/BigIntegerAlgorithms.hh; sourceTree = "<group>"; };
+		67C4B5A822CEFB6A00F85860 /* BigIntegerUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerUtils.cc; path = ../../../../../deps/bigint/BigIntegerUtils.cc; sourceTree = "<group>"; };
+		67C4B5A922CEFB6A00F85860 /* BigIntegerUtils.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerUtils.hh; path = ../../../../../deps/bigint/BigIntegerUtils.hh; sourceTree = "<group>"; };
+		67C4B5AA22CEFB6A00F85860 /* BigUnsignedInABase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigUnsignedInABase.cc; path = ../../../../../deps/bigint/BigUnsignedInABase.cc; sourceTree = "<group>"; };
+		67C4B5AB22CEFB6A00F85860 /* BigInteger.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigInteger.hh; path = ../../../../../deps/bigint/BigInteger.hh; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EADCCDB522A7C21B008F2EF5 /* bleTransmit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bleTransmit.cpp; path = ../../../../../../../../../deps/bleTransmit/bleTransmit.cpp; sourceTree = "<group>"; };
 		EADCCDB622A7C21C008F2EF5 /* bleTransmitF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bleTransmitF.h; path = ../../../../../../../../../deps/bleTransmit/bleTransmitF.h; sourceTree = "<group>"; };
@@ -88,7 +106,6 @@
 		EADCCDE722A7CCF2008F2EF5 /* JUB_SDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUB_SDK.h; sourceTree = "<group>"; };
 		EADCCDE922A7CCF2008F2EF5 /* libBCH.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = libBCH.hpp; sourceTree = "<group>"; };
 		EADCCDEA22A7CCF2008F2EF5 /* cashaddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cashaddr.h; sourceTree = "<group>"; };
-		EADCCDEC22A7CCF2008F2EF5 /* ByteConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteConverter.h; sourceTree = "<group>"; };
 		EADCCDED22A7CCF2008F2EF5 /* ERC20Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ERC20Abi.h; sourceTree = "<group>"; };
 		EADCCDEF22A7CCF2008F2EF5 /* ApduBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ApduBuilder.hpp; sourceTree = "<group>"; };
 		EADCCDF022A7CCF2008F2EF5 /* DeviceIOLogHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceIOLogHelper.hpp; sourceTree = "<group>"; };
@@ -116,7 +133,6 @@
 		EADCCE0B22A7D6BA008F2EF5 /* ContextBTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContextBTC.cpp; sourceTree = "<group>"; };
 		EADCCE0C22A7D6BA008F2EF5 /* ContextETH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContextETH.cpp; sourceTree = "<group>"; };
 		EADCCE0E22A7D6BA008F2EF5 /* cashaddr.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cashaddr.cc; sourceTree = "<group>"; };
-		EADCCE1022A7D6BA008F2EF5 /* ByteConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ByteConverter.cpp; sourceTree = "<group>"; };
 		EADCCE1122A7D6BA008F2EF5 /* ERC20Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ERC20Abi.cpp; sourceTree = "<group>"; };
 		EADCCE1222A7D6BA008F2EF5 /* JUB_SDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JUB_SDK.cpp; sourceTree = "<group>"; };
 		EADCCE1422A7D6BA008F2EF5 /* JubiterHidDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JubiterHidDevice.cpp; sourceTree = "<group>"; };
@@ -141,6 +157,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		67C4B58E22CE18F400F85860 /* bigint */ = {
+			isa = PBXGroup;
+			children = (
+				67C4B5A322CEFB6A00F85860 /* BigInteger.cc */,
+				67C4B5AB22CEFB6A00F85860 /* BigInteger.hh */,
+				67C4B5A622CEFB6A00F85860 /* BigIntegerAlgorithms.cc */,
+				67C4B5A722CEFB6A00F85860 /* BigIntegerAlgorithms.hh */,
+				67C4B5A522CEFB6A00F85860 /* BigIntegerLibrary.hh */,
+				67C4B5A822CEFB6A00F85860 /* BigIntegerUtils.cc */,
+				67C4B5A922CEFB6A00F85860 /* BigIntegerUtils.hh */,
+				67C4B5A422CEFB6A00F85860 /* BigUnsigned.cc */,
+				67C4B5A122CEFB6900F85860 /* BigUnsigned.hh */,
+				67C4B5AA22CEFB6A00F85860 /* BigUnsignedInABase.cc */,
+				67C4B5A222CEFB6900F85860 /* BigUnsignedInABase.hh */,
+				67C4B5A022CEFB6900F85860 /* NumberlikeArray.hh */,
+			);
+			name = bigint;
+			sourceTree = "<group>";
+		};
 		EADCCD6A22A7B380008F2EF5 = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +205,7 @@
 		EADCCDB322A7C1D3008F2EF5 /* deps */ = {
 			isa = PBXGroup;
 			children = (
+				67C4B58E22CE18F400F85860 /* bigint */,
 				EADCCE2B22A8ACC2008F2EF5 /* format */,
 				EADCCDB922A7C25D008F2EF5 /* polarssl */,
 				EADCCDB422A7C1FC008F2EF5 /* ble */,
@@ -284,7 +320,6 @@
 		EADCCDEB22A7CCF2008F2EF5 /* libETH */ = {
 			isa = PBXGroup;
 			children = (
-				EADCCDEC22A7CCF2008F2EF5 /* ByteConverter.h */,
 				EADCCDED22A7CCF2008F2EF5 /* ERC20Abi.h */,
 			);
 			path = libETH;
@@ -369,7 +404,6 @@
 		EADCCE0F22A7D6BA008F2EF5 /* libETH */ = {
 			isa = PBXGroup;
 			children = (
-				EADCCE1022A7D6BA008F2EF5 /* ByteConverter.cpp */,
 				EADCCE1122A7D6BA008F2EF5 /* ERC20Abi.cpp */,
 			);
 			path = libETH;
@@ -461,6 +495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67C4B5AC22CEFB6A00F85860 /* BigInteger.cc in Sources */,
 				EADCCE1C22A7D6BA008F2EF5 /* JubiterBLDImpl.cpp in Sources */,
 				EADCCE2322A7D6BA008F2EF5 /* ERC20Abi.cpp in Sources */,
 				EADCCE2622A7D6BA008F2EF5 /* JubiterBLEDevice.cpp in Sources */,
@@ -469,16 +504,21 @@
 				EADCCE2122A7D6BA008F2EF5 /* cashaddr.cc in Sources */,
 				EADCCE1E22A7D6BA008F2EF5 /* Context.cpp in Sources */,
 				EADCCDD422A7C25D008F2EF5 /* md2.c in Sources */,
+				67C4B58C22CC95F200F85860 /* (null) in Sources */,
 				EADCCDD322A7C25D008F2EF5 /* ripemd160.c in Sources */,
 				EADCCE2922A7D6BA008F2EF5 /* util.cpp in Sources */,
 				EADCCE2F22A8AD08008F2EF5 /* bech32.cpp in Sources */,
+				67C4B5AE22CEFB6A00F85860 /* BigIntegerAlgorithms.cc in Sources */,
 				EADCCE2722A7D6BA008F2EF5 /* ApduBuilder.cpp in Sources */,
 				EADCCDD522A7C25D008F2EF5 /* md_wrap.c in Sources */,
 				EADCCDB822A7C21C008F2EF5 /* bleTransmit.cpp in Sources */,
-				EADCCE2222A7D6BA008F2EF5 /* ByteConverter.cpp in Sources */,
+				67C4B5AF22CEFB6A00F85860 /* BigIntegerUtils.cc in Sources */,
 				EADCCE2022A7D6BA008F2EF5 /* ContextETH.cpp in Sources */,
+				67C4B5AD22CEFB6A00F85860 /* BigUnsigned.cc in Sources */,
 				EADCCDD622A7C25D008F2EF5 /* sha256.c in Sources */,
 				EADCCDD722A7C25D008F2EF5 /* md5.c in Sources */,
+				67C4B58D22CC95F200F85860 /* (null) in Sources */,
+				67C4B5B022CEFB6A00F85860 /* BigUnsignedInABase.cc in Sources */,
 				EADCCE1B22A7D6BA008F2EF5 /* JubiterBLDImplETH.cpp in Sources */,
 				EADCCE2E22A8AD08008F2EF5 /* base58.cpp in Sources */,
 				EADCCE1D22A7D6BA008F2EF5 /* JubiterBLDImplBTC.cpp in Sources */,
@@ -502,7 +542,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -558,7 +598,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -609,6 +649,7 @@
 		EADCCD7D22A7B380008F2EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MD27BY8JFU;
 				HEADER_SEARCH_PATHS = (
@@ -617,6 +658,7 @@
 					../../deps/,
 					../../deps/bleTransmit/ios,
 				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -627,6 +669,7 @@
 		EADCCD7E22A7B380008F2EF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MD27BY8JFU;
 				HEADER_SEARCH_PATHS = (
@@ -635,6 +678,7 @@
 					../../deps/,
 					../../deps/bleTransmit/ios,
 				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -169,7 +169,6 @@
     <ClInclude Include="..\..\..\..\include\libBCH\cashaddr.h" />
     <ClInclude Include="..\..\..\..\include\libBCH\libBCH.hpp" />
     <ClInclude Include="..\..\..\..\include\libBTC\libBTC.hpp" />
-    <ClInclude Include="..\..\..\..\include\libETH\ByteConverter.h" />
     <ClInclude Include="..\..\..\..\include\libETH\ERC20Abi.h" />
     <ClInclude Include="..\..\..\..\include\token\interface\BTCTokenInterface.hpp" />
     <ClInclude Include="..\..\..\..\include\token\interface\ETHTokenInterface.hpp" />
@@ -199,7 +198,6 @@
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp" />
     <ClCompile Include="..\..\..\..\src\libBCH\cashaddr.cc" />
-    <ClCompile Include="..\..\..\..\src\libETH\ByteConverter.cpp" />
     <ClCompile Include="..\..\..\..\src\libETH\ERC20Abi.cpp" />
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImpl.cpp" />
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImplBTC.cpp" />

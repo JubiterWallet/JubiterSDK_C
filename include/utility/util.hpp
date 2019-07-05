@@ -13,7 +13,7 @@
 #include <cassert>
 #include <iostream>
 #include <cstring>
-
+#include <bigint/BigIntegerLibrary.hh>
 #include <JUB_SDK.h>
 #include "endian.h"
 
@@ -56,6 +56,10 @@ std::array<uint8_t, 32> HexStr2CharArray(std::string str);
 std::string CharPtr2HexStr(std::vector<unsigned char> v);
 
 std::vector<unsigned char> HexStr2CharPtr(std::string str);
+
+std::string DecStringToHexString(std::string str);
+
+std::string numberToHexString(unsigned int val);
 
 #define ETH_PRDFIX  "0x"
 

@@ -2,7 +2,6 @@
 #include <token/interface/TokenInterface.hpp>
 #include <utility/util.hpp>
 #include <utility/uchar_vector.h>
-#include <libETH/ByteConverter.h>
 #include <libETH/ERC20Abi.h>
 
 namespace jub {
@@ -79,22 +78,22 @@ JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
     auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
 
-    std::vector<JUB_BYTE> vNonce = ByteConverter::numberToBytes(nonce);
-    std::vector<JUB_BYTE> vGasLimit = ByteConverter::numberToBytes(gasLimit);
-    std::vector<JUB_BYTE> vGasPriceInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(gasPriceInWei));
-    std::vector<JUB_BYTE> vTo = ByteConverter::stringToBytes(to);
+    std::vector<JUB_BYTE> vNonce = jub::HexStr2CharPtr(numberToHexString(nonce));
+    std::vector<JUB_BYTE> vGasLimit = jub::HexStr2CharPtr(numberToHexString(gasLimit));
+    std::vector<JUB_BYTE> vGasPriceInWei = jub::HexStr2CharPtr(DecStringToHexString(std::string(gasPriceInWei)));
+    std::vector<JUB_BYTE> vTo = jub::ETHHexStr2CharPtr(to);
     std::vector<JUB_BYTE> vValueInWei;
     if (nullptr != valueInWei
         &&    0 != strlen(valueInWei)
         ) {
-        vValueInWei = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(valueInWei));
+        vValueInWei = jub::HexStr2CharPtr(DecStringToHexString(std::string(valueInWei)));
     }
 
     std::vector<JUB_BYTE> vInput;
     if (nullptr != input
         &&    0 != strlen(input)
         ) {
-        vInput = ByteConverter::stringToBytes(input);
+        vInput = jub::ETHHexStr2CharPtr(input);
     }
 
     std::string strPath = _FullBip32Path(path);
@@ -126,8 +125,8 @@ JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
 
 JUB_RV ContextETH::BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::string& abi) {
 
-    std::vector<JUB_BYTE> vTo = ByteConverter::stringToBytes(to);
-    std::vector<JUB_BYTE> vValue = ByteConverter::stringToBytes(ByteConverter::DecStringToHexString(value));
+    std::vector<JUB_BYTE> vTo = jub::ETHHexStr2CharPtr(to);
+    std::vector<JUB_BYTE> vValue = jub::HexStr2CharPtr(DecStringToHexString(std::string(value)));
     uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vTo, vValue);
     abi = std::string(ETH_PRDFIX) + vAbi.getHex();
 

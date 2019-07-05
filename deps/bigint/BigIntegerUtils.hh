@@ -9,6 +9,8 @@
  * - Convenient std::string <-> BigUnsigned/BigInteger conversion routines
  * - std::ostream << operators for BigUnsigned/BigInteger */
 
+// std::string conversion routines.  Base 8/10/16.
+std::string bigUnsignedToString(const BigUnsigned &x, unsigned short base);
 // std::string conversion routines.  Base 10 only.
 std::string bigUnsignedToString(const BigUnsigned &x);
 std::string bigIntegerToString(const BigInteger &x);

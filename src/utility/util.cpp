@@ -106,24 +106,43 @@ std::string CharPtr2HexStr(std::vector<unsigned char> v) {
 /*
 * Hexadecimal string conversion -> std::vector<unsigned char>
 */
-/*
 std::vector<unsigned char> HexStr2CharPtr(std::string str) {
 
-	std::vector<unsigned char> v;
+    std::vector<unsigned char> v;
 
-	auto l = str.size();
-	unsigned int c;
-	std::string sub;
-	for (int i = 0; i < l; i += 2) {
-		sub = str.substr(i, 2);
-		std::istringstream hex_chars_stream(sub.c_str());
-		hex_chars_stream >> std::hex >> c;
-		v.push_back(c);
-	}
+    std::string strHex;
+    auto l = str.size();
+    if (l%2) {
+        strHex = "0";
+    }
+    else {
+        strHex = "";
+    }
+    strHex += str;
+    unsigned int c;
+    std::string sub;
+    for (int i = 0; i < l; i += 2) {
+        sub = strHex.substr(i, 2);
+        std::istringstream hex_chars_stream(sub.c_str());
+        hex_chars_stream >> std::hex >> c;
+        v.push_back(c);
+    }
 
-	return v;
+    return v;
 }
-*/
+
+/*
+ * Decimal string conversion -> Hexadecimal string
+ */
+std::string DecStringToHexString(std::string str) {
+
+    return bigUnsignedToString(stringToBigUnsigned(str.c_str()), 16);
+}
+
+std::string numberToHexString(unsigned int val) {
+
+    return bigUnsignedToString(val, 16);
+}
 
 /*
  * std::vector<unsigned char> -> Hexadecimal string conversion
@@ -137,14 +156,19 @@ std::string ETHCharPtr2HexStr(std::vector<unsigned char> v) {
 /*
  * Hexadecimal string conversion -> std::vector<unsigned char>
  */
-/*
 std::vector<unsigned char> ETHHexStr2CharPtr(std::string str) {
+    if (str.empty()) {
+        return std::vector<unsigned char>();
+    }
 
     std::string _str = str;
     size_t pos = _str.find(ETH_PRDFIX);
+    if (std::string::npos == pos) {
+        return std::vector<unsigned char>();
+    }
     _str.erase(pos, strlen(ETH_PRDFIX));
     return HexStr2CharPtr(_str);
-}*/
+}
 
 /*
  * Dictionary order
