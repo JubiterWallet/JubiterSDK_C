@@ -9,7 +9,7 @@
 #include <sstream>
 #include <iostream>
 #include <cstring>
-#include "endian.h"
+#include "bitcoin/compat/endian.h"
 #include <bigint/BigIntegerLibrary.hh>
 #include <JUB_SDK.h>
 

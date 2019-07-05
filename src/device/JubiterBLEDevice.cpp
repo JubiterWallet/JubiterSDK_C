@@ -1,5 +1,5 @@
 #include <device/JubiterBLEDevice.hpp>
-#include <utility/uchar_vector.h>
+#include <stdutils/uchar_vector.h>
 #include <device/DeviceIOLogHelper.hpp>
 
 #ifdef BLE_MODE
@@ -11,7 +11,6 @@
 #include <device/JubiterBLEDevice.hpp>
 #include <device/Fido.h>
 #include <utility/Singleton.h>
-#include <utility/uchar_vector.h>
 
 #ifdef __ANDROID__
 #include <bleTransmit/android/BTManager.h>

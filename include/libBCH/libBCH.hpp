@@ -5,7 +5,8 @@
 
 #include <JUB_SDK.h>
 #include <vector>
-#include <libBCH/cashaddr.h>
+#include <bitcoinABC/cashaddr.h>
+#include "machine/opcode.hpp"
 
 namespace jub {
 
@@ -57,16 +58,16 @@ JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& scriptPub) {
     convertbits<5, 8, false>(pubkeyHash, Data(pubkeyDataBit5.second.begin(), pubkeyDataBit5.second.end()));
 
     if (TypeBitsP2PKH == pubkeyHash[0]) { //p2pkh
-        scriptPub << OP_DUP;
-        scriptPub << OP_HASH160;
+        scriptPub << libbitcoin::machine::opcode::dup;
+        scriptPub << libbitcoin::machine::opcode::hash160;
         scriptPub & uchar_vector(pubkeyHash.begin() + 1, pubkeyHash.end());
-        scriptPub << OP_EQUALVERIFY;
-        scriptPub << OP_CHECKSIG;
+        scriptPub << libbitcoin::machine::opcode::equalverify;
+        scriptPub << libbitcoin::machine::opcode::checksig;
     }
     else if (TypeBitsP2SH == pubkeyHash[0]) { //p2sh
-        scriptPub << OP_HASH160;
+        scriptPub << libbitcoin::machine::opcode::hash160;
         scriptPub & uchar_vector(pubkeyHash.begin() + 1, pubkeyHash.end());
-        scriptPub << OP_EQUAL;
+        scriptPub << libbitcoin::machine::opcode::equal;
     }
     else {
         return JUBR_ERROR;

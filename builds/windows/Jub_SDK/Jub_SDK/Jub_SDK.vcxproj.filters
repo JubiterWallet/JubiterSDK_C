@@ -84,13 +84,13 @@
     <ClInclude Include="..\..\..\..\include\libBTC\libBTC.hpp">
       <Filter>Header Files\libBTC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\deps\formats\base58.h">
+    <ClInclude Include="..\..\..\..\deps\libbitcoin\formats\base58.h">
       <Filter>deps\base58</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\deps\formats\bech32.h">
+    <ClInclude Include="..\..\..\..\deps\libbitcoin\formats\bech32.h">
       <Filter>deps\base58</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\deps\formats\hash.h">
+    <ClInclude Include="..\..\..\..\deps\libbitcoin\formats\hash.h">
       <Filter>deps\base58</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\deps\polarssl\check_config.h">
@@ -159,7 +159,7 @@
     <ClInclude Include="..\..\..\..\include\libETH\ERC20Abi.h">
       <Filter>Header Files\libETH</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include\libBCH\cashaddr.h">
+    <ClInclude Include="..\..\..\..\deps\bitcoinABC\cashaddr.h">
       <Filter>Header Files\libBCH</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\include\libBCH\libBCH.hpp">
@@ -182,10 +182,10 @@
     <ClCompile Include="..\..\..\..\src\context\ContextBTC.cpp">
       <Filter>Source Files\context</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\deps\formats\base58.cpp">
+    <ClCompile Include="..\..\..\..\deps\libbitcoin\formats\base58.cpp">
       <Filter>deps\base58</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\deps\formats\bech32.cpp">
+    <ClCompile Include="..\..\..\..\deps\libbitcoin\formats\bech32.cpp">
       <Filter>deps\base58</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\deps\polarssl\md.c">
@@ -245,7 +245,7 @@
     <ClCompile Include="..\..\..\..\src\libETH\ERC20Abi.cpp">
       <Filter>Source Files\libETH</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\libBCH\cashaddr.cc">
+    <ClCompile Include="..\..\..\..\deps\bitcoinABC\cashaddr.cc">
       <Filter>Source Files\libBCH</Filter>
     </ClCompile>
   </ItemGroup>
