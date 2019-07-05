@@ -72,7 +72,7 @@ JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
 
     JUB_CHECK_NULL(gasPriceInWei);
     JUB_CHECK_NULL(to);
-    JUB_CHECK_NULL(valueInWei);
+//    JUB_CHECK_NULL(valueInWei);// it can be nullptr
     JUB_CHECK_NULL(input);
 
     auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);

@@ -714,7 +714,7 @@ void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
 	JUB_RV rv = JUB_BuildERC20AbiETH(contextID, token_to, token_value, &abi);
 
 	char* raw = nullptr;
-	rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, 0, abi, &raw);
+	rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, nullptr, abi, &raw);
 
 	JUB_FreeMemory(abi);
 	if (JUBR_OK != rv) {
