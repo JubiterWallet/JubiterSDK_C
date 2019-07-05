@@ -6,7 +6,7 @@
 #include <device/ApduBuilder.hpp>
 #include <device/JubiterHidDevice.hpp>
 #include <memory>
-#include <utility/util.hpp>
+#include <utility/util.h>
 #include <utility/uchar_vector.h>
 
 #ifdef HID_MODE // modify later..

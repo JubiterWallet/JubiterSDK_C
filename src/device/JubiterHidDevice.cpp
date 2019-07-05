@@ -9,7 +9,7 @@
 #endif
 
 #include <device/JubiterHidDevice.hpp>
-#include <utility/util.hpp>
+#include <utility/util.h>
 #include <device/DeviceIOLogHelper.hpp>
 
 namespace jub {

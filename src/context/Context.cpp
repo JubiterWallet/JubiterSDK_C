@@ -1,6 +1,6 @@
 #include <context/Context.h>
 #include <token/interface/TokenInterface.hpp>
-#include <utility/util.hpp>
+#include <utility/util.h>
 
 namespace jub {
 

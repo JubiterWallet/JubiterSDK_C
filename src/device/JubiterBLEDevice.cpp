@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-#include <utility/util.hpp>
+#include <utility/util.h>
 #include <bleTransmit/bleTransmit.h>
 #include <device/JubiterBLEDevice.hpp>
 #include <device/Fido.h>

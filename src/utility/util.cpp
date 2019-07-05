@@ -1,4 +1,4 @@
-#include <utility/util.hpp>
+#include <utility/util.h>
 
 namespace jub {
 
@@ -46,6 +46,7 @@ std::string Join(std::vector<std::string> v, std::string pattern) {
 /*
  * char array<uint8_t, 32> -> Hexadecimal string conversion
  */
+/*
 std::string CharArray2HexStr(std::array<uint8_t, 32> v) {
 
     std::stringstream ss;
@@ -61,7 +62,7 @@ std::string CharArray2HexStr(std::array<uint8_t, 32> v) {
 
     return ss.str();
 }
-
+*/
 /*
  * Hexadecimal string conversion -> char array<uint8_t, 32>
  */
@@ -203,7 +204,7 @@ void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen) {
 	}
 }
 
-//
+/*
 std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]) {
 
 	std::vector<std::string> v;
@@ -221,7 +222,7 @@ std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]) {
 
 	return v;
 }
-
+*/
 std::string DataToString(const DataSlice &slice) {
 	// Due to a bug, lots of AirBitz encrypted blobs end with a null byte.
 	// Get rid of those:

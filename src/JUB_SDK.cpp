@@ -2,7 +2,7 @@
 
 #include <set>
 #include <algorithm>
-#include <utility/util.hpp>
+#include <utility/util.h>
 #include <token/interface/TokenInterface.hpp>
 #include <context/ContextBTC.h>
 #include <context/ContextETH.h>

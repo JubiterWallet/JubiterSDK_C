@@ -22,9 +22,7 @@
 #include <string>
 #include <algorithm>
 
-
 #include "util.h"
-#include "util.hpp"
 #include "op_codes.h"
 
 using namespace bitcoin::script;

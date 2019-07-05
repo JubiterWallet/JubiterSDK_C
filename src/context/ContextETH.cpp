@@ -1,6 +1,6 @@
 #include <context/ContextETH.h>
 #include <token/interface/TokenInterface.hpp>
-#include <utility/util.hpp>
+#include <utility/util.h>
 #include <utility/uchar_vector.h>
 #include <libETH/ERC20Abi.h>
 
