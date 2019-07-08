@@ -21,12 +21,12 @@ using namespace std;
 using std::getline;
 using std::istringstream;
 
-vector<string> split(const string &str, char delim, bool skip_empty = true) {
+vector<string> split(const string &str, char delim, bool bSkipEmpty = true) {
 
 	istringstream iss(str);
 	vector<string> elems;
 	for (string item; getline(iss, item, delim); )
-		if (skip_empty && item.empty()) continue;
+		if (bSkipEmpty && item.empty()) continue;
 		else elems.push_back(item);
 
 	return elems;
@@ -45,7 +45,7 @@ void main_test();
 
 void get_device_info_test() {
 
-	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
 	JUB_ListDeviceHid(deviceIDs);
 
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
@@ -64,7 +64,7 @@ void get_device_info_test() {
 
 	for (auto appID : vAppList) {
 		char* version;
-		auto rv = JUB_GetAppletVersion(deviceID,(char*)appID.c_str(),&version);
+		auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
 		if (JUBR_OK == rv) {
 			cout << appID << " version : " << version << endl;
 		}
@@ -80,11 +80,11 @@ void get_device_info_test() {
 	cout << "device Label :" << info.label << endl;
 	cout << "device sn :" << info.sn << endl;
 	cout << "device pinRetry :" << info.pinRetry << endl;
-	cout << "device pinMaxRetry :" << info.pin_max_retry << endl;
+	cout << "device pinMaxRetry :" << info.pinMaxRetry << endl;
 	JUB_BYTE bleVersion[5] = {0,};
 	JUB_BYTE fwVersion[5] = {0,};
 	memcpy(bleVersion, info.bleVersion, 4);
-	memcpy(fwVersion, info.firmware_version, 4);
+	memcpy(fwVersion, info.firmwareVersion, 4);
 	cout << "device bleVersion :" << bleVersion << endl;
 	cout << "device fwVersion :" << fwVersion << endl;
 
@@ -115,12 +115,12 @@ void set_timeout_test(JUB_UINT16 contextID) {
 
 	int timeout = 0;
 	cin >> timeout;
-	JUB_SetTimeOut(contextID,timeout);
+	JUB_SetTimeOut(contextID, timeout);
 }
 
 void send_apud_test() {
 
-	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
 	JUB_ListDeviceHid(deviceIDs);
 
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
@@ -142,7 +142,7 @@ void send_apud_test() {
 		return;
 	}
 
-	cout << response <<endl;
+	cout << response << endl;
 	JUB_FreeMemory(response);
 
 	return;
@@ -344,12 +344,12 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
 		for (int i = 0; i < outputNumber; i++) {
 			OUTPUT_BTC output;
 			output.type = OUTPUT_BTC_TYPE::P2PKH;
-			output.output_p2pkh.address = (char*)root["outputs"][i]["address"].asCString();
-			output.output_p2pkh.amount = root["outputs"][i]["amount"].asUInt64();
-			output.output_p2pkh.change_address = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
-			if (output.output_p2pkh.change_address) {
-				output.output_p2pkh.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
-				output.output_p2pkh.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
+			output.outputP2pkh.address = (char*)root["outputs"][i]["address"].asCString();
+			output.outputP2pkh.amount = root["outputs"][i]["amount"].asUInt64();
+			output.outputP2pkh.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
+			if (output.outputP2pkh.changeAddress) {
+				output.outputP2pkh.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
+				output.outputP2pkh.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
 			}
 			outputs.push_back(output);
 		}
@@ -402,12 +402,12 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 		for (int i = 0; i < outputNumber; i++) {
 			OUTPUT_BTC output;
 			output.type = OUTPUT_BTC_TYPE::P2PKH;
-			output.output_p2pkh.address = (char*)root["outputs"][i]["address"].asCString();
-			output.output_p2pkh.amount = root["outputs"][i]["amount"].asUInt64();
-			output.output_p2pkh.change_address = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
-			if (output.output_p2pkh.change_address) {
-				output.output_p2pkh.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
-				output.output_p2pkh.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
+			output.outputP2pkh.address = (char*)root["outputs"][i]["address"].asCString();
+			output.outputP2pkh.amount = root["outputs"][i]["amount"].asUInt64();
+			output.outputP2pkh.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
+			if (output.outputP2pkh.changeAddress) {
+				output.outputP2pkh.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
+				output.outputP2pkh.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
 			}
 			outputs.push_back(output);
 		}
@@ -442,7 +442,7 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 
 void USDT_test(char* json_file) {
 
-	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
 	JUB_ListDeviceHid(deviceIDs);
 
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
@@ -467,9 +467,9 @@ void USDT_test(char* json_file) {
 
 	try {
 		CONTEXT_CONFIG_BTC cfg;
-		cfg.main_path = (char*)root["main_path"].asCString();
-		cfg.cointype = COINUSDT;
-		cfg.transtype = p2pkh;
+		cfg.mainPath = (char*)root["main_path"].asCString();
+		cfg.coinType = COINUSDT;
+		cfg.transType = p2pkh;
 
 		JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);
 	}
@@ -516,9 +516,9 @@ void USDT_test(char* json_file) {
 	}
 }
 
-void BTC_test(char* json_file, JUB_ENUM_COINTYPE_BTC cointype) {
+void BTC_test(char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
 
-	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
 	JUB_ListDeviceHid(deviceIDs);
 
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
@@ -543,18 +543,18 @@ void BTC_test(char* json_file, JUB_ENUM_COINTYPE_BTC cointype) {
 
 	try {
 		CONTEXT_CONFIG_BTC cfg;
-		cfg.main_path = (char*)root["main_path"].asCString();
-		cfg.cointype = cointype;
+		cfg.mainPath = (char*)root["main_path"].asCString();
+		cfg.coinType = coinType;
 
-		if (COINBCH == cointype) {
-			cfg.transtype = p2pkh;
+		if (COINBCH == coinType) {
+			cfg.transType = p2pkh;
 		}
 		else {
 			if (root["p2sh-segwit"].asBool()) {
-				cfg.transtype = p2sh_p2wpkh;
+				cfg.transType = p2sh_p2wpkh;
 			}
             else {
-				cfg.transtype = p2pkh;
+				cfg.transType = p2pkh;
             }
 		}
 
@@ -617,7 +617,7 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 	path.addressIndex = index;
 
 	char* pubkey = nullptr;
-	JUB_RV rv = JUB_GetMainHDNodeETH(contextID,HEX,&pubkey);
+	JUB_RV rv = JUB_GetMainHDNodeETH(contextID, HEX, &pubkey);
 	if (JUBR_OK != rv) {
 		cout << "JUB_GetMainHDNodeETH  error!" << endl;
 		return;
@@ -637,7 +637,7 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 	JUB_FreeMemory(pubkey);
 
 	pubkey = nullptr;
-	rv = JUB_GetHDNodeETH(contextID,HEX,path, &pubkey);
+	rv = JUB_GetHDNodeETH(contextID, HEX, path, &pubkey);
 	if (JUBR_OK != rv) {
 		cout << "JUB_GetHDNodeETH  error!" << endl;
 		return;
@@ -647,7 +647,7 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 	JUB_FreeMemory(pubkey);
 
 	pubkey = nullptr;
-	rv = JUB_GetHDNodeETH(contextID,XPUB,path, &pubkey);
+	rv = JUB_GetHDNodeETH(contextID, XPUB, path, &pubkey);
 	if (JUBR_OK != rv) {
 		cout << "JUB_GetHDNodeETH  error!" << endl;
 		return;
@@ -662,11 +662,11 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 		cout << "JUB_GetAddressETH  error!" << endl;
 		return;
 	}
-	cout << "address: " <<address << endl;
+	cout << "address: " << address << endl;
 	JUB_FreeMemory(address);
 }
 
-void transaction_test_ETH(JUB_UINT16 contextID,Json::Value root) {
+void transaction_test_ETH(JUB_UINT16 contextID, Json::Value root) {
 
 	verify_pin(contextID);
 
@@ -728,7 +728,7 @@ void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
 
 void ETH_test() {
 
-	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
 	JUB_ListDeviceHid(deviceIDs);
 
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
@@ -749,12 +749,12 @@ void ETH_test() {
 		error_exit("Error opening json file\n");
 	}
 	JSONCPP_STRING errs;
-	if (!parseFromStream(builder,in, &root , &errs)) {
+	if (!parseFromStream(builder, in, &root , &errs)) {
 		error_exit("Error parse json file\n");
 	}
 
 	CONTEXT_CONFIG_ETH cfg;
-	cfg.main_path = (char*)root["main_path"].asCString();
+	cfg.mainPath = (char*)root["main_path"].asCString();
 	cfg.chainID = root["chainID"].asInt();
 	JUB_UINT16 contextID = 0;
 	rv = JUB_CreateContextETH(cfg, deviceIDs[0], &contextID);
@@ -782,7 +782,7 @@ void ETH_test() {
 			get_address_pubkey_ETH(contextID);
 			break;
 		case 2:
-			transaction_test_ETH(contextID,root);
+			transaction_test_ETH(contextID, root);
 			break;
 		case 3:
 			transaction_ERC20_ETH(contextID, root);
@@ -805,7 +805,7 @@ void getVersion() {
 
 	cout << "~~~~~~~~~~~Device Version ~~~~~~~~~~~~~~" << endl;
 
-	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
 	JUB_ListDeviceHid(deviceIDs);
 
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
@@ -825,7 +825,7 @@ void getVersion() {
 	JUB_BYTE bleVersion[5] = {0,};
 	JUB_BYTE fwVersion[5] = {0,};
 	memcpy(bleVersion, info.bleVersion, 4);
-	memcpy(fwVersion, info.firmware_version, 4);
+	memcpy(fwVersion, info.firmwareVersion, 4);
 	cout << "device bleVersion :" << bleVersion << endl;
 	cout << "device fwVersion :" << fwVersion << endl;
 
@@ -852,7 +852,7 @@ void getVersion() {
 
 void main_test() {
 
-	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff };
+	JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
 	JUB_ListDeviceHid(deviceIDs);
 
 	JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
@@ -890,10 +890,10 @@ void main_test() {
 			send_apud_test();
 			break;
 		case 3:
-			BTC_test("test.json",COINBTC);
+			BTC_test("test.json", COINBTC);
 			break;
 		case 4:
-			BTC_test("testBCH.json",COINBCH);
+			BTC_test("testBCH.json", COINBCH);
 			break;
 		case 5:
 			BTC_test("testLTC.json", COINLTC);

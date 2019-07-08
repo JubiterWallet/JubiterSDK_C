@@ -2,6 +2,7 @@
 #ifndef COINPASS_BIO_UTIL_HPP
 #define COINPASS_BIO_UTIL_HPP
 
+#include <assert.h>
 #include <memory>
 #include <string>
 #include <vector>

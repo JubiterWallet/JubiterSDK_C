@@ -70,13 +70,13 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
 JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
 #ifdef HID_MODE
-    auto path_list = jub::JubiterHidDevice::enumDevice();
+    auto path_list = jub::JubiterHidDevice::EnumDevice();
 	//std::cout <<"** "<< path_list.size() << std::endl;
 
 	//deal removed key 
-	auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
+	auto vDeviceIDs = jub::TokenManager::GetInstance()->GetHandleList();
 	for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
-		auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->getOne(vDeviceIDs[i]);
+		auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->GetOne(vDeviceIDs[i]);
 		if (std::end(path_list) == std::find(std::begin(path_list), std::end(path_list), token->getPath())) {
 			//removed key
 			jub::TokenManager::GetInstance()->ClearOne(vDeviceIDs[i]);
@@ -85,9 +85,9 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
 	//deal inserted key
 	auto isInManager = [](std::string path)-> bool {
-		auto vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
+		auto vDeviceIDs = jub::TokenManager::GetInstance()->GetHandleList();
 		for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
-			auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->getOne(vDeviceIDs[i]);
+			auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->GetOne(vDeviceIDs[i]);
 			if (   token
                 && path == token->getPath()
                 ) {
@@ -106,7 +106,7 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 		}
 	}
 
-	auto _vDeviceIDs = jub::TokenManager::GetInstance()->getHandleList();
+	auto _vDeviceIDs = jub::TokenManager::GetInstance()->GetHandleList();
 	for (JUB_UINT16 i = 0 ; i < std::min((size_t)MAX_DEVICE, _vDeviceIDs.size()); i++) {
 		deviceIDs[i] = _vDeviceIDs[i];
 	}
@@ -127,10 +127,10 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID) {
 
 #ifdef HID_MODE
-    auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->connectToken());
+    JUB_VERIFY_RV(token->ConnectToken());
 
     return JUBR_OK;
 #else
@@ -147,10 +147,10 @@ JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID) {
 JUB_RV JUB_DisconnetDeviceHid(IN JUB_UINT16 deviceID) {
 
 #ifdef HID_MODE
-    auto token = jub::TokenManager::GetInstance()->getOne(deviceID);
+    auto token = jub::TokenManager::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->disconnectToken());
+    JUB_VERIFY_RV(token->DisconnectToken());
 
     return JUBR_OK;
 #else

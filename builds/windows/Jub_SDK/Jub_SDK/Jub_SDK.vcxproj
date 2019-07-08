@@ -91,7 +91,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/compat</AdditionalIncludeDirectories> <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/formats</AdditionalIncludeDirectories> <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/machine</AdditionalIncludeDirectories> <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/compat</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/formats</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/machine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../include/utility;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin;$(SolutionDir)../../../deps/mSIGNA</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -127,7 +130,10 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/compat</AdditionalIncludeDirectories> <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/formats</AdditionalIncludeDirectories> <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/machine</AdditionalIncludeDirectories> <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/compat</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/formats</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/machine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/utility</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4819</DisableSpecificWarnings>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
@@ -141,12 +147,21 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\deps\bigint\BigInteger.hh" />
+    <ClInclude Include="..\..\..\..\deps\bigint\BigIntegerAlgorithms.hh" />
+    <ClInclude Include="..\..\..\..\deps\bigint\BigIntegerLibrary.hh" />
+    <ClInclude Include="..\..\..\..\deps\bigint\BigIntegerUtils.hh" />
+    <ClInclude Include="..\..\..\..\deps\bigint\BigUnsigned.hh" />
+    <ClInclude Include="..\..\..\..\deps\bigint\BigUnsignedInABase.hh" />
+    <ClInclude Include="..\..\..\..\deps\bigint\NumberlikeArray.hh" />
+    <ClInclude Include="..\..\..\..\deps\bitcoinABC\cashaddr.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\compat\byteswap.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\compat\endian.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\base58.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\bech32.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\hash.h" />
     <ClInclude Include="..\..\..\..\deps\libbitcoin\machine\opcode.hpp" />
+    <ClInclude Include="..\..\..\..\deps\mSIGNA\stdutils\uchar_vector.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\check_config.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\config.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\md.h" />
@@ -166,10 +181,8 @@
     <ClInclude Include="..\..\..\..\include\device\DeviceIOLogHelper.hpp" />
     <ClInclude Include="..\..\..\..\include\device\DeviceTypeBase.hpp" />
     <ClInclude Include="..\..\..\..\include\device\Fido.h" />
-    <ClInclude Include="..\..\..\..\include\device\JubiterBLEDevice.hpp" />
     <ClInclude Include="..\..\..\..\include\device\JubiterHidDevice.hpp" />
     <ClInclude Include="..\..\..\..\include\JUB_SDK.h" />
-    <ClInclude Include="..\..\..\..\deps\bitcoinABC\cashaddr.h" />
     <ClInclude Include="..\..\..\..\include\libBCH\libBCH.hpp" />
     <ClInclude Include="..\..\..\..\include\libBTC\libBTC.hpp" />
     <ClInclude Include="..\..\..\..\include\libETH\ERC20Abi.h" />
@@ -177,11 +190,20 @@
     <ClInclude Include="..\..\..\..\include\token\interface\ETHTokenInterface.hpp" />
     <ClInclude Include="..\..\..\..\include\token\interface\TokenInterface.hpp" />
     <ClInclude Include="..\..\..\..\include\token\JubiterBLDImpl.h" />
+    <ClInclude Include="..\..\..\..\include\utility\Apdu.hpp" />
+    <ClInclude Include="..\..\..\..\include\utility\Singleton.h" />
+    <ClInclude Include="..\..\..\..\include\utility\util.h" />
     <ClInclude Include="..\..\..\..\include\utility\xManager.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\deps\libbitcoin\formats\base58.cpp" />
-    <ClCompile Include="..\..\..\..\deps\libbitcoin\formats\bech32.cpp" />
+    <ClCompile Include="..\..\..\..\deps\bigint\BigInteger.cc" />
+    <ClCompile Include="..\..\..\..\deps\bigint\BigIntegerAlgorithms.cc" />
+    <ClCompile Include="..\..\..\..\deps\bigint\BigIntegerUtils.cc" />
+    <ClCompile Include="..\..\..\..\deps\bigint\BigUnsigned.cc" />
+    <ClCompile Include="..\..\..\..\deps\bigint\BigUnsignedInABase.cc" />
+    <ClCompile Include="..\..\..\..\deps\bitcoinABC\cashaddr.cc" />
+    <ClCompile Include="..\..\..\..\deps\bitcoin\base58.cpp" />
+    <ClCompile Include="..\..\..\..\deps\bitcoin\bech32.cpp" />
     <ClCompile Include="..\..\..\..\deps\polarssl\md.c" />
     <ClCompile Include="..\..\..\..\deps\polarssl\md2.c" />
     <ClCompile Include="..\..\..\..\deps\polarssl\md4.c" />
@@ -197,15 +219,16 @@
     <ClCompile Include="..\..\..\..\src\context\ContextETH.cpp" />
     <ClCompile Include="..\..\..\..\src\device\ApduBuilder.cpp" />
     <ClCompile Include="..\..\..\..\src\device\Fido.cpp" />
-    <ClCompile Include="..\..\..\..\src\device\JubiterBLEDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp" />
-    <ClCompile Include="..\..\..\..\deps\bitcoinABC\cashaddr.cc" />
     <ClCompile Include="..\..\..\..\src\libETH\ERC20Abi.cpp" />
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImpl.cpp" />
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImplBTC.cpp" />
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImplETH.cpp" />
     <ClCompile Include="..\..\..\..\src\utility\util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\deps\hidapi\libhidapi\x64\hidapi_vs2017.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
