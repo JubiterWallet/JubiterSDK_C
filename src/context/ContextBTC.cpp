@@ -9,7 +9,7 @@ namespace jub {
 
 JUB_RV ContextBTC::GetHDNode(BIP32_Path path, std::string& xpub) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip32Path(path);
@@ -20,7 +20,7 @@ JUB_RV ContextBTC::GetHDNode(BIP32_Path path, std::string& xpub) {
 
 JUB_RV ContextBTC::GetMainHDNode(std::string& xpub) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     JUB_VERIFY_RV(token->GetHDNodeBTC(_transType, _mainPath, xpub));
@@ -30,7 +30,7 @@ JUB_RV ContextBTC::GetMainHDNode(std::string& xpub) {
 
 JUB_RV ContextBTC::GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip32Path(path);
@@ -41,7 +41,7 @@ JUB_RV ContextBTC::GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& addr
 
 JUB_RV ContextBTC::SetMyAddress(BIP32_Path path, std::string& address) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip32Path(path);
@@ -54,7 +54,7 @@ JUB_RV ContextBTC::SetUnit(JUB_BTC_UNIT_TYPE unitType) {
 
     _unitType = unitType;
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     JUB_VERIFY_RV(token->SetUnitBTC(_unitType));
@@ -64,10 +64,12 @@ JUB_RV ContextBTC::SetUnit(JUB_BTC_UNIT_TYPE unitType) {
 
 JUB_RV ContextBTC::ActiveSelf() {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token  = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    auto ctoken = dynamic_cast<CommonTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
+    JUB_CHECK_NULL(ctoken);
     JUB_VERIFY_RV(token->SelectAppletBTC());
-    JUB_VERIFY_RV(token->SetTimeout(_timeout));
+    JUB_VERIFY_RV(ctoken->SetTimeout(_timeout));
     JUB_VERIFY_RV(token->SetUnitBTC(_unitType));
     JUB_VERIFY_RV(token->SetCoinTypeBTC(_coinType));
 
@@ -97,7 +99,7 @@ JUB_RV ContextBTC::BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount
 
 JUB_RV ContextBTC::SignTX(std::vector<INPUT_BTC> vInputs, std::vector<OUTPUT_BTC> vOutputs, JUB_UINT32 lockTime, std::string& raw) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     //JUB_VERIFY_RV(token->setUnit_BTC(_unitType));

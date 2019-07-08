@@ -8,11 +8,13 @@ namespace jub {
 
 JUB_RV ContextETH::ActiveSelf() {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    auto ctoken = dynamic_cast<CommonTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
+    JUB_CHECK_NULL(ctoken);
 
     JUB_VERIFY_RV(token->SelectAppletETH());
-    JUB_VERIFY_RV(token->SetTimeout(_timeout));
+    JUB_VERIFY_RV(ctoken->SetTimeout(_timeout));
 
     //ETH don`t set unit
     return JUBR_OK;
@@ -20,7 +22,7 @@ JUB_RV ContextETH::ActiveSelf() {
 
 JUB_RV ContextETH::GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip32Path(path);
@@ -31,7 +33,7 @@ JUB_RV ContextETH::GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& addr
 
 JUB_RV ContextETH::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     JUB_VERIFY_RV(token->GetHDNodeETH(format, _mainPath, xpub));
@@ -41,7 +43,7 @@ JUB_RV ContextETH::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 
 JUB_RV ContextETH::SetMyAddress(BIP32_Path path, std::string& address) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip32Path(path);
@@ -52,7 +54,7 @@ JUB_RV ContextETH::SetMyAddress(BIP32_Path path, std::string& address) {
 
 JUB_RV ContextETH::GetHDNode(JUB_BYTE format, BIP32_Path path, std::string& pubkey) {
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip32Path(path);
@@ -75,7 +77,7 @@ JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
 //    JUB_CHECK_NULL(valueInWei);// it can be nullptr
     JUB_CHECK_NULL(input);
 
-    auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
+    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::vector<JUB_BYTE> vNonce = jub::HexStr2CharPtr(numberToHexString(nonce));

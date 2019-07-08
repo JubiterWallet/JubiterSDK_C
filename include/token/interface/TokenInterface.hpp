@@ -10,8 +10,7 @@
 
 namespace jub {
 
-class TokenInterface : public BTCTokenInterface,
-                       public ETHTokenInterface {
+class CommonTokenInterface {
 public:
     /* functions */
     virtual JUB_RV ConnectToken() = 0;
@@ -38,7 +37,7 @@ public:
     virtual JUB_RV SetTimeout(JUB_UINT16 timeout) = 0;
 }; // class TokenInterface end
 
-using TokenManager = Singleton<xManager<jub::TokenInterface>>;
+using TokenManager = Singleton<xManager<jub::CommonTokenInterface>>;
 
 }  // namespace jub end
 #endif  // __TokenInterface__

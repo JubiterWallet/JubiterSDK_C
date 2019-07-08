@@ -29,7 +29,11 @@ typedef struct _stAppInfos_ {
     std::string minimumAppletVersion;
 } stAppInfos;
 
-class JubiterBLDImpl : public TokenInterface {
+class JubiterBLDImpl :
+	public CommonTokenInterface,
+	public BTCTokenInterface,
+	public ETHTokenInterface
+{
 public:
     JubiterBLDImpl(std::string path);
     JubiterBLDImpl(DeviceType* device);
