@@ -20,7 +20,7 @@ JUB_RV JubiterBLDImpl::GetAddressETH(std::string path, JUB_UINT16 tag, std::stri
 
     uchar_vector data(path.begin(), path.end());
 
-    APDU apdu(0x00, 0xf6, 0x00, (JUB_BYTE)tag, data.size(), data.data(), 0x14);
+    APDU apdu(0x00, 0xf6, 0x00, (JUB_BYTE)tag, (JUB_ULONG)data.size(), data.data(), 0x14);
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -49,7 +49,7 @@ JUB_RV JubiterBLDImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::stri
         return JUBR_ERROR_ARGS;
     }
 
-    APDU apdu(0x00, 0xe6, 0x00, format, apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xe6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -104,7 +104,7 @@ JUB_RV JubiterBLDImpl::SignTXETH(bool bERC20,
     }
 
     //one pack can do it
-    APDU apdu(0x00, ins, 0x01, 0x00, data.size(), data.data());
+    APDU apdu(0x00, ins, 0x01, 0x00, (JUB_ULONG)data.size(), data.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);

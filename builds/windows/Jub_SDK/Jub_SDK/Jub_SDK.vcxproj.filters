@@ -55,17 +55,11 @@
     <Filter Include="Header Files\libBCH">
       <UniqueIdentifier>{3036bf01-72ff-4f32-abc8-5ac392a1174e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="deps\bitcoin">
-      <UniqueIdentifier>{68f1fb04-6c8a-423e-a5a8-f150fae435ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="deps\bitcoinABC">
       <UniqueIdentifier>{e99acf75-bbac-4f15-85d1-36019a815603}</UniqueIdentifier>
     </Filter>
     <Filter Include="deps\bigint">
       <UniqueIdentifier>{0c52c268-4d07-481d-9946-9ab366daa087}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="deps\bitcoin\compat">
-      <UniqueIdentifier>{55919a36-07ee-422b-9f4d-c78f744221e3}</UniqueIdentifier>
     </Filter>
     <Filter Include="deps\libbitcoin">
       <UniqueIdentifier>{f762187f-e2e5-44a7-8e5a-81d9861d22c2}</UniqueIdentifier>
@@ -78,6 +72,12 @@
     </Filter>
     <Filter Include="deps\hidapi">
       <UniqueIdentifier>{5231c9d7-bbb0-4b17-bc85-3aba336053f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\hidapi\bitcoin">
+      <UniqueIdentifier>{68f1fb04-6c8a-423e-a5a8-f150fae435ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\hidapi\bitcoin\compat">
+      <UniqueIdentifier>{55919a36-07ee-422b-9f4d-c78f744221e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -196,19 +196,19 @@
       <Filter>deps\bitcoinABC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\deps\bitcoin\base58.h">
-      <Filter>deps\bitcoin</Filter>
+      <Filter>deps\hidapi\bitcoin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\deps\bitcoin\bech32.h">
-      <Filter>deps\bitcoin</Filter>
+      <Filter>deps\hidapi\bitcoin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\deps\bitcoin\hash.h">
-      <Filter>deps\bitcoin</Filter>
+      <Filter>deps\hidapi\bitcoin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\deps\bitcoin\compat\byteswap.h">
-      <Filter>deps\bitcoin\compat</Filter>
+      <Filter>deps\hidapi\bitcoin\compat</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\deps\bitcoin\compat\endian.h">
-      <Filter>deps\bitcoin\compat</Filter>
+      <Filter>deps\hidapi\bitcoin\compat</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\deps\libbitcoin\machine\opcode.hpp">
       <Filter>deps\libbitcoin\machine</Filter>
@@ -294,10 +294,10 @@
       <Filter>Source Files\libETH</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\deps\bitcoin\base58.cpp">
-      <Filter>deps\bitcoin</Filter>
+      <Filter>deps\hidapi\bitcoin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\deps\bitcoin\bech32.cpp">
-      <Filter>deps\bitcoin</Filter>
+      <Filter>deps\hidapi\bitcoin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\deps\bigint\BigInteger.cc">
       <Filter>deps\bigint</Filter>

@@ -139,7 +139,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
     uchar_vector FidoID(kPKIAID_FIDO, 8);
     if (id == FidoID) {
         //select
-        APDU apdu(0x00, 0xA4, 0x04, 0x00, id.size(), &id[0]);
+        APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);
         JUB_BYTE retData[1024] = {0,};
         JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
@@ -150,7 +150,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
         //get version
 
         uchar_vector apduData("DFFF028001");
-        APDU apduVersion(0x80, 0xE2, 0x80, 0x00, apduData.size(), &apduData[0], 0x00);
+        APDU apduVersion(0x80, 0xE2, 0x80, 0x00, (JUB_ULONG)apduData.size(), &apduData[0], 0x00);
         JUB_BYTE retDataVersion[1024] = {0,};
         JUB_ULONG ulRetVersionLen = sizeof(retDataVersion)/sizeof(JUB_BYTE);
         JUB_VERIFY_RV(_SendApdu(&apduVersion, ret, retDataVersion, &ulRetVersionLen));
@@ -163,7 +163,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
         return JUBR_OK;
     }
     else {
-        APDU apdu(0x00, 0xA4, 0x04, 0x00, id.size(), &id[0]);
+        APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);
         JUB_BYTE retData[1024] = {0,};
         JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
@@ -186,7 +186,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
 JUB_RV JubiterBLDImpl::GetDeviceCert(std::string& cert) {
 
     uchar_vector apduData("A60483021518");
-    APDU apdu(0x80, 0xca, 0xbf, 0x21, apduData.size(), apduData.data());
+    APDU apdu(0x80, 0xca, 0xbf, 0x21, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -205,7 +205,7 @@ JUB_RV JubiterBLDImpl::SendOneApdu(const std::string& apdu, std::string& respons
     uchar_vector sendApdu(apdu);
     JUB_BYTE retData[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = {0,};
     JUB_ULONG ulRetDataLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
-    JUB_RV rv = _device->SendData(sendApdu.data(), sendApdu.size(), retData, &ulRetDataLen);
+    JUB_RV rv = _device->SendData(sendApdu.data(), (JUB_ULONG)sendApdu.size(), retData, &ulRetDataLen);
     if(JUBR_OK != rv) {
         return JUBR_TRANSMIT_DEVICE_ERROR;
     }
@@ -285,7 +285,7 @@ JUB_RV JubiterBLDImpl::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry
                        return (uint8_t)(elem - 0x30);
                    });
 
-    APDU apdu(0x00, 0x20, 0x02, 0x00, pinCoord.size(), pinCoord.data());
+    APDU apdu(0x00, 0x20, 0x02, 0x00, (JUB_ULONG)pinCoord.size(), pinCoord.data());
     //APDU apdu(0x00, 0x10, 0x00, 0x00, pinCoord.size(), pinCoord.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
@@ -308,7 +308,7 @@ JUB_RV JubiterBLDImpl::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry
 bool JubiterBLDImpl::IsInitialize() {
 
     uchar_vector apduData("DFFF028105");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, apduData.size(), apduData.data());
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -341,7 +341,7 @@ bool JubiterBLDImpl::IsBootLoader() {
 JUB_RV JubiterBLDImpl::GetBleVersion(JUB_BYTE bleVersion[4]) {
 
     uchar_vector apduData("DFFF028100");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, apduData.size(), apduData.data());
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -360,7 +360,7 @@ JUB_RV JubiterBLDImpl::GetBleVersion(JUB_BYTE bleVersion[4]) {
 JUB_RV JubiterBLDImpl::GetFwVersion(JUB_BYTE fwVersion[4]) {
 
     uchar_vector apduData("DFFF028003");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, apduData.size(), apduData.data());
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -379,7 +379,7 @@ JUB_RV JubiterBLDImpl::GetFwVersion(JUB_BYTE fwVersion[4]) {
 JUB_RV JubiterBLDImpl::GetSN(JUB_BYTE sn[24]) {
 
     uchar_vector apduData("DFFF028101");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, apduData.size(), apduData.data());
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -397,7 +397,7 @@ JUB_RV JubiterBLDImpl::GetSN(JUB_BYTE sn[24]) {
 JUB_RV JubiterBLDImpl::GetLabel(JUB_BYTE label[32]) {
 
     uchar_vector apduData("DFFF028104");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, apduData.size(), apduData.data());
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -415,7 +415,7 @@ JUB_RV JubiterBLDImpl::GetLabel(JUB_BYTE label[32]) {
 JUB_RV JubiterBLDImpl::GetPinRetry(JUB_BYTE& retry) {
 
     uchar_vector apduData("DFFF028102");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, apduData.size(), apduData.data());
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -432,7 +432,7 @@ JUB_RV JubiterBLDImpl::GetPinRetry(JUB_BYTE& retry) {
 JUB_RV JubiterBLDImpl::GetPinMaxRetry(JUB_BYTE& maxRetry) {
 
     uchar_vector apduData("DFFF028103");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, apduData.size(), apduData.data());
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -469,7 +469,7 @@ JUB_RV JubiterBLDImpl::_TranPack(const DataSlice &apduData, JUB_BYTE sigType, JU
     JUB_UINT16 ret = 0;
     if (bOnce) {
         // one pack enough
-        APDU apdu(0x00, 0xF8, 0x00, sigType, apduData.size(), apduData.data());
+        APDU apdu(0x00, 0xF8, 0x00, sigType, (JUB_ULONG)apduData.size(), apduData.data());
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
             return JUBR_TRANSMIT_DEVICE_ERROR;
@@ -503,7 +503,7 @@ JUB_RV JubiterBLDImpl::_TranPack(const DataSlice &apduData, JUB_BYTE sigType, JU
     }
 
     // next pack
-    apdu.lc = left;
+    apdu.lc = (JUB_ULONG)left;
     if (apdu.lc) {
         if (finalData) {
             apdu.p1 = 0x03;
@@ -531,7 +531,7 @@ JUB_RV JubiterBLDImpl::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *r
 
     std::vector<JUB_BYTE> vSendApdu;
     if (JUBR_OK == _apduBuiler->BuildApdu(apdu, vSendApdu)) {
-        if (JUBR_OK != _device->SendData(vSendApdu.data(), vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
+        if (JUBR_OK != _device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
             return JUBR_TRANSMIT_DEVICE_ERROR;
         }
 

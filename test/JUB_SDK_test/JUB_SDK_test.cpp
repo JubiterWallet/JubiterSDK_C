@@ -829,8 +829,8 @@ void transaction_test_ETH(JUB_UINT16 contextID, Json::Value root) {
 
     //ETH Test
 
-    uint32_t nonce = root["ETH"]["nonce"].asDouble();
-    uint32_t gasLimit = root["ETH"]["gasLimit"].asDouble();
+	uint32_t nonce = root["ETH"]["nonce"].asUInt();//.asDouble();
+	uint32_t gasLimit = root["ETH"]["gasLimit"].asUInt();//.asDouble();
     char* gasPriceInWei = (char*)root["ETH"]["gasPriceInWei"].asCString();
     char* valueInWei = (char*)root["ETH"]["valueInWei"].asCString();
     char* to = (char*)root["ETH"]["to"].asCString();
@@ -856,8 +856,8 @@ void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
         return;
     }
 
-    uint32_t nonce = root["ERC20"]["nonce"].asDouble();
-    uint32_t gasLimit = root["ERC20"]["gasLimit"].asDouble();
+	uint32_t nonce = root["ERC20"]["nonce"].asUInt();//.asDouble();
+	uint32_t gasLimit = root["ERC20"]["gasLimit"].asUInt();//.asDouble();
     char* gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
     char* to = (char*)root["ERC20"]["contract_address"].asCString();
     char* token_to = (char*)root["ERC20"]["token_to"].asCString();

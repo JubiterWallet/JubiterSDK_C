@@ -386,7 +386,7 @@ public:
     uchar_vector& operator || (uchar_vector&  v) {
         uint64_t len = read_compact_size();
 
-        if (end() - m_cur_it < len) {
+        if ((uint64_t)(end() - m_cur_it) < len) {
             std::string _err = "error in data index: ";
             _err += jub::to_string(m_last_op_it - begin());
             throw std::runtime_error(_err);

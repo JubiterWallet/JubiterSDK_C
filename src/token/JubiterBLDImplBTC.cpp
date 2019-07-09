@@ -44,7 +44,7 @@ JUB_RV JubiterBLDImpl::GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, s
         break;
     } // switch (type) end
 
-    APDU apdu(0x00, 0xe6, 0x00, p2, apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xe6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -84,7 +84,7 @@ JUB_RV JubiterBLDImpl::GetAddressBTC(JUB_BTC_TRANS_TYPE type,
         return JUBR_IMPL_NOT_SUPPORT;
     } // switch (type) end
 
-    APDU apdu(0x00, 0xf6, p1, sigType, apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xf6, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
@@ -138,7 +138,7 @@ JUB_RV JubiterBLDImpl::SignTXBTC(JUB_BTC_TRANS_TYPE type,
     apduData << ToTlv(0x0e, amountTLV);
 
     //  first pack
-    APDU apdu(0x00, 0xF8, 0x01, sigType, apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF8, 0x01, sigType, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     if (0x9000 != ret) {
