@@ -12,6 +12,8 @@ namespace jub {
 
 class CommonTokenInterface {
 public:
+    virtual ~CommonTokenInterface() = default;
+
     /* functions */
     virtual JUB_RV ConnectToken() = 0;
     virtual JUB_RV DisconnectToken() = 0;

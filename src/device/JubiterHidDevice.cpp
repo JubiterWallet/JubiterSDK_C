@@ -174,7 +174,7 @@ JUB_RV JubiterHidDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
     while (true) {
         do {
             memset(buff, 0, sizeof(buff));
-            res = hid_read_timeout(_handle, buff, sizeof(buff), ulMiliSecondTimeout);
+            res = hid_read_timeout(_handle, buff, sizeof(buff), (int)ulMiliSecondTimeout);
             if (res <= 0) {
                 Disconnect();
                 return JUBR_TRANSMIT_DEVICE_ERROR;
