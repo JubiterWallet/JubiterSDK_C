@@ -61,12 +61,6 @@
     <Filter Include="deps\bitcoinABC">
       <UniqueIdentifier>{e99acf75-bbac-4f15-85d1-36019a815603}</UniqueIdentifier>
     </Filter>
-    <Filter Include="deps\mSIGNA">
-      <UniqueIdentifier>{300e8a3c-b7d1-40a4-ac1f-2e60849c235e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="deps\mSIGNA\stdutils">
-      <UniqueIdentifier>{d2d9dc2a-3785-4914-94dd-1fc13db3aaa1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="deps\bigint">
       <UniqueIdentifier>{0c52c268-4d07-481d-9946-9ab366daa087}</UniqueIdentifier>
     </Filter>
@@ -201,9 +195,6 @@
     <ClInclude Include="..\..\..\..\deps\bitcoinABC\cashaddr.h">
       <Filter>deps\bitcoinABC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\deps\mSIGNA\stdutils\uchar_vector.h">
-      <Filter>deps\mSIGNA\stdutils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\deps\bitcoin\base58.h">
       <Filter>deps\bitcoin</Filter>
     </ClInclude>
@@ -229,6 +220,9 @@
       <Filter>Header Files\utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\include\utility\util.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\utility\uchar_vector.h">
       <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>

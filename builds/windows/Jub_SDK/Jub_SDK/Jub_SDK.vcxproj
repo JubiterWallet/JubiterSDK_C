@@ -94,7 +94,6 @@
       <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/compat</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/formats</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/machine</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../include/utility;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin;$(SolutionDir)../../../deps/mSIGNA</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -161,7 +160,6 @@
     <ClInclude Include="..\..\..\..\deps\bitcoin\bech32.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\hash.h" />
     <ClInclude Include="..\..\..\..\deps\libbitcoin\machine\opcode.hpp" />
-    <ClInclude Include="..\..\..\..\deps\mSIGNA\stdutils\uchar_vector.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\check_config.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\config.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\md.h" />
@@ -192,6 +190,7 @@
     <ClInclude Include="..\..\..\..\include\token\JubiterBLDImpl.h" />
     <ClInclude Include="..\..\..\..\include\utility\Apdu.hpp" />
     <ClInclude Include="..\..\..\..\include\utility\Singleton.h" />
+    <ClInclude Include="..\..\..\..\include\utility\uchar_vector.h" />
     <ClInclude Include="..\..\..\..\include\utility\util.h" />
     <ClInclude Include="..\..\..\..\include\utility\xManager.hpp" />
   </ItemGroup>

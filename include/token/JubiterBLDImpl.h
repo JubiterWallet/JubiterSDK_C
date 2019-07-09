@@ -7,7 +7,7 @@
 #include <device/JubiterHidDevice.hpp>
 #include <memory>
 #include <utility/util.h>
-#include <stdutils/uchar_vector.h>
+#include <utility/uchar_vector.h>
 
 #ifdef HID_MODE // modify later..
 #include <device/JubiterHidDevice.hpp>

@@ -1,5 +1,5 @@
 #include <device/JubiterBLEDevice.hpp>
-#include <stdutils/uchar_vector.h>
+#include <utility/uchar_vector.h>
 #include <device/DeviceIOLogHelper.hpp>
 
 #ifdef BLE_MODE

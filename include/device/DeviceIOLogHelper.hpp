@@ -2,7 +2,7 @@
 #define __DeviceIOLogHelper__
 
 #include <JUB_SDK.h>
-#include <stdutils/uchar_vector.h>
+#include <utility/uchar_vector.h>
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
