@@ -215,7 +215,7 @@ JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
 
 	JUB_VERIFY_RV(context->BuildUSDTOutputs(USDTTo, amount, outputs));
 
-    return JUBR_ERROR;
+    return JUBR_OK;
 }
 
 /*****************************************************************************
@@ -243,17 +243,12 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
     jub::ContextBTC* context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
-    if (nullptr != context) {
-        std::string str_raw;
-        auto rv = context->SignTX(vInputs, vOutputs, lockTime, str_raw);
-        if (JUBR_OK == rv) {
-            JUB_VERIFY_RV(_allocMem(raw, str_raw));
-            return JUBR_OK;
-        }
-        return rv;
-    }
+    std::string str_raw;
+    JUB_VERIFY_RV(context->SignTX(vInputs, vOutputs, lockTime, str_raw));
 
-    return JUBR_ERROR;
+    JUB_VERIFY_RV(_allocMem(raw, str_raw));
+
+    return JUBR_OK;
 }
 
 /*****************************************************************************
