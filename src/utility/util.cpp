@@ -16,7 +16,9 @@ std::vector<std::string> Split(std::string str, std::string pattern) {
 		pos = str.find(pattern, i);
 		if (pos < size) {
 			std::string s = str.substr(i, pos - i);
-			vResult.push_back(s);
+            if (0 < s.length()) {
+                vResult.push_back(s);
+            }
 			i = pos + pattern.size() - 1;
 		}
 	}

@@ -99,7 +99,10 @@ JUB_RV JubiterBLDImpl::EnumSupportCoins(std::string& coinList) {
     JUB_RV rv = JUBR_ERROR;
 
     std::string appletList;
-    EnumApplet(appletList);
+    rv = EnumApplet(appletList);
+    if (JUBR_OK != rv) {
+        return rv;
+    }
 
     auto vAppList = Split(appletList, " ");
     for (auto appID : vAppList) {
