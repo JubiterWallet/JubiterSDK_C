@@ -50,7 +50,7 @@
 #elif defined(__ANDROID__)
     #define BLE_MODE
 #else //other
-    HID_MODE
+    #define HID_MODE
 #endif // #if defined(_WIN32)
 
 /* === Library typedef: === */
