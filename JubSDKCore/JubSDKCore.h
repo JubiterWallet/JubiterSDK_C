@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_COINTYPE_BTC) {
 };
 
 //typedef enum {
-//    HEX = 0x00,
+//    HEX  = 0x00,
 //    XPUB = 0x01
 //} JUB_ETH_PUB_FORMAT;
 typedef NS_ENUM(NSInteger, JUB_NS_ETH_PUB_FORMAT) {
@@ -47,11 +47,11 @@ typedef NS_ENUM(NSInteger, JUB_NS_ETH_PUB_FORMAT) {
 //    p2pkh = 0,
 //    //p2pwpkh,
 //    p2sh_p2wpkh
-//    /*
-//     p2sh_multisig,
-//     p2wsh_multisig,
-//     p2sh_p2wsh_multisig,
-//     */
+///*
+//    p2sh_multisig,
+//    p2wsh_multisig,
+//    p2sh_p2wsh_multisig,
+//*/
 //} JUB_BTC_TRANS_TYPE;
 typedef NS_ENUM(NSInteger, JUB_NS_BTC_TRANS_TYPE) {
     ns_p2pkh = 0,
@@ -59,7 +59,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_BTC_TRANS_TYPE) {
 };
 
 //typedef enum {
-//    P2PKH = 0x00,
+//    P2PKH   = 0x00,
 //    RETURN0 = 0x01
 //} OUTPUT_BTC_TYPE;
 typedef NS_ENUM(NSInteger, JUB_NS_OUTPUT_BTC_TYPE) {
@@ -91,33 +91,33 @@ typedef NS_ENUM(NSInteger, JUB_NS_BTC_UNIT_TYPE) {
 //    JUB_CHAR firmwareVersion[4];
 //} JUB_DEVICE_INFO;
 @interface DeviceInfo : NSObject
-@property (nonatomic, assign) NSString* label;
-@property (nonatomic, assign) NSString* sn;
-@property (nonatomic, assign) NSInteger pinRetry;
-@property (nonatomic, assign) NSInteger pinMaxRetry;
-@property (nonatomic, assign) NSString* bleVersion;
-@property (nonatomic, assign) NSString* firmwareVersion;
+@property (atomic, copy  ) NSString* label;
+@property (atomic, copy  ) NSString* sn;
+@property (atomic, assign) NSInteger pinRetry;
+@property (atomic, assign) NSInteger pinMaxRetry;
+@property (atomic, copy  ) NSString* bleVersion;
+@property (atomic, copy  ) NSString* firmwareVersion;
 @end
 
 //typedef struct {
 //    JUB_ENUM_COINTYPE_BTC   cointype;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
 //
 //    JUB_CHAR_PTR            main_path;
-//    JUB_BTC_TRANS_TYPE        transtype;
+//    JUB_BTC_TRANS_TYPE      transtype;
 //} CONTEXT_CONFIG_BTC;
 @interface ContextConfigBTC : NSObject
-@property (nonatomic, assign) JUB_NS_ENUM_COINTYPE_BTC coinType;
-@property (nonatomic, assign) NSString* mainPath;
-@property (nonatomic, assign) JUB_NS_BTC_TRANS_TYPE transType;
+@property (atomic, assign) JUB_NS_ENUM_COINTYPE_BTC coinType;
+@property (atomic, copy  ) NSString* mainPath;
+@property (atomic, assign) JUB_NS_BTC_TRANS_TYPE transType;
 @end
 
 //typedef struct {
-//    JUB_CHAR_PTR        main_path;
-//    int                    chainID;
+//    JUB_CHAR_PTR    main_path;
+//    int             chainID;
 //} CONTEXT_CONFIG_ETH;
 @interface ContextConfigETH : NSObject
-@property (nonatomic, assign) NSString* mainPath;
-@property (nonatomic, assign) NSInteger chainID;
+@property (atomic, copy  ) NSString* mainPath;
+@property (atomic, assign) NSInteger chainID;
 @end
 
 //typedef struct {
@@ -125,44 +125,44 @@ typedef NS_ENUM(NSInteger, JUB_NS_BTC_UNIT_TYPE) {
 //    JUB_UINT64    addressIndex;
 //} BIP32_Path;
 @interface BIP32Path : NSObject
-@property (nonatomic, assign) JUB_NS_ENUM_BOOL change;
-@property (nonatomic, assign) NSInteger addressIndex;
+@property (atomic, assign) JUB_NS_ENUM_BOOL change;
+@property (atomic, assign) NSInteger addressIndex;
 @end
 
 //typedef struct {
 //    JUB_CHAR_PTR    preHash;
 //    JUB_UINT16      preIndex;
-//    JUB_UINT64        amount;
+//    JUB_UINT64      amount;
 //    BIP32_Path      path;
 //} INPUT_BTC;
 @interface InputBTC : NSObject
-@property (nonatomic, assign) NSString* preHash;
-@property (nonatomic, assign) NSInteger preIndex;
-@property (nonatomic, assign) NSInteger amount;
-@property (nonatomic, assign) BIP32Path* path;
+@property (atomic, copy  ) NSString* preHash;
+@property (atomic, assign) NSInteger preIndex;
+@property (atomic, assign) NSInteger amount;
+@property (atomic, strong) BIP32Path* path;
 @end
 
 //typedef struct {
 //    JUB_CHAR_PTR    address;
-//    JUB_UINT64        amount;
+//    JUB_UINT64      amount;
 //    JUB_ENUM_BOOL   change_address;
 //    BIP32_Path      path;
 //} OUTPUT_P2PKH;
 @interface OP2pkh : NSObject
-@property (nonatomic, assign) NSString* address;
-@property (nonatomic, assign) NSInteger amount;
-@property (nonatomic, assign) JUB_NS_ENUM_BOOL isChangeAddress;
-@property (nonatomic, assign) BIP32Path* path;
+@property (atomic, copy  ) NSString* address;
+@property (atomic, assign) NSInteger amount;
+@property (atomic, assign) JUB_NS_ENUM_BOOL isChangeAddress;
+@property (atomic, strong) BIP32Path* path;
 @end
 
 //typedef struct {
-//    JUB_UINT64        amount;
+//    JUB_UINT64      amount;
 //    JUB_UINT16      data_len;
 //    JUB_BYTE        data[40];
 //} OUTPUT_RETURN0;
 @interface OReturn0 : NSObject
-@property (nonatomic, assign) NSInteger amount;
-@property (nonatomic, assign) NSString* data;
+@property (atomic, assign) NSInteger amount;
+@property (atomic, copy  ) NSString* data;
 @end
 
 //typedef struct {
@@ -174,17 +174,17 @@ typedef NS_ENUM(NSInteger, JUB_NS_BTC_UNIT_TYPE) {
 //} OUTPUT_BTC;
 //@interface OutputP2pkh : NSObject
 //@property (nonatomic, assign) JUB_NS_OUTPUT_BTC_TYPE type;
-//@property (nonatomic, assign) OP2pkh* output;
+//@property (nonatomic, strong) OP2pkh* output;
 //@end
 //
 //@interface OutputReturn0 : NSObject
 //@property (nonatomic, assign) JUB_NS_OUTPUT_BTC_TYPE type;
-//@property (nonatomic, assign) OReturn0* output;
+//@property (nonatomic, strong) OReturn0* output;
 //@end
 @interface OutputBTC : NSObject
-@property (nonatomic, assign) JUB_NS_OUTPUT_BTC_TYPE type;
-@property (nonatomic, assign) OP2pkh* p2pkh;
-@property (nonatomic, assign) OReturn0* return0;
+@property (atomic, assign) JUB_NS_OUTPUT_BTC_TYPE type;
+@property (atomic, strong) OP2pkh* p2pkh;
+@property (atomic, strong) OReturn0* return0;
 @end
 
 //typedef int(*DEV_ReadCallBack)(JUB_ULONG devHandle, JUB_BYTE_PTR data, JUB_UINT32 dataLen);
@@ -199,17 +199,16 @@ typedef NS_ENUM(NSInteger, JUB_NS_BTC_UNIT_TYPE) {
 typedef  int(*ReadCallBack)(unsigned long int devHandle, unsigned char* data, unsigned int uiDataLen);
 typedef void(*ScanCallBack)(unsigned char* devName, unsigned char* uuid, unsigned int type);
 typedef void(*DiscCallBack)(unsigned char* uuid);
-@interface DeviceInitParam : NSObject
-{
+@interface DeviceInitParam : NSObject {
     void* param;
     ReadCallBack readCallBack;
     ScanCallBack scanCallBack;
     DiscCallBack discCallBack;
 }
-@property (nonatomic, assign) void* param;
-@property (nonatomic, assign) ReadCallBack readCallBack;
-@property (nonatomic, assign) ScanCallBack scanCallBack;
-@property (nonatomic, assign) DiscCallBack discCallBack;
+@property (atomic, assign) void* param;
+@property (atomic, assign) ReadCallBack readCallBack;
+@property (atomic, assign) ScanCallBack scanCallBack;
+@property (atomic, assign) DiscCallBack discCallBack;
 @end
 
 
@@ -217,7 +216,7 @@ typedef void(*DiscCallBack)(unsigned char* uuid);
 - (NSUInteger)JUB_LastError;
 
 //JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]);
-- (NSMutableArray*)JUB_ListDeviceHid;
+- (NSArray*)JUB_ListDeviceHid;
 
 //JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID);
 - (void)JUB_ConnetDeviceHid:(NSUInteger)deviceID;
@@ -268,8 +267,8 @@ typedef void(*DiscCallBack)(unsigned char* uuid);
 //                              IN JUB_UINT32 lockTime,
 //                              OUT JUB_CHAR_PTR_PTR raw);
 - (NSString*)JUB_SignTransactionBTC:(NSUInteger)contextID
-                         inputArray:(NSMutableArray*)inputArray
-                        outputArray:(NSMutableArray*)outputArray
+                         inputArray:(NSArray*)inputArray
+                        outputArray:(NSArray*)outputArray
                            lockTime:(NSUInteger)lockTime;
 
 //JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID);

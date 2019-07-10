@@ -142,7 +142,7 @@
 }
 
 //JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]);
-- (NSMutableArray*)JUB_ListDeviceHid
+- (NSArray*)JUB_ListDeviceHid
 {
     _lastError = JUBR_OK;
     
@@ -218,8 +218,6 @@
         return nil;
     }
     
-//    NSString *strCert = [[NSString alloc] initWithCString:cert
-//                                                 encoding:NSUTF8StringEncoding];
     NSString *strCert = [NSString stringWithCString:cert
                                            encoding:NSUTF8StringEncoding];
     JUB_FreeMemory(cert);
@@ -244,8 +242,6 @@
         return nil;
     }
     
-//    NSString *strResp = [[NSString alloc] initWithCString:response
-//                                                 encoding:NSUTF8StringEncoding];
     NSString *strResp = [NSString stringWithCString:response
                                            encoding:NSUTF8StringEncoding];
     JUB_FreeMemory(response);
@@ -469,8 +465,8 @@
 //                              IN JUB_UINT32 lockTime,
 //                              OUT JUB_CHAR_PTR_PTR raw);
 - (NSString*)JUB_SignTransactionBTC:(NSUInteger)contextID
-                         inputArray:(NSMutableArray*)inputArray
-                        outputArray:(NSMutableArray*)outputArray
+                         inputArray:(NSArray*)inputArray
+                        outputArray:(NSArray*)outputArray
                            lockTime:(NSUInteger)lockTime
 {
     _lastError = JUBR_OK;
@@ -485,8 +481,8 @@
     }
     
     INPUT_BTC* pInputs = (INPUT_BTC*)malloc(iCnt);
-    int i = 0;
-    for (InputBTC* input in inputArray) {
+    for (NSUInteger i=0; i < inputArray.count; ++i) {
+        InputBTC* input = inputArray[i];
         pInputs[i].preHash = (JUB_CHAR_PTR)[input.preHash UTF8String];
         pInputs[i].preIndex = input.preIndex;
         pInputs[i].amount = input.amount;
@@ -502,11 +498,9 @@
             pInputs[i].path.change = BOOL_NR_ITEMS;
             break;
         }
-        ++i;
     }
     OUTPUT_BTC* pOutputs = (OUTPUT_BTC*)malloc(oCnt);
-    i = 0;
-    for (OutputBTC* output in outputArray) {
+    for (NSUInteger i=0; i < outputArray.count; ++i) {
 //        if ([output isKindOfClass:[OutputP2pkh class]]) {
 //            pOutputs[i].type = P2PKH;
 //            pOutputs[i].output_p2pkh.address = (JUB_CHAR_PTR)[((OP2pkh*)output).address UTF8String];
@@ -551,6 +545,7 @@
 //            _lastError = JUBR_ARGUMENTS_BAD;
 //            break;
 //        }
+        OutputBTC* output = outputArray[i];
         if (NS_P2PKH == output.type) {
             pOutputs[i].type = P2PKH;
             pOutputs[i].outputP2pkh.address = (JUB_CHAR_PTR)[output.p2pkh.address UTF8String];
@@ -595,7 +590,6 @@
             _lastError = JUBR_ARGUMENTS_BAD;
             break;
         }
-        ++i;
     }
     if (JUBR_OK != _lastError) {
         free(pInputs); pInputs = nil;
@@ -614,8 +608,6 @@
         return nil;
     }
     
-//    NSString *strRaw = [[NSString alloc] initWithCString:raw
-//                                                encoding:NSUTF8StringEncoding];
     NSString *strRaw = [NSString stringWithCString:raw
                                           encoding:NSUTF8StringEncoding];
     JUB_FreeMemory(raw);
