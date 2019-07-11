@@ -209,7 +209,13 @@ unsigned int JubiterBLEDevice::Disconnect(unsigned long handle) {
 
 unsigned int JubiterBLEDevice::IsConnect(unsigned long handle) {
 
-	return FT_BLE_IsConn(handle);
+    // FT_BLE_IsConn: Non-zero means success, and zero means failure
+    if (0 != FT_BLE_IsConn(handle)) {
+        return JUBR_OK;
+    }
+    else {
+        return JUBR_CONNECT_DEVICE_ERROR;
+    }
 }
 
 unsigned long JubiterBLEDevice::GetHandle() {
