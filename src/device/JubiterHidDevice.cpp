@@ -81,7 +81,7 @@ JUB_RV JubiterHidDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
     }
 
 #ifdef _DEBUG
-	DeviceIOLogHelper  handler(sendData, ulSendLen, retData, *pulRetDataLen);
+	DeviceIOLogHelper handler(sendData, ulSendLen, retData, pulRetDataLen);
 #endif
 
     // fix cid

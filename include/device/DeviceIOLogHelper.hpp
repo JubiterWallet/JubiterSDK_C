@@ -26,15 +26,15 @@ public:
     DeviceIOLogHelper(JUB_BYTE_CPTR sendData,
                       JUB_ULONG ulSendLen,
                       JUB_BYTE_PTR retData,
-                      JUB_ULONG ulRetDataLen) {
+                      JUB_ULONG_PTR pulRetDataLen) {
 
         _sendData = sendData;
         _ulSendLen = ulSendLen;
         _retData = retData;
-        _ulRetDataLen = ulRetDataLen;
+        _pulRetDataLen = pulRetDataLen;
     }
     ~DeviceIOLogHelper() {
-        JUB_UINT16 wRet = _retData[_ulRetDataLen - 2] * 0x100 + _retData[_ulRetDataLen - 1];
+        JUB_UINT16 wRet = _retData[*_pulRetDataLen - 2] * 0x100 + _retData[*_pulRetDataLen - 1];
         auto style = Green ;
         if (0x9000 != wRet) {
             style = Red;
@@ -43,7 +43,7 @@ public:
         uchar_vector logSend(_sendData, _sendData + _ulSendLen);
         std::cout << GRAY <<"<<" << style << logSend.getHex() << std::endl;
 
-        uchar_vector logRecv(_retData, _retData + _ulRetDataLen);
+        uchar_vector logRecv(_retData, _retData + *_pulRetDataLen);
         std::cout << GRAY <<">>" << style << logRecv.getHex() << std::endl;
 
         std::cout << "------------------------------" << std::endl;
@@ -55,7 +55,7 @@ private:
     JUB_BYTE_CPTR _sendData;
     JUB_ULONG     _ulSendLen;
     JUB_BYTE_PTR  _retData;
-    JUB_ULONG _ulRetDataLen;
+    JUB_ULONG_PTR _pulRetDataLen;
 }; // class DeviceIOLogHelper end
 
 #endif //DeviceIOLogHelper
