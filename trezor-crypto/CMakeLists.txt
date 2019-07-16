@@ -32,14 +32,14 @@ add_library(TrezorCrypto STATIC
 
 target_compile_options(TrezorCrypto
     PRIVATE
-        -W
+        #-W
         -Wall
         -Wextra
         -Wimplicit-function-declaration
         -Wredundant-decls
         -Wstrict-prototypes
         -Wundef
-        -Wshadow
+        #-Wshadow
         -Wpointer-arith
         -Wformat
         -Wreturn-type
@@ -49,7 +49,7 @@ target_compile_options(TrezorCrypto
         -Winit-self
         -Wuninitialized
         -Wformat-security
-        -Werror
+        #-Werror
 )
 
 target_include_directories(TrezorCrypto
