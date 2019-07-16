@@ -210,7 +210,7 @@
 {
     _lastError = JUBR_OK;
     
-    char *cert = nil;
+    char *cert = nullptr;
     JUB_RV rv = JUB_GetDeviceCert(deviceID,
                                   &cert);
     if (JUBR_OK != rv) {
@@ -233,7 +233,7 @@
 {
     _lastError = JUBR_OK;
     
-    JUB_CHAR_PTR response = nil;
+    JUB_CHAR_PTR response = nullptr;
     JUB_RV rv = JUB_SendOneApdu(deviceID,
                                 (JUB_CHAR_PTR)[apdu UTF8String],
                                 &response);
@@ -480,7 +480,8 @@
         return nil;
     }
     
-    INPUT_BTC* pInputs = (INPUT_BTC*)malloc(iCnt);
+    INPUT_BTC* pInputs = (INPUT_BTC*)malloc(sizeof(INPUT_BTC)*iCnt+1);
+    memset(pInputs, 0x00, sizeof(INPUT_BTC)*iCnt+1);
     for (NSUInteger i=0; i < inputArray.count; ++i) {
         InputBTC* input = inputArray[i];
         pInputs[i].preHash = (JUB_CHAR_PTR)[input.preHash UTF8String];
@@ -499,7 +500,8 @@
             break;
         }
     }
-    OUTPUT_BTC* pOutputs = (OUTPUT_BTC*)malloc(oCnt);
+    OUTPUT_BTC* pOutputs = (OUTPUT_BTC*)malloc(sizeof(OUTPUT_BTC)*oCnt+1);
+    memset(pOutputs, 0x00, sizeof(OUTPUT_BTC)*oCnt+1);
     for (NSUInteger i=0; i < outputArray.count; ++i) {
 //        if ([output isKindOfClass:[OutputP2pkh class]]) {
 //            pOutputs[i].type = P2PKH;
@@ -592,17 +594,27 @@
         }
     }
     if (JUBR_OK != _lastError) {
-        free(pInputs); pInputs = nil;
-        free(pOutputs); pOutputs = nil;
+        if (nullptr != pInputs) {
+            free(pInputs); pInputs = nullptr;
+        }
+        if (nullptr != pOutputs) {
+            free(pOutputs); pOutputs = nullptr;
+        }
         return nil;
     }
     
-    JUB_CHAR_PTR raw = nil;
+    JUB_CHAR_PTR raw = nullptr;
     JUB_RV rv = JUB_SignTransactionBTC(contextID,
                                        pInputs, iCnt,
                                        pOutputs, oCnt,
                                        (JUB_UINT32)lockTime,
                                        &raw);
+    if (nullptr != pInputs) {
+        free(pInputs); pInputs = nullptr;
+    }
+    if (nullptr != pOutputs) {
+        free(pOutputs); pOutputs = nullptr;
+    }
     if (JUBR_OK != rv) {
         _lastError = rv;
         return nil;
@@ -668,7 +680,7 @@
         break;
     }
     p.addressIndex = path.addressIndex;
-    JUB_CHAR_PTR xpub = nil;
+    JUB_CHAR_PTR xpub = nullptr;
     JUB_RV rv = JUB_GetHDNodeBTC(contextID,
                                  p,
                                  &xpub);
@@ -690,7 +702,7 @@
 {
     _lastError = JUBR_OK;
     
-    JUB_CHAR_PTR xpub = nil;
+    JUB_CHAR_PTR xpub = nullptr;
     JUB_RV rv = JUB_GetMainHDNodeBTC(contextID,
                                      &xpub);
     if (JUBR_OK != rv) {
@@ -740,7 +752,7 @@
         isShow = BOOL_NR_ITEMS;
         break;
     }
-    JUB_CHAR_PTR address = nil;
+    JUB_CHAR_PTR address = nullptr;
     JUB_RV rv = JUB_GetAddressBTC(contextID,
                                   bip32Path,
                                   isShow,
@@ -778,7 +790,7 @@
         break;
     }
     bip32Path.addressIndex = path.addressIndex;
-    JUB_CHAR_PTR address = nil;
+    JUB_CHAR_PTR address = nullptr;
     JUB_RV rv = JUB_SetMyAddressBTC(contextID,
                                     bip32Path,
                                     &address);
@@ -904,7 +916,7 @@
         break;
     }
     bip32Path.addressIndex = path.addressIndex;
-    JUB_CHAR_PTR pubkey = nil;
+    JUB_CHAR_PTR pubkey = nullptr;
     JUB_RV rv = JUB_GetHDNodeETH(contextID,
                                  fmt,
                                  bip32Path,
@@ -941,7 +953,7 @@
         _lastError = JUBR_ARGUMENTS_BAD;
         return nil;
     }
-    JUB_CHAR_PTR xpub = nil;
+    JUB_CHAR_PTR xpub = nullptr;
     JUB_RV rv = JUB_GetMainHDNodeETH(contextID,
                                      fmt,
                                      &xpub);
@@ -1027,7 +1039,7 @@
         break;
     }
     bip32Path.addressIndex = path.addressIndex;
-    JUB_CHAR_PTR raw = nil;
+    JUB_CHAR_PTR raw = nullptr;
     JUB_RV rv = JUB_SignTransactionETH(contextID,
                                        bip32Path,
                                        (JUB_UINT32)nonce,
@@ -1058,7 +1070,7 @@
 {
     _lastError = JUBR_OK;
     
-    JUB_CHAR_PTR abi = nil;
+    JUB_CHAR_PTR abi = nullptr;
     JUB_RV rv = JUB_BuildERC20AbiETH(contextID,
                                      (JUB_CHAR_PTR)[tokenTo UTF8String],
                                      (JUB_CHAR_PTR)[tokenValue UTF8String],
@@ -1136,7 +1148,7 @@
 {
     _lastError = JUBR_OK;
     
-    JUB_CHAR_PTR appList = nil;
+    JUB_CHAR_PTR appList = nullptr;
     JUB_RV rv = JUB_EnumApplets(deviceID,
                                 &appList);
     if (JUBR_OK != rv) {
@@ -1157,7 +1169,7 @@
 {
     _lastError = JUBR_OK;
     
-    JUB_CHAR_PTR coinList = nil;
+    JUB_CHAR_PTR coinList = nullptr;
     JUB_RV rv = Jub_EnumSupportCoins(deviceID,
                                      &coinList);
     if (JUBR_OK != rv) {
@@ -1180,7 +1192,7 @@
 {
     _lastError = JUBR_OK;
     
-    JUB_CHAR_PTR version = nil;
+    JUB_CHAR_PTR version = nullptr;
     JUB_RV rv = JUB_GetAppletVersion(deviceID,
                                      (JUB_CHAR_PTR)[appID UTF8String],
                                      &version);
