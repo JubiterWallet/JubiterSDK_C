@@ -3,6 +3,7 @@ project(JubSDK VERSION 0.1.0)
 
 set (CMAKE_CXX_STANDARD 11)
 add_subdirectory(src)
+add_subdirectory(trezor-crypto)
 add_subdirectory(test)
 #add_subdirectory(monitor)
 
