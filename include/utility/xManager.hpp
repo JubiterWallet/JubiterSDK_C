@@ -2,7 +2,8 @@
 #ifndef __xManager__
 #define __xManager__
 
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
+
 #include <map>
 
 template <class T>

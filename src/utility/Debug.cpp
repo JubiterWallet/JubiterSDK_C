@@ -7,7 +7,7 @@
 #include <vector>
 #include <mutex>
 
-#include <utility/Debug.hpp>
+#include "utility/Debug.hpp"
 
 namespace jub {
 

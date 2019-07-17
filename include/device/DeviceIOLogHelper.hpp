@@ -1,8 +1,9 @@
 #ifndef __DeviceIOLogHelper__
 #define __DeviceIOLogHelper__
 
-#include <JUB_SDK.h>
-#include <utility/uchar_vector.h>
+#include "JUB_SDK.h"
+
+#include "mSIGNA/stdutils/uchar_vector.h"
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
@@ -34,6 +35,10 @@ public:
         _pulRetDataLen = pulRetDataLen;
     }
     ~DeviceIOLogHelper() {
+        if (nullptr == _pulRetDataLen) {
+            return ;
+        }
+
         JUB_UINT16 wRet = _retData[*_pulRetDataLen - 2] * 0x100 + _retData[*_pulRetDataLen - 1];
         auto style = Green ;
         if (0x9000 != wRet) {

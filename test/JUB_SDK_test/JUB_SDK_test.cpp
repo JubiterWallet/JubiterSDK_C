@@ -888,7 +888,7 @@ void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     }
 }
 
-void ETH_test() {
+void ETH_test(const char* json_file) {
 
     JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
     JUB_ListDeviceHid(deviceIDs);
@@ -908,7 +908,7 @@ void ETH_test() {
 
     Json::CharReaderBuilder builder;
     Json::Value root;
-    ifstream in("testETH.json", ios::binary);
+    ifstream in(json_file, ios::binary);
     if (!in.is_open()) {
         error_exit("Error opening json file\n");
     }
@@ -1080,7 +1080,7 @@ void main_test() {
             USDT_test("json/testUSDT.json");
             break;
         case 8:
-            ETH_test();
+            ETH_test("json/testETH.json");
             break;
         case 99:
             getVersion();

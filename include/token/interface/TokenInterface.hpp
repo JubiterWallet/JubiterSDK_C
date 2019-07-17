@@ -1,10 +1,13 @@
 #ifndef __TokenInterface__
 #define __TokenInterface__
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
+
 #include <string>
 #include <vector>
-#include <utility/Singleton.h>
-#include <utility/xManager.hpp>
+
+#include "utility/Singleton.h"
+#include "utility/xManager.hpp"
+
 #include "BTCTokenInterface.hpp"
 #include "ETHTokenInterface.hpp"
 

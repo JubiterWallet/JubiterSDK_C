@@ -1,4 +1,4 @@
-#include <token/JubiterBLDImpl.h>
+#include "token/JubiterBLDImpl.h"
 
 namespace jub {
 
@@ -200,7 +200,7 @@ JUB_RV JubiterBLDImpl::SignTXBTC(JUB_BTC_TRANS_TYPE type,
     }
 
     JUB_UINT16 totalReadLen = ReadBE16(retData);
-    DataChunk sigRawTx(totalReadLen, 0x00);
+    abcd::DataChunk sigRawTx(totalReadLen, 0x00);
 
     constexpr JUB_UINT16 kReadOnceLen = 256;
     apdu.le = kReadOnceLen;

@@ -1,7 +1,8 @@
 #ifndef __BTCTokenInterface__
 #define __BTCTokenInterface__
 
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
+
 #include <vector>
 
 namespace jub {

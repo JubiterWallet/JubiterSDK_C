@@ -3,11 +3,14 @@
 #ifndef __libBTC__
 #define __libBTC__
 
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
+
 #include <vector>
-#include <bitcoin/base58.h>
-#include <bitcoin/bech32.h>
-#include <machine/opcode.hpp>
+
+#include "airbitz-core/abcd/util/Data.hpp"
+#include "bitcoin/base58.h"
+#include "bitcoin/bech32.h"
+#include "machine/opcode.hpp"
 
 namespace jub {
 
@@ -26,10 +29,8 @@ constexpr JUB_BYTE p2pkhVersion_LTC = 0x30;
 
 constexpr char segwit_hrl[] = "bc";
 
-typedef std::vector<uint8_t> Bech32Data;
-
 template<int frombits, int tobits, bool pad>
-bool Convertbits(Bech32Data& out, const Bech32Data& in) {
+bool Convertbits(abcd::DataChunk& out, const abcd::DataChunk& in) {
 
     int acc = 0;
     int bits = 0;
@@ -61,7 +62,7 @@ bool Convertbits(Bech32Data& out, const Bech32Data& in) {
 
 JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& scriptPub) {
 
-    std::vector<JUB_BYTE> vScriptPub;
+    abcd::DataChunk vScriptPub;
     bool rv = base58::DecodeBase58Check(address, vScriptPub);
     if (rv) {
         if (   p2shVersion     == vScriptPub[0]
@@ -87,12 +88,12 @@ JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& scriptPub) {
         return JUBR_OK;
     }
     else {
-        std::pair<std::string, Bech32Data> dec = bech32::decode(address);
+        std::pair<std::string, abcd::DataChunk> dec = bech32::decode(address);
         if (dec.first != std::string(segwit_hrl)) {
             return JUBR_ERROR;
         }
-        Bech32Data conv;
-        Convertbits<5, 8, false>(conv, Bech32Data(dec.second.begin() + 1, dec.second.end()));
+        abcd::DataChunk conv;
+        Convertbits<5, 8, false>(conv, abcd::DataChunk(dec.second.begin() + 1, dec.second.end()));
 
         if (0x14 == conv.size()) { //p2wpkh
             scriptPub << (JUB_BYTE)0x00;

@@ -1,19 +1,18 @@
-#include <device/JubiterBLEDevice.hpp>
-#include <utility/uchar_vector.h>
-#include <device/DeviceIOLogHelper.hpp>
+#include "device/JubiterBLEDevice.hpp"
+#include "device/DeviceIOLogHelper.hpp"
 
 #ifdef BLE_MODE
 #include <unistd.h>
 #include <sys/time.h>
 
-#include <utility/util.h>
-#include <bleTransmit/bleTransmit.h>
-#include <device/JubiterBLEDevice.hpp>
-#include <device/Fido.h>
-#include <utility/Singleton.h>
+#include "utility/util.h"
+#include "utility/Singleton.h"
+#include "bleTransmit/bleTransmit.h"
+#include "device/JubiterBLEDevice.hpp"
+#include "device/Fido.h"
 
 #ifdef __ANDROID__
-#include <bleTransmit/android/BTManager.h>
+#include "bleTransmit/android/BTManager.h"
 #else
 #include "ErrorCodesAndMacros.h"
 #include "BLEInterface.h"

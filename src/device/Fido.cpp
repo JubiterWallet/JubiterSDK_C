@@ -2,16 +2,17 @@
 // Created by zhaojifeng on 2018/4/17.
 //
 
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
 
 #ifdef BLE_MODE
 
 #include <unistd.h>
 #include <mutex>
 
-#include <bleTransmit/bleTransmit.h>
-#include <device/Fido.h>
-#include <utility/Debug.hpp>
+#include "utility/Debug.hpp"
+
+#include "bleTransmit/bleTransmit.h"
+#include "device/Fido.h"
 
 #define __PASTE(x, y)                           x##y
 #define ADDPRE(name)                           __PASTE(FT_, name)

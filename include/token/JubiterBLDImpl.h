@@ -1,19 +1,21 @@
 #ifndef __HardwareTokenImpl__
 #define __HardwareTokenImpl__
 
-#include <JUB_SDK.h>
-#include <token/interface/TokenInterface.hpp>
-#include <device/ApduBuilder.hpp>
-#include <device/JubiterHidDevice.hpp>
+#include "JUB_SDK.h"
 #include <memory>
-#include <utility/util.h>
-#include <utility/uchar_vector.h>
+
+#include "mSIGNA/stdutils/uchar_vector.h"
+#include "utility/util.h"
+
+#include "token/interface/TokenInterface.hpp"
+#include "device/ApduBuilder.hpp"
+#include "device/JubiterHidDevice.hpp"
 
 #ifdef HID_MODE // modify later..
-#include <device/JubiterHidDevice.hpp>
+#include "device/JubiterHidDevice.hpp"
 using DeviceType = jub::JubiterHidDevice;
 #else
-#include <device/JubiterBLEDevice.hpp>
+#include "device/JubiterBLEDevice.hpp"
 using DeviceType = jub::JubiterBLEDevice;
 #endif
 
@@ -24,7 +26,7 @@ constexpr JUB_BYTE kPKIAID_FIDO[8] = {
 };
 
 typedef struct _stAppInfos_ {
-    DataChunk appID;
+    abcd::DataChunk appID;
     std::string coinName;
     std::string minimumAppletVersion;
 } stAppInfos;
@@ -109,7 +111,7 @@ private:
     JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
                       JUB_BYTE length);
 
-    JUB_RV _TranPack(const DataSlice &apduData,
+    JUB_RV _TranPack(const abcd::DataSlice &apduData,
                      JUB_BYTE sigType,
                      JUB_ULONG ulSendOnceLen,
                      int finalData = false,
