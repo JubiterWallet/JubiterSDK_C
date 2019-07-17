@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		672C95D822DECCF40073AB0D /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C95D722DECCF40073AB0D /* libJubSDK.a */; };
+		672C95DA22DECD040073AB0D /* libFTTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C95D922DECD040073AB0D /* libFTTransmission.a */; };
 		674E80B622BE2EE6009332EB /* JubSDKCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 674E80B522BE2EE6009332EB /* JubSDKCore.mm */; };
 		674E810122C0A2B3009332EB /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 674E80B422BE2EE6009332EB /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		674E810322C0A2BB009332EB /* JubSDKCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 674E80B522BE2EE6009332EB /* JubSDKCore.mm */; };
-		674E810D22C0A3AB009332EB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 674E810B22C0A3AB009332EB /* Info.plist */; };
-		67C3664B22D5D62400D32EFA /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C3664A22D5D62400D32EFA /* libJubSDK.a */; };
-		67C88A8C22D59855000623FB /* libFTTransmission_190710.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C88A8B22D59855000623FB /* libFTTransmission_190710.a */; };
 		67E6A69E22C33B75009FA2CE /* JubSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E6A69D22C33B75009FA2CE /* JubSDK.h */; };
 /* End PBXBuildFile section */
 
@@ -29,14 +28,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6732D3DF22C2155400FB9A5A /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		672C95D722DECCF40073AB0D /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		672C95D922DECD040073AB0D /* libFTTransmission.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTTransmission.a; path = ../../deps/bleTransmit/ios/libFTTransmission.a; sourceTree = "<group>"; };
 		674E80A422BE2D90009332EB /* libJubSDKCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		674E80B422BE2EE6009332EB /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
 		674E80B522BE2EE6009332EB /* JubSDKCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JubSDKCore.mm; path = ../../JubSDKCore/JubSDKCore.mm; sourceTree = "<group>"; };
 		674E80F922C0A25D009332EB /* JubSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JubSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		674E810B22C0A3AB009332EB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../JubSDK/Info.plist; sourceTree = "<group>"; };
-		67C3664A22D5D62400D32EFA /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		67C88A8B22D59855000623FB /* libFTTransmission_190710.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTTransmission_190710.a; path = ../../deps/bleTransmit/ios/libFTTransmission_190710.a; sourceTree = "<group>"; };
 		67E6A69D22C33B75009FA2CE /* JubSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDK.h; path = ../../JubSDK/JubSDK.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,8 +50,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67C3664B22D5D62400D32EFA /* libJubSDK.a in Frameworks */,
-				67C88A8C22D59855000623FB /* libFTTransmission_190710.a in Frameworks */,
+				672C95DA22DECD040073AB0D /* libFTTransmission.a in Frameworks */,
+				672C95D822DECCF40073AB0D /* libJubSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,9 +89,8 @@
 		674E80BE22BE323A009332EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				67C3664A22D5D62400D32EFA /* libJubSDK.a */,
-				67C88A8B22D59855000623FB /* libFTTransmission_190710.a */,
-				6732D3DF22C2155400FB9A5A /* libJubSDK.a */,
+				672C95D922DECD040073AB0D /* libFTTransmission.a */,
+				672C95D722DECCF40073AB0D /* libJubSDK.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,7 +195,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				674E810D22C0A3AB009332EB /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

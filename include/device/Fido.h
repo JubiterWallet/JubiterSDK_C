@@ -5,12 +5,12 @@
 #ifndef JUBITER_FIDO_FIDO_H
 #define JUBITER_FIDO_FIDO_H
 
+#include "JUB_SDK.h"
+
 #include <vector>
 #include <string>
 #include <mutex>
 #include <condition_variable>
-
-#include <JUB_SDK.h>
 
 // 协议头
 #define CMD_PING        0x81  // ping test cmd header

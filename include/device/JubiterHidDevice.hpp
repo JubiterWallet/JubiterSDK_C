@@ -1,13 +1,14 @@
 #ifndef __JubiterHidDevice__
 #define __JubiterHidDevice__
 
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
 
 #ifdef HID_MODE
 
-#include <hidapi/hidapi/hidapi.h>
-#include <device/DeviceTypeBase.hpp>
 #include <vector>
+
+#include "hidapi/hidapi/hidapi.h"
+#include "device/DeviceTypeBase.hpp"
 
 namespace jub {
 

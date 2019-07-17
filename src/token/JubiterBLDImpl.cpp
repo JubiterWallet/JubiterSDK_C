@@ -1,4 +1,4 @@
-#include <token/JubiterBLDImpl.h>
+#include "token/JubiterBLDImpl.h"
 
 namespace jub {
 
@@ -82,7 +82,7 @@ JUB_RV JubiterBLDImpl::EnumApplet(std::string& appletList) {
         return JUBR_TRANSMIT_DEVICE_ERROR;
     }
 
-    DataChunk tlvData(retData, retData + ulRetDataLen);
+    abcd::DataChunk tlvData(retData, retData + ulRetDataLen);
     auto appList = ParseTlv(tlvData);
 
     for (auto appID : appList) {
@@ -275,7 +275,7 @@ JUB_RV JubiterBLDImpl::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry
     // select app first
     //SWITCH_TO_BTC_APP
 
-    DataChunk pinCoord;
+    abcd::DataChunk pinCoord;
     //auto pinData = buildData({ pin });
 
     std::transform(pinMix.begin(),
@@ -460,7 +460,7 @@ JUB_RV JubiterBLDImpl::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::_TranPack(const DataSlice &apduData, JUB_BYTE sigType, JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
+JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, JUB_BYTE sigType, JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
 
     if (apduData.empty()) {
         return JUBR_ERROR;

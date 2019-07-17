@@ -1,8 +1,9 @@
 #ifndef __DeviceTypeBase__
 #define __DeviceTypeBase__
 
+#include "JUB_SDK.h"
+
 #include <string>
-#include <JUB_SDK.h>
 
 namespace jub {
 

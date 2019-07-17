@@ -3,9 +3,12 @@
 #ifndef __libBCH__
 #define __libBCH__
 
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
+
 #include <vector>
-#include <bitcoinABC/cashaddr.h>
+
+#include "airbitz-core/abcd/util/Data.hpp"
+#include "bitcoinABC/cashaddr.h"
 #include "machine/opcode.hpp"
 
 namespace jub {
@@ -15,13 +18,11 @@ namespace bch {
 constexpr JUB_UINT32 version1 = 0x01;
 constexpr JUB_UINT32 sequence = 0xffffffff;
 
-typedef std::vector<uint8_t> Data;
-
 constexpr JUB_BYTE TypeBitsP2PKH = 0x00;
 constexpr JUB_BYTE TypeBitsP2SH  = 0x08;
 
 template<int frombits, int tobits, bool pad>
-bool convertbits(Data& out, const Data& in) {
+bool convertbits(abcd::DataChunk& out, const abcd::DataChunk& in) {
 
     int acc = 0;
     int bits = 0;
@@ -54,8 +55,8 @@ bool convertbits(Data& out, const Data& in) {
 JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& scriptPub) {
 
     auto pubkeyDataBit5 = cashaddr::Decode(address);
-    Data pubkeyHash;
-    convertbits<5, 8, false>(pubkeyHash, Data(pubkeyDataBit5.second.begin(), pubkeyDataBit5.second.end()));
+    abcd::DataChunk pubkeyHash;
+    convertbits<5, 8, false>(pubkeyHash, abcd::DataChunk(pubkeyDataBit5.second.begin(), pubkeyDataBit5.second.end()));
 
     if (TypeBitsP2PKH == pubkeyHash[0]) { //p2pkh
         scriptPub << libbitcoin::machine::opcode::dup;

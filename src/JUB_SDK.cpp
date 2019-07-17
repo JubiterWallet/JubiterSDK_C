@@ -1,18 +1,20 @@
 #include "JUB_SDK.h"
 
 #include <set>
-#include <algorithm>
-#include <utility/util.h>
-#include <token/interface/TokenInterface.hpp>
-#include <context/ContextBTC.h>
-#include <context/ContextETH.h>
-#include <context/Context.h>
-#include <token/JubiterBLDImpl.h>
-#include <utility/Singleton.h>
-#include <device/JubiterBLEDevice.hpp>
 #include <string.h>
+#include <algorithm>
+
+#include "utility/util.h"
+#include "utility/Singleton.h"
+
+#include "context/ContextBTC.h"
+#include "context/ContextETH.h"
+#include "context/Context.h"
+#include "device/JubiterBLEDevice.hpp"
+#include "token/interface/TokenInterface.hpp"
+#include "token/JubiterBLDImpl.h"
 #ifdef __ANDROID__
-#include <utils/logUtils.h>
+#include "utils/logUtils.h"
 #endif
 
 static std::set<JUB_CHAR_CPTR> memPtrs;

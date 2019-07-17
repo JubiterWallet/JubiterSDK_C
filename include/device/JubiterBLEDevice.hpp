@@ -1,12 +1,13 @@
 #ifndef __JubiterBLEDevice__
 #define __JubiterBLEDevice__
 
-#include <device/DeviceTypeBase.hpp>
+#include "device/DeviceTypeBase.hpp"
 
 #ifdef BLE_MODE
 
 #include <memory>
-#include <bleTransmit/bleTransmit.h>
+
+#include "bleTransmit/bleTransmit.h"
 
 namespace jub {
 

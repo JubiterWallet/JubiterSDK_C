@@ -2,12 +2,14 @@
 #ifndef __Context__
 #define __Context__
 
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
-#include <utility/Singleton.h>
-#include <utility/xManager.hpp>
+
+#include "utility/Singleton.h"
+#include "utility/xManager.hpp"
 
 namespace jub {
 

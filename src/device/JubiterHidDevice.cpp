@@ -1,4 +1,4 @@
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
 
 #ifdef HID_MODE
 
@@ -8,9 +8,9 @@
 #include <unistd.h>
 #endif
 
-#include <device/JubiterHidDevice.hpp>
-#include <utility/util.h>
-#include <device/DeviceIOLogHelper.hpp>
+#include "utility/util.h"
+#include "device/JubiterHidDevice.hpp"
+#include "device/DeviceIOLogHelper.hpp"
 
 namespace jub {
 
