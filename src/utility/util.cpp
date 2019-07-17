@@ -1,3 +1,4 @@
+#include "bigint/BigIntegerLibrary.hh"
 #include "utility/util.h"
 
 namespace jub {
@@ -46,6 +47,19 @@ std::string Join(std::vector<std::string> v, std::string pattern) {
 }
 */
 /*
+ * Decimal string conversion -> Hexadecimal string
+ */
+std::string DecStringToHexString(std::string str) {
+
+    return bigUnsignedToString(stringToBigUnsigned(str.c_str()), 16);
+}
+
+std::string numberToHexString(unsigned int val) {
+
+    return bigUnsignedToString(val, 16);
+}
+
+/*
  * char array<uint8_t, 32> -> Hexadecimal string conversion
  *//*
 std::string CharArray2HexStr(std::array<uint8_t, 32> v) {
@@ -83,8 +97,8 @@ std::array<uint8_t, 32> HexStr2CharArray(std::string str) {
     }
 
     return v;
-}*/
-
+}
+*/
 /*
  * std::vector<unsigned char> -> Hexadecimal string conversion
 *//*
@@ -133,19 +147,6 @@ std::vector<unsigned char> HexStr2CharPtr(std::string str) {
 }
 
 /*
- * Decimal string conversion -> Hexadecimal string
- */
-std::string DecStringToHexString(std::string str) {
-
-    return bigUnsignedToString(stringToBigUnsigned(str.c_str()), 16);
-}
-
-std::string numberToHexString(unsigned int val) {
-
-    return bigUnsignedToString(val, 16);
-}
-
-/*
  * std::vector<unsigned char> -> Hexadecimal string conversion
  *//*
 std::string ETHCharPtr2HexStr(std::vector<unsigned char> v) {
@@ -154,6 +155,7 @@ std::string ETHCharPtr2HexStr(std::vector<unsigned char> v) {
     str += CharPtr2HexStr(v);
     return str;
 }*/
+
 /*
  * Hexadecimal string conversion -> std::vector<unsigned char>
  */
@@ -171,39 +173,6 @@ std::vector<unsigned char> ETHHexStr2CharPtr(std::string str) {
     return HexStr2CharPtr(_str);
 }
 
-/*
- * Dictionary order
-*//*
-std::vector<char*> SortLexicographically(std::vector<char*> v) {
-
-	std::sort(v.begin(), v.end(), [](char* a, char* b) {
-		return strcmp(a, b) < 0;
-	});
-
-	return v;
-}
-
-std::vector<std::string> SortLexicographically(std::vector<std::string> v) {
-
-	std::sort(v.begin(), v.end(), [](std::string a, std::string b) {
-		return strcmp(a.c_str(), b.c_str()) < 0;
-	});
-
-	return v;
-}
-*/
-/*
-// flip
-void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen) {
-
-	unsigned char tmp = 0;
-	for (unsigned long i = 0; i < ulBufferLen/2; ++i) {
-		tmp = pBuffer[i];
-		pBuffer[i] = pBuffer[ulBufferLen - i - 1];
-		pBuffer[ulBufferLen - i - 1] = tmp;
-	}
-}
-*/
 /*
 // Put an array of strings into a vector
 std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]) {

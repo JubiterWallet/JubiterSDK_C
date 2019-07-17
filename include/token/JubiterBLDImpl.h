@@ -4,7 +4,6 @@
 #include "JUB_SDK.h"
 #include <memory>
 
-#include "mSIGNA/stdutils/uchar_vector.h"
 #include "utility/util.h"
 
 #include "token/interface/TokenInterface.hpp"
