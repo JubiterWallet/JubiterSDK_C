@@ -1,7 +1,7 @@
 #ifndef __HardwareTokenImpl__
 #define __HardwareTokenImpl__
 
-#include "JUB_SDK.h"
+#include "JUB_SDK_DEV_BLE.h"
 #include <memory>
 
 #include "utility/util.h"

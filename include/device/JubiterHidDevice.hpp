@@ -1,7 +1,7 @@
 #ifndef __JubiterHidDevice__
 #define __JubiterHidDevice__
 
-#include "JUB_SDK.h"
+#include "JUB_SDK_DEV.h"
 
 #ifdef HID_MODE
 

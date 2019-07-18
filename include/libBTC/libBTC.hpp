@@ -3,7 +3,7 @@
 #ifndef __libBTC__
 #define __libBTC__
 
-#include "JUB_SDK.h"
+#include "JUB_SDK_BTC.h"
 
 #include <vector>
 
