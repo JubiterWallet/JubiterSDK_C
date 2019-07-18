@@ -31,54 +31,10 @@ std::string GetErrMsg(JUB_RV rv) {
         case JUBR_ARGUMENTS_BAD:            { errMsg = "JUBR_ARGUMENTS_BAD"; break; }
         case JUBR_IMPL_NOT_SUPPORT:         { errMsg = "JUBR_IMPL_NOT_SUPPORT"; break; }
         case JUBR_MEMORY_NULL_PTR:          { errMsg = "JUBR_MEMORY_NULL_PTR"; break; }
-        case JUBR_DATABASE_ERROR:           { errMsg = "JUBR_DATABASE_ERROR"; break; }
-        case JUBR_DATABASE_EMPTY:           { errMsg = "JUBR_DATABASE_EMPTY"; break; }
         case JUBR_INVALID_MEMORY_PTR:       { errMsg = "JUBR_INVALID_MEMORY_PTR"; break; }
         case JUBR_REPEAT_MEMORY_PTR:        { errMsg = "JUBR_REPEAT_MEMORY_PTR"; break; }
         case JUBR_BUFFER_TOO_SMALL:         { errMsg = "JUBR_BUFFER_TOO_SMALL"; break; }
 
-        case JUBR_COIN_TYPE_ALREADY_EXIST:  { errMsg = "JUBR_COIN_TYPE_ALREADY_EXIST"; break; }
-        case JUBR_COIN_TYPE_NOT_EXIST:      { errMsg = "JUBR_COIN_TYPE_NOT_EXIST"; break; }
-        case JUBR_ADD_COIN_TYPE_ERROR:      { errMsg = "JUBR_ADD_COIN_TYPE_ERROR"; break; }
-        case JUBR_UNKNOWN_COIN_TYPE:        { errMsg = "JUBR_UNKNOWN_COIN_TYPE"; break; }
-
-        case JUBR_WALLET_ALREADY_EXIST:     { errMsg = "JUBR_WALLET_ALREADY_EXIST"; break; }
-        case JUBR_CREATE_WALLET_ERROR:      { errMsg = "JUBR_CREATE_WALLET_ERROR"; break; }
-        case JUBR_WALLET_NOT_EXIST:         { errMsg = "JUBR_WALLET_NOT_EXIST"; break; }
-        case JUBR_WALLET_LOADED:            { errMsg = "JUBR_WALLET_LOADED"; break; }
-        case JUBR_WALLET_NOT_LOAD:          { errMsg = "JUBR_WALLET_NOT_LOAD"; break; }
-        case JUBR_WALLETS_EMPTY:            { errMsg = "JUBR_WALLETS_EMPTY"; break; }
-
-        case JUBR_INVALID_BIP_PATH:         { errMsg = "JUBR_INVALID_BIP_PATH"; break; }
-        case JUBR_INVALID_MNEMONIC:         { errMsg = "JUBR_INVALID_MNEMONIC"; break; }
-        case JUBR_INVALID_ADDRESS:          { errMsg = "JUBR_INVALID_ADDRESS"; break; }
-        case JUBR_INSUFFICIENT_COINS:       { errMsg = "JUBR_INSUFFICIENT_COINS"; break; }
-        case JUBR_TOO_MANY_INPUTS:          { errMsg = "JUBR_TOO_MANY_INPUTS"; break; }
-        case JUBR_NOT_SUPPORT_INPUTS:       { errMsg = "JUBR_NOT_SUPPORT_INPUTS"; break; }
-        case JUBR_INVAIDE_TRANSACTION:      { errMsg = "JUBR_INVAIDE_TRANSACTION"; break; }
-        case JUBR_NO_REDEEMSCRIPT:          { errMsg = "JUBR_NO_REDEEMSCRIPT"; break; }
-
-        case JUBR_VERIFY_PIN_ERROR:         { errMsg = "JUBR_VERIFY_PIN_ERROR"; break; }
-        case JUBR_CHANGE_PIN_ERROR:         { errMsg = "JUBR_CHANGE_PIN_ERROR"; break; }
-        case JUBR_PIN_NOT_SET:              { errMsg = "JUBR_PIN_NOT_SET"; break; }
-
-        case JUBR_INIT_DEVICE_LIB_ERROR:    { errMsg = "JUBR_INIT_DEVICE_LIB_ERROR"; break; }
-        case JUBR_CONNECT_DEVICE_ERROR:     { errMsg = "JUBR_CONNECT_DEVICE_ERROR"; break; }
-        case JUBR_TRANSMIT_DEVICE_ERROR:    { errMsg = "JUBR_TRANSMIT_DEVICE_ERROR"; break; }
-        case JUBR_NOT_CONNECT_DEVICE:       { errMsg = "JUBR_NOT_CONNECT_DEVICE"; break; }
-        case JUBR_DEVICE_PIN_ERROR:         { errMsg = "JUBR_DEVICE_PIN_ERROR"; break; }
-        case JUBR_USER_CANCEL:              { errMsg = "JUBR_USER_CANCEL"; break; }
-        case JUBR_ERROR_ARGS:               { errMsg = "JUBR_ERROR_ARGS"; break; }
-        case JUBR_PIN_LOCKED:               { errMsg = "JUBR_PIN_LOCKED"; break; }
-
-        case JUBR_ACCT_SYNC_DATA_FINISH:    { errMsg = "JUBR_ACCT_SYNC_DATA_FINISH"; break; }
-
-        case JUBR_DEVICE_BUSY:              { errMsg = "JUBR_DEVICE_BUSY"; break; }
-        case JUBR_TRANSACT_TIMEOUT:         { errMsg = "JUBR_TRANSACT_TIMEOUT"; break; }
-        case JUBR_OTHER_ERROR:              { errMsg = "JUBR_OTHER_ERROR"; break; }
-        case JUBR_CMD_ERROR:                { errMsg = "JUBR_CMD_ERROR"; break; }
-        case JUBR_BT_BOND_FAILED:           { errMsg = "JUBR_BT_BOND_FAILED"; break; }
-        case JUBR_CUSTOM_DEFINED:           { errMsg = "JUBR_CUSTOM_DEFINED"; break; }
         default:                            { errMsg = "UNKNOWN ERROR."; break; }
     }
 

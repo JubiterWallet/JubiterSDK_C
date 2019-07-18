@@ -129,6 +129,7 @@ typedef JUB_VOID_PTR JUB_PTR JUB_VOID_PTR_PTR;
 typedef JUB_ULONG JUB_RV;
 
 #include "JUB_SDK_COMM.h"
+#include "JUB_SDK_DEV.h"
 #ifdef BLE_MODE
 #include "JUB_SDK_DEV_BLE.h"
 #else
