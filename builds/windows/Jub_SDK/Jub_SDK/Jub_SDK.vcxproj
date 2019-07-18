@@ -186,6 +186,11 @@
     <ClInclude Include="..\..\..\..\include\device\Fido.h" />
     <ClInclude Include="..\..\..\..\include\device\JubiterHidDevice.hpp" />
     <ClInclude Include="..\..\..\..\include\JUB_SDK.h" />
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_BTC.h" />
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_DEV.h" />
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_DEV_BLE.h" />
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_DEV_HID.h" />
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_ETH.h" />
     <ClInclude Include="..\..\..\..\include\libBCH\libBCH.hpp" />
     <ClInclude Include="..\..\..\..\include\libBTC\libBTC.hpp" />
     <ClInclude Include="..\..\..\..\include\libETH\ERC20Abi.h" />
@@ -225,6 +230,11 @@
     <ClCompile Include="..\..\..\..\src\device\Fido.cpp" />
     <ClCompile Include="..\..\..\..\src\device\JubiterHidDevice.cpp" />
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp" />
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_BTC.cpp" />
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_DEV.cpp" />
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_DEV_BLE.cpp" />
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_DEV_HID.cpp" />
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_ETH.cpp" />
     <ClCompile Include="..\..\..\..\src\libETH\ERC20Abi.cpp" />
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImpl.cpp" />
     <ClCompile Include="..\..\..\..\src\token\JubiterBLDImplBTC.cpp" />
