@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #endif
 
-#include "../../include/JUB_SDK.h"
+#include "../../include/JUB_core.h"
 #include <vector>
 #include <iostream>
 #include <json/json.h>
@@ -1112,8 +1112,45 @@ void monitor_test() {
     }
 }
 
+void software_test(){
+    JUB_CHAR_PTR mnemonic = nullptr;
+    
+    JUB_RV rv = JUB_GenerateMnemonic(STRENGTH128,&mnemonic);
+    if(rv == JUBR_OK){
+        
+        cout << mnemonic << endl;
+    }
+}
+
 int main() {
-    //monitor_test();
-    main_test();
+    
+    while(true){
+            cout << "--------------------------------------" << endl;
+            cout << "|******* Jubiter Wallet Test ********|" << endl;
+            cout << "|  1. hardware_test.                 |" << endl;
+            cout << "|  2. software_test.                 |" << endl;
+            cout << "|  0. exit.                          |" << endl;
+            cout << "--------------------------------------" << endl;
+            cout << "* Please enter your choice:" << endl;
+
+
+        int choice = 0;
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                main_test();
+                break;
+            case 2:
+                software_test();
+                break;
+            case 0:
+                exit(0);
+            default:
+                continue;
+        }
+    }
+    
+    
+
     return 0;
 }

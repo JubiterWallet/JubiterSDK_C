@@ -17,6 +17,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bitcoin)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bitcoinABC)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/libbitcoin)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
 
 
 ADD_LIBRARY(JUB_SDK STATIC ${SRC_LIST})
