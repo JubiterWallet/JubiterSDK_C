@@ -8,12 +8,10 @@
 
 #include "JUB_SDK_DEV_HID.h"
 
-
 #include "utility/util.h"
 
 #include "device/JubiterHidDevice.hpp"
 #include "token/JubiterBLDImpl.h"
-
 /*****************************************************************************
  * @function name : JUB_ListDeviceHid
  * @in  param :
