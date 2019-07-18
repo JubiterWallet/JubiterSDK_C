@@ -2,7 +2,7 @@
 #ifndef __ContextETH__
 #define __ContextETH__
 
-#include "JUB_SDK.h"
+#include "JUB_SDK_ETH.h"
 
 #include <string>
 #include <vector>
@@ -19,7 +19,7 @@ do {                                                                \
     const std::type_info& tCtx = typeid(*context);                  \
     const std::type_info& tCtxETH = typeid(jub::ContextETH);        \
     if (tCtx.hash_code() != tCtxETH.hash_code()) {                  \
-        return JUBR_ERROR_ARGS;                                     \
+        return JUBR_ARGUMENTS_BAD;                                  \
     }                                                               \
 } while(0)
 

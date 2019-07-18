@@ -2,9 +2,9 @@
 #define __JubiterBLEDevice__
 
 #include "device/DeviceTypeBase.hpp"
+#include "JUB_SDK_DEV.h"
 
 #ifdef BLE_MODE
-
 #include <memory>
 
 #include "bleTransmit/bleTransmit.h"

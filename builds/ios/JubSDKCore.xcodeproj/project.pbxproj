@@ -9,6 +9,21 @@
 /* Begin PBXBuildFile section */
 		672C95D822DECCF40073AB0D /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C95D722DECCF40073AB0D /* libJubSDK.a */; };
 		672C95DA22DECD040073AB0D /* libFTTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C95D922DECD040073AB0D /* libFTTransmission.a */; };
+		672C95DD22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95DB22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		672C95DE22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95DC22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm */; };
+		672C95DF22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95DC22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm */; };
+		672C95E722DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95E522DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		672C95E822DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95E622DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm */; };
+		672C95E922DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95E622DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm */; };
+		672C95EC22DF223E0073AB0D /* JubSDKCore+DEV_HID.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95EA22DF223E0073AB0D /* JubSDKCore+DEV_HID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		672C95ED22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95EB22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm */; };
+		672C95EE22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95EB22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm */; };
+		672C95F122DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95EF22DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		672C95F222DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95F022DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm */; };
+		672C95F322DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95F022DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm */; };
+		672C95F622DF25930073AB0D /* JubSDKCore+DEV.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95F422DF25930073AB0D /* JubSDKCore+DEV.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		672C95F722DF25930073AB0D /* JubSDKCore+DEV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95F522DF25930073AB0D /* JubSDKCore+DEV.mm */; };
+		672C95F822DF25930073AB0D /* JubSDKCore+DEV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95F522DF25930073AB0D /* JubSDKCore+DEV.mm */; };
 		674E80B622BE2EE6009332EB /* JubSDKCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 674E80B522BE2EE6009332EB /* JubSDKCore.mm */; };
 		674E810122C0A2B3009332EB /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 674E80B422BE2EE6009332EB /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		674E810322C0A2BB009332EB /* JubSDKCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 674E80B522BE2EE6009332EB /* JubSDKCore.mm */; };
@@ -30,6 +45,16 @@
 /* Begin PBXFileReference section */
 		672C95D722DECCF40073AB0D /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		672C95D922DECD040073AB0D /* libFTTransmission.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTTransmission.a; path = ../../deps/bleTransmit/ios/libFTTransmission.a; sourceTree = "<group>"; };
+		672C95DB22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_BTC.h"; path = "../../JubSDKCore/JubSDKCore+COIN_BTC.h"; sourceTree = "<group>"; };
+		672C95DC22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_BTC.mm"; path = "../../JubSDKCore/JubSDKCore+COIN_BTC.mm"; sourceTree = "<group>"; };
+		672C95E522DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_ETH.h"; path = "../../JubSDKCore/JubSDKCore+COIN_ETH.h"; sourceTree = "<group>"; };
+		672C95E622DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_ETH.mm"; path = "../../JubSDKCore/JubSDKCore+COIN_ETH.mm"; sourceTree = "<group>"; };
+		672C95EA22DF223E0073AB0D /* JubSDKCore+DEV_HID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV_HID.h"; path = "../../JubSDKCore/JubSDKCore+DEV_HID.h"; sourceTree = "<group>"; };
+		672C95EB22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV_HID.mm"; path = "../../JubSDKCore/JubSDKCore+DEV_HID.mm"; sourceTree = "<group>"; };
+		672C95EF22DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV_BLE.h"; path = "../../JubSDKCore/JubSDKCore+DEV_BLE.h"; sourceTree = "<group>"; };
+		672C95F022DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV_BLE.mm"; path = "../../JubSDKCore/JubSDKCore+DEV_BLE.mm"; sourceTree = "<group>"; };
+		672C95F422DF25930073AB0D /* JubSDKCore+DEV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV.h"; path = "../../JubSDKCore/JubSDKCore+DEV.h"; sourceTree = "<group>"; };
+		672C95F522DF25930073AB0D /* JubSDKCore+DEV.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV.mm"; path = "../../JubSDKCore/JubSDKCore+DEV.mm"; sourceTree = "<group>"; };
 		674E80A422BE2D90009332EB /* libJubSDKCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		674E80B422BE2EE6009332EB /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
 		674E80B522BE2EE6009332EB /* JubSDKCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JubSDKCore.mm; path = ../../JubSDKCore/JubSDKCore.mm; sourceTree = "<group>"; };
@@ -82,6 +107,16 @@
 			children = (
 				674E80B422BE2EE6009332EB /* JubSDKCore.h */,
 				674E80B522BE2EE6009332EB /* JubSDKCore.mm */,
+				672C95DB22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h */,
+				672C95DC22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm */,
+				672C95E522DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h */,
+				672C95E622DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm */,
+				672C95F422DF25930073AB0D /* JubSDKCore+DEV.h */,
+				672C95F522DF25930073AB0D /* JubSDKCore+DEV.mm */,
+				672C95EA22DF223E0073AB0D /* JubSDKCore+DEV_HID.h */,
+				672C95EB22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm */,
+				672C95EF22DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h */,
+				672C95F022DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm */,
 			);
 			name = JubSDKCore;
 			sourceTree = "<group>";
@@ -111,7 +146,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				672C95E722DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h in Headers */,
 				674E810122C0A2B3009332EB /* JubSDKCore.h in Headers */,
+				672C95DD22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h in Headers */,
+				672C95F122DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h in Headers */,
+				672C95F622DF25930073AB0D /* JubSDKCore+DEV.h in Headers */,
+				672C95EC22DF223E0073AB0D /* JubSDKCore+DEV_HID.h in Headers */,
 				67E6A69E22C33B75009FA2CE /* JubSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +246,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				674E80B622BE2EE6009332EB /* JubSDKCore.mm in Sources */,
+				672C95F722DF25930073AB0D /* JubSDKCore+DEV.mm in Sources */,
+				672C95F222DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm in Sources */,
+				672C95ED22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm in Sources */,
+				672C95DE22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm in Sources */,
+				672C95E822DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +259,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				674E810322C0A2BB009332EB /* JubSDKCore.mm in Sources */,
+				672C95F822DF25930073AB0D /* JubSDKCore+DEV.mm in Sources */,
+				672C95F322DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm in Sources */,
+				672C95EE22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm in Sources */,
+				672C95DF22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm in Sources */,
+				672C95E922DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -249,6 +249,21 @@
     <ClInclude Include="..\..\..\..\deps\bitcoin\crypto\common.h">
       <Filter>deps\bitcoin\crypto</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_BTC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_DEV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_DEV_BLE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_DEV_HID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\JUB_SDK_ETH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\JUB_SDK.cpp">
@@ -343,6 +358,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\deps\airbitz-core\abcd\util\Data.cpp">
       <Filter>deps\airbitz-core\abcd\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_BTC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_DEV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_DEV_BLE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_DEV_HID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\JUB_SDK_ETH.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
