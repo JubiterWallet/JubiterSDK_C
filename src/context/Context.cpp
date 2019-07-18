@@ -49,7 +49,7 @@ JUB_RV Context::SetTimeout(JUB_UINT16 timeout) {
 
 std::string Context::_FullBip32Path(BIP32_Path path) {
 
-    return _mainPath + "/" + jub::to_string(path.change) + "/" + jub::to_string(path.addressIndex);
+    return _mainPath + "/" + std::to_string(path.change) + "/" + std::to_string(path.addressIndex);
 }
 
 } // namespace jub end

@@ -1,4 +1,3 @@
-#include "mSIGNA/stdutils/uchar_vector.h"
 #include "utility/util.h"
 
 #include "context/ContextBTC.h"

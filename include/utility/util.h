@@ -13,9 +13,8 @@
 #include <iostream>
 #include <cstring>
 #include "compat/endian.h"
-#include "bigint/BigIntegerLibrary.hh"
+#include "mSIGNA/stdutils/uchar_vector.h"
 #include "airbitz-core/abcd/util/Data.hpp"
-#include "bitcoin/crypto/common.h"
 
 namespace jub {
 
@@ -59,6 +58,13 @@ std::vector<std::string> Split(std::string str, std::string pattern);
 std::string Join(std::vector<std::string> v, std::string pattern);
 */
 /*
+ * Decimal string conversion -> Hexadecimal string
+ */
+std::string DecStringToHexString(std::string str);
+
+std::string numberToHexString(unsigned int val);
+
+/*
  * char array<uint8_t, 32> -> Hexadecimal string conversion
  *//*
 std::string CharArray2HexStr(std::array<uint8_t, 32> v);
@@ -78,11 +84,9 @@ std::string CharPtr2HexStr(std::vector<unsigned char> v);
 */
 std::vector<unsigned char> HexStr2CharPtr(std::string str);
 /*
- * Decimal string conversion -> Hexadecimal string
- */
-std::string DecStringToHexString(std::string str);
-
-std::string numberToHexString(unsigned int val);
+// Put an array of strings into a vector
+std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]);
+*/
 
 #define ETH_PRDFIX "0x"
 /*
@@ -94,28 +98,6 @@ std::string ETHCharPtr2HexStr(std::vector<unsigned char> v);
  * Hexadecimal string conversion -> std::vector<unsigned char>
  */
 std::vector<unsigned char> ETHHexStr2CharPtr(std::string str);
-
-/*
-* Dictionary order
-*//*
-std::vector<char*> SortLexicographically(std::vector<char*> v);
-std::vector<std::string> SortLexicographically(std::vector<std::string> v);
-*/
-/*
-// flip
-void InvertBuffer(unsigned char* pBuffer, unsigned long ulBufferLen);
-
-// Put an array of strings into a vector
-std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]);
-*/
-
-template <typename T>
-std::string to_string(T value) {
-
-	std::ostringstream os;
-	os << value;
-	return os.str();
-}
 
 abcd::DataChunk ToTlv(uint8_t tag, const abcd::DataSlice &data);
 abcd::DataChunkList ParseTlv(const abcd::DataSlice &data);

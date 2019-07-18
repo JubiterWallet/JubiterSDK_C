@@ -11,11 +11,6 @@ const size_t kETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT = 32;
 const size_t kETH_METHOD_HASH_SIZE = 4;
 typedef std::array<uint8_t, kETH_METHOD_HASH_SIZE> EthereumContractMethodHash;
 
-struct BinaryData {
-    const unsigned char* data;
-    size_t len;
-}; // struct BinaryData end
-
 struct EthereumContractPayloadStream {
 public:
     EthereumContractPayloadStream()
