@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/compat</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/formats</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories>$(SolutionDir)../../../include;$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/libbitcoin/machine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../../deps;$(SolutionDir)../../../deps/bigint;$(SolutionDir)../../../deps/bitcoin;$(SolutionDir)../../../deps/libbitcoin;$(SolutionDir)../../../include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -148,6 +148,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\deps\airbitz-core\abcd\util\Data.hpp" />
     <ClInclude Include="..\..\..\..\deps\bigint\BigInteger.hh" />
     <ClInclude Include="..\..\..\..\deps\bigint\BigIntegerAlgorithms.hh" />
     <ClInclude Include="..\..\..\..\deps\bigint\BigIntegerLibrary.hh" />
@@ -160,8 +161,10 @@
     <ClInclude Include="..\..\..\..\deps\bitcoin\compat\endian.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\base58.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\bech32.h" />
+    <ClInclude Include="..\..\..\..\deps\bitcoin\crypto\common.h" />
     <ClInclude Include="..\..\..\..\deps\bitcoin\hash.h" />
     <ClInclude Include="..\..\..\..\deps\libbitcoin\machine\opcode.hpp" />
+    <ClInclude Include="..\..\..\..\deps\mSIGNA\stdutils\uchar_vector.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\check_config.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\config.h" />
     <ClInclude Include="..\..\..\..\deps\polarssl\md.h" />
@@ -192,11 +195,11 @@
     <ClInclude Include="..\..\..\..\include\token\JubiterBLDImpl.h" />
     <ClInclude Include="..\..\..\..\include\utility\Apdu.hpp" />
     <ClInclude Include="..\..\..\..\include\utility\Singleton.h" />
-    <ClInclude Include="..\..\..\..\include\utility\uchar_vector.h" />
     <ClInclude Include="..\..\..\..\include\utility\util.h" />
     <ClInclude Include="..\..\..\..\include\utility\xManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\deps\airbitz-core\abcd\util\Data.cpp" />
     <ClCompile Include="..\..\..\..\deps\bigint\BigInteger.cc" />
     <ClCompile Include="..\..\..\..\deps\bigint\BigIntegerAlgorithms.cc" />
     <ClCompile Include="..\..\..\..\deps\bigint\BigIntegerUtils.cc" />
