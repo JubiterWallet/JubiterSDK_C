@@ -1,4 +1,3 @@
-#include "device/JubiterBLEDevice.hpp"
 #include "device/DeviceIOLogHelper.hpp"
 
 #ifdef BLE_MODE
