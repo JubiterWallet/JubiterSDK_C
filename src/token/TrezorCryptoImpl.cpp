@@ -5,13 +5,25 @@
  */
 
 #include "token/TrezorCryptoImpl.h"
+#include "HDKey/HDKey.hpp"
+#include <TrezorCrypto/bip32.h>
+#include <utility/util.h>
 
 namespace jub {
-    
+
 TrezorCryptoImpl::TrezorCryptoImpl(std::string masterkey_XPRV){
-    
+    _MasterKey_XPRV = masterkey_XPRV;
     // chd here
-    return;
+//    HDNode hdkey;
+//    JUB_UINT32 parentFingerprint;
+//    JUB_RV rv = hdnode_ckd(_MasterKey_XPRV,"m/44'/0'/0'/0/0","secp256k1",&hdkey,&parentFingerprint);
+//    
+//    JUB_CHAR xpub[200] = {0};
+//    hdnode_fill_public_key(&hdkey);
+//    hdnode_serialize_public(&hdkey, parentFingerprint, defaultXPUB, xpub, 200);
+//    std::string ff = xpub;
+//    std::cout << std::string(xpub);
+//    return;
 }
     
 JUB_RV TrezorCryptoImpl::ConnectToken() {
@@ -27,6 +39,20 @@ JUB_RV TrezorCryptoImpl::SelectAppletBTC(){
 }
 
 JUB_RV TrezorCryptoImpl::GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub){
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    JUB_VERIFY_RV(hdnode_ckd(_MasterKey_XPRV,path,"secp256k1",&hdkey,&parentFingerprint));
+    
+    JUB_CHAR _xpub[200] = {0};
+    hdnode_fill_public_key(&hdkey);
+    JUB_UINT32 version = bitcoinXPUB;
+    if(type == p2sh_p2wpkh)
+        version = bitcoinYPUB;
+            
+    if(0 == hdnode_serialize_public(&hdkey, parentFingerprint, version, _xpub, 200))
+        return JUBR_ERROR;
+    
+    xpub = std::string(_xpub);
     return JUBR_OK;
 }
 JUB_RV TrezorCryptoImpl::GetAddressBTC(JUB_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 tag, std::string& address){
@@ -57,6 +83,23 @@ JUB_RV TrezorCryptoImpl::GetAddressETH(std::string path, JUB_UINT16 tag, std::st
     return JUBR_OK;
 }
 JUB_RV TrezorCryptoImpl::GetHDNodeETH(JUB_BYTE format,std::string path, std::string& pubkey){
+
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    JUB_VERIFY_RV(hdnode_ckd(_MasterKey_XPRV,path,"secp256k1",&hdkey,&parentFingerprint));
+    
+    hdnode_fill_public_key(&hdkey);
+    if(format == 0x00){//hex
+        uchar_vector pk(hdkey.public_key,hdkey.public_key+33);
+        pubkey = pk.getHex();
+        pubkey = ETH_PRDFIX + pubkey;
+    } else{ //xpub
+        JUB_CHAR _pk[200] = {0};
+        if(0 == hdnode_serialize_public(&hdkey, parentFingerprint, bitcoinXPUB, _pk, 200))
+            return JUBR_ERROR;
+        pubkey = std::string(_pk);
+    }
+
     return JUBR_OK;
 }
 JUB_RV TrezorCryptoImpl::SignTXETH(bool bERC20,

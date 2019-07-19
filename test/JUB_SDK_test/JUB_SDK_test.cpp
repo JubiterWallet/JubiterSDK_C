@@ -1082,7 +1082,7 @@ void software_test(){
     }
     JUB_BYTE seed[64] = {0};
     auto callback = [](JUB_UINT32 current,JUB_UINT32 total) -> void {cout << ".";};
-    rv = JUB_GenerateSeed(mnemonic,"",seed,callback);
+    rv = JUB_GenerateSeed("gauge hole clog property soccer idea cycle stadium utility slice hold chief","",seed,callback);
     if(rv != JUBR_OK){
         cout << "JUB_GenerateSeed error" << endl;
     }
@@ -1093,6 +1093,36 @@ void software_test(){
     if(rv == JUBR_OK){  
         cout << masterXprv << endl;
     }
+    CONTEXT_CONFIG_BTC cfg;
+    cfg.coinType = COINBTC;
+    cfg.mainPath = (JUB_CHAR_PTR)"m/44'/0'/0'";
+    cfg.transType = p2pkh;
+    JUB_UINT16 contextID;
+    rv = JUB_CreateContextBTC_soft(cfg,masterXprv,&contextID);
+    
+    BIP32_Path path;
+    path.change = BOOL_FALSE;
+    path.addressIndex = 0;
+    JUB_CHAR_PTR  xpub = nullptr;
+    rv = JUB_GetHDNodeBTC(contextID,path,&xpub);
+    
+    if(rv == JUBR_OK){  
+        cout << xpub << endl;
+        JUB_FreeMemory(xpub);
+    }
+    CONTEXT_CONFIG_ETH cfgeth;
+    cfgeth.chainID = 0;
+    cfgeth.mainPath = (JUB_CHAR_PTR)"m/44'/60'/0'";
+    rv = JUB_CreateContextETH_soft(cfgeth,masterXprv,&contextID);
+    
+    rv = JUB_GetHDNodeETH(contextID,HEX,path,&xpub);
+    
+    if(rv == JUBR_OK){  
+        cout << xpub << endl;
+        JUB_FreeMemory(xpub);
+    }
+    
+    
     
 }
 

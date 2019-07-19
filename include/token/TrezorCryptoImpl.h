@@ -14,7 +14,8 @@
 #ifndef TREZORCRYPTOIMPL_H
 #define TREZORCRYPTOIMPL_H
 
-#include "token/interface/TokenInterface.hpp"
+#include "token/interface/TokenInterface.hpp" 
+
 
 namespace jub {
     class TrezorCryptoImpl :
@@ -24,7 +25,10 @@ namespace jub {
     {
     public:
         TrezorCryptoImpl(std::string masterkey_XPRV);
-        ~TrezorCryptoImpl();
+        ~TrezorCryptoImpl() = default;
+    private:
+        std::string _MasterKey_XPRV;
+        
 
     public:
         /* functions */

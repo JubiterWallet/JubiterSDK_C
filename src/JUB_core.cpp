@@ -9,14 +9,13 @@
 #include <TrezorCrypto/bip39.h>
 #include <TrezorCrypto/bip32.h>
 #include <utility/util.h>
+#include <HDKey/constant.hpp>
 #include <token/TrezorCryptoImpl.h>
 #include <context/ContextBTC.h>
 #include <context/ContextETH.h>
 #include <token/interface/BTCTokenInterface.hpp>
 
 //where to place...
-#define defaultXPUB 0x0488B21E 
-#define defaultXPRV 0x0488ADE4 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
               
