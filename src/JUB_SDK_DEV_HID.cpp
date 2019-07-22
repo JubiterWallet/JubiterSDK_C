@@ -27,10 +27,12 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
     //deal removed key
     auto vDeviceIDs = jub::TokenManager::GetInstance()->GetHandleList();
     for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
-        auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->GetOne(vDeviceIDs[i]);
-        if (std::end(path_list) == std::find(std::begin(path_list), std::end(path_list), token->getPath())) {
+        auto token = dynamic_cast<jub::JubiterBLDImpl*>(jub::TokenManager::GetInstance()->GetOne(vDeviceIDs[i]));
+        if(token){
+           if (std::end(path_list) == std::find(std::begin(path_list), std::end(path_list), token->getPath())) {
             //removed key
             jub::TokenManager::GetInstance()->ClearOne(vDeviceIDs[i]);
+            }
         }
     }
 
