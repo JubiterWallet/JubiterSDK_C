@@ -1122,6 +1122,12 @@ void software_test(){
         JUB_FreeMemory(xpub);
     }
     
+    JUB_CHAR_PTR  address = nullptr;
+    rv = JUB_GetAddressETH(contextID,path,BOOL_FALSE,&address);
+    if(rv == JUBR_OK){  
+        cout << address << endl;
+        JUB_FreeMemory(address);
+    }
     
     
 }

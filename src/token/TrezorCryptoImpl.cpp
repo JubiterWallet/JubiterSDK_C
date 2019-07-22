@@ -80,7 +80,19 @@ JUB_RV TrezorCryptoImpl::SelectAppletETH(){
     return JUBR_OK;
 }
 JUB_RV TrezorCryptoImpl::GetAddressETH(std::string path, JUB_UINT16 tag, std::string& address){
-    return JUBR_OK;
+    //tag used by hardware,this imp not use.
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    JUB_VERIFY_RV(hdnode_ckd(_MasterKey_XPRV,path,"secp256k1",&hdkey,&parentFingerprint));
+    
+    JUB_BYTE ethKeyHash[20] = {0};
+    if(1 == hdnode_get_ethereum_pubkeyhash(&hdkey,ethKeyHash)){   
+        uchar_vector _address(ethKeyHash,ethKeyHash+20);
+        address = _address.getHex();
+        address = ETH_PRDFIX + address;
+        return JUBR_OK;
+    }
+    return JUBR_ERROR;
 }
 JUB_RV TrezorCryptoImpl::GetHDNodeETH(JUB_BYTE format,std::string path, std::string& pubkey){
 
@@ -88,7 +100,6 @@ JUB_RV TrezorCryptoImpl::GetHDNodeETH(JUB_BYTE format,std::string path, std::str
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_ckd(_MasterKey_XPRV,path,"secp256k1",&hdkey,&parentFingerprint));
     
-    hdnode_fill_public_key(&hdkey);
     if(format == 0x00){//hex
         uchar_vector pk(hdkey.public_key,hdkey.public_key+33);
         pubkey = pk.getHex();

@@ -92,6 +92,7 @@ namespace jub{
             {
                 return JUBR_ARGUMENTS_BAD;
             }
+            hdnode_fill_public_key(&hdkey);
             *node = hdkey;
             return JUBR_OK;
         }
