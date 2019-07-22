@@ -1111,7 +1111,7 @@ void software_test(){
         JUB_FreeMemory(xpub);
     }
     CONTEXT_CONFIG_ETH cfgeth;
-    cfgeth.chainID = 0;
+    cfgeth.chainID = 1;
     cfgeth.mainPath = (JUB_CHAR_PTR)"m/44'/60'/0'";
     rv = JUB_CreateContextETH_soft(cfgeth,masterXprv,&contextID);
     
@@ -1129,6 +1129,41 @@ void software_test(){
         JUB_FreeMemory(address);
     }
     
+//    JUB_UINT16 deviceIDs[MAX_DEVICE] = {0,};
+//    fill_n(deviceIDs, MAX_DEVICE, 0xffff);
+//    rv = JUB_ListDeviceHid(deviceIDs);
+//    
+//    rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+//    
+//    CONTEXT_CONFIG_ETH cfg_eth;
+//    cfg_eth.mainPath = "m/44'/60'/0'";
+//    cfg_eth.chainID = 1;
+//    JUB_UINT16 contextID_hard = 0;
+//    rv = JUB_CreateContextETH(cfg_eth, deviceIDs[0], &contextID_hard);
+//    if (JUBR_OK != rv) {
+//        cout << "JUB_CreateContextETH() return " << GetErrMsg(rv) << endl;
+//        return;
+//    }
+    
+    
+    
+    uint32_t nonce = 5;//.asDouble();
+    uint32_t gasLimit = 21000;//.asDouble();
+    char* gasPriceInWei = "10000000000";
+    char* valueInWei = "500000000000000";
+    char* to = "0xef31DEc147DCDcd64F6a0ABFA7D441B62A216BC9";
+    char* data = "4A75626974657257616C6C6574";
+
+    char* raw = nullptr;
+    rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
+    if (JUBR_OK != rv) {
+        cout << "JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
+        return;
+    }
+    else {
+        cout << "raw : " << raw << endl;
+        JUB_FreeMemory(raw);
+    }
     
 }
 

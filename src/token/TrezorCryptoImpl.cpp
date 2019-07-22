@@ -8,22 +8,13 @@
 #include "HDKey/HDKey.hpp"
 #include <TrezorCrypto/bip32.h>
 #include <utility/util.h>
+#include <libETH/RLP.h>
+#include <TrezorCrypto/sha3.h>
 
 namespace jub {
 
 TrezorCryptoImpl::TrezorCryptoImpl(std::string masterkey_XPRV){
     _MasterKey_XPRV = masterkey_XPRV;
-    // chd here
-//    HDNode hdkey;
-//    JUB_UINT32 parentFingerprint;
-//    JUB_RV rv = hdnode_ckd(_MasterKey_XPRV,"m/44'/0'/0'/0/0","secp256k1",&hdkey,&parentFingerprint);
-//    
-//    JUB_CHAR xpub[200] = {0};
-//    hdnode_fill_public_key(&hdkey);
-//    hdnode_serialize_public(&hdkey, parentFingerprint, defaultXPUB, xpub, 200);
-//    std::string ff = xpub;
-//    std::cout << std::string(xpub);
-//    return;
 }
     
 JUB_RV TrezorCryptoImpl::ConnectToken() {
@@ -123,6 +114,53 @@ JUB_RV TrezorCryptoImpl::SignTXETH(bool bERC20,
                          std::vector<JUB_BYTE> vPath,
                          std::vector<JUB_BYTE> vChainID,
                          std::vector<JUB_BYTE>& vRaw){
+    
+    auto encoded = abcd::DataChunk();
+    abcd::append(encoded, jub::eth::RLP::encode(vNonce));
+    abcd::append(encoded, jub::eth::RLP::encode(vGasPrice));
+    abcd::append(encoded, jub::eth::RLP::encode(vGasLimit));
+    abcd::append(encoded, jub::eth::RLP::encode(vTo));
+    abcd::append(encoded, jub::eth::RLP::encode(vValue));
+    abcd::append(encoded, jub::eth::RLP::encode(vData));
+    abcd::append(encoded, jub::eth::RLP::encode(vChainID));
+    abcd::append(encoded, jub::eth::RLP::encode(abcd::DataChunk{0}));
+    abcd::append(encoded, jub::eth::RLP::encode(abcd::DataChunk{0}));
+    encoded = jub::eth::RLP::encodeList(encoded);
+    
+    uchar_vector rlps = encoded;
+    std::string rlprlp = rlps.getHex();
+    
+    JUB_BYTE digest[32] = {0};
+    keccak_256(&encoded[0],encoded.size(),digest);
+    
+    uchar_vector _digest{digest,digest+32};
+    std::string dd = _digest.getHex();
+    
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    std::string path(&vPath[0],&vPath[0]+vPath.size());
+    JUB_VERIFY_RV(hdnode_ckd(_MasterKey_XPRV,path,"secp256k1",&hdkey,&parentFingerprint));
+    
+    JUB_BYTE sig[64] = {0};
+    JUB_BYTE     by = 0;
+    if(0 != hdnode_sign_digest(&hdkey,digest,sig,&by,nullptr)){
+        return JUBR_ERROR;
+    }
+    abcd::DataChunk r(sig,sig+32);
+    abcd::DataChunk s(sig+32,sig+64);;
+    abcd::DataChunk v(by);
+    
+    abcd::append(vRaw, jub::eth::RLP::encode(vNonce));
+    abcd::append(vRaw, jub::eth::RLP::encode(vGasPrice));
+    abcd::append(vRaw, jub::eth::RLP::encode(vGasLimit));
+    abcd::append(vRaw, jub::eth::RLP::encode(vTo));
+    abcd::append(vRaw, jub::eth::RLP::encode(vValue));
+    abcd::append(vRaw, jub::eth::RLP::encode(vData));
+    abcd::append(vRaw, jub::eth::RLP::encode(v));
+    abcd::append(vRaw, jub::eth::RLP::encode(r));
+    abcd::append(vRaw, jub::eth::RLP::encode(s));
+    vRaw = jub::eth::RLP::encodeList(vRaw);
+    
     return JUBR_OK;
 }
 

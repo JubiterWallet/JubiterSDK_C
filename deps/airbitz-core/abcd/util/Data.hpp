@@ -80,6 +80,12 @@ typedef std::vector<DataChunk> DataChunkList;
 DataChunk
 buildData(std::initializer_list<DataSlice> slices);
 
+inline void append(abcd::DataChunk& data, const abcd::DataChunk& suffix) {
+    data.insert(data.end(), suffix.begin(), suffix.end());
+}
+
 } // namespace abcd
+
+
 
 #endif
