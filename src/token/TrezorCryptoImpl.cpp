@@ -10,6 +10,7 @@
 #include <utility/util.h>
 #include <libETH/RLP.h>
 #include <TrezorCrypto/sha3.h>
+#include <libETH/AddressChecksum.h>
 
 namespace jub {
 
@@ -79,8 +80,7 @@ JUB_RV TrezorCryptoImpl::GetAddressETH(std::string path, JUB_UINT16 tag, std::st
     JUB_BYTE ethKeyHash[20] = {0};
     if(1 == hdnode_get_ethereum_pubkeyhash(&hdkey,ethKeyHash)){   
         uchar_vector _address(ethKeyHash,ethKeyHash+20);
-        address = _address.getHex();
-        address = ETH_PRDFIX + address;
+        address = jub::eth::checksumed(_address.getHex(),jub::eth::eip55);
         return JUBR_OK;
     }
     return JUBR_ERROR;
@@ -132,10 +132,7 @@ JUB_RV TrezorCryptoImpl::SignTXETH(bool bERC20,
     
     JUB_BYTE digest[32] = {0};
     keccak_256(&encoded[0],encoded.size(),digest);
-    
-    uchar_vector _digest{digest,digest+32};
-    std::string dd = _digest.getHex();
-    
+        
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     std::string path(&vPath[0],&vPath[0]+vPath.size());
