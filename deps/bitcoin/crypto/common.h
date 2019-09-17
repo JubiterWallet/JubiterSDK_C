@@ -12,7 +12,11 @@
 #include <stdint.h>
 #include <string.h>
 
+#ifdef _WIN32
 #include <compat/endian.h>
+#else
+#include <panzi/portable_endian.h>
+#endif
 
 uint16_t static inline ReadLE16(const unsigned char* ptr)
 {

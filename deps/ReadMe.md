@@ -8,8 +8,8 @@
 | polarssl | [PolarSSL](https://tls.mbed.org/) | now known as mbed TLS, include cryptographic and SSL/TLS capabilities. |
 | mSIGNA | [uchar_vector.h from mSIGNA stdutils](https://github.com/ciphrex/mSIGNA/blob/master/deps/stdutils/src/uchar_vector.h) | Underlying data structure; JuBiter added some code. |
 | airbitz-core | [Data.hpp/cpp from airbitz-core util](https://github.com/EdgeApp/airbitz-core.git) | Underlying data structure; JuBiter added some code. |
+| panzi | [portable_endian.h](https://gist.github.com/panzi/6856583) | Underlying data structure |
 | bitcoin | [common from Bitcoin Core 0.14.2](https://bitcoindoxygen.art/doge/common_8h_source.html) | Underlying data structure; JuBiter added some code. |
-| | [endian from Bitcoin Core 0.14.2](https://bitcoindoxygen.art/doge/endian_8h_source.html) | Underlying data structure |
 | | [byteswap from Bitcoin Core 0.14.2](https://bitcoindoxygen.art/doge/byteswap_8h_source.html) | Underlying data structure |
 | | hash.h | Bitcoin reference client |
 | | [bitcoin-base58](https://github.com/bitcoin/bitcoin/tree/master/src) | - |
