@@ -35,7 +35,7 @@ extern "C" {
 /// Generates a random mnemonic phrase with the given strength in bits.
 ///
 /// \param strength mnemonic strength in bits. Must be a multiple of 32 between 128 and 256.
-/// \param menmonic [out] mnemonic phrase, must have capacity for 240 bytes.
+/// \param mnemonic [out] mnemonic phrase, must have capacity for 240 bytes.
 /// \returns whether a mnemonic phrase was generated.
 bool mnemonic_generate(int strength, char* mnemonic);
 
