@@ -64,6 +64,16 @@ CK_FUNCTION_INFO(BLE_IsConn)
  );
 #endif
 
+/*   SetIsReConected？
+ return value : 0 -- disConnected   ;
+ other value --  Connected*/
+CK_FUNCTION_INFO(BLE__SetIsReConnected)
+#ifdef CK_NEED_ARG_LIST
+(
+ bool on       /**<reconnect or not  */
+ );
+#endif
+
 CK_FUNCTION_INFO(BLE_SendAPDU)
 #ifdef CK_NEED_ARG_LIST
 (

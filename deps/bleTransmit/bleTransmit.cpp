@@ -102,7 +102,7 @@ CK_FUNCTION_INFO(BLE_Scan)
 {
     unsigned int ret = IFD_SUCCESS;
 #ifdef __ANDROID__
-    ret = FT_BTManager::GetInstance()->btStartScan(4, 60);
+    ret = FT_BTManager::GetInstance()->btStartScan(4, 10);
     if (0 != ret)
     {
         LOG_ERR("BLE Scan failed： %08x", ret);
@@ -243,6 +243,26 @@ CK_FUNCTION_INFO(BLE_IsConn)
 #else
 #endif
     return ret;
+}
+
+/**
+ * add by Pan Min - 20190719
+ * 该接口按 bool 值处理。 0 - false; 非 0 - true;
+ */
+CK_FUNCTION_INFO(BLE__SetIsReConnected)
+#ifdef CK_NEED_ARG_LIST
+(
+ bool on       /**<reconnect or not  */
+ )
+#endif
+{
+#ifdef __ANDROID__
+
+#elif defined(TARGET_OS_IPHONE)
+    ADDPRE(BLESetIsReConnected(on));
+#else
+#endif
+    return IFD_SUCCESS;
 }
 
 CK_FUNCTION_INFO(BLE_SendAPDU)
