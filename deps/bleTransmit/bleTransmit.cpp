@@ -9,7 +9,7 @@
 
 #ifdef __ANDROID__
 #include <bleTransmit/android/BTManager.h>
-#include <logUtils.h>
+#include <utility/Debug.hpp>
 
 #elif defined(TARGET_OS_IPHONE)
 #include "BLEInterface.h"
@@ -56,7 +56,7 @@ CK_FUNCTION_INFO(BLE_Initialize)
     ret = FT_BTManager::GetInstance()->initialize(mParam);
     if (0 != ret)
     {
-        LOG_ERR("BLE initialize failed");
+        DEBUG_LOG("BLE initialize failed");
     }
 #elif defined(TARGET_OS_IPHONE)
     //whl 20170327
@@ -84,7 +84,7 @@ CK_FUNCTION_INFO(BLE_Finalize)
     ret = FT_BTManager::GetInstance()->finalize();
     if (0 != ret)
     {
-        LOG_ERR("BLE Finalize failed");
+        DEBUG_LOG("BLE Finalize failed");
     }
 #elif defined(TARGET_OS_IPHONE)
     //whl 20170327
@@ -105,7 +105,7 @@ CK_FUNCTION_INFO(BLE_Scan)
     ret = FT_BTManager::GetInstance()->btStartScan(4, 10);
     if (0 != ret)
     {
-        LOG_ERR("BLE Scan failed： %08x", ret);
+        DEBUG_LOG("BLE Scan failed： %08x", ret);
     }
 #elif defined(TARGET_OS_IPHONE)
     //whl 20170327
@@ -125,7 +125,7 @@ CK_FUNCTION_INFO(BLE_StopScan)
     ret = FT_BTManager::GetInstance()->btStopScan();
     if (0 != ret)
     {
-        LOG_ERR("BLE Stop Scan Failed");
+        DEBUG_LOG("BLE Stop Scan Failed");
     }
 #elif defined(TARGET_OS_IPHONE)
     //whl 20170327
@@ -147,15 +147,15 @@ CK_FUNCTION_INFO(BLE_ConnDev)
 {
     unsigned int ret = IFD_SUCCESS;
 #ifdef __ANDROID__
-    LOG_ERR("===>>> BLE_ConnDev - connectType: %d", connectType);
+    DEBUG_LOG("===>>> BLE_ConnDev - connectType: %d", connectType);
     ret = FT_BTManager::GetInstance()->btConnect(bBLEUUID, pDevHandle, timeout);
     if (0 != ret)
     {
-        LOG_ERR("BLE Connect failed: %08X", ret);
+        DEBUG_LOG("BLE Connect failed: %08X", ret);
     }
     else
     {
-        LOG_ERR("句柄111： %ld", *pDevHandle);
+        DEBUG_LOG("句柄111： %ld", *pDevHandle);
     }
 #elif defined(TARGET_OS_IPHONE)
     ADDPRE(BLESetIsReConnected(false));
@@ -186,7 +186,7 @@ CK_FUNCTION_INFO(BLE_CancelConnDev)
     ret = FT_BTManager::GetInstance()->btCancelConnect(bBLEUUID);
     if (0 != ret)
     {
-        LOG_ERR("BLE btCancelConnect Failed: %08X", ret);
+        DEBUG_LOG("BLE btCancelConnect Failed: %08X", ret);
     }
 #elif defined(TARGET_OS_IPHONE)
     //whl 20170327
@@ -208,7 +208,7 @@ CK_FUNCTION_INFO(BLE_DisConn)
     ret = FT_BTManager::GetInstance()->btDisconnect(devHandle);
     if (0 != ret)
     {
-        LOG_ERR("BLE Disconnect Failed: %08X", ret);
+        DEBUG_LOG("BLE Disconnect Failed: %08X", ret);
     }
 #elif defined(TARGET_OS_IPHONE)
     //iOS 代码后续需补全
@@ -236,7 +236,7 @@ CK_FUNCTION_INFO(BLE_IsConn)
     // 注:这里返回的状态注意区分
     ret = FT_BTManager::GetInstance()->btIsConnected(devHandle);
     if (0 == ret) {
-        LOG_ERR("btIsConnected: %08x", ret);
+        DEBUG_LOG("btIsConnected: %08x", ret);
     }
 #elif defined(TARGET_OS_IPHONE)
     ret = ADDPRE(BLEIsConnected(devHandle));
@@ -281,7 +281,7 @@ CK_FUNCTION_INFO(BLE_SendAPDU)
     ret = FT_BTManager::GetInstance()->btAsyncTransmit(devHandle, apdu, apduLen);
     if (0 != ret)
     {
-        LOG_ERR("btSyncTransmit failed: %08X", ret);
+        DEBUG_LOG("btSyncTransmit failed: %08X", ret);
     }
 #elif defined(TARGET_OS_IPHONE)
     //whl 20170327
