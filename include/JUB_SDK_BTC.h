@@ -57,7 +57,7 @@ typedef struct {
 } INPUT_BTC;
 
 typedef enum {
-    P2PKH = 0x00,
+    STANDARD = 0x00,
     RETURN0 = 0x01
 } OUTPUT_BTC_TYPE;
 
@@ -66,7 +66,7 @@ typedef struct {
     JUB_UINT64      amount;
     JUB_ENUM_BOOL   changeAddress;
     BIP32_Path      path;
-} OUTPUT_P2PKH;
+} OUTPUT_STANDARD;
 
 typedef struct {
     JUB_UINT64      amount;
@@ -77,8 +77,8 @@ typedef struct {
 typedef struct {
     OUTPUT_BTC_TYPE type;
     union {
-        OUTPUT_P2PKH   outputP2pkh;
-        OUTPUT_RETURN0 outputReturn0;
+        OUTPUT_STANDARD     outputStandard;
+        OUTPUT_RETURN0      outputReturn0;
     };
 } OUTPUT_BTC;
 

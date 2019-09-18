@@ -89,10 +89,10 @@ JUB_RV ContextBTC::BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount
     memcpy(outputs[0].outputReturn0.data, &usdtData[0], 20);
 
     //build dust output
-    outputs[1].type = OUTPUT_BTC_TYPE::P2PKH;
-    outputs[1].outputP2pkh.address = USDTTo;
-    outputs[1].outputP2pkh.amount = 546;
-    outputs[1].outputP2pkh.changeAddress = BOOL_FALSE;
+    outputs[1].type = OUTPUT_BTC_TYPE::STANDARD;
+    outputs[1].outputStandard.address = USDTTo;
+    outputs[1].outputStandard.amount = 546;
+    outputs[1].outputStandard.changeAddress = BOOL_FALSE;
 
     return JUBR_OK;
 }
@@ -117,10 +117,10 @@ JUB_RV ContextBTC::SignTX(std::vector<INPUT_BTC> vInputs, std::vector<OUTPUT_BTC
     std::vector<JUB_UINT16> vChangeIndex;
     std::vector<std::string> vChangePath;
     for (std::size_t i = 0, e = vOutputs.size(); i != e; ++i) {
-        if (OUTPUT_BTC_TYPE::P2PKH == vOutputs[i].type) {
-            if (vOutputs[i].outputP2pkh.changeAddress) {
+        if (OUTPUT_BTC_TYPE::STANDARD == vOutputs[i].type) {
+            if (vOutputs[i].outputStandard.changeAddress) {
                 vChangeIndex.push_back((JUB_UINT16)i);
-                vChangePath.push_back(_FullBip32Path(vOutputs[i].outputP2pkh.path));
+                vChangePath.push_back(_FullBip32Path(vOutputs[i].outputStandard.path));
             }
         }
     }

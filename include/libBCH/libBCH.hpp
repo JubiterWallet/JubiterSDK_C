@@ -104,18 +104,18 @@ JUB_RV serializeUnsignedTX(JUB_BTC_TRANS_TYPE type,
     unsingedTrans << (JUB_BYTE)vOutputs.size();
     for (auto output : vOutputs) {
         switch (output.type) {
-        case OUTPUT_BTC_TYPE::P2PKH:
+        case OUTPUT_BTC_TYPE::STANDARD:
         {
             //amount
-            unsingedTrans << (uint64_t)output.outputP2pkh.amount;
+            unsingedTrans << (uint64_t)output.outputStandard.amount;
             //script_pub
             uchar_vector scriptPub;
-            if (JUBR_OK != buildScriptPubFromAddress(output.outputP2pkh.address, scriptPub)) {
+            if (JUBR_OK != buildScriptPubFromAddress(output.outputStandard.address, scriptPub)) {
                 return JUBR_ERROR;
             }
             unsingedTrans && scriptPub;
             break;
-        } // case OUTPUT_BTC_TYPE::P2PKH end
+        } // case OUTPUT_BTC_TYPE::STANDARD end
         case OUTPUT_BTC_TYPE::RETURN0:
         {
             unsingedTrans << (uint64_t)output.outputReturn0.amount;
