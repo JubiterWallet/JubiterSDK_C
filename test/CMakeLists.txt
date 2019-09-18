@@ -5,6 +5,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/test/JUB_SDK_test)
 include_directories(${CMAKE_SOURCE_DIR}/deps/jsoncpp/include)
 
 aux_source_directory(${CMAKE_SOURCE_DIR}/deps/jsoncpp/src/lib_json SRC_LIST)
+aux_source_directory(${CMAKE_SOURCE_DIR}/test/JUB_SDK_test SRC_LIST)
 
 if(MSVC)   # msvc
 
@@ -38,7 +39,7 @@ if(MSVC)   # msvc
 
 endif()
 
-add_executable(JUB_test "JUB_SDK_test/JUB_SDK_test.cpp" ${SRC_LIST})
+add_executable(JUB_test ${SRC_LIST})
 
 #user lib
 if(msvc)
@@ -49,7 +50,7 @@ elseif(APPLE)
     )
     target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto ${HID_API_LIB_MAC_STATIC}  "-framework CoreFoundation" "-framework IOKit")
 else()
-    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto hidapi-hidraw)  
+    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto hidapi)  
 endif(msvc)
 
 
