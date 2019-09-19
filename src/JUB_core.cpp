@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-#include <JUB_core.h>
+#include <JUB_CORE.h>
 #include <string>
 #include <TrezorCrypto/bip39.h>
 #include <TrezorCrypto/bip32.h>

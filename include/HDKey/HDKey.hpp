@@ -15,7 +15,6 @@
 #define HDKEY_HPP
 
 #include <TrezorCrypto/bip32.h>
-#include <JUB_core.h>
 #include <string>
 #include <vector>
 #include "constant.hpp"

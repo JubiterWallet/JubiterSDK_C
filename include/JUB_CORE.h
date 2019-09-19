@@ -15,6 +15,8 @@
 #ifndef JUB_CORE_H
 #define JUB_CORE_H
 
+//硬件接口 + 软件接口的头文件，外部使用，只需要包含这一个
+
 #include "JUB_SDK.h"
 
 typedef enum {

@@ -9,7 +9,7 @@
 #include "JUB_SDK_test_dev.hpp"
 #include "JUB_SDK_test_btc.hpp"
 #include "JUB_SDK_test_eth.hpp"
-#include "../../include/JUB_core.h"
+#include "../../include/JUB_CORE.h"
 
 #include "JUB_SDK_main.h"
 
