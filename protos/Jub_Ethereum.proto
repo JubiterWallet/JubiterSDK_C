@@ -1,0 +1,35 @@
+syntax = "proto3";
+import "Jub_Common.proto";
+
+package JUB.Proto.Ethereum;
+
+option java_package = "com.jubiter.jni.proto";
+option java_outer_classname = "EthereumProtos";
+option objc_class_prefix = "EthereumProtos";
+
+
+
+enum ENUM_PUB_FORMAT{
+    HEX  = 0;
+    XPUB = 1;
+}
+
+message ContextCfgETH {
+    string main_path = 1;
+    uint32 chainID   = 2;
+}
+
+message Erc20Builder{
+    string tokenTo         = 1;
+    string tokenValueInWei = 2;
+}
+
+message TransactionETH{
+    JUB.Proto.Common.Bip32Path path = 1;
+    uint32 nonce = 2;
+    uint32 gasLimit = 3;
+    string gasPriceInWei = 4;
+    string to = 5;
+    string valueInWei = 6;
+    string input = 7;
+}

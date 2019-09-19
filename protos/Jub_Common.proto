@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package JUB.Proto.Common;
+
+option java_package = "com.jubiter.jni.proto";
+option java_outer_classname = "CommonProtos";
+option objc_class_prefix = "CommonProtos";
+
+
+
+// bip32_path
+message Bip32Path {
+    bool change = 1;
+    uint64 addressIndex = 2;
+}
+
+// device info
+message DeviceInfo{
+    string sn = 1;
+    string label = 2;
+    string bleVersion = 3;
+    string firmwareVersion = 4;
+    uint32 pinRetry = 5;
+    uint32 pinMaxRetry = 6;
+}
+
+// result with ith rv
+message ResultInt{
+    uint64 rv  = 1;
+    uint32 res = 2;    
+}
+
+// result with string rv
+message ResultString{
+    uint64 rv  = 1;
+    string res = 2;
+}
+
+// btc coin type 
+enum ENUM_COINTYPE_BTC{
+    COINBTC  = 0;
+    COINBCH  = 1;
+    COINLTC  = 2;
+    COINUSDT = 3;
+    COINDASH = 4;
+    COINQTUM = 5;
+}
+
+//mnemonic strength
+enum ENUM_MNEMONIC_STRENGTH{
+    STRENGTH128 = 0;
+    STRENGTH192 = 1;
+    STRENGTH256 = 2;
+}
+
+// curves
+enum CURVES{
+    secp256k1 = 0;
+    ed25519   = 1;
+    nist256p1 = 2; 
+}
