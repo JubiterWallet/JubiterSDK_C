@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67A4587E23336DAB00CEB712 /* HDKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4587D23336DAB00CEB712 /* HDKey.cpp */; };
 		67A4BC89233082960059A3DB /* Context.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC86233082960059A3DB /* Context.h */; };
 		67A4BC8A233082960059A3DB /* ContextBTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC87233082960059A3DB /* ContextBTC.h */; };
 		67A4BC8B233082960059A3DB /* ContextETH.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC88233082960059A3DB /* ContextETH.h */; };
@@ -215,6 +216,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		67A4587D23336DAB00CEB712 /* HDKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HDKey.cpp; path = ../../src/HDKey/HDKey.cpp; sourceTree = "<group>"; };
 		67A4BC7C233082130059A3DB /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A4BC86233082960059A3DB /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Context.h; path = ../../include/context/Context.h; sourceTree = "<group>"; };
 		67A4BC87233082960059A3DB /* ContextBTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextBTC.h; path = ../../include/context/ContextBTC.h; sourceTree = "<group>"; };
@@ -620,6 +622,7 @@
 		67A4BCF4233084C20059A3DB /* HDKey */ = {
 			isa = PBXGroup;
 			children = (
+				67A4587D23336DAB00CEB712 /* HDKey.cpp */,
 			);
 			name = HDKey;
 			sourceTree = "<group>";
@@ -1257,6 +1260,7 @@
 				67A4BD982330A9220059A3DB /* nist256p1.c in Sources */,
 				67A4BDCD2330A9F90059A3DB /* blake2b.c in Sources */,
 				67A4BD882330A9220059A3DB /* nano.c in Sources */,
+				67A4587E23336DAB00CEB712 /* HDKey.cpp in Sources */,
 				67A4BDF72330ADD30059A3DB /* md4.c in Sources */,
 				67A4BE2F2330AF200059A3DB /* BigInteger.cc in Sources */,
 				67A4BD892330A9220059A3DB /* secp256k1.c in Sources */,
