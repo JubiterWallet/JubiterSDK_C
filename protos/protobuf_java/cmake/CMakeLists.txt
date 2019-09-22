@@ -29,10 +29,10 @@ else()
 endif()
 
 # Options
-option(protobuf_BUILD_TESTS "Build tests" ON)
+option(protobuf_BUILD_TESTS "Build tests" OFF)
 option(protobuf_BUILD_CONFORMANCE "Build conformance tests" OFF)
 option(protobuf_BUILD_EXAMPLES "Build examples" OFF)
-option(protobuf_BUILD_PROTOC_BINARIES "Build libprotoc and protoc compiler" ON)
+option(protobuf_BUILD_PROTOC_BINARIES "Build libprotoc and protoc compiler" OFF)
 if (BUILD_SHARED_LIBS)
   set(protobuf_BUILD_SHARED_LIBS_DEFAULT ON)
 else (BUILD_SHARED_LIBS)
