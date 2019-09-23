@@ -33,6 +33,7 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/any.pb.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_Jub_5fCommon_2eproto
@@ -64,9 +65,9 @@ extern Bip32PathDefaultTypeInternal _Bip32Path_default_instance_;
 class DeviceInfo;
 class DeviceInfoDefaultTypeInternal;
 extern DeviceInfoDefaultTypeInternal _DeviceInfo_default_instance_;
-class ResultDeviceInfo;
-class ResultDeviceInfoDefaultTypeInternal;
-extern ResultDeviceInfoDefaultTypeInternal _ResultDeviceInfo_default_instance_;
+class ResultAny;
+class ResultAnyDefaultTypeInternal;
+extern ResultAnyDefaultTypeInternal _ResultAny_default_instance_;
 class ResultInt;
 class ResultIntDefaultTypeInternal;
 extern ResultIntDefaultTypeInternal _ResultInt_default_instance_;
@@ -79,7 +80,7 @@ extern ResultStringDefaultTypeInternal _ResultString_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::JUB::Proto::Common::Bip32Path* Arena::CreateMaybeMessage<::JUB::Proto::Common::Bip32Path>(Arena*);
 template<> ::JUB::Proto::Common::DeviceInfo* Arena::CreateMaybeMessage<::JUB::Proto::Common::DeviceInfo>(Arena*);
-template<> ::JUB::Proto::Common::ResultDeviceInfo* Arena::CreateMaybeMessage<::JUB::Proto::Common::ResultDeviceInfo>(Arena*);
+template<> ::JUB::Proto::Common::ResultAny* Arena::CreateMaybeMessage<::JUB::Proto::Common::ResultAny>(Arena*);
 template<> ::JUB::Proto::Common::ResultInt* Arena::CreateMaybeMessage<::JUB::Proto::Common::ResultInt>(Arena*);
 template<> ::JUB::Proto::Common::ResultString* Arena::CreateMaybeMessage<::JUB::Proto::Common::ResultString>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -780,23 +781,23 @@ class ResultString :
 };
 // -------------------------------------------------------------------
 
-class ResultDeviceInfo :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:JUB.Proto.Common.ResultDeviceInfo) */ {
+class ResultAny :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:JUB.Proto.Common.ResultAny) */ {
  public:
-  ResultDeviceInfo();
-  virtual ~ResultDeviceInfo();
+  ResultAny();
+  virtual ~ResultAny();
 
-  ResultDeviceInfo(const ResultDeviceInfo& from);
-  ResultDeviceInfo(ResultDeviceInfo&& from) noexcept
-    : ResultDeviceInfo() {
+  ResultAny(const ResultAny& from);
+  ResultAny(ResultAny&& from) noexcept
+    : ResultAny() {
     *this = ::std::move(from);
   }
 
-  inline ResultDeviceInfo& operator=(const ResultDeviceInfo& from) {
+  inline ResultAny& operator=(const ResultAny& from) {
     CopyFrom(from);
     return *this;
   }
-  inline ResultDeviceInfo& operator=(ResultDeviceInfo&& from) noexcept {
+  inline ResultAny& operator=(ResultAny&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -814,37 +815,37 @@ class ResultDeviceInfo :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const ResultDeviceInfo& default_instance();
+  static const ResultAny& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ResultDeviceInfo* internal_default_instance() {
-    return reinterpret_cast<const ResultDeviceInfo*>(
-               &_ResultDeviceInfo_default_instance_);
+  static inline const ResultAny* internal_default_instance() {
+    return reinterpret_cast<const ResultAny*>(
+               &_ResultAny_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     4;
 
-  friend void swap(ResultDeviceInfo& a, ResultDeviceInfo& b) {
+  friend void swap(ResultAny& a, ResultAny& b) {
     a.Swap(&b);
   }
-  inline void Swap(ResultDeviceInfo* other) {
+  inline void Swap(ResultAny* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ResultDeviceInfo* New() const final {
-    return CreateMaybeMessage<ResultDeviceInfo>(nullptr);
+  inline ResultAny* New() const final {
+    return CreateMaybeMessage<ResultAny>(nullptr);
   }
 
-  ResultDeviceInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<ResultDeviceInfo>(arena);
+  ResultAny* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ResultAny>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const ResultDeviceInfo& from);
-  void MergeFrom(const ResultDeviceInfo& from);
+  void CopyFrom(const ResultAny& from);
+  void MergeFrom(const ResultAny& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -865,10 +866,10 @@ class ResultDeviceInfo :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ResultDeviceInfo* other);
+  void InternalSwap(ResultAny* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "JUB.Proto.Common.ResultDeviceInfo";
+    return "JUB.Proto.Common.ResultAny";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -896,25 +897,28 @@ class ResultDeviceInfo :
     kResFieldNumber = 2,
     kRvFieldNumber = 1,
   };
-  // .JUB.Proto.Common.DeviceInfo res = 2;
-  bool has_res() const;
+  // repeated .google.protobuf.Any res = 2;
+  int res_size() const;
   void clear_res();
-  const ::JUB::Proto::Common::DeviceInfo& res() const;
-  ::JUB::Proto::Common::DeviceInfo* release_res();
-  ::JUB::Proto::Common::DeviceInfo* mutable_res();
-  void set_allocated_res(::JUB::Proto::Common::DeviceInfo* res);
+  PROTOBUF_NAMESPACE_ID::Any* mutable_res(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any >*
+      mutable_res();
+  const PROTOBUF_NAMESPACE_ID::Any& res(int index) const;
+  PROTOBUF_NAMESPACE_ID::Any* add_res();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any >&
+      res() const;
 
   // uint64 rv = 1;
   void clear_rv();
   ::PROTOBUF_NAMESPACE_ID::uint64 rv() const;
   void set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:JUB.Proto.Common.ResultDeviceInfo)
+  // @@protoc_insertion_point(class_scope:JUB.Proto.Common.ResultAny)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::JUB::Proto::Common::DeviceInfo* res_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any > res_;
   ::PROTOBUF_NAMESPACE_ID::uint64 rv_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Jub_5fCommon_2eproto;
@@ -1297,71 +1301,47 @@ inline void ResultString::set_allocated_res(std::string* res) {
 
 // -------------------------------------------------------------------
 
-// ResultDeviceInfo
+// ResultAny
 
 // uint64 rv = 1;
-inline void ResultDeviceInfo::clear_rv() {
+inline void ResultAny::clear_rv() {
   rv_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultDeviceInfo::rv() const {
-  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultDeviceInfo.rv)
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultAny::rv() const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultAny.rv)
   return rv_;
 }
-inline void ResultDeviceInfo::set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void ResultAny::set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
   rv_ = value;
-  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultDeviceInfo.rv)
+  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultAny.rv)
 }
 
-// .JUB.Proto.Common.DeviceInfo res = 2;
-inline bool ResultDeviceInfo::has_res() const {
-  return this != internal_default_instance() && res_ != nullptr;
+// repeated .google.protobuf.Any res = 2;
+inline int ResultAny::res_size() const {
+  return res_.size();
 }
-inline void ResultDeviceInfo::clear_res() {
-  if (GetArenaNoVirtual() == nullptr && res_ != nullptr) {
-    delete res_;
-  }
-  res_ = nullptr;
+inline PROTOBUF_NAMESPACE_ID::Any* ResultAny::mutable_res(int index) {
+  // @@protoc_insertion_point(field_mutable:JUB.Proto.Common.ResultAny.res)
+  return res_.Mutable(index);
 }
-inline const ::JUB::Proto::Common::DeviceInfo& ResultDeviceInfo::res() const {
-  const ::JUB::Proto::Common::DeviceInfo* p = res_;
-  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultDeviceInfo.res)
-  return p != nullptr ? *p : *reinterpret_cast<const ::JUB::Proto::Common::DeviceInfo*>(
-      &::JUB::Proto::Common::_DeviceInfo_default_instance_);
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any >*
+ResultAny::mutable_res() {
+  // @@protoc_insertion_point(field_mutable_list:JUB.Proto.Common.ResultAny.res)
+  return &res_;
 }
-inline ::JUB::Proto::Common::DeviceInfo* ResultDeviceInfo::release_res() {
-  // @@protoc_insertion_point(field_release:JUB.Proto.Common.ResultDeviceInfo.res)
-  
-  ::JUB::Proto::Common::DeviceInfo* temp = res_;
-  res_ = nullptr;
-  return temp;
+inline const PROTOBUF_NAMESPACE_ID::Any& ResultAny::res(int index) const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultAny.res)
+  return res_.Get(index);
 }
-inline ::JUB::Proto::Common::DeviceInfo* ResultDeviceInfo::mutable_res() {
-  
-  if (res_ == nullptr) {
-    auto* p = CreateMaybeMessage<::JUB::Proto::Common::DeviceInfo>(GetArenaNoVirtual());
-    res_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:JUB.Proto.Common.ResultDeviceInfo.res)
+inline PROTOBUF_NAMESPACE_ID::Any* ResultAny::add_res() {
+  // @@protoc_insertion_point(field_add:JUB.Proto.Common.ResultAny.res)
+  return res_.Add();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any >&
+ResultAny::res() const {
+  // @@protoc_insertion_point(field_list:JUB.Proto.Common.ResultAny.res)
   return res_;
-}
-inline void ResultDeviceInfo::set_allocated_res(::JUB::Proto::Common::DeviceInfo* res) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == nullptr) {
-    delete res_;
-  }
-  if (res) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena = nullptr;
-    if (message_arena != submessage_arena) {
-      res = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, res, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  res_ = res;
-  // @@protoc_insertion_point(field_set_allocated:JUB.Proto.Common.ResultDeviceInfo.res)
 }
 
 #ifdef __GNUC__

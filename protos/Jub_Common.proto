@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package JUB.Proto.Common;
+import "google/protobuf/any.proto";
 
 option java_package = "com.jubiter.jni.proto";
 option java_outer_classname = "CommonProtos";
@@ -37,9 +38,9 @@ message ResultString{
 }
 
 // result with DeviceInfo rv
-message ResultDeviceInfo{
+message ResultAny{
     uint64 rv  = 1;
-    DeviceInfo res = 2;
+    repeated google.protobuf.Any res = 2;
 }
 
 // btc coin type 
