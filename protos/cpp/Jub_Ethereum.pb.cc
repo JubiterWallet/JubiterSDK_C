@@ -23,10 +23,6 @@ class ContextCfgETHDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ContextCfgETH> _instance;
 } _ContextCfgETH_default_instance_;
-class Erc20BuilderDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Erc20Builder> _instance;
-} _Erc20Builder_default_instance_;
 class TransactionETHDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TransactionETH> _instance;
@@ -48,20 +44,6 @@ static void InitDefaultsscc_info_ContextCfgETH_Jub_5fEthereum_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ContextCfgETH_Jub_5fEthereum_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_ContextCfgETH_Jub_5fEthereum_2eproto}, {}};
 
-static void InitDefaultsscc_info_Erc20Builder_Jub_5fEthereum_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::JUB::Proto::Ethereum::_Erc20Builder_default_instance_;
-    new (ptr) ::JUB::Proto::Ethereum::Erc20Builder();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::JUB::Proto::Ethereum::Erc20Builder::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Erc20Builder_Jub_5fEthereum_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_Erc20Builder_Jub_5fEthereum_2eproto}, {}};
-
 static void InitDefaultsscc_info_TransactionETH_Jub_5fEthereum_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -77,7 +59,7 @@ static void InitDefaultsscc_info_TransactionETH_Jub_5fEthereum_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsscc_info_TransactionETH_Jub_5fEthereum_2eproto}, {
       &scc_info_Bip32Path_Jub_5fCommon_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Jub_5fEthereum_2eproto[3];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Jub_5fEthereum_2eproto[2];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_Jub_5fEthereum_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Jub_5fEthereum_2eproto = nullptr;
 
@@ -89,13 +71,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Jub_5fEthereum_2eproto::offset
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::JUB::Proto::Ethereum::ContextCfgETH, main_path_),
   PROTOBUF_FIELD_OFFSET(::JUB::Proto::Ethereum::ContextCfgETH, chainid_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Ethereum::Erc20Builder, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Ethereum::Erc20Builder, tokento_),
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Ethereum::Erc20Builder, tokenvalueinwei_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::JUB::Proto::Ethereum::TransactionETH, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -111,44 +86,40 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Jub_5fEthereum_2eproto::offset
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::JUB::Proto::Ethereum::ContextCfgETH)},
-  { 7, -1, sizeof(::JUB::Proto::Ethereum::Erc20Builder)},
-  { 14, -1, sizeof(::JUB::Proto::Ethereum::TransactionETH)},
+  { 7, -1, sizeof(::JUB::Proto::Ethereum::TransactionETH)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::JUB::Proto::Ethereum::_ContextCfgETH_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::JUB::Proto::Ethereum::_Erc20Builder_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::JUB::Proto::Ethereum::_TransactionETH_default_instance_),
 };
 
 const char descriptor_table_protodef_Jub_5fEthereum_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\022Jub_Ethereum.proto\022\022JUB.Proto.Ethereum"
   "\032\020Jub_Common.proto\"3\n\rContextCfgETH\022\021\n\tm"
-  "ain_path\030\001 \001(\t\022\017\n\007chainID\030\002 \001(\r\"8\n\014Erc20"
-  "Builder\022\017\n\007tokenTo\030\001 \001(\t\022\027\n\017tokenValueIn"
-  "Wei\030\002 \001(\t\"\242\001\n\016TransactionETH\022)\n\004path\030\001 \001"
-  "(\0132\033.JUB.Proto.Common.Bip32Path\022\r\n\005nonce"
-  "\030\002 \001(\r\022\020\n\010gasLimit\030\003 \001(\r\022\025\n\rgasPriceInWe"
-  "i\030\004 \001(\t\022\n\n\002to\030\005 \001(\t\022\022\n\nvalueInWei\030\006 \001(\t\022"
-  "\r\n\005input\030\007 \001(\t*$\n\017ENUM_PUB_FORMAT\022\007\n\003HEX"
-  "\020\000\022\010\n\004XPUB\020\001B8\n\025com.jubiter.jni.protoB\016E"
-  "thereumProtos\242\002\016EthereumProtosb\006proto3"
+  "ain_path\030\001 \001(\t\022\017\n\007chainID\030\002 \001(\r\"\242\001\n\016Tran"
+  "sactionETH\022)\n\004path\030\001 \001(\0132\033.JUB.Proto.Com"
+  "mon.Bip32Path\022\r\n\005nonce\030\002 \001(\r\022\020\n\010gasLimit"
+  "\030\003 \001(\r\022\025\n\rgasPriceInWei\030\004 \001(\t\022\n\n\002to\030\005 \001("
+  "\t\022\022\n\nvalueInWei\030\006 \001(\t\022\r\n\005input\030\007 \001(\t*$\n\017"
+  "ENUM_PUB_FORMAT\022\007\n\003HEX\020\000\022\010\n\004XPUB\020\001B8\n\025co"
+  "m.jubiter.jni.protoB\016EthereumProtos\242\002\016Et"
+  "hereumProtosb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Jub_5fEthereum_2eproto_deps[1] = {
   &::descriptor_table_Jub_5fCommon_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Jub_5fEthereum_2eproto_sccs[3] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Jub_5fEthereum_2eproto_sccs[2] = {
   &scc_info_ContextCfgETH_Jub_5fEthereum_2eproto.base,
-  &scc_info_Erc20Builder_Jub_5fEthereum_2eproto.base,
   &scc_info_TransactionETH_Jub_5fEthereum_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Jub_5fEthereum_2eproto_once;
 static bool descriptor_table_Jub_5fEthereum_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Jub_5fEthereum_2eproto = {
-  &descriptor_table_Jub_5fEthereum_2eproto_initialized, descriptor_table_protodef_Jub_5fEthereum_2eproto, "Jub_Ethereum.proto", 438,
-  &descriptor_table_Jub_5fEthereum_2eproto_once, descriptor_table_Jub_5fEthereum_2eproto_sccs, descriptor_table_Jub_5fEthereum_2eproto_deps, 3, 1,
+  &descriptor_table_Jub_5fEthereum_2eproto_initialized, descriptor_table_protodef_Jub_5fEthereum_2eproto, "Jub_Ethereum.proto", 380,
+  &descriptor_table_Jub_5fEthereum_2eproto_once, descriptor_table_Jub_5fEthereum_2eproto_sccs, descriptor_table_Jub_5fEthereum_2eproto_deps, 2, 1,
   schemas, file_default_instances, TableStruct_Jub_5fEthereum_2eproto::offsets,
-  file_level_metadata_Jub_5fEthereum_2eproto, 3, file_level_enum_descriptors_Jub_5fEthereum_2eproto, file_level_service_descriptors_Jub_5fEthereum_2eproto,
+  file_level_metadata_Jub_5fEthereum_2eproto, 2, file_level_enum_descriptors_Jub_5fEthereum_2eproto, file_level_service_descriptors_Jub_5fEthereum_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -480,338 +451,6 @@ void ContextCfgETH::InternalSwap(ContextCfgETH* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ContextCfgETH::GetMetadata() const {
-  return GetMetadataStatic();
-}
-
-
-// ===================================================================
-
-void Erc20Builder::InitAsDefaultInstance() {
-}
-class Erc20Builder::_Internal {
- public:
-};
-
-Erc20Builder::Erc20Builder()
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:JUB.Proto.Ethereum.Erc20Builder)
-}
-Erc20Builder::Erc20Builder(const Erc20Builder& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  tokento_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from.tokento().empty()) {
-    tokento_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.tokento_);
-  }
-  tokenvalueinwei_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from.tokenvalueinwei().empty()) {
-    tokenvalueinwei_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.tokenvalueinwei_);
-  }
-  // @@protoc_insertion_point(copy_constructor:JUB.Proto.Ethereum.Erc20Builder)
-}
-
-void Erc20Builder::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Erc20Builder_Jub_5fEthereum_2eproto.base);
-  tokento_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  tokenvalueinwei_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-
-Erc20Builder::~Erc20Builder() {
-  // @@protoc_insertion_point(destructor:JUB.Proto.Ethereum.Erc20Builder)
-  SharedDtor();
-}
-
-void Erc20Builder::SharedDtor() {
-  tokento_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  tokenvalueinwei_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-
-void Erc20Builder::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const Erc20Builder& Erc20Builder::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Erc20Builder_Jub_5fEthereum_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void Erc20Builder::Clear() {
-// @@protoc_insertion_point(message_clear_start:JUB.Proto.Ethereum.Erc20Builder)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  tokento_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  tokenvalueinwei_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  _internal_metadata_.Clear();
-}
-
-#if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-const char* Erc20Builder::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-    switch (tag >> 3) {
-      // string tokenTo = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(mutable_tokento(), ptr, ctx, "JUB.Proto.Ethereum.Erc20Builder.tokenTo");
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // string tokenValueInWei = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(mutable_tokenvalueinwei(), ptr, ctx, "JUB.Proto.Ethereum.Erc20Builder.tokenValueInWei");
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-#else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-bool Erc20Builder::MergePartialFromCodedStream(
-    ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-  // @@protoc_insertion_point(parse_start:JUB.Proto.Ethereum.Erc20Builder)
-  for (;;) {
-    ::std::pair<::PROTOBUF_NAMESPACE_ID::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // string tokenTo = 1;
-      case 1: {
-        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (10 & 0xFF)) {
-          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadString(
-                input, this->mutable_tokento()));
-          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-            this->tokento().data(), static_cast<int>(this->tokento().length()),
-            ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE,
-            "JUB.Proto.Ethereum.Erc20Builder.tokenTo"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // string tokenValueInWei = 2;
-      case 2: {
-        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (18 & 0xFF)) {
-          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadString(
-                input, this->mutable_tokenvalueinwei()));
-          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-            this->tokenvalueinwei().data(), static_cast<int>(this->tokenvalueinwei().length()),
-            ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE,
-            "JUB.Proto.Ethereum.Erc20Builder.tokenValueInWei"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:JUB.Proto.Ethereum.Erc20Builder)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:JUB.Proto.Ethereum.Erc20Builder)
-  return false;
-#undef DO_
-}
-#endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-
-void Erc20Builder::SerializeWithCachedSizes(
-    ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:JUB.Proto.Ethereum.Erc20Builder)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string tokenTo = 1;
-  if (this->tokento().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->tokento().data(), static_cast<int>(this->tokento().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "JUB.Proto.Ethereum.Erc20Builder.tokenTo");
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->tokento(), output);
-  }
-
-  // string tokenValueInWei = 2;
-  if (this->tokenvalueinwei().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->tokenvalueinwei().data(), static_cast<int>(this->tokenvalueinwei().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "JUB.Proto.Ethereum.Erc20Builder.tokenValueInWei");
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->tokenvalueinwei(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:JUB.Proto.Ethereum.Erc20Builder)
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* Erc20Builder::InternalSerializeWithCachedSizesToArray(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:JUB.Proto.Ethereum.Erc20Builder)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string tokenTo = 1;
-  if (this->tokento().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->tokento().data(), static_cast<int>(this->tokento().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "JUB.Proto.Ethereum.Erc20Builder.tokenTo");
-    target =
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringToArray(
-        1, this->tokento(), target);
-  }
-
-  // string tokenValueInWei = 2;
-  if (this->tokenvalueinwei().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->tokenvalueinwei().data(), static_cast<int>(this->tokenvalueinwei().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "JUB.Proto.Ethereum.Erc20Builder.tokenValueInWei");
-    target =
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringToArray(
-        2, this->tokenvalueinwei(), target);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:JUB.Proto.Ethereum.Erc20Builder)
-  return target;
-}
-
-size_t Erc20Builder::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:JUB.Proto.Ethereum.Erc20Builder)
-  size_t total_size = 0;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // string tokenTo = 1;
-  if (this->tokento().size() > 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->tokento());
-  }
-
-  // string tokenValueInWei = 2;
-  if (this->tokenvalueinwei().size() > 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->tokenvalueinwei());
-  }
-
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void Erc20Builder::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:JUB.Proto.Ethereum.Erc20Builder)
-  GOOGLE_DCHECK_NE(&from, this);
-  const Erc20Builder* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Erc20Builder>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:JUB.Proto.Ethereum.Erc20Builder)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:JUB.Proto.Ethereum.Erc20Builder)
-    MergeFrom(*source);
-  }
-}
-
-void Erc20Builder::MergeFrom(const Erc20Builder& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:JUB.Proto.Ethereum.Erc20Builder)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.tokento().size() > 0) {
-
-    tokento_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.tokento_);
-  }
-  if (from.tokenvalueinwei().size() > 0) {
-
-    tokenvalueinwei_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.tokenvalueinwei_);
-  }
-}
-
-void Erc20Builder::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:JUB.Proto.Ethereum.Erc20Builder)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Erc20Builder::CopyFrom(const Erc20Builder& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:JUB.Proto.Ethereum.Erc20Builder)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Erc20Builder::IsInitialized() const {
-  return true;
-}
-
-void Erc20Builder::InternalSwap(Erc20Builder* other) {
-  using std::swap;
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  tokento_.Swap(&other->tokento_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  tokenvalueinwei_.Swap(&other->tokenvalueinwei_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata Erc20Builder::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -1437,9 +1076,6 @@ void TransactionETH::InternalSwap(TransactionETH* other) {
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::JUB::Proto::Ethereum::ContextCfgETH* Arena::CreateMaybeMessage< ::JUB::Proto::Ethereum::ContextCfgETH >(Arena* arena) {
   return Arena::CreateInternal< ::JUB::Proto::Ethereum::ContextCfgETH >(arena);
-}
-template<> PROTOBUF_NOINLINE ::JUB::Proto::Ethereum::Erc20Builder* Arena::CreateMaybeMessage< ::JUB::Proto::Ethereum::Erc20Builder >(Arena* arena) {
-  return Arena::CreateInternal< ::JUB::Proto::Ethereum::Erc20Builder >(arena);
 }
 template<> PROTOBUF_NOINLINE ::JUB::Proto::Ethereum::TransactionETH* Arena::CreateMaybeMessage< ::JUB::Proto::Ethereum::TransactionETH >(Arena* arena) {
   return Arena::CreateInternal< ::JUB::Proto::Ethereum::TransactionETH >(arena);
