@@ -48,7 +48,7 @@ struct TableStruct_Jub_5fCommon_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -64,6 +64,9 @@ extern Bip32PathDefaultTypeInternal _Bip32Path_default_instance_;
 class DeviceInfo;
 class DeviceInfoDefaultTypeInternal;
 extern DeviceInfoDefaultTypeInternal _DeviceInfo_default_instance_;
+class ResultDeviceInfo;
+class ResultDeviceInfoDefaultTypeInternal;
+extern ResultDeviceInfoDefaultTypeInternal _ResultDeviceInfo_default_instance_;
 class ResultInt;
 class ResultIntDefaultTypeInternal;
 extern ResultIntDefaultTypeInternal _ResultInt_default_instance_;
@@ -76,6 +79,7 @@ extern ResultStringDefaultTypeInternal _ResultString_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::JUB::Proto::Common::Bip32Path* Arena::CreateMaybeMessage<::JUB::Proto::Common::Bip32Path>(Arena*);
 template<> ::JUB::Proto::Common::DeviceInfo* Arena::CreateMaybeMessage<::JUB::Proto::Common::DeviceInfo>(Arena*);
+template<> ::JUB::Proto::Common::ResultDeviceInfo* Arena::CreateMaybeMessage<::JUB::Proto::Common::ResultDeviceInfo>(Arena*);
 template<> ::JUB::Proto::Common::ResultInt* Arena::CreateMaybeMessage<::JUB::Proto::Common::ResultInt>(Arena*);
 template<> ::JUB::Proto::Common::ResultString* Arena::CreateMaybeMessage<::JUB::Proto::Common::ResultString>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -774,6 +778,147 @@ class ResultString :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Jub_5fCommon_2eproto;
 };
+// -------------------------------------------------------------------
+
+class ResultDeviceInfo :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:JUB.Proto.Common.ResultDeviceInfo) */ {
+ public:
+  ResultDeviceInfo();
+  virtual ~ResultDeviceInfo();
+
+  ResultDeviceInfo(const ResultDeviceInfo& from);
+  ResultDeviceInfo(ResultDeviceInfo&& from) noexcept
+    : ResultDeviceInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline ResultDeviceInfo& operator=(const ResultDeviceInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ResultDeviceInfo& operator=(ResultDeviceInfo&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ResultDeviceInfo& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ResultDeviceInfo* internal_default_instance() {
+    return reinterpret_cast<const ResultDeviceInfo*>(
+               &_ResultDeviceInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(ResultDeviceInfo& a, ResultDeviceInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ResultDeviceInfo* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ResultDeviceInfo* New() const final {
+    return CreateMaybeMessage<ResultDeviceInfo>(nullptr);
+  }
+
+  ResultDeviceInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ResultDeviceInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ResultDeviceInfo& from);
+  void MergeFrom(const ResultDeviceInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  #else
+  bool MergePartialFromCodedStream(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ResultDeviceInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "JUB.Proto.Common.ResultDeviceInfo";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_Jub_5fCommon_2eproto);
+    return ::descriptor_table_Jub_5fCommon_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kResFieldNumber = 2,
+    kRvFieldNumber = 1,
+  };
+  // .JUB.Proto.Common.DeviceInfo res = 2;
+  bool has_res() const;
+  void clear_res();
+  const ::JUB::Proto::Common::DeviceInfo& res() const;
+  ::JUB::Proto::Common::DeviceInfo* release_res();
+  ::JUB::Proto::Common::DeviceInfo* mutable_res();
+  void set_allocated_res(::JUB::Proto::Common::DeviceInfo* res);
+
+  // uint64 rv = 1;
+  void clear_rv();
+  ::PROTOBUF_NAMESPACE_ID::uint64 rv() const;
+  void set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:JUB.Proto.Common.ResultDeviceInfo)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::JUB::Proto::Common::DeviceInfo* res_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 rv_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Jub_5fCommon_2eproto;
+};
 // ===================================================================
 
 
@@ -1150,9 +1295,80 @@ inline void ResultString::set_allocated_res(std::string* res) {
   // @@protoc_insertion_point(field_set_allocated:JUB.Proto.Common.ResultString.res)
 }
 
+// -------------------------------------------------------------------
+
+// ResultDeviceInfo
+
+// uint64 rv = 1;
+inline void ResultDeviceInfo::clear_rv() {
+  rv_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultDeviceInfo::rv() const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultDeviceInfo.rv)
+  return rv_;
+}
+inline void ResultDeviceInfo::set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  rv_ = value;
+  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultDeviceInfo.rv)
+}
+
+// .JUB.Proto.Common.DeviceInfo res = 2;
+inline bool ResultDeviceInfo::has_res() const {
+  return this != internal_default_instance() && res_ != nullptr;
+}
+inline void ResultDeviceInfo::clear_res() {
+  if (GetArenaNoVirtual() == nullptr && res_ != nullptr) {
+    delete res_;
+  }
+  res_ = nullptr;
+}
+inline const ::JUB::Proto::Common::DeviceInfo& ResultDeviceInfo::res() const {
+  const ::JUB::Proto::Common::DeviceInfo* p = res_;
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultDeviceInfo.res)
+  return p != nullptr ? *p : *reinterpret_cast<const ::JUB::Proto::Common::DeviceInfo*>(
+      &::JUB::Proto::Common::_DeviceInfo_default_instance_);
+}
+inline ::JUB::Proto::Common::DeviceInfo* ResultDeviceInfo::release_res() {
+  // @@protoc_insertion_point(field_release:JUB.Proto.Common.ResultDeviceInfo.res)
+  
+  ::JUB::Proto::Common::DeviceInfo* temp = res_;
+  res_ = nullptr;
+  return temp;
+}
+inline ::JUB::Proto::Common::DeviceInfo* ResultDeviceInfo::mutable_res() {
+  
+  if (res_ == nullptr) {
+    auto* p = CreateMaybeMessage<::JUB::Proto::Common::DeviceInfo>(GetArenaNoVirtual());
+    res_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:JUB.Proto.Common.ResultDeviceInfo.res)
+  return res_;
+}
+inline void ResultDeviceInfo::set_allocated_res(::JUB::Proto::Common::DeviceInfo* res) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == nullptr) {
+    delete res_;
+  }
+  if (res) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena = nullptr;
+    if (message_arena != submessage_arena) {
+      res = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, res, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  res_ = res;
+  // @@protoc_insertion_point(field_set_allocated:JUB.Proto.Common.ResultDeviceInfo.res)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

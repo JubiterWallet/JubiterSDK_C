@@ -24,7 +24,7 @@ message DeviceInfo{
     uint32 pinMaxRetry = 6;
 }
 
-// result with ith rv
+// result with int rv
 message ResultInt{
     uint64 rv  = 1;
     uint32 res = 2;    
@@ -34,6 +34,12 @@ message ResultInt{
 message ResultString{
     uint64 rv  = 1;
     string res = 2;
+}
+
+// result with DeviceInfo rv
+message ResultDeviceInfo{
+    uint64 rv  = 1;
+    DeviceInfo res = 2;
 }
 
 // btc coin type 
