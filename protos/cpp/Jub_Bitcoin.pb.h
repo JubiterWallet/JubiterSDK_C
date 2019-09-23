@@ -152,6 +152,34 @@ inline bool ENUM_TRAN_STYPE_BTC_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ENUM_TRAN_STYPE_BTC>(
     ENUM_TRAN_STYPE_BTC_descriptor(), name, value);
 }
+enum BTC_UNIT_TYPE : int {
+  BTC = 0,
+  cBTC = 1,
+  mBTC = 2,
+  uBTC = 3,
+  Satoshi = 4,
+  BTC_UNIT_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  BTC_UNIT_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool BTC_UNIT_TYPE_IsValid(int value);
+constexpr BTC_UNIT_TYPE BTC_UNIT_TYPE_MIN = BTC;
+constexpr BTC_UNIT_TYPE BTC_UNIT_TYPE_MAX = Satoshi;
+constexpr int BTC_UNIT_TYPE_ARRAYSIZE = BTC_UNIT_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BTC_UNIT_TYPE_descriptor();
+template<typename T>
+inline const std::string& BTC_UNIT_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, BTC_UNIT_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function BTC_UNIT_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    BTC_UNIT_TYPE_descriptor(), enum_t_value);
+}
+inline bool BTC_UNIT_TYPE_Parse(
+    const std::string& name, BTC_UNIT_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<BTC_UNIT_TYPE>(
+    BTC_UNIT_TYPE_descriptor(), name, value);
+}
 enum ENUM_SCRIPT_TYPE_BTC : int {
   STANDARD = 0,
   RETURN0 = 1,
@@ -2022,6 +2050,11 @@ template <> struct is_proto_enum< ::JUB::Proto::Bitcoin::ENUM_TRAN_STYPE_BTC> : 
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::JUB::Proto::Bitcoin::ENUM_TRAN_STYPE_BTC>() {
   return ::JUB::Proto::Bitcoin::ENUM_TRAN_STYPE_BTC_descriptor();
+}
+template <> struct is_proto_enum< ::JUB::Proto::Bitcoin::BTC_UNIT_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::JUB::Proto::Bitcoin::BTC_UNIT_TYPE>() {
+  return ::JUB::Proto::Bitcoin::BTC_UNIT_TYPE_descriptor();
 }
 template <> struct is_proto_enum< ::JUB::Proto::Bitcoin::ENUM_SCRIPT_TYPE_BTC> : ::std::true_type {};
 template <>

@@ -164,7 +164,7 @@ static void InitDefaultsscc_info_TransactionBTC_Jub_5fBitcoin_2eproto() {
       &scc_info_OutputBTC_Jub_5fBitcoin_2eproto.base,}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Jub_5fBitcoin_2eproto[7];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_Jub_5fBitcoin_2eproto[3];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_Jub_5fBitcoin_2eproto[4];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Jub_5fBitcoin_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Jub_5fBitcoin_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -275,10 +275,12 @@ const char descriptor_table_protodef_Jub_5fBitcoin_2eproto[] PROTOBUF_SECTION_VA
   "\013\n\007COINLTC\020\002\022\014\n\010COINUSDT\020\003\022\014\n\010COINDASH\020\004"
   "\022\014\n\010COINQTUM\020\005*N\n\023ENUM_TRAN_STYPE_BTC\022\t\n"
   "\005p2pkh\020\000\022\017\n\013p2sh_p2wpkh\020\001\022\021\n\rp2sh_multis"
-  "ig\020\002\022\010\n\004p2pk\020\003*<\n\024ENUM_SCRIPT_TYPE_BTC\022\014"
-  "\n\010STANDARD\020\000\022\013\n\007RETURN0\020\001\022\t\n\005QRC20\020\003B6\n\025"
-  "com.jubiter.jni.protoB\rBitcoinProtos\242\002\rB"
-  "itcoinProtosb\006proto3"
+  "ig\020\002\022\010\n\004p2pk\020\003*C\n\rBTC_UNIT_TYPE\022\007\n\003BTC\020\000"
+  "\022\010\n\004cBTC\020\001\022\010\n\004mBTC\020\002\022\010\n\004uBTC\020\003\022\013\n\007Satosh"
+  "i\020\004*<\n\024ENUM_SCRIPT_TYPE_BTC\022\014\n\010STANDARD\020"
+  "\000\022\013\n\007RETURN0\020\001\022\t\n\005QRC20\020\003B6\n\025com.jubiter"
+  ".jni.protoB\rBitcoinProtos\242\002\rBitcoinProto"
+  "sb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Jub_5fBitcoin_2eproto_deps[1] = {
   &::descriptor_table_Jub_5fCommon_2eproto,
@@ -295,7 +297,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Jub
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Jub_5fBitcoin_2eproto_once;
 static bool descriptor_table_Jub_5fBitcoin_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Jub_5fBitcoin_2eproto = {
-  &descriptor_table_Jub_5fBitcoin_2eproto_initialized, descriptor_table_protodef_Jub_5fBitcoin_2eproto, "Jub_Bitcoin.proto", 1220,
+  &descriptor_table_Jub_5fBitcoin_2eproto_initialized, descriptor_table_protodef_Jub_5fBitcoin_2eproto, "Jub_Bitcoin.proto", 1289,
   &descriptor_table_Jub_5fBitcoin_2eproto_once, descriptor_table_Jub_5fBitcoin_2eproto_sccs, descriptor_table_Jub_5fBitcoin_2eproto_deps, 7, 1,
   schemas, file_default_instances, TableStruct_Jub_5fBitcoin_2eproto::offsets,
   file_level_metadata_Jub_5fBitcoin_2eproto, 7, file_level_enum_descriptors_Jub_5fBitcoin_2eproto, file_level_service_descriptors_Jub_5fBitcoin_2eproto,
@@ -340,9 +342,26 @@ bool ENUM_TRAN_STYPE_BTC_IsValid(int value) {
   }
 }
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ENUM_SCRIPT_TYPE_BTC_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BTC_UNIT_TYPE_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Jub_5fBitcoin_2eproto);
   return file_level_enum_descriptors_Jub_5fBitcoin_2eproto[2];
+}
+bool BTC_UNIT_TYPE_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ENUM_SCRIPT_TYPE_BTC_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Jub_5fBitcoin_2eproto);
+  return file_level_enum_descriptors_Jub_5fBitcoin_2eproto[3];
 }
 bool ENUM_SCRIPT_TYPE_BTC_IsValid(int value) {
   switch (value) {

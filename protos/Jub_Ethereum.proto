@@ -18,12 +18,6 @@ message ContextCfgETH {
     string main_path = 1;
     uint32 chainID   = 2;
 }
-
-message Erc20Builder{
-    string tokenTo         = 1;
-    string tokenValueInWei = 2;
-}
-
 message TransactionETH{
     JUB.Proto.Common.Bip32Path path = 1;
     uint32 nonce = 2;

@@ -43,16 +43,6 @@ message ResultAny{
     repeated google.protobuf.Any res = 2;
 }
 
-// btc coin type 
-enum ENUM_COINTYPE_BTC{
-    COINBTC  = 0;
-    COINBCH  = 1;
-    COINLTC  = 2;
-    COINUSDT = 3;
-    COINDASH = 4;
-    COINQTUM = 5;
-}
-
 //mnemonic strength
 enum ENUM_MNEMONIC_STRENGTH{
     STRENGTH128 = 0;
