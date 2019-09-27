@@ -3,7 +3,7 @@ import "Jub_Common.proto";
 
 package JUB.Proto.Bitcoin;
 
-option java_package = "com.jubiter.jni.proto";
+option java_package = "com.jubiter.sdk.proto";
 option java_outer_classname = "BitcoinProtos";
 option objc_class_prefix = "BitcoinProtos";
 
@@ -22,7 +22,15 @@ enum ENUM_TRAN_STYPE_BTC{
     p2sh_p2wpkh         = 1;
     p2sh_multisig       = 2;
     p2pk                = 3;
-} 
+}
+
+enum BTC_UNIT_TYPE{
+    BTC  = 0;
+    cBTC = 1;
+    mBTC = 2;
+    uBTC = 3;
+    Satoshi = 4;
+}
 
 message ContextCfgBTC {
     string main_path = 1;

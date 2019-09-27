@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.6.0)
 
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp)
+#file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp)
 
-execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Common.proto)
-execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Bitcoin.proto)
-execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Ethereum.proto)
+#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Common.proto)
+#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Bitcoin.proto)
+#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Ethereum.proto)
 
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/ SRC_LIST)

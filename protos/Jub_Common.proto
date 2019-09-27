@@ -1,8 +1,9 @@
 syntax = "proto3";
 
 package JUB.Proto.Common;
+import "google/protobuf/any.proto";
 
-option java_package = "com.jubiter.jni.proto";
+option java_package = "com.jubiter.sdk.proto";
 option java_outer_classname = "CommonProtos";
 option objc_class_prefix = "CommonProtos";
 
@@ -24,7 +25,7 @@ message DeviceInfo{
     uint32 pinMaxRetry = 6;
 }
 
-// result with ith rv
+// result with int rv
 message ResultInt{
     uint64 rv  = 1;
     uint32 res = 2;    
@@ -36,14 +37,10 @@ message ResultString{
     string res = 2;
 }
 
-// btc coin type 
-enum ENUM_COINTYPE_BTC{
-    COINBTC  = 0;
-    COINBCH  = 1;
-    COINLTC  = 2;
-    COINUSDT = 3;
-    COINDASH = 4;
-    COINQTUM = 5;
+// result with DeviceInfo rv
+message ResultAny{
+    uint64 rv  = 1;
+    repeated google.protobuf.Any res = 2;
 }
 
 //mnemonic strength
