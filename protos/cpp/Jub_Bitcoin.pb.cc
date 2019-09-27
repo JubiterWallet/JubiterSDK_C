@@ -279,7 +279,7 @@ const char descriptor_table_protodef_Jub_5fBitcoin_2eproto[] PROTOBUF_SECTION_VA
   "\022\010\n\004cBTC\020\001\022\010\n\004mBTC\020\002\022\010\n\004uBTC\020\003\022\013\n\007Satosh"
   "i\020\004*<\n\024ENUM_SCRIPT_TYPE_BTC\022\014\n\010STANDARD\020"
   "\000\022\013\n\007RETURN0\020\001\022\t\n\005QRC20\020\003B6\n\025com.jubiter"
-  ".jni.protoB\rBitcoinProtos\242\002\rBitcoinProto"
+  ".sdk.protoB\rBitcoinProtos\242\002\rBitcoinProto"
   "sb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Jub_5fBitcoin_2eproto_deps[1] = {

@@ -41,11 +41,11 @@ endif (BUILD_SHARED_LIBS)
 option(protobuf_BUILD_SHARED_LIBS "Build Shared Libraries" ${protobuf_BUILD_SHARED_LIBS_DEFAULT})
 include(CMakeDependentOption)
 cmake_dependent_option(protobuf_MSVC_STATIC_RUNTIME "Link static runtime libraries" ON
-  "NOT protobuf_BUILD_SHARED_LIBS" OFF)
+        "NOT protobuf_BUILD_SHARED_LIBS" OFF)
 set(protobuf_WITH_ZLIB_DEFAULT ON)
 option(protobuf_WITH_ZLIB "Build with zlib support" ${protobuf_WITH_ZLIB_DEFAULT})
 set(protobuf_DEBUG_POSTFIX "d"
-  CACHE STRING "Default debug postfix")
+        CACHE STRING "Default debug postfix")
 mark_as_advanced(protobuf_DEBUG_POSTFIX)
 # User options
 include(protobuf-options.cmake)
@@ -55,34 +55,34 @@ set(protobuf_CONFIGURE_SCRIPT "../configure.ac")
 
 # Parse configure script
 set(protobuf_AC_INIT_REGEX
-  "^AC_INIT\\(\\[([^]]+)\\],\\[([^]]+)\\],\\[([^]]+)\\],\\[([^]]+)\\]\\)$")
+        "^AC_INIT\\(\\[([^]]+)\\],\\[([^]]+)\\],\\[([^]]+)\\],\\[([^]]+)\\]\\)$")
 file(STRINGS "${protobuf_CONFIGURE_SCRIPT}" protobuf_AC_INIT_LINE
-  LIMIT_COUNT 1 REGEX "^AC_INIT")
+        LIMIT_COUNT 1 REGEX "^AC_INIT")
 # Description
 string(REGEX REPLACE        "${protobuf_AC_INIT_REGEX}" "\\1"
-    protobuf_DESCRIPTION    "${protobuf_AC_INIT_LINE}")
+        protobuf_DESCRIPTION    "${protobuf_AC_INIT_LINE}")
 # Version
 string(REGEX REPLACE        "${protobuf_AC_INIT_REGEX}" "\\2"
-    protobuf_VERSION_STRING "${protobuf_AC_INIT_LINE}")
+        protobuf_VERSION_STRING "${protobuf_AC_INIT_LINE}")
 # Contact
 string(REGEX REPLACE        "${protobuf_AC_INIT_REGEX}" "\\3"
-    protobuf_CONTACT        "${protobuf_AC_INIT_LINE}")
+        protobuf_CONTACT        "${protobuf_AC_INIT_LINE}")
 # Parse version tweaks
 set(protobuf_VERSION_REGEX "^([0-9]+)\\.([0-9]+)\\.([0-9]+)([-]rc[-]|\\.)?([0-9]*)$")
 string(REGEX REPLACE     "${protobuf_VERSION_REGEX}" "\\1"
-  protobuf_VERSION_MAJOR "${protobuf_VERSION_STRING}")
+        protobuf_VERSION_MAJOR "${protobuf_VERSION_STRING}")
 string(REGEX REPLACE     "${protobuf_VERSION_REGEX}" "\\2"
-  protobuf_VERSION_MINOR "${protobuf_VERSION_STRING}")
+        protobuf_VERSION_MINOR "${protobuf_VERSION_STRING}")
 string(REGEX REPLACE     "${protobuf_VERSION_REGEX}" "\\3"
-  protobuf_VERSION_PATCH "${protobuf_VERSION_STRING}")
+        protobuf_VERSION_PATCH "${protobuf_VERSION_STRING}")
 string(REGEX REPLACE     "${protobuf_VERSION_REGEX}" "\\5"
-  protobuf_VERSION_PRERELEASE "${protobuf_VERSION_STRING}")
+        protobuf_VERSION_PRERELEASE "${protobuf_VERSION_STRING}")
 
 message(STATUS "${protobuf_VERSION_PRERELEASE}")
 
 # Package version
 set(protobuf_VERSION
-  "${protobuf_VERSION_MAJOR}.${protobuf_VERSION_MINOR}.${protobuf_VERSION_PATCH}")
+        "${protobuf_VERSION_MAJOR}.${protobuf_VERSION_MINOR}.${protobuf_VERSION_PATCH}")
 
 if(protobuf_VERSION_PRERELEASE)
   set(protobuf_VERSION "${protobuf_VERSION}.${protobuf_VERSION_PRERELEASE}")
@@ -143,8 +143,8 @@ else (protobuf_BUILD_SHARED_LIBS)
   # http://www.cmake.org/Wiki/CMake_FAQ#How_can_I_build_my_MSVC_application_with_a_static_runtime.3F
   if (MSVC AND protobuf_MSVC_STATIC_RUNTIME)
     foreach(flag_var
-        CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-        CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+            CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+            CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
       if(${flag_var} MATCHES "/MD")
         string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
       endif(${flag_var} MATCHES "/MD")
@@ -157,20 +157,20 @@ if (MSVC)
   add_definitions(/MP)
   # MSVC warning suppressions
   add_definitions(
-    /wd4018 # 'expression' : signed/unsigned mismatch
-    /wd4065 # switch statement contains 'default' but no 'case' labels
-    /wd4146 # unary minus operator applied to unsigned type, result still unsigned
-    /wd4244 # 'conversion' conversion from 'type1' to 'type2', possible loss of data
-    /wd4251 # 'identifier' : class 'type' needs to have dll-interface to be used by clients of class 'type2'
-    /wd4267 # 'var' : conversion from 'size_t' to 'type', possible loss of data
-    /wd4305 # 'identifier' : truncation from 'type1' to 'type2'
-    /wd4307 # 'operator' : integral constant overflow
-    /wd4309 # 'conversion' : truncation of constant value
-    /wd4334 # 'operator' : result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
-    /wd4355 # 'this' : used in base member initializer list
-    /wd4506 # no definition for inline function 'function'
-    /wd4800 # 'type' : forcing value to bool 'true' or 'false' (performance warning)
-    /wd4996 # The compiler encountered a deprecated declaration.
+          /wd4018 # 'expression' : signed/unsigned mismatch
+          /wd4065 # switch statement contains 'default' but no 'case' labels
+          /wd4146 # unary minus operator applied to unsigned type, result still unsigned
+          /wd4244 # 'conversion' conversion from 'type1' to 'type2', possible loss of data
+          /wd4251 # 'identifier' : class 'type' needs to have dll-interface to be used by clients of class 'type2'
+          /wd4267 # 'var' : conversion from 'size_t' to 'type', possible loss of data
+          /wd4305 # 'identifier' : truncation from 'type1' to 'type2'
+          /wd4307 # 'operator' : integral constant overflow
+          /wd4309 # 'conversion' : truncation of constant value
+          /wd4334 # 'operator' : result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+          /wd4355 # 'this' : used in base member initializer list
+          /wd4506 # no definition for inline function 'function'
+          /wd4800 # 'type' : forcing value to bool 'true' or 'false' (performance warning)
+          /wd4996 # The compiler encountered a deprecated declaration.
   )
   # Allow big object
   add_definitions(/bigobj)
@@ -196,9 +196,9 @@ endif (MSVC)
 get_filename_component(protobuf_source_dir ${protobuf_SOURCE_DIR} PATH)
 
 include_directories(
-  ${ZLIB_INCLUDE_DIRECTORIES}
-  ${protobuf_BINARY_DIR}
-  ${protobuf_source_dir}/src)
+        ${ZLIB_INCLUDE_DIRECTORIES}
+        ${protobuf_BINARY_DIR}
+        ${protobuf_source_dir}/src)
 
 if (MSVC)
   # Add the "lib" prefix for generated .lib outputs.
@@ -235,5 +235,5 @@ if (protobuf_BUILD_EXAMPLES)
 endif (protobuf_BUILD_EXAMPLES)
 
 if(protobuf_VERBOSE)
-    message(STATUS "Protocol Buffers Configuring done")
+  message(STATUS "Protocol Buffers Configuring done")
 endif()

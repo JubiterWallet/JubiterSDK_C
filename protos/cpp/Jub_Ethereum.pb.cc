@@ -103,7 +103,7 @@ const char descriptor_table_protodef_Jub_5fEthereum_2eproto[] PROTOBUF_SECTION_V
   "\030\003 \001(\r\022\025\n\rgasPriceInWei\030\004 \001(\t\022\n\n\002to\030\005 \001("
   "\t\022\022\n\nvalueInWei\030\006 \001(\t\022\r\n\005input\030\007 \001(\t*$\n\017"
   "ENUM_PUB_FORMAT\022\007\n\003HEX\020\000\022\010\n\004XPUB\020\001B8\n\025co"
-  "m.jubiter.jni.protoB\016EthereumProtos\242\002\016Et"
+  "m.jubiter.sdk.protoB\016EthereumProtos\242\002\016Et"
   "hereumProtosb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Jub_5fEthereum_2eproto_deps[1] = {

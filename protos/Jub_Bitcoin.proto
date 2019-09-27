@@ -3,7 +3,7 @@ import "Jub_Common.proto";
 
 package JUB.Proto.Bitcoin;
 
-option java_package = "com.jubiter.jni.proto";
+option java_package = "com.jubiter.sdk.proto";
 option java_outer_classname = "BitcoinProtos";
 option objc_class_prefix = "BitcoinProtos";
 

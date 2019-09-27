@@ -114,7 +114,7 @@ static void InitDefaultsscc_info_ResultString_Jub_5fCommon_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_ResultString_Jub_5fCommon_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Jub_5fCommon_2eproto[5];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_Jub_5fCommon_2eproto[3];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_Jub_5fCommon_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Jub_5fCommon_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Jub_5fCommon_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -184,14 +184,12 @@ const char descriptor_table_protodef_Jub_5fCommon_2eproto[] PROTOBUF_SECTION_VAR
   "$\n\tResultInt\022\n\n\002rv\030\001 \001(\004\022\013\n\003res\030\002 \001(\r\"\'\n"
   "\014ResultString\022\n\n\002rv\030\001 \001(\004\022\013\n\003res\030\002 \001(\t\":"
   "\n\tResultAny\022\n\n\002rv\030\001 \001(\004\022!\n\003res\030\002 \003(\0132\024.g"
-  "oogle.protobuf.Any*d\n\021ENUM_COINTYPE_BTC\022"
-  "\013\n\007COINBTC\020\000\022\013\n\007COINBCH\020\001\022\013\n\007COINLTC\020\002\022\014"
-  "\n\010COINUSDT\020\003\022\014\n\010COINDASH\020\004\022\014\n\010COINQTUM\020\005"
-  "*K\n\026ENUM_MNEMONIC_STRENGTH\022\017\n\013STRENGTH12"
-  "8\020\000\022\017\n\013STRENGTH192\020\001\022\017\n\013STRENGTH256\020\002*3\n"
-  "\006CURVES\022\r\n\tsecp256k1\020\000\022\013\n\007ed25519\020\001\022\r\n\tn"
-  "ist256p1\020\002B4\n\025com.jubiter.jni.protoB\014Com"
-  "monProtos\242\002\014CommonProtosb\006proto3"
+  "oogle.protobuf.Any*K\n\026ENUM_MNEMONIC_STRE"
+  "NGTH\022\017\n\013STRENGTH128\020\000\022\017\n\013STRENGTH192\020\001\022\017"
+  "\n\013STRENGTH256\020\002*3\n\006CURVES\022\r\n\tsecp256k1\020\000"
+  "\022\013\n\007ed25519\020\001\022\r\n\tnist256p1\020\002B4\n\025com.jubi"
+  "ter.sdk.protoB\014CommonProtos\242\002\014CommonProt"
+  "osb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Jub_5fCommon_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2fany_2eproto,
@@ -206,7 +204,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Jub
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Jub_5fCommon_2eproto_once;
 static bool descriptor_table_Jub_5fCommon_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Jub_5fCommon_2eproto = {
-  &descriptor_table_Jub_5fCommon_2eproto_initialized, descriptor_table_protodef_Jub_5fCommon_2eproto, "Jub_Common.proto", 672,
+  &descriptor_table_Jub_5fCommon_2eproto_initialized, descriptor_table_protodef_Jub_5fCommon_2eproto, "Jub_Common.proto", 570,
   &descriptor_table_Jub_5fCommon_2eproto_once, descriptor_table_Jub_5fCommon_2eproto_sccs, descriptor_table_Jub_5fCommon_2eproto_deps, 5, 1,
   schemas, file_default_instances, TableStruct_Jub_5fCommon_2eproto::offsets,
   file_level_metadata_Jub_5fCommon_2eproto, 5, file_level_enum_descriptors_Jub_5fCommon_2eproto, file_level_service_descriptors_Jub_5fCommon_2eproto,
@@ -217,27 +215,9 @@ static bool dynamic_init_dummy_Jub_5fCommon_2eproto = (  ::PROTOBUF_NAMESPACE_ID
 namespace JUB {
 namespace Proto {
 namespace Common {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ENUM_COINTYPE_BTC_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Jub_5fCommon_2eproto);
-  return file_level_enum_descriptors_Jub_5fCommon_2eproto[0];
-}
-bool ENUM_COINTYPE_BTC_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      return true;
-    default:
-      return false;
-  }
-}
-
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ENUM_MNEMONIC_STRENGTH_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Jub_5fCommon_2eproto);
-  return file_level_enum_descriptors_Jub_5fCommon_2eproto[1];
+  return file_level_enum_descriptors_Jub_5fCommon_2eproto[0];
 }
 bool ENUM_MNEMONIC_STRENGTH_IsValid(int value) {
   switch (value) {
@@ -252,7 +232,7 @@ bool ENUM_MNEMONIC_STRENGTH_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CURVES_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Jub_5fCommon_2eproto);
-  return file_level_enum_descriptors_Jub_5fCommon_2eproto[2];
+  return file_level_enum_descriptors_Jub_5fCommon_2eproto[1];
 }
 bool CURVES_IsValid(int value) {
   switch (value) {

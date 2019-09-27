@@ -3,7 +3,7 @@ syntax = "proto3";
 package JUB.Proto.Common;
 import "google/protobuf/any.proto";
 
-option java_package = "com.jubiter.jni.proto";
+option java_package = "com.jubiter.sdk.proto";
 option java_outer_classname = "CommonProtos";
 option objc_class_prefix = "CommonProtos";
 

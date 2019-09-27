@@ -88,35 +88,6 @@ namespace JUB {
 namespace Proto {
 namespace Common {
 
-enum ENUM_COINTYPE_BTC : int {
-  COINBTC = 0,
-  COINBCH = 1,
-  COINLTC = 2,
-  COINUSDT = 3,
-  COINDASH = 4,
-  COINQTUM = 5,
-  ENUM_COINTYPE_BTC_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  ENUM_COINTYPE_BTC_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool ENUM_COINTYPE_BTC_IsValid(int value);
-constexpr ENUM_COINTYPE_BTC ENUM_COINTYPE_BTC_MIN = COINBTC;
-constexpr ENUM_COINTYPE_BTC ENUM_COINTYPE_BTC_MAX = COINQTUM;
-constexpr int ENUM_COINTYPE_BTC_ARRAYSIZE = ENUM_COINTYPE_BTC_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ENUM_COINTYPE_BTC_descriptor();
-template<typename T>
-inline const std::string& ENUM_COINTYPE_BTC_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, ENUM_COINTYPE_BTC>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function ENUM_COINTYPE_BTC_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    ENUM_COINTYPE_BTC_descriptor(), enum_t_value);
-}
-inline bool ENUM_COINTYPE_BTC_Parse(
-    const std::string& name, ENUM_COINTYPE_BTC* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ENUM_COINTYPE_BTC>(
-    ENUM_COINTYPE_BTC_descriptor(), name, value);
-}
 enum ENUM_MNEMONIC_STRENGTH : int {
   STRENGTH128 = 0,
   STRENGTH192 = 1,
@@ -1364,11 +1335,6 @@ ResultAny::res() const {
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::JUB::Proto::Common::ENUM_COINTYPE_BTC> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::JUB::Proto::Common::ENUM_COINTYPE_BTC>() {
-  return ::JUB::Proto::Common::ENUM_COINTYPE_BTC_descriptor();
-}
 template <> struct is_proto_enum< ::JUB::Proto::Common::ENUM_MNEMONIC_STRENGTH> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::JUB::Proto::Common::ENUM_MNEMONIC_STRENGTH>() {
