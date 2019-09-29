@@ -141,22 +141,22 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Jub_5fCommon_2eproto::offsets[
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultInt, rv_),
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultInt, res_),
+  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultInt, statecode_),
+  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultInt, value_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultString, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultString, rv_),
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultString, res_),
+  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultString, statecode_),
+  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultString, value_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultAny, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultAny, rv_),
-  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultAny, res_),
+  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultAny, statecode_),
+  PROTOBUF_FIELD_OFFSET(::JUB::Proto::Common::ResultAny, value_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::JUB::Proto::Common::Bip32Path)},
@@ -181,15 +181,15 @@ const char descriptor_table_protodef_Jub_5fCommon_2eproto[] PROTOBUF_SECTION_VAR
   "viceInfo\022\n\n\002sn\030\001 \001(\t\022\r\n\005label\030\002 \001(\t\022\022\n\nb"
   "leVersion\030\003 \001(\t\022\027\n\017firmwareVersion\030\004 \001(\t"
   "\022\020\n\010pinRetry\030\005 \001(\r\022\023\n\013pinMaxRetry\030\006 \001(\r\""
-  "$\n\tResultInt\022\n\n\002rv\030\001 \001(\004\022\013\n\003res\030\002 \001(\r\"\'\n"
-  "\014ResultString\022\n\n\002rv\030\001 \001(\004\022\013\n\003res\030\002 \001(\t\":"
-  "\n\tResultAny\022\n\n\002rv\030\001 \001(\004\022!\n\003res\030\002 \003(\0132\024.g"
-  "oogle.protobuf.Any*K\n\026ENUM_MNEMONIC_STRE"
-  "NGTH\022\017\n\013STRENGTH128\020\000\022\017\n\013STRENGTH192\020\001\022\017"
-  "\n\013STRENGTH256\020\002*3\n\006CURVES\022\r\n\tsecp256k1\020\000"
-  "\022\013\n\007ed25519\020\001\022\r\n\tnist256p1\020\002B4\n\025com.jubi"
-  "ter.sdk.protoB\014CommonProtos\242\002\014CommonProt"
-  "osb\006proto3"
+  "-\n\tResultInt\022\021\n\tstateCode\030\001 \001(\004\022\r\n\005value"
+  "\030\002 \001(\r\"0\n\014ResultString\022\021\n\tstateCode\030\001 \001("
+  "\004\022\r\n\005value\030\002 \001(\t\"C\n\tResultAny\022\021\n\tstateCo"
+  "de\030\001 \001(\004\022#\n\005value\030\002 \003(\0132\024.google.protobu"
+  "f.Any*K\n\026ENUM_MNEMONIC_STRENGTH\022\017\n\013STREN"
+  "GTH128\020\000\022\017\n\013STRENGTH192\020\001\022\017\n\013STRENGTH256"
+  "\020\002*3\n\006CURVES\022\r\n\tsecp256k1\020\000\022\013\n\007ed25519\020\001"
+  "\022\r\n\tnist256p1\020\002B4\n\025com.jubiter.sdk.proto"
+  "B\014CommonProtos\242\002\014CommonProtosb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Jub_5fCommon_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2fany_2eproto,
@@ -204,7 +204,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Jub
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Jub_5fCommon_2eproto_once;
 static bool descriptor_table_Jub_5fCommon_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Jub_5fCommon_2eproto = {
-  &descriptor_table_Jub_5fCommon_2eproto_initialized, descriptor_table_protodef_Jub_5fCommon_2eproto, "Jub_Common.proto", 570,
+  &descriptor_table_Jub_5fCommon_2eproto_initialized, descriptor_table_protodef_Jub_5fCommon_2eproto, "Jub_Common.proto", 597,
   &descriptor_table_Jub_5fCommon_2eproto_once, descriptor_table_Jub_5fCommon_2eproto_sccs, descriptor_table_Jub_5fCommon_2eproto_deps, 5, 1,
   schemas, file_default_instances, TableStruct_Jub_5fCommon_2eproto::offsets,
   file_level_metadata_Jub_5fCommon_2eproto, 5, file_level_enum_descriptors_Jub_5fCommon_2eproto, file_level_service_descriptors_Jub_5fCommon_2eproto,
@@ -1106,16 +1106,16 @@ ResultInt::ResultInt(const ResultInt& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&rv_, &from.rv_,
-    static_cast<size_t>(reinterpret_cast<char*>(&res_) -
-    reinterpret_cast<char*>(&rv_)) + sizeof(res_));
+  ::memcpy(&statecode_, &from.statecode_,
+    static_cast<size_t>(reinterpret_cast<char*>(&value_) -
+    reinterpret_cast<char*>(&statecode_)) + sizeof(value_));
   // @@protoc_insertion_point(copy_constructor:JUB.Proto.Common.ResultInt)
 }
 
 void ResultInt::SharedCtor() {
-  ::memset(&rv_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&res_) -
-      reinterpret_cast<char*>(&rv_)) + sizeof(res_));
+  ::memset(&statecode_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&value_) -
+      reinterpret_cast<char*>(&statecode_)) + sizeof(value_));
 }
 
 ResultInt::~ResultInt() {
@@ -1141,9 +1141,9 @@ void ResultInt::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&rv_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&res_) -
-      reinterpret_cast<char*>(&rv_)) + sizeof(res_));
+  ::memset(&statecode_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&value_) -
+      reinterpret_cast<char*>(&statecode_)) + sizeof(value_));
   _internal_metadata_.Clear();
 }
 
@@ -1155,17 +1155,17 @@ const char* ResultInt::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // uint64 rv = 1;
+      // uint64 stateCode = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          rv_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          statecode_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 res = 2;
+      // uint32 value = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          res_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1199,26 +1199,26 @@ bool ResultInt::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint64 rv = 1;
+      // uint64 stateCode = 1;
       case 1: {
         if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (8 & 0xFF)) {
 
           DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
                    ::PROTOBUF_NAMESPACE_ID::uint64, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &rv_)));
+                 input, &statecode_)));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // uint32 res = 2;
+      // uint32 value = 2;
       case 2: {
         if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (16 & 0xFF)) {
 
           DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
                    ::PROTOBUF_NAMESPACE_ID::uint32, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &res_)));
+                 input, &value_)));
         } else {
           goto handle_unusual;
         }
@@ -1252,14 +1252,14 @@ void ResultInt::SerializeWithCachedSizes(
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64(1, this->rv(), output);
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64(1, this->statecode(), output);
   }
 
-  // uint32 res = 2;
-  if (this->res() != 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32(2, this->res(), output);
+  // uint32 value = 2;
+  if (this->value() != 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32(2, this->value(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -1275,14 +1275,14 @@ void ResultInt::SerializeWithCachedSizes(
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->rv(), target);
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->statecode(), target);
   }
 
-  // uint32 res = 2;
-  if (this->res() != 0) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->res(), target);
+  // uint32 value = 2;
+  if (this->value() != 0) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->value(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -1306,18 +1306,18 @@ size_t ResultInt::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->rv());
+        this->statecode());
   }
 
-  // uint32 res = 2;
-  if (this->res() != 0) {
+  // uint32 value = 2;
+  if (this->value() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->res());
+        this->value());
   }
 
   int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
@@ -1347,11 +1347,11 @@ void ResultInt::MergeFrom(const ResultInt& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.rv() != 0) {
-    set_rv(from.rv());
+  if (from.statecode() != 0) {
+    set_statecode(from.statecode());
   }
-  if (from.res() != 0) {
-    set_res(from.res());
+  if (from.value() != 0) {
+    set_value(from.value());
   }
 }
 
@@ -1376,8 +1376,8 @@ bool ResultInt::IsInitialized() const {
 void ResultInt::InternalSwap(ResultInt* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(rv_, other->rv_);
-  swap(res_, other->res_);
+  swap(statecode_, other->statecode_);
+  swap(value_, other->value_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ResultInt::GetMetadata() const {
@@ -1402,18 +1402,18 @@ ResultString::ResultString(const ResultString& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  res_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from.res().empty()) {
-    res_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.res_);
+  value_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from.value().empty()) {
+    value_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.value_);
   }
-  rv_ = from.rv_;
+  statecode_ = from.statecode_;
   // @@protoc_insertion_point(copy_constructor:JUB.Proto.Common.ResultString)
 }
 
 void ResultString::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ResultString_Jub_5fCommon_2eproto.base);
-  res_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  rv_ = PROTOBUF_ULONGLONG(0);
+  value_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  statecode_ = PROTOBUF_ULONGLONG(0);
 }
 
 ResultString::~ResultString() {
@@ -1422,7 +1422,7 @@ ResultString::~ResultString() {
 }
 
 void ResultString::SharedDtor() {
-  res_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  value_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void ResultString::SetCachedSize(int size) const {
@@ -1440,8 +1440,8 @@ void ResultString::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  res_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  rv_ = PROTOBUF_ULONGLONG(0);
+  value_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  statecode_ = PROTOBUF_ULONGLONG(0);
   _internal_metadata_.Clear();
 }
 
@@ -1453,17 +1453,17 @@ const char* ResultString::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // uint64 rv = 1;
+      // uint64 stateCode = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          rv_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          statecode_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string res = 2;
+      // string value = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(mutable_res(), ptr, ctx, "JUB.Proto.Common.ResultString.res");
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(mutable_value(), ptr, ctx, "JUB.Proto.Common.ResultString.value");
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1497,28 +1497,28 @@ bool ResultString::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint64 rv = 1;
+      // uint64 stateCode = 1;
       case 1: {
         if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (8 & 0xFF)) {
 
           DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
                    ::PROTOBUF_NAMESPACE_ID::uint64, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &rv_)));
+                 input, &statecode_)));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // string res = 2;
+      // string value = 2;
       case 2: {
         if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (18 & 0xFF)) {
           DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadString(
-                input, this->mutable_res()));
+                input, this->mutable_value()));
           DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-            this->res().data(), static_cast<int>(this->res().length()),
+            this->value().data(), static_cast<int>(this->value().length()),
             ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE,
-            "JUB.Proto.Common.ResultString.res"));
+            "JUB.Proto.Common.ResultString.value"));
         } else {
           goto handle_unusual;
         }
@@ -1552,19 +1552,19 @@ void ResultString::SerializeWithCachedSizes(
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64(1, this->rv(), output);
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64(1, this->statecode(), output);
   }
 
-  // string res = 2;
-  if (this->res().size() > 0) {
+  // string value = 2;
+  if (this->value().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->res().data(), static_cast<int>(this->res().length()),
+      this->value().data(), static_cast<int>(this->value().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "JUB.Proto.Common.ResultString.res");
+      "JUB.Proto.Common.ResultString.value");
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->res(), output);
+      2, this->value(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -1580,20 +1580,20 @@ void ResultString::SerializeWithCachedSizes(
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->rv(), target);
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->statecode(), target);
   }
 
-  // string res = 2;
-  if (this->res().size() > 0) {
+  // string value = 2;
+  if (this->value().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->res().data(), static_cast<int>(this->res().length()),
+      this->value().data(), static_cast<int>(this->value().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "JUB.Proto.Common.ResultString.res");
+      "JUB.Proto.Common.ResultString.value");
     target =
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringToArray(
-        2, this->res(), target);
+        2, this->value(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -1617,18 +1617,18 @@ size_t ResultString::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string res = 2;
-  if (this->res().size() > 0) {
+  // string value = 2;
+  if (this->value().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->res());
+        this->value());
   }
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->rv());
+        this->statecode());
   }
 
   int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
@@ -1658,12 +1658,12 @@ void ResultString::MergeFrom(const ResultString& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.res().size() > 0) {
+  if (from.value().size() > 0) {
 
-    res_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.res_);
+    value_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.value_);
   }
-  if (from.rv() != 0) {
-    set_rv(from.rv());
+  if (from.statecode() != 0) {
+    set_statecode(from.statecode());
   }
 }
 
@@ -1688,9 +1688,9 @@ bool ResultString::IsInitialized() const {
 void ResultString::InternalSwap(ResultString* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  res_.Swap(&other->res_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  value_.Swap(&other->value_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  swap(rv_, other->rv_);
+  swap(statecode_, other->statecode_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ResultString::GetMetadata() const {
@@ -1706,8 +1706,8 @@ class ResultAny::_Internal {
  public:
 };
 
-void ResultAny::clear_res() {
-  res_.Clear();
+void ResultAny::clear_value() {
+  value_.Clear();
 }
 ResultAny::ResultAny()
   : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
@@ -1717,15 +1717,15 @@ ResultAny::ResultAny()
 ResultAny::ResultAny(const ResultAny& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr),
-      res_(from.res_) {
+      value_(from.value_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  rv_ = from.rv_;
+  statecode_ = from.statecode_;
   // @@protoc_insertion_point(copy_constructor:JUB.Proto.Common.ResultAny)
 }
 
 void ResultAny::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ResultAny_Jub_5fCommon_2eproto.base);
-  rv_ = PROTOBUF_ULONGLONG(0);
+  statecode_ = PROTOBUF_ULONGLONG(0);
 }
 
 ResultAny::~ResultAny() {
@@ -1751,8 +1751,8 @@ void ResultAny::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  res_.Clear();
-  rv_ = PROTOBUF_ULONGLONG(0);
+  value_.Clear();
+  statecode_ = PROTOBUF_ULONGLONG(0);
   _internal_metadata_.Clear();
 }
 
@@ -1764,20 +1764,20 @@ const char* ResultAny::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // uint64 rv = 1;
+      // uint64 stateCode = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          rv_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          statecode_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated .google.protobuf.Any res = 2;
+      // repeated .google.protobuf.Any value = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr -= 1;
           do {
             ptr += 1;
-            ptr = ctx->ParseMessage(add_res(), ptr);
+            ptr = ctx->ParseMessage(add_value(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<::PROTOBUF_NAMESPACE_ID::uint8>(ptr) == 18);
@@ -1813,24 +1813,24 @@ bool ResultAny::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint64 rv = 1;
+      // uint64 stateCode = 1;
       case 1: {
         if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (8 & 0xFF)) {
 
           DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
                    ::PROTOBUF_NAMESPACE_ID::uint64, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &rv_)));
+                 input, &statecode_)));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated .google.protobuf.Any res = 2;
+      // repeated .google.protobuf.Any value = 2;
       case 2: {
         if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (18 & 0xFF)) {
           DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
-                input, add_res()));
+                input, add_value()));
         } else {
           goto handle_unusual;
         }
@@ -1864,17 +1864,17 @@ void ResultAny::SerializeWithCachedSizes(
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64(1, this->rv(), output);
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64(1, this->statecode(), output);
   }
 
-  // repeated .google.protobuf.Any res = 2;
+  // repeated .google.protobuf.Any value = 2;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->res_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->value_size()); i < n; i++) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       2,
-      this->res(static_cast<int>(i)),
+      this->value(static_cast<int>(i)),
       output);
   }
 
@@ -1891,17 +1891,17 @@ void ResultAny::SerializeWithCachedSizes(
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->rv(), target);
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->statecode(), target);
   }
 
-  // repeated .google.protobuf.Any res = 2;
+  // repeated .google.protobuf.Any value = 2;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->res_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->value_size()); i < n; i++) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        2, this->res(static_cast<int>(i)), target);
+        2, this->value(static_cast<int>(i)), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -1925,22 +1925,22 @@ size_t ResultAny::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .google.protobuf.Any res = 2;
+  // repeated .google.protobuf.Any value = 2;
   {
-    unsigned int count = static_cast<unsigned int>(this->res_size());
+    unsigned int count = static_cast<unsigned int>(this->value_size());
     total_size += 1UL * count;
     for (unsigned int i = 0; i < count; i++) {
       total_size +=
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          this->res(static_cast<int>(i)));
+          this->value(static_cast<int>(i)));
     }
   }
 
-  // uint64 rv = 1;
-  if (this->rv() != 0) {
+  // uint64 stateCode = 1;
+  if (this->statecode() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->rv());
+        this->statecode());
   }
 
   int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
@@ -1970,9 +1970,9 @@ void ResultAny::MergeFrom(const ResultAny& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  res_.MergeFrom(from.res_);
-  if (from.rv() != 0) {
-    set_rv(from.rv());
+  value_.MergeFrom(from.value_);
+  if (from.statecode() != 0) {
+    set_statecode(from.statecode());
   }
 }
 
@@ -1997,8 +1997,8 @@ bool ResultAny::IsInitialized() const {
 void ResultAny::InternalSwap(ResultAny* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  CastToBase(&res_)->InternalSwap(CastToBase(&other->res_));
-  swap(rv_, other->rv_);
+  CastToBase(&value_)->InternalSwap(CastToBase(&other->value_));
+  swap(statecode_, other->statecode_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ResultAny::GetMetadata() const {
