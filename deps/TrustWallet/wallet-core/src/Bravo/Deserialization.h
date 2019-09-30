@@ -1,3 +1,11 @@
+//
+//  Deserialization.h
+//  JubSDK
+//
+//  Created by panmin on 2019/9/26.
+//  Copyright © 2019 JuBiter. All rights reserved.
+//
+
 #pragma once
 
 #include <nlohmann/json.hpp>
@@ -12,7 +20,6 @@
 
 namespace TW::Bravo {
 inline void decodeVarInt64(const Data& os, uint64_t& x, int& varIntByteSize) {
-    // 64-bit int would take at most 10 bytes as a varint
     x = 0;
     varIntByteSize = 0;
 
@@ -32,15 +39,14 @@ inline void decodeVarInt32(const Data& os, uint32_t& x, int& varIntByteSize) {
     decodeVarInt64(os, (uint64_t&)x, varIntByteSize);
 }
 
-inline void decodeString(const Data& os, std::string& s) {
-    int varIntByteSize = 0;
+inline void decodeString(const Data& os, std::string& s, int& varIntByteSize) {
+    varIntByteSize = 0;
     uint64_t size = 0;
     decodeVarInt64(os, size, varIntByteSize);
     uchar_vector vOs(os.begin() + varIntByteSize,
                      os.begin() + varIntByteSize + size);
-//    sprintf(<#char *#>, <#const char *, ...#>)
-//    s = vOs;
-//    os.insert(os.end(), s.data(), s.data() + size);
+    s = vOs.getCharsAsString();
+    varIntByteSize += size;
 }
 
 inline void decodeCollection(const Data& os, uint64_t& collectionCnt, int& varIntByteSize) {
@@ -70,4 +76,4 @@ inline void decodePointerCollection(const json& array, Collection& collection) {
 //
 //    return array;
 }
-} // namespace
+} // namespace TW::Bravo end

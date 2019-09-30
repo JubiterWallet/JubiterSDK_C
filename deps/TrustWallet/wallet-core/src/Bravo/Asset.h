@@ -15,6 +15,8 @@ public:
     uint64_t symbol = 0;
 
     // Generic constructor
+    // JuBiter-defined
+    Asset() {};
     Asset(int64_t amount, uint8_t decimals, const std::string& symbol);
 
     // Parses a string in the format "5.001 XYZ"
@@ -35,6 +37,8 @@ public:
         return p;
     }
 
+    // JuBiter-defined
+    void deserialize(const Data& os) noexcept;
     void serialize(Data& os) const noexcept;
     std::string string() const;
 
@@ -45,6 +49,5 @@ public:
     static const constexpr char * testNetSymbol = "TESTS";
 
     static const uint8_t maxDecimals = 18;
-
-};
-} // namespace
+}; // class Asset end
+} // namespace TW::Bravo end

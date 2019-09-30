@@ -29,22 +29,35 @@ public:
     virtual ~Signature() { }
     void serialize(Data& os) const noexcept;
     std::string string() const noexcept;
-};
+}; // class Signature end
 
 class Extension {
 public:
     uint16_t type;
     Data buffer;
 
+    // JuBiter-defined
+    Extension() {};
     Extension(uint16_t type, Data buffer) : type(type), buffer(buffer) { }
     virtual ~Extension() { }
+
+    // JuBiter-defined
+    void deserialize(const Data& o) noexcept;
+    // JuBiter-defined
+    virtual size_t size();
+
     void serialize(Data& os) const noexcept;
     nlohmann::json serialize() const noexcept;
-};
+}; // class Extension end
 
 class Transaction {
 public:
+    // JuBiter-defined
+    Transaction() {};
     Transaction(const Data& referenceBlockId, int32_t referenceBlockTime);
+
+    // JuBiter-defined
+    void deserialize(const Data& o) noexcept;
 
     void serialize(Data& os) const noexcept;
     nlohmann::json serialize() const;
@@ -68,5 +81,5 @@ public:
     void setReferenceBlock(const Data& referenceBlockId);
 
     static const int32_t ExpirySeconds = 30;
-};
-} // namespace TW::EOS
+}; // class Transaction end
+} // namespace TW::EOS end

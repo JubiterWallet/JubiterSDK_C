@@ -19,7 +19,10 @@ public:
     uint64_t toSymbol(char c) const noexcept;
     std::string string() const noexcept;
 
-    void serialize(TW::Data& o) const noexcept;
-};
+    // JuBiter-defined
+    static size_t size();
 
-} // namespace TW::EOS
+    void serialize(TW::Data& o) const noexcept;
+}; // class Name end
+
+} // namespace TW::EOS end

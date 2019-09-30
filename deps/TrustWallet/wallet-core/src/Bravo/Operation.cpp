@@ -1,4 +1,6 @@
 #include "Operation.h"
+#include "Deserialization.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
 
 #include <stdexcept>
 
@@ -58,4 +60,42 @@ json TransferOperation::serialize() const noexcept {
     data["memo"] = memo;
 
     return json::array({"transfer", data});
+}
+
+// JuBiter-defined
+void TransferOperation::deserialize(const Data& o) noexcept {
+    uchar_vector vTransfer(o);
+
+    // TransferOperation::OperationId
+    Data dataOpId(vTransfer.get_cur_it(), vTransfer.end());
+    uint32_t opId = 0;
+    int varIntByteSize = 0;
+    decodeVarInt32(dataOpId, opId, varIntByteSize);
+    if (TransferOperation::OperationId != opId ) {
+        return;
+    }
+    vTransfer.reset_it(varIntByteSize);
+
+    // from
+    Data dataFrom(vTransfer.get_cur_it(), vTransfer.end());
+    decodeString(dataFrom, from, varIntByteSize);
+    vTransfer.reset_it(varIntByteSize);
+
+    // to
+    Data dataTo(vTransfer.get_cur_it(), vTransfer.end());
+    decodeString(dataTo, to, varIntByteSize);
+    vTransfer.reset_it(varIntByteSize);
+
+    //Bravo::Asset
+    asset.amount = vTransfer.read_le_uint64();
+    asset.symbol = vTransfer.read_le_uint64();
+
+    //memo
+    Data dataMemo(vTransfer.get_cur_it(), vTransfer.end());
+    decodeString(dataMemo, memo, varIntByteSize);
+    vTransfer.reset_it(varIntByteSize);
+
+    if (vTransfer.end() != vTransfer.get_cur_it()) {
+        return;
+    }
 }

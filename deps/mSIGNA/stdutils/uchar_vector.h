@@ -53,12 +53,25 @@ typedef unsigned int uint;
 class uchar_vector : public std::vector<unsigned char>//, Allocator>
 {
 public:
-    uchar_vector() : std::vector<unsigned char>() { }
-    uchar_vector(size_type n, const unsigned char& value = 0) : std::vector<unsigned char>(n, value) { }
-    template <class InputIterator> uchar_vector(InputIterator first, InputIterator last) : std::vector<unsigned char>(first, last) { }
-    uchar_vector(const std::vector<unsigned char>& vec) : std::vector<unsigned char>(vec) { }
-    uchar_vector(const unsigned char* array, unsigned int size) : std::vector<unsigned char>(array, array + size) { }
-    uchar_vector(const std::string& hex) { this->setHex(hex); }
+    uchar_vector() : std::vector<unsigned char>() {
+        m_cur_it = begin(); m_last_op_it = begin();
+    }
+    uchar_vector(size_type n, const unsigned char& value = 0) : std::vector<unsigned char>(n, value) {
+        m_cur_it = begin(); m_last_op_it = begin();
+    }
+    template <class InputIterator> uchar_vector(InputIterator first, InputIterator last) : std::vector<unsigned char>(first, last) {
+        m_cur_it = begin(); m_last_op_it = begin();
+    }
+    uchar_vector(const std::vector<unsigned char>& vec) : std::vector<unsigned char>(vec) {
+        m_cur_it = begin(); m_last_op_it = begin();
+    }
+    uchar_vector(const unsigned char* array, unsigned int size) : std::vector<unsigned char>(array, array + size) {
+        m_cur_it = begin(); m_last_op_it = begin();
+    }
+    uchar_vector(const std::string& hex) {
+        this->setHex(hex);
+        m_cur_it = begin(); m_last_op_it = begin();
+    }
 
     uchar_vector& operator+=(const std::vector<unsigned char>& rhs)
     {
@@ -78,6 +91,7 @@ public:
         return *this;
     }
 
+    // https://en.bitcoin.it/wiki/Script
     // JuBiter-defined
     uchar_vector& operator<<(uint16_t data)
     {
@@ -120,6 +134,7 @@ public:
     }
 
     // JuBiter-defined
+    // handling OP_PUSHDATA
     uchar_vector& operator &(const std::vector<unsigned char>& rhs)
     {
         if (rhs.size() < (unsigned char)libbitcoin::machine::opcode::push_one_size) {
@@ -174,6 +189,7 @@ public:
     }
 
     // JuBiter-defined
+    // script_code
     uchar_vector& operator &&(const std::vector<unsigned char>& rhs)
     {
         auto v_size = build_compact_size(rhs.size());
@@ -326,6 +342,190 @@ public:
         for (unsigned int i = 0; i < padding; i++)
             this->pop_back();
     }
+
+    // for deserialize
+    // JuBiter-defined
+    uint64_t read_compact_size() {
+        if (m_cur_it == end()) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        uint64_t len = 0;
+        if (*m_cur_it == 0xfd) {
+            m_last_op_it = m_cur_it;
+            m_cur_it++;
+            len = read_le_uint16();
+        }
+        else if (*m_cur_it == 0xfe) {
+            m_last_op_it = m_cur_it;
+            m_cur_it++;
+            len = read_le_uint32();
+        }
+        else if (*m_cur_it == 0xff) {
+            m_last_op_it = m_cur_it;
+            m_cur_it++;
+            len = read_le_uint64();
+        }
+        else {
+            len = read_uint8();
+        }
+
+        return len;
+    }
+
+    uchar_vector& operator | (uchar_vector&  v)
+    {
+
+        if (m_cur_it == end())
+        {
+                std::string _err = "error in data index: ";
+                _err += std::to_string(m_last_op_it - begin());
+                throw std::runtime_error(_err);
+        }
+
+        uint32_t len = 0;
+        if (*m_cur_it == (unsigned char)libbitcoin::machine::opcode::push_one_size) {
+                m_last_op_it = m_cur_it;
+                m_cur_it++;
+                len = read_uint8();
+        }
+        else if (*m_cur_it == (unsigned char)libbitcoin::machine::opcode::push_two_size) {
+                m_last_op_it = m_cur_it;
+                m_cur_it ++;
+                len = read_le_uint16();
+        }
+        else if (*m_cur_it == (unsigned char)libbitcoin::machine::opcode::push_four_size) {
+                m_last_op_it = m_cur_it;
+                m_cur_it++;
+                len = read_le_uint32();
+        }
+        else
+        {
+                len = read_uint8();
+        }
+        if (end()- m_cur_it < len)
+        {
+                std::string _err = "error in data index: ";
+                _err += std::to_string(m_last_op_it - begin());
+                throw std::runtime_error(_err);
+        }
+        v.clear();
+        v.insert(v.end(), m_cur_it, m_cur_it + len);
+        v.reset_it();
+        m_last_op_it = m_cur_it;
+        m_cur_it += len;
+        return *this;
+    }
+    uchar_vector& operator || (uchar_vector&  v)
+    {
+        uint64_t len = read_compact_size();
+
+        if (end() - m_cur_it < len)
+        {
+                std::string _err = "error in data index: ";
+                _err += std::to_string(m_last_op_it - begin());
+                throw std::runtime_error(_err);
+        }
+        v.clear();
+        v.insert(v.end(), m_cur_it, m_cur_it + len);
+        v.reset_it();
+        m_last_op_it = m_cur_it;
+        m_cur_it += len;
+        return *this;
+    }
+
+    // JuBiter-defined
+    uchar_vector& operator >> (uchar_vector& v) {
+        uint64_t len = read_compact_size();
+
+        if (end() - m_cur_it < len) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        v.clear();
+        v.insert(v.end(), m_cur_it, m_cur_it + len);
+        v.reset_it();
+        m_last_op_it = m_cur_it;
+        m_cur_it += len;
+        return *this;
+    }
+
+    // JuBiter-defined
+    uint8_t read_uint8() {
+        if (end() - m_cur_it < 1) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        m_last_op_it = m_cur_it;
+        return *(m_cur_it++);
+    };
+
+    // JuBiter-defined
+    uint16_t read_le_uint16() {
+        if (end() - m_cur_it < 2) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        uint16_t d = ReadLE16(&(*m_cur_it));
+        m_last_op_it = m_cur_it;
+        m_cur_it += 2;
+        return d;
+    };
+
+    // JuBiter-defined
+    uint32_t read_le_uint32() {
+        if (end()- m_cur_it < 4) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        uint32_t d = ReadLE32(&(*m_cur_it));
+        m_last_op_it = m_cur_it;
+        m_cur_it += 4;
+        return d;
+    }
+
+    // JuBiter-defined
+    uint64_t read_le_uint64() {
+        if (end() - m_cur_it < 8) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        uint64_t d = ReadLE64(&(*m_cur_it));
+        m_last_op_it = m_cur_it;
+        m_cur_it += 8;
+        return d;
+    }
+
+    // JuBiter-defined
+    uchar_vector read_vector(size_t len) {
+        if (end() - m_cur_it < len) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        uchar_vector v;
+        v.insert(v.begin(), m_cur_it, m_cur_it + len);
+        v.reset_it();
+        m_last_op_it = m_cur_it;
+        m_cur_it = m_cur_it + len;
+        return v;
+    }
+
+    void reset_it() { m_cur_it = begin(); m_last_op_it = begin();}
+    void reset_it(int offset) { m_cur_it = m_cur_it + offset; };
+    std::vector<unsigned char>::iterator get_cur_it() {
+        return m_cur_it;
+    }
+
+private:
+    std::vector<unsigned char>::iterator m_cur_it;
+    std::vector<unsigned char>::iterator m_last_op_it;
 };
 
 typedef std::string string_secure;

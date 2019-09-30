@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6755ED32233C590F00B418C7 /* trim.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6755ED31233C590F00B418C7 /* trim.hpp */; };
 		67A4587E23336DAB00CEB712 /* HDKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4587D23336DAB00CEB712 /* HDKey.cpp */; };
 		67A4BC89233082960059A3DB /* Context.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC86233082960059A3DB /* Context.h */; };
 		67A4BC8A233082960059A3DB /* ContextBTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC87233082960059A3DB /* ContextBTC.h */; };
@@ -216,6 +217,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6755ED31233C590F00B418C7 /* trim.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = trim.hpp; path = ../../include/utility/trim.hpp; sourceTree = "<group>"; };
 		67A4587D23336DAB00CEB712 /* HDKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HDKey.cpp; path = ../../src/HDKey/HDKey.cpp; sourceTree = "<group>"; };
 		67A4BC7C233082130059A3DB /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A4BC86233082960059A3DB /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Context.h; path = ../../include/context/Context.h; sourceTree = "<group>"; };
@@ -571,6 +573,7 @@
 				67A4BCC9233084200059A3DB /* Debug.hpp */,
 				67A4BCCA233084200059A3DB /* Singleton.h */,
 				67A4BCCB233084200059A3DB /* util.h */,
+				6755ED31233C590F00B418C7 /* trim.hpp */,
 			);
 			name = utility;
 			sourceTree = "<group>";
@@ -1130,6 +1133,7 @@
 				67A4BD4C2330A1A80059A3DB /* ed25519-donna-32bit-tables.h in Headers */,
 				67A4BE302330AF200059A3DB /* BigIntegerUtils.hh in Headers */,
 				67A4BD502330A1A80059A3DB /* modm-donna-32bit.h in Headers */,
+				6755ED32233C590F00B418C7 /* trim.hpp in Headers */,
 				67A4BE452330C0540059A3DB /* sha1.h in Headers */,
 				67A4BE362330B2E90059A3DB /* Data.hpp in Headers */,
 				67A4BDFE2330AE1A0059A3DB /* uchar_vector.h in Headers */,
