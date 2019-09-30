@@ -13,7 +13,7 @@ namespace TW::Bravo {
 inline void encodeVarInt64(uint64_t x, Data& os) {
     // 64-bit int would take at most 10 bytes as a varint
     static const int maxBytes = 10;
-    uint8_t bytes[maxBytes];
+    uint8_t bytes[maxBytes] = {0x00,};
 
     int lastNonZeroByte = 0;
     for (int i = 0; i < maxBytes; ++i) {
@@ -80,4 +80,4 @@ inline json encodePointerCollection(const Collection& collection) {
 
     return array;
 }
-} // namespace
+} // namespace TW::Bravo end

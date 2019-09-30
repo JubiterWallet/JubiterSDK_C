@@ -8,8 +8,10 @@
 #include "../Hash.h"
 #include "../HexCoding.h"
 #include "Transaction.h"
+#include "../Bravo/Deserialization.h"
 
 #include <TrezorCrypto/ripemd160.h>
+#include "mSIGNA/stdutils/uchar_vector.h"
 
 #include <ctime>
 #include <stdexcept>
@@ -61,6 +63,33 @@ std::string Signature::string() const noexcept {
     return prefix + TW::Base58::bitcoin.encode(buffer);
 }
 
+// JuBiter-defined
+void Extension::deserialize(const Data& o) noexcept {
+    uchar_vector vExtension(o);
+
+    // type
+    type = vExtension.read_le_uint16();
+
+    // buffer
+    uchar_vector vTempData(vExtension.get_cur_it(), vExtension.end());
+    Data tempData(vTempData);
+    uint64_t dataSize = 0;
+    int varIntByteSize = 0;
+    Bravo::decodeVarInt64(tempData, dataSize, varIntByteSize);
+    vExtension.reset_it(varIntByteSize);
+    buffer = vExtension.read_vector(dataSize);
+}
+
+// JuBiter-defined
+size_t Extension::size() {
+    uint64_t dataSize = buffer.size();
+    Data dataVarInt64Len;
+    Bravo::encodeVarInt64(dataSize, dataVarInt64Len);
+
+    return (  sizeof(uint16_t)/sizeof(uint8_t)
+            + dataVarInt64Len.size() + dataSize);
+}
+
 void Extension::serialize(Data& os) const noexcept {
     encode16LE(type, os);
     Bravo::encodeVarInt64(buffer.size(), os);
@@ -74,6 +103,100 @@ json Extension::serialize() const noexcept {
 Transaction::Transaction(const Data& referenceBlockId, int32_t referenceBlockTime) {
     setReferenceBlock(referenceBlockId);
     expiration = referenceBlockTime + Transaction::ExpirySeconds;
+}
+
+// JuBiter-defined
+void Transaction::deserialize(const Data& o) noexcept {
+    uchar_vector vTrx(o);
+
+    // expiration
+    expiration = vTrx.read_le_uint32();
+
+    // refBlockNumber
+    refBlockNumber = vTrx.read_le_uint16();
+
+    // refBlockPrefix
+    refBlockPrefix = vTrx.read_le_uint32();
+
+    // maxNetUsageWords
+    uchar_vector vMaxNetUsageWords(vTrx.get_cur_it(), vTrx.end());
+    Data tempMaxNetUsageWords(vMaxNetUsageWords);
+    int varIntByteSize = 0;
+    TW::Bravo::decodeVarInt32(tempMaxNetUsageWords, maxNetUsageWords, varIntByteSize);
+    vTrx.reset_it(varIntByteSize);
+
+    // maxCPUUsageInMS
+    maxCPUUsageInMS  = vTrx.read_uint8();
+
+    // delaySeconds
+    uchar_vector vDelaySeconds(vTrx.get_cur_it(), vTrx.end());
+    Data tempDelaySeconds(vDelaySeconds);
+    varIntByteSize = 0;
+    TW::Bravo::decodeVarInt32(tempDelaySeconds, delaySeconds, varIntByteSize);
+    vTrx.reset_it(varIntByteSize);
+
+    //Collection - contextFreeActions
+    uchar_vector vCtxFreeActions(vTrx.get_cur_it(), vTrx.end());
+    Data tempCtxFreeActions(vCtxFreeActions);
+    uint64_t collectionCnt = 0;
+    varIntByteSize = 0;
+    Bravo::decodeCollection(tempCtxFreeActions, collectionCnt, varIntByteSize);
+    vTrx.reset_it(varIntByteSize);
+    uint8_t ctxFreeActionSize = 0;
+    for (uint64_t i=0; i<collectionCnt; ++i) {
+        uchar_vector vCtxFreeAction(vTrx.get_cur_it()+ctxFreeActionSize, vTrx.end());
+        const TW::Data ctxFreeAct(vCtxFreeAction);
+
+        Action ctxFreeAction;
+        ctxFreeAction.deserialize(ctxFreeAct);
+        contextFreeActions.push_back(ctxFreeAction);
+        ctxFreeActionSize += ctxFreeAct.size();
+    }
+    vTrx.reset_it(ctxFreeActionSize);
+    if (vTrx.end() == vTrx.get_cur_it()) {
+        return;
+    }
+
+    //Collection - actions
+    uchar_vector vActions(vTrx.get_cur_it(), vTrx.end());
+    Data tempActions(vActions);
+    collectionCnt = 0;
+    varIntByteSize = 0;
+    Bravo::decodeCollection(tempActions, collectionCnt, varIntByteSize);
+    vTrx.reset_it(varIntByteSize);
+    uint8_t actionSize = 0;
+    for (uint8_t i=0; i<collectionCnt; ++i) {
+        uchar_vector vAction(vTrx.get_cur_it()+actionSize, vTrx.end());
+        const TW::Data act(vAction);
+
+        Action action;
+        action.deserialize(act);
+        actions.push_back(action);
+        actionSize += action.size();
+    }
+    vTrx.reset_it(actionSize);
+    if (vTrx.end() == vTrx.get_cur_it()) {
+        return;
+    }
+
+    //Collection - transactionExtensions
+    uchar_vector vTransactionExtensions(vTrx.get_cur_it(), vTrx.end());
+    Data tempTransactionExtensions(vTransactionExtensions);
+    collectionCnt = 0;
+    varIntByteSize = 0;
+    Bravo::decodeCollection(tempTransactionExtensions, collectionCnt, varIntByteSize);
+    vTrx.reset_it(varIntByteSize);
+    uint8_t txExtSize = 0;
+    for (uint64_t i=0; i<collectionCnt; ++i) {
+        uchar_vector vExtension(vTrx.get_cur_it()+txExtSize, vTrx.end());
+        const TW::Data ext(vExtension);
+
+        Extension extension;
+        extension.deserialize(ext);
+        transactionExtensions.push_back(extension);
+        txExtSize += extension.size();
+    }
+    vTrx.reset_it(txExtSize);
 }
 
 void Transaction::setReferenceBlock(const Data& refBlockId) {

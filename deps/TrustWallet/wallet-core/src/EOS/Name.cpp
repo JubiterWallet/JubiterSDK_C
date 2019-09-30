@@ -7,7 +7,8 @@
 #include "../BinaryCoding.h"
 #include "Name.h"
 
-#include <boost/algorithm/string/trim.hpp>
+//#include <boost/algorithm/string/trim.hpp>
+#include "utility/trim.hpp"
 #include <stdexcept>
 
 using namespace TW;
@@ -53,8 +54,13 @@ std::string Name::string() const noexcept {
         tmp >>= 5;
     }
 
-    boost::algorithm::trim_right_if( str, []( char c ){ return c == '.'; } );
+    jub::algorithm::rTrim_if(str, [](char c){ return c == '.'; });
     return str;
+}
+
+// JuBiter-defined
+size_t Name::size() {
+    return sizeof(uint64_t)/sizeof(uint8_t);
 }
 
 void Name::serialize(Data& o) const noexcept  {

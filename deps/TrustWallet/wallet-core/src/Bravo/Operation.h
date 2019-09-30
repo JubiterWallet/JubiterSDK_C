@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 
 #include "Asset.h"
+#include "Name.h"
 #include "Serialization.h"
 
 #include <memory>
@@ -27,6 +28,11 @@ class TransferOperation : public Operation {
                       bool isTestNet, const std::string& memo);
     TransferOperation(const std::string& from, const std::string& to, const std::string& asset,
                       const std::string& memo);
+    // JuBiter-defined
+    TransferOperation() {};
+
+    // JuBiter-defined
+    virtual void deserialize(const Data& o) noexcept;
 
     void serialize(Data& os) const noexcept override;
     nlohmann::json serialize() const noexcept override;
@@ -36,5 +42,5 @@ class TransferOperation : public Operation {
   private:
     std::string from, to, memo;
     Asset asset;
-};
-} // namespace
+}; // class TransferOperation end
+} // namespace TW::Bravo end

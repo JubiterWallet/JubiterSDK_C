@@ -23,9 +23,12 @@ public:
     PermissionLevel(const Name& actor, const Name& permission) : actor(actor), permission(permission) { }
     virtual ~PermissionLevel() { }
 
+    // JuBiter-defined
+    static size_t size();
+
     void serialize(Data& o) const;
     nlohmann::json serialize() const noexcept;
-};
+}; // class PermissionLevel end
 
 class Action {
 public:
@@ -35,15 +38,37 @@ public:
 
     virtual ~Action() { }
 
+    // JuBiter-defined
+    virtual void deserialize(const Data& o) noexcept;
+    // JuBiter-defined
+    virtual size_t size();
+
     virtual void serialize(Data& o) const;
     virtual nlohmann::json serialize() const noexcept;
-};
+}; // class Action end
 
 class TransferAction: public Action {
 public:
     TransferAction(const std::string& currency, const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo);
+    // JuBiter-defined
+    TransferAction() { }
+
+    // JuBiter-defined
+    virtual void deserialize(const Data& o) noexcept override;
+    // JuBiter-defined
+    virtual void serialize(Data& o) const override;
+    // JuBiter-defined
+    virtual nlohmann::json serialize() const noexcept override;
+
 private:
     void setData(const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo);
-};
 
-} // namespace TW::EOS
+private:
+    // JuBiter-defined
+    Name from, to;
+    // JuBiter-defined
+    Bravo::Asset asset;
+    // JuBiter-defined
+    Data memo;
+}; // class TransferAction end
+} // namespace TW::EOS end

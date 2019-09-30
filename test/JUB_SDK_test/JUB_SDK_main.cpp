@@ -7,9 +7,10 @@
 //
 
 #include "JUB_SDK_test.h"
-#define SW 0
+#define SW 1
 #if SW
 #include "JUB_SDK_software_test.hpp"
+#include "JUB_SDK_software_test_eos.hpp"
 #endif
 using namespace std;
 
@@ -50,6 +51,7 @@ int main() {
         cout << "|  1. hardware_test.                 |" << endl;
 #if SW
         cout << "|  2. software_test.                 |" << endl;
+        cout << "|  3. software_test_eos.             |" << endl;
 #endif
         cout << "|  0. exit.                          |" << endl;
         cout << "--------------------------------------" << endl;
@@ -64,6 +66,18 @@ int main() {
 #if SW
             case 2:
                 software_test();
+                break;
+            case 3:
+                var_test_eos();
+
+//                address_test_eos();
+                permissionLevel_test_eos();
+                asset_test_eos();
+                op_test_eos();
+                action_test_eos();
+
+                tx_test_eos_deserialize();
+                tx_test_eos_serialize();
                 break;
 #endif
             case 0:
