@@ -7,8 +7,6 @@ option java_package = "com.jubiter.sdk.proto";
 option java_outer_classname = "CommonProtos";
 option objc_class_prefix = "CommonProtos";
 
-
-
 // bip32_path
 message Bip32Path {
     bool change = 1;
@@ -16,7 +14,7 @@ message Bip32Path {
 }
 
 // device info
-message DeviceInfo{
+message DeviceInfo {
     string sn = 1;
     string label = 2;
     string bleVersion = 3;
@@ -25,34 +23,34 @@ message DeviceInfo{
     uint32 pinMaxRetry = 6;
 }
 
-// result with int rv
-message ResultInt{
-    uint64 rv  = 1;
-    uint32 res = 2;    
+// result with int return value
+message ResultInt {
+    uint64 stateCode = 1;
+    uint32 value = 2;
 }
 
-// result with string rv
-message ResultString{
-    uint64 rv  = 1;
-    string res = 2;
+// result with string return value
+message ResultString {
+    uint64 stateCode = 1;
+    string value = 2;
 }
 
-// result with DeviceInfo rv
-message ResultAny{
-    uint64 rv  = 1;
-    repeated google.protobuf.Any res = 2;
+// result with DeviceInfo return value
+message ResultAny {
+    uint64 stateCode = 1;
+    repeated google.protobuf.Any value = 2;
 }
 
-//mnemonic strength
-enum ENUM_MNEMONIC_STRENGTH{
+// mnemonic strength
+enum ENUM_MNEMONIC_STRENGTH {
     STRENGTH128 = 0;
     STRENGTH192 = 1;
     STRENGTH256 = 2;
 }
 
 // curves
-enum CURVES{
+enum CURVES {
     secp256k1 = 0;
-    ed25519   = 1;
-    nist256p1 = 2; 
+    ed25519 = 1;
+    nist256p1 = 2;
 }

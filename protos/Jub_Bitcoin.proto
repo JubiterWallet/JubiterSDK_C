@@ -8,24 +8,24 @@ option java_outer_classname = "BitcoinProtos";
 option objc_class_prefix = "BitcoinProtos";
 
 
-enum ENUM_COIN_TYPE_BTC{
-    COINBTC  = 0;
-    COINBCH  = 1;
-    COINLTC  = 2;
+enum ENUM_COIN_TYPE_BTC {
+    COINBTC = 0;
+    COINBCH = 1;
+    COINLTC = 2;
     COINUSDT = 3;
     COINDASH = 4;
     COINQTUM = 5;
 }
 
-enum ENUM_TRAN_STYPE_BTC{
-    p2pkh               = 0;
-    p2sh_p2wpkh         = 1;
-    p2sh_multisig       = 2;
-    p2pk                = 3;
+enum ENUM_TRAN_STYPE_BTC {
+    p2pkh = 0;
+    p2sh_p2wpkh = 1;
+    p2sh_multisig = 2;
+    p2pk = 3;
 }
 
-enum BTC_UNIT_TYPE{
-    BTC  = 0;
+enum BTC_UNIT_TYPE {
+    BTC = 0;
     cBTC = 1;
     mBTC = 2;
     uBTC = 3;
@@ -34,52 +34,52 @@ enum BTC_UNIT_TYPE{
 
 message ContextCfgBTC {
     string main_path = 1;
-    ENUM_COIN_TYPE_BTC   coin_type = 2;
-    ENUM_TRAN_STYPE_BTC  trans_type = 3;
+    ENUM_COIN_TYPE_BTC coin_type = 2;
+    ENUM_TRAN_STYPE_BTC trans_type = 3;
 }
 
-message InputBTC{
-    string preHash  = 1;
+message InputBTC {
+    string preHash = 1;
     uint32 preIndex = 2;
-    uint64 amount   = 3;
+    uint64 amount = 3;
     JUB.Proto.Common.Bip32Path path = 4;
 }
 
-enum ENUM_SCRIPT_TYPE_BTC{
-    STANDARD   = 0;
-    RETURN0    = 1;
-    QRC20      = 3;
+enum ENUM_SCRIPT_TYPE_BTC {
+    STANDARD = 0;
+    RETURN0 = 1;
+    QRC20 = 3;
 }
 
-message StandardOutput{
-    string      address = 1;
-    uint64      amount  = 2;
-    bool        changeAddress = 3;
+message StandardOutput {
+    string address = 1;
+    uint64 amount = 2;
+    bool changeAddress = 3;
     JUB.Proto.Common.Bip32Path path = 4;
 }
 
-message Return0Output{
-    uint64      amount = 1;
-    string      data = 2;
+message Return0Output {
+    uint64 amount = 1;
+    string data = 2;
 }
 
-message QRC20Output{
-    string      data = 1;
+message QRC20Output {
+    string data = 1;
 }
 
-message OutputBTC{
+message OutputBTC {
     ENUM_SCRIPT_TYPE_BTC type = 1;
-    oneof output{
+    oneof output {
         StandardOutput standardOputput = 2;
-        Return0Output  return0Output = 3;
-        QRC20Output    qrc20Output =4;
+        Return0Output return0Output = 3;
+        QRC20Output qrc20Output = 4;
     }
 }
 
 
-message TransactionBTC{
-    uint32   version  = 1;
-    uint32   locktime = 2;
-    repeated InputBTC  inputs  = 3;
+message TransactionBTC {
+    uint32 version = 1;
+    uint32 locktime = 2;
+    repeated InputBTC inputs = 3;
     repeated OutputBTC outputs = 4;
 }

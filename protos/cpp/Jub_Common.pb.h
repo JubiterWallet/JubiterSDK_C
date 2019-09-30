@@ -583,26 +583,26 @@ class ResultInt :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kRvFieldNumber = 1,
-    kResFieldNumber = 2,
+    kStateCodeFieldNumber = 1,
+    kValueFieldNumber = 2,
   };
-  // uint64 rv = 1;
-  void clear_rv();
-  ::PROTOBUF_NAMESPACE_ID::uint64 rv() const;
-  void set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  // uint64 stateCode = 1;
+  void clear_statecode();
+  ::PROTOBUF_NAMESPACE_ID::uint64 statecode() const;
+  void set_statecode(::PROTOBUF_NAMESPACE_ID::uint64 value);
 
-  // uint32 res = 2;
-  void clear_res();
-  ::PROTOBUF_NAMESPACE_ID::uint32 res() const;
-  void set_res(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  // uint32 value = 2;
+  void clear_value();
+  ::PROTOBUF_NAMESPACE_ID::uint32 value() const;
+  void set_value(::PROTOBUF_NAMESPACE_ID::uint32 value);
 
   // @@protoc_insertion_point(class_scope:JUB.Proto.Common.ResultInt)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 rv_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 res_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 statecode_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 value_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Jub_5fCommon_2eproto;
 };
@@ -721,32 +721,32 @@ class ResultString :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kResFieldNumber = 2,
-    kRvFieldNumber = 1,
+    kValueFieldNumber = 2,
+    kStateCodeFieldNumber = 1,
   };
-  // string res = 2;
-  void clear_res();
-  const std::string& res() const;
-  void set_res(const std::string& value);
-  void set_res(std::string&& value);
-  void set_res(const char* value);
-  void set_res(const char* value, size_t size);
-  std::string* mutable_res();
-  std::string* release_res();
-  void set_allocated_res(std::string* res);
+  // string value = 2;
+  void clear_value();
+  const std::string& value() const;
+  void set_value(const std::string& value);
+  void set_value(std::string&& value);
+  void set_value(const char* value);
+  void set_value(const char* value, size_t size);
+  std::string* mutable_value();
+  std::string* release_value();
+  void set_allocated_value(std::string* value);
 
-  // uint64 rv = 1;
-  void clear_rv();
-  ::PROTOBUF_NAMESPACE_ID::uint64 rv() const;
-  void set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  // uint64 stateCode = 1;
+  void clear_statecode();
+  ::PROTOBUF_NAMESPACE_ID::uint64 statecode() const;
+  void set_statecode(::PROTOBUF_NAMESPACE_ID::uint64 value);
 
   // @@protoc_insertion_point(class_scope:JUB.Proto.Common.ResultString)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr res_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 rv_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr value_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 statecode_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Jub_5fCommon_2eproto;
 };
@@ -865,32 +865,32 @@ class ResultAny :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kResFieldNumber = 2,
-    kRvFieldNumber = 1,
+    kValueFieldNumber = 2,
+    kStateCodeFieldNumber = 1,
   };
-  // repeated .google.protobuf.Any res = 2;
-  int res_size() const;
-  void clear_res();
-  PROTOBUF_NAMESPACE_ID::Any* mutable_res(int index);
+  // repeated .google.protobuf.Any value = 2;
+  int value_size() const;
+  void clear_value();
+  PROTOBUF_NAMESPACE_ID::Any* mutable_value(int index);
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any >*
-      mutable_res();
-  const PROTOBUF_NAMESPACE_ID::Any& res(int index) const;
-  PROTOBUF_NAMESPACE_ID::Any* add_res();
+      mutable_value();
+  const PROTOBUF_NAMESPACE_ID::Any& value(int index) const;
+  PROTOBUF_NAMESPACE_ID::Any* add_value();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any >&
-      res() const;
+      value() const;
 
-  // uint64 rv = 1;
-  void clear_rv();
-  ::PROTOBUF_NAMESPACE_ID::uint64 rv() const;
-  void set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  // uint64 stateCode = 1;
+  void clear_statecode();
+  ::PROTOBUF_NAMESPACE_ID::uint64 statecode() const;
+  void set_statecode(::PROTOBUF_NAMESPACE_ID::uint64 value);
 
   // @@protoc_insertion_point(class_scope:JUB.Proto.Common.ResultAny)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any > res_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 rv_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any > value_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 statecode_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Jub_5fCommon_2eproto;
 };
@@ -1173,146 +1173,146 @@ inline void DeviceInfo::set_pinmaxretry(::PROTOBUF_NAMESPACE_ID::uint32 value) {
 
 // ResultInt
 
-// uint64 rv = 1;
-inline void ResultInt::clear_rv() {
-  rv_ = PROTOBUF_ULONGLONG(0);
+// uint64 stateCode = 1;
+inline void ResultInt::clear_statecode() {
+  statecode_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultInt::rv() const {
-  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultInt.rv)
-  return rv_;
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultInt::statecode() const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultInt.stateCode)
+  return statecode_;
 }
-inline void ResultInt::set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void ResultInt::set_statecode(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
-  rv_ = value;
-  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultInt.rv)
+  statecode_ = value;
+  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultInt.stateCode)
 }
 
-// uint32 res = 2;
-inline void ResultInt::clear_res() {
-  res_ = 0u;
+// uint32 value = 2;
+inline void ResultInt::clear_value() {
+  value_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 ResultInt::res() const {
-  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultInt.res)
-  return res_;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ResultInt::value() const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultInt.value)
+  return value_;
 }
-inline void ResultInt::set_res(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void ResultInt::set_value(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  res_ = value;
-  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultInt.res)
+  value_ = value;
+  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultInt.value)
 }
 
 // -------------------------------------------------------------------
 
 // ResultString
 
-// uint64 rv = 1;
-inline void ResultString::clear_rv() {
-  rv_ = PROTOBUF_ULONGLONG(0);
+// uint64 stateCode = 1;
+inline void ResultString::clear_statecode() {
+  statecode_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultString::rv() const {
-  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultString.rv)
-  return rv_;
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultString::statecode() const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultString.stateCode)
+  return statecode_;
 }
-inline void ResultString::set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void ResultString::set_statecode(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
-  rv_ = value;
-  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultString.rv)
+  statecode_ = value;
+  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultString.stateCode)
 }
 
-// string res = 2;
-inline void ResultString::clear_res() {
-  res_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+// string value = 2;
+inline void ResultString::clear_value() {
+  value_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline const std::string& ResultString::res() const {
-  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultString.res)
-  return res_.GetNoArena();
+inline const std::string& ResultString::value() const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultString.value)
+  return value_.GetNoArena();
 }
-inline void ResultString::set_res(const std::string& value) {
+inline void ResultString::set_value(const std::string& value) {
   
-  res_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultString.res)
+  value_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultString.value)
 }
-inline void ResultString::set_res(std::string&& value) {
+inline void ResultString::set_value(std::string&& value) {
   
-  res_.SetNoArena(
+  value_.SetNoArena(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:JUB.Proto.Common.ResultString.res)
+  // @@protoc_insertion_point(field_set_rvalue:JUB.Proto.Common.ResultString.value)
 }
-inline void ResultString::set_res(const char* value) {
+inline void ResultString::set_value(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  res_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:JUB.Proto.Common.ResultString.res)
+  value_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:JUB.Proto.Common.ResultString.value)
 }
-inline void ResultString::set_res(const char* value, size_t size) {
+inline void ResultString::set_value(const char* value, size_t size) {
   
-  res_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  value_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:JUB.Proto.Common.ResultString.res)
+  // @@protoc_insertion_point(field_set_pointer:JUB.Proto.Common.ResultString.value)
 }
-inline std::string* ResultString::mutable_res() {
+inline std::string* ResultString::mutable_value() {
   
-  // @@protoc_insertion_point(field_mutable:JUB.Proto.Common.ResultString.res)
-  return res_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:JUB.Proto.Common.ResultString.value)
+  return value_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline std::string* ResultString::release_res() {
-  // @@protoc_insertion_point(field_release:JUB.Proto.Common.ResultString.res)
+inline std::string* ResultString::release_value() {
+  // @@protoc_insertion_point(field_release:JUB.Proto.Common.ResultString.value)
   
-  return res_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  return value_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline void ResultString::set_allocated_res(std::string* res) {
-  if (res != nullptr) {
+inline void ResultString::set_allocated_value(std::string* value) {
+  if (value != nullptr) {
     
   } else {
     
   }
-  res_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), res);
-  // @@protoc_insertion_point(field_set_allocated:JUB.Proto.Common.ResultString.res)
+  value_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set_allocated:JUB.Proto.Common.ResultString.value)
 }
 
 // -------------------------------------------------------------------
 
 // ResultAny
 
-// uint64 rv = 1;
-inline void ResultAny::clear_rv() {
-  rv_ = PROTOBUF_ULONGLONG(0);
+// uint64 stateCode = 1;
+inline void ResultAny::clear_statecode() {
+  statecode_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultAny::rv() const {
-  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultAny.rv)
-  return rv_;
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ResultAny::statecode() const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultAny.stateCode)
+  return statecode_;
 }
-inline void ResultAny::set_rv(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void ResultAny::set_statecode(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
-  rv_ = value;
-  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultAny.rv)
+  statecode_ = value;
+  // @@protoc_insertion_point(field_set:JUB.Proto.Common.ResultAny.stateCode)
 }
 
-// repeated .google.protobuf.Any res = 2;
-inline int ResultAny::res_size() const {
-  return res_.size();
+// repeated .google.protobuf.Any value = 2;
+inline int ResultAny::value_size() const {
+  return value_.size();
 }
-inline PROTOBUF_NAMESPACE_ID::Any* ResultAny::mutable_res(int index) {
-  // @@protoc_insertion_point(field_mutable:JUB.Proto.Common.ResultAny.res)
-  return res_.Mutable(index);
+inline PROTOBUF_NAMESPACE_ID::Any* ResultAny::mutable_value(int index) {
+  // @@protoc_insertion_point(field_mutable:JUB.Proto.Common.ResultAny.value)
+  return value_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any >*
-ResultAny::mutable_res() {
-  // @@protoc_insertion_point(field_mutable_list:JUB.Proto.Common.ResultAny.res)
-  return &res_;
+ResultAny::mutable_value() {
+  // @@protoc_insertion_point(field_mutable_list:JUB.Proto.Common.ResultAny.value)
+  return &value_;
 }
-inline const PROTOBUF_NAMESPACE_ID::Any& ResultAny::res(int index) const {
-  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultAny.res)
-  return res_.Get(index);
+inline const PROTOBUF_NAMESPACE_ID::Any& ResultAny::value(int index) const {
+  // @@protoc_insertion_point(field_get:JUB.Proto.Common.ResultAny.value)
+  return value_.Get(index);
 }
-inline PROTOBUF_NAMESPACE_ID::Any* ResultAny::add_res() {
-  // @@protoc_insertion_point(field_add:JUB.Proto.Common.ResultAny.res)
-  return res_.Add();
+inline PROTOBUF_NAMESPACE_ID::Any* ResultAny::add_value() {
+  // @@protoc_insertion_point(field_add:JUB.Proto.Common.ResultAny.value)
+  return value_.Add();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< PROTOBUF_NAMESPACE_ID::Any >&
-ResultAny::res() const {
-  // @@protoc_insertion_point(field_list:JUB.Proto.Common.ResultAny.res)
-  return res_;
+ResultAny::value() const {
+  // @@protoc_insertion_point(field_list:JUB.Proto.Common.ResultAny.value)
+  return value_;
 }
 
 #ifdef __GNUC__
