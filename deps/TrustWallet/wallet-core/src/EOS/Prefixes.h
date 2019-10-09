@@ -62,4 +62,17 @@ inline std::string sigPrefixForType(Type t) {
         return Modern::R1::fullSigPrefix;
     }
 }
+
+// JuBiter-defined
+inline Type sigTypeForPrefix(const std::string& prefix) {
+    if (0 == prefix.compare(Modern::K1::prefix)) {
+        return Type::ModernK1;
+    }
+    else if (0 == prefix.compare(Modern::R1::prefix)) {
+        return Type::ModernR1;
+    }
+    else {
+        return Type::Legacy;
+    }
+}
 } // namespace TW::EOS

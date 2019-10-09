@@ -12,6 +12,7 @@
 
 #include <TrezorCrypto/ripemd160.h>
 #include "mSIGNA/stdutils/uchar_vector.h"
+#include "utility/util.h"
 
 #include <ctime>
 #include <stdexcept>
@@ -28,6 +29,102 @@ Signature::Signature(Data sig, Type type) : data(sig), type(type) {
     if (type == Type::Legacy) {
         throw std::invalid_argument("Legacy signatures are not supported.");
     }
+}
+
+// JuBiter-defined
+void Signature::deserialize(const std::string& string) noexcept {
+    std::vector<std::string> vSignPart = jub::Split(string, "_");
+//    supersplit(string, vSignPart, "_");
+    if (3 != vSignPart.size()) {
+        return ;
+    }
+    if (0 != vSignPart[0].compare(Modern::sigBasePrefix)) {
+        return ;
+    }
+
+    deserialize(TW::Base58::bitcoin.decode(vSignPart[2]),
+                sigTypeForPrefix(vSignPart[1]));
+}
+
+// JuBiter-defined
+void Signature::deserialize(const Data& sig, const Type& type) noexcept {
+
+    if ((DataSize+ChecksumSize) > sig.size()) {
+        return;
+    }
+
+    uchar_vector vSignature(sig);
+    Data forHash = vSignature.read_vector(sig.size()-ChecksumSize);
+    Data checkSum = vSignature.read_vector(ChecksumSize);
+
+    // append the subPrefix to the buffer data and hash the buffer
+    std::string subPrefix = sigPrefixForType(type);
+    for (const char& c : subPrefix) {
+        forHash.push_back(static_cast<uint8_t>(c));
+    }
+
+    Data hash;
+    hash.resize(RIPEMD160_DIGEST_LENGTH);
+    ripemd160(forHash.data(), static_cast<uint32_t>(forHash.size()), hash.data());
+
+    Data asCheckSum;
+    for(size_t i = 0; i < ChecksumSize; i++) {
+        asCheckSum.push_back(hash[i]);
+    }
+
+    if (asCheckSum != checkSum) {
+        return ;
+    }
+
+    forHash.resize(DataSize);
+    data = forHash;
+}
+
+// JuBiter-defined
+void Signature::deserialize(const Data& sig) noexcept {
+
+    if ((DataSize+ChecksumSize) > sig.size()) {
+        return;
+    }
+
+    uchar_vector vSignature(sig);
+
+    Data forHash = vSignature.read_vector(sig.size()-ChecksumSize);
+    Data checkSum = vSignature.read_vector(ChecksumSize);
+    const std::string subPrefixes[2] = {Modern::R1::prefix, Modern::K1::prefix};
+    for (const auto& subPrefix : subPrefixes) {
+        // append the subPrefix to the buffer data and hash the buffer
+        for (const char& c : subPrefix) {
+            forHash.push_back(static_cast<uint8_t>(c));
+        }
+
+        Data hash;
+        hash.resize(RIPEMD160_DIGEST_LENGTH);
+        ripemd160(forHash.data(), static_cast<uint32_t>(forHash.size()), hash.data());
+
+        Data asCheckSum;
+        for(size_t i = 0; i < ChecksumSize; i++) {
+            asCheckSum.push_back(hash[i]);
+        }
+
+        if (asCheckSum == checkSum) {
+            if (Modern::R1::prefix == subPrefix) {
+                type = Type::ModernR1;
+            }
+            else if (Modern::K1::prefix == subPrefix) {
+                type = Type::ModernK1;
+            }
+            else {
+                type = Type::Legacy;
+            }
+            break;
+        }
+
+        forHash.resize(DataSize);
+    }
+
+    forHash.resize(DataSize);
+    data = forHash;
 }
 
 void Signature::serialize(Data& os) const noexcept {
