@@ -45,7 +45,7 @@ inline void encodeString(const std::string& s, Data& os) {
 
 template<typename Collection>
 inline void encodeCollection(const Collection& collection, Data& os) {
-    encodeVarInt64(std::size(collection), os);
+    encodeVarInt64(collection.size(), os);
     for (const auto& item : collection) {
         item.serialize(os);
     }
@@ -53,7 +53,7 @@ inline void encodeCollection(const Collection& collection, Data& os) {
 
 template<typename Collection>
 inline void encodePointerCollection(const Collection& collection, Data& os) {
-    encodeVarInt64(std::size(collection), os);
+    encodeVarInt64(collection.size(), os);
     for (const auto& item : collection) {
         item->serialize(os);
     }

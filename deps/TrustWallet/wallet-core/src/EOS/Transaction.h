@@ -25,8 +25,17 @@ public:
     static const size_t DataSize = 65;
     static const size_t ChecksumSize = 4;
 
+    // JuBiter-defined
+    Signature() {};
     Signature(Data sig, Type type);
     virtual ~Signature() { }
+
+    // JuBiter-defined
+    void deserialize(const std::string& string) noexcept;
+    // JuBiter-defined
+    void deserialize(const Data& sig, const Type& type) noexcept;
+    // JuBiter-defined
+    void deserialize(const Data& sig) noexcept;
     void serialize(Data& os) const noexcept;
     std::string string() const noexcept;
 }; // class Signature end
