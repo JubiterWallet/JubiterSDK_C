@@ -33,7 +33,8 @@ typedef struct _stAppInfos_ {
 class JubiterBLDImpl :
 	public CommonTokenInterface,
 	public BTCTokenInterface,
-	public ETHTokenInterface
+	public ETHTokenInterface,
+    public EOSTokenInterface
 {
 public:
     JubiterBLDImpl(std::string path);
@@ -61,7 +62,6 @@ public:
                              std::vector<JUB_BYTE>& vRaw);
 
     //ETH functions
-
     virtual JUB_RV SelectAppletETH();
     virtual JUB_RV GetAddressETH(std::string path, JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNodeETH(JUB_BYTE format,std::string path, std::string& pubkey);
@@ -75,6 +75,11 @@ public:
                              std::vector<JUB_BYTE> vPath,
                              std::vector<JUB_BYTE> vChainID,
                              std::vector<JUB_BYTE>& vRaw);
+
+    //EOS functions
+    virtual JUB_RV SelectAppletEOS();
+    virtual JUB_RV GetAddressEOS(std::string path, JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV GetHDNodeEOS(JUB_BYTE format,std::string path, std::string& pubkey);
 
     //common token functions
     virtual JUB_RV QueryBattery(JUB_BYTE &percent);

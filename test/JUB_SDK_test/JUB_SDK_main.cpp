@@ -11,6 +11,7 @@
 #if SW
 #include "JUB_SDK_software_test_btc.hpp"
 #include "JUB_SDK_software_test_eth.hpp"
+#include "JUB_SDK_software_test_eos.hpp"
 #endif
 using namespace std;
 
@@ -52,6 +53,7 @@ int main() {
 #if SW
         cout << "|  2. software_test_btc.             |" << endl;
         cout << "|  3. software_test_eth.             |" << endl;
+        cout << "|  4. software_test_eos.             |" << endl;
 #endif
         cout << "|  0. exit.                          |" << endl;
         cout << "--------------------------------------" << endl;
@@ -69,6 +71,19 @@ int main() {
                 break;
             case 3:
                 software_test_eth();
+                break;
+            case 4:
+                software_test_eos();
+//                var_test_eos();
+//
+//                address_test_eos();
+//                permissionLevel_test_eos();
+//                asset_test_eos();
+//                op_test_eos();
+//                action_test_eos();
+//
+//                tx_test_eos_deserialize();
+//                tx_test_eos_serialize();
                 break;
 #endif
             case 0:
