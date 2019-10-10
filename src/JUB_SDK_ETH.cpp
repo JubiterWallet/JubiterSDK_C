@@ -105,7 +105,7 @@ JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     std::string str_pubkey;
-    JUB_VERIFY_RV(context->GetHDNode(format,path, str_pubkey));
+    JUB_VERIFY_RV(context->GetHDNode((JUB_BYTE)format, path, str_pubkey));
     JUB_VERIFY_RV(_allocMem(pubkey, str_pubkey));
 
     return JUBR_OK;
@@ -129,7 +129,7 @@ JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     std::string str_xpub;
-    JUB_VERIFY_RV(context->GetMainHDNode(format, str_xpub));
+    JUB_VERIFY_RV(context->GetMainHDNode((JUB_BYTE)format, str_xpub));
     JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
 
     return JUBR_OK;

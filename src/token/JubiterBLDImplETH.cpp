@@ -43,8 +43,8 @@ JUB_RV JubiterBLDImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::stri
     uchar_vector apduData = ToTlv(0x08, vPath);
 
     //0x00 for hex, 0x01 for xpub
-    if (   JUB_ETH_PUB_FORMAT::HEX  != format
-        && JUB_ETH_PUB_FORMAT::XPUB != format
+    if (   (JUB_BYTE)JUB_ETH_PUB_FORMAT::HEX  != format
+        && (JUB_BYTE)JUB_ETH_PUB_FORMAT::XPUB != format
         ) {
         return JUBR_ERROR_ARGS;
     }
@@ -58,11 +58,11 @@ JUB_RV JubiterBLDImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::stri
         return JUBR_TRANSMIT_DEVICE_ERROR;
     }
 
-    if (JUB_ETH_PUB_FORMAT::HEX == format) {
+    if ((JUB_BYTE)JUB_ETH_PUB_FORMAT::HEX == format) {
         uchar_vector vPubkey(retData, (unsigned int)ulRetDataLen);
         pubkey = std::string(ETH_PRDFIX) + vPubkey.getHex();
     }
-    else if (JUB_ETH_PUB_FORMAT::XPUB == format) {
+    else if ((JUB_BYTE)JUB_ETH_PUB_FORMAT::XPUB == format) {
         pubkey = (JUB_CHAR_PTR)retData;
     }
 

@@ -50,7 +50,7 @@ public:
                                    OUT std::string& raw);
 
     virtual JUB_RV BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::string& abi);
-    virtual JUB_RV ActiveSelf();
+    virtual JUB_RV ActiveSelf() override;
 
 private:
     int _chainID;

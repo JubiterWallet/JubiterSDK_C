@@ -134,7 +134,7 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
     path.addressIndex = index;
 
     char* pubkey = nullptr;
-    JUB_RV rv = JUB_GetMainHDNodeETH(contextID, HEX, &pubkey);
+    JUB_RV rv = JUB_GetMainHDNodeETH(contextID, JUB_ETH_PUB_FORMAT::HEX, &pubkey);
     if (JUBR_OK != rv) {
         cout << "JUB_GetMainHDNodeETH() return " << GetErrMsg(rv) << endl;
         return;
@@ -144,7 +144,7 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
     JUB_FreeMemory(pubkey);
 
     pubkey = nullptr;
-    rv = JUB_GetMainHDNodeETH(contextID, XPUB, &pubkey);
+    rv = JUB_GetMainHDNodeETH(contextID, JUB_ETH_PUB_FORMAT::XPUB, &pubkey);
     if (JUBR_OK != rv) {
         cout << "JUB_GetMainHDNodeETH() return " << GetErrMsg(rv) << endl;
         return;
@@ -154,7 +154,7 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
     JUB_FreeMemory(pubkey);
 
     pubkey = nullptr;
-    rv = JUB_GetHDNodeETH(contextID, HEX, path, &pubkey);
+    rv = JUB_GetHDNodeETH(contextID, JUB_ETH_PUB_FORMAT::HEX, path, &pubkey);
     if (JUBR_OK != rv) {
         cout << "JUB_GetHDNodeETH() return " << GetErrMsg(rv) << endl;
         return;
@@ -164,7 +164,7 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
     JUB_FreeMemory(pubkey);
 
     pubkey = nullptr;
-    rv = JUB_GetHDNodeETH(contextID, XPUB, path, &pubkey);
+    rv = JUB_GetHDNodeETH(contextID, JUB_ETH_PUB_FORMAT::XPUB, path, &pubkey);
     if (JUBR_OK != rv) {
         cout << "JUB_GetHDNodeETH() return " << GetErrMsg(rv) << endl;
         return;
