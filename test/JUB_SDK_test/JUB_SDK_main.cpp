@@ -9,8 +9,8 @@
 #include "JUB_SDK_test.h"
 #define SW 1
 #if SW
-#include "JUB_SDK_software_test.hpp"
-#include "JUB_SDK_software_test_eos.hpp"
+#include "JUB_SDK_software_test_btc.hpp"
+#include "JUB_SDK_software_test_eth.hpp"
 #endif
 using namespace std;
 
@@ -50,8 +50,8 @@ int main() {
         cout << "|******* Jubiter Wallet Test ********|" << endl;
         cout << "|  1. hardware_test.                 |" << endl;
 #if SW
-        cout << "|  2. software_test.                 |" << endl;
-        cout << "|  3. software_test_eos.             |" << endl;
+        cout << "|  2. software_test_btc.             |" << endl;
+        cout << "|  3. software_test_eth.             |" << endl;
 #endif
         cout << "|  0. exit.                          |" << endl;
         cout << "--------------------------------------" << endl;
@@ -65,19 +65,10 @@ int main() {
                 break;
 #if SW
             case 2:
-                software_test();
+                software_test_btc();
                 break;
             case 3:
-                var_test_eos();
-
-//                address_test_eos();
-                permissionLevel_test_eos();
-                asset_test_eos();
-                op_test_eos();
-                action_test_eos();
-
-                tx_test_eos_deserialize();
-                tx_test_eos_serialize();
+                software_test_eth();
                 break;
 #endif
             case 0:

@@ -15,7 +15,7 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
-typedef enum {
+typedef enum class JubETHPubFormat {
     HEX = 0x00,
     XPUB = 0x01
 } JUB_ETH_PUB_FORMAT;
