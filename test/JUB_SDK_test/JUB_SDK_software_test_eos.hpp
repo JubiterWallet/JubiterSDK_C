@@ -10,15 +10,8 @@
 #define JUB_SDK_software_test_eos_hpp
 
 #include <stdio.h>
+#include "../../include/JUB_core.h"
 
-void     var_test_eos();
-
-void         address_test_eos();
-void permissionLevel_test_eos();
-void           asset_test_eos();
-void              op_test_eos();
-void          action_test_eos();
-void              tx_test_eos_deserialize();
-void              tx_test_eos_serialize();
+void software_test_eos();
 
 #endif /* JUB_SDK_software_test_eos_hpp */

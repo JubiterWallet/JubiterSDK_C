@@ -32,7 +32,7 @@ protected:
     std::string _mainPath;
     JUB_UINT16  _timeout;
 
-    std::string _FullBip32Path(BIP32_Path path);
+    virtual std::string _FullBip32Path(BIP32_Path path);
 }; // class Context end
 
 class AutoContextManager : public xManager<jub::Context> {

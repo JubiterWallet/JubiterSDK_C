@@ -13,6 +13,7 @@
 #include <token/TrezorCryptoImpl.h>
 #include <context/ContextBTC.h>
 #include <context/ContextETH.h>
+#include <context/ContextEOS.h>
 #include <token/interface/BTCTokenInterface.hpp>
 
 //where to place...
@@ -126,6 +127,22 @@ JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
     jub::TrezorCryptoImpl* token = new jub::TrezorCryptoImpl(std::string(masterPriInXPRV));
     JUB_UINT16 deviceID = jub::TokenManager::GetInstance()->AddOne(token);
     jub::ContextETH* context = new jub::ContextETH(cfg, deviceID);
+    JUB_CHECK_NULL(context);
+    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
+
+    return JUBR_OK;
+}
+
+JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
+                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 OUT JUB_UINT16* contextID) {
+    static_assert(TIsExtended<jub::TrezorCryptoImpl,
+                  jub::EOSTokenInterface>::Result,
+                  "Token class should be extended from EOSTokenInterface");
+
+    jub::TrezorCryptoImpl* token = new jub::TrezorCryptoImpl(std::string(masterPriInXPRV));
+    JUB_UINT16 deviceID = jub::TokenManager::GetInstance()->AddOne(token);
+    jub::ContextEOS* context = new jub::ContextEOS(cfg, deviceID);
     JUB_CHECK_NULL(context);
     *contextID = jub::ContextManager::GetInstance()->AddOne(context);
 
