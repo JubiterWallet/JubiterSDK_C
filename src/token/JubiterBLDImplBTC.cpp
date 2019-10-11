@@ -23,7 +23,7 @@ JUB_RV JubiterBLDImpl::SelectAppletBTC() {
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub) {
+JUB_RV JubiterBLDImpl::GetHDNodeBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, std::string& xpub) {
 
     uchar_vector vPath;
     vPath << path;
@@ -58,7 +58,7 @@ JUB_RV JubiterBLDImpl::GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, s
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::GetAddressBTC(JUB_BTC_TRANS_TYPE type,
+JUB_RV JubiterBLDImpl::GetAddressBTC(JUB_ENUM_BTC_TRANS_TYPE type,
                                      std::string path,
                                      JUB_UINT16 tag,
                                      std::string& address) {
@@ -98,7 +98,7 @@ JUB_RV JubiterBLDImpl::GetAddressBTC(JUB_BTC_TRANS_TYPE type,
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::SignTXBTC(JUB_BTC_TRANS_TYPE type,
+JUB_RV JubiterBLDImpl::SignTXBTC(JUB_ENUM_BTC_TRANS_TYPE type,
                                  JUB_UINT16 inputCount,
                                  std::vector<JUB_UINT64> vInputAmount,
                                  std::vector<std::string> vInputPath,
@@ -240,7 +240,7 @@ JUB_RV JubiterBLDImpl::SignTXBTC(JUB_BTC_TRANS_TYPE type,
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::SetUnitBTC(JUB_BTC_UNIT_TYPE unit) {
+JUB_RV JubiterBLDImpl::SetUnitBTC(JUB_ENUM_BTC_UNIT_TYPE unit) {
 
     APDU apdu(0x00, 0xfa, JUB_BYTE(unit), 0x00, 0x00);
     JUB_UINT16 ret = 0;

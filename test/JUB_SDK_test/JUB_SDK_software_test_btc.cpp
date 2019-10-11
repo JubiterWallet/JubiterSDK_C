@@ -49,7 +49,7 @@ void software_test_btc() {
         cout << "JUB_CreateContextBTC_soft return " << rv << endl;
     }
 
-    BIP32_Path path;
+    BIP44_Path path;
     path.change = BOOL_FALSE;
     path.addressIndex = 0;
     JUB_CHAR_PTR  xpub = nullptr;

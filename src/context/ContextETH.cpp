@@ -20,12 +20,12 @@ JUB_RV ContextETH::ActiveSelf() {
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address) {
+JUB_RV ContextETH::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
 
     auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
-    std::string strPath = _FullBip32Path(path);
+    std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(token->GetAddressETH(strPath, tag, address));
 
     return JUBR_OK;
@@ -41,29 +41,29 @@ JUB_RV ContextETH::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::SetMyAddress(BIP32_Path path, std::string& address) {
+JUB_RV ContextETH::SetMyAddress(BIP44_Path path, std::string& address) {
 
     auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
-    std::string strPath = _FullBip32Path(path);
+    std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(token->GetAddressETH(strPath, 0x02, address));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::GetHDNode(JUB_BYTE format, BIP32_Path path, std::string& pubkey) {
+JUB_RV ContextETH::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey) {
 
     auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
-    std::string strPath = _FullBip32Path(path);
+    std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(token->GetHDNodeETH(format, strPath, pubkey));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
+JUB_RV ContextETH::SignTransaction(IN BIP44_Path path,
                                    IN JUB_UINT32 nonce,
                                    IN JUB_UINT32 gasLimit,
                                    IN JUB_CHAR_PTR gasPriceInWei,
@@ -98,7 +98,7 @@ JUB_RV ContextETH::SignTransaction(IN BIP32_Path path,
         vInput = jub::ETHHexStr2CharPtr(input);
     }
 
-    std::string strPath = _FullBip32Path(path);
+    std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
     std::vector<JUB_BYTE> vChainID;

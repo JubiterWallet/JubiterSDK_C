@@ -19,7 +19,7 @@
 //where to place...
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
-JUB_RV _curveToString(JUB_CURVES enumCurve, std::string& strCurve) {
+JUB_RV _curveToString(JUB_ENUM_CURVES enumCurve, std::string& strCurve) {
 
     switch(enumCurve) {
         case secp256k1:
@@ -36,7 +36,7 @@ JUB_RV _curveToString(JUB_CURVES enumCurve, std::string& strCurve) {
     }
 }
 
-JUB_RV JUB_GenerateMnemonic(IN JUB_MNEMONIC_STRENGTH strength,
+JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
                             OUT JUB_CHAR_PTR_PTR mnemonic) {
 
     JUB_CHAR _mnemonic[240] = {0,};
@@ -67,7 +67,7 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, 
     return JUBR_OK;
 }
 
-JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_PTR seed, IN JUB_UINT16 seed_len, IN JUB_CURVES curve,
+JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_PTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
                                   OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
     JUB_CHECK_NULL(seed);
     std::string curve_name;

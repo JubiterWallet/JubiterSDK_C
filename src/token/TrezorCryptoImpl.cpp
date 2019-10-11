@@ -34,7 +34,7 @@ JUB_RV TrezorCryptoImpl::SelectAppletBTC() {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub) {
+JUB_RV TrezorCryptoImpl::GetHDNodeBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, std::string& xpub) {
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, bitcoinXPUB, bitcoinXPRV, &hdkey, &parentFingerprint));
@@ -54,7 +54,7 @@ JUB_RV TrezorCryptoImpl::GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path,
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::GetAddressBTC(JUB_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 tag, std::string& address) {
+JUB_RV TrezorCryptoImpl::GetAddressBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 tag, std::string& address) {
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
@@ -68,7 +68,7 @@ JUB_RV TrezorCryptoImpl::GetAddressBTC(JUB_BTC_TRANS_TYPE type, std::string path
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::SetUnitBTC(JUB_BTC_UNIT_TYPE unit) {
+JUB_RV TrezorCryptoImpl::SetUnitBTC(JUB_ENUM_BTC_UNIT_TYPE unit) {
     return JUBR_OK;
 }
 
@@ -76,7 +76,7 @@ JUB_RV TrezorCryptoImpl::SetCoinTypeBTC(JUB_ENUM_COINTYPE_BTC type) {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::SignTXBTC(JUB_BTC_TRANS_TYPE type,
+JUB_RV TrezorCryptoImpl::SignTXBTC(JUB_ENUM_BTC_TRANS_TYPE type,
                                    JUB_UINT16 inputCount,
                                    std::vector<JUB_UINT64> vInputAmount,
                                    std::vector<std::string> vInputPath,
@@ -114,7 +114,7 @@ JUB_RV TrezorCryptoImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::st
 //    typedef enum class JubETHPubFormat {
 //        HEX = 0x00,
 //        XPUB = 0x01
-//    } JUB_ETH_PUB_FORMAT;
+//    } JUB_ENUM_ETH_PUB_FORMAT;
     if (0x00 == format) {//hex
         uchar_vector pk(hdkey.public_key,hdkey.public_key+33);
         pubkey = pk.getHex();
@@ -214,7 +214,7 @@ JUB_RV TrezorCryptoImpl::GetHDNodeEOS(JUB_BYTE format, std::string path, std::st
 //    typedef enum class JubEOSPubFormat {
 //        HEX = 0x00,
 //        EOS = 0x01
-//    } JUB_EOS_PUB_FORMAT;
+//    } JUB_ENUM_EOS_PUB_FORMAT;
     uchar_vector pk(hdkey.public_key, hdkey.public_key+33);
     if (0x00 == format) {//hex
         pubkey = pk.getHex();

@@ -22,16 +22,16 @@ typedef enum {
     STRENGTH128 = 128,
     STRENGTH192 = 192,
     STRENGTH256 = 256
-} JUB_MNEMONIC_STRENGTH;
+} JUB_ENUM_MNEMONIC_STRENGTH;
 
 typedef enum {
     secp256k1 = 0,
     ed25519,
     nist256p1      
-} JUB_CURVES;
+} JUB_ENUM_CURVES;
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GenerateMnemonic(IN JUB_MNEMONIC_STRENGTH strength,
+JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
                             OUT JUB_CHAR_PTR_PTR mnemonic);
 
 JUB_COINCORE_DLL_EXPORT
@@ -43,7 +43,7 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase,
                         void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total));
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_PTR seed, IN JUB_UINT16 seed_len, IN JUB_CURVES curve,
+JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_PTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
                                   OUT JUB_CHAR_PTR_PTR prikeyInXPRV);
 
 JUB_COINCORE_DLL_EXPORT

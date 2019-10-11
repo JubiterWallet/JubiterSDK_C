@@ -32,7 +32,7 @@ typedef enum {
      p2wsh_multisig,
      p2sh_p2wsh_multisig,
 */
-} JUB_BTC_TRANS_TYPE;
+} JUB_ENUM_BTC_TRANS_TYPE;
 
 typedef enum {
     BTC = 0x00,
@@ -40,32 +40,32 @@ typedef enum {
     mBTC,
     uBTC,
     Satoshi
-} JUB_BTC_UNIT_TYPE;
+} JUB_ENUM_BTC_UNIT_TYPE;
 
 typedef struct {
     JUB_ENUM_COINTYPE_BTC   coinType;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
 
     JUB_CHAR_PTR            mainPath;
-    JUB_BTC_TRANS_TYPE      transType;
+    JUB_ENUM_BTC_TRANS_TYPE transType;
 } CONTEXT_CONFIG_BTC;
 
 typedef struct {
     JUB_CHAR_PTR    preHash;
     JUB_UINT16      preIndex;
     JUB_UINT64      amount;
-    BIP32_Path      path;
+    BIP44_Path      path;
 } INPUT_BTC;
 
 typedef enum {
     STANDARD = 0x00,
     RETURN0 = 0x01
-} OUTPUT_BTC_TYPE;
+} OUTPUT_ENUM_BTC_TYPE;
 
 typedef struct {
     JUB_CHAR_PTR    address;
     JUB_UINT64      amount;
     JUB_ENUM_BOOL   changeAddress;
-    BIP32_Path      path;
+    BIP44_Path      path;
 } OUTPUT_STANDARD;
 
 typedef struct {
@@ -75,7 +75,7 @@ typedef struct {
 } OUTPUT_RETURN0;
 
 typedef struct {
-    OUTPUT_BTC_TYPE type;
+    OUTPUT_ENUM_BTC_TYPE type;
     union {
         OUTPUT_STANDARD     outputStandard;
         OUTPUT_RETURN0      outputReturn0;
@@ -103,7 +103,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID,
-                        IN BIP32_Path path,
+                        IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
@@ -126,7 +126,7 @@ JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
-                         IN BIP32_Path path,
+                         IN BIP44_Path path,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address);
 
@@ -139,7 +139,7 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
-                           IN BIP32_Path path,
+                           IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
@@ -169,7 +169,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID,
-                      IN JUB_BTC_UNIT_TYPE unit);
+                      IN JUB_ENUM_BTC_UNIT_TYPE unit);
 
 /*****************************************************************************
  * @function name : JUB_BuildUSDTOutputs
