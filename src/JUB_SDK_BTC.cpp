@@ -48,7 +48,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID,
-                        IN BIP32_Path path,
+                        IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR xpub) {
 
     JUB_CHECK_CONTEXT_BTC(contextID);
@@ -93,7 +93,7 @@ JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
-                         IN BIP32_Path path,
+                         IN BIP44_Path path,
                          IN JUB_ENUM_BOOL bshow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
@@ -117,7 +117,7 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
-                           IN BIP32_Path path,
+                           IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
     JUB_CHECK_CONTEXT_BTC(contextID);
@@ -173,7 +173,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID,
-                      IN JUB_BTC_UNIT_TYPE unit) {
+                      IN JUB_ENUM_BTC_UNIT_TYPE unit) {
 
     JUB_CHECK_CONTEXT_BTC(contextID);
 

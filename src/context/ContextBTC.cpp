@@ -7,12 +7,12 @@
 
 namespace jub {
 
-JUB_RV ContextBTC::GetHDNode(BIP32_Path path, std::string& xpub) {
+JUB_RV ContextBTC::GetHDNode(BIP44_Path path, std::string& xpub) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
-    std::string strPath = _FullBip32Path(path);
+    std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(token->GetHDNodeBTC(_transType, strPath, xpub));
 
     return JUBR_OK;
@@ -28,29 +28,29 @@ JUB_RV ContextBTC::GetMainHDNode(std::string& xpub) {
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address) {
+JUB_RV ContextBTC::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
-    std::string strPath = _FullBip32Path(path);
+    std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(token->GetAddressBTC(_transType, strPath, tag, address));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::SetMyAddress(BIP32_Path path, std::string& address) {
+JUB_RV ContextBTC::SetMyAddress(BIP44_Path path, std::string& address) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
-    std::string strPath = _FullBip32Path(path);
+    std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(token->GetAddressBTC(_transType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::SetUnit(JUB_BTC_UNIT_TYPE unitType) {
+JUB_RV ContextBTC::SetUnit(JUB_ENUM_BTC_UNIT_TYPE unitType) {
 
     _unitType = unitType;
 
@@ -79,7 +79,7 @@ JUB_RV ContextBTC::ActiveSelf() {
 JUB_RV ContextBTC::BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]) {
 
     //build return0 output
-    outputs[0].type = OUTPUT_BTC_TYPE::RETURN0;
+    outputs[0].type = OUTPUT_ENUM_BTC_TYPE::RETURN0;
     outputs[0].outputReturn0.amount = 0;
     outputs[0].outputReturn0.dataLen = 20;
     uchar_vector usdtData("6f6d6e69000000000000001f");
@@ -89,7 +89,7 @@ JUB_RV ContextBTC::BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount
     memcpy(outputs[0].outputReturn0.data, &usdtData[0], 20);
 
     //build dust output
-    outputs[1].type = OUTPUT_BTC_TYPE::STANDARD;
+    outputs[1].type = OUTPUT_ENUM_BTC_TYPE::STANDARD;
     outputs[1].outputStandard.address = USDTTo;
     outputs[1].outputStandard.amount = 546;
     outputs[1].outputStandard.changeAddress = BOOL_FALSE;
@@ -110,17 +110,17 @@ JUB_RV ContextBTC::SignTX(std::vector<INPUT_BTC> vInputs, std::vector<OUTPUT_BTC
     std::vector<std::string> vInputPath;
     for (auto input : vInputs) {
         vInputAmount.push_back(input.amount);
-        vInputPath.push_back(_FullBip32Path(input.path));
+        vInputPath.push_back(_FullBip44Path(input.path));
     }
 
     //deal outputs
     std::vector<JUB_UINT16> vChangeIndex;
     std::vector<std::string> vChangePath;
     for (std::size_t i = 0, e = vOutputs.size(); i != e; ++i) {
-        if (OUTPUT_BTC_TYPE::STANDARD == vOutputs[i].type) {
+        if (OUTPUT_ENUM_BTC_TYPE::STANDARD == vOutputs[i].type) {
             if (vOutputs[i].outputStandard.changeAddress) {
                 vChangeIndex.push_back((JUB_UINT16)i);
-                vChangePath.push_back(_FullBip32Path(vOutputs[i].outputStandard.path));
+                vChangePath.push_back(_FullBip44Path(vOutputs[i].outputStandard.path));
             }
         }
     }

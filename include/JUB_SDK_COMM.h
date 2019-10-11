@@ -155,7 +155,7 @@ typedef enum {
 typedef struct {
 	JUB_ENUM_BOOL change;
 	JUB_UINT64    addressIndex;
-} BIP32_Path;
+} BIP44_Path;
 
 /*****************************************************************************
 * @function name : JUB_ClearContext

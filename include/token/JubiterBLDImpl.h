@@ -48,11 +48,11 @@ public:
 
     //BTC functions
     virtual JUB_RV SelectAppletBTC();
-    virtual JUB_RV GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
-    virtual JUB_RV GetAddressBTC(JUB_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetUnitBTC(JUB_BTC_UNIT_TYPE unit);
+    virtual JUB_RV GetHDNodeBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
+    virtual JUB_RV GetAddressBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetUnitBTC(JUB_ENUM_BTC_UNIT_TYPE unit);
     virtual JUB_RV SetCoinTypeBTC(JUB_ENUM_COINTYPE_BTC type);
-    virtual JUB_RV SignTXBTC(JUB_BTC_TRANS_TYPE type,
+    virtual JUB_RV SignTXBTC(JUB_ENUM_BTC_TRANS_TYPE type,
                              JUB_UINT16 inputCount,
                              std::vector<JUB_UINT64> vInputAmount,
                              std::vector<std::string> vInputPath,

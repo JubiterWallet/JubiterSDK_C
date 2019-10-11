@@ -18,7 +18,7 @@ extern "C" {
 typedef enum class JubETHPubFormat {
     HEX = 0x00,
     XPUB = 0x01
-} JUB_ETH_PUB_FORMAT;
+} JUB_ENUM_ETH_PUB_FORMAT;
 
 typedef struct {
     JUB_CHAR_PTR        mainPath;
@@ -47,36 +47,36 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
-                         IN BIP32_Path path,
+                         IN BIP44_Path path,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
  * @function name : JUB_GetHDNodeETH
  * @in  param : contextID - context ID
- *            : format - JUB_ETH_PUB_FORMAT::HEX (0x00) for hex;
- *                       JUB_ETH_PUB_FORMAT::XPUB(0x01) for xpub
+ *            : format - JUB_ENUM_ETH_PUB_FORMAT::HEX (0x00) for hex;
+ *                       JUB_ENUM_ETH_PUB_FORMAT::XPUB(0x01) for xpub
  *            : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
-                        IN JUB_ETH_PUB_FORMAT format,
-                        IN BIP32_Path path,
+                        IN JUB_ENUM_ETH_PUB_FORMAT format,
+                        IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
 
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeETH
  * @in  param : contextID - context ID
- *            : format - JUB_ETH_PUB_FORMAT::HEX (0x00) for hex;
- *                       JUB_ETH_PUB_FORMAT::XPUB(0x01) for xpub
+ *            : format - JUB_ENUM_ETH_PUB_FORMAT::HEX (0x00) for hex;
+ *                       JUB_ENUM_ETH_PUB_FORMAT::XPUB(0x01) for xpub
  * @out param : xpub
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
-                            IN JUB_ETH_PUB_FORMAT format,
+                            IN JUB_ENUM_ETH_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
@@ -88,7 +88,7 @@ JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
-                           IN BIP32_Path path,
+                           IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
@@ -106,7 +106,7 @@ JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
-                              IN BIP32_Path path,
+                              IN BIP44_Path path,
                               IN JUB_UINT32 nonce,
                               IN JUB_UINT32 gasLimit,
                               IN JUB_CHAR_PTR gasPriceInWei,

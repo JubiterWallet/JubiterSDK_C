@@ -46,7 +46,7 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
-                         IN BIP32_Path    path,
+                         IN BIP44_Path    path,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
@@ -70,7 +70,7 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
-                           IN BIP32_Path path,
+                           IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
     JUB_CHECK_CONTEXT_EOS(contextID);
@@ -88,15 +88,15 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeEOS
  * @in  param : contextID - context ID
- *            : format - JUB_EOS_PUB_FORMAT::HEX(0x00) for hex;
- *                       JUB_EOS_PUB_FORMAT::EOS(0x01) for Legacy
+ *            : format - JUB_ENUM_EOS_PUB_FORMAT::HEX(0x00) for hex;
+ *                       JUB_ENUM_EOS_PUB_FORMAT::EOS(0x01) for Legacy
  *            : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
-                        IN JUB_EOS_PUB_FORMAT format,
-                        IN BIP32_Path path,
+                        IN JUB_ENUM_EOS_PUB_FORMAT format,
+                        IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
     JUB_CHECK_CONTEXT_EOS(contextID);
@@ -114,13 +114,13 @@ JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeEOS
  * @in  param : contextID - context ID
- *            : format - JUB_EOS_PUB_FORMAT::HEX(0x00) for hex;
- *                       JUB_EOS_PUB_FORMAT::EOS(0x01) for Legacy
+ *            : format - JUB_ENUM_EOS_PUB_FORMAT::HEX(0x00) for hex;
+ *                       JUB_ENUM_EOS_PUB_FORMAT::EOS(0x01) for Legacy
  * @out param : xpub
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
-                            IN JUB_EOS_PUB_FORMAT format,
+                            IN JUB_ENUM_EOS_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
     JUB_CHECK_CONTEXT_EOS(contextID);

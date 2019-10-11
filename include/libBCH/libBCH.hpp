@@ -77,7 +77,7 @@ JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& scriptPub) {
     return JUBR_OK;
 }
 
-JUB_RV serializeUnsignedTX(JUB_BTC_TRANS_TYPE type,
+JUB_RV serializeUnsignedTX(JUB_ENUM_BTC_TRANS_TYPE type,
                            std::vector<INPUT_BTC> vInputs,
                            std::vector<OUTPUT_BTC> vOutputs,
                            JUB_UINT32 lockTime,
@@ -104,7 +104,7 @@ JUB_RV serializeUnsignedTX(JUB_BTC_TRANS_TYPE type,
     unsingedTrans << (JUB_BYTE)vOutputs.size();
     for (auto output : vOutputs) {
         switch (output.type) {
-        case OUTPUT_BTC_TYPE::STANDARD:
+        case OUTPUT_ENUM_BTC_TYPE::STANDARD:
         {
             //amount
             unsingedTrans << (uint64_t)output.outputStandard.amount;
@@ -115,8 +115,8 @@ JUB_RV serializeUnsignedTX(JUB_BTC_TRANS_TYPE type,
             }
             unsingedTrans && scriptPub;
             break;
-        } // case OUTPUT_BTC_TYPE::STANDARD end
-        case OUTPUT_BTC_TYPE::RETURN0:
+        } // case OUTPUT_ENUM_BTC_TYPE::STANDARD end
+        case OUTPUT_ENUM_BTC_TYPE::RETURN0:
         {
             unsingedTrans << (uint64_t)output.outputReturn0.amount;
             uchar_vector scriptPub;
@@ -126,7 +126,7 @@ JUB_RV serializeUnsignedTX(JUB_BTC_TRANS_TYPE type,
 
             unsingedTrans && scriptPub;
             break;
-        } // case OUTPUT_BTC_TYPE::RETURN0 end
+        } // case OUTPUT_ENUM_BTC_TYPE::RETURN0 end
         default:
             break;
         } // switch (output.type) end

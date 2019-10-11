@@ -43,14 +43,14 @@ public:
     };
     ~ContextEOS() {};
 
-    virtual JUB_RV GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(BIP32_Path path, std::string& address);
-    virtual JUB_RV GetHDNode(JUB_BYTE format, BIP32_Path path, std::string& pubkey);
+    virtual JUB_RV GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(BIP44_Path path, std::string& address);
+    virtual JUB_RV GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey);
     virtual JUB_RV GetMainHDNode(JUB_BYTE format, std::string& xpub);
 
     virtual JUB_RV ActiveSelf() override;
 protected:
-    std::string _FullBip32Path(BIP32_Path path) override;
+    std::string _FullBip44Path(BIP44_Path path) override;
 private:
     int _chainID;
 }; // class ContextEOS end

@@ -125,7 +125,7 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root) {
         for (int i = 0; i < inputNumber; i++) {
             JUB_CHAR_PTR xpub;
 
-            BIP32_Path path;
+            BIP44_Path path;
             path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
             path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
 
@@ -165,7 +165,7 @@ void show_address_test(JUB_UINT16 contextID) {
     cout << "please input index " << endl;
     cin >> index;
 
-    BIP32_Path path;
+    BIP44_Path path;
     path.change = JUB_ENUM_BOOL(change);
     path.addressIndex = index;
 
@@ -194,7 +194,7 @@ void set_my_address_test_BTC(JUB_UINT16 contextID) {
     cout << "please input index " << endl;
     cin >> index;
 
-    BIP32_Path path;
+    BIP44_Path path;
     path.change = JUB_ENUM_BOOL(change);
     path.addressIndex = index;
 
@@ -212,7 +212,7 @@ void set_my_address_test_BTC(JUB_UINT16 contextID) {
 
 void transaction_test(JUB_UINT16 contextID, Json::Value root) {
 
-    JUB_BTC_UNIT_TYPE unit = mBTC;
+    JUB_ENUM_BTC_UNIT_TYPE unit = mBTC;
 
     cout << "Please input BTCunit on JubiterBLD" << endl;
     cout << "1: BTC" << endl;
@@ -266,7 +266,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
 
         for (int i = 0; i < outputNumber; i++) {
             OUTPUT_BTC output;
-            output.type = OUTPUT_BTC_TYPE::STANDARD;
+            output.type = OUTPUT_ENUM_BTC_TYPE::STANDARD;
             output.outputStandard.address = (char*)root["outputs"][i]["address"].asCString();
             output.outputStandard.amount = root["outputs"][i]["amount"].asUInt64();
             output.outputStandard.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
@@ -333,7 +333,7 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 
         for (int i = 0; i < outputNumber; i++) {
             OUTPUT_BTC output;
-            output.type = OUTPUT_BTC_TYPE::STANDARD;
+            output.type = OUTPUT_ENUM_BTC_TYPE::STANDARD;
             output.outputStandard.address = (char*)root["outputs"][i]["address"].asCString();
             output.outputStandard.amount = root["outputs"][i]["amount"].asUInt64();
             output.outputStandard.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();

@@ -38,21 +38,21 @@ public:
     };
     ~ContextBTC() {};
 
-    virtual JUB_RV GetHDNode(BIP32_Path path, std::string& xpub);
+    virtual JUB_RV GetHDNode(BIP44_Path path, std::string& xpub);
     virtual JUB_RV GetMainHDNode(std::string& xpub);
 
-    virtual JUB_RV GetAddress(BIP32_Path path, JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(BIP32_Path path, std::string& address);
+    virtual JUB_RV GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(BIP44_Path path, std::string& address);
     virtual JUB_RV SignTX(std::vector<INPUT_BTC> vInputs, std::vector<OUTPUT_BTC> vOutputs, JUB_UINT32 lockTime,  std::string& raw);
-    virtual JUB_RV SetUnit(JUB_BTC_UNIT_TYPE unitType);
+    virtual JUB_RV SetUnit(JUB_ENUM_BTC_UNIT_TYPE unitType);
 
     virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
     virtual JUB_RV ActiveSelf();
 
 private:
-    JUB_ENUM_COINTYPE_BTC _coinType{ COINBTC };
-    JUB_BTC_TRANS_TYPE    _transType{ p2pkh };
-    JUB_BTC_UNIT_TYPE     _unitType{ mBTC };
+    JUB_ENUM_COINTYPE_BTC   _coinType{ COINBTC };
+    JUB_ENUM_BTC_TRANS_TYPE _transType{ p2pkh };
+    JUB_ENUM_BTC_UNIT_TYPE  _unitType{ mBTC };
 }; // class ContextBTC end
 
 } // namespace jub end

@@ -11,9 +11,9 @@ class BTCTokenInterface {
 
 public:
     virtual JUB_RV SelectAppletBTC() = 0;
-    virtual JUB_RV SetUnitBTC(JUB_BTC_UNIT_TYPE unit) = 0;
+    virtual JUB_RV SetUnitBTC(JUB_ENUM_BTC_UNIT_TYPE unit) = 0;
     virtual JUB_RV SetCoinTypeBTC(JUB_ENUM_COINTYPE_BTC type) = 0;
-    virtual JUB_RV SignTXBTC(JUB_BTC_TRANS_TYPE type,
+    virtual JUB_RV SignTXBTC(JUB_ENUM_BTC_TRANS_TYPE type,
                              JUB_UINT16 inputCount,
                              std::vector<JUB_UINT64> vInputAmount,
                              std::vector<std::string> vInputPath,
@@ -22,8 +22,8 @@ public:
                              std::vector<JUB_BYTE> vUnsigedTrans,
                              std::vector<JUB_BYTE>& vRaw) = 0;
 
-    virtual JUB_RV GetHDNodeBTC(JUB_BTC_TRANS_TYPE type, std::string path, std::string& xpub) = 0;
-    virtual JUB_RV GetAddressBTC(JUB_BTC_TRANS_TYPE type,
+    virtual JUB_RV GetHDNodeBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, std::string& xpub) = 0;
+    virtual JUB_RV GetAddressBTC(JUB_ENUM_BTC_TRANS_TYPE type,
                                  std::string path,
                                  JUB_UINT16 tag,
                                  std::string& address) = 0;
