@@ -74,16 +74,6 @@ int main() {
                 break;
             case 4:
                 software_test_eos();
-//                var_test_eos();
-//
-//                address_test_eos();
-//                permissionLevel_test_eos();
-//                asset_test_eos();
-//                op_test_eos();
-//                action_test_eos();
-//
-//                tx_test_eos_deserialize();
-//                tx_test_eos_serialize();
                 break;
 #endif
             case 0:
