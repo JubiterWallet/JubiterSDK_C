@@ -26,14 +26,14 @@ JUB_RV ContextEOS::ActiveSelf() {
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
-std::string ContextEOS::_FullBip44Path(BIP44_Path path) {
+JUB_RV ContextEOS::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 
-    if (std::string::npos != _mainPath.find("48'")) {
-        return _mainPath;
-    }
-    else {
-        return Context::_FullBip44Path(path);
-    }
+    auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    JUB_CHECK_NULL(token);
+
+    JUB_VERIFY_RV(token->GetHDNodeEOS(format, _mainPath, xpub));
+
+    return JUBR_OK;
 }
 
 JUB_RV ContextEOS::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
@@ -43,16 +43,6 @@ JUB_RV ContextEOS::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& addr
 
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(token->GetAddressEOS(strPath, tag, address));
-
-    return JUBR_OK;
-}
-
-JUB_RV ContextEOS::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
-
-    auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
-    JUB_CHECK_NULL(token);
-
-    JUB_VERIFY_RV(token->GetHDNodeEOS(format, _mainPath, xpub));
 
     return JUBR_OK;
 }
@@ -74,6 +64,39 @@ JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubk
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip44Path(path);
+    JUB_VERIFY_RV(token->GetHDNodeEOS(format, strPath, pubkey));
+
+    return JUBR_OK;
+}
+
+JUB_RV ContextEOS::GetAddress(BIP48_Path path, JUB_UINT16 tag, std::string& address) {
+
+    auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    JUB_CHECK_NULL(token);
+
+    std::string strPath = _FullBip48Path(path);
+    JUB_VERIFY_RV(token->GetAddressEOS(strPath, tag, address));
+
+    return JUBR_OK;
+}
+
+JUB_RV ContextEOS::SetMyAddress(BIP48_Path path, std::string& address) {
+
+    auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    JUB_CHECK_NULL(token);
+
+    std::string strPath = _FullBip48Path(path);
+    JUB_VERIFY_RV(token->GetAddressEOS(strPath, 0x02, address));
+
+    return JUBR_OK;
+}
+
+JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubkey) {
+
+    auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    JUB_CHECK_NULL(token);
+
+    std::string strPath = _FullBip48Path(path);
     JUB_VERIFY_RV(token->GetHDNodeEOS(format, strPath, pubkey));
 
     return JUBR_OK;

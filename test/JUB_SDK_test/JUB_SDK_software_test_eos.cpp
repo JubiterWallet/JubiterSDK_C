@@ -44,16 +44,21 @@ void software_test_eos() {
     }
 
     CONTEXT_CONFIG_EOS cfg;
-    cfg.mainPath = (JUB_CHAR_PTR)"m/44'/194'/0'";//"m/48'/4'/0'/0'/0'";
+    cfg.mainPath = (JUB_CHAR_PTR)"m/48'";//"m/44'/194'/0'";
     JUB_UINT16 contextID;
     rv = JUB_CreateContextEOS_soft(cfg, masterXprv, &contextID);
     if (rv != JUBR_OK) {
         cout << "JUB_CreateContextBTC_soft return " << rv << endl;
     }
 
-    BIP44_Path path;
-    path.change = BOOL_FALSE;
-    path.addressIndex = 0;
+//    BIP44_Path path;
+//    path.change = BOOL_FALSE;
+//    path.addressIndex = 0;
+    BIP48_Path path;
+    path.network = 4;
+    path.role = JUB_ENUM_GRAPHENE_ROLE::ACTIVE;
+    path.accountIndex = 0;
+    path.keyIndex = 0;
     JUB_CHAR_PTR pub = nullptr;
     rv = JUB_GetHDNodeEOS(contextID, format, path, &pub);
     if (rv != JUBR_OK) {

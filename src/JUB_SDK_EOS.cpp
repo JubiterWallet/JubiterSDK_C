@@ -46,7 +46,7 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
-                         IN BIP44_Path    path,
+                         IN BIP48_Path    path,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
@@ -70,7 +70,7 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
-                           IN BIP44_Path path,
+                           IN BIP48_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
     JUB_CHECK_CONTEXT_EOS(contextID);
@@ -96,7 +96,7 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
                         IN JUB_ENUM_EOS_PUB_FORMAT format,
-                        IN BIP44_Path path,
+                        IN BIP48_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
     JUB_CHECK_CONTEXT_EOS(contextID);
