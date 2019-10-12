@@ -157,6 +157,18 @@ typedef struct {
 	JUB_UINT64    addressIndex;
 } BIP44_Path;
 
+typedef enum class JubGrapheneRole {
+    OWNER  = 0x00,
+    ACTIVE = 0x01
+} JUB_ENUM_GRAPHENE_ROLE;
+
+typedef struct {
+    JUB_UINT64    network;
+    JUB_ENUM_GRAPHENE_ROLE role;
+    JUB_UINT64    accountIndex;
+    JUB_UINT64    keyIndex;
+} BIP48_Path;
+
 /*****************************************************************************
 * @function name : JUB_ClearContext
 * @in  param : contextID - context ID

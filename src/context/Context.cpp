@@ -49,7 +49,18 @@ JUB_RV Context::SetTimeout(JUB_UINT16 timeout) {
 
 std::string Context::_FullBip44Path(BIP44_Path path) {
 
-    return _mainPath + "/" + std::to_string(path.change) + "/" + std::to_string(path.addressIndex);
+    return _mainPath + "/"
+            + std::to_string(path.change) + "/"
+            + std::to_string(path.addressIndex);
+}
+
+std::string Context::_FullBip48Path(BIP48_Path path) {
+
+    return _mainPath + "/"
+            + std::to_string(path.network) + "'" + "/"
+            + std::to_string((int)path.role) + "'" + "/"
+            + std::to_string(path.accountIndex) + "'" + "/"
+            + std::to_string(path.keyIndex);
 }
 
 } // namespace jub end
