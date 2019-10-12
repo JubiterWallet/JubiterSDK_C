@@ -102,4 +102,36 @@ JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubk
     return JUBR_OK;
 }
 
+JUB_RV ContextEOS::SignTransaction(BIP48_Path path,
+                                   const std::string& referenceBlockId,
+                                   const JUB_UINT32&  referenceBlockTime,
+                                   const std::string& currency,
+                                   const std::string& from,
+                                   const std::string& to,
+                                   const std::string& asset,
+                                   const std::string& memo,
+                                   std::string& rawInJSON) {
+
+    if (path.network >= sizeof(chainIds)/sizeof(chainIds[0])) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    JUB_CHECK_NULL(token);
+
+    std::string strPath = _FullBip48Path(path);
+    JUB_VERIFY_RV(token->SignTXEOS(strPath,
+                                   chainIds[path.network],
+                                   referenceBlockId,
+                                   referenceBlockTime,
+                                   currency,
+                                   from,
+                                   to,
+                                   asset,
+                                   memo,
+                                   rawInJSON));
+
+    return JUBR_OK;
+}
+
 } // namespace jub end

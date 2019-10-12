@@ -70,6 +70,16 @@ public:
     virtual JUB_RV SelectAppletEOS();
     virtual JUB_RV GetAddressEOS(std::string path, JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNodeEOS(JUB_BYTE format,std::string path, std::string& pubkey);
+    virtual JUB_RV SignTXEOS(std::string path,
+                             const std::string& chainId,
+                             const std::string& referenceBlockId,
+                             const JUB_UINT32&  referenceBlockTime,
+                             const std::string& currency,
+                             const std::string& from,
+                             const std::string& to,
+                             const std::string& asset,
+                             const std::string& memo,
+                             std::string& rawInJSON);
 
     //common token functions
     virtual JUB_RV QueryBattery(JUB_BYTE &percent);

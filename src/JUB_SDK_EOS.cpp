@@ -134,3 +134,49 @@ JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
 
     return JUBR_OK;
 }
+
+/*****************************************************************************
+ * @function name : JUB_SignTransactionEOS
+ * @in  param : contextID - context ID
+ *            : path
+ *            : referenceBlockId   - reference block ID
+ *            : referenceBlockTime - reference block time
+ *            : currency - currency
+ *            : from
+ *            : to
+ *            : asset
+ *            : memo
+ * @out param : rawInJSON
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
+                              IN BIP48_Path path,
+                              IN JUB_CHAR_PTR referenceBlockId,
+                              IN JUB_UINT32   referenceBlockTime,
+                              IN JUB_CHAR_PTR currency,
+                              IN JUB_CHAR_PTR from,
+                              IN JUB_CHAR_PTR to,
+                              IN JUB_CHAR_PTR asset,
+                              IN JUB_CHAR_PTR memo,
+                              OUT JUB_CHAR_PTR_PTR rawInJSON) {
+
+    JUB_CHECK_CONTEXT_EOS(contextID);
+
+    auto context = (jub::ContextEOS*)jub::ContextManager::GetInstance()->GetOne(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_raw;
+    JUB_VERIFY_RV(context->SignTransaction(path,
+                                           referenceBlockId,
+                                           referenceBlockTime,
+                                           currency,
+                                           from,
+                                           to,
+                                           asset,
+                                           memo,
+                                           str_raw));
+    JUB_VERIFY_RV(_allocMem(rawInJSON, str_raw));
+
+    return JUBR_OK;
+}

@@ -77,4 +77,54 @@ JUB_RV JubiterBLDImpl::GetHDNodeEOS(JUB_BYTE format, std::string path, std::stri
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
+JUB_RV JubiterBLDImpl::SignTXEOS(std::string path,
+                                 const std::string& chainId,
+                                 const std::string& referenceBlockId,
+                                 const JUB_UINT32&  referenceBlockTime,
+                                 const std::string& currency,
+                                 const std::string& from,
+                                 const std::string& to,
+                                 const std::string& asset,
+                                 const std::string& memo,
+                                 std::string& rawInJSON) {
+
+//    uchar_vector data;
+//
+//    if (0x00 == vNonce[0]) {
+//        data << (JUB_BYTE)0x41;
+//        data << (JUB_BYTE)0x00;
+//    }
+//    else {
+//        data << ToTlv(0x41, vNonce);
+//    }
+//
+//    data << ToTlv(0x42, vGasPrice);
+//    data << ToTlv(0x43, vGasLimit);
+//    data << ToTlv(0x44, vTo);
+//    data << ToTlv(0x45, vValue);
+//    data << ToTlv(0x46, vInput);
+//    data << ToTlv(0x47, vPath);
+//    data << ToTlv(0x48, vChainID);
+//
+//    JUB_BYTE ins = 0x2a;
+//    if (bERC20) {
+//        ins = 0xc8;
+//    }
+//
+//    //one pack can do it
+//    APDU apdu(0x00, ins, 0x01, 0x00, (JUB_ULONG)data.size(), data.data());
+//    JUB_UINT16 ret = 0;
+//    JUB_BYTE retData[2048] = {0,};
+//    JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
+//    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+//    if (0x9000 != ret) {
+//        return JUBR_TRANSMIT_DEVICE_ERROR;
+//    }
+//
+//    vRaw.clear();
+//    vRaw.insert(vRaw.end(), retData, retData + ulRetDataLen);
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
 } // namespace jub end

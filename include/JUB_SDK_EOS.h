@@ -91,6 +91,32 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
                            IN BIP48_Path path,
                            OUT JUB_CHAR_PTR_PTR address);
 
+/*****************************************************************************
+ * @function name : JUB_SignTransactionEOS
+ * @in  param : contextID - context ID
+ *            : path
+ *            : referenceBlockId   - reference block ID
+ *            : referenceBlockTime - reference block time
+ *            : currency - currency
+ *            : from
+ *            : to
+ *            : asset
+ *            : memo
+ * @out param : rawInJSON
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
+                              IN BIP48_Path path,
+                              IN JUB_CHAR_PTR referenceBlockId,
+                              IN JUB_UINT32   referenceBlockTime,
+                              IN JUB_CHAR_PTR currency,
+                              IN JUB_CHAR_PTR from,
+                              IN JUB_CHAR_PTR to,
+                              IN JUB_CHAR_PTR asset,
+                              IN JUB_CHAR_PTR memo,
+                              OUT JUB_CHAR_PTR_PTR rawInJSON);
+
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus

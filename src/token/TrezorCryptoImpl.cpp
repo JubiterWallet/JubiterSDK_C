@@ -13,8 +13,11 @@
 #include <TrezorCrypto/sha3.h>
 #include <libETH/AddressChecksum.h>
 
+#include "HexCoding.h"
 #include "PublicKey.h"
 #include "EOS/Address.h"
+#include "EOS/Signer.h"
+#include "EOS/Transaction.h"
 
 namespace jub {
 
@@ -235,6 +238,47 @@ JUB_RV TrezorCryptoImpl::GetHDNodeEOS(JUB_BYTE format, std::string path, std::st
         }
         pubkey = std::string(_pk);
     }
+
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoImpl::SignTXEOS(std::string path,
+                                   const std::string& chainId,
+                                   const std::string& referenceBlockId,
+                                   const JUB_UINT32&  referenceBlockTime,
+                                   const std::string& currency,
+                                   const std::string& from,
+                                   const std::string& to,
+                                   const std::string& asset,
+                                   const std::string& memo,
+                                   std::string& rawInJSON) {
+
+    TW::Data blockId = TW::parse_hex(referenceBlockId);
+    int32_t blockTime = referenceBlockTime;
+    TW::EOS::Transaction tx {blockId, blockTime};
+
+    TW::EOS::TransferAction action =
+    TW::EOS::TransferAction(currency,
+                            from, to,
+                            TW::Bravo::Asset::fromString(asset),
+                            memo);
+    tx.actions.push_back(action);
+
+    auto chainID = TW::parse_hex(chainId);
+    TW::EOS::Signer signer {chainID};
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+
+    uchar_vector privk(hdkey.private_key, hdkey.private_key+32);
+    TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
+
+    signer.sign(twprivk,
+                TW::EOS::Type::ModernK1,
+                tx);
+
+    nlohmann::json txInJSON = tx.serialize();
+    rawInJSON = txInJSON.dump();
 
     return JUBR_OK;
 }

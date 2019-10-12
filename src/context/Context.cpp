@@ -60,7 +60,7 @@ std::string Context::_FullBip48Path(BIP48_Path path) {
             + std::to_string(path.network) + "'" + "/"
             + std::to_string((int)path.role) + "'" + "/"
             + std::to_string(path.accountIndex) + "'" + "/"
-            + std::to_string(path.keyIndex);
+            + std::to_string(path.keyIndex) + "'";
 }
 
 } // namespace jub end

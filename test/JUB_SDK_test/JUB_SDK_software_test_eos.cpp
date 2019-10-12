@@ -9,6 +9,25 @@
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_software_test_eos.hpp"
 
+#include "mSIGNA/stdutils/uchar_vector.h"
+#include "HexCoding.h"
+#include "PublicKey.h"
+#include "PrivateKey.h"
+
+#include "EOS/Address.h"
+#include "EOS/Action.h"
+#include "EOS/Signer.h"
+#include "EOS/Transaction.h"
+#include "EOS/PackedTransaction.h"
+
+#include "Bravo/Address.h"
+#include "Bravo/Transaction.h"
+#include "Bravo/Operation.h"
+#include "Bravo/Serialization.h"
+#include "Bravo/Deserialization.h"
+
+#include "Base58.h"
+
 void software_test_eos() {
     JUB_RV rv = JUBR_ERROR;
 
@@ -84,4 +103,26 @@ void software_test_eos() {
                               &mainXpub);
     cout << "JUB_GetMainHDNodeEOS return " << mainXpub << endl;
     JUB_FreeMemory(mainXpub);
+
+    char* referenceBlockId = (char*)"000046dc08ad384ca452d92c59348aba888fcbb6ef1ebffc3181617706664d4c";
+    int32_t referenceBlockTime = 1554121728;
+
+    char* currency = (char*)"eosio.token1";
+    char* from = (char*)"ypqazokngspt1";
+    char* to = (char*)"godice.e1";
+    char* asset = (char*)"0.1000 EOS";
+    char* memo = (char*)"20,,";
+    char* rawInJSON = nullptr;
+    rv = JUB_SignTransactionEOS(contextID,
+                                path,
+                                referenceBlockId,
+                                referenceBlockTime,
+                                currency,
+                                from,
+                                to,
+                                asset,
+                                memo,
+                                &rawInJSON);
+    cout << "JUB_SignTransactionEOS return " << rawInJSON << endl;
+    JUB_FreeMemory(rawInJSON);
 }

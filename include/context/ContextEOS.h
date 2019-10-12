@@ -33,6 +33,15 @@ do {                                                                \
 
 namespace jub {
 
+const std::string chainIds[] = {
+    "Steem",
+    "BitShares",
+    "-",
+    "-",
+    "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906", //EOS
+    "FIBOS"
+};
+
 class ContextEOS : public Context {
 public:
     ContextEOS(CONTEXT_CONFIG_EOS cfg, JUB_UINT16 deviceID) {
@@ -50,6 +59,16 @@ public:
     virtual JUB_RV SetMyAddress(BIP48_Path path, std::string& address);
     virtual JUB_RV GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubkey);
     virtual JUB_RV GetMainHDNode(JUB_BYTE format, std::string& xpub);
+
+    virtual JUB_RV SignTransaction(BIP48_Path path,
+                                   const std::string& referenceBlockId,
+                                   const JUB_UINT32&  referenceBlockTime,
+                                   const std::string& currency,
+                                   const std::string& from,
+                                   const std::string& to,
+                                   const std::string& asset,
+                                   const std::string& memo,
+                                   std::string& rawInJSON);
 
     virtual JUB_RV ActiveSelf() override;
 
