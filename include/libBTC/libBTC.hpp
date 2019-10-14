@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "airbitz-core/abcd/util/Data.hpp"
-#include "bitcoin/base58.h"
+#include <TrezorCrypto/base58.h>
 #include "bitcoin/bech32.h"
 #include "machine/opcode.hpp"
 
@@ -63,7 +63,15 @@ bool Convertbits(abcd::DataChunk& out, const abcd::DataChunk& in) {
 JUB_RV buildScriptPubFromAddress(std::string address, uchar_vector& scriptPub) {
 
     abcd::DataChunk vScriptPub;
-    bool rv = base58::DecodeBase58Check(address, vScriptPub);
+    bool rv = false;
+    uint8_t script[50] = {0x00,};
+    int scriptLen = sizeof(script)/sizeof(uint8_t);
+    scriptLen = base58_decode_check(address.c_str(), HasherType::HASHER_SHA2D, script, scriptLen);
+    if (scriptLen > 0) {
+        uchar_vector vScript(script, scriptLen);
+        vScriptPub = vScript;
+        rv = true;
+    }
     if (rv) {
         if (   p2shVersion     == vScriptPub[0]
             || p2shVersion_LTC == vScriptPub[0]
