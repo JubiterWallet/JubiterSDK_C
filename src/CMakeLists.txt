@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.6.0)
 
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp)
-
-execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Common.proto)
-execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Bitcoin.proto)
-execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Ethereum.proto)
+#file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp)
+#
+#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}/../protos ${CMAKE_CURRENT_SOURCE_DIR}/../protos/Jub_Common.proto)
+#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}/../protos ${CMAKE_CURRENT_SOURCE_DIR}/../protos/Jub_Bitcoin.proto)
+#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}/../protos ${CMAKE_CURRENT_SOURCE_DIR}/../protos/Jub_Ethereum.proto)
 
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/ SRC_LIST)
@@ -17,7 +17,6 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/HDKey SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bitcoin SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bitcoinABC SRC_LIST)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/polarssl SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Bravo SRC_LIST)
