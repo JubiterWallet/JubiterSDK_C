@@ -6,6 +6,7 @@ execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/
 execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Bitcoin.proto)
 execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}}/../protos ${CMAKE_CURRENT_SOURCE_DIR}}/../protos/Jub_Ethereum.proto)
 
+
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/ SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/utility SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/context SRC_LIST)
@@ -16,7 +17,11 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/HDKey SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bitcoin SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bitcoinABC SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/polarssl SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Bravo SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/EOS SRC_LIST)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps)
@@ -26,8 +31,11 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bitcoinABC)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/libbitcoin)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/json/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include/TrustWalletCore)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/EOS)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
+
 
 ADD_LIBRARY(JUB_SDK STATIC ${SRC_LIST})
 
