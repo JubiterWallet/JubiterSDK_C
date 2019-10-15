@@ -102,6 +102,34 @@ JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubk
     return JUBR_OK;
 }
 
+JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
+                                   const std::string& referenceBlockId,
+                                   const JUB_UINT32&  referenceBlockTime,
+                                   const std::string& currency,
+                                   const std::string& from,
+                                   const std::string& to,
+                                   const std::string& asset,
+                                   const std::string& memo,
+                                   std::string& rawInJSON) {
+
+    auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    JUB_CHECK_NULL(token);
+
+    std::string strPath = _FullBip44Path(path);
+    JUB_VERIFY_RV(token->SignTXEOS(strPath,
+                                   chainIds[4],
+                                   referenceBlockId,
+                                   referenceBlockTime,
+                                   currency,
+                                   from,
+                                   to,
+                                   asset,
+                                   memo,
+                                   rawInJSON));
+
+    return JUBR_OK;
+}
+
 JUB_RV ContextEOS::SignTransaction(BIP48_Path path,
                                    const std::string& referenceBlockId,
                                    const JUB_UINT32&  referenceBlockTime,
