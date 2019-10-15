@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iostream>
+#include <functional>
 
 namespace jub {
 namespace algorithm {
