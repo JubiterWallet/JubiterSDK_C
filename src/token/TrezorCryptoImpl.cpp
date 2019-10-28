@@ -195,7 +195,7 @@ JUB_RV TrezorCryptoImpl::SelectAppletEOS() {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::GetAddressEOS(std::string path, JUB_UINT16 tag, std::string& address) {
+JUB_RV TrezorCryptoImpl::GetAddressEOS(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
     //tag used by hardware,this imp not use.
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
@@ -209,7 +209,7 @@ JUB_RV TrezorCryptoImpl::GetAddressEOS(std::string path, JUB_UINT16 tag, std::st
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::GetHDNodeEOS(JUB_BYTE format, std::string path, std::string& pubkey) {
+JUB_RV TrezorCryptoImpl::GetHDNodeEOS(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
@@ -242,43 +242,37 @@ JUB_RV TrezorCryptoImpl::GetHDNodeEOS(JUB_BYTE format, std::string path, std::st
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::SignTXEOS(std::string path,
-                                   const std::string& chainId,
-                                   const std::string& referenceBlockId,
-                                   const JUB_UINT32&  referenceBlockTime,
-                                   const std::string& currency,
-                                   const std::string& from,
-                                   const std::string& to,
-                                   const std::string& asset,
-                                   const std::string& memo,
-                                   std::string& rawInJSON) {
+JUB_RV TrezorCryptoImpl::SignTXEOS(const TW::EOS::Type& type,
+                                   const std::vector<JUB_BYTE>& vPath,
+                                   const std::vector<JUB_BYTE>& vChainId,
+                                   const std::vector<JUB_BYTE>& vRaw,
+                                   std::vector<uchar_vector>& vSignatureRaw) {
 
-    TW::Data blockId = TW::parse_hex(referenceBlockId);
-    int32_t blockTime = referenceBlockTime;
-    TW::EOS::Transaction tx {blockId, blockTime};
+    try {
+        TW::EOS::Transaction tx;
+        tx.deserialize(vRaw);
 
-    TW::EOS::TransferAction action =
-    TW::EOS::TransferAction(currency,
-                            from, to,
-                            TW::Bravo::Asset::fromString(asset),
-                            memo);
-    tx.actions.push_back(action);
+        std::string path(vPath.begin(), vPath.end());
 
-    auto chainID = TW::parse_hex(chainId);
-    TW::EOS::Signer signer {chainID};
-    HDNode hdkey;
-    JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+        TW::EOS::Signer signer {vChainId};
+        HDNode hdkey;
+        JUB_UINT32 parentFingerprint;
+        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
 
-    uchar_vector privk(hdkey.private_key, hdkey.private_key+32);
-    TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
+        uchar_vector privk(hdkey.private_key, hdkey.private_key+32);
+        TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
 
-    signer.sign(twprivk,
-                TW::EOS::Type::ModernK1,
-                tx);
+        signer.sign(twprivk,
+                    type,
+                    tx);
 
-    nlohmann::json txInJSON = tx.serialize();
-    rawInJSON = txInJSON.dump();
+        for (const TW::EOS::Signature& signature : tx.signatures) {
+            vSignatureRaw.push_back(signature.data);
+        }
+    }
+    catch(...) {
+        return JUBR_ERROR_ARGS;
+    }
 
     return JUBR_OK;
 }

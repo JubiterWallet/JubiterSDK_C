@@ -59,6 +59,8 @@
 		67662236234D907D00AFAFA2 /* ContextEOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662235234D907D00AFAFA2 /* ContextEOS.cpp */; };
 		67662238234DA4C800AFAFA2 /* EOSTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67662237234DA4C700AFAFA2 /* EOSTokenInterface.hpp */; };
 		6766223A234DA57B00AFAFA2 /* JubiterBLDImplEOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662239234DA57B00AFAFA2 /* JubiterBLDImplEOS.cpp */; };
+		678D1A0E235EB4280091D3E8 /* libEOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 678D1A0D235EB4280091D3E8 /* libEOS.hpp */; };
+		678D1A10235EB4390091D3E8 /* libEOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 678D1A0F235EB4390091D3E8 /* libEOS.cpp */; };
 		67A4587E23336DAB00CEB712 /* HDKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4587D23336DAB00CEB712 /* HDKey.cpp */; };
 		67A4BC89233082960059A3DB /* Context.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC86233082960059A3DB /* Context.h */; };
 		67A4BC8A233082960059A3DB /* ContextBTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC87233082960059A3DB /* ContextBTC.h */; };
@@ -307,6 +309,8 @@
 		67662235234D907D00AFAFA2 /* ContextEOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContextEOS.cpp; path = ../../src/context/ContextEOS.cpp; sourceTree = "<group>"; };
 		67662237234DA4C700AFAFA2 /* EOSTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EOSTokenInterface.hpp; path = ../../include/token/interface/EOSTokenInterface.hpp; sourceTree = "<group>"; };
 		67662239234DA57B00AFAFA2 /* JubiterBLDImplEOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBLDImplEOS.cpp; path = ../../src/token/JubiterBLDImplEOS.cpp; sourceTree = "<group>"; };
+		678D1A0D235EB4280091D3E8 /* libEOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = libEOS.hpp; path = ../../include/libEOS/libEOS.hpp; sourceTree = "<group>"; };
+		678D1A0F235EB4390091D3E8 /* libEOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = libEOS.cpp; path = ../../src/libEOS/libEOS.cpp; sourceTree = "<group>"; };
 		67A4587D23336DAB00CEB712 /* HDKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HDKey.cpp; path = ../../src/HDKey/HDKey.cpp; sourceTree = "<group>"; };
 		67A4BC7C233082130059A3DB /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A4BC86233082960059A3DB /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Context.h; path = ../../include/context/Context.h; sourceTree = "<group>"; };
@@ -618,6 +622,22 @@
 			name = EOS;
 			sourceTree = "<group>";
 		};
+		678D1A0B235EB3D80091D3E8 /* libEOS */ = {
+			isa = PBXGroup;
+			children = (
+				678D1A0D235EB4280091D3E8 /* libEOS.hpp */,
+			);
+			name = libEOS;
+			sourceTree = "<group>";
+		};
+		678D1A0C235EB3E70091D3E8 /* libEOS */ = {
+			isa = PBXGroup;
+			children = (
+				678D1A0F235EB4390091D3E8 /* libEOS.cpp */,
+			);
+			name = libEOS;
+			sourceTree = "<group>";
+		};
 		67A4BC73233082130059A3DB = {
 			isa = PBXGroup;
 			children = (
@@ -665,6 +685,7 @@
 				67A4BCBA2330837B0059A3DB /* libBTC */,
 				67A4BCBD233083A20059A3DB /* libBCH */,
 				67A4BCBC233083960059A3DB /* libETH */,
+				678D1A0B235EB3D80091D3E8 /* libEOS */,
 				67A4BCC8233083F20059A3DB /* utility */,
 			);
 			name = include;
@@ -782,6 +803,7 @@
 				67A4BCF5233084F60059A3DB /* libBTC */,
 				67A4BCF6233084FD0059A3DB /* libBCH */,
 				67A4BCF7233085080059A3DB /* libETH */,
+				678D1A0C235EB3E70091D3E8 /* libEOS */,
 				67A4BE462330C2600059A3DB /* token */,
 				67A4BCFE2330869C0059A3DB /* utility */,
 			);
@@ -1315,6 +1337,7 @@
 				67A4BD4C2330A1A80059A3DB /* ed25519-donna-32bit-tables.h in Headers */,
 				67A4BE302330AF200059A3DB /* BigIntegerUtils.hh in Headers */,
 				67A4BD502330A1A80059A3DB /* modm-donna-32bit.h in Headers */,
+				678D1A0E235EB4280091D3E8 /* libEOS.hpp in Headers */,
 				6755ED32233C590F00B418C7 /* trim.hpp in Headers */,
 				67A4BE362330B2E90059A3DB /* Data.hpp in Headers */,
 				67A4BDFE2330AE1A0059A3DB /* uchar_vector.h in Headers */,
@@ -1449,6 +1472,7 @@
 				67A4BDD62330A9F90059A3DB /* ecdsa.c in Sources */,
 				67A4BDE82330AC9E0059A3DB /* hid.c in Sources */,
 				67A4BD922330A9220059A3DB /* scrypt.c in Sources */,
+				678D1A10235EB4390091D3E8 /* libEOS.cpp in Sources */,
 				67A4BD952330A9220059A3DB /* sha3.c in Sources */,
 				67662210234C31B400AFAFA2 /* Address.cpp in Sources */,
 				67A4BDBC2330A9D50059A3DB /* ed25519-donna-32bit-tables.c in Sources */,
@@ -1645,8 +1669,10 @@
 					../../deps/libbitcoin,
 					../../deps/,
 					"../../trezor-crypto/include",
+					"../../deps/TrustWallet/wallet-core",
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
+					"../../deps/TrustWallet/wallet-core/src/EOS",
 					../../deps/json/include,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1669,8 +1695,10 @@
 					../../deps/libbitcoin,
 					../../deps/,
 					"../../trezor-crypto/include",
+					"../../deps/TrustWallet/wallet-core",
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
+					"../../deps/TrustWallet/wallet-core/src/EOS",
 					../../deps/json/include,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -39,6 +39,8 @@ public:
 
     // JuBiter-defined
     void deserialize(const Data& os) noexcept;
+    // JuBiter-defined
+    size_t size() const noexcept;
     void serialize(Data& os) const noexcept;
     std::string string() const;
 

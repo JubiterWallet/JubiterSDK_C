@@ -41,7 +41,9 @@ public:
     // JuBiter-defined
     virtual void deserialize(const Data& o) noexcept;
     // JuBiter-defined
-    virtual size_t size();
+    virtual size_t size() const noexcept;
+    // JuBiter-defined
+    virtual uint16_t startingPostData() const noexcept;
 
     virtual void serialize(Data& o) const;
     virtual nlohmann::json serialize() const noexcept;
@@ -56,6 +58,10 @@ public:
     // JuBiter-defined
     virtual void deserialize(const Data& o) noexcept override;
     // JuBiter-defined
+    virtual uint16_t startingPostData() const noexcept override;
+    // JuBiter-defined
+    virtual uint16_t memoLength() const noexcept;
+    // JuBiter-defined
     virtual void serialize(Data& o) const override;
     // JuBiter-defined
     virtual nlohmann::json serialize() const noexcept override;
@@ -63,7 +69,7 @@ public:
 private:
     void setData(const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo);
 
-private:
+public:
     // JuBiter-defined
     Name from, to;
     // JuBiter-defined

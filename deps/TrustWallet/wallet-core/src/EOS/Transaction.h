@@ -53,7 +53,7 @@ public:
     // JuBiter-defined
     void deserialize(const Data& o) noexcept;
     // JuBiter-defined
-    virtual size_t size();
+    virtual size_t size() const noexcept;
 
     void serialize(Data& os) const noexcept;
     nlohmann::json serialize() const noexcept;
@@ -63,10 +63,12 @@ class Transaction {
 public:
     // JuBiter-defined
     Transaction() {};
-    Transaction(const Data& referenceBlockId, int32_t referenceBlockTime);
+    Transaction(const Data& referenceBlockId, int32_t referenceBlockTime, int32_t expirySeconds = Transaction::ExpirySeconds);
 
     // JuBiter-defined
     void deserialize(const Data& o) noexcept;
+    // JuBiter-defined
+    uint16_t actionCntLength() const noexcept;
 
     void serialize(Data& os) const noexcept;
     nlohmann::json serialize() const;

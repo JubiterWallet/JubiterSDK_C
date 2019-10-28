@@ -104,6 +104,12 @@ void Asset::deserialize(const Data& os) noexcept {
     symbol = vAsset.read_le_uint64();
 }
 
+// JuBiter-defined
+size_t Asset::size() const noexcept {
+    return (  sizeof(uint64_t)/sizeof(uint8_t)
+            + sizeof(uint64_t)/sizeof(uint8_t));
+}
+
 void Asset::serialize(Data& os) const noexcept {
     encode64LE(amount, os);
     encode64LE(symbol, os);

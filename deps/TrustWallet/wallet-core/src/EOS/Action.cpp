@@ -74,7 +74,7 @@ void Action::deserialize(const Data& o) noexcept {
 }
 
 // JuBiter-defined
-size_t Action::size() {
+size_t Action::size() const noexcept {
     uint64_t authorizationCnt = authorization.size();
     Data authorizationVarInt64Len;
     Bravo::encodeVarInt64(authorizationCnt, authorizationVarInt64Len);
@@ -87,6 +87,25 @@ size_t Action::size() {
             + Name::size()
             + authorizationVarInt64Len.size() + PermissionLevel::size() * authorizationCnt
             + dataVarInt64Len.size() + dataSize);
+}
+
+// JuBiter-defined
+uint16_t Action::startingPostData() const noexcept {
+    uint16_t actionOffset = 0;
+    actionOffset += account.size();
+    actionOffset += name.size();
+    uint16_t authOffset = 1;    // auth count
+    for (const TW::EOS::PermissionLevel& auth : authorization) {
+        authOffset += auth.actor.size();
+        authOffset += auth.permission.size();
+    }
+    actionOffset += authOffset;
+
+    Data dataVarInt64Len;
+    TW::Bravo::encodeVarInt64(data.size(), dataVarInt64Len);
+    actionOffset += dataVarInt64Len.size();  // data length
+
+    return actionOffset;
 }
 
 void Action::serialize(Data& o) const {
@@ -162,6 +181,32 @@ void TransferAction::deserialize(const Data& o) noexcept {
     uchar_vector vTemp(vTransfer.get_cur_it(), vTransfer.end());
     Data temp(vTemp);
     memo = temp;
+}
+
+// JuBiter-defined
+uint16_t TransferAction::startingPostData() const noexcept {
+    uint16_t memoOffset = 0;
+
+    memoOffset += from.size();
+    memoOffset += to.size();
+    memoOffset += asset.size();
+
+    Data os;
+    TW::Bravo::encodeVarInt64(memo.size(), os);
+    memoOffset += os.size();
+
+    return memoOffset;
+}
+
+// JuBiter-defined
+uint16_t TransferAction::memoLength() const noexcept {
+    uint16_t memoLength = memo.size();
+
+    Data os;
+    TW::Bravo::encodeVarInt64(memo.size(), os);
+    memoLength -= os.size();
+
+    return memoLength;
 }
 
 // JuBiter-defined

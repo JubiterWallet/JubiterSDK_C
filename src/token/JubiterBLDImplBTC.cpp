@@ -159,16 +159,13 @@ JUB_RV JubiterBLDImpl::SignTXBTC(JUB_ENUM_BTC_TRANS_TYPE type,
     apduData.clear();
 
     //tx TLV
-    uchar_vector transTlv;
     apduData << ToTlv(0x0D, vUnsigedTrans);
 
     JUB_VERIFY_RV(_TranPack(apduData, sigType, kSendOnceLen));
     apduData.clear();
 
     //change TLV
-    uchar_vector changeIndexTLV;
     uchar_vector changeLV;
-
     changeLV << (JUB_BYTE)vChangeIndex.size();
     for (size_t i = 0; i < vChangeIndex.size(); i++) {
         changeLV << (JUB_BYTE)vChangeIndex[i];
@@ -176,6 +173,7 @@ JUB_RV JubiterBLDImpl::SignTXBTC(JUB_ENUM_BTC_TRANS_TYPE type,
         changeLV << vChangePath[i];
     }
 
+    uchar_vector changeIndexTLV;
     changeIndexTLV = ToTlv(0x10, changeLV);
     apduData << changeIndexTLV;
 
