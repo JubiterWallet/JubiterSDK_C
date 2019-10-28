@@ -19,6 +19,7 @@
 #include "utility/xManager.hpp"
 
 #include "context/Context.h"
+#include "EOS/Prefixes.h"
 
 #define JUB_CHECK_CONTEXT_EOS(x)                                    \
 do {                                                                \
@@ -46,7 +47,6 @@ class ContextEOS : public Context {
 public:
     ContextEOS(CONTEXT_CONFIG_EOS cfg, JUB_UINT16 deviceID) {
         _mainPath = cfg.mainPath;
-        _chainID = cfg.chainID;
         _deviceID = deviceID;
         _timeout = 120 * 2;
     };
@@ -61,8 +61,9 @@ public:
     virtual JUB_RV GetMainHDNode(JUB_BYTE format, std::string& xpub);
 
     virtual JUB_RV SignTransaction(BIP44_Path path,
+                                   const std::string& expiration,
                                    const std::string& referenceBlockId,
-                                   const JUB_UINT32&  referenceBlockTime,
+                                   const std::string& referenceBlockTime,
                                    const std::string& currency,
                                    const std::string& from,
                                    const std::string& to,
@@ -71,8 +72,9 @@ public:
                                    std::string& rawInJSON);
 
     virtual JUB_RV SignTransaction(BIP48_Path path,
+                                   const std::string& expiration,
                                    const std::string& referenceBlockId,
-                                   const JUB_UINT32&  referenceBlockTime,
+                                   const std::string& referenceBlockTime,
                                    const std::string& currency,
                                    const std::string& from,
                                    const std::string& to,
@@ -83,7 +85,7 @@ public:
     virtual JUB_RV ActiveSelf() override;
 
 private:
-    int _chainID;
+    TW::EOS::Type _eosType{ TW::EOS::Type::Legacy };
 }; // class ContextEOS end
 
 } // namespace jub end

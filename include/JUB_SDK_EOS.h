@@ -22,7 +22,6 @@ typedef enum class JubEOSPubFormat {
 
 typedef struct {
     JUB_CHAR_PTR        mainPath;
-    int                 chainID;
 } CONTEXT_CONFIG_EOS;
 
 /*****************************************************************************
@@ -47,8 +46,8 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
-//                         IN BIP44_Path path,
-                         IN BIP48_Path path,
+                         IN BIP44_Path path,
+//                         IN BIP48_Path path,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address);
 
@@ -64,8 +63,8 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
                         IN JUB_ENUM_EOS_PUB_FORMAT format,
-//                        IN BIP44_Path path,
-                        IN BIP48_Path path,
+                        IN BIP44_Path path,
+//                        IN BIP48_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
 
 /*****************************************************************************
@@ -90,8 +89,8 @@ JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
-//                           IN BIP44_Path path,
-                           IN BIP48_Path path,
+                           IN BIP44_Path path,
+//                           IN BIP48_Path path,
                            OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
@@ -110,10 +109,11 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
-//                              IN BIP44_Path path,
-                              IN BIP48_Path path,
+                              IN BIP44_Path path,
+//                              IN BIP48_Path path,
+                              IN JUB_CHAR_PTR expiration,
                               IN JUB_CHAR_PTR referenceBlockId,
-                              IN JUB_UINT32   referenceBlockTime,
+                              IN JUB_CHAR_PTR referenceBlockTime,
                               IN JUB_CHAR_PTR currency,
                               IN JUB_CHAR_PTR from,
                               IN JUB_CHAR_PTR to,

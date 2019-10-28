@@ -28,6 +28,9 @@ void Signer::sign(const PrivateKey& privateKey, Type type, Transaction& transact
         curve = TWCurveNIST256p1;
         canonicalChecker = nullptr;
     }
+    else if (type == Type::Legacy) {
+        type = Type::ModernK1;
+    }
 
     const Data result = privateKey.sign(hash(transaction), curve, canonicalChecker);
 

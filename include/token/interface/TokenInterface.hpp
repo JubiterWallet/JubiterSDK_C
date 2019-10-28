@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "mSIGNA/stdutils/uchar_vector.h"
 #include "utility/Singleton.h"
 #include "utility/xManager.hpp"
 

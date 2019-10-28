@@ -178,7 +178,7 @@ void Extension::deserialize(const Data& o) noexcept {
 }
 
 // JuBiter-defined
-size_t Extension::size() {
+size_t Extension::size() const noexcept {
     uint64_t dataSize = buffer.size();
     Data dataVarInt64Len;
     Bravo::encodeVarInt64(dataSize, dataVarInt64Len);
@@ -197,9 +197,9 @@ json Extension::serialize() const noexcept {
     return json::array({type, hex(buffer)});
 }
 
-Transaction::Transaction(const Data& referenceBlockId, int32_t referenceBlockTime) {
+Transaction::Transaction(const Data& referenceBlockId, int32_t referenceBlockTime, int32_t expirySeconds) {
     setReferenceBlock(referenceBlockId);
-    expiration = referenceBlockTime + Transaction::ExpirySeconds;
+    expiration = referenceBlockTime + expirySeconds;
 }
 
 // JuBiter-defined
@@ -296,6 +296,14 @@ void Transaction::deserialize(const Data& o) noexcept {
     vTrx.reset_it(txExtSize);
 }
 
+// JuBiter-defined
+uint16_t Transaction::actionCntLength() const noexcept {
+    Data os;
+    TW::Bravo::encodeVarInt64(actions.size(), os);
+
+    return os.size();
+}
+
 void Transaction::setReferenceBlock(const Data& refBlockId) {
     if (refBlockId.size() != Hash::sha256Size) {
         throw std::invalid_argument("Invalid Reference Block Id!");
@@ -324,7 +332,7 @@ json Transaction::serialize() const {
     using namespace Bravo;
 
     // get a formatted date
-    char formattedDate[20];
+    char formattedDate[20] = {0x00,};
     time_t time = expiration;
     if (strftime(formattedDate, 19, "%FT%T", std::gmtime(&time)) != 19) {
         std::runtime_error("Error creating a formatted string!");

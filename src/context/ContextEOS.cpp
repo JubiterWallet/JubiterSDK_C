@@ -10,6 +10,9 @@
 
 #include "context/ContextEOS.h"
 #include "token/interface/TokenInterface.hpp"
+#include "libEOS/libEOS.hpp"
+#include "EOS/Transaction.h"
+#include "EOS/PackedTransaction.h"
 
 namespace jub {
 
@@ -42,7 +45,7 @@ JUB_RV ContextEOS::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& addr
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetAddressEOS(strPath, tag, address));
+    JUB_VERIFY_RV(token->GetAddressEOS(_eosType, strPath, tag, address));
 
     return JUBR_OK;
 }
@@ -53,7 +56,7 @@ JUB_RV ContextEOS::SetMyAddress(BIP44_Path path, std::string& address) {
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetAddressEOS(strPath, 0x02, address));
+    JUB_VERIFY_RV(token->GetAddressEOS(_eosType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
@@ -75,7 +78,7 @@ JUB_RV ContextEOS::GetAddress(BIP48_Path path, JUB_UINT16 tag, std::string& addr
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip48Path(path);
-    JUB_VERIFY_RV(token->GetAddressEOS(strPath, tag, address));
+    JUB_VERIFY_RV(token->GetAddressEOS(_eosType, strPath, tag, address));
 
     return JUBR_OK;
 }
@@ -86,7 +89,7 @@ JUB_RV ContextEOS::SetMyAddress(BIP48_Path path, std::string& address) {
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip48Path(path);
-    JUB_VERIFY_RV(token->GetAddressEOS(strPath, 0x02, address));
+    JUB_VERIFY_RV(token->GetAddressEOS(_eosType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
@@ -103,8 +106,9 @@ JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubk
 }
 
 JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
+                                   const std::string& expiration,
                                    const std::string& referenceBlockId,
-                                   const JUB_UINT32&  referenceBlockTime,
+                                   const std::string& referenceBlockTime,
                                    const std::string& currency,
                                    const std::string& from,
                                    const std::string& to,
@@ -116,23 +120,53 @@ JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->SignTXEOS(strPath,
-                                   chainIds[4],
-                                   referenceBlockId,
-                                   referenceBlockTime,
-                                   currency,
-                                   from,
-                                   to,
-                                   asset,
-                                   memo,
-                                   rawInJSON));
+    std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
+
+    uchar_vector vChinIds(chainIds[4]);
+
+    uchar_vector vRaw;
+    JUB_VERIFY_RV(jub::eos::serializePreimage(expiration,
+                                              referenceBlockId,
+                                              referenceBlockTime,
+                                              currency,
+                                              from,
+                                              to,
+                                              asset,
+                                              memo,
+                                              vRaw));
+
+    std::vector<uchar_vector> vSignatureRaw;
+    JUB_VERIFY_RV(token->SignTXEOS(_eosType,
+                                   vPath,
+                                   vChinIds,
+                                   vRaw,
+                                   vSignatureRaw));
+
+    // finish transaction
+    try {
+        TW::EOS::Transaction tx;
+        tx.deserialize(vRaw);
+
+        for (const uchar_vector& signatureRaw : vSignatureRaw) {
+            TW::EOS::Signature signature(signatureRaw, TW::EOS::Type::ModernK1);
+            tx.signatures.push_back(signature);
+        }
+
+        TW::EOS::PackedTransaction packedTx(tx);
+        nlohmann::json packedTxInJSON = packedTx.serialize();
+        rawInJSON = packedTxInJSON.dump();
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     return JUBR_OK;
 }
 
 JUB_RV ContextEOS::SignTransaction(BIP48_Path path,
+                                   const std::string& expiration,
                                    const std::string& referenceBlockId,
-                                   const JUB_UINT32&  referenceBlockTime,
+                                   const std::string& referenceBlockTime,
                                    const std::string& currency,
                                    const std::string& from,
                                    const std::string& to,
@@ -148,16 +182,45 @@ JUB_RV ContextEOS::SignTransaction(BIP48_Path path,
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip48Path(path);
-    JUB_VERIFY_RV(token->SignTXEOS(strPath,
-                                   chainIds[path.network],
-                                   referenceBlockId,
-                                   referenceBlockTime,
-                                   currency,
-                                   from,
-                                   to,
-                                   asset,
-                                   memo,
-                                   rawInJSON));
+    std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
+
+    uchar_vector vChinIds(chainIds[4]);
+
+    uchar_vector vRaw;
+    JUB_VERIFY_RV(jub::eos::serializePreimage(expiration,
+                                              referenceBlockId,
+                                              referenceBlockTime,
+                                              currency,
+                                              from,
+                                              to,
+                                              asset,
+                                              memo,
+                                              vRaw));
+
+    std::vector<uchar_vector> vSignatureRaw;
+    JUB_VERIFY_RV(token->SignTXEOS(_eosType,
+                                   vPath,
+                                   vChinIds,
+                                   vRaw,
+                                   vSignatureRaw));
+
+    // finish transaction
+    try {
+        TW::EOS::Transaction tx;
+        tx.deserialize(vRaw);
+
+        for (const uchar_vector& signatureRaw : vSignatureRaw) {
+            TW::EOS::Signature signature(signatureRaw, _eosType);
+            tx.signatures.push_back(signature);
+        }
+
+        TW::EOS::PackedTransaction packedTx(tx);
+        nlohmann::json packedTxInJSON = packedTx.serialize();
+        rawInJSON = packedTxInJSON.dump();
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     return JUBR_OK;
 }
