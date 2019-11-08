@@ -46,7 +46,6 @@ inline void decodeString(const Data& os, std::string& s, int& varIntByteSize) {
     uchar_vector vOs(os.begin() + varIntByteSize,
                      os.begin() + varIntByteSize + size);
     s = vOs.getCharsAsString();
-    varIntByteSize += size;
 }
 
 inline void decodeCollection(const Data& os, uint64_t& collectionCnt, int& varIntByteSize) {
