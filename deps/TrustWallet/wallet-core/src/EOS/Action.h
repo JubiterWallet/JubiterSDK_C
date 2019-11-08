@@ -38,20 +38,39 @@ public:
 
     virtual ~Action() { }
 
+    void setType(uint8_t t) {
+        type = t;
+    }
+    uint8_t getType() {
+        return type;
+    }
+
     // JuBiter-defined
     virtual void deserialize(const Data& o) noexcept;
     // JuBiter-defined
-    virtual size_t size() const noexcept;
+    virtual void deserializeWithType(const Data& o) noexcept;
+    // JuBiter-defined
+    virtual uint64_t size() const noexcept;
+    // JuBiter-defined
+    virtual uint64_t sizeWithType() const noexcept;
     // JuBiter-defined
     virtual uint16_t startingPostData() const noexcept;
 
     virtual void serialize(Data& o) const;
+    // JuBiter-defined
+    virtual void serializeWithType(Data& o) const;
     virtual nlohmann::json serialize() const noexcept;
+    // JuBiter-defined
+    virtual void deserialize(const nlohmann::json& inJson) noexcept;
+
+private:
+    uint8_t type;
 }; // class Action end
 
 class TransferAction: public Action {
 public:
-    TransferAction(const std::string& currency, const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo);
+    TransferAction(const std::string& currency, const std::string& actName,
+                   const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo);
     // JuBiter-defined
     TransferAction() { }
 
@@ -65,6 +84,8 @@ public:
     virtual void serialize(Data& o) const override;
     // JuBiter-defined
     virtual nlohmann::json serialize() const noexcept override;
+    // JuBiter-defined
+    virtual void deserialize(const nlohmann::json& inJson) noexcept override;
 
 private:
     void setData(const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo);
@@ -77,4 +98,53 @@ public:
     // JuBiter-defined
     Data memo;
 }; // class TransferAction end
+
+// JuBiter-defined
+class DelegateAction: public Action {
+public:
+    DelegateAction(const std::string& currency, const std::string& actName,
+                   const std::string& from, const std::string& receiver, const Bravo::Asset& unstakeNetQty, const Bravo::Asset& unstakeCpuQty);
+    DelegateAction() {
+        transfer = 0x00;
+    }
+
+    virtual void deserialize(const Data& o) noexcept override;
+    virtual void serialize(Data& o) const override;
+    virtual nlohmann::json serialize() const noexcept override;
+    virtual void deserialize(const nlohmann::json& inJson) noexcept override;
+
+private:
+    void setData(const std::string& from, const std::string& receiver,
+                 const Bravo::Asset& unstakeNetQty, const Bravo::Asset& unstakeCpuQty,
+                 uint8_t transfer);
+
+public:
+    Name from, receiver;
+    Bravo::Asset unstakeNetQty;
+    Bravo::Asset unstakeCpuQty;
+    uint8_t transfer;
+}; // class DelegateAction end
+
+// JuBiter-defined
+class BuyRamAction: public Action {
+public:
+    BuyRamAction(const std::string& currency, const std::string& actName,
+                 const std::string& payer, const std::string& receiver,
+                 const Bravo::Asset& quant);
+    BuyRamAction() { }
+
+    virtual void deserialize(const Data& o) noexcept override;
+    virtual void serialize(Data& o) const override;
+    virtual nlohmann::json serialize() const noexcept override;
+    virtual void deserialize(const nlohmann::json& inJson) noexcept override;
+
+private:
+    void setData(const std::string& payer, const std::string& receiver,
+                 const Bravo::Asset& quant);
+
+public:
+    Name payer, receiver;
+    Bravo::Asset quant;
+}; // class BuyRamAction end
+
 } // namespace TW::EOS end

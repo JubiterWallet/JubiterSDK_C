@@ -66,11 +66,11 @@ public:
     Transaction(const Data& referenceBlockId, int32_t referenceBlockTime, int32_t expirySeconds = Transaction::ExpirySeconds);
 
     // JuBiter-defined
-    void deserialize(const Data& o) noexcept;
+    void deserialize(const Data& o, const bool bWithType=false) noexcept;
     // JuBiter-defined
     uint16_t actionCntLength() const noexcept;
 
-    void serialize(Data& os) const noexcept;
+    void serialize(Data& os, const bool bWithType=false) const noexcept;
     nlohmann::json serialize() const;
 
     inline bool isValid() { return maxNetUsageWords < UINT32_MAX / 8UL; }

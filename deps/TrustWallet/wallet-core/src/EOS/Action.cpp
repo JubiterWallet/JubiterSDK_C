@@ -41,9 +41,6 @@ void Action::deserialize(const Data& o) noexcept {
     // name
        name.value = vAction.read_le_uint64();
 
-    std::string strAcct = account.string();
-    std::string strName = name.string();
-
     // Collection - authorizations
     uchar_vector vTempAuthorizations(vAction.get_cur_it(), vAction.end());
     Data tempTempAuthorizations(vTempAuthorizations);
@@ -55,9 +52,6 @@ void Action::deserialize(const Data& o) noexcept {
         Name actor, permission;
         actor.value = vAction.read_le_uint64();
         permission.value = vAction.read_le_uint64();
-
-        std::string strActor = actor.string();
-        std::string strPermission = permission.string();
 
         PermissionLevel auth(actor, permission);
         authorization.push_back(auth);
@@ -74,7 +68,14 @@ void Action::deserialize(const Data& o) noexcept {
 }
 
 // JuBiter-defined
-size_t Action::size() const noexcept {
+void Action::deserializeWithType(const Data& o) noexcept {
+    type = o[0];
+    Data a(o.begin()+1, o.end());
+    Action::deserialize(a);
+}
+
+// JuBiter-defined
+uint64_t Action::size() const noexcept {
     uint64_t authorizationCnt = authorization.size();
     Data authorizationVarInt64Len;
     Bravo::encodeVarInt64(authorizationCnt, authorizationVarInt64Len);
@@ -87,6 +88,11 @@ size_t Action::size() const noexcept {
             + Name::size()
             + authorizationVarInt64Len.size() + PermissionLevel::size() * authorizationCnt
             + dataVarInt64Len.size() + dataSize);
+}
+
+// JuBiter-defined
+uint64_t Action::sizeWithType() const noexcept {
+    return (1 + Action::size());
 }
 
 // JuBiter-defined
@@ -116,8 +122,14 @@ void Action::serialize(Data& o) const {
     append(o, data);
 }
 
-json Action::serialize() const noexcept {
-    json obj;
+// JuBiter-defined
+void Action::serializeWithType(Data& o) const {
+    o.insert(o.end(), type);
+    Action::serialize(o);
+}
+
+nlohmann::json Action::serialize() const noexcept {
+    nlohmann::json obj;
     if (   0 == account.value
         || 0 == name.value
         || 0 == authorization.size()
@@ -135,13 +147,39 @@ json Action::serialize() const noexcept {
     return obj;
 }
 
-TransferAction::TransferAction( const std::string& currency,
-                                const std::string& from, 
-                                const std::string& to, 
-                                const Bravo::Asset& asset, 
-                                const std::string& memo) {
+// JuBiter-defined
+//{
+//    "account":"metpacktoken",
+//    "authorizations":[{
+//        "actor":"abcdenero123",
+//        "permission":"active"
+//    }],
+//    "data":{
+//        ...
+//    },
+//    "hex_data":"...",
+//    "name":"..."
+//}
+void Action::deserialize(const nlohmann::json& inJson) noexcept {
+    account = Name(inJson["account"]);
+    name = Name(inJson["name"]);
+    for (int i=0; i<inJson["authorizations"].size(); ++i) {
+        authorization.push_back(
+            PermissionLevel(Name(inJson["authorizations"][i]["actor"]),
+                            Name(inJson["authorizations"][i]["permission"]))
+        );
+    }
+}
+
+TransferAction::TransferAction(const std::string& currency,
+                               const std::string& actName,
+                               const std::string& from,
+                               const std::string& to,
+                               const Bravo::Asset& asset,
+                               const std::string& memo) {
     account = Name(currency);
-    name = Name("transfer");
+//    name = Name("transfer");
+    name = Name(actName);
     authorization.push_back(PermissionLevel(Name(from), Name("active")));
 
     setData(from, to, asset, memo);
@@ -157,13 +195,9 @@ void TransferAction::setData(const std::string& from, const std::string& to, con
     this->asset = asset;
     Bravo::encodeString(memo, this->memo);
 
-//    Name(from).serialize(data);
     this->from.serialize(data);
-//    Name(to).serialize(data);
     this->to.serialize(data);
-//    asset.serialize(data);
     this->asset.serialize(data);
-//    Bravo::encodeString(memo, data);
     copy(this->memo.begin(), this->memo.end(), back_inserter(data));
 }
 
@@ -215,10 +249,10 @@ void TransferAction::serialize(Data& o) const {
 }
 
 // JuBiter-defined
-json TransferAction::serialize() const noexcept {
-    json obj = Action::serialize();
+nlohmann::json TransferAction::serialize() const noexcept {
+    nlohmann::json obj = Action::serialize();
 
-    json data;
+    nlohmann::json data;
     data["from"] = from.string();
     data["to"] = to.string();
     data["quantity"] = asset.string();
@@ -234,4 +268,245 @@ json TransferAction::serialize() const noexcept {
         obj["data"] = data;
         return obj;
     }
+}
+
+// JuBiter-defined
+//{
+//    "account":"metpacktoken",
+//    "authorizations":[
+//    {
+//        "actor":"abcdenero123",
+//        "permission":"active"
+//    }],
+//    "data":{
+//        "from":"abcdenero123",
+//        "memo":"@gmail.com",
+//        "quantity":"14.285 MPT",
+//        "to":"gsy123451111"
+//    },
+//    "hex_data":"3044a0574d95d031104208850c113c66cd37000000000000034d5054000000000a40676d61696c2e636f6d",
+//    "name":"transfer"
+//}
+void TransferAction::deserialize(const nlohmann::json& inJson) noexcept {
+    Action::deserialize(inJson);
+
+    setData(inJson["data"]["from"], inJson["data"]["to"],
+            TW::Bravo::Asset::fromString(inJson["data"]["quantity"]),
+            inJson["data"]["memo"]);
+}
+
+// JuBiter-defined
+DelegateAction::DelegateAction(const std::string& currency,
+                               const std::string& actName,
+                               const std::string& from,
+                               const std::string& receiver,
+                               const Bravo::Asset& unstakeNetQty,
+                               const Bravo::Asset& unstakeCpuQty) {
+    account = Name(currency);
+//    name = Name("delegatebw");
+    name = Name(actName);
+    authorization.push_back(PermissionLevel(Name(from), Name("active")));
+
+    transfer = 0x00;
+    setData(from, receiver,
+            unstakeNetQty, unstakeCpuQty,
+            transfer);
+}
+
+// JuBiter-defined
+void DelegateAction::setData(const std::string& from, const std::string& receiver,
+                             const Bravo::Asset& unstakeNetQty, const Bravo::Asset& unstakeCpuQty,
+                             uint8_t transfer) {
+    if (unstakeNetQty.amount <= 0) {
+        throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
+    }
+    if (unstakeCpuQty.amount <= 0) {
+        throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
+    }
+
+    this->from = Name(from);
+    this->receiver = Name(receiver);
+    this->unstakeNetQty = unstakeNetQty;
+    this->unstakeCpuQty = unstakeCpuQty;
+    this->transfer = transfer;
+
+    this->from.serialize(data);
+    this->receiver.serialize(data);
+    this->unstakeNetQty.serialize(data);
+    this->unstakeCpuQty.serialize(data);
+    data.push_back(transfer);
+}
+
+// JuBiter-defined
+//{
+//    "account":"eosio",
+//    "authorizations":[
+//    {
+//        "actor":"ftsafetest55",
+//        "permission":"active"
+//    }],
+//    "data":{
+//        "from":"ftsafetest55",
+//        "receiver":"ftsafetest55",
+//        "stake_cpu_quantity":"0.7000 EOS",
+//        "stake_net_quantity":"0.3000 EOS",
+//        "transfer":0
+//    },
+//    "hex_data":"504ac62aab65705e504ac62aab65705eb80b00000000000004454f5300000000581b00000000000004454f530000000000",
+//    "name":"delegatebw"
+//}
+void DelegateAction::deserialize(const Data& o) noexcept {
+    uchar_vector vDelegate(o);
+    from.value = vDelegate.read_le_uint64();
+receiver.value = vDelegate.read_le_uint64();
+
+    //Bravo::Asset
+    unstakeNetQty.amount = vDelegate.read_le_uint64();
+    unstakeNetQty.symbol = vDelegate.read_le_uint64();
+
+    //Bravo::Asset
+    unstakeCpuQty.amount = vDelegate.read_le_uint64();
+    unstakeCpuQty.symbol = vDelegate.read_le_uint64();
+
+    transfer = vDelegate.read_uint8();
+}
+
+// JuBiter-defined
+void DelegateAction::serialize(Data& o) const {
+    append(o, data);
+}
+
+// JuBiter-defined
+nlohmann::json DelegateAction::serialize() const noexcept {
+    nlohmann::json obj = Action::serialize();
+
+    nlohmann::json data;
+    data["from"] = from.string();
+    data["receiver"] = receiver.string();
+    data["stake_cpu_quantity"] = unstakeCpuQty.string();
+    data["stake_net_quantity"] = unstakeNetQty.string();
+    data["transfer"] = transfer;
+
+    if (obj.empty()) {
+        return data;
+    }
+    else {
+        obj["data"] = data;
+        return obj;
+    }
+}
+
+// JuBiter-defined
+void DelegateAction::deserialize(const nlohmann::json& inJson) noexcept {
+    Action::deserialize(inJson);
+
+    setData(inJson["data"]["from"], inJson["data"]["receiver"],
+            TW::Bravo::Asset::fromString(inJson["data"]["stake_net_quantity"]),
+            TW::Bravo::Asset::fromString(inJson["data"]["stake_cpu_quantity"]),
+            inJson["data"]["transfer"]);
+}
+
+// JuBiter-defined
+BuyRamAction::BuyRamAction(const std::string& currency, const std::string& actName,
+                           const std::string& payer, const std::string& receiver,
+                           const Bravo::Asset& quant) {
+    account = Name(currency);
+//    name = Name("buyram");
+    name = Name(actName);
+    authorization.push_back(PermissionLevel(Name(payer), Name("owner")));
+
+    setData(payer, receiver,
+            quant);
+}
+
+// JuBiter-defined
+void BuyRamAction::setData(const std::string& payer, const std::string& receiver,
+                           const Bravo::Asset& quant) {
+    if (quant.amount <= 0) {
+        throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
+    }
+
+    this->payer = Name(payer);
+    this->receiver = Name(receiver);
+    this->quant = quant;
+
+    this->payer.serialize(data);
+    this->receiver.serialize(data);
+    this->quant.serialize(data);
+
+    uchar_vector v(data);
+}
+
+// JuBiter-defined
+//{
+//    "account":"eosio",
+//    "authorizations":[
+//    {
+//        "actor":"punkneverdie",
+//        "permission":"owner"
+//    }],
+//    "data":{
+//        "payer":"punkneverdie",
+//        "quant":"0.4000 EOS",
+//        "receiver":"punkneverdie"
+//    },
+//    "hex_data":"a05cba6aab09a7aea05cba6aab09a7aea00f00000000000004454f5300000000",
+//    "name":"buyram"
+//}
+void BuyRamAction::deserialize(const Data& o) noexcept {
+    uchar_vector vBuyRam(o);
+   payer.value = vBuyRam.read_le_uint64();
+receiver.value = vBuyRam.read_le_uint64();
+
+    //Bravo::Asset
+    quant.amount = vBuyRam.read_le_uint64();
+    quant.symbol = vBuyRam.read_le_uint64();
+}
+
+// JuBiter-defined
+void BuyRamAction::serialize(Data& o) const {
+    append(o, data);
+}
+
+// JuBiter-defined
+nlohmann::json BuyRamAction::serialize() const noexcept {
+    nlohmann::json obj = Action::serialize();
+
+    nlohmann::json data;
+    data["payer"] = payer.string();
+    data["quant"] = quant.string();
+    data["receiver"] = receiver.string();
+
+    if (obj.empty()) {
+        return data;
+    }
+    else {
+        obj["data"] = data;
+        return obj;
+    }
+
+    return obj;
+}
+
+// JuBiter-defined
+//{
+//    "account":"eosio",
+//    "authorizations":[
+//    {
+//        "actor":"punkneverdie",
+//        "permission":"owner"
+//    }],
+//    "data":{
+//        "payer":"punkneverdie",
+//        "quant":"0.4000 EOS",
+//        "receiver":"punkneverdie"
+//    },
+//    "hex_data":"a05cba6aab09a7aea05cba6aab09a7aea00f00000000000004454f5300000000",
+//    "name":"buyram"
+//}
+void BuyRamAction::deserialize(const nlohmann::json& inJson) noexcept {
+    Action::deserialize(inJson);
+
+    setData(inJson["data"]["payer"], inJson["data"]["receiver"],
+            TW::Bravo::Asset::fromString(inJson["data"]["quant"]));
 }

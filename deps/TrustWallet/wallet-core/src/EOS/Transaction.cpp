@@ -203,7 +203,7 @@ Transaction::Transaction(const Data& referenceBlockId, int32_t referenceBlockTim
 }
 
 // JuBiter-defined
-void Transaction::deserialize(const Data& o) noexcept {
+void Transaction::deserialize(const Data& o, const bool bWithType) noexcept {
     uchar_vector vTrx(o);
 
     // expiration
@@ -239,7 +239,7 @@ void Transaction::deserialize(const Data& o) noexcept {
     varIntByteSize = 0;
     Bravo::decodeCollection(tempCtxFreeActions, collectionCnt, varIntByteSize);
     vTrx.reset_it(varIntByteSize);
-    uint8_t ctxFreeActionSize = 0;
+    uint16_t ctxFreeActionSize = 0;
     for (uint64_t i=0; i<collectionCnt; ++i) {
         uchar_vector vCtxFreeAction(vTrx.get_cur_it()+ctxFreeActionSize, vTrx.end());
         const TW::Data ctxFreeAct(vCtxFreeAction);
@@ -261,15 +261,21 @@ void Transaction::deserialize(const Data& o) noexcept {
     varIntByteSize = 0;
     Bravo::decodeCollection(tempActions, collectionCnt, varIntByteSize);
     vTrx.reset_it(varIntByteSize);
-    uint8_t actionSize = 0;
+    uint16_t actionSize = 0;
     for (uint8_t i=0; i<collectionCnt; ++i) {
         uchar_vector vAction(vTrx.get_cur_it()+actionSize, vTrx.end());
-        const TW::Data act(vAction);
+        const TW::Data a(vAction);
 
         Action action;
-        action.deserialize(act);
+        if (!bWithType) {
+            action.deserialize(a);
+            actionSize += action.size();
+        }
+        else {
+            action.deserializeWithType(a);
+            actionSize += action.sizeWithType();
+        }
         actions.push_back(action);
-        actionSize += action.size();
     }
     vTrx.reset_it(actionSize);
     if (vTrx.end() == vTrx.get_cur_it()) {
@@ -283,8 +289,8 @@ void Transaction::deserialize(const Data& o) noexcept {
     varIntByteSize = 0;
     Bravo::decodeCollection(tempTransactionExtensions, collectionCnt, varIntByteSize);
     vTrx.reset_it(varIntByteSize);
-    uint8_t txExtSize = 0;
-    for (uint64_t i=0; i<collectionCnt; ++i) {
+    uint16_t txExtSize = 0;
+    for (uint8_t i=0; i<collectionCnt; ++i) {
         uchar_vector vExtension(vTrx.get_cur_it()+txExtSize, vTrx.end());
         const TW::Data ext(vExtension);
 
@@ -313,7 +319,7 @@ void Transaction::setReferenceBlock(const Data& refBlockId) {
     refBlockPrefix = decode32LE(refBlockId.data() + 8);
 }
 
-void Transaction::serialize(Data& os) const noexcept{
+void Transaction::serialize(Data& os, const bool bWithType) const noexcept{
     using namespace Bravo;
 
     encode32LE(expiration, os);
@@ -324,7 +330,12 @@ void Transaction::serialize(Data& os) const noexcept{
     encodeVarInt32(delaySeconds, os);
 
     encodeCollection(contextFreeActions, os);
-    encodeCollection(actions, os);
+    if (!bWithType) {
+        encodeCollection(actions, os);
+    }
+    else {
+        encodeCollectionWithType(actions, os);
+    }
     encodeCollection(transactionExtensions, os);
 }
 
