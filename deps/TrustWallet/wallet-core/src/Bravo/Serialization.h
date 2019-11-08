@@ -51,6 +51,15 @@ inline void encodeCollection(const Collection& collection, Data& os) {
     }
 }
 
+// JuBiter-defined
+template<typename Collection>
+inline void encodeCollectionWithType(const Collection& collection, Data& os) {
+    encodeVarInt64(collection.size(), os);
+    for (const auto& item : collection) {
+        item.serializeWithType(os);
+    }
+}
+
 template<typename Collection>
 inline void encodePointerCollection(const Collection& collection, Data& os) {
     encodeVarInt64(collection.size(), os);

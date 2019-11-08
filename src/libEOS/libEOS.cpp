@@ -27,7 +27,7 @@ JUB_RV serializePreimage(const std::string& expiration,
         TW::EOS::Transaction tx {vReferenceBlockId, bigRefBlockTime, bigExpiration};
 
         TW::EOS::TransferAction action =
-        TW::EOS::TransferAction(currency,
+        TW::EOS::TransferAction(currency, "transfer",
                                 from, to,
                                 TW::Bravo::Asset::fromString(asset),
                                 memo);
