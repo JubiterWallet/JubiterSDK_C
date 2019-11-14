@@ -106,15 +106,17 @@ JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubk
 }
 
 JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
-                                   const std::string& expiration,
-                                   const std::string& referenceBlockId,
-                                   const std::string& referenceBlockTime,
-                                   const std::string& currency,
-                                   const std::string& from,
-                                   const std::string& to,
-                                   const std::string& asset,
-                                   const std::string& memo,
+                                   const JUB_CHAR_PTR chainID,
+                                   const JUB_CHAR_PTR expiration,
+                                   const JUB_CHAR_PTR referenceBlockId,
+                                   const JUB_CHAR_PTR referenceBlockTime,
+                                   const JUB_CHAR_PTR actionsInJSON,
                                    std::string& rawInJSON) {
+
+    JUB_CHECK_NULL(expiration);
+    JUB_CHECK_NULL(referenceBlockId);
+    JUB_CHECK_NULL(referenceBlockTime);
+    JUB_CHECK_NULL(actionsInJSON);
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -122,30 +124,39 @@ JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
     std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    uchar_vector vChinIds(chainIds[4]);
+    uchar_vector vChinIds;
+    if (nullptr == chainID
+        || 0 == strlen(chainID)
+        ) {
+        uchar_vector vChain(chainIds[4]);
+        vChinIds << vChain;
+    }
+    else {
+        uchar_vector vChain(chainID);
+        vChinIds << vChain;
+    }
 
+    bool bWithType = true;
     uchar_vector vRaw;
     JUB_VERIFY_RV(jub::eos::serializePreimage(expiration,
                                               referenceBlockId,
                                               referenceBlockTime,
-                                              currency,
-                                              from,
-                                              to,
-                                              asset,
-                                              memo,
-                                              vRaw));
+                                              actionsInJSON,
+                                              vRaw,
+                                              bWithType));
 
     std::vector<uchar_vector> vSignatureRaw;
     JUB_VERIFY_RV(token->SignTXEOS(_eosType,
                                    vPath,
                                    vChinIds,
                                    vRaw,
-                                   vSignatureRaw));
+                                   vSignatureRaw,
+                                   bWithType));
 
     // finish transaction
     try {
         TW::EOS::Transaction tx;
-        tx.deserialize(vRaw);
+        tx.deserialize(vRaw, bWithType);
 
         for (const uchar_vector& signatureRaw : vSignatureRaw) {
             TW::EOS::Signature signature(signatureRaw, TW::EOS::Type::ModernK1);
@@ -153,8 +164,7 @@ JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
         }
 
         TW::EOS::PackedTransaction packedTx(tx);
-        nlohmann::json packedTxInJSON = packedTx.serialize();
-        rawInJSON = packedTxInJSON.dump();
+        rawInJSON = packedTx.serialize().dump();
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;
@@ -164,19 +174,17 @@ JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
 }
 
 JUB_RV ContextEOS::SignTransaction(BIP48_Path path,
-                                   const std::string& expiration,
-                                   const std::string& referenceBlockId,
-                                   const std::string& referenceBlockTime,
-                                   const std::string& currency,
-                                   const std::string& from,
-                                   const std::string& to,
-                                   const std::string& asset,
-                                   const std::string& memo,
+                                   const JUB_CHAR_PTR chainID,
+                                   const JUB_CHAR_PTR expiration,
+                                   const JUB_CHAR_PTR referenceBlockId,
+                                   const JUB_CHAR_PTR referenceBlockTime,
+                                   const JUB_CHAR_PTR actionsInJSON,
                                    std::string& rawInJSON) {
 
-    if (path.network >= sizeof(chainIds)/sizeof(chainIds[0])) {
-        return JUBR_ERROR_ARGS;
-    }
+    JUB_CHECK_NULL(expiration);
+    JUB_CHECK_NULL(referenceBlockId);
+    JUB_CHECK_NULL(referenceBlockTime);
+    JUB_CHECK_NULL(actionsInJSON);
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -184,39 +192,64 @@ JUB_RV ContextEOS::SignTransaction(BIP48_Path path,
     std::string strPath = _FullBip48Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    uchar_vector vChinIds(chainIds[4]);
+    uchar_vector vChinIds;
+    if (nullptr == chainID
+        || 0 == strlen(chainID)
+        ) {
+        uchar_vector vChain(chainIds[4]);
+        vChinIds << vChain;
+    }
+    else {
+        uchar_vector vChain(chainID);
+        vChinIds << vChain;
+    }
 
+    bool bWithType = true;
     uchar_vector vRaw;
     JUB_VERIFY_RV(jub::eos::serializePreimage(expiration,
                                               referenceBlockId,
                                               referenceBlockTime,
-                                              currency,
-                                              from,
-                                              to,
-                                              asset,
-                                              memo,
-                                              vRaw));
+                                              actionsInJSON,
+                                              vRaw,
+                                              bWithType));
 
     std::vector<uchar_vector> vSignatureRaw;
     JUB_VERIFY_RV(token->SignTXEOS(_eosType,
                                    vPath,
                                    vChinIds,
                                    vRaw,
-                                   vSignatureRaw));
+                                   vSignatureRaw,
+                                   bWithType));
 
     // finish transaction
     try {
         TW::EOS::Transaction tx;
-        tx.deserialize(vRaw);
+        tx.deserialize(vRaw, bWithType);
 
         for (const uchar_vector& signatureRaw : vSignatureRaw) {
-            TW::EOS::Signature signature(signatureRaw, _eosType);
+            TW::EOS::Signature signature(signatureRaw, TW::EOS::Type::ModernK1);
             tx.signatures.push_back(signature);
         }
 
         TW::EOS::PackedTransaction packedTx(tx);
-        nlohmann::json packedTxInJSON = packedTx.serialize();
-        rawInJSON = packedTxInJSON.dump();
+        rawInJSON = packedTx.serialize().dump();
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+JUB_RV ContextEOS::BuildAction(const JUB_ACTION_EOS_PTR actions,
+                               const JUB_UINT16 actionCount,
+                               std::string& actionsInJSON) {
+
+    JUB_CHECK_NULL(actions);
+
+    try {
+        JUB_VERIFY_RV(jub::eos::serializeActions(actions, actionCount,
+                                                 actionsInJSON));
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;

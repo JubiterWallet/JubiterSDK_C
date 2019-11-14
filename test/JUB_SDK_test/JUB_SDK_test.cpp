@@ -9,6 +9,7 @@
 #include "JUB_SDK_test_dev.hpp"
 #include "JUB_SDK_test_btc.hpp"
 #include "JUB_SDK_test_eth.hpp"
+#include "JUB_SDK_test_eos.hpp"
 #include "../../include/JUB_CORE.h"
 
 #include "JUB_SDK_main.h"
@@ -94,8 +95,9 @@ void main_test() {
         cout << "|  6. LTC_test.                      |" << endl;
         cout << "|  7. USDT_test.                     |" << endl;
         cout << "|  8. ETH_test & ETC_test.           |" << endl;
+        cout << "|194. EOS_test.                      |" << endl;
         cout << "| 99. get_version.                   |" << endl;
-        cout << "| 0. exit.                           |" << endl;
+        cout << "|  0. exit.                          |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -131,6 +133,9 @@ void main_test() {
             break;
         case 8:
             ETH_test("json/testETH.json");
+            break;
+        case 194:
+            EOS_test("json/testEOS.json");
             break;
         case 99:
             getVersion();

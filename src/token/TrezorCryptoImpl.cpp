@@ -246,11 +246,12 @@ JUB_RV TrezorCryptoImpl::SignTXEOS(const TW::EOS::Type& type,
                                    const std::vector<JUB_BYTE>& vPath,
                                    const std::vector<JUB_BYTE>& vChainId,
                                    const std::vector<JUB_BYTE>& vRaw,
-                                   std::vector<uchar_vector>& vSignatureRaw) {
+                                   std::vector<uchar_vector>& vSignatureRaw,
+                                   const bool bWithType) {
 
     try {
         TW::EOS::Transaction tx;
-        tx.deserialize(vRaw);
+        tx.deserialize(vRaw, bWithType);
 
         std::string path(vPath.begin(), vPath.end());
 

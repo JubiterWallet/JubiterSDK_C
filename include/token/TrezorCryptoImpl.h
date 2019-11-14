@@ -74,7 +74,8 @@ public:
                              const std::vector<JUB_BYTE>& vPath,
                              const std::vector<JUB_BYTE>& vChainId,
                              const std::vector<JUB_BYTE>& vRaw,
-                             std::vector<uchar_vector>& vSignatureRaw);
+                             std::vector<uchar_vector>& vSignatureRaw,
+                             const bool bWithType=false);
 
     //common token functions
     virtual JUB_RV QueryBattery(JUB_BYTE &percent);

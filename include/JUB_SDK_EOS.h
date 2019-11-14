@@ -24,6 +24,46 @@ typedef struct {
     JUB_CHAR_PTR        mainPath;
 } CONTEXT_CONFIG_EOS;
 
+typedef enum class JubEOSActionType {
+    XFER   = 0x00, // transfer
+      DELE = 0x01, //   delegatebw
+    UNDELE = 0x02, // undelegatebw
+    BUYRAM = 0x03, // buyrambytes
+    NS_ITEM_ACTION_TYPE
+} JUB_ENUM_EOS_ACTION_TYPE;
+
+typedef struct stTransferAction {
+    JUB_CHAR_PTR from;
+    JUB_CHAR_PTR to;
+    JUB_CHAR_PTR asset;
+    JUB_CHAR_PTR memo;
+} JUB_ACTION_TRANSFER;
+
+typedef struct stDelegateAction {
+    JUB_CHAR_PTR from;
+    JUB_CHAR_PTR receiver;
+    JUB_CHAR_PTR unstakeNetQty; // unstake_net_quantity
+    JUB_CHAR_PTR unstakeCpuQty; // unstake_cpu_quantity
+} JUB_ACTION_DELEGATE;
+
+typedef struct stBuyRamAction {
+    JUB_CHAR_PTR payer;
+    JUB_CHAR_PTR quant;
+    JUB_CHAR_PTR receiver;
+} JUB_ACTION_BUYRAM;
+
+typedef struct stActionEOS {
+    JUB_ENUM_EOS_ACTION_TYPE type;
+    JUB_CHAR_PTR currency;
+    JUB_CHAR_PTR name;
+    union {
+        JUB_ACTION_TRANSFER transfer;
+        JUB_ACTION_DELEGATE delegate;
+        JUB_ACTION_BUYRAM buyRam;
+    };
+} JUB_ACTION_EOS;
+typedef JUB_ACTION_EOS* JUB_ACTION_EOS_PTR;
+
 /*****************************************************************************
  * @function name : JUB_CreateContextEOS
  * @in  param : cfg
@@ -96,30 +136,38 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SignTransactionEOS
  * @in  param : contextID - context ID
- *            : path
- *            : referenceBlockId   - reference block ID
- *            : referenceBlockTime - reference block time
- *            : currency - currency
- *            : from
- *            : to
- *            : asset
- *            : memo
+ *          : path
+ *          : chainID - chain ID
+ *          : expiration - expiration, eg, 300(s)
+ *          : referenceBlockId   - reference block ID
+ *          : referenceBlockTime - reference block time
+ *          : actionsInJSON - array of actions
  * @out param : rawInJSON
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,
-//                              IN BIP48_Path path,
+                              IN JUB_CHAR_PTR chainID,
                               IN JUB_CHAR_PTR expiration,
                               IN JUB_CHAR_PTR referenceBlockId,
                               IN JUB_CHAR_PTR referenceBlockTime,
-                              IN JUB_CHAR_PTR currency,
-                              IN JUB_CHAR_PTR from,
-                              IN JUB_CHAR_PTR to,
-                              IN JUB_CHAR_PTR asset,
-                              IN JUB_CHAR_PTR memo,
+                              IN JUB_CHAR_PTR actionsInJSON,
                               OUT JUB_CHAR_PTR_PTR rawInJSON);
+
+/*****************************************************************************
+ * @function name : JUB_BuildActionEOS
+ * @in  param : contextID - context ID
+ *          : actions - action array
+ *          : actionCount - the count of action array
+ * @out param : actionsInJSON
+ * @last change :
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
+                          IN JUB_ACTION_EOS_PTR actions,
+                          IN JUB_UINT16 actionCount,
+                          OUT JUB_CHAR_PTR_PTR actionsInJSON);
 
 #ifdef __cplusplus
 }
