@@ -113,30 +113,86 @@ void software_test_eos() {
 //    cout << "JUB_GetMainHDNodeEOS return " << mainXpub << endl;
 //    JUB_FreeMemory(mainXpub);
 
+//    typedef struct stActionEOS {
+//        JUB_ENUM_EOS_ACTION_TYPE type;
+//        JUB_CHAR_PTR currency;
+//        JUB_CHAR_PTR name;
+//        union {
+//            JUB_ACTION_TRANSFER transfer;
+//            JUB_ACTION_DELEGATE delegate;
+//            JUB_ACTION_BUYRAM buyRam;
+//        };
+//    } JUB_ACTION_EOS;
+    JUB_ACTION_EOS action;
+
+//    typedef struct stTransferAction {
+//        JUB_CHAR_PTR from;
+//        JUB_CHAR_PTR to;
+//        JUB_CHAR_PTR asset;
+//        JUB_CHAR_PTR memo;
+//    } JUB_ACTION_TRANSFER;
+    action.type = JUB_ENUM_EOS_ACTION_TYPE::XFER;
+    action.currency = (char*)"metpacktoken";
+    action.name     = (char*)"transfer";
+    action.transfer.from  = (char*)"abcdenero123";
+    action.transfer.to    = (char*)"gsy123451111";
+    action.transfer.asset = (char*)"14.285 MPT";
+    action.transfer.memo  = (char*)"@gmail.com";
+
+//    typedef struct stDelegateAction {
+//        JUB_CHAR_PTR from;
+//        JUB_CHAR_PTR receiver;
+//        JUB_CHAR_PTR unstakeNetQty; // unstake_net_quantity
+//        JUB_CHAR_PTR unstakeCpuQty; // unstake_cpu_quantity
+//    } JUB_ACTION_DELEGATE;
+/*    action.type = JUB_ENUM_EOS_ACTION_TYPE::DELE;
+    action.currency = (char*)"eosio";
+    action.name     = (char*)"delegatebw";
+    action.delegate.from     = (char*)"ftsafetest55";
+    action.delegate.receiver = (char*)"ftsafetest55";
+    action.delegate.unstakeCpuQty = (char*)"0.7000 EOS";
+    action.delegate.unstakeNetQty = (char*)"0.3000 EOS";
+*/
+//    typedef struct stBuyRamAction {
+//        JUB_CHAR_PTR payer;
+//        JUB_CHAR_PTR quant;
+//        JUB_CHAR_PTR receiver;
+//    } JUB_ACTION_BUYRAM;
+/*    action.type = JUB_ENUM_EOS_ACTION_TYPE::BUYRAM;
+    action.currency = (char*)"eosio";
+    action.name     = (char*)"buyram";
+    action.buyRam.payer    = (char*)"punkneverdie";
+    action.buyRam.receiver = (char*)"punkneverdie";
+    action.buyRam.quant    = (char*)"0.4000 EOS";
+*/
+    JUB_CHAR_PTR actionsInJSON = nullptr;
+    rv = JUB_BuildActionEOS(contextID,
+                            &action, sizeof(action)/sizeof(JUB_ACTION_EOS),
+                            &actionsInJSON);
+    if (JUBR_OK != rv) {
+        cout << "JUB_BuildActionEOS return " << rv << endl;
+        return ;
+    }
+    cout << "JUB_BuildActionEOS return " << actionsInJSON << endl;
+
+    char* chainID = (char*)"";
     char* expiration = (char*)"900";
     char* referenceBlockId = (char*)"05264c4d25b8e54b6bed3189f1b866c39ffb260ccfed170f0622e7386139a53a";
     char* referenceBlockTime = (char*)"1572004203";
-    char* currency = (char*)"eosio.token";
-    char* from = (char*)"ftsafetest55";
-    char* to = (char*)"zijunzimo555";
-    char* asset = (char*)"0.0001 EOS";
-    char* memo = (char*)"First EOS tx for ftsafetest55.";
     char* rawInJSON = nullptr;
     rv = JUB_SignTransactionEOS(contextID,
                                 path,
+                                chainID,
                                 expiration,
                                 referenceBlockId,
                                 referenceBlockTime,
-                                currency,
-                                from,
-                                to,
-                                asset,
-                                memo,
+                                actionsInJSON,
                                 &rawInJSON);
     if (JUBR_OK != rv) {
         cout << "JUB_SignTransactionEOS return " << rv << endl;
         return ;
     }
     cout << "JUB_SignTransactionEOS return " << rawInJSON << endl;
+    JUB_FreeMemory(actionsInJSON);
     JUB_FreeMemory(rawInJSON);
 }

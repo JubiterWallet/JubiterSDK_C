@@ -16,6 +16,7 @@
 		67A4BE882330C99C0059A3DB /* JUB_SDK_test_btc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE862330C99C0059A3DB /* JUB_SDK_test_btc.cpp */; };
 		67A4BE8B2330CCDF0059A3DB /* JUB_SDK_test_eth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE892330CCDF0059A3DB /* JUB_SDK_test_eth.cpp */; };
 		67A4BE902330D1A80059A3DB /* JUB_SDK_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE8F2330D1A80059A3DB /* JUB_SDK_main.cpp */; };
+		67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */; };
 		67F808C2235966D900DE9ECE /* JUB_SDK_software_test_eth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */; };
 		67F808C3235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BE235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp */; };
 		67F808C4235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808C0235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp */; };
@@ -61,6 +62,8 @@
 		67A4BE8A2330CCDF0059A3DB /* JUB_SDK_test_eth.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_eth.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_eth.hpp; sourceTree = "<group>"; };
 		67A4BE8F2330D1A80059A3DB /* JUB_SDK_main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_main.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_main.cpp; sourceTree = "<group>"; };
 		67A4BE912330D2D50059A3DB /* JUB_SDK_main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_main.h; path = ../../test/JUB_SDK_test/JUB_SDK_main.h; sourceTree = "<group>"; };
+		67BED7E6237947890051E3DC /* JUB_SDK_test_eos.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_eos.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_eos.hpp; sourceTree = "<group>"; };
+		67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_eos.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_eos.cpp; sourceTree = "<group>"; };
 		67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_eth.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_eth.cpp; sourceTree = "<group>"; };
 		67F808BD235966D800DE9ECE /* JUB_SDK_software_test_eth.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_eth.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_eth.hpp; sourceTree = "<group>"; };
 		67F808BE235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_eos.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_eos.cpp; sourceTree = "<group>"; };
@@ -112,6 +115,8 @@
 				67A4BE872330C99C0059A3DB /* JUB_SDK_test_btc.hpp */,
 				67A4BE892330CCDF0059A3DB /* JUB_SDK_test_eth.cpp */,
 				67A4BE8A2330CCDF0059A3DB /* JUB_SDK_test_eth.hpp */,
+				67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */,
+				67BED7E6237947890051E3DC /* JUB_SDK_test_eos.hpp */,
 				67F808C0235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp */,
 				67F808BF235966D900DE9ECE /* JUB_SDK_software_test_btc.hpp */,
 				67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */,
@@ -256,6 +261,7 @@
 				67A4BE842330C6440059A3DB /* JUB_SDK_test_dev.cpp in Sources */,
 				67A4BE7E2330C4B80059A3DB /* json_value.cpp in Sources */,
 				67F808C4235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp in Sources */,
+				67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */,
 				67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */,
 				67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */,
 				67F808C3235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp in Sources */,

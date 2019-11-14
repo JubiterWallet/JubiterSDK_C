@@ -61,26 +61,24 @@ public:
     virtual JUB_RV GetMainHDNode(JUB_BYTE format, std::string& xpub);
 
     virtual JUB_RV SignTransaction(BIP44_Path path,
-                                   const std::string& expiration,
-                                   const std::string& referenceBlockId,
-                                   const std::string& referenceBlockTime,
-                                   const std::string& currency,
-                                   const std::string& from,
-                                   const std::string& to,
-                                   const std::string& asset,
-                                   const std::string& memo,
+                                   const JUB_CHAR_PTR chainID,
+                                   const JUB_CHAR_PTR expiration,
+                                   const JUB_CHAR_PTR referenceBlockId,
+                                   const JUB_CHAR_PTR referenceBlockTime,
+                                   const JUB_CHAR_PTR actionsInJSON,
                                    std::string& rawInJSON);
 
     virtual JUB_RV SignTransaction(BIP48_Path path,
-                                   const std::string& expiration,
-                                   const std::string& referenceBlockId,
-                                   const std::string& referenceBlockTime,
-                                   const std::string& currency,
-                                   const std::string& from,
-                                   const std::string& to,
-                                   const std::string& asset,
-                                   const std::string& memo,
+                                   const JUB_CHAR_PTR chainID,
+                                   const JUB_CHAR_PTR expiration,
+                                   const JUB_CHAR_PTR referenceBlockId,
+                                   const JUB_CHAR_PTR referenceBlockTime,
+                                   const JUB_CHAR_PTR actionsInJSON,
                                    std::string& rawInJSON);
+
+    virtual JUB_RV BuildAction(const JUB_ACTION_EOS_PTR actions,
+                               const JUB_UINT16 actionCount,
+                               std::string& actionsInJSON);
 
     virtual JUB_RV ActiveSelf() override;
 

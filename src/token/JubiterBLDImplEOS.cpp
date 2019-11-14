@@ -76,13 +76,14 @@ JUB_RV JubiterBLDImpl::SignTXEOS(const TW::EOS::Type& type,
                                  const std::vector<JUB_BYTE>& vPath,
                                  const std::vector<JUB_BYTE>& vChainId,
                                  const std::vector<JUB_BYTE>& vRaw,
-                                 std::vector<uchar_vector>& vSignatureRaw) {
+                                 std::vector<uchar_vector>& vSignatureRaw,
+                                 bool bWithType) {
 
     constexpr JUB_UINT32 kSendOnceLen = 230;
 
     try {
         TW::EOS::Transaction tx;
-        tx.deserialize(vRaw);
+        tx.deserialize(vRaw, bWithType);
 
         uint16_t total = 0;
         // pathTLV
@@ -149,10 +150,24 @@ JUB_RV JubiterBLDImpl::SignTXEOS(const TW::EOS::Type& type,
             actionOffset += offset;
             actionOffset += action.startingPostData();
 
-            TW::EOS::TransferAction txAction;
-            txAction.deserialize(action.data);
-            uint16_t memoOffset = txAction.startingPostData();
-            memoOffset += actionOffset;
+            uint16_t memoOffset = 0;
+            uint16_t memoLength = 0;
+            switch ((JUB_ENUM_EOS_ACTION_TYPE)action.getType()) {
+            case JUB_ENUM_EOS_ACTION_TYPE::XFER:
+            {
+                TW::EOS::TransferAction txAction;
+                txAction.deserialize(action.data);
+                memoOffset = txAction.startingPostData();
+                memoOffset += actionOffset;
+                memoLength = txAction.memoLength();
+                break;
+            }
+            case JUB_ENUM_EOS_ACTION_TYPE::DELE:
+            case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
+            case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
+            default:
+                break;
+            }
 
             // data offset
             uchar_vector vOffset;
@@ -168,9 +183,11 @@ JUB_RV JubiterBLDImpl::SignTXEOS(const TW::EOS::Type& type,
 
             // memo length
             vOffset.clear();
-            vOffset << txAction.memoLength();
+            vOffset << memoLength;
             vOffset.reverse();
             vActionAssist << vOffset;
+
+            vActionAssist << action.getType();
 
             offset += action.size();
         }

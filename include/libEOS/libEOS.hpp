@@ -15,12 +15,13 @@ namespace eos {
 JUB_RV serializePreimage(const std::string& expiration,
                          const std::string& referenceBlockId,
                          const std::string& referenceBlockTime,
-                         const std::string& currency,
-                         const std::string& from,
-                         const std::string& to,
-                         const std::string& asset,
-                         const std::string& memo,
-                         uchar_vector& preimageRaw);
+                         const std::string& actionsInJSON,
+                         uchar_vector& preimageRaw,
+                         const bool bWithType=false);
+
+JUB_RV serializeActions(const JUB_ACTION_EOS_PTR actions,
+                        JUB_UINT16 actionCount,
+                        std::string& actionInJSON);
 
 } // namespace eos end
 

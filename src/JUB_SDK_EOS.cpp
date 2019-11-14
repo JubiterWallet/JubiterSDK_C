@@ -18,7 +18,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 /*****************************************************************************
  * @function name : JUB_CreateContextEOS
  * @in  param : cfg
- *            : deviceID - device ID
+ *          : deviceID - device ID
  * @out param : contextID
  * @last change :
  *****************************************************************************/
@@ -34,7 +34,7 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
     *contextID = jub::ContextManager::GetInstance()->AddOne(context);
     context->ActiveSelf();
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    return JUBR_OK;
 }
 
 /*****************************************************************************
@@ -90,9 +90,9 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeEOS
  * @in  param : contextID - context ID
- *            : format - JUB_ENUM_EOS_PUB_FORMAT::HEX(0x00) for hex;
- *                       JUB_ENUM_EOS_PUB_FORMAT::EOS(0x01) for Legacy
- *            : path
+ *          : format - JUB_ENUM_EOS_PUB_FORMAT::HEX(0x00) for hex;
+ *                 JUB_ENUM_EOS_PUB_FORMAT::EOS(0x01) for Legacy
+ *          : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
@@ -141,29 +141,23 @@ JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SignTransactionEOS
  * @in  param : contextID - context ID
- *            : path
- *            : referenceBlockId   - reference block ID
- *            : referenceBlockTime - reference block time
- *            : currency - currency
- *            : from
- *            : to
- *            : asset
- *            : memo
+ *          : path
+ *          : chainID - chain ID
+ *          : expiration - expiration, eg, 300(s)
+ *          : referenceBlockId   - reference block ID
+ *          : referenceBlockTime - reference block time
+ *          : actionsInJSON - array of actions
  * @out param : rawInJSON
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,
-//                              IN BIP48_Path path,
+                              IN JUB_CHAR_PTR chainID,
                               IN JUB_CHAR_PTR expiration,
                               IN JUB_CHAR_PTR referenceBlockId,
                               IN JUB_CHAR_PTR referenceBlockTime,
-                              IN JUB_CHAR_PTR currency,
-                              IN JUB_CHAR_PTR from,
-                              IN JUB_CHAR_PTR to,
-                              IN JUB_CHAR_PTR asset,
-                              IN JUB_CHAR_PTR memo,
+                              IN JUB_CHAR_PTR actionsInJSON,
                               OUT JUB_CHAR_PTR_PTR rawInJSON) {
 
     JUB_CHECK_CONTEXT_EOS(contextID);
@@ -173,16 +167,41 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
 
     std::string str_raw;
     JUB_VERIFY_RV(context->SignTransaction(path,
+                                           chainID,
                                            expiration,
                                            referenceBlockId,
                                            referenceBlockTime,
-                                           currency,
-                                           from,
-                                           to,
-                                           asset,
-                                           memo,
+                                           actionsInJSON,
                                            str_raw));
     JUB_VERIFY_RV(_allocMem(rawInJSON, str_raw));
+
+    return JUBR_OK;
+}
+
+/*****************************************************************************
+* @function name : JUB_BuildActionEOS
+* @in  param : contextID - context ID
+*                     : actions - action array
+*                     : actionCount - the count of action array
+* @out param : actionsInJSON
+* @last change :
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
+                          IN JUB_ACTION_EOS_PTR actions,
+                          IN JUB_UINT16 actionCount,
+                          OUT JUB_CHAR_PTR_PTR actionsInJSON) {
+
+    JUB_CHECK_CONTEXT_EOS(contextID);
+
+    auto context = (jub::ContextEOS*)jub::ContextManager::GetInstance()->GetOne(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_actions;
+    JUB_VERIFY_RV(context->BuildAction(actions,
+                                       actionCount,
+                                       str_actions));
+    JUB_VERIFY_RV(_allocMem(actionsInJSON, str_actions));
 
     return JUBR_OK;
 }
