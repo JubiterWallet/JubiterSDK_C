@@ -26,7 +26,7 @@ JUB_RV ContextEOS::ActiveSelf() {
     JUB_VERIFY_RV(token->SelectAppletEOS());
     JUB_VERIFY_RV(ctoken->SetTimeout(_timeout));
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    return JUBR_OK;
 }
 
 JUB_RV ContextEOS::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
