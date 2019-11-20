@@ -62,6 +62,14 @@ JUB_RV serializePreimage(const std::string& expiration,
                 tx.actions.push_back(action);
                 break;
             }
+            case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM:
+            {
+                TW::EOS::SellRamAction action;
+                action.setType((uint8_t)type);
+                action.deserialize(jsonActions[i]);
+                tx.actions.push_back(action);
+                break;
+            }
             case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_ACTION_TYPE:
             default:
                 rv = JUBR_ARGUMENTS_BAD;
@@ -122,6 +130,16 @@ nlohmann::json serializeAction(const JUB_ACTION_EOS& action) {
             std::string(action.buyRam.payer), std::string(action.buyRam.receiver),
             TW::Bravo::Asset::fromString(std::string(action.buyRam.quant)));
         return buyRamAction.serialize();
+    }
+    case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM:
+    {
+        TW::EOS::SellRamAction sellRamAction =
+        TW::EOS::SellRamAction(
+            std::string(action.currency), std::string(action.name),
+            std::string(action.sellRam.account),
+            stringToBigInteger(action.sellRam.bytes).toUnsignedLong()
+        );
+        return sellRamAction.serialize();
     }
     default:
         return nlohmann::json::object();
