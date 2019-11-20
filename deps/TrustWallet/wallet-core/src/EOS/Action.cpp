@@ -526,3 +526,90 @@ void BuyRamAction::deserialize(const nlohmann::json& inJson) noexcept {
     setData(inJson["data"]["payer"], inJson["data"]["receiver"],
             TW::Bravo::Asset::fromString(inJson["data"]["quant"]));
 }
+
+// JuBiter-defined
+SellRamAction::SellRamAction(const std::string& currency, const std::string& actName,
+                             const std::string& acct, const int64_t bytes) {
+    account = Name(currency);
+//    name = Name("sellram");
+    name = Name(actName);
+    authorization.push_back(PermissionLevel(Name(acct), Name("owner")));
+
+    setData(acct, bytes);
+}
+
+// JuBiter-defined
+void SellRamAction::setData(const std::string& acct, const int64_t bytes) {
+
+    this->acct = Name(acct);
+    this->bytes = bytes;
+
+    this->acct.serialize(data);
+    encode64LE(bytes, data);
+}
+
+// JuBiter-defined
+//{
+//    "account":"eosio",
+//    "authorizations":[
+//    {
+//        "actor":"gq4demjrhege",
+//        "permission":"owner"
+//    }],
+//    "data":{
+//        "account":"gq4demjrhege",
+//        "bytes":134246400
+//    },
+//    "hex_data":"a0986af7499588650070000800000000",
+//    "name":"sellram"
+//}
+void SellRamAction::deserialize(const Data& o) noexcept {
+    uchar_vector vSellRam(o);
+    account.value = vSellRam.read_le_uint64();
+    bytes = vSellRam.read_le_uint64();
+}
+
+// JuBiter-defined
+void SellRamAction::serialize(Data& o) const {
+    append(o, data);
+}
+
+// JuBiter-defined
+nlohmann::json SellRamAction::serialize() const noexcept {
+    nlohmann::json obj = Action::serialize();
+
+    nlohmann::json data;
+    data["account"] = acct.string();
+    data["bytes"] = bytes;
+
+    if (obj.empty()) {
+        return data;
+    }
+    else {
+        obj["data"] = data;
+        return obj;
+    }
+
+    return obj;
+}
+
+// JuBiter-defined
+//{
+//    "account":"eosio",
+//    "authorizations":[
+//    {
+//        "actor":"gq4demjrhege",
+//        "permission":"owner"
+//    }],
+//    "data":{
+//        "account":"gq4demjrhege",
+//        "bytes":134246400
+//    },
+//    "hex_data":"a0986af7499588650070000800000000",
+//    "name":"sellram"
+//}
+void SellRamAction::deserialize(const nlohmann::json& inJson) noexcept {
+    Action::deserialize(inJson);
+
+    setData(inJson["data"]["account"], inJson["data"]["bytes"]);
+}

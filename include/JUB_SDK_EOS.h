@@ -28,7 +28,8 @@ typedef enum class JubEOSActionType {
     XFER   = 0x00, // transfer
       DELE = 0x01, //   delegatebw
     UNDELE = 0x02, // undelegatebw
-    BUYRAM = 0x03, // buyrambytes
+    BUYRAM = 0x03, //  buyrambytes
+   SELLRAM = 0x04, // sellrambytes
     NS_ITEM_ACTION_TYPE
 } JUB_ENUM_EOS_ACTION_TYPE;
 
@@ -53,6 +54,11 @@ typedef struct stBuyRamAction {
     JUB_CHAR_PTR receiver;
 } JUB_ACTION_BUYRAM;
 
+typedef struct stSellRamAction {
+    JUB_CHAR_PTR account;
+    JUB_CHAR_PTR bytes;
+} JUB_ACTION_SELLRAM;
+
 typedef struct stActionEOS {
     JUB_ENUM_EOS_ACTION_TYPE type;
     JUB_CHAR_PTR currency;
@@ -61,6 +67,7 @@ typedef struct stActionEOS {
         JUB_ACTION_TRANSFER transfer;
         JUB_ACTION_DELEGATE delegate;
         JUB_ACTION_BUYRAM buyRam;
+        JUB_ACTION_SELLRAM sellRam;
     };
 } JUB_ACTION_EOS;
 typedef JUB_ACTION_EOS* JUB_ACTION_EOS_PTR;

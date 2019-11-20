@@ -149,4 +149,24 @@ public:
     Bravo::Asset quant;
 }; // class BuyRamAction end
 
+// JuBiter-defined
+class SellRamAction: public Action {
+public:
+    SellRamAction(const std::string& currency, const std::string& actName,
+                  const std::string& acct, const int64_t bytes);
+    SellRamAction() { }
+
+    virtual void deserialize(const Data& o) noexcept override;
+    virtual void serialize(Data& o) const override;
+    virtual nlohmann::json serialize() const noexcept override;
+    virtual void deserialize(const nlohmann::json& inJson) noexcept override;
+
+private:
+    void setData(const std::string& acct, const int64_t bytes);
+
+public:
+    Name acct;
+    int64_t bytes;
+}; // class SellRamAction end
+
 } // namespace TW::EOS end
