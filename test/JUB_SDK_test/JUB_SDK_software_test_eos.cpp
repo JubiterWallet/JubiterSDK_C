@@ -176,6 +176,16 @@ void software_test_eos() {
     action.buyRam.receiver = (char*)"punkneverdie";
     action.buyRam.quant    = (char*)"0.4000 EOS";
 */
+//    typedef struct stSellRamAction {
+//        JUB_CHAR_PTR account;
+//        JUB_CHAR_PTR bytes;
+//    } JUB_ACTION_SELLRAM;
+/*    action.type = JUB_ENUM_EOS_ACTION_TYPE::SELLRAM;
+    action.currency = (char*)"eosio";
+    action.name     = (char*)"sellram";
+    action.sellRam.account = (char*)"gq4demjrhege";
+    action.sellRam.bytes   = (char*)"134246400";
+*/
     JUB_CHAR_PTR actionsInJSON = nullptr;
     rv = JUB_BuildActionEOS(contextID,
                             &action, sizeof(action)/sizeof(JUB_ACTION_EOS),
