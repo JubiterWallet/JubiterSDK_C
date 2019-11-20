@@ -300,40 +300,44 @@ DelegateAction::DelegateAction(const std::string& currency,
                                const std::string& actName,
                                const std::string& from,
                                const std::string& receiver,
-                               const Bravo::Asset& unstakeNetQty,
-                               const Bravo::Asset& unstakeCpuQty) {
+                               const Bravo::Asset& netQty,
+                               const Bravo::Asset& cpuQty,
+                               bool bStake) {
     account = Name(currency);
 //    name = Name("delegatebw");
+//    name = Name("undelegatebw");
     name = Name(actName);
     authorization.push_back(PermissionLevel(Name(from), Name("active")));
 
     transfer = 0x00;
     setData(from, receiver,
-            unstakeNetQty, unstakeCpuQty,
+            netQty, cpuQty,
             transfer);
+
+    _bStake = bStake;
 }
 
 // JuBiter-defined
 void DelegateAction::setData(const std::string& from, const std::string& receiver,
-                             const Bravo::Asset& unstakeNetQty, const Bravo::Asset& unstakeCpuQty,
+                             const Bravo::Asset& netQty, const Bravo::Asset& cpuQty,
                              uint8_t transfer) {
-    if (unstakeNetQty.amount <= 0) {
+    if (netQty.amount <= 0) {
         throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
     }
-    if (unstakeCpuQty.amount <= 0) {
+    if (cpuQty.amount <= 0) {
         throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
     }
 
     this->from = Name(from);
     this->receiver = Name(receiver);
-    this->unstakeNetQty = unstakeNetQty;
-    this->unstakeCpuQty = unstakeCpuQty;
+    this->netQty = netQty;
+    this->cpuQty = cpuQty;
     this->transfer = transfer;
 
     this->from.serialize(data);
     this->receiver.serialize(data);
-    this->unstakeNetQty.serialize(data);
-    this->unstakeCpuQty.serialize(data);
+    this->netQty.serialize(data);
+    this->cpuQty.serialize(data);
     data.push_back(transfer);
 }
 
@@ -361,12 +365,12 @@ void DelegateAction::deserialize(const Data& o) noexcept {
 receiver.value = vDelegate.read_le_uint64();
 
     //Bravo::Asset
-    unstakeNetQty.amount = vDelegate.read_le_uint64();
-    unstakeNetQty.symbol = vDelegate.read_le_uint64();
+    netQty.amount = vDelegate.read_le_uint64();
+    netQty.symbol = vDelegate.read_le_uint64();
 
     //Bravo::Asset
-    unstakeCpuQty.amount = vDelegate.read_le_uint64();
-    unstakeCpuQty.symbol = vDelegate.read_le_uint64();
+    cpuQty.amount = vDelegate.read_le_uint64();
+    cpuQty.symbol = vDelegate.read_le_uint64();
 
     transfer = vDelegate.read_uint8();
 }
@@ -383,8 +387,14 @@ nlohmann::json DelegateAction::serialize() const noexcept {
     nlohmann::json data;
     data["from"] = from.string();
     data["receiver"] = receiver.string();
-    data["stake_cpu_quantity"] = unstakeCpuQty.string();
-    data["stake_net_quantity"] = unstakeNetQty.string();
+    if (_bStake) {
+        data["stake_cpu_quantity"] = cpuQty.string();
+        data["stake_net_quantity"] = netQty.string();
+    }
+    else {
+        data["unstake_cpu_quantity"] = cpuQty.string();
+        data["unstake_net_quantity"] = netQty.string();
+    }
     data["transfer"] = transfer;
 
     if (obj.empty()) {
@@ -400,10 +410,18 @@ nlohmann::json DelegateAction::serialize() const noexcept {
 void DelegateAction::deserialize(const nlohmann::json& inJson) noexcept {
     Action::deserialize(inJson);
 
+    if (_bStake) {
+        setData(inJson["data"]["from"], inJson["data"]["receiver"],
+                TW::Bravo::Asset::fromString(inJson["data"]["stake_net_quantity"]),
+                TW::Bravo::Asset::fromString(inJson["data"]["stake_cpu_quantity"]),
+                inJson["data"]["transfer"]);
+    }
+    else {
     setData(inJson["data"]["from"], inJson["data"]["receiver"],
-            TW::Bravo::Asset::fromString(inJson["data"]["stake_net_quantity"]),
-            TW::Bravo::Asset::fromString(inJson["data"]["stake_cpu_quantity"]),
+            TW::Bravo::Asset::fromString(inJson["data"]["unstake_net_quantity"]),
+            TW::Bravo::Asset::fromString(inJson["data"]["unstake_cpu_quantity"]),
             inJson["data"]["transfer"]);
+    }
 }
 
 // JuBiter-defined
@@ -433,8 +451,6 @@ void BuyRamAction::setData(const std::string& payer, const std::string& receiver
     this->payer.serialize(data);
     this->receiver.serialize(data);
     this->quant.serialize(data);
-
-    uchar_vector v(data);
 }
 
 // JuBiter-defined

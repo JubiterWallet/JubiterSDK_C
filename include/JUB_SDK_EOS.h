@@ -42,8 +42,9 @@ typedef struct stTransferAction {
 typedef struct stDelegateAction {
     JUB_CHAR_PTR from;
     JUB_CHAR_PTR receiver;
-    JUB_CHAR_PTR unstakeNetQty; // unstake_net_quantity
-    JUB_CHAR_PTR unstakeCpuQty; // unstake_cpu_quantity
+    JUB_CHAR_PTR netQty; // stake_net_quantity/unstake_net_quantity
+    JUB_CHAR_PTR cpuQty; // stake_cpu_quantity/unstake_cpu_quantity
+    bool bStake;
 } JUB_ACTION_DELEGATE;
 
 typedef struct stBuyRamAction {
