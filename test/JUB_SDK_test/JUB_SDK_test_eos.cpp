@@ -213,11 +213,18 @@ void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
             action.transfer.memo  = (char*)(*it)[sType]["memo"].asCString();
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::DELE:
+            action.delegate.from     = (char*)(*it)[sType]["from"].asCString();
+            action.delegate.receiver = (char*)(*it)[sType]["receiver"].asCString();
+            action.delegate.netQty   = (char*)(*it)[sType]["stake_net_quantity"].asCString();
+            action.delegate.cpuQty   = (char*)(*it)[sType]["stake_cpu_quantity"].asCString();
+            action.delegate.bStake = true;
+            break;
         case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
             action.delegate.from     = (char*)(*it)[sType]["from"].asCString();
             action.delegate.receiver = (char*)(*it)[sType]["receiver"].asCString();
-            action.delegate.unstakeNetQty = (char*)(*it)[sType]["stake_net_quantity"].asCString();
-            action.delegate.unstakeCpuQty = (char*)(*it)[sType]["stake_cpu_quantity"].asCString();
+            action.delegate.netQty   = (char*)(*it)[sType]["unstake_net_quantity"].asCString();
+            action.delegate.cpuQty   = (char*)(*it)[sType]["unstake_cpu_quantity"].asCString();
+            action.delegate.bStake = false;
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
             action.buyRam.payer    = (char*)(*it)[sType]["payer"].asCString();

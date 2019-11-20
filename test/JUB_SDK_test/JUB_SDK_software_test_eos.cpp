@@ -142,16 +142,27 @@ void software_test_eos() {
 //    typedef struct stDelegateAction {
 //        JUB_CHAR_PTR from;
 //        JUB_CHAR_PTR receiver;
-//        JUB_CHAR_PTR unstakeNetQty; // unstake_net_quantity
-//        JUB_CHAR_PTR unstakeCpuQty; // unstake_cpu_quantity
+//        JUB_CHAR_PTR netQty; // stake_net_quantity/unstake_net_quantity
+//        JUB_CHAR_PTR cpuQty; // stake_cpu_quantity/unstake_cpu_quantity
+//        bool bStake;
 //    } JUB_ACTION_DELEGATE;
 /*    action.type = JUB_ENUM_EOS_ACTION_TYPE::DELE;
     action.currency = (char*)"eosio";
     action.name     = (char*)"delegatebw";
     action.delegate.from     = (char*)"ftsafetest55";
     action.delegate.receiver = (char*)"ftsafetest55";
-    action.delegate.unstakeCpuQty = (char*)"0.7000 EOS";
-    action.delegate.unstakeNetQty = (char*)"0.3000 EOS";
+    action.delegate.cpuQty   = (char*)"0.7000 EOS";
+    action.delegate.netQty   = (char*)"0.3000 EOS";
+    action.delegate.bStake   = true;
+*/
+/*    action.type = JUB_ENUM_EOS_ACTION_TYPE::UNDELE;
+    action.currency = (char*)"eosio";
+    action.name     = (char*)"undelegatebw";
+    action.delegate.from     = (char*)"gq4demjrhege";
+    action.delegate.receiver = (char*)"gq4demjrhege";
+    action.delegate.cpuQty   = (char*)"70080.2476 EOS";
+    action.delegate.netQty   = (char*)"70071.5415 EOS";
+    action.delegate.bStake   = false;
 */
 //    typedef struct stBuyRamAction {
 //        JUB_CHAR_PTR payer;

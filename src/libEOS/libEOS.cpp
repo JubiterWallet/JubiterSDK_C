@@ -44,7 +44,11 @@ JUB_RV serializePreimage(const std::string& expiration,
             case JUB_ENUM_EOS_ACTION_TYPE::DELE:
             case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
             {
-                TW::EOS::DelegateAction action;
+                bool bStake = false;
+                if (JUB_ENUM_EOS_ACTION_TYPE::DELE == type) {
+                    bStake = true;
+                }
+                TW::EOS::DelegateAction action(bStake);
                 action.setType((uint8_t)type);
                 action.deserialize(jsonActions[i]);
                 tx.actions.push_back(action);
@@ -97,12 +101,17 @@ nlohmann::json serializeAction(const JUB_ACTION_EOS& action) {
     case JUB_ENUM_EOS_ACTION_TYPE::DELE:
     case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
     {
+        bool bStake = false;
+        if (JUB_ENUM_EOS_ACTION_TYPE::DELE == action.type) {
+            bStake = true;
+        }
         TW::EOS::DelegateAction delegateAction =
         TW::EOS::DelegateAction(
             std::string(action.currency), std::string(action.name),
             std::string(action.delegate.from), std::string(action.delegate.receiver),
-            TW::Bravo::Asset::fromString(std::string(action.delegate.unstakeNetQty)),
-            TW::Bravo::Asset::fromString(std::string(action.delegate.unstakeCpuQty)));
+            TW::Bravo::Asset::fromString(std::string(action.delegate.netQty)),
+            TW::Bravo::Asset::fromString(std::string(action.delegate.cpuQty)),
+            bStake);
         return delegateAction.serialize();
     }
     case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
