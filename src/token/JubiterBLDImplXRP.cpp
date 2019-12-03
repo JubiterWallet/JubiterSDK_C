@@ -53,7 +53,7 @@ JUB_RV JubiterBLDImpl::GetHDNodeXRP(const JUB_BYTE format, const std::string& pa
 }
 
 JUB_RV JubiterBLDImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
-                                 const std::vector<JUB_BYTE>& vUnsignedRaw,
+                                 std::vector<JUB_BYTE>& vUnsignedRaw,
                                  std::vector<uchar_vector>& vSignatureRaw) {
 
     constexpr JUB_UINT32 kSendOnceLen = 230;
@@ -69,11 +69,16 @@ JUB_RV JubiterBLDImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
         TW::Ripple::Address addr(address);
         tx.pub_key.insert(tx.pub_key.end(), addr.bytes.begin(), addr.bytes.end());
         tx.serialize();
+        vUnsignedRaw.clear();
+        vUnsignedRaw = tx.getPreImage();
 
         uint16_t total = 0;
         // pathTLV
+        uchar_vector pathLV;
+        pathLV << (JUB_BYTE)(vPath.size());
+        pathLV << vPath;
         uchar_vector pathTLV;
-        pathTLV << ToTlv(0x08, pathTLV);
+        pathTLV << ToTlv(0x08, pathLV);
         total += pathTLV.size();
 
         //txAssistTLV                           - tag = 0x02
@@ -89,6 +94,7 @@ JUB_RV JubiterBLDImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
         //        destinationTLV                - tag = 0x04
         //           destinationIndex
         //           destinationLength
+        //NETWORK_PREFIX TLV                    - tag = 0x06
         //signingPubKeyTLV
         uchar_vector vSigningPubKey;
         vSigningPubKey << tx.getSignPubkeyIndex();
@@ -98,7 +104,7 @@ JUB_RV JubiterBLDImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
         //destinationTLV
         uchar_vector vDestination;
         vDestination << tx.getDestinationIndex();
-        vDestination << (uint8_t)tx.destination.size;
+        vDestination << (uint8_t)tx.destination.pubkeyHashSize();
         uchar_vector vDestinationTLV;
         vDestinationTLV << ToTlv(0x04, vDestination);
 
@@ -118,12 +124,19 @@ JUB_RV JubiterBLDImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
         uchar_vector vTxAssistBodyTLV;
         vTxAssistBodyTLV << ToTlv(0x01, vTxAssistBody);
 
+        //NETWORK_PREFIX TLV
+        uchar_vector vNetWorkPrefix;
+        vNetWorkPrefix << (uint8_t)(sizeof(TW::Ripple::NETWORK_PREFIX)/sizeof(uint8_t));
+        vNetWorkPrefix << tx.getNetworkPrefix();
+
         //txAssistTLV
         uchar_vector vTxAssist;
         vTxAssist << (uint8_t)TW::Ripple::TransactionType::payment;
         vTxAssist << vTxAssistBodyTLV;
         uchar_vector vTxAssistTLV;
         vTxAssistTLV << ToTlv(0x02, vTxAssist);
+        uchar_vector vNetWorkPrefixTLV;
+        vTxAssistTLV << ToTlv(0x06, vNetWorkPrefix);
         total += vTxAssistTLV.size();
         total += tx.size();
 

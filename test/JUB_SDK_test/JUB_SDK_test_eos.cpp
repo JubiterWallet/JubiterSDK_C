@@ -188,8 +188,8 @@ void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
     }
 
     BIP44_Path path;
-    path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
-    path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
+    path.change = (JUB_ENUM_BOOL)root["EOS"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["EOS"]["bip32_path"]["addressIndex"].asUInt();
 
     if (!root["EOS"]["actions"].isArray()) {
         return;

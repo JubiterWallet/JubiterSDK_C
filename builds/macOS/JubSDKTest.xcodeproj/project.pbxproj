@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		675C7975238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */; };
+		6791CE0B23968EB7000B6B16 /* JUB_SDK_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */; };
 		67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE652330C3CE0059A3DB /* JUB_SDK_test.cpp */; };
 		67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE782330C4B80059A3DB /* json_reader.cpp */; };
 		67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE792330C4B80059A3DB /* json_writer.cpp */; };
@@ -38,6 +39,8 @@
 /* Begin PBXFileReference section */
 		675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.cpp; sourceTree = "<group>"; };
 		675C7974238BEBFF0015C95D /* JUB_SDK_software_test_xrp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_xrp.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.hpp; sourceTree = "<group>"; };
+		6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.cpp; sourceTree = "<group>"; };
+		6791CE0A23968EB7000B6B16 /* JUB_SDK_test_xrp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_xrp.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.hpp; sourceTree = "<group>"; };
 		67A4BE5A2330C3870059A3DB /* JubSDKTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = JubSDKTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A4BE652330C3CE0059A3DB /* JUB_SDK_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test.cpp; sourceTree = "<group>"; };
 		67A4BE6B2330C4670059A3DB /* allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = allocator.h; path = ../../deps/jsoncpp/include/json/allocator.h; sourceTree = "<group>"; };
@@ -120,6 +123,8 @@
 				67A4BE8A2330CCDF0059A3DB /* JUB_SDK_test_eth.hpp */,
 				67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */,
 				67BED7E6237947890051E3DC /* JUB_SDK_test_eos.hpp */,
+				6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */,
+				6791CE0A23968EB7000B6B16 /* JUB_SDK_test_xrp.hpp */,
 				67F808C0235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp */,
 				67F808BF235966D900DE9ECE /* JUB_SDK_software_test_btc.hpp */,
 				67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */,
@@ -271,6 +276,7 @@
 				67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */,
 				67F808C3235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp in Sources */,
 				675C7975238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp in Sources */,
+				6791CE0B23968EB7000B6B16 /* JUB_SDK_test_xrp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

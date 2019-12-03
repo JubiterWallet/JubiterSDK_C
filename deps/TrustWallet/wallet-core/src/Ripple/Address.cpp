@@ -48,3 +48,9 @@ Address::Address(const PublicKey& publicKey) {
 std::string Address::string() const {
     return Base58::ripple.encodeCheck(bytes);
 }
+
+// JuBiter-defined
+/// Returns the length of the pubkey hash.
+size_t Address::pubkeyHashSize() {
+    return (size - 1);
+}

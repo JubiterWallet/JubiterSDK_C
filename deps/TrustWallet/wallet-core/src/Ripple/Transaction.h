@@ -12,6 +12,10 @@
 
 namespace TW::Ripple {
 
+extern const int NETWORK_PREFIX;
+// JuBiter-added
+extern const int NETWORK_PREFIX_MULTI_SIGN;
+
 enum class FieldType: int {
     int16   = 1,
     int32   = 2,
@@ -104,6 +108,8 @@ public:
     virtual uint16_t getDestinationIndex() const {
         return destinationIndex;
     }
+    // JuBiter-defined
+    virtual Data getNetworkPrefix();
 
 private:
     uint16_t amountIndex = 0;
