@@ -22,7 +22,7 @@ public:
     virtual JUB_RV GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
     virtual JUB_RV GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
     virtual JUB_RV SignTXXRP(const std::vector<JUB_BYTE>& vPath,
-                             const std::vector<JUB_BYTE>& vUnsignedRaw,
+                             std::vector<JUB_BYTE>& vUnsignedRaw,
                              std::vector<uchar_vector>& vSignatureRaw)  = 0;
 }; // class EOSTokenInterface end
 

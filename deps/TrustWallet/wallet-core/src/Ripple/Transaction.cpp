@@ -14,9 +14,9 @@
 using namespace TW;
 using namespace TW::Ripple;
 
-const int NETWORK_PREFIX = 0x53545800;
+const int TW::Ripple::NETWORK_PREFIX = 0x53545800;
 // JuBiter-added
-const int NETWORK_PREFIX_MULTI_SIGN = 0x534D5400;
+const int TW::Ripple::NETWORK_PREFIX_MULTI_SIGN = 0x534D5400;
 const int64_t MAX_ALLOWED_AMOUNT = 100000000000;
 
 // JuBiter-defined
@@ -307,6 +307,12 @@ Data Transaction::getPreImage() {
     encode32BE(NETWORK_PREFIX, preImage);
     append(preImage, serialize());
     return preImage;
+}
+
+Data Transaction::getNetworkPrefix() {
+    auto prefix = Data();
+    encode32BE(NETWORK_PREFIX, prefix);
+    return prefix;
 }
 
 // JuBiter-defined

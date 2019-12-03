@@ -324,7 +324,7 @@ JUB_RV TrezorCryptoImpl::GetHDNodeXRP(const JUB_BYTE format, const std::string& 
 }
 
 JUB_RV TrezorCryptoImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
-                                   const std::vector<JUB_BYTE>& vUnsignedRaw,
+                                   std::vector<JUB_BYTE>& vUnsignedRaw,
                                    std::vector<uchar_vector>& vSignatureRaw) {
 
     try {

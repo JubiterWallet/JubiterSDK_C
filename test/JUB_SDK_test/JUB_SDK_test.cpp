@@ -10,6 +10,7 @@
 #include "JUB_SDK_test_btc.hpp"
 #include "JUB_SDK_test_eth.hpp"
 #include "JUB_SDK_test_eos.hpp"
+#include "JUB_SDK_test_xrp.hpp"
 #include "../../include/JUB_CORE.h"
 
 #include "JUB_SDK_main.h"
@@ -40,11 +41,11 @@ void getVersion() {
     }
 
     JUB_BYTE bleVersion[5] = {0,};
-    JUB_BYTE fwVersion[5] = {0,};
+    JUB_BYTE  fwVersion[5] = {0,};
     memcpy(bleVersion, info.bleVersion, 4);
-    memcpy(fwVersion, info.firmwareVersion, 4);
+    memcpy( fwVersion, info.firmwareVersion, 4);
     cout << "device bleVersion :" << bleVersion << endl;
-    cout << "device fwVersion :" << fwVersion << endl;
+    cout << "device  fwVersion :" <<  fwVersion << endl;
 
     cout << "~~~~~~~~~~~Applet Version ~~~~~~~~~~~~~~" << endl;
 
@@ -94,7 +95,8 @@ void main_test() {
         cout << "|  5. BCH_test.                      |" << endl;
         cout << "|  6. LTC_test.                      |" << endl;
         cout << "|  7. USDT_test.                     |" << endl;
-        cout << "|  8. ETH_test & ETC_test.           |" << endl;
+        cout << "| 60. ETH_test & ETC_test.           |" << endl;
+        cout << "|144. XRP_test.                      |" << endl;
         cout << "|194. EOS_test.                      |" << endl;
         cout << "| 99. get_version.                   |" << endl;
         cout << "|  0. exit.                          |" << endl;
@@ -131,8 +133,11 @@ void main_test() {
         case 7:
             USDT_test("json/testUSDT.json");
             break;
-        case 8:
+        case 60:
             ETH_test("json/testETH.json");
+            break;
+        case 144:
+            XRP_test("json/testXRP.json");
             break;
         case 194:
             EOS_test("json/testEOS.json");

@@ -45,6 +45,10 @@ public:
 
     /// Returns a string representation of the address.
     std::string string() const;
+
+    // JuBiter-defined
+    /// Returns the length of the pubkey hash.
+    virtual size_t pubkeyHashSize();
 };
 
 inline bool operator==(const Address& lhs, const Address& rhs) {
