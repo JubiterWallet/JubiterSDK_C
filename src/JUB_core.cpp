@@ -14,6 +14,7 @@
 #include <context/ContextBTC.h>
 #include <context/ContextETH.h>
 #include <context/ContextEOS.h>
+#include <context/ContextXRP.h>
 #include <token/interface/BTCTokenInterface.hpp>
 
 //where to place...
@@ -143,6 +144,22 @@ JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
     jub::TrezorCryptoImpl* token = new jub::TrezorCryptoImpl(std::string(masterPriInXPRV));
     JUB_UINT16 deviceID = jub::TokenManager::GetInstance()->AddOne(token);
     jub::ContextEOS* context = new jub::ContextEOS(cfg, deviceID);
+    JUB_CHECK_NULL(context);
+    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
+
+    return JUBR_OK;
+}
+
+JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
+                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 OUT JUB_UINT16* contextID) {
+    static_assert(TIsExtended<jub::TrezorCryptoImpl,
+                  jub::XRPTokenInterface>::Result,
+                  "Token class should be extended from XRPTokenInterface");
+
+    jub::TrezorCryptoImpl* token = new jub::TrezorCryptoImpl(std::string(masterPriInXPRV));
+    JUB_UINT16 deviceID = jub::TokenManager::GetInstance()->AddOne(token);
+    jub::ContextXRP* context = new jub::ContextXRP(cfg, deviceID);
     JUB_CHECK_NULL(context);
     *contextID = jub::ContextManager::GetInstance()->AddOne(context);
 

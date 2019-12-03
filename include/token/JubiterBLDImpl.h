@@ -34,7 +34,8 @@ class JubiterBLDImpl :
 	public CommonTokenInterface,
 	public BTCTokenInterface,
 	public ETHTokenInterface,
-    public EOSTokenInterface
+    public EOSTokenInterface,
+    public XRPTokenInterface
 {
 public:
     JubiterBLDImpl(std::string path);
@@ -86,6 +87,14 @@ public:
                              const std::vector<JUB_BYTE>& vRaw,
                              std::vector<uchar_vector>& vSignatureRaw,
                              const bool bWithType=false);
+
+    //XRP functions
+    virtual JUB_RV SelectAppletXRP();
+    virtual JUB_RV GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey);
+    virtual JUB_RV SignTXXRP(const std::vector<JUB_BYTE>& vPath,
+                             const std::vector<JUB_BYTE>& vUnsignedRaw,
+                             std::vector<uchar_vector>& vSignatureRaw);
 
     //common token functions
     virtual JUB_RV QueryBattery(JUB_BYTE &percent);

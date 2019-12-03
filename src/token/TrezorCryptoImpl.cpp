@@ -18,6 +18,9 @@
 #include "EOS/Address.h"
 #include "EOS/Signer.h"
 #include "EOS/Transaction.h"
+#include "Ripple/Address.h"
+#include "Ripple/Signer.h"
+#include "Ripple/Transaction.h"
 
 namespace jub {
 
@@ -255,7 +258,6 @@ JUB_RV TrezorCryptoImpl::SignTXEOS(const TW::EOS::Type& type,
 
         std::string path(vPath.begin(), vPath.end());
 
-        TW::EOS::Signer signer {vChainId};
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
         JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
@@ -263,6 +265,7 @@ JUB_RV TrezorCryptoImpl::SignTXEOS(const TW::EOS::Type& type,
         uchar_vector privk(hdkey.private_key, hdkey.private_key+32);
         TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
 
+        TW::EOS::Signer signer {vChainId};
         signer.sign(twprivk,
                     type,
                     tx);
@@ -270,6 +273,82 @@ JUB_RV TrezorCryptoImpl::SignTXEOS(const TW::EOS::Type& type,
         for (const TW::EOS::Signature& signature : tx.signatures) {
             vSignatureRaw.push_back(signature.data);
         }
+    }
+    catch(...) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoImpl::SelectAppletXRP() {
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoImpl::GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address) {
+    //tag used by hardware,this imp not use.
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+
+    uchar_vector pk(hdkey.public_key, hdkey.public_key+33);
+    TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
+    TW::Ripple::Address addr(twpk);
+    address = addr.string();
+
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoImpl::GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+
+//    typedef enum class JubXRPPubFormat {
+//        HEX = 0x00,
+//        XRP = 0x01
+//    } JUB_ENUM_XRP_PUB_FORMAT;
+    uchar_vector pk(hdkey.public_key, hdkey.public_key+33);
+    if (0x00 == format) {//hex
+        pubkey = pk.getHex();
+    }
+    else { //xpub
+        JUB_CHAR _pk[200] = {0,};
+        if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, bitcoinXPUB, _pk, sizeof(_pk)/sizeof(JUB_CHAR))) {
+            return JUBR_ERROR;
+        }
+        pubkey = std::string(_pk);
+    }
+
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
+                                   const std::vector<JUB_BYTE>& vUnsignedRaw,
+                                   std::vector<uchar_vector>& vSignatureRaw) {
+
+    try {
+        TW::Ripple::Transaction tx;
+        tx.setPreImage(vUnsignedRaw);
+
+        std::string path(vPath.begin(), vPath.end());
+
+        HDNode hdkey;
+        JUB_UINT32 parentFingerprint;
+        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+
+        uchar_vector privk(hdkey.private_key, hdkey.private_key+32);
+        TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
+
+        TW::Ripple::Signer signer;
+        signer.sign(twprivk,
+                    tx);
+
+        vSignatureRaw.push_back(tx.signature);
+
+        Data txData = tx.serialize();
+        TW::Ripple::Transaction xrp;
+        xrp.deserialize(txData);
     }
     catch(...) {
         return JUBR_ERROR_ARGS;
