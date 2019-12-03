@@ -12,6 +12,7 @@
 #include "BTCTokenInterface.hpp"
 #include "ETHTokenInterface.hpp"
 #include "EOSTokenInterface.hpp"
+#include "XRPTokenInterface.hpp"
 
 namespace jub {
 

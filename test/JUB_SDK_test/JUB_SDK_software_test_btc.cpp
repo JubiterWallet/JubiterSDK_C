@@ -8,6 +8,7 @@
 
 #include "JUB_SDK_software_test_btc.hpp"
 
+#include "mSIGNA/stdutils/uchar_vector.h"
 #include "JUB_SDK_main.h"
 
 void software_test_btc() {
@@ -23,6 +24,7 @@ void software_test_btc() {
         cout << "JUB_CheckMnemonic return" << rv << endl;
     }
     JUB_BYTE seed[64] = {0,};
+    JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
     auto callback = [](JUB_UINT32 current, JUB_UINT32 total) -> void {
         cout << ".";
     };
@@ -31,10 +33,15 @@ void software_test_btc() {
     if (rv != JUBR_OK) {
         cout << "JUB_GenerateSeed error" << endl;
     }
+    uchar_vector vSeed(seedLen);
+    for (int i=0; i<seedLen; ++i) {
+        vSeed[i] = seed[i];
+    }
+    cout << "seed: " << vSeed.getHex() << endl;
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
-    rv = JUB_SeedToMasterPrivateKey(seed, 64, secp256k1, &masterXprv);
+    rv = JUB_SeedToMasterPrivateKey(seed, seedLen, secp256k1, &masterXprv);
     if (rv == JUBR_OK) {
         cout << masterXprv << endl;
     }

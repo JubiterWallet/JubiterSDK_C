@@ -12,6 +12,7 @@
 #include "JUB_SDK_software_test_btc.hpp"
 #include "JUB_SDK_software_test_eth.hpp"
 #include "JUB_SDK_software_test_eos.hpp"
+#include "JUB_SDK_software_test_xrp.hpp"
 #endif
 using namespace std;
 
@@ -19,17 +20,17 @@ std::string GetErrMsg(JUB_RV rv) {
 
     std::string errMsg;
     switch (rv) {
-        case JUBR_OK:                       { errMsg = "JUBR_OK"; break; }
-        case JUBR_ERROR:                    { errMsg = "JUBR_ERROR"; break; }
-        case JUBR_HOST_MEMORY:              { errMsg = "JUBR_HOST_MEMORY"; break; }
-        case JUBR_ARGUMENTS_BAD:            { errMsg = "JUBR_ARGUMENTS_BAD"; break; }
-        case JUBR_IMPL_NOT_SUPPORT:         { errMsg = "JUBR_IMPL_NOT_SUPPORT"; break; }
-        case JUBR_MEMORY_NULL_PTR:          { errMsg = "JUBR_MEMORY_NULL_PTR"; break; }
-        case JUBR_INVALID_MEMORY_PTR:       { errMsg = "JUBR_INVALID_MEMORY_PTR"; break; }
-        case JUBR_REPEAT_MEMORY_PTR:        { errMsg = "JUBR_REPEAT_MEMORY_PTR"; break; }
-        case JUBR_BUFFER_TOO_SMALL:         { errMsg = "JUBR_BUFFER_TOO_SMALL"; break; }
+        case JUBR_OK:                   { errMsg = "JUBR_OK"; break; }
+        case JUBR_ERROR:                { errMsg = "JUBR_ERROR"; break; }
+        case JUBR_HOST_MEMORY:          { errMsg = "JUBR_HOST_MEMORY"; break; }
+        case JUBR_ARGUMENTS_BAD:        { errMsg = "JUBR_ARGUMENTS_BAD"; break; }
+        case JUBR_IMPL_NOT_SUPPORT:     { errMsg = "JUBR_IMPL_NOT_SUPPORT"; break; }
+        case JUBR_MEMORY_NULL_PTR:      { errMsg = "JUBR_MEMORY_NULL_PTR"; break; }
+        case JUBR_INVALID_MEMORY_PTR:   { errMsg = "JUBR_INVALID_MEMORY_PTR"; break; }
+        case JUBR_REPEAT_MEMORY_PTR:    { errMsg = "JUBR_REPEAT_MEMORY_PTR"; break; }
+        case JUBR_BUFFER_TOO_SMALL:     { errMsg = "JUBR_BUFFER_TOO_SMALL"; break; }
 
-        default:                            { errMsg = "UNKNOWN ERROR."; break; }
+        default:                        { errMsg = "UNKNOWN ERROR."; break; }
     }
 
     return errMsg;
@@ -52,8 +53,9 @@ int main() {
         cout << "|  1. hardware_test.                 |" << endl;
 #if SW
         cout << "|  2. software_test_btc.             |" << endl;
-        cout << "|  3. software_test_eth.             |" << endl;
-        cout << "|  4. software_test_eos.             |" << endl;
+        cout << "| 60. software_test_eth.             |" << endl;
+        cout << "|144. software_test_xrp.             |" << endl;
+        cout << "|194. software_test_eos.             |" << endl;
 #endif
         cout << "|  0. exit.                          |" << endl;
         cout << "--------------------------------------" << endl;
@@ -69,10 +71,13 @@ int main() {
             case 2:
                 software_test_btc();
                 break;
-            case 3:
+            case 60:
                 software_test_eth();
                 break;
-            case 4:
+            case 144:
+                software_test_xrp();
+                break;
+            case 194:
                 software_test_eos();
                 break;
 #endif

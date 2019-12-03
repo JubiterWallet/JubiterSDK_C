@@ -9,7 +9,7 @@
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_software_test_eos.hpp"
 
-//#include "mSIGNA/stdutils/uchar_vector.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
 //#include "HexCoding.h"
 //#include "PublicKey.h"
 //#include "PrivateKey.h"
@@ -44,20 +44,25 @@ void software_test_eos() {
     }
 */
     JUB_BYTE seed[64] = {0,};
+    JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
     auto callback = [](JUB_UINT32 current, JUB_UINT32 total) -> void {
         cout << ".";
     };
-    rv = JUB_GenerateSeed(
-                          "gauge hole clog property soccer idea cycle stadium utility slice hold chief",
-//                          "ensure token dress jar donate recipe once blue chief honey whip enhance",
-                          "", seed, callback);
+    JUB_CHAR_CPTR mnemonic = "gauge hole clog property soccer idea cycle stadium utility slice hold chief";
+//    JUB_CHAR_CPTR mnemonic = "ensure token dress jar donate recipe once blue chief honey whip enhance";
+    rv = JUB_GenerateSeed(mnemonic, "", seed, callback);
     if (rv != JUBR_OK) {
         cout << "JUB_GenerateSeed error" << endl;
     }
+    uchar_vector vSeed(seedLen);
+    for (int i=0; i<seedLen; ++i) {
+        vSeed[i] = seed[i];
+    }
+    cout << "seed: " << vSeed.getHex() << endl;
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
-    rv = JUB_SeedToMasterPrivateKey(seed, 64,
+    rv = JUB_SeedToMasterPrivateKey(seed, seedLen,
                                     secp256k1,
 //                                    ed25519,
                                     &masterXprv);
@@ -71,7 +76,7 @@ void software_test_eos() {
     JUB_UINT16 contextID;
     rv = JUB_CreateContextEOS_soft(cfg, masterXprv, &contextID);
     if (rv != JUBR_OK) {
-        cout << "JUB_CreateContextBTC_soft return " << rv << endl;
+        cout << "JUB_CreateContextEOS_soft return " << rv << endl;
         return ;
     }
 

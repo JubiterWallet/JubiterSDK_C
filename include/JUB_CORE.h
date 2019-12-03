@@ -60,4 +60,9 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
                                  IN JUB_CHAR_PTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID);
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
+                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 OUT JUB_UINT16* contextID);
 #endif /* JUB_CORE_H */
