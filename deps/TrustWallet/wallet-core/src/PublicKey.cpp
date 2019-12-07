@@ -10,6 +10,7 @@
 #include <TrezorCrypto/ed25519-donna/ed25519-blake2b.h>
 #include <TrezorCrypto/nist256p1.h>
 #include <TrezorCrypto/secp256k1.h>
+#include "mSIGNA/stdutils/uchar_vector.h"
 
 using namespace TW;
 
@@ -50,6 +51,25 @@ PublicKey PublicKey::extended() const {
     case TWPublicKeyTypeED25519Blake2b:
        return *this;
     }
+}
+
+// JuBiter-defined
+bool PublicKey::verifyAsDER(const Data& signatureAsDER, const Data& message) const {
+    size_t iDerSignatureLen = signatureAsDER.size();
+    uint8_t *derSignature = new uint8_t[iDerSignatureLen+1];
+    memset(derSignature, 0x00, iDerSignatureLen+1);
+    std::copy(signatureAsDER.begin(), signatureAsDER.end(), derSignature);
+    uint8_t sig[TW::Hash::sha512Size] = {0x00,};
+    if (TW::Hash::sha512Size != der_to_ecdsa_sig(derSignature, sig)) {
+        delete[] derSignature; derSignature = nullptr;
+        return false;
+    }
+    delete[] derSignature; derSignature = nullptr;
+
+    uchar_vector vSig(sig, TW::Hash::sha512Size);
+    Data signature(vSig);
+
+    return verify(signature, message);
 }
 
 bool PublicKey::verify(const Data& signature, const Data& message) const {

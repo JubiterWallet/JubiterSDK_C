@@ -346,6 +346,11 @@ JUB_RV TrezorCryptoImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
 
         vSignatureRaw.push_back(tx.signature);
 
+        TW::PublicKey twpubk = twprivk.getPublicKey(TWPublicKeyTypeSECP256k1);
+        if (!signer.verify(twpubk, tx)) {
+            return JUBR_ERROR;
+        }
+
         Data txData = tx.serialize();
         TW::Ripple::Transaction xrp;
         xrp.deserialize(txData);

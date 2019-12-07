@@ -18,6 +18,9 @@ class Signer {
   public:
     /// Signs the given transaction.
     void sign(const PrivateKey& privateKey, Transaction& transaction) const noexcept;
+    // JuBiter-defined
+    /// Verifies the given signature.
+    bool verify(const PublicKey& publicKey, const Transaction& transaction) const noexcept;
 };
 
 } // namespace TW::Ripple

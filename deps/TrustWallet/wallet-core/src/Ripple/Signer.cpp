@@ -24,3 +24,14 @@ void Signer::sign(const PrivateKey& privateKey, Transaction& transaction) const 
 
     transaction.signature = privateKey.signAsDER(half, TWCurveSECP256k1);
 }
+
+// JuBiter-defined
+bool Signer::verify(const PublicKey& publicKey, const Transaction& transaction) const noexcept {
+    Transaction tempTx(transaction);
+    tempTx.signature.clear();
+    auto unsignedTx = tempTx.getPreImage();
+    auto hash = Hash::sha512(unsignedTx);
+    auto half = Data(hash.begin(), hash.begin() + 32);
+
+    return publicKey.verifyAsDER(transaction.signature, half);
+}

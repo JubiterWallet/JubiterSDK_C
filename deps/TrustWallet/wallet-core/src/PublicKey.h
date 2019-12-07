@@ -109,6 +109,11 @@ class PublicKey {
     /// Returns an extended version of this public key.
     PublicKey extended() const;
 
+    // JuBiter-defined
+    /// Verifies a signature for the provided message. The signature is encoded with
+    /// DER.
+    bool verifyAsDER(const Data& signatureAsDER, const Data& message) const;
+
     /// Verifies a signature for the provided message.
     bool verify(const Data& signature, const Data& message) const;
 
