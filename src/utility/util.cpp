@@ -101,7 +101,7 @@ std::array<uint8_t, 32> HexStr2CharArray(std::string str) {
 */
 /*
  * std::vector<unsigned char> -> Hexadecimal string conversion
-*//*
+*/
 std::string CharPtr2HexStr(std::vector<unsigned char> v) {
 
 	std::stringstream ss;
@@ -117,7 +117,7 @@ std::string CharPtr2HexStr(std::vector<unsigned char> v) {
 
 	return ss.str();
 }
-*/
+
 /*
 * Hexadecimal string conversion -> std::vector<unsigned char>
 */
@@ -293,4 +293,23 @@ abcd::DataChunk ToTlv(uint8_t tag, const abcd::DataSlice &data) {
     return tlvData;
 }
 
+abcd::DataChunk Tollv(const std::string& strData) {
+
+    abcd::DataChunk vData;
+    vData.push_back(' ');
+    uchar_vector data;
+    data << strData;
+    for (size_t i=0; i<data.size(); ++i) {
+        vData.push_back(data[i]);
+    }
+    vData.push_back(0x00);
+
+    abcd::DataChunk llvData;
+    unsigned int len = static_cast<unsigned int>(vData.size());
+
+    llvData.push_back(len);
+    llvData.insert(llvData.end(), vData.begin(), vData.end());
+
+    return llvData;
+}
 } // namespace jub end

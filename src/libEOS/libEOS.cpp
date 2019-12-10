@@ -3,7 +3,6 @@
 
 #include <bigint/BigIntegerUtils.hh>
 #include "EOS/Transaction.h"
-#include "HexCoding.h"
 
 namespace jub {
 

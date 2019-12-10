@@ -53,6 +53,22 @@
     #define HID_MODE
 #endif // #if defined(_WIN32)
 
+#define JUBR_OK                     0x00000000UL
+
+#define JUBR_ERROR                  0x00000001UL
+#define JUBR_HOST_MEMORY            0x00000002UL
+#define JUBR_ARGUMENTS_BAD          0x00000003UL
+#define JUBR_IMPL_NOT_SUPPORT		0x00000004UL
+#define JUBR_MEMORY_NULL_PTR		0x00000005UL
+
+#define JUBR_INVALID_MEMORY_PTR		0x00000008UL
+#define JUBR_REPEAT_MEMORY_PTR		0x00000009UL
+#define JUBR_BUFFER_TOO_SMALL		0x0000000AUL
+
+#define JUBR_MULTISIG_OK            0x0000000BUL
+
+#define JUBR_QRC20_WRONG_FORMAT		0x0000000CUL
+
 /* === Library typedef: === */
 #ifndef IN
     #define IN
@@ -100,6 +116,8 @@ typedef unsigned long int JUB_ULONG;
 /* a signed value, the same size as a JUB_ULONG */
 typedef signed long int  JUB_LONG;
 
+typedef JUB_BYTE JUB_UINT8;
+
 typedef unsigned int JUB_UINT32;
 
 typedef unsigned short JUB_UINT16;
@@ -120,7 +138,9 @@ typedef JUB_BYTE JUB_PTR            JUB_BYTE_PTR;
 typedef JUB_UCHAR JUB_PTR           JUB_UCHAR_PTR;
 typedef JUB_UTF8UCHAR JUB_PTR       JUB_UTF8UCHAR_PTR;
 typedef JUB_ULONG JUB_PTR           JUB_ULONG_PTR;
-typedef JUB_UINT64 JUB_PTR            JUB_UINT64_PTR;
+typedef JUB_UINT16 JUB_PTR          JUB_UINT16_PTR;
+typedef JUB_UINT32 JUB_PTR          JUB_UINT32_PTR;
+typedef JUB_UINT64 JUB_PTR          JUB_UINT64_PTR;
 typedef void JUB_PTR                JUB_VOID_PTR;
 
 /* Pointer to a JUB_VOID_PTR-- i.e., pointer to pointer to void */
@@ -128,23 +148,15 @@ typedef JUB_VOID_PTR JUB_PTR JUB_VOID_PTR_PTR;
 
 typedef JUB_ULONG JUB_RV;
 
-#define MAX_DEVICE                  8
-
-#define JUBR_OK                     0x00000000UL
-
-#define JUBR_ERROR                  0x00000001UL
-#define JUBR_HOST_MEMORY            0x00000002UL
-#define JUBR_ARGUMENTS_BAD          0x00000003UL
-#define JUBR_IMPL_NOT_SUPPORT		0x00000004UL
-#define JUBR_MEMORY_NULL_PTR		0x00000005UL
-
-#define JUBR_INVALID_MEMORY_PTR		0x00000008UL
-#define JUBR_REPEAT_MEMORY_PTR		0x00000009UL
-#define JUBR_BUFFER_TOO_SMALL		0x0000000AUL
-
 #ifdef __cplusplus
 extern "C" {
 #endif // #ifdef __cplusplus
+
+typedef struct stContextCfg {
+    JUB_CHAR_PTR            mainPath;
+
+    virtual ~stContextCfg() {}
+} CONTEXT_CONFIG;
 
 typedef enum {
     BOOL_FALSE = 0,

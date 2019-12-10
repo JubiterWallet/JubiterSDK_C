@@ -77,7 +77,7 @@ JUB_RV JubiterBLDImpl::EnumApplet(std::string& appletList) {
         JUB_UINT16 ret = 0;
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
-            return JUBR_TRANSMIT_DEVICE_ERROR;
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
     }
 
@@ -89,7 +89,7 @@ JUB_RV JubiterBLDImpl::EnumApplet(std::string& appletList) {
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 != ret) {
-        return JUBR_TRANSMIT_DEVICE_ERROR;
+        JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
 
     abcd::DataChunk tlvData(retData, retData + ulRetDataLen);
@@ -109,30 +109,24 @@ JUB_RV JubiterBLDImpl::EnumSupportCoins(std::string& coinList) {
     JUB_RV rv = JUBR_ERROR;
 
     std::string appletList;
-    rv = EnumApplet(appletList);
-    if (JUBR_OK != rv) {
-        return rv;
-    }
+    JUB_VERIFY_RV(EnumApplet(appletList));
 
     auto vAppList = Split(appletList, " ");
     for (auto appID : vAppList) {
         std::string version;
         rv = GetAppletVersion(appID, version);
         if (JUBR_OK != rv) {
-            break;
+            continue;
         }
         for (auto appInfo : JubiterBLDImpl::g_appInfo) {
             uchar_vector _appID(appInfo.appID);
             if (_appID.getHex() == appID) {
-                if (appInfo.minimumAppletVersion < version) {
+                if (appInfo.minimumAppletVersion <= version) {
                     coinList += appInfo.coinName;
                     coinList += " ";
                 }
             }
         }
-    }
-    if (JUBR_OK != rv) {
-        return rv;
     }
 
     return JUBR_OK;
@@ -142,7 +136,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
 
     uchar_vector id(appID);
     if (0 == appID.length()) {
-        return JUBR_ARGUMENTS_BAD;
+        JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
     }
 
     JUB_UINT16 ret = 0;
@@ -154,7 +148,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
         JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         if (0x9000 != ret) {
-            return JUBR_TRANSMIT_DEVICE_ERROR;
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
 
         //get version
@@ -165,7 +159,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
         JUB_ULONG ulRetVersionLen = sizeof(retDataVersion)/sizeof(JUB_BYTE);
         JUB_VERIFY_RV(_SendApdu(&apduVersion, ret, retDataVersion, &ulRetVersionLen));
         if (0x9000 != ret) {
-            return JUBR_TRANSMIT_DEVICE_ERROR;
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
 
         uchar_vector vVersion(&retDataVersion[6], 4);
@@ -178,7 +172,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version)
         JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         if (0x9000 != ret) {
-            return JUBR_TRANSMIT_DEVICE_ERROR;
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
 
         if (   0x84 == retData[2]
@@ -216,8 +210,8 @@ JUB_RV JubiterBLDImpl::SendOneApdu(const std::string& apdu, std::string& respons
     JUB_BYTE retData[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = {0,};
     JUB_ULONG ulRetDataLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
     JUB_RV rv = _device->SendData(sendApdu.data(), (JUB_ULONG)sendApdu.size(), retData, &ulRetDataLen);
-    if(JUBR_OK != rv) {
-        return JUBR_TRANSMIT_DEVICE_ERROR;
+    if (JUBR_OK != rv) {
+        JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
 
     uchar_vector vResponse(retData, retData + ulRetDataLen);
@@ -236,7 +230,7 @@ JUB_RV JubiterBLDImpl::QueryBattery(JUB_BYTE &percent) {
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 != ret) {
-        return JUBR_TRANSMIT_DEVICE_ERROR;
+        JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
 
     percent = retData[0];
@@ -255,7 +249,7 @@ JUB_RV JubiterBLDImpl::ShowVirtualPwd() {
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 != ret) {
-        return JUBR_TRANSMIT_DEVICE_ERROR;
+        JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
 
     return JUBR_OK;
@@ -272,7 +266,7 @@ JUB_RV JubiterBLDImpl::CancelVirtualPwd() {
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 != ret) {
-        return JUBR_TRANSMIT_DEVICE_ERROR;
+        JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
 
     return JUBR_OK;
@@ -302,14 +296,14 @@ JUB_RV JubiterBLDImpl::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x6985 == ret) { //locked
-        return JUBR_PIN_LOCKED;
+        JUB_VERIFY_RV(JUBR_PIN_LOCKED);
     }
     if (0x63C0 == (ret & 0xfff0)) {
         retry = (ret & 0xf);
-        return JUBR_DEVICE_PIN_ERROR;
+        JUB_VERIFY_RV(JUBR_DEVICE_PIN_ERROR);
     }
     else if (0x9000 != ret) {
-        return JUBR_TRANSMIT_DEVICE_ERROR;
+        JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
 
     return JUBR_OK;
@@ -464,7 +458,7 @@ JUB_RV JubiterBLDImpl::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 != ret) {
-        return JUBR_TRANSMIT_DEVICE_ERROR;
+        JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
 
     return JUBR_OK;
@@ -473,7 +467,7 @@ JUB_RV JubiterBLDImpl::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
 JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, JUB_BYTE sigType, JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
 
     if (apduData.empty()) {
-        return JUBR_ERROR;
+        JUB_VERIFY_RV(JUBR_ERROR);
     }
 
     JUB_UINT16 ret = 0;
@@ -482,7 +476,7 @@ JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, JUB_BYTE sigTy
         APDU apdu(0x00, 0xF8, 0x00, sigType, (JUB_ULONG)apduData.size(), apduData.data());
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
-            return JUBR_TRANSMIT_DEVICE_ERROR;
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
 
         return JUBR_OK;
@@ -508,7 +502,7 @@ JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, JUB_BYTE sigTy
         apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
-            return JUBR_TRANSMIT_DEVICE_ERROR;
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
     }
 
@@ -522,7 +516,71 @@ JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, JUB_BYTE sigTy
         apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
-            return JUBR_TRANSMIT_DEVICE_ERROR;
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
+        }
+    }
+
+    return JUBR_OK;
+}
+
+JUB_RV JubiterBLDImpl::_TranPackApdu(JUB_ULONG ncla, JUB_ULONG nins,
+                                     const abcd::DataSlice &apduData,
+                                     JUB_BYTE sigType,
+                                     JUB_ULONG ulSendOnceLen,
+                                     JUB_BYTE *retData/* = nullptr*/, JUB_ULONG *pulRetDataLen/* = nullptr*/,
+                                     int finalData/* = false*/, int bOnce/* = false*/) {
+
+    if (apduData.empty()) {
+        JUB_VERIFY_RV(JUBR_ERROR);
+    }
+
+    JUB_UINT16 ret = 0;
+    if (bOnce) {
+        // one pack enough
+        APDU apdu(ncla, nins, 0x00, sigType, (JUB_ULONG)apduData.size(), apduData.data());
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        if (0x9000 != ret) {
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
+        }
+
+        return JUBR_OK;
+    }
+
+    // else send pack by pack
+    auto nextTimes = apduData.size() / ulSendOnceLen;
+    auto left = apduData.size() % ulSendOnceLen;
+
+    // split last pack
+    if (   0 == left
+        && 0 != nextTimes
+        ) {
+        nextTimes--;
+        left = ulSendOnceLen;
+    }
+
+    // pack by pack
+    APDU apdu(ncla, nins, 0x02, sigType, 0x00);
+    apdu.lc = ulSendOnceLen;
+    JUB_UINT32 times = 0;
+    for (times = 0; times < nextTimes; times++) {
+        apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        if (0x9000 != ret) {
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
+        }
+    }
+
+    // next pack
+    apdu.lc = (JUB_ULONG)left;
+    if (apdu.lc) {
+        if (finalData) {
+            apdu.p1 = 0x03;
+        }
+
+        apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, pulRetDataLen));
+        if (0x9000 != ret) {
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
     }
 
@@ -542,7 +600,7 @@ JUB_RV JubiterBLDImpl::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *r
     std::vector<JUB_BYTE> vSendApdu;
     if (JUBR_OK == _apduBuiler->BuildApdu(apdu, vSendApdu)) {
         if (JUBR_OK != _device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
-            return JUBR_TRANSMIT_DEVICE_ERROR;
+            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
 
         if (NULL == pulRetDataLen) {
@@ -558,7 +616,7 @@ JUB_RV JubiterBLDImpl::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *r
 
         if (*pulRetDataLen < (ulRetDataLen - 2)) {
             *pulRetDataLen = ulRetDataLen - 2;
-            return JUBR_BUFFER_TOO_SMALL;
+            JUB_VERIFY_RV(JUBR_BUFFER_TOO_SMALL);
         }
 
         *pulRetDataLen = ulRetDataLen - 2;

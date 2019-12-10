@@ -11,6 +11,7 @@
 #include "utility/xManager.hpp"
 
 #include "context/Context.h"
+#include "utility/util.h"
 
 #define JUB_CHECK_CONTEXT_BTC(x)                                    \
 do {                                                                \
@@ -25,9 +26,10 @@ do {                                                                \
 
 namespace jub {
 
-class ContextBTC : public Context{
+class ContextBTC : public Context {
 
 public:
+    ContextBTC() {};
     ContextBTC(CONTEXT_CONFIG_BTC cfg, JUB_UINT16 deviceID) {
         _mainPath = cfg.mainPath;
         _transType = cfg.transType;
@@ -47,7 +49,9 @@ public:
     virtual JUB_RV SetUnit(JUB_ENUM_BTC_UNIT_TYPE unitType);
 
     virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
-    virtual JUB_RV ActiveSelf();
+    virtual JUB_RV SetQRC20Token(IN JUB_CHAR_PTR contractAddress,IN JUB_UINT8 decimal,IN JUB_CHAR_PTR symbol);
+    virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN JUB_CHAR_PTR contractAddress, JUB_CHAR_PTR to, JUB_CHAR_PTR value, OUT OUTPUT_BTC outputs[1]);
+    virtual JUB_RV ActiveSelf() override;
 
 private:
     JUB_ENUM_COINTYPE_BTC   _coinType{ COINBTC };
