@@ -37,6 +37,9 @@ public:
     virtual JUB_RV ConnectToken();
     virtual JUB_RV DisconnectToken();
 
+    //HC functions
+    virtual JUB_RV selectApplet_HC();
+
     //BTC functions
     virtual JUB_RV SelectAppletBTC();
     virtual JUB_RV GetHDNodeBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, std::string& xpub);
@@ -54,6 +57,7 @@ public:
 
     //ETH functions
     virtual JUB_RV SelectAppletETH();
+    virtual JUB_RV GetAppletVersionETH(std::string& version);
     virtual JUB_RV GetAddressETH(std::string path, JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNodeETH(JUB_BYTE format,std::string path, std::string& pubkey);
     virtual JUB_RV SignTXETH(bool bERC20,
@@ -66,6 +70,9 @@ public:
                              std::vector<JUB_BYTE> vPath,
                              std::vector<JUB_BYTE> vChainID,
                              std::vector<JUB_BYTE>& vRaw);
+    virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
+                                    const JUB_UINT16 unitDP,
+                                    const std::string& contractAddress);
 
     //EOS functions
     virtual JUB_RV SelectAppletEOS();

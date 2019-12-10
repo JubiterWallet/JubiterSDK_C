@@ -14,6 +14,7 @@ JUB_RV ContextETH::ActiveSelf() {
     JUB_CHECK_NULL(ctoken);
 
     JUB_VERIFY_RV(token->SelectAppletETH());
+    JUB_VERIFY_RV(token->GetAppletVersionETH(_appletVersion));
     JUB_VERIFY_RV(ctoken->SetTimeout(_timeout));
 
     //ETH don`t set unit
@@ -131,6 +132,30 @@ JUB_RV ContextETH::BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::strin
     std::vector<JUB_BYTE> vValue = jub::HexStr2CharPtr(DecStringToHexString(std::string(value)));
     uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vTo, vValue);
     abi = std::string(ETH_PRDFIX) + vAbi.getHex();
+
+    return JUBR_OK;
+}
+
+JUB_RV ContextETH::SetERC20ETHToken(JUB_CHAR_PTR pTokenName,
+                                    JUB_UINT16 unitDP,
+                                    JUB_CHAR_PTR pContractAddress) {
+
+    // ETH token extension apdu
+    if (0 > _appletVersion.compare(APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+        return JUBR_OK;
+    }
+
+    JUB_CHECK_NULL(pTokenName);
+    JUB_CHECK_NULL(pContractAddress);
+
+    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    JUB_CHECK_NULL(token);
+
+    std::string tokenName = std::string(pTokenName);
+    std::string contractAddress = std::string(pContractAddress);
+    JUB_VERIFY_RV(token->SetERC20ETHToken(tokenName,
+                                          unitDP,
+                                          contractAddress));
 
     return JUBR_OK;
 }

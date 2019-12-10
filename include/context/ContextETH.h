@@ -32,6 +32,7 @@ public:
         _chainID = cfg.chainID;
         _deviceID = deviceID;
         _timeout = 120 * 2;
+        _appletVersion = "";
     };
     ~ContextETH() {};
 
@@ -50,6 +51,9 @@ public:
                                    OUT std::string& raw);
 
     virtual JUB_RV BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::string& abi);
+    virtual JUB_RV SetERC20ETHToken(JUB_CHAR_PTR pTokenName,
+                                    JUB_UINT16 unitDP,
+                                    JUB_CHAR_PTR pContractAddress);
     virtual JUB_RV ActiveSelf() override;
 
 private:

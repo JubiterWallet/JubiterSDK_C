@@ -17,12 +17,14 @@ extern "C" {
 
 typedef enum class JubETHPubFormat {
     HEX = 0x00,
-    XPUB = 0x01
+    XPUB = 0x01,
+    PUB_FORMAT_NS_ITEM
 } JUB_ENUM_ETH_PUB_FORMAT;
 
-typedef struct {
-    JUB_CHAR_PTR        mainPath;
+typedef struct stContextCfgETH : stContextCfg {
     int                 chainID;
+
+    virtual ~stContextCfgETH() {}
 } CONTEXT_CONFIG_ETH;
 
 /*****************************************************************************
@@ -118,16 +120,21 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_BuildERC20AbiETH
  * @in  param : contextID - context ID
- *            : token_to
- *            : token_value
+ *            : tokenName - ETH token name
+ *            : unitDP - unit decimal place
+ *            : contractAddress - contract address
+ *            : tokenTo - token to
+ *            : tokenValue - value for token transaction
  * @out param : abi
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
+                            IN JUB_CHAR_PTR tokenName,
+                            IN JUB_UINT16 unitDP,
+                            IN JUB_CHAR_PTR contractAddress,
                             IN JUB_CHAR_PTR tokenTo, IN JUB_CHAR_PTR tokenValue,
                             OUT JUB_CHAR_PTR_PTR abi);
-
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus

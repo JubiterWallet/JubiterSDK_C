@@ -180,12 +180,18 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_BuildERC20AbiETH
  * @in  param : contextID - context ID
- *            : tokenTo
- *            : tokenValue
+ *            : tokenName - ETH token name
+ *            : unitDP - unit decimal place
+ *            : contractAddress - contract address
+ *            : tokenTo - token to
+ *            : tokenValue - value for token transaction
  * @out param : abi
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
+                            IN JUB_CHAR_PTR tokenName,
+                            IN JUB_UINT16 unitDP,
+                            IN JUB_CHAR_PTR contractAddress,
                             IN JUB_CHAR_PTR tokenTo,
                             IN JUB_CHAR_PTR tokenValue,
                             OUT JUB_CHAR_PTR_PTR abi) {
@@ -194,6 +200,8 @@ JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
 
     auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
+
+    JUB_VERIFY_RV(context->SetERC20ETHToken(tokenName, unitDP, contractAddress));
 
     std::string strAbi;
     JUB_VERIFY_RV(context->BuildERC20Abi(tokenTo, tokenValue, strAbi));

@@ -4,6 +4,8 @@
 #include "token/interface/TokenInterface.hpp"
 #include "libBTC/libBTC.hpp"
 #include "libBCH/libBCH.hpp"
+#include "libETH/ERC20Abi.h"
+#include <TrezorCrypto/base58.h>
 
 namespace jub {
 
@@ -79,20 +81,95 @@ JUB_RV ContextBTC::ActiveSelf() {
 JUB_RV ContextBTC::BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]) {
 
     //build return0 output
-    outputs[0].type = OUTPUT_ENUM_BTC_TYPE::RETURN0;
-    outputs[0].outputReturn0.amount = 0;
-    outputs[0].outputReturn0.dataLen = 20;
+    outputs[0].type = JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0;
+    outputs[0].return0.amount = 0;
+    outputs[0].return0.dataLen = 20;
     uchar_vector usdtData("6f6d6e69000000000000001f");
     uint8_t amountBE[8] = { 0x00, };
     WriteBE64(amountBE, amount);
     usdtData.insert(usdtData.end(), amountBE, amountBE + 8);
-    memcpy(outputs[0].outputReturn0.data, &usdtData[0], 20);
+    memcpy(outputs[0].return0.data, &usdtData[0], 20);
 
     //build dust output
-    outputs[1].type = OUTPUT_ENUM_BTC_TYPE::STANDARD;
-    outputs[1].outputStandard.address = USDTTo;
-    outputs[1].outputStandard.amount = 546;
-    outputs[1].outputStandard.changeAddress = BOOL_FALSE;
+    outputs[1].type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
+    outputs[1].stdOutput.address = USDTTo;
+    outputs[1].stdOutput.amount = 546;
+    outputs[1].stdOutput.changeAddress = BOOL_FALSE;
+
+    return JUBR_OK;
+}
+
+JUB_RV ContextBTC::SetQRC20Token(IN JUB_CHAR_PTR contractAddress,IN JUB_UINT8 decimal,IN JUB_CHAR_PTR symbol){
+
+    //use ETHTokenInterface may case error later. JubiterBLD has no problem.
+    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
+    JUB_CHECK_NULL(token);
+
+    std::string tokenName = std::string(symbol);
+//    abcd::DataChunk vContractAddress;
+//    bool rv = base58::DecodeBase58Check(contractAddress, vContractAddress);
+//    if(!rv) {
+//        JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
+//    }
+//    vContractAddress.erase(vContractAddress.begin());
+//       uchar_vector address = contractAddress;
+
+    std::string _contractAddress = std::string(ETH_PRDFIX) + contractAddress;
+    JUB_VERIFY_RV(token->SetERC20ETHToken(tokenName,
+                                          decimal,
+                                          _contractAddress));
+
+    return JUBR_OK;
+}
+
+JUB_RV ContextBTC::BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN JUB_CHAR_PTR contractAddress, JUB_CHAR_PTR to, JUB_CHAR_PTR value, OUT OUTPUT_BTC outputs[1]){
+    outputs[0].type = JUB_ENUM_SCRIPT_BTC_TYPE::QRC20;
+
+    uchar_vector data;
+
+    data << (JUB_UINT8)0x01;
+    data << (JUB_UINT8)0x04;
+    data << (JUB_UINT8)0x08;
+    data << (uint64_t)gasLimit;
+    data << (JUB_UINT8)0x08;
+    data << (uint64_t)gasPrice;
+
+//    abcd::DataChunk vContractAddress;
+//    bool rv = base58::DecodeBase58Check(contractAddress, vContractAddress);
+//    if(!rv) {
+//        JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
+//    }
+//    vContractAddress.erase(vContractAddress.begin());
+
+    uchar_vector vContractAddress = std::string(contractAddress);
+
+    abcd::DataChunk vToAddress;
+    bool rv = false;
+    int toAddressLen = (int)strlen(to);
+    uint8_t* toAddress = new uint8_t[toAddressLen];
+    memset(toAddress, 0x00, toAddressLen);
+    toAddressLen = base58_decode_check(to, HasherType::HASHER_SHA2D, toAddress, toAddressLen);
+    if (toAddressLen > 0) {
+        uchar_vector v(toAddress, toAddressLen);
+        vToAddress = v;
+        rv = true;
+    }
+    delete[] toAddress; toAddress = NULL;
+    if(!rv) {
+        JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
+    }
+    vToAddress.erase(vToAddress.begin());
+
+    std::vector<JUB_BYTE> vValue = jub::HexStr2CharPtr(DecStringToHexString(std::string(value)));
+    uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vToAddress, vValue);
+
+    data && vAbi;
+    data && vContractAddress;
+    data << (JUB_UINT8)0xc2;
+
+    //build qrc20 here
+    outputs[0].qrc20.dataLen = data.size();
+    memcpy(outputs[0].qrc20.data,&data[0],data.size());
 
     return JUBR_OK;
 }
@@ -117,15 +194,15 @@ JUB_RV ContextBTC::SignTX(std::vector<INPUT_BTC> vInputs, std::vector<OUTPUT_BTC
     std::vector<JUB_UINT16> vChangeIndex;
     std::vector<std::string> vChangePath;
     for (std::size_t i = 0, e = vOutputs.size(); i != e; ++i) {
-        if (OUTPUT_ENUM_BTC_TYPE::STANDARD == vOutputs[i].type) {
-            if (vOutputs[i].outputStandard.changeAddress) {
+        if (JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH == vOutputs[i].type) {
+            if (vOutputs[i].stdOutput.changeAddress) {
                 vChangeIndex.push_back((JUB_UINT16)i);
-                vChangePath.push_back(_FullBip44Path(vOutputs[i].outputStandard.path));
+                vChangePath.push_back(_FullBip44Path(vOutputs[i].stdOutput.path));
             }
         }
     }
 
-    //build unsinged transaction
+    //build unsigned transaction
     uchar_vector unsignedTrans;
     JUB_RV ret = JUBR_OK;
 
@@ -133,17 +210,15 @@ JUB_RV ContextBTC::SignTX(std::vector<INPUT_BTC> vInputs, std::vector<OUTPUT_BTC
         || COINLTC  == _coinType
         || COINUSDT == _coinType
         ) { //BTC&LTC
-        ret = jub::btc::serializeUnsignedTX(_transType, vInputs, vOutputs, lockTime, unsignedTrans);
+        ret = jub::btc::serializeUnsignedTx(_transType, vInputs, vOutputs, lockTime, unsignedTrans);
     }
     else if (COINBCH == _coinType) { //BCH
-        ret = jub::bch::serializeUnsignedTX(_transType, vInputs, vOutputs, lockTime, unsignedTrans);
+        ret = jub::bch::serializeUnsignedTx(_transType, vInputs, vOutputs, lockTime, unsignedTrans);
     }
     else {
-        return JUBR_IMPL_NOT_SUPPORT;
+        ret = JUBR_IMPL_NOT_SUPPORT;
     }
-    if (JUBR_OK != ret) {
-        return ret;
-    }
+    JUB_VERIFY_RV(ret);
 
     uchar_vector vRaw;
     JUB_VERIFY_RV(token->SignTXBTC(_transType,

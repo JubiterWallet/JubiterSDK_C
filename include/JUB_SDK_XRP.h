@@ -17,7 +17,8 @@ extern "C" {
 
 typedef enum class JubXRPPubFormat {
     HEX = 0x00,
-    XRP = 0x01
+    XRP = 0x01,
+    NS_ITEM_PUB_FORMAT
 } JUB_ENUM_XRP_PUB_FORMAT;
 
 typedef struct {

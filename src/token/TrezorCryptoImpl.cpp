@@ -36,6 +36,10 @@ JUB_RV TrezorCryptoImpl::DisconnectToken() {
     return JUBR_OK;
 }
 
+JUB_RV TrezorCryptoImpl::selectApplet_HC() {
+    return JUBR_OK;
+}
+
 JUB_RV TrezorCryptoImpl::SelectAppletBTC() {
     return JUBR_OK;
 }
@@ -94,6 +98,10 @@ JUB_RV TrezorCryptoImpl::SignTXBTC(JUB_ENUM_BTC_TRANS_TYPE type,
 }
 
 JUB_RV TrezorCryptoImpl::SelectAppletETH() {
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoImpl::GetAppletVersionETH(std::string& version) {
     return JUBR_OK;
 }
 
@@ -191,6 +199,12 @@ JUB_RV TrezorCryptoImpl::SignTXETH(bool bERC20,
     abcd::append(vRaw, jub::eth::RLP::encode(s));
     vRaw = jub::eth::RLP::encodeList(vRaw);
 
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoImpl::SetERC20ETHToken(const std::string& tokenName,
+                                          const JUB_UINT16 unitDP,
+                                          const std::string& contractAddress) {
     return JUBR_OK;
 }
 

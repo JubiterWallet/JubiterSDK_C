@@ -17,7 +17,8 @@ extern "C" {
 
 typedef enum class JubEOSPubFormat {
     HEX = 0x00,
-    EOS = 0x01
+    EOS = 0x01,
+    NS_ITEM_PUB_FORMAT
 } JUB_ENUM_EOS_PUB_FORMAT;
 
 typedef struct {

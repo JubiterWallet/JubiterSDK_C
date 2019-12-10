@@ -16,17 +16,20 @@ extern "C" {
 #endif // #ifdef __cplusplus
 
 typedef enum {
-    COINBTC,
-    COINBCH,
-    COINLTC,
-    COINUSDT,
-    Default = COINBTC
+    COINBTC  = 0x00,
+    COINBCH  = 0x01,
+    COINLTC  = 0x02,
+    COINUSDT = 0x03,
+    COINDASH = 0x04,
+    COINQTUM = 0x05,
+    Default  = COINBTC
 } JUB_ENUM_COINTYPE_BTC;
 
 typedef enum {
     p2pkh = 0,
     //p2pwpkh,
-    p2sh_p2wpkh
+    p2sh_p2wpkh,
+    trans_type_ns_item
 /*
      p2sh_multisig,
      p2wsh_multisig,
@@ -39,47 +42,82 @@ typedef enum {
     cBTC,
     mBTC,
     uBTC,
-    Satoshi
+    Satoshi,
+    ns
 } JUB_ENUM_BTC_UNIT_TYPE;
 
-typedef struct {
-    JUB_ENUM_COINTYPE_BTC   coinType;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
-
-    JUB_CHAR_PTR            mainPath;
+typedef struct stContextCfgBTC : stContextCfg {
+    JUB_ENUM_COINTYPE_BTC    coinType;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE transType;
+
+    stContextCfgBTC() = default;
+    stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
+                    JUB_CHAR_PTR _mainPath,
+                    JUB_ENUM_BTC_TRANS_TYPE _transType) {
+         mainPath = _mainPath;
+         coinType =  _coinType;
+        transType = _transType;
+    }
+
+    virtual ~stContextCfgBTC() {}
 } CONTEXT_CONFIG_BTC;
 
-typedef struct {
+typedef enum {
+    P2PKH   = 0x00,
+    RETURN0 = 0x01,
+//    P2SH_MULTISIG = 0x02,
+    QRC20 = 0x03,
+} JUB_ENUM_SCRIPT_BTC_TYPE;
+
+typedef struct stInput {
+    JUB_ENUM_SCRIPT_BTC_TYPE type;
     JUB_CHAR_PTR    preHash;
     JUB_UINT16      preIndex;
+    JUB_UINT32      nSequence;
     JUB_UINT64      amount;
     BIP44_Path      path;
+
+     stInput();
+    ~stInput() = default;
 } INPUT_BTC;
 
-typedef enum {
-    STANDARD = 0x00,
-    RETURN0 = 0x01
-} OUTPUT_ENUM_BTC_TYPE;
-
-typedef struct {
+typedef struct stOutput {
     JUB_CHAR_PTR    address;
     JUB_UINT64      amount;
     JUB_ENUM_BOOL   changeAddress;
     BIP44_Path      path;
-} OUTPUT_STANDARD;
 
-typedef struct {
+     stOutput();
+    ~stOutput() = default;
+} OUTPUT;
+
+typedef struct stOutputReturn0 {
     JUB_UINT64      amount;
     JUB_UINT16      dataLen;
     JUB_BYTE        data[40];
+
+     stOutputReturn0();
+    ~stOutputReturn0() = default;
 } OUTPUT_RETURN0;
 
-typedef struct {
-    OUTPUT_ENUM_BTC_TYPE type;
+typedef struct stOutputQRC20 {
+    JUB_UINT16      dataLen;
+    JUB_BYTE        data[200];
+
+     stOutputQRC20();
+    ~stOutputQRC20() = default;
+} OUTPUT_QRC20;
+
+typedef struct stOutputBTC {
+    JUB_ENUM_SCRIPT_BTC_TYPE type;
     union {
-        OUTPUT_STANDARD     outputStandard;
-        OUTPUT_RETURN0      outputReturn0;
+        OUTPUT stdOutput;
+        OUTPUT_RETURN0 return0;
+        OUTPUT_QRC20 qrc20;
     };
+
+     stOutputBTC();
+    ~stOutputBTC() = default;
 } OUTPUT_BTC;
 
 /*****************************************************************************
@@ -184,6 +222,27 @@ JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
                             IN JUB_CHAR_PTR USDTTo,
                             IN JUB_UINT64 amount,
                             OUT OUTPUT_BTC outputs[2]);
+
+
+/*****************************************************************************
+ * @function name : BuildQRC20Outputs
+ * @in  param : contextID - context ID
+ *            : contractAddress - contract address for QRC20 token
+ *            : decimal         - decimal for QRC20 token
+ *            : symbol          - symbol for QRC20 token
+ *            : gasLimit - gas limit
+ *            : gasPrice - gas price
+ *            : to    - to address for transfer
+ *            : value - amount for transfer
+ * @out param : outputs
+ * @last change : build the QRC20 outputs
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
+                             IN JUB_CHAR_PTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_PTR symbol,
+                             IN JUB_UINT64 gasLimit, IN JUB_UINT64 gasPrice,
+                             IN JUB_CHAR_PTR to, IN JUB_CHAR_PTR value,
+                             OUT OUTPUT_BTC outputs[1]);
 
 #ifdef __cplusplus
 }
