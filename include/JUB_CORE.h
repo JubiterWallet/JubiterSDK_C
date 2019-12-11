@@ -18,6 +18,10 @@
 
 #include "JUB_SDK.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif // #ifdef __cplusplus
+
 typedef enum {
     STRENGTH128 = 128,
     STRENGTH192 = 192,
@@ -65,4 +69,7 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
                                  IN JUB_CHAR_PTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID);
+#ifdef __cplusplus
+}
+#endif // #ifdef __cplusplus
 #endif /* JUB_CORE_H */

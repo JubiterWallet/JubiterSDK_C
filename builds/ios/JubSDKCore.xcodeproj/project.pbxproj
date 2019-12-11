@@ -28,7 +28,6 @@
 		672C95F822DF25930073AB0D /* JubSDKCore+DEV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95F522DF25930073AB0D /* JubSDKCore+DEV.mm */; };
 		674E810122C0A2B3009332EB /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 674E80B422BE2EE6009332EB /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		674E810322C0A2BB009332EB /* JubSDKCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 674E80B522BE2EE6009332EB /* JubSDKCore.mm */; };
-		67E6A69E22C33B75009FA2CE /* JubSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E6A69D22C33B75009FA2CE /* JubSDK.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,8 +53,8 @@
 		674E80B422BE2EE6009332EB /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
 		674E80B522BE2EE6009332EB /* JubSDKCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JubSDKCore.mm; path = ../../JubSDKCore/JubSDKCore.mm; sourceTree = "<group>"; };
 		674E80F922C0A25D009332EB /* JubSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JubSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		674E810B22C0A3AB009332EB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../JubSDK/Info.plist; sourceTree = "<group>"; };
-		67E6A69D22C33B75009FA2CE /* JubSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDK.h; path = ../../JubSDK/JubSDK.h; sourceTree = "<group>"; };
+		675B655623A1DB610067FEBA /* JubSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JubSDK.h; path = JubSDKCore.xcodeproj/../../../JubSDKCore/JubSDK/JubSDK.h; sourceTree = "<group>"; };
+		675B655723A1DB610067FEBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = JubSDKCore.xcodeproj/../../../JubSDKCore/JubSDK/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,8 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				6713A7C3239FD51C0083A34D /* uchar_vector.h */,
-				67E6A69D22C33B75009FA2CE /* JubSDK.h */,
-				674E810B22C0A3AB009332EB /* Info.plist */,
+				675B655723A1DB610067FEBA /* Info.plist */,
+				675B655623A1DB610067FEBA /* JubSDK.h */,
 			);
 			name = JubSDK;
 			sourceTree = "<group>";
@@ -150,7 +149,6 @@
 				6713A7C0239FD4D90083A34D /* JubSDKCore+COIN_EOS.h in Headers */,
 				6713A7C4239FD51D0083A34D /* uchar_vector.h in Headers */,
 				672C95EC22DF223E0073AB0D /* JubSDKCore+DEV_HID.h in Headers */,
-				67E6A69E22C33B75009FA2CE /* JubSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +370,7 @@
 					../../deps,
 					../../deps/libbitcoin,
 				);
-				INFOPLIST_FILE = ../../JubSDK/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../../JubSDKCore/JubSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -410,7 +408,7 @@
 					../../deps,
 					../../deps/libbitcoin,
 				);
-				INFOPLIST_FILE = ../../JubSDK/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../../JubSDKCore/JubSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

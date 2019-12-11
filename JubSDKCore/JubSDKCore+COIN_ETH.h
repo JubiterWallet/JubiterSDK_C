@@ -30,6 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JubSDKCore (COIN_ETH)
 
+//JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
+//                                 IN JUB_CHAR_PTR masterPriInXPRV,
+//                                 OUT JUB_UINT16* contextID);
+- (NSUInteger)JUB_CreateContextETH_soft:(ContextConfigETH*)cfg
+                        masterPriInXPRV:(NSString*)masterPriInXPRV;
+
 //JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
 //                            IN JUB_UINT16 deviceID,
 //                            OUT JUB_UINT16* contextID);

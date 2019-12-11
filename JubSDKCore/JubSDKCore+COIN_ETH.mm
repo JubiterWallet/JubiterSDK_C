@@ -8,6 +8,7 @@
 
 #import "JubSDKCore+COIN_ETH.h"
 #import "JUB_SDK_ETH.h"
+#import "JUB_core.h"
 
 //typedef struct {
 //    JUB_CHAR_PTR        main_path;
@@ -19,6 +20,29 @@
 @end
 
 @implementation JubSDKCore (COIN_ETH)
+
+//JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
+//                                 IN JUB_CHAR_PTR masterPriInXPRV,
+//                                 OUT JUB_UINT16* contextID);
+- (NSUInteger)JUB_CreateContextETH_soft:(ContextConfigETH*)cfg
+                        masterPriInXPRV:(NSString*)masterPriInXPRV
+{
+    self.lastError = JUBR_OK;
+    
+    CONTEXT_CONFIG_ETH cfgETH;
+    cfgETH.mainPath = (JUB_CHAR_PTR)[cfg.mainPath UTF8String];
+    cfgETH.chainID = (int)cfg.chainID;
+    JUB_UINT16 contextID = 0;
+    JUB_RV rv = JUB_CreateContextETH_soft(cfgETH,
+                                          (JUB_CHAR_PTR)[masterPriInXPRV UTF8String],
+                                          &contextID);
+    if (JUBR_OK != rv) {
+        self.lastError = rv;
+        return contextID;
+    }
+    
+    return contextID;
+}
 
 //JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
 //                            IN JUB_UINT16 deviceID,

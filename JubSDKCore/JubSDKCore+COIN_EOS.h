@@ -105,6 +105,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JubSDKCore (COIN_EOS)
 
+//JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
+//                                 IN JUB_CHAR_PTR masterPriInXPRV,
+//                                 OUT JUB_UINT16* contextID);
+- (NSUInteger)JUB_CreateContextEOS_soft:(ContextConfigEOS*)cfg
+                        masterPriInXPRV:(NSString*)masterPriInXPRV;
+
 //JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
 //                            IN JUB_UINT16 deviceID,
 //                            OUT JUB_UINT16* contextID);
