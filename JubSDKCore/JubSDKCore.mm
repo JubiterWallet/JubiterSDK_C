@@ -12,11 +12,77 @@
 //typedef struct {
 //    JUB_ENUM_BOOL change;
 //    JUB_UINT64    addressIndex;
-//} BIP32_Path;
-@implementation BIP32Path
+//} BIP44_Path;
+@implementation BIP44Path
 @synthesize change;
 @synthesize addressIndex;
 @end
+
+//typedef struct stContextCfg {
+//    JUB_CHAR_PTR            main_path;
+//} CONTEXT_CONFIG;
+@implementation ContextConfig
+@synthesize mainPath;
+@end
+
+bool (^inlinebool)(JUB_NS_ENUM_BOOL) = ^(JUB_NS_ENUM_BOOL argument) {
+    bool b;
+    switch (argument) {
+        case BOOL_NS_FALSE:
+            b = false;
+            break;
+        case BOOL_NS_TRUE:
+            b = true;
+            break;
+        case BOOL_NS_NR_ITEMS:
+            b = false;
+            break;
+    }
+    return b;
+};
+
+JUB_NS_ENUM_BOOL (^inlineNSbool)(bool) = ^(bool argument) {
+    JUB_NS_ENUM_BOOL b;
+    if (argument) {
+        b = BOOL_NS_TRUE;
+    }
+    else {
+        b = BOOL_NS_FALSE;
+    }
+    return b;
+};
+
+JUB_ENUM_BOOL (^inlineBool)(JUB_NS_ENUM_BOOL) = ^(JUB_NS_ENUM_BOOL argument) {
+    JUB_ENUM_BOOL b;
+    switch (argument) {
+        case BOOL_NS_FALSE:
+            b = BOOL_FALSE;
+            break;
+        case BOOL_NS_TRUE:
+            b = BOOL_TRUE;
+            break;
+        case BOOL_NS_NR_ITEMS:
+            b = BOOL_NR_ITEMS;
+            break;
+    }
+    return b;
+};
+
+JUB_NS_ENUM_BOOL (^inlineNSBool)(JUB_ENUM_BOOL) = ^(JUB_ENUM_BOOL argument) {
+    JUB_NS_ENUM_BOOL b;
+    switch (argument) {
+        case BOOL_FALSE:
+            b = BOOL_NS_FALSE;
+            break;
+        case BOOL_TRUE:
+            b = BOOL_NS_TRUE;
+            break;
+        case BOOL_NR_ITEMS:
+            b = BOOL_NS_NR_ITEMS;
+            break;
+    }
+    return b;
+};
 
 @implementation JubSDKCore
 - (NSUInteger)JUB_LastError

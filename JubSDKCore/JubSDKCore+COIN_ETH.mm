@@ -44,28 +44,28 @@
 }
 
 //JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
-//                         IN BIP32_Path path,
+//                         IN BIP44_Path path,
 //                         IN JUB_ENUM_BOOL bShow,
 //                         OUT JUB_CHAR_PTR_PTR address);
 - (NSString*)JUB_GetAddressETH:(NSUInteger)contextID
-                          path:(BIP32Path*)path
+                          path:(BIP44Path*)path
                          bShow:(JUB_NS_ENUM_BOOL)bShow
 {
     self.lastError = JUBR_OK;
     
-    BIP32_Path bip32Path;
+    BIP44_Path bip44Path;
     switch (path.change) {
         case BOOL_NS_FALSE:
-            bip32Path.change = BOOL_FALSE;
+            bip44Path.change = BOOL_FALSE;
             break;
         case BOOL_NS_TRUE:
-            bip32Path.change = BOOL_TRUE;
+            bip44Path.change = BOOL_TRUE;
             break;
         case BOOL_NS_NR_ITEMS:
-            bip32Path.change = BOOL_NR_ITEMS;
+            bip44Path.change = BOOL_NR_ITEMS;
             break;
     }
-    bip32Path.addressIndex = path.addressIndex;
+    bip44Path.addressIndex = path.addressIndex;
     JUB_ENUM_BOOL isShow;
     switch (bShow) {
         case BOOL_NS_FALSE:
@@ -80,7 +80,7 @@
     }
     JUB_CHAR_PTR address;
     JUB_RV rv = JUB_GetAddressETH(contextID,
-                                  bip32Path,
+                                  bip44Path,
                                   isShow,
                                   &address);
     if (JUBR_OK != rv) {
@@ -97,43 +97,43 @@
 
 //JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
 //                        IN JUB_ETH_PUB_FORMAT format,
-//                        IN BIP32_Path path,
+//                        IN BIP44_Path path,
 //                        OUT JUB_CHAR_PTR_PTR pubkey);
 - (NSString*)JUB_GetHDNodeETH:(NSUInteger)contextID
                        format:(JUB_NS_ETH_PUB_FORMAT)format
-                         path:(BIP32Path*)path
+                         path:(BIP44Path*)path
 {
     self.lastError = JUBR_OK;
     
-    JUB_ETH_PUB_FORMAT fmt;
+    JUB_ENUM_ETH_PUB_FORMAT fmt;
     switch (format) {
         case NS_HEX:
-            fmt = HEX;
+            fmt = JUB_ENUM_ETH_PUB_FORMAT::HEX;
             break;
         case NS_XPUB:
-            fmt = XPUB;
+            fmt = JUB_ENUM_ETH_PUB_FORMAT::XPUB;
             break;
         default:
             self.lastError = JUBR_ARGUMENTS_BAD;
             return @"";
     }
-    BIP32_Path bip32Path;
+    BIP44_Path bip44Path;
     switch (path.change) {
         case BOOL_NS_FALSE:
-            bip32Path.change = BOOL_FALSE;
+            bip44Path.change = BOOL_FALSE;
             break;
         case BOOL_NS_TRUE:
-            bip32Path.change = BOOL_TRUE;
+            bip44Path.change = BOOL_TRUE;
             break;
         case BOOL_NS_NR_ITEMS:
-            bip32Path.change = BOOL_NR_ITEMS;
+            bip44Path.change = BOOL_NR_ITEMS;
             break;
     }
-    bip32Path.addressIndex = path.addressIndex;
+    bip44Path.addressIndex = path.addressIndex;
     JUB_CHAR_PTR pubkey = nullptr;
     JUB_RV rv = JUB_GetHDNodeETH(contextID,
                                  fmt,
-                                 bip32Path,
+                                 bip44Path,
                                  &pubkey);
     if (JUBR_OK != rv) {
         self.lastError = rv;
@@ -155,13 +155,13 @@
 {
     self.lastError = JUBR_OK;
     
-    JUB_ETH_PUB_FORMAT fmt;
+    JUB_ENUM_ETH_PUB_FORMAT fmt;
     switch (format) {
         case NS_HEX:
-            fmt = HEX;
+            fmt = JUB_ENUM_ETH_PUB_FORMAT::HEX;
             break;
         case NS_XPUB:
-            fmt = XPUB;
+            fmt = JUB_ENUM_ETH_PUB_FORMAT::XPUB;
             break;
         default:
             self.lastError = JUBR_ARGUMENTS_BAD;
@@ -184,29 +184,29 @@
 }
 
 //JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
-//                           IN BIP32_Path path,
+//                           IN BIP44_Path path,
 //                           OUT JUB_CHAR_PTR_PTR address);
 - (NSString*)JUB_SetMyAddressETH:(NSUInteger)contextID
-                            path:(BIP32Path*)path
+                            path:(BIP44Path*)path
 {
     self.lastError = JUBR_OK;
     
-    BIP32_Path bip32Path;
+    BIP44_Path bip44Path;
     switch (path.change) {
         case BOOL_NS_FALSE:
-            bip32Path.change = BOOL_FALSE;
+            bip44Path.change = BOOL_FALSE;
             break;
         case BOOL_NS_TRUE:
-            bip32Path.change = BOOL_TRUE;
+            bip44Path.change = BOOL_TRUE;
             break;
         case BOOL_NS_NR_ITEMS:
-            bip32Path.change = BOOL_NR_ITEMS;
+            bip44Path.change = BOOL_NR_ITEMS;
             break;
     }
-    bip32Path.addressIndex = path.addressIndex;
+    bip44Path.addressIndex = path.addressIndex;
     JUB_CHAR_PTR address;
     JUB_RV rv = JUB_SetMyAddressETH(contextID,
-                                    bip32Path,
+                                    bip44Path,
                                     &address);
     if (JUBR_OK != rv) {
         self.lastError = rv;
@@ -221,7 +221,7 @@
 }
 
 //JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
-//                              IN BIP32_Path path,
+//                              IN BIP44_Path path,
 //                              IN JUB_UINT32 nonce,
 //                              IN JUB_UINT32 gasLimit,
 //                              IN JUB_CHAR_PTR gasPriceInWei,
@@ -230,7 +230,7 @@
 //                              IN JUB_CHAR_PTR input,
 //                              OUT JUB_CHAR_PTR_PTR raw);
 - (NSString*)JUB_SignTransactionETH:(NSUInteger)contextID
-                               path:(BIP32Path*)path
+                               path:(BIP44Path*)path
                               nonce:(NSUInteger)nonce
                            gasLimit:(NSUInteger)gasLimit
                       gasPriceInWei:(NSString*)gasPriceInWei
@@ -240,22 +240,22 @@
 {
     self.lastError = JUBR_OK;
     
-    BIP32_Path bip32Path;
+    BIP44_Path bip44Path;
     switch (path.change) {
         case BOOL_NS_FALSE:
-            bip32Path.change = BOOL_FALSE;
+            bip44Path.change = BOOL_FALSE;
             break;
         case BOOL_NS_TRUE:
-            bip32Path.change = BOOL_TRUE;
+            bip44Path.change = BOOL_TRUE;
             break;
         case BOOL_NS_NR_ITEMS:
-            bip32Path.change = BOOL_NR_ITEMS;
+            bip44Path.change = BOOL_NR_ITEMS;
             break;
     }
-    bip32Path.addressIndex = path.addressIndex;
+    bip44Path.addressIndex = path.addressIndex;
     JUB_CHAR_PTR raw = nullptr;
     JUB_RV rv = JUB_SignTransactionETH(contextID,
-                                       bip32Path,
+                                       bip44Path,
                                        (JUB_UINT32)nonce,
                                        (JUB_UINT32)gasLimit,
                                        (JUB_CHAR_PTR)[gasPriceInWei UTF8String],
@@ -276,9 +276,15 @@
 }
 
 //JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
-//                            IN JUB_CHAR_PTR token_to, IN JUB_CHAR_PTR token_value,
+//                            IN JUB_CHAR_PTR tokenName,
+//                            IN JUB_UINT16 unitDP,
+//                            IN JUB_CHAR_PTR contractAddress,
+//                            IN JUB_CHAR_PTR tokenTo, IN JUB_CHAR_PTR tokenValue,
 //                            OUT JUB_CHAR_PTR_PTR abi);
 - (NSString*)JUB_BuildERC20AbiETH:(NSUInteger)contextID
+                        tokenName:(NSString*)tokenName
+                           unitDP:(NSUInteger)unitDP
+                  contractAddress:(NSString*)contractAddress
                           tokenTo:(NSString*)tokenTo
                        tokenValue:(NSString*)tokenValue
 {
@@ -286,6 +292,9 @@
     
     JUB_CHAR_PTR abi = nullptr;
     JUB_RV rv = JUB_BuildERC20AbiETH(contextID,
+                                     (JUB_CHAR_PTR)[tokenName UTF8String],
+                                     unitDP,
+                                     (JUB_CHAR_PTR)[contractAddress UTF8String],
                                      (JUB_CHAR_PTR)[tokenTo UTF8String],
                                      (JUB_CHAR_PTR)[tokenValue UTF8String],
                                      &abi);

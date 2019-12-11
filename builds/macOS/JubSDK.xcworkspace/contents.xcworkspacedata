@@ -5,6 +5,9 @@
       location = "group:JubSDK.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:JubSDKCore.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:JubSDKTest.xcodeproj">
    </FileRef>
 </Workspace>
