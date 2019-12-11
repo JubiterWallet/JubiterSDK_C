@@ -31,6 +31,30 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_BOOL) {
     BOOL_NS_NR_ITEMS
 };
 
+//typedef enum {
+//    STRENGTH128 = 128,
+//    STRENGTH192 = 192,
+//    STRENGTH256 = 256
+//} JUB_ENUM_MNEMONIC_STRENGTH;
+typedef NS_ENUM(NSInteger, JUB_NS_ENUM_MNEMONIC_STRENGTH) {
+    JUB_NS_ENUM_MNEMONIC_STRENGTH128 = 128,
+    JUB_NS_ENUM_MNEMONIC_STRENGTH192 = 192,
+    JUB_NS_ENUM_MNEMONIC_STRENGTH256 = 256,
+    JUB_NS_ENUM_MNEMONIC_STRENGTH_NR_ITEMS
+};
+
+//typedef enum {
+//    secp256k1 = 0,
+//    ed25519,
+//    nist256p1
+//} JUB_ENUM_CURVES;
+typedef NS_ENUM(NSInteger, JUB_NS_ENUM_CURVES) {
+    JUB_NS_ENUM_SECP256K1 = 0,
+    JUB_NS_ENUM_ED25519,
+    JUB_NS_ENUM_NIST256P1,
+    JUB_NS_ENUM_NR_ITEMS
+};
+
 //typedef struct {
 //    JUB_ENUM_BOOL change;
 //    JUB_UINT64    addressIndex;
@@ -46,6 +70,8 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_BOOL) {
 @interface ContextConfig : NSObject
 @property (atomic, copy  ) NSString* mainPath;
 @end
+
+typedef void (*ProgressCallback)(unsigned int current, unsigned int total);
 
 @interface JubSDKCore : NSObject
 @property (atomic, assign) NSUInteger lastError;
@@ -69,5 +95,26 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_BOOL) {
 
 //JUB_CHAR_PTR JUB_GetVersion(void);
 - (NSString*)JUB_GetVersion;
+
+//JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
+//                            OUT JUB_CHAR_PTR_PTR mnemonic);
+- (NSString*)JUB_GenerateMnemonic:(JUB_NS_ENUM_MNEMONIC_STRENGTH)strength;
+
+//JUB_RV JUB_CheckMnemonic(IN JUB_CHAR_CPTR mnemonic);
+- (void)JUB_CheckMnemonic:(NSString*)mnemonic;
+
+//JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase,
+//                        OUT JUB_BYTE seed[64],
+//                        void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total));
+- (NSString*)JUB_GenerateSeed:(NSString*)mnemonic
+                   passphrase:(NSString*)passphrase
+                     callback:(ProgressCallback)callback;
+
+//JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_PTR seed, IN JUB_UINT16 seed_len,
+//                                  IN JUB_ENUM_CURVES curve,
+//                                  OUT JUB_CHAR_PTR_PTR prikeyInXPRV);
+- (NSString*)JUB_SeedToMasterPrivateKey:(NSString*)seed
+                                seedLen:(NSInteger)seedLen
+                                  curve:(JUB_NS_ENUM_CURVES)curve;
 
 @end

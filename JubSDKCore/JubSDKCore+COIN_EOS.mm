@@ -8,6 +8,7 @@
 
 #import "JubSDKCore+COIN_EOS.h"
 #import "JUB_SDK_EOS.h"
+#import "JUB_core.h"
 
 //typedef struct {
 //    JUB_CHAR_PTR        main_path;
@@ -374,6 +375,28 @@ ActionEOS* (^inlineNSActionEOS)(JUB_ACTION_EOS) = ^(JUB_ACTION_EOS actionEOS) {
 extern JUB_ENUM_BOOL (^inlineBool)(JUB_NS_ENUM_BOOL);
 
 @implementation JubSDKCore (COIN_EOS)
+
+//JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
+//                                 IN JUB_CHAR_PTR masterPriInXPRV,
+//                                 OUT JUB_UINT16* contextID);
+- (NSUInteger)JUB_CreateContextEOS_soft:(ContextConfigEOS*)cfg
+                        masterPriInXPRV:(NSString*)masterPriInXPRV
+{
+    self.lastError = JUBR_OK;
+    
+    CONTEXT_CONFIG_EOS cfgEOS;
+    cfgEOS.mainPath = (JUB_CHAR_PTR)[cfg.mainPath UTF8String];
+    JUB_UINT16 contextID = 0;
+    JUB_RV rv = JUB_CreateContextEOS_soft(cfgEOS,
+                                          (JUB_CHAR_PTR)[masterPriInXPRV UTF8String],
+                                          &contextID);
+    if (JUBR_OK != rv) {
+        self.lastError = rv;
+        return contextID;
+    }
+    
+    return contextID;
+}
 
 //JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
 //                            IN JUB_UINT16 deviceID,

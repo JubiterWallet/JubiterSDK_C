@@ -8,6 +8,7 @@
 
 #import "JubSDKCore+COIN_BTC.h"
 #import "JUB_SDK_BTC.h"
+#import "JUB_core.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 
 //typedef struct stInput {
@@ -386,6 +387,54 @@ OutputBTC* (^inlineNSTransOutputBTC)(OUTPUT_BTC) = ^(OUTPUT_BTC outputBTC) {
 };
 
 @implementation JubSDKCore (COIN_BTC)
+
+//JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
+//                                 IN JUB_CHAR_PTR masterPriInXPRV,
+//                                 OUT JUB_UINT16* contextID);
+- (NSUInteger)JUB_CreateContextBTC_soft:(ContextConfigBTC*)cfg
+                        masterPriInXPRV:(NSString*)masterPriInXPRV
+{
+    self.lastError = JUBR_OK;
+    
+    JUB_ENUM_COINTYPE_BTC coinType = inlineCoinType(cfg.coinType);
+    JUB_ENUM_BTC_TRANS_TYPE transType = inlineTransType(cfg.transType);
+    if (trans_type_ns_item == transType) {
+        self.lastError = JUBR_ARGUMENTS_BAD;
+        return 0;
+    }
+    
+    JUB_CHAR_PTR mainPath = (JUB_CHAR_PTR)[cfg.mainPath UTF8String];
+    if (!mainPath) {
+        self.lastError = JUBR_ARGUMENTS_BAD;
+        return 0;
+    }
+    
+    JUB_RV rv = JUBR_ERROR;
+    JUB_UINT16 contextID = 0;
+    switch (transType) {
+        case p2pkh:
+        case p2sh_p2wpkh:
+        {
+            CONTEXT_CONFIG_BTC ctxCfg;
+            ctxCfg.coinType = coinType;
+            ctxCfg.transType = transType;
+            ctxCfg.mainPath = mainPath;
+            rv = JUB_CreateContextBTC_soft(ctxCfg,
+                                           (JUB_CHAR_PTR)[masterPriInXPRV UTF8String],
+                                           &contextID);
+            break;
+        }
+        default:
+            rv = JUBR_ARGUMENTS_BAD;
+            break;
+    }
+    if (JUBR_OK != rv) {
+        self.lastError = rv;
+        return contextID;
+    }
+    
+    return contextID;
+}
 
 //JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
 //                            IN JUB_UINT16 deviceID,

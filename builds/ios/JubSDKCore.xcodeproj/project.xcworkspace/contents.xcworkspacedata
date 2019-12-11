@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:JubSDKCore.xcodeproj">
+      location = "group:../../../JubSDKCore/JubSDK/Info.plist">
+   </FileRef>
+   <FileRef
+      location = "group:../../../JubSDKCore/JubSDK/JubSDK.h">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

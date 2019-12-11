@@ -174,6 +174,12 @@ typedef NS_ENUM(NSInteger, JUB_NS_BTC_UNIT_TYPE) {
 
 @interface JubSDKCore (COIN_BTC)
 
+//JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
+//                                 IN JUB_CHAR_PTR masterPriInXPRV,
+//                                 OUT JUB_UINT16* contextID);
+- (NSUInteger)JUB_CreateContextBTC_soft:(ContextConfigBTC*)cfg
+                        masterPriInXPRV:(NSString*)masterPriInXPRV;
+
 //JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
 //                            IN JUB_UINT16 deviceID,
 //                            OUT JUB_UINT16* contextID);

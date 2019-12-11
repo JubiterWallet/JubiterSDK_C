@@ -8,6 +8,7 @@
 
 #import "JubSDKCore+COIN_XRP.h"
 #import "JUB_SDK_XRP.h"
+#import "JUB_core.h"
 
 //typedef struct {
 //    JUB_CHAR_PTR        mainPath;
@@ -328,6 +329,28 @@ TxXRP* (^inlineNSTxXRP)(JUB_TX_XRP) = ^(JUB_TX_XRP xrpTx) {
 extern JUB_ENUM_BOOL (^inlineBool)(JUB_NS_ENUM_BOOL);
 
 @implementation JubSDKCore (COIN_XRP)
+
+//JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
+//                                 IN JUB_CHAR_PTR masterPriInXPRV,
+//                                 OUT JUB_UINT16* contextID);
+- (NSUInteger)JUB_CreateContextXRP_soft:(ContextConfigXRP*)cfg
+                        masterPriInXPRV:(NSString*)masterPriInXPRV
+{
+    self.lastError = JUBR_OK;
+    
+    CONTEXT_CONFIG_XRP cfgXRP;
+    cfgXRP.mainPath = (JUB_CHAR_PTR)[cfg.mainPath UTF8String];
+    JUB_UINT16 contextID = 0;
+    JUB_RV rv = JUB_CreateContextXRP_soft(cfgXRP,
+                                          (JUB_CHAR_PTR)[masterPriInXPRV UTF8String],
+                                          &contextID);
+    if (JUBR_OK != rv) {
+        self.lastError = rv;
+        return contextID;
+    }
+    
+    return contextID;
+}
 
 //JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
 //                            IN JUB_UINT16 deviceID,
