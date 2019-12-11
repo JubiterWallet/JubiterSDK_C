@@ -37,20 +37,20 @@ NS_ASSUME_NONNULL_BEGIN
                                cfg:(ContextConfigETH*)cfg;
 
 //JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
-//                         IN BIP32_Path path,
+//                         IN BIP44_Path path,
 //                         IN JUB_ENUM_BOOL bShow,
 //                         OUT JUB_CHAR_PTR_PTR address);
 - (NSString*)JUB_GetAddressETH:(NSUInteger)contextID
-                          path:(BIP32Path*)path
+                          path:(BIP44Path*)path
                          bShow:(JUB_NS_ENUM_BOOL)bShow;
 
 //JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
 //                        IN JUB_ETH_PUB_FORMAT format,
-//                        IN BIP32_Path path,
+//                        IN BIP44_Path path,
 //                        OUT JUB_CHAR_PTR_PTR pubkey);
 - (NSString*)JUB_GetHDNodeETH:(NSUInteger)contextID
                                  format:(JUB_NS_ETH_PUB_FORMAT)format
-                                   path:(BIP32Path*)path;
+                                   path:(BIP44Path*)path;
 
 //JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
 //                            IN JUB_ETH_PUB_FORMAT format,
@@ -59,13 +59,13 @@ NS_ASSUME_NONNULL_BEGIN
                            format:(JUB_NS_ETH_PUB_FORMAT)format;
 
 //JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
-//                           IN BIP32_Path path,
+//                           IN BIP44_Path path,
 //                           OUT JUB_CHAR_PTR_PTR address);
 - (NSString*)JUB_SetMyAddressETH:(NSUInteger)contextID
-                            path:(BIP32Path*)path;
+                            path:(BIP44Path*)path;
 
 //JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
-//                              IN BIP32_Path path,
+//                              IN BIP44_Path path,
 //                              IN JUB_UINT32 nonce,
 //                              IN JUB_UINT32 gasLimit,
 //                              IN JUB_CHAR_PTR gasPriceInWei,
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 //                              IN JUB_CHAR_PTR input,
 //                              OUT JUB_CHAR_PTR_PTR raw);
 - (NSString*)JUB_SignTransactionETH:(NSUInteger)contextID
-                               path:(BIP32Path*)path
+                               path:(BIP44Path*)path
                               nonce:(NSUInteger)nonce
                            gasLimit:(NSUInteger)gasLimit
                       gasPriceInWei:(NSString*)gasPriceInWei
@@ -83,12 +83,17 @@ NS_ASSUME_NONNULL_BEGIN
                               input:(NSString*)input;
 
 //JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
-//                            IN JUB_CHAR_PTR token_to, IN JUB_CHAR_PTR token_value,
+//                            IN JUB_CHAR_PTR tokenName,
+//                            IN JUB_UINT16 unitDP,
+//                            IN JUB_CHAR_PTR contractAddress,
+//                            IN JUB_CHAR_PTR tokenTo, IN JUB_CHAR_PTR tokenValue,
 //                            OUT JUB_CHAR_PTR_PTR abi);
 - (NSString*)JUB_BuildERC20AbiETH:(NSUInteger)contextID
+                        tokenName:(NSString*)tokenName
+                           unitDP:(NSUInteger)unitDP
+                  contractAddress:(NSString*)contractAddress
                           tokenTo:(NSString*)tokenTo
                        tokenValue:(NSString*)tokenValue;
-
 @end
 
 NS_ASSUME_NONNULL_END

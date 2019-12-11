@@ -34,12 +34,18 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_BOOL) {
 //typedef struct {
 //    JUB_ENUM_BOOL change;
 //    JUB_UINT64    addressIndex;
-//} BIP32_Path;
-@interface BIP32Path : NSObject
+//} BIP44_Path;
+@interface BIP44Path : NSObject
 @property (atomic, assign) JUB_NS_ENUM_BOOL change;
 @property (atomic, assign) NSInteger addressIndex;
 @end
 
+//typedef struct stContextCfg {
+//    JUB_CHAR_PTR            main_path;
+//} CONTEXT_CONFIG;
+@interface ContextConfig : NSObject
+@property (atomic, copy  ) NSString* mainPath;
+@end
 
 @interface JubSDKCore : NSObject
 @property (atomic, assign) NSUInteger lastError;
