@@ -44,7 +44,6 @@
 		6713A85723A07BB80083A34D /* JUB_SDK_ETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84C23A07BB80083A34D /* JUB_SDK_ETH.cpp */; };
 		6713A85823A07BB80083A34D /* JUB_SDK_Hcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84D23A07BB80083A34D /* JUB_SDK_Hcash.cpp */; };
 		6713A85923A07BB80083A34D /* JUB_SDK_DEV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84E23A07BB80083A34D /* JUB_SDK_DEV.cpp */; };
-		6713A85A23A07BB80083A34D /* JUB_SDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84F23A07BB80083A34D /* JUB_SDK.cpp */; };
 		6713A85B23A07BB80083A34D /* JUB_SDK_XRP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A85023A07BB80083A34D /* JUB_SDK_XRP.cpp */; };
 		6713A86723A07C090083A34D /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A86023A07C090083A34D /* Transaction.cpp */; };
 		6713A86823A07C090083A34D /* Address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A86423A07C090083A34D /* Address.cpp */; };
@@ -219,7 +218,6 @@
 		6713A84C23A07BB80083A34D /* JUB_SDK_ETH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_ETH.cpp; path = ../../src/JUB_SDK_ETH.cpp; sourceTree = "<group>"; };
 		6713A84D23A07BB80083A34D /* JUB_SDK_Hcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_Hcash.cpp; path = ../../src/JUB_SDK_Hcash.cpp; sourceTree = "<group>"; };
 		6713A84E23A07BB80083A34D /* JUB_SDK_DEV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV.cpp; path = ../../src/JUB_SDK_DEV.cpp; sourceTree = "<group>"; };
-		6713A84F23A07BB80083A34D /* JUB_SDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK.cpp; path = ../../src/JUB_SDK.cpp; sourceTree = "<group>"; };
 		6713A85023A07BB80083A34D /* JUB_SDK_XRP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_XRP.cpp; path = ../../src/JUB_SDK_XRP.cpp; sourceTree = "<group>"; };
 		6713A86023A07C090083A34D /* Transaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transaction.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ripple/Transaction.cpp"; sourceTree = "<group>"; };
 		6713A86123A07C090083A34D /* BinaryCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BinaryCoding.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/BinaryCoding.h"; sourceTree = "<group>"; };
@@ -578,7 +576,6 @@
 		6713A80223A07A5C0083A34D /* src */ = {
 			isa = PBXGroup;
 			children = (
-				6713A84F23A07BB80083A34D /* JUB_SDK.cpp */,
 				6713A84923A07BB80083A34D /* JUB_core.cpp */,
 				6713A84A23A07BB80083A34D /* JUB_SDK_COMM.cpp */,
 				6713A84723A07BB80083A34D /* JUB_SDK_DEV_BLE.cpp */,
@@ -1255,7 +1252,6 @@
 				6713A91023A083B20083A34D /* bignum.c in Sources */,
 				6713A82623A07B230083A34D /* ERC20Abi.cpp in Sources */,
 				6713A89823A07C730083A34D /* Operation.cpp in Sources */,
-				6713A85A23A07BB80083A34D /* JUB_SDK.cpp in Sources */,
 				6713A87323A07C200083A34D /* HexCoding.cpp in Sources */,
 				6713A81523A07A9E0083A34D /* JubiterBLDImplHC.cpp in Sources */,
 				6713A8C523A07E640083A34D /* segwit_addr.cpp in Sources */,

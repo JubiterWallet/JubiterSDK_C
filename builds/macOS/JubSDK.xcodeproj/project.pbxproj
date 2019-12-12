@@ -173,7 +173,6 @@
 		67A4BCDF233084740059A3DB /* JUB_SDK_DEV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD7233084740059A3DB /* JUB_SDK_DEV.cpp */; };
 		67A4BCE0233084740059A3DB /* JUB_SDK_COMM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD8233084740059A3DB /* JUB_SDK_COMM.cpp */; };
 		67A4BCE1233084740059A3DB /* JUB_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD9233084740059A3DB /* JUB_core.cpp */; };
-		67A4BCE2233084740059A3DB /* JUB_SDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCDA233084740059A3DB /* JUB_SDK.cpp */; };
 		67A4BCE3233084740059A3DB /* JUB_SDK_ETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCDB233084740059A3DB /* JUB_SDK_ETH.cpp */; };
 		67A4BCE8233084980059A3DB /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCE5233084980059A3DB /* Context.cpp */; };
 		67A4BCE9233084980059A3DB /* ContextBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCE6233084980059A3DB /* ContextBTC.cpp */; };
@@ -449,7 +448,6 @@
 		67A4BCD7233084740059A3DB /* JUB_SDK_DEV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV.cpp; path = ../../src/JUB_SDK_DEV.cpp; sourceTree = "<group>"; };
 		67A4BCD8233084740059A3DB /* JUB_SDK_COMM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_COMM.cpp; path = ../../src/JUB_SDK_COMM.cpp; sourceTree = "<group>"; };
 		67A4BCD9233084740059A3DB /* JUB_core.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_core.cpp; path = ../../src/JUB_core.cpp; sourceTree = "<group>"; };
-		67A4BCDA233084740059A3DB /* JUB_SDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK.cpp; path = ../../src/JUB_SDK.cpp; sourceTree = "<group>"; };
 		67A4BCDB233084740059A3DB /* JUB_SDK_ETH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_ETH.cpp; path = ../../src/JUB_SDK_ETH.cpp; sourceTree = "<group>"; };
 		67A4BCE5233084980059A3DB /* Context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Context.cpp; path = ../../src/context/Context.cpp; sourceTree = "<group>"; };
 		67A4BCE6233084980059A3DB /* ContextBTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContextBTC.cpp; path = ../../src/context/ContextBTC.cpp; sourceTree = "<group>"; };
@@ -954,7 +952,6 @@
 			isa = PBXGroup;
 			children = (
 				6761F64E23542964007404A2 /* CMakeLists.txt */,
-				67A4BCDA233084740059A3DB /* JUB_SDK.cpp */,
 				67A4BCD9233084740059A3DB /* JUB_core.cpp */,
 				67A4BCD8233084740059A3DB /* JUB_SDK_COMM.cpp */,
 				67A4BCD4233084740059A3DB /* JUB_SDK_DEV_BLE.cpp */,
@@ -1674,7 +1671,6 @@
 				67662215234C31B400AFAFA2 /* Signer.cpp in Sources */,
 				6713A7B0239FBE4F0083A34D /* ContextHC.cpp in Sources */,
 				6713A7AC239FBDD80083A34D /* JUB_SDK_Hcash.cpp in Sources */,
-				67A4BCE2233084740059A3DB /* JUB_SDK.cpp in Sources */,
 				6766220D234C31B400AFAFA2 /* Action.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
