@@ -24,7 +24,7 @@
 
 namespace jub {
 
-TrezorCryptoImpl::TrezorCryptoImpl(std::string masterkey_XPRV) {
+TrezorCryptoImpl::TrezorCryptoImpl(const std::string& masterkey_XPRV) {
     _MasterKey_XPRV = masterkey_XPRV;
 }
 
@@ -44,7 +44,7 @@ JUB_RV TrezorCryptoImpl::SelectAppletBTC() {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::GetHDNodeBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, std::string& xpub) {
+JUB_RV TrezorCryptoImpl::GetHDNodeBTC(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, bitcoinXPUB, bitcoinXPRV, &hdkey, &parentFingerprint));
@@ -52,7 +52,7 @@ JUB_RV TrezorCryptoImpl::GetHDNodeBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string 
     JUB_CHAR _xpub[200] = {0,};
     hdnode_fill_public_key(&hdkey);
     JUB_UINT32 version = bitcoinXPUB;
-    if(p2sh_p2wpkh == type) {
+    if (p2sh_p2wpkh == type) {
         version = bitcoinYPUB;
     }
 
@@ -64,7 +64,7 @@ JUB_RV TrezorCryptoImpl::GetHDNodeBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string 
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::GetAddressBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string path, JUB_UINT16 tag, std::string& address) {
+JUB_RV TrezorCryptoImpl::GetAddressBTC(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
@@ -78,21 +78,21 @@ JUB_RV TrezorCryptoImpl::GetAddressBTC(JUB_ENUM_BTC_TRANS_TYPE type, std::string
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::SetUnitBTC(JUB_ENUM_BTC_UNIT_TYPE unit) {
+JUB_RV TrezorCryptoImpl::SetUnitBTC(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::SetCoinTypeBTC(JUB_ENUM_COINTYPE_BTC type) {
+JUB_RV TrezorCryptoImpl::SetCoinTypeBTC(const JUB_ENUM_COINTYPE_BTC& type) {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::SignTXBTC(JUB_ENUM_BTC_TRANS_TYPE type,
-                                   JUB_UINT16 inputCount,
-                                   std::vector<JUB_UINT64> vInputAmount,
-                                   std::vector<std::string> vInputPath,
-                                   std::vector<JUB_UINT16> vChangeIndex,
-                                   std::vector<std::string> vChangePath,
-                                   std::vector<JUB_BYTE> vUnsigedTrans,
+JUB_RV TrezorCryptoImpl::SignTXBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                   const JUB_UINT16 inputCount,
+                                   const std::vector<JUB_UINT64>& vInputAmount,
+                                   const std::vector<std::string>& vInputPath,
+                                   const std::vector<JUB_UINT16>& vChangeIndex,
+                                   const std::vector<std::string>& vChangePath,
+                                   const std::vector<JUB_BYTE>& vUnsigedTrans,
                                    std::vector<JUB_BYTE>& vRaw) {
     return JUBR_OK;
 }
@@ -105,22 +105,22 @@ JUB_RV TrezorCryptoImpl::GetAppletVersionETH(std::string& version) {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::GetAddressETH(std::string path, JUB_UINT16 tag, std::string& address) {
+JUB_RV TrezorCryptoImpl::GetAddressETH(const std::string& path, const JUB_UINT16 tag, std::string& address) {
     //tag used by hardware,this imp not use.
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
     
     JUB_BYTE ethKeyHash[20] = {0,};
-    if(1 == hdnode_get_ethereum_pubkeyhash(&hdkey,ethKeyHash)) {
+    if (1 == hdnode_get_ethereum_pubkeyhash(&hdkey,ethKeyHash)) {
         uchar_vector _address(ethKeyHash, ethKeyHash+20);
-        address = jub::eth::checksumed(_address.getHex(),jub::eth::eip55);
+        address = jub::eth::checksumed(_address.getHex(), jub::eth::eip55);
         return JUBR_OK;
     }
     return JUBR_ERROR;
 }
 
-JUB_RV TrezorCryptoImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::string& pubkey) {
+JUB_RV TrezorCryptoImpl::GetHDNodeETH(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
@@ -130,7 +130,7 @@ JUB_RV TrezorCryptoImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::st
 //        XPUB = 0x01
 //    } JUB_ENUM_ETH_PUB_FORMAT;
     if (0x00 == format) {//hex
-        uchar_vector pk(hdkey.public_key,hdkey.public_key+33);
+        uchar_vector pk(hdkey.public_key, hdkey.public_key+33);
         pubkey = pk.getHex();
         pubkey = ETH_PRDFIX + pubkey;
     }
@@ -145,15 +145,15 @@ JUB_RV TrezorCryptoImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::st
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::SignTXETH(bool bERC20,
-                                   std::vector<JUB_BYTE> vNonce,
-                                   std::vector<JUB_BYTE> vGasPrice,
-                                   std::vector<JUB_BYTE> vGasLimit,
-                                   std::vector<JUB_BYTE> vTo,
-                                   std::vector<JUB_BYTE> vValue,
-                                   std::vector<JUB_BYTE> vData,
-                                   std::vector<JUB_BYTE> vPath,
-                                   std::vector<JUB_BYTE> vChainID,
+JUB_RV TrezorCryptoImpl::SignTXETH(const bool bERC20,
+                                   const std::vector<JUB_BYTE>& vNonce,
+                                   const std::vector<JUB_BYTE>& vGasPrice,
+                                   const std::vector<JUB_BYTE>& vGasLimit,
+                                   const std::vector<JUB_BYTE>& vTo,
+                                   const std::vector<JUB_BYTE>& vValue,
+                                   const std::vector<JUB_BYTE>& vData,
+                                   const std::vector<JUB_BYTE>& vPath,
+                                   const std::vector<JUB_BYTE>& vChainID,
                                    std::vector<JUB_BYTE>& vRaw) {
 
     auto encoded = abcd::DataChunk();
@@ -380,7 +380,7 @@ JUB_RV TrezorCryptoImpl::QueryBattery(JUB_BYTE &percent) {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::ShowVirtualPwd(){
+JUB_RV TrezorCryptoImpl::ShowVirtualPwd() {
     return JUBR_OK;
 }
 
@@ -424,7 +424,7 @@ JUB_RV TrezorCryptoImpl::EnumApplet(std::string& appletList) {
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::GetAppletVersion(std::string appID, std::string& version) {
+JUB_RV TrezorCryptoImpl::GetAppletVersion(const std::string& appID, std::string& version) {
     return JUBR_OK;
 }
 
@@ -445,7 +445,7 @@ JUB_RV TrezorCryptoImpl::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &ret
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoImpl::SetTimeout(JUB_UINT16 timeout){
+JUB_RV TrezorCryptoImpl::SetTimeout(const JUB_UINT16 timeout) {
     return JUBR_OK;
 }
 }

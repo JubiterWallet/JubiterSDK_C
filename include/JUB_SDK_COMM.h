@@ -135,6 +135,7 @@ typedef const JUB_CHAR JUB_PTR      JUB_CHAR_CPTR;
 typedef const JUB_BYTE JUB_PTR      JUB_BYTE_CPTR;
 
 typedef JUB_BYTE JUB_PTR            JUB_BYTE_PTR;
+typedef const JUB_BYTE JUB_PTR      JUB_BYTE_CPTR;
 typedef JUB_UCHAR JUB_PTR           JUB_UCHAR_PTR;
 typedef JUB_UTF8UCHAR JUB_PTR       JUB_UTF8UCHAR_PTR;
 typedef JUB_ULONG JUB_PTR           JUB_ULONG_PTR;
@@ -222,7 +223,7 @@ JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID);
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
-                     IN JUB_CHAR_PTR pinMix,
+                     IN JUB_CHAR_CPTR pinMix,
                      OUT JUB_ULONG_PTR pretry);
 
 /*****************************************************************************

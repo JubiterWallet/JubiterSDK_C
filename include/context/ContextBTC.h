@@ -30,7 +30,7 @@ class ContextBTC : public Context {
 
 public:
     ContextBTC() {};
-    ContextBTC(CONTEXT_CONFIG_BTC cfg, JUB_UINT16 deviceID) {
+    ContextBTC(const CONTEXT_CONFIG_BTC& cfg, const JUB_UINT16 deviceID) {
         _mainPath = cfg.mainPath;
         _transType = cfg.transType;
         _deviceID = deviceID;
@@ -40,17 +40,17 @@ public:
     };
     ~ContextBTC() {};
 
-    virtual JUB_RV GetHDNode(BIP44_Path path, std::string& xpub);
+    virtual JUB_RV GetHDNode(const BIP44_Path& path, std::string& xpub);
     virtual JUB_RV GetMainHDNode(std::string& xpub);
 
-    virtual JUB_RV GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(BIP44_Path path, std::string& address);
-    virtual JUB_RV SignTX(std::vector<INPUT_BTC> vInputs, std::vector<OUTPUT_BTC> vOutputs, JUB_UINT32 lockTime,  std::string& raw);
-    virtual JUB_RV SetUnit(JUB_ENUM_BTC_UNIT_TYPE unitType);
+    virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
+    virtual JUB_RV SignTX(const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw);
+    virtual JUB_RV SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType);
 
-    virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
-    virtual JUB_RV SetQRC20Token(IN JUB_CHAR_PTR contractAddress,IN JUB_UINT8 decimal,IN JUB_CHAR_PTR symbol);
-    virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN JUB_CHAR_PTR contractAddress, JUB_CHAR_PTR to, JUB_CHAR_PTR value, OUT OUTPUT_BTC outputs[1]);
+    virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
+    virtual JUB_RV SetQRC20Token(IN JUB_CHAR_CPTR contractAddress,IN JUB_UINT8 decimal,IN JUB_CHAR_CPTR symbol);
+    virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]);
     virtual JUB_RV ActiveSelf() override;
 
 protected:

@@ -163,11 +163,11 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,
-                              IN JUB_CHAR_PTR chainID,
-                              IN JUB_CHAR_PTR expiration,
-                              IN JUB_CHAR_PTR referenceBlockId,
-                              IN JUB_CHAR_PTR referenceBlockTime,
-                              IN JUB_CHAR_PTR actionsInJSON,
+                              IN JUB_CHAR_CPTR chainID,
+                              IN JUB_CHAR_CPTR expiration,
+                              IN JUB_CHAR_CPTR referenceBlockId,
+                              IN JUB_CHAR_CPTR referenceBlockTime,
+                              IN JUB_CHAR_CPTR actionsInJSON,
                               OUT JUB_CHAR_PTR_PTR rawInJSON);
 
 /*****************************************************************************

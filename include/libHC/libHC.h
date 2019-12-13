@@ -36,7 +36,6 @@ typedef struct {
     uchar_vector    scriptSig;
 } INPUT_HCash;
 
-
 typedef struct {
 	JUB_UINT64      amount;
 	JUB_UINT16      version;
@@ -59,9 +58,9 @@ typedef enum {
     TxSerializeWitnessValueSigning,
 } JUB_HC_SERIALIZE_TYPE;
 
-JUB_RV DeserializeTx(std::string raw,TX_Hcash& tx);
-JUB_RV SerializeTx(const TX_Hcash tx, std::string& raw);
-JUB_RV SerializePreimage(const TX_Hcash tx , size_t i, uchar_vector redeemScript, uchar_vector& preimage);
+JUB_RV DeserializeTx(const std::string& raw, TX_Hcash& tx);
+JUB_RV SerializeTx(const TX_Hcash& tx, std::string& raw);
+JUB_RV SerializePreimage(const TX_Hcash& tx, const size_t i, const uchar_vector& redeemScript, uchar_vector& preimage);
 }//namespace HC
 
 }//namespace JUB

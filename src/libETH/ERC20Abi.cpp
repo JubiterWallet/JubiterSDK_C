@@ -50,7 +50,7 @@ EthereumContractPayloadStream& operator<<(EthereumContractPayloadStream& stream,
     return stream;
 }
 
-std::vector<uint8_t> ERC20Abi::serialize(std::vector<uint8_t>address, std::vector<uint8_t> value) {
+std::vector<uint8_t> ERC20Abi::serialize(const std::vector<uint8_t>& address, const std::vector<uint8_t>& value) {
 
     EthereumContractPayloadStream stream;
     EthereumContractMethodHash hash = { 0xa9, 0x05, 0x9c, 0xbb };

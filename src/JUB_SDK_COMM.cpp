@@ -108,7 +108,7 @@ JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID) {
 * @last change :
 *****************************************************************************/
 JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
-                     IN JUB_CHAR_PTR pinMix,
+                     IN JUB_CHAR_CPTR pinMix,
                      OUT JUB_ULONG_PTR pretry) {
 
     auto context = jub::ContextManager::GetInstance()->GetOne(contextID);

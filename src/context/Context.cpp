@@ -25,7 +25,7 @@ JUB_RV Context::CancelVirtualPwd() {
     return JUBR_OK;
 }
 
-JUB_RV Context::VerifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry) {
+JUB_RV Context::VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry) {
 
     auto token = jub::TokenManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(token);
@@ -35,7 +35,7 @@ JUB_RV Context::VerifyPIN(JUB_CHAR_PTR pinMix, OUT JUB_ULONG &retry) {
     return JUBR_OK;
 }
 
-JUB_RV Context::SetTimeout(JUB_UINT16 timeout) {
+JUB_RV Context::SetTimeout(const JUB_UINT16 timeout) {
 
     _timeout = timeout;
 
@@ -47,14 +47,14 @@ JUB_RV Context::SetTimeout(JUB_UINT16 timeout) {
     return JUBR_OK;
 }
 
-std::string Context::_FullBip44Path(BIP44_Path path) {
+std::string Context::_FullBip44Path(const BIP44_Path& path) {
 
     return _mainPath + "/"
             + std::to_string(path.change) + "/"
             + std::to_string(path.addressIndex);
 }
 
-std::string Context::_FullBip48Path(BIP48_Path path) {
+std::string Context::_FullBip48Path(const BIP48_Path& path) {
 
     return _mainPath + "/"
             + std::to_string(path.network) + "'" + "/"

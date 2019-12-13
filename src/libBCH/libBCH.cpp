@@ -12,7 +12,7 @@ namespace bch {
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub) {
 
     auto pubkeyDataBit5 = cashaddr::Decode(address);
-    if(pubkeyDataBit5.first != "bitcoincash") {
+    if (pubkeyDataBit5.first != "bitcoincash") {
         JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
     }
 

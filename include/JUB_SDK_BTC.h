@@ -238,7 +238,7 @@ JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
-                            IN JUB_CHAR_PTR USDTTo,
+                            IN JUB_CHAR_CPTR USDTTo,
                             IN JUB_UINT64 amount,
                             OUT OUTPUT_BTC outputs[2]);
 
@@ -258,9 +258,9 @@ JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
-                             IN JUB_CHAR_PTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_PTR symbol,
+                             IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_CPTR symbol,
                              IN JUB_UINT64 gasLimit, IN JUB_UINT64 gasPrice,
-                             IN JUB_CHAR_PTR to, IN JUB_CHAR_PTR value,
+                             IN JUB_CHAR_CPTR to, IN JUB_CHAR_CPTR value,
                              OUT OUTPUT_BTC outputs[1]);
 
 #ifdef __cplusplus

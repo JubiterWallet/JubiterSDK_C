@@ -15,17 +15,17 @@ class ETHTokenInterface {
 public:
     virtual JUB_RV SelectAppletETH() = 0;
     virtual JUB_RV GetAppletVersionETH(std::string& version) = 0;
-    virtual JUB_RV GetAddressETH(std::string path, JUB_UINT16 tag, std::string& address) = 0;
-    virtual JUB_RV GetHDNodeETH(JUB_BYTE format ,std::string path, std::string& pubkey) = 0;
-    virtual JUB_RV SignTXETH(bool bERC20,
-                             std::vector<JUB_BYTE> vNonce,
-                             std::vector<JUB_BYTE> vGasPrice,
-                             std::vector<JUB_BYTE> vGasLimit,
-                             std::vector<JUB_BYTE> vTo,
-                             std::vector<JUB_BYTE> vValue,
-                             std::vector<JUB_BYTE> vData,
-                             std::vector<JUB_BYTE> vPath,
-                             std::vector<JUB_BYTE> vChainID,
+    virtual JUB_RV GetAddressETH(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
+    virtual JUB_RV GetHDNodeETH(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
+    virtual JUB_RV SignTXETH(const bool bERC20,
+                             const std::vector<JUB_BYTE>& vNonce,
+                             const std::vector<JUB_BYTE>& vGasPrice,
+                             const std::vector<JUB_BYTE>& vGasLimit,
+                             const std::vector<JUB_BYTE>& vTo,
+                             const std::vector<JUB_BYTE>& vValue,
+                             const std::vector<JUB_BYTE>& vData,
+                             const std::vector<JUB_BYTE>& vPath,
+                             const std::vector<JUB_BYTE>& vChainID,
                              std::vector<JUB_BYTE>& vRaw) = 0;
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,

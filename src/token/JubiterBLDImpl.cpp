@@ -132,7 +132,7 @@ JUB_RV JubiterBLDImpl::EnumSupportCoins(std::string& coinList) {
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::GetAppletVersion(std::string appID, std::string& version) {
+JUB_RV JubiterBLDImpl::GetAppletVersion(const std::string& appID, std::string& version) {
 
     uchar_vector id(appID);
     if (0 == appID.length()) {
@@ -464,7 +464,7 @@ JUB_RV JubiterBLDImpl::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, JUB_BYTE sigType, JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
+JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
 
     if (apduData.empty()) {
         JUB_VERIFY_RV(JUBR_ERROR);
@@ -523,10 +523,10 @@ JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, JUB_BYTE sigTy
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::_TranPackApdu(JUB_ULONG ncla, JUB_ULONG nins,
+JUB_RV JubiterBLDImpl::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
                                      const abcd::DataSlice &apduData,
-                                     JUB_BYTE sigType,
-                                     JUB_ULONG ulSendOnceLen,
+                                     const JUB_BYTE sigType,
+                                     const JUB_ULONG ulSendOnceLen,
                                      JUB_BYTE *retData/* = nullptr*/, JUB_ULONG *pulRetDataLen/* = nullptr*/,
                                      int finalData/* = false*/, int bOnce/* = false*/) {
 
@@ -629,7 +629,7 @@ JUB_RV JubiterBLDImpl::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *r
     return JUBR_TRANSMIT_DEVICE_ERROR;
 }
 
-JUB_RV JubiterBLDImpl::SetTimeout(JUB_UINT16 timeout) {
+JUB_RV JubiterBLDImpl::SetTimeout(const JUB_UINT16 timeout) {
 
     JUB_UINT16 p1 = timeout >> 8;
     JUB_UINT16 p2 = timeout & 0xFF;

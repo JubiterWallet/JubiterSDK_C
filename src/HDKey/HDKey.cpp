@@ -26,7 +26,7 @@ std::vector<JUB_UINT32> parsePath(const std::string& path) {
     uint64_t n = 0;
     while (i < path.size()) {
         char c = path[i];
-        if(c == 'm') {
+        if (c == 'm') {
             i += 2;
         }
         else if (   c >= '0'
