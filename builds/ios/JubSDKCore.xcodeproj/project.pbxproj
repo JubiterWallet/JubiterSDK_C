@@ -7,54 +7,55 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6713A7BD239FD4D90083A34D /* JubSDKCore+COIN_XRP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7B7239FD4D90083A34D /* JubSDKCore+COIN_XRP.mm */; };
-		6713A7BE239FD4D90083A34D /* JubSDKCore+COIN_HCash.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7B8239FD4D90083A34D /* JubSDKCore+COIN_HCash.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6713A7BF239FD4D90083A34D /* JubSDKCore+COIN_XRP.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7B9239FD4D90083A34D /* JubSDKCore+COIN_XRP.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6713A7C0239FD4D90083A34D /* JubSDKCore+COIN_EOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7BA239FD4D90083A34D /* JubSDKCore+COIN_EOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6713A7C1239FD4D90083A34D /* JubSDKCore+COIN_EOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7BB239FD4D90083A34D /* JubSDKCore+COIN_EOS.mm */; };
-		6713A7C2239FD4D90083A34D /* JubSDKCore+COIN_HCash.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7BC239FD4D90083A34D /* JubSDKCore+COIN_HCash.mm */; };
-		6713A7C4239FD51D0083A34D /* uchar_vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7C3239FD51C0083A34D /* uchar_vector.h */; };
 		6713A92023A08AB50083A34D /* libFTTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C95D922DECD040073AB0D /* libFTTransmission.a */; };
+		6718A31323A32E8E00F8A5CD /* JubSDKCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30123A32E8D00F8A5CD /* JubSDKCore.mm */; };
+		6718A31423A32E8E00F8A5CD /* JubSDKCore+COIN_XRP.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A30223A32E8D00F8A5CD /* JubSDKCore+COIN_XRP.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A31523A32E8E00F8A5CD /* JubSDKCore+COIN_BTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A30323A32E8D00F8A5CD /* JubSDKCore+COIN_BTC.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A31623A32E8E00F8A5CD /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A30423A32E8D00F8A5CD /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A31723A32E8E00F8A5CD /* JubSDKCore+COIN_BTC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30523A32E8D00F8A5CD /* JubSDKCore+COIN_BTC.mm */; };
+		6718A31823A32E8E00F8A5CD /* JubSDKCore+DEV.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A30623A32E8D00F8A5CD /* JubSDKCore+DEV.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A31923A32E8E00F8A5CD /* JubSDKCore+DEV_HID.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30723A32E8D00F8A5CD /* JubSDKCore+DEV_HID.mm */; };
+		6718A31A23A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30823A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.mm */; };
+		6718A31B23A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30923A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.mm */; };
+		6718A31C23A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A30A23A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A31D23A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30B23A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.mm */; };
+		6718A31E23A32E8E00F8A5CD /* JubSDKCore+DEV_HID.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A30C23A32E8E00F8A5CD /* JubSDKCore+DEV_HID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A31F23A32E8E00F8A5CD /* JubSDKCore+COIN_XRP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30D23A32E8E00F8A5CD /* JubSDKCore+COIN_XRP.mm */; };
+		6718A32023A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30E23A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.mm */; };
+		6718A32123A32E8E00F8A5CD /* JubSDKCore+DEV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6718A30F23A32E8E00F8A5CD /* JubSDKCore+DEV.mm */; };
+		6718A32223A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A31023A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A32323A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A31123A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A32423A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A31223A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6718A32823A32EA000F8A5CD /* JubSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A32623A32EA000F8A5CD /* JubSDK.h */; };
+		6718A32B23A32EB200F8A5CD /* uchar_vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A32A23A32EB200F8A5CD /* uchar_vector.h */; };
 		672C95D822DECCF40073AB0D /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 672C95D722DECCF40073AB0D /* libJubSDK.a */; };
-		672C95DD22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95DB22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		672C95DF22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95DC22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm */; };
-		672C95E722DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95E522DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		672C95E922DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95E622DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm */; };
-		672C95EC22DF223E0073AB0D /* JubSDKCore+DEV_HID.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95EA22DF223E0073AB0D /* JubSDKCore+DEV_HID.h */; };
-		672C95EE22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95EB22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm */; };
-		672C95F122DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95EF22DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		672C95F322DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95F022DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm */; };
-		672C95F622DF25930073AB0D /* JubSDKCore+DEV.h in Headers */ = {isa = PBXBuildFile; fileRef = 672C95F422DF25930073AB0D /* JubSDKCore+DEV.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		672C95F822DF25930073AB0D /* JubSDKCore+DEV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 672C95F522DF25930073AB0D /* JubSDKCore+DEV.mm */; };
-		674E810122C0A2B3009332EB /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 674E80B422BE2EE6009332EB /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		674E810322C0A2BB009332EB /* JubSDKCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 674E80B522BE2EE6009332EB /* JubSDKCore.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6713A7B7239FD4D90083A34D /* JubSDKCore+COIN_XRP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_XRP.mm"; path = "../../JubSDKCore/JubSDKCore+COIN_XRP.mm"; sourceTree = "<group>"; };
-		6713A7B8239FD4D90083A34D /* JubSDKCore+COIN_HCash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_HCash.h"; path = "../../JubSDKCore/JubSDKCore+COIN_HCash.h"; sourceTree = "<group>"; };
-		6713A7B9239FD4D90083A34D /* JubSDKCore+COIN_XRP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_XRP.h"; path = "../../JubSDKCore/JubSDKCore+COIN_XRP.h"; sourceTree = "<group>"; };
-		6713A7BA239FD4D90083A34D /* JubSDKCore+COIN_EOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_EOS.h"; path = "../../JubSDKCore/JubSDKCore+COIN_EOS.h"; sourceTree = "<group>"; };
-		6713A7BB239FD4D90083A34D /* JubSDKCore+COIN_EOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_EOS.mm"; path = "../../JubSDKCore/JubSDKCore+COIN_EOS.mm"; sourceTree = "<group>"; };
-		6713A7BC239FD4D90083A34D /* JubSDKCore+COIN_HCash.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_HCash.mm"; path = "../../JubSDKCore/JubSDKCore+COIN_HCash.mm"; sourceTree = "<group>"; };
-		6713A7C3239FD51C0083A34D /* uchar_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uchar_vector.h; path = ../../deps/mSIGNA/stdutils/uchar_vector.h; sourceTree = "<group>"; };
+		6718A30123A32E8D00F8A5CD /* JubSDKCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JubSDKCore.mm; path = ../../JubSDKCoreOC/JubSDKCore.mm; sourceTree = "<group>"; };
+		6718A30223A32E8D00F8A5CD /* JubSDKCore+COIN_XRP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_XRP.h"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_XRP.h"; sourceTree = "<group>"; };
+		6718A30323A32E8D00F8A5CD /* JubSDKCore+COIN_BTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_BTC.h"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_BTC.h"; sourceTree = "<group>"; };
+		6718A30423A32E8D00F8A5CD /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../JubSDKCoreOC/JubSDKCore.h; sourceTree = "<group>"; };
+		6718A30523A32E8D00F8A5CD /* JubSDKCore+COIN_BTC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_BTC.mm"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_BTC.mm"; sourceTree = "<group>"; };
+		6718A30623A32E8D00F8A5CD /* JubSDKCore+DEV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV.h"; path = "../../JubSDKCoreOC/JubSDKCore+DEV.h"; sourceTree = "<group>"; };
+		6718A30723A32E8D00F8A5CD /* JubSDKCore+DEV_HID.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV_HID.mm"; path = "../../JubSDKCoreOC/JubSDKCore+DEV_HID.mm"; sourceTree = "<group>"; };
+		6718A30823A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_HCash.mm"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_HCash.mm"; sourceTree = "<group>"; };
+		6718A30923A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_ETH.mm"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_ETH.mm"; sourceTree = "<group>"; };
+		6718A30A23A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV_BLE.h"; path = "../../JubSDKCoreOC/JubSDKCore+DEV_BLE.h"; sourceTree = "<group>"; };
+		6718A30B23A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_EOS.mm"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_EOS.mm"; sourceTree = "<group>"; };
+		6718A30C23A32E8E00F8A5CD /* JubSDKCore+DEV_HID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV_HID.h"; path = "../../JubSDKCoreOC/JubSDKCore+DEV_HID.h"; sourceTree = "<group>"; };
+		6718A30D23A32E8E00F8A5CD /* JubSDKCore+COIN_XRP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_XRP.mm"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_XRP.mm"; sourceTree = "<group>"; };
+		6718A30E23A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV_BLE.mm"; path = "../../JubSDKCoreOC/JubSDKCore+DEV_BLE.mm"; sourceTree = "<group>"; };
+		6718A30F23A32E8E00F8A5CD /* JubSDKCore+DEV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV.mm"; path = "../../JubSDKCoreOC/JubSDKCore+DEV.mm"; sourceTree = "<group>"; };
+		6718A31023A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_HCash.h"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_HCash.h"; sourceTree = "<group>"; };
+		6718A31123A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_ETH.h"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_ETH.h"; sourceTree = "<group>"; };
+		6718A31223A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_EOS.h"; path = "../../JubSDKCoreOC/JubSDKCore+COIN_EOS.h"; sourceTree = "<group>"; };
+		6718A32623A32EA000F8A5CD /* JubSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDK.h; path = ../../JubSDKCoreOC/JubSDK/JubSDK.h; sourceTree = "<group>"; };
+		6718A32723A32EA000F8A5CD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../JubSDKCoreOC/JubSDK/Info.plist; sourceTree = "<group>"; };
+		6718A32A23A32EB200F8A5CD /* uchar_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uchar_vector.h; path = ../../deps/mSIGNA/stdutils/uchar_vector.h; sourceTree = "<group>"; };
 		672C95D722DECCF40073AB0D /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		672C95D922DECD040073AB0D /* libFTTransmission.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTTransmission.a; path = ../../deps/bleTransmit/ios/libFTTransmission.a; sourceTree = "<group>"; };
-		672C95DB22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_BTC.h"; path = "../../JubSDKCore/JubSDKCore+COIN_BTC.h"; sourceTree = "<group>"; };
-		672C95DC22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_BTC.mm"; path = "../../JubSDKCore/JubSDKCore+COIN_BTC.mm"; sourceTree = "<group>"; };
-		672C95E522DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+COIN_ETH.h"; path = "../../JubSDKCore/JubSDKCore+COIN_ETH.h"; sourceTree = "<group>"; };
-		672C95E622DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+COIN_ETH.mm"; path = "../../JubSDKCore/JubSDKCore+COIN_ETH.mm"; sourceTree = "<group>"; };
-		672C95EA22DF223E0073AB0D /* JubSDKCore+DEV_HID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV_HID.h"; path = "../../JubSDKCore/JubSDKCore+DEV_HID.h"; sourceTree = "<group>"; };
-		672C95EB22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV_HID.mm"; path = "../../JubSDKCore/JubSDKCore+DEV_HID.mm"; sourceTree = "<group>"; };
-		672C95EF22DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV_BLE.h"; path = "../../JubSDKCore/JubSDKCore+DEV_BLE.h"; sourceTree = "<group>"; };
-		672C95F022DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV_BLE.mm"; path = "../../JubSDKCore/JubSDKCore+DEV_BLE.mm"; sourceTree = "<group>"; };
-		672C95F422DF25930073AB0D /* JubSDKCore+DEV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JubSDKCore+DEV.h"; path = "../../JubSDKCore/JubSDKCore+DEV.h"; sourceTree = "<group>"; };
-		672C95F522DF25930073AB0D /* JubSDKCore+DEV.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "JubSDKCore+DEV.mm"; path = "../../JubSDKCore/JubSDKCore+DEV.mm"; sourceTree = "<group>"; };
-		674E80B422BE2EE6009332EB /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
-		674E80B522BE2EE6009332EB /* JubSDKCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JubSDKCore.mm; path = ../../JubSDKCore/JubSDKCore.mm; sourceTree = "<group>"; };
 		674E80F922C0A25D009332EB /* JubSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JubSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		675B655623A1DB610067FEBA /* JubSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JubSDK.h; path = JubSDKCore.xcodeproj/../../../JubSDKCore/JubSDK/JubSDK.h; sourceTree = "<group>"; };
-		675B655723A1DB610067FEBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = JubSDKCore.xcodeproj/../../../JubSDKCore/JubSDK/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,11 +71,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6718A30023A32E7F00F8A5CD /* JubSDKCore */ = {
+			isa = PBXGroup;
+			children = (
+				6718A30423A32E8D00F8A5CD /* JubSDKCore.h */,
+				6718A30123A32E8D00F8A5CD /* JubSDKCore.mm */,
+				6718A30323A32E8D00F8A5CD /* JubSDKCore+COIN_BTC.h */,
+				6718A30523A32E8D00F8A5CD /* JubSDKCore+COIN_BTC.mm */,
+				6718A31223A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.h */,
+				6718A30B23A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.mm */,
+				6718A31123A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.h */,
+				6718A30923A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.mm */,
+				6718A31023A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.h */,
+				6718A30823A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.mm */,
+				6718A30223A32E8D00F8A5CD /* JubSDKCore+COIN_XRP.h */,
+				6718A30D23A32E8E00F8A5CD /* JubSDKCore+COIN_XRP.mm */,
+				6718A30A23A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.h */,
+				6718A30E23A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.mm */,
+				6718A30C23A32E8E00F8A5CD /* JubSDKCore+DEV_HID.h */,
+				6718A30723A32E8D00F8A5CD /* JubSDKCore+DEV_HID.mm */,
+				6718A30623A32E8D00F8A5CD /* JubSDKCore+DEV.h */,
+				6718A30F23A32E8E00F8A5CD /* JubSDKCore+DEV.mm */,
+			);
+			name = JubSDKCore;
+			sourceTree = "<group>";
+		};
+		6718A32523A32E9600F8A5CD /* JubSDK */ = {
+			isa = PBXGroup;
+			children = (
+				6718A32723A32EA000F8A5CD /* Info.plist */,
+				6718A32623A32EA000F8A5CD /* JubSDK.h */,
+			);
+			name = JubSDK;
+			sourceTree = "<group>";
+		};
 		674E809B22BE2D90009332EB = {
 			isa = PBXGroup;
 			children = (
-				674E810922C0A398009332EB /* JubSDK */,
-				674E80B322BE2EDA009332EB /* JubSDKCore */,
+				6718A32523A32E9600F8A5CD /* JubSDK */,
+				6718A30023A32E7F00F8A5CD /* JubSDKCore */,
+				6718A32A23A32EB200F8A5CD /* uchar_vector.h */,
 				674E80BE22BE323A009332EB /* Frameworks */,
 				674E80A522BE2D90009332EB /* Products */,
 			);
@@ -88,31 +124,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		674E80B322BE2EDA009332EB /* JubSDKCore */ = {
-			isa = PBXGroup;
-			children = (
-				674E80B422BE2EE6009332EB /* JubSDKCore.h */,
-				674E80B522BE2EE6009332EB /* JubSDKCore.mm */,
-				672C95F422DF25930073AB0D /* JubSDKCore+DEV.h */,
-				672C95F522DF25930073AB0D /* JubSDKCore+DEV.mm */,
-				672C95EA22DF223E0073AB0D /* JubSDKCore+DEV_HID.h */,
-				672C95EB22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm */,
-				672C95EF22DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h */,
-				672C95F022DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm */,
-				672C95DB22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h */,
-				672C95DC22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm */,
-				672C95E522DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h */,
-				672C95E622DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm */,
-				6713A7B8239FD4D90083A34D /* JubSDKCore+COIN_HCash.h */,
-				6713A7BC239FD4D90083A34D /* JubSDKCore+COIN_HCash.mm */,
-				6713A7BA239FD4D90083A34D /* JubSDKCore+COIN_EOS.h */,
-				6713A7BB239FD4D90083A34D /* JubSDKCore+COIN_EOS.mm */,
-				6713A7B9239FD4D90083A34D /* JubSDKCore+COIN_XRP.h */,
-				6713A7B7239FD4D90083A34D /* JubSDKCore+COIN_XRP.mm */,
-			);
-			name = JubSDKCore;
-			sourceTree = "<group>";
-		};
 		674E80BE22BE323A009332EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,16 +133,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		674E810922C0A398009332EB /* JubSDK */ = {
-			isa = PBXGroup;
-			children = (
-				6713A7C3239FD51C0083A34D /* uchar_vector.h */,
-				675B655723A1DB610067FEBA /* Info.plist */,
-				675B655623A1DB610067FEBA /* JubSDK.h */,
-			);
-			name = JubSDK;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -139,16 +140,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				672C95E722DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.h in Headers */,
-				674E810122C0A2B3009332EB /* JubSDKCore.h in Headers */,
-				672C95DD22DF19B10073AB0D /* JubSDKCore+COIN_BTC.h in Headers */,
-				672C95F122DF22FE0073AB0D /* JubSDKCore+DEV_BLE.h in Headers */,
-				672C95F622DF25930073AB0D /* JubSDKCore+DEV.h in Headers */,
-				6713A7BE239FD4D90083A34D /* JubSDKCore+COIN_HCash.h in Headers */,
-				6713A7BF239FD4D90083A34D /* JubSDKCore+COIN_XRP.h in Headers */,
-				6713A7C0239FD4D90083A34D /* JubSDKCore+COIN_EOS.h in Headers */,
-				6713A7C4239FD51D0083A34D /* uchar_vector.h in Headers */,
-				672C95EC22DF223E0073AB0D /* JubSDKCore+DEV_HID.h in Headers */,
+				6718A31E23A32E8E00F8A5CD /* JubSDKCore+DEV_HID.h in Headers */,
+				6718A31C23A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.h in Headers */,
+				6718A31823A32E8E00F8A5CD /* JubSDKCore+DEV.h in Headers */,
+				6718A32323A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.h in Headers */,
+				6718A31623A32E8E00F8A5CD /* JubSDKCore.h in Headers */,
+				6718A31423A32E8E00F8A5CD /* JubSDKCore+COIN_XRP.h in Headers */,
+				6718A32423A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.h in Headers */,
+				6718A31523A32E8E00F8A5CD /* JubSDKCore+COIN_BTC.h in Headers */,
+				6718A32223A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.h in Headers */,
+				6718A32B23A32EB200F8A5CD /* uchar_vector.h in Headers */,
+				6718A32823A32EA000F8A5CD /* JubSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,15 +223,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				674E810322C0A2BB009332EB /* JubSDKCore.mm in Sources */,
-				672C95F822DF25930073AB0D /* JubSDKCore+DEV.mm in Sources */,
-				672C95F322DF22FE0073AB0D /* JubSDKCore+DEV_BLE.mm in Sources */,
-				672C95EE22DF223E0073AB0D /* JubSDKCore+DEV_HID.mm in Sources */,
-				6713A7C1239FD4D90083A34D /* JubSDKCore+COIN_EOS.mm in Sources */,
-				672C95DF22DF19B10073AB0D /* JubSDKCore+COIN_BTC.mm in Sources */,
-				672C95E922DF1ECA0073AB0D /* JubSDKCore+COIN_ETH.mm in Sources */,
-				6713A7BD239FD4D90083A34D /* JubSDKCore+COIN_XRP.mm in Sources */,
-				6713A7C2239FD4D90083A34D /* JubSDKCore+COIN_HCash.mm in Sources */,
+				6718A31B23A32E8E00F8A5CD /* JubSDKCore+COIN_ETH.mm in Sources */,
+				6718A31723A32E8E00F8A5CD /* JubSDKCore+COIN_BTC.mm in Sources */,
+				6718A31D23A32E8E00F8A5CD /* JubSDKCore+COIN_EOS.mm in Sources */,
+				6718A31323A32E8E00F8A5CD /* JubSDKCore.mm in Sources */,
+				6718A32123A32E8E00F8A5CD /* JubSDKCore+DEV.mm in Sources */,
+				6718A31A23A32E8E00F8A5CD /* JubSDKCore+COIN_HCash.mm in Sources */,
+				6718A32023A32E8E00F8A5CD /* JubSDKCore+DEV_BLE.mm in Sources */,
+				6718A31923A32E8E00F8A5CD /* JubSDKCore+DEV_HID.mm in Sources */,
+				6718A31F23A32E8E00F8A5CD /* JubSDKCore+COIN_XRP.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,7 +372,7 @@
 					../../deps,
 					../../deps/libbitcoin,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/../../JubSDKCore/JubSDK/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../JubSDKCoreOC/JubSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -408,7 +410,7 @@
 					../../deps,
 					../../deps/libbitcoin,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/../../JubSDKCore/JubSDK/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/../../JubSDKCoreOC/JubSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
