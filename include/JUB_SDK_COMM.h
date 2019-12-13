@@ -152,11 +152,13 @@ typedef JUB_ULONG JUB_RV;
 extern "C" {
 #endif // #ifdef __cplusplus
 
-typedef struct stContextCfg {
-    JUB_CHAR_PTR            mainPath;
-
-    virtual ~stContextCfg() {}
-} CONTEXT_CONFIG;
+// Remove c++ features for swift framework
+//typedef struct stContextCfg {
+//    JUB_CHAR_PTR            mainPath;
+//
+////    virtual ~stContextCfg() {}
+//} CONTEXT_CONFIG;
+// Remove c++ features for swift framework end
 
 typedef enum {
     BOOL_FALSE = 0,
@@ -169,10 +171,13 @@ typedef struct {
 	JUB_UINT64    addressIndex;
 } BIP44_Path;
 
-typedef enum class JubGrapheneRole {
+// Remove c++ features for swift framework
+//typedef enum class JubGrapheneRole {
+typedef enum {
     OWNER  = 0x00,
     ACTIVE = 0x01
 } JUB_ENUM_GRAPHENE_ROLE;
+// Remove c++ features for swift framework end
 
 typedef struct {
     JUB_UINT64    network;

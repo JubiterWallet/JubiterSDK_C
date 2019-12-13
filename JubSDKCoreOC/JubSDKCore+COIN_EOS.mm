@@ -109,7 +109,7 @@ JUB_ENUM_EOS_ACTION_TYPE (^inlineEOSActionType)(JUB_NS_EOS_ACTION_TYPE) = ^(JUB_
             u = JUB_ENUM_EOS_ACTION_TYPE::SELLRAM;
             break;
         default:
-            u = JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_ACTION_TYPE;
+            u = JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE;
             break;
     }
     
@@ -364,7 +364,7 @@ ActionEOS* (^inlineNSActionEOS)(JUB_ACTION_EOS) = ^(JUB_ACTION_EOS actionEOS) {
         case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM:
             inlineNSSellRamAction(actionEOS.sellRam);
             break;
-        case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_ACTION_TYPE:
+        case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
         default:
             break;
     }

@@ -15,22 +15,30 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
-typedef enum class JubXRPPubFormat {
-    HEX = 0x00,
+// Remove c++ features for swift framework
+//typedef enum class JubXRPPubFormat {
+typedef enum {
+//    HEX = 0x00,
     XRP = 0x01,
-    NS_ITEM_PUB_FORMAT
+    NS_ITEM_XRP_PUB_FORMAT
 } JUB_ENUM_XRP_PUB_FORMAT;
+// Remove c++ features for swift framework end
 
 typedef struct {
     JUB_CHAR_PTR        mainPath;
 } CONTEXT_CONFIG_XRP;
 
-typedef enum class JubXRPTxType {
+// Remove c++ features for swift framework
+//typedef enum class JubXRPTxType {
+typedef enum {
     PYMT = 0x00,
     NS_ITEM_TX_TYPE
 } JUB_ENUM_XRP_TX_TYPE;
+// Remove c++ features for swift framework end
 
-typedef enum class JubXRPPaymentType {
+// Remove c++ features for swift framework
+//typedef enum class JubXRPPaymentType {
+typedef enum {
     DXRP   = 0x00,  // Direct XRP payments
 //    FX     = 0x01,  // Cross-currency payments(foreign exchange)
 //    CHECKS = 0x02,  // Checks
@@ -39,6 +47,7 @@ typedef enum class JubXRPPaymentType {
 //    CHAN   = 0X05,  // Payment Channels
     NS_ITEM_PYMT_TYPE
 } JUB_ENUM_XRP_PYMT_TYPE;
+// Remove c++ features for swift framework end
 
 typedef struct stAmount {
     JUB_CHAR_PTR currency;

@@ -69,7 +69,10 @@ JUB_RV serializePreimage(const std::string& expiration,
                 tx.actions.push_back(action);
                 break;
             }
-            case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_ACTION_TYPE:
+            // Remove c++ features for swift framework
+//            case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_ACTION_TYPE:
+            case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
+            // Remove c++ features for swift framework end
             default:
                 rv = JUBR_ARGUMENTS_BAD;
                 break;

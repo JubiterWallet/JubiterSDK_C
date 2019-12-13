@@ -53,7 +53,7 @@ public:
     virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN JUB_CHAR_PTR contractAddress, JUB_CHAR_PTR to, JUB_CHAR_PTR value, OUT OUTPUT_BTC outputs[1]);
     virtual JUB_RV ActiveSelf() override;
 
-private:
+protected:
     JUB_ENUM_COINTYPE_BTC   _coinType{ COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE _transType{ p2pkh };
     JUB_ENUM_BTC_UNIT_TYPE  _unitType{ mBTC };

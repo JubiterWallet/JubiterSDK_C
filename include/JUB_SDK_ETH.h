@@ -15,17 +15,24 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
-typedef enum class JubETHPubFormat {
+// Remove c++ features for swift framework
+//typedef enum class JubETHPubFormat {
+typedef enum {
     HEX = 0x00,
     XPUB = 0x01,
     PUB_FORMAT_NS_ITEM
 } JUB_ENUM_ETH_PUB_FORMAT;
+// Remove c++ features for swift framework end
 
-typedef struct stContextCfgETH : stContextCfg {
+// Remove c++ features for swift framework
+//typedef struct stContextCfgETH : stContextCfg {
+typedef struct stContextCfgETH {
+    JUB_CHAR_PTR            mainPath;
     int                 chainID;
 
-    virtual ~stContextCfgETH() {}
+//    virtual ~stContextCfgETH() {}
 } CONTEXT_CONFIG_ETH;
+// Remove c++ features for swift framework end
 
 /*****************************************************************************
  * @function name : JUB_CreateContextETH
