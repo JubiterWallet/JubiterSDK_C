@@ -27,7 +27,7 @@ namespace jub {
 
 class ContextETH : public Context {
 public:
-    ContextETH(CONTEXT_CONFIG_ETH cfg, JUB_UINT16 deviceID) {
+    ContextETH(const CONTEXT_CONFIG_ETH& cfg, const JUB_UINT16 deviceID) {
         _mainPath = cfg.mainPath;
         _chainID = cfg.chainID;
         _deviceID = deviceID;
@@ -36,24 +36,24 @@ public:
     };
     ~ContextETH() {};
 
-    virtual JUB_RV GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(BIP44_Path path, std::string& address);
-    virtual JUB_RV GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey);
-    virtual JUB_RV GetMainHDNode(JUB_BYTE format, std::string& xpub);
+    virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey);
+    virtual JUB_RV GetMainHDNode(const JUB_BYTE format, std::string& xpub);
 
-    virtual JUB_RV SignTransaction(IN BIP44_Path path,
-                                   IN JUB_UINT32 nonce,
-                                   IN JUB_UINT32 gasLimit,
-                                   IN JUB_CHAR_PTR gasPriceInWei,
-                                   IN JUB_CHAR_PTR to,
-                                   IN JUB_CHAR_PTR valueInWei,
-                                   IN JUB_CHAR_PTR input,
+    virtual JUB_RV SignTransaction(const BIP44_Path& path,
+                                   const JUB_UINT32 nonce,
+                                   const JUB_UINT32 gasLimit,
+                                   JUB_CHAR_CPTR gasPriceInWei,
+                                   JUB_CHAR_CPTR to,
+                                   JUB_CHAR_CPTR valueInWei,
+                                   JUB_CHAR_CPTR input,
                                    OUT std::string& raw);
 
-    virtual JUB_RV BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::string& abi);
-    virtual JUB_RV SetERC20ETHToken(JUB_CHAR_PTR pTokenName,
+    virtual JUB_RV BuildERC20Abi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi);
+    virtual JUB_RV SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
                                     JUB_UINT16 unitDP,
-                                    JUB_CHAR_PTR pContractAddress);
+                                    JUB_CHAR_CPTR pContractAddress);
     virtual JUB_RV ActiveSelf() override;
 
 private:

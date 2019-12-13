@@ -24,7 +24,7 @@ JUB_RV JubiterBLDImpl::GetAppletVersionETH(std::string &version) {
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::GetAddressETH(std::string path, JUB_UINT16 tag, std::string& address) {
+JUB_RV JubiterBLDImpl::GetAddressETH(const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
     uchar_vector data(path.begin(), path.end());
 
@@ -43,7 +43,7 @@ JUB_RV JubiterBLDImpl::GetAddressETH(std::string path, JUB_UINT16 tag, std::stri
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::string& pubkey) {
+JUB_RV JubiterBLDImpl::GetHDNodeETH(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
     //path = "m/44'/60'/0'";
     uchar_vector vPath;
@@ -77,15 +77,15 @@ JUB_RV JubiterBLDImpl::GetHDNodeETH(JUB_BYTE format, std::string path, std::stri
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::SignTXETH(bool bERC20,
-                                 std::vector<JUB_BYTE> vNonce,
-                                 std::vector<JUB_BYTE> vGasPrice,
-                                 std::vector<JUB_BYTE> vGasLimit,
-                                 std::vector<JUB_BYTE> vTo,
-                                 std::vector<JUB_BYTE> vValue,
-                                 std::vector<JUB_BYTE> vInput,
-                                 std::vector<JUB_BYTE> vPath,
-                                 std::vector<JUB_BYTE> vChainID,
+JUB_RV JubiterBLDImpl::SignTXETH(const bool bERC20,
+                                 const std::vector<JUB_BYTE>& vNonce,
+                                 const std::vector<JUB_BYTE>& vGasPrice,
+                                 const std::vector<JUB_BYTE>& vGasLimit,
+                                 const std::vector<JUB_BYTE>& vTo,
+                                 const std::vector<JUB_BYTE>& vValue,
+                                 const std::vector<JUB_BYTE>& vInput,
+                                 const std::vector<JUB_BYTE>& vPath,
+                                 const std::vector<JUB_BYTE>& vChainID,
                                  std::vector<JUB_BYTE>& vRaw) {
 
     uchar_vector data;

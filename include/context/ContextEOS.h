@@ -52,28 +52,28 @@ public:
     };
     ~ContextEOS() {};
 
-    virtual JUB_RV GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(BIP44_Path path, std::string& address);
-    virtual JUB_RV GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey);
-    virtual JUB_RV GetAddress(BIP48_Path path, JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(BIP48_Path path, std::string& address);
-    virtual JUB_RV GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubkey);
-    virtual JUB_RV GetMainHDNode(JUB_BYTE format, std::string& xpub);
+    virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey);
+    virtual JUB_RV GetAddress(const BIP48_Path& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(const BIP48_Path& path, std::string& address);
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const BIP48_Path& path, std::string& pubkey);
+    virtual JUB_RV GetMainHDNode(const JUB_BYTE format, std::string& xpub);
 
-    virtual JUB_RV SignTransaction(BIP44_Path path,
-                                   const JUB_CHAR_PTR chainID,
-                                   const JUB_CHAR_PTR expiration,
-                                   const JUB_CHAR_PTR referenceBlockId,
-                                   const JUB_CHAR_PTR referenceBlockTime,
-                                   const JUB_CHAR_PTR actionsInJSON,
+    virtual JUB_RV SignTransaction(const BIP44_Path& path,
+                                   JUB_CHAR_CPTR chainID,
+                                   JUB_CHAR_CPTR expiration,
+                                   JUB_CHAR_CPTR referenceBlockId,
+                                   JUB_CHAR_CPTR referenceBlockTime,
+                                   JUB_CHAR_CPTR actionsInJSON,
                                    std::string& rawInJSON);
 
-    virtual JUB_RV SignTransaction(BIP48_Path path,
-                                   const JUB_CHAR_PTR chainID,
-                                   const JUB_CHAR_PTR expiration,
-                                   const JUB_CHAR_PTR referenceBlockId,
-                                   const JUB_CHAR_PTR referenceBlockTime,
-                                   const JUB_CHAR_PTR actionsInJSON,
+    virtual JUB_RV SignTransaction(const BIP48_Path& path,
+                                   JUB_CHAR_CPTR chainID,
+                                   JUB_CHAR_CPTR expiration,
+                                   JUB_CHAR_CPTR referenceBlockId,
+                                   JUB_CHAR_CPTR referenceBlockTime,
+                                   JUB_CHAR_CPTR actionsInJSON,
                                    std::string& rawInJSON);
 
     virtual JUB_RV BuildAction(const JUB_ACTION_EOS_PTR actions,

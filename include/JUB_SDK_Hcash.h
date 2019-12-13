@@ -51,7 +51,7 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
                              IN INPUT_HC inputs[], IN JUB_UINT16 iCount,
                              IN OUTPUT_HC outputs[], IN JUB_UINT16 oCount,
-                             IN JUB_CHAR_PTR unsignedTrans,
+                             IN JUB_CHAR_CPTR unsignedTrans,
                              OUT JUB_CHAR_PTR_PTR raw);
 
 #ifdef __cplusplus

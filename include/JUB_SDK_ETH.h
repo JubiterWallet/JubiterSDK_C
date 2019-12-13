@@ -118,10 +118,10 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,
                               IN JUB_UINT32 nonce,
                               IN JUB_UINT32 gasLimit,
-                              IN JUB_CHAR_PTR gasPriceInWei,
-                              IN JUB_CHAR_PTR to,
-                              IN JUB_CHAR_PTR valueInWei,
-                              IN JUB_CHAR_PTR input,
+                              IN JUB_CHAR_CPTR gasPriceInWei,
+                              IN JUB_CHAR_CPTR to,
+                              IN JUB_CHAR_CPTR valueInWei,
+                              IN JUB_CHAR_CPTR input,
                               OUT JUB_CHAR_PTR_PTR raw);
 
 /*****************************************************************************
@@ -137,10 +137,10 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
-                            IN JUB_CHAR_PTR tokenName,
+                            IN JUB_CHAR_CPTR tokenName,
                             IN JUB_UINT16 unitDP,
-                            IN JUB_CHAR_PTR contractAddress,
-                            IN JUB_CHAR_PTR tokenTo, IN JUB_CHAR_PTR tokenValue,
+                            IN JUB_CHAR_CPTR contractAddress,
+                            IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
                             OUT JUB_CHAR_PTR_PTR abi);
 #ifdef __cplusplus
 }

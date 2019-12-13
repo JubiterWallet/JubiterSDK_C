@@ -29,7 +29,7 @@ JUB_RV ContextEOS::ActiveSelf() {
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
+JUB_RV ContextEOS::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -39,7 +39,7 @@ JUB_RV ContextEOS::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
+JUB_RV ContextEOS::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -50,7 +50,7 @@ JUB_RV ContextEOS::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& addr
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::SetMyAddress(BIP44_Path path, std::string& address) {
+JUB_RV ContextEOS::SetMyAddress(const BIP44_Path& path, std::string& address) {
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -61,7 +61,7 @@ JUB_RV ContextEOS::SetMyAddress(BIP44_Path path, std::string& address) {
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey) {
+JUB_RV ContextEOS::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -72,7 +72,7 @@ JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubk
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::GetAddress(BIP48_Path path, JUB_UINT16 tag, std::string& address) {
+JUB_RV ContextEOS::GetAddress(const BIP48_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -83,7 +83,7 @@ JUB_RV ContextEOS::GetAddress(BIP48_Path path, JUB_UINT16 tag, std::string& addr
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::SetMyAddress(BIP48_Path path, std::string& address) {
+JUB_RV ContextEOS::SetMyAddress(const BIP48_Path& path, std::string& address) {
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -94,7 +94,7 @@ JUB_RV ContextEOS::SetMyAddress(BIP48_Path path, std::string& address) {
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubkey) {
+JUB_RV ContextEOS::GetHDNode(const JUB_BYTE format, const BIP48_Path& path, std::string& pubkey) {
 
     auto token = dynamic_cast<EOSTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -105,12 +105,12 @@ JUB_RV ContextEOS::GetHDNode(JUB_BYTE format, BIP48_Path path, std::string& pubk
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
-                                   const JUB_CHAR_PTR chainID,
-                                   const JUB_CHAR_PTR expiration,
-                                   const JUB_CHAR_PTR referenceBlockId,
-                                   const JUB_CHAR_PTR referenceBlockTime,
-                                   const JUB_CHAR_PTR actionsInJSON,
+JUB_RV ContextEOS::SignTransaction(const BIP44_Path& path,
+                                   JUB_CHAR_CPTR chainID,
+                                   JUB_CHAR_CPTR expiration,
+                                   JUB_CHAR_CPTR referenceBlockId,
+                                   JUB_CHAR_CPTR referenceBlockTime,
+                                   JUB_CHAR_CPTR actionsInJSON,
                                    std::string& rawInJSON) {
 
     JUB_CHECK_NULL(expiration);
@@ -173,12 +173,12 @@ JUB_RV ContextEOS::SignTransaction(BIP44_Path path,
     return JUBR_OK;
 }
 
-JUB_RV ContextEOS::SignTransaction(BIP48_Path path,
-                                   const JUB_CHAR_PTR chainID,
-                                   const JUB_CHAR_PTR expiration,
-                                   const JUB_CHAR_PTR referenceBlockId,
-                                   const JUB_CHAR_PTR referenceBlockTime,
-                                   const JUB_CHAR_PTR actionsInJSON,
+JUB_RV ContextEOS::SignTransaction(const BIP48_Path& path,
+                                   JUB_CHAR_CPTR chainID,
+                                   JUB_CHAR_CPTR expiration,
+                                   JUB_CHAR_CPTR referenceBlockId,
+                                   JUB_CHAR_CPTR referenceBlockTime,
+                                   JUB_CHAR_CPTR actionsInJSON,
                                    std::string& rawInJSON) {
 
     JUB_CHECK_NULL(expiration);

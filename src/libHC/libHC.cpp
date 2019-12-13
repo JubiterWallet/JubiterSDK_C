@@ -13,7 +13,7 @@ namespace jub {
 
 namespace hc {
 
-JUB_RV DeserializeTx(std::string raw,TX_Hcash& tx) {
+JUB_RV DeserializeTx(const std::string& raw, TX_Hcash& tx) {
     TX_Hcash txTemp;
     uchar_vector rawTx = raw;
     try {
@@ -65,7 +65,7 @@ JUB_RV DeserializeTx(std::string raw,TX_Hcash& tx) {
     return JUBR_OK;
 }
 
-JUB_RV SerializeTx(const TX_Hcash tx, std::string& raw) {
+JUB_RV SerializeTx(const TX_Hcash& tx, std::string& raw) {
 
     uchar_vector rawTx;
     //only support full
@@ -73,7 +73,7 @@ JUB_RV SerializeTx(const TX_Hcash tx, std::string& raw) {
     //not support many inputs
     rawTx << (JUB_UINT8)tx.inputs.size();
 
-    for(INPUT_HCash input:tx.inputs) {
+    for (INPUT_HCash input:tx.inputs) {
         rawTx << input.preHash.getReverse();
         rawTx << input.preIndex;
         rawTx << input.tree;
@@ -81,7 +81,7 @@ JUB_RV SerializeTx(const TX_Hcash tx, std::string& raw) {
     }
     //output
     rawTx << (JUB_UINT8)tx.outputs.size();
-    for(OUTPUT_HCash output:tx.outputs) {
+    for (OUTPUT_HCash output:tx.outputs) {
         rawTx << (uint64_t)output.amount;
         rawTx << output.version;
         rawTx && output.scriptPk;
@@ -92,11 +92,11 @@ JUB_RV SerializeTx(const TX_Hcash tx, std::string& raw) {
 
     //witness
     rawTx << (JUB_UINT8)tx.inputs.size();
-    for(INPUT_HCash input:tx.inputs) {
+    for (INPUT_HCash input:tx.inputs) {
         rawTx << (uint64_t)input.amount;
         rawTx << input.blockHeight;
         rawTx << input.blockIndex;
-        if(input.scriptSig.size() == 0) {
+        if (0 == input.scriptSig.size()) {
             rawTx << (JUB_UINT8)0x00;
         }
         else {
@@ -108,7 +108,7 @@ JUB_RV SerializeTx(const TX_Hcash tx, std::string& raw) {
     return JUBR_OK;
 }
 
-JUB_RV SerializePreimage(const TX_Hcash tx , size_t i, uchar_vector redeemScript, uchar_vector& preimage) {
+JUB_RV SerializePreimage(const TX_Hcash& tx , size_t i, const uchar_vector& redeemScript, uchar_vector& preimage) {
     uchar_vector rawTx;
 
     //only TxSerializeNoWitness
@@ -116,7 +116,7 @@ JUB_RV SerializePreimage(const TX_Hcash tx , size_t i, uchar_vector redeemScript
     //not support many inputs
     rawTx << (JUB_UINT8)tx.inputs.size();
 
-    for(INPUT_HCash input:tx.inputs) {
+    for (INPUT_HCash input:tx.inputs) {
         rawTx << input.preHash.getReverse();
         rawTx << input.preIndex;
         rawTx << input.tree;
@@ -125,7 +125,7 @@ JUB_RV SerializePreimage(const TX_Hcash tx , size_t i, uchar_vector redeemScript
 
     //output
     rawTx << (JUB_UINT8)tx.outputs.size();
-    for(OUTPUT_HCash output:tx.outputs){
+    for (OUTPUT_HCash output:tx.outputs) {
         rawTx << (uint64_t)output.amount;
         rawTx << output.version;
         rawTx && output.scriptPk;
@@ -135,15 +135,15 @@ JUB_RV SerializePreimage(const TX_Hcash tx , size_t i, uchar_vector redeemScript
     rawTx << tx.expiry;
 
     JUB_BYTE hash [32] = {0};
-    blake256(&rawTx[0],rawTx.size(),hash);
-    uchar_vector NoWitnessHash(hash,32);
+    blake256(&rawTx[0], rawTx.size(), hash);
+    uchar_vector NoWitnessHash(hash, 32);
     rawTx.clear();
 
     //only TxSerializeWitnessSigning
     rawTx << (tx.version | ((JUB_UINT32)TxSerializeWitnessSigning<<16));
 
     rawTx << (JUB_UINT8)tx.inputs.size();
-    for(size_t j =0; j < tx.inputs.size(); j++) {
+    for (size_t j =0; j < tx.inputs.size(); j++) {
         if (i == j) {
             rawTx && redeemScript;
         }
@@ -152,8 +152,8 @@ JUB_RV SerializePreimage(const TX_Hcash tx , size_t i, uchar_vector redeemScript
         }
     }
 
-    blake256(&rawTx[0],rawTx.size(),hash);
-    uchar_vector OnlyWitnessHash(hash,32);
+    blake256(&rawTx[0], rawTx.size(), hash);
+    uchar_vector OnlyWitnessHash(hash, 32);
     rawTx.clear();
 
     preimage << (JUB_UINT32)0x01;

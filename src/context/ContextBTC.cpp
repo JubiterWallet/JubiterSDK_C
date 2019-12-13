@@ -9,7 +9,7 @@
 
 namespace jub {
 
-JUB_RV ContextBTC::GetHDNode(BIP44_Path path, std::string& xpub) {
+JUB_RV ContextBTC::GetHDNode(const BIP44_Path& path, std::string& xpub) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -30,7 +30,7 @@ JUB_RV ContextBTC::GetMainHDNode(std::string& xpub) {
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
+JUB_RV ContextBTC::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -41,7 +41,7 @@ JUB_RV ContextBTC::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& addr
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::SetMyAddress(BIP44_Path path, std::string& address) {
+JUB_RV ContextBTC::SetMyAddress(const BIP44_Path& path, std::string& address) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -52,7 +52,7 @@ JUB_RV ContextBTC::SetMyAddress(BIP44_Path path, std::string& address) {
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::SetUnit(JUB_ENUM_BTC_UNIT_TYPE unitType) {
+JUB_RV ContextBTC::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType) {
 
     _unitType = unitType;
 
@@ -78,7 +78,7 @@ JUB_RV ContextBTC::ActiveSelf() {
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]) {
+JUB_RV ContextBTC::BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]) {
 
     //build return0 output
     outputs[0].type = JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0;
@@ -92,14 +92,14 @@ JUB_RV ContextBTC::BuildUSDTOutputs(IN JUB_CHAR_PTR USDTTo, IN JUB_UINT64 amount
 
     //build dust output
     outputs[1].type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
-    outputs[1].stdOutput.address = USDTTo;
+    outputs[1].stdOutput.address = (JUB_CHAR_PTR)USDTTo;
     outputs[1].stdOutput.amount = 546;
     outputs[1].stdOutput.changeAddress = BOOL_FALSE;
 
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::SetQRC20Token(IN JUB_CHAR_PTR contractAddress,IN JUB_UINT8 decimal,IN JUB_CHAR_PTR symbol){
+JUB_RV ContextBTC::SetQRC20Token(IN JUB_CHAR_CPTR contractAddress,IN JUB_UINT8 decimal,IN JUB_CHAR_CPTR symbol){
 
     //use ETHTokenInterface may case error later. JubiterBLD has no problem.
     auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
@@ -108,7 +108,7 @@ JUB_RV ContextBTC::SetQRC20Token(IN JUB_CHAR_PTR contractAddress,IN JUB_UINT8 de
     std::string tokenName = std::string(symbol);
 //    abcd::DataChunk vContractAddress;
 //    bool rv = base58::DecodeBase58Check(contractAddress, vContractAddress);
-//    if(!rv) {
+//    if (!rv) {
 //        JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
 //    }
 //    vContractAddress.erase(vContractAddress.begin());
@@ -122,7 +122,7 @@ JUB_RV ContextBTC::SetQRC20Token(IN JUB_CHAR_PTR contractAddress,IN JUB_UINT8 de
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN JUB_CHAR_PTR contractAddress, JUB_CHAR_PTR to, JUB_CHAR_PTR value, OUT OUTPUT_BTC outputs[1]){
+JUB_RV ContextBTC::BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]){
     outputs[0].type = JUB_ENUM_SCRIPT_BTC_TYPE::QRC20;
 
     uchar_vector data;
@@ -136,7 +136,7 @@ JUB_RV ContextBTC::BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN 
 
 //    abcd::DataChunk vContractAddress;
 //    bool rv = base58::DecodeBase58Check(contractAddress, vContractAddress);
-//    if(!rv) {
+//    if (!rv) {
 //        JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
 //    }
 //    vContractAddress.erase(vContractAddress.begin());
@@ -155,7 +155,7 @@ JUB_RV ContextBTC::BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN 
         rv = true;
     }
     delete[] toAddress; toAddress = NULL;
-    if(!rv) {
+    if (!rv) {
         JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
     }
     vToAddress.erase(vToAddress.begin());
@@ -174,7 +174,7 @@ JUB_RV ContextBTC::BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN 
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::SignTX(std::vector<INPUT_BTC> vInputs, std::vector<OUTPUT_BTC> vOutputs, JUB_UINT32 lockTime, std::string& raw) {
+JUB_RV ContextBTC::SignTX(const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);

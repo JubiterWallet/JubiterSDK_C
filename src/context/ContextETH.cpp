@@ -21,7 +21,7 @@ JUB_RV ContextETH::ActiveSelf() {
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
+JUB_RV ContextETH::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -32,7 +32,7 @@ JUB_RV ContextETH::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& addr
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
+JUB_RV ContextETH::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
 
     auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -42,7 +42,7 @@ JUB_RV ContextETH::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::SetMyAddress(BIP44_Path path, std::string& address) {
+JUB_RV ContextETH::SetMyAddress(const BIP44_Path& path, std::string& address) {
 
     auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -53,7 +53,7 @@ JUB_RV ContextETH::SetMyAddress(BIP44_Path path, std::string& address) {
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey) {
+JUB_RV ContextETH::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
 
     auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -64,15 +64,14 @@ JUB_RV ContextETH::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubk
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::SignTransaction(IN BIP44_Path path,
-                                   IN JUB_UINT32 nonce,
-                                   IN JUB_UINT32 gasLimit,
-                                   IN JUB_CHAR_PTR gasPriceInWei,
-                                   IN JUB_CHAR_PTR to,
-                                   IN JUB_CHAR_PTR valueInWei,
-                                   IN JUB_CHAR_PTR input,
+JUB_RV ContextETH::SignTransaction(const BIP44_Path& path,
+                                   const JUB_UINT32 nonce,
+                                   const JUB_UINT32 gasLimit,
+                                   JUB_CHAR_CPTR gasPriceInWei,
+                                   JUB_CHAR_CPTR to,
+                                   JUB_CHAR_CPTR valueInWei,
+                                   JUB_CHAR_CPTR input,
                                    OUT std::string& strRaw) {
-
     JUB_CHECK_NULL(gasPriceInWei);
     JUB_CHECK_NULL(to);
 //    JUB_CHECK_NULL(valueInWei);// it can be nullptr
@@ -126,7 +125,7 @@ JUB_RV ContextETH::SignTransaction(IN BIP44_Path path,
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::string& abi) {
+JUB_RV ContextETH::BuildERC20Abi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
 
     std::vector<JUB_BYTE> vTo = jub::ETHHexStr2CharPtr(to);
     std::vector<JUB_BYTE> vValue = jub::HexStr2CharPtr(DecStringToHexString(std::string(value)));
@@ -136,9 +135,9 @@ JUB_RV ContextETH::BuildERC20Abi(JUB_CHAR_PTR to, JUB_CHAR_PTR value, std::strin
     return JUBR_OK;
 }
 
-JUB_RV ContextETH::SetERC20ETHToken(JUB_CHAR_PTR pTokenName,
+JUB_RV ContextETH::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
                                     JUB_UINT16 unitDP,
-                                    JUB_CHAR_PTR pContractAddress) {
+                                    JUB_CHAR_CPTR pContractAddress) {
 
     // ETH token extension apdu
     if (0 > _appletVersion.compare(APPLET_VERSION_SUPPORT_EXT_TOKEN)) {

@@ -21,7 +21,7 @@ JUB_RV ContextHC::ActiveSelf() {
     return JUBR_OK;
 }
 
-JUB_RV ContextHC::signTX(std::vector<INPUT_HC> vInputs, std::vector<OUTPUT_HC> vOutputs, std::string unsignedTrans, std::string& raw) {
+JUB_RV ContextHC::signTX(const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) {
 
     auto token = dynamic_cast<HCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);

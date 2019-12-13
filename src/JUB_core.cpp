@@ -41,8 +41,8 @@ JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
                             OUT JUB_CHAR_PTR_PTR mnemonic) {
 
     JUB_CHAR _mnemonic[240] = {0,};
-    if(mnemonic_generate(strength, _mnemonic)) {
-        JUB_VERIFY_RV(_allocMem(mnemonic,std::string(_mnemonic)));
+    if (mnemonic_generate(strength, _mnemonic)) {
+        JUB_VERIFY_RV(_allocMem(mnemonic, std::string(_mnemonic)));
         return JUBR_OK;
     }
     else {
@@ -51,7 +51,7 @@ JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
 }
 
 JUB_RV JUB_CheckMnemonic(IN JUB_CHAR_CPTR mnemonic) {
-    if(0 == mnemonic_check(mnemonic)) {
+    if (0 == mnemonic_check(mnemonic)) {
         return JUBR_ERROR;
     }
     else {
@@ -64,23 +64,23 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, 
 
     JUB_CHECK_NULL(mnemonic);
     JUB_CHECK_NULL(passphrase);
-    mnemonic_to_seed(mnemonic,passphrase,seed,progress_callback);
+    mnemonic_to_seed(mnemonic, passphrase, seed, progress_callback);
     return JUBR_OK;
 }
 
-JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_PTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
+JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
                                   OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
     JUB_CHECK_NULL(seed);
     std::string curve_name;
     JUB_VERIFY_RV(_curveToString(curve,curve_name));
 
     HDNode node;
-    if(0 == hdnode_from_seed(seed, seed_len, curve_name.c_str(), &node)) {
+    if (0 == hdnode_from_seed(seed, seed_len, curve_name.c_str(), &node)) {
         return JUBR_ERROR;
     }
 
     JUB_CHAR str_pri[200] = {0,};
-    if(0 == hdnode_serialize_private(&node, 0x00, defaultXPRV, str_pri, 200)) {
+    if (0 == hdnode_serialize_private(&node, 0x00, defaultXPRV, str_pri, 200)) {
         return JUBR_ERROR;
     }
 
@@ -103,7 +103,7 @@ public:
 };
 
 JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
-                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
     static_assert(TIsExtended<jub::TrezorCryptoImpl,
                   jub::BTCTokenInterface>::Result,
@@ -119,7 +119,7 @@ JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
 }
 
 JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
-                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
     static_assert(TIsExtended<jub::TrezorCryptoImpl,
                   jub::ETHTokenInterface>::Result,
@@ -135,7 +135,7 @@ JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
 }
 
 JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
-                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
     static_assert(TIsExtended<jub::TrezorCryptoImpl,
                   jub::EOSTokenInterface>::Result,
@@ -151,7 +151,7 @@ JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
 }
 
 JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
-                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
     static_assert(TIsExtended<jub::TrezorCryptoImpl,
                   jub::XRPTokenInterface>::Result,

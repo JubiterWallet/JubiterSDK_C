@@ -47,27 +47,27 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase,
                         void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total));
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_PTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
+JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
                                   OUT JUB_CHAR_PTR_PTR prikeyInXPRV);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
-                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
-                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
-                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
-                                 IN JUB_CHAR_PTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID);
 #ifdef __cplusplus
 }
