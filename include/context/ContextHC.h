@@ -10,7 +10,6 @@
 #include <context/ContextBTC.h>
 #include "../libHC/libHC.h"
 
-
 #define JUB_CHECK_CONTEXT_HC(x)                                     \
 do {                                                                \
     auto context = jub::ContextManager::GetInstance()->GetOne(x);   \
@@ -20,33 +19,50 @@ do {                                                                \
     if (tCtx.hash_code() != tCtxBTC.hash_code()) {                  \
         return JUBR_ERROR_ARGS;                                     \
     }                                                               \
-} while(0)                                                                                                              
+} while(0)
 
 namespace jub {
-    
-class HCContextBase{
+
+class HCContextBase {
 
 public:
     virtual JUB_RV signTX(std::vector<INPUT_HC> inputs, std::vector<OUTPUT_HC> outputs, std::string unsignedTrans, std::string& raw) = 0;
-    JUB_RV DeserializeTxHC(std::string raw){return hc::DeserializeTx(raw,_tx);};
-    JUB_RV SerializeTxHC(std::string& raw){return hc::SerializeTx(_tx,raw);};
+    JUB_RV DeserializeTxHC(std::string raw) {
+        return hc::DeserializeTx(raw,_tx);
+    };
+    JUB_RV SerializeTxHC(std::string& raw) {
+        return hc::SerializeTx(_tx,raw);
+    };
+
 protected:
-    hc::TX_Hcash   _tx;
+    hc::TX_Hcash _tx;
 };
 
-class ContextHC : public ContextBTC,public  HCContextBase{
+class ContextHC : public ContextBTC,
+                  public HCContextBase {
 
 public:
-    ContextHC(CONTEXT_CONFIG_HC cfg, JUB_UINT16 deviceID) :
-    ContextBTC({COINBTC, cfg.mainPath, p2pkh}, deviceID) {
+// Remove c++ features for swift framework
+//    ContextHC(CONTEXT_CONFIG_HC cfg, JUB_UINT16 deviceID) :
+//    ContextBTC({COINBTC, cfg.mainPath, p2pkh}, deviceID) {
+//        _timeout = 120 * 2;
+//    };
+    ContextHC(CONTEXT_CONFIG_HC cfg, JUB_UINT16 deviceID) {
+        _coinType = COINBTC;
+        _mainPath = cfg.mainPath;
+        _transType = p2pkh;
+        _deviceID = deviceID;
+
         _timeout = 120 * 2;
     };
+// Remove c++ features for swift framework end
     ~ContextHC() {};
 
     virtual JUB_RV signTX(std::vector<INPUT_HC> inputs, std::vector<OUTPUT_HC> outputs, std::string unsignedTrans, std::string& raw) override;
-    virtual ContextHC* GetClassType(void) { return this; }
+    virtual ContextHC* GetClassType(void) {
+        return this;
+    }
     virtual JUB_RV ActiveSelf() override;
-
 }; // class ContextBTC end
 
 } // namespace jub end

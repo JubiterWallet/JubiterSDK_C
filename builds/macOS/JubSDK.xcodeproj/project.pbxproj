@@ -21,6 +21,267 @@
 		6713A7AE239FBE0C0083A34D /* JubiterBLDImplHC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7AD239FBE0B0083A34D /* JubiterBLDImplHC.cpp */; };
 		6713A7B0239FBE4F0083A34D /* ContextHC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7AF239FBE4F0083A34D /* ContextHC.cpp */; };
 		6713A92B23A0BD350083A34D /* groestl.c in Sources */ = {isa = PBXBuildFile; fileRef = 6713A92A23A0BD350083A34D /* groestl.c */; };
+		67189F1023A20FED00F8A5CD /* JUB_SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAD233083730059A3DB /* JUB_SDK.h */; };
+		67189F1123A20FED00F8A5CD /* JUB_core.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAE233083730059A3DB /* JUB_core.h */; };
+		67189F1223A20FED00F8A5CD /* JUB_SDK_COMM.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAC233083730059A3DB /* JUB_SDK_COMM.h */; };
+		67189F1323A20FED00F8A5CD /* JUB_SDK_DEV.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAA233083730059A3DB /* JUB_SDK_DEV.h */; };
+		67189F1423A20FED00F8A5CD /* JUB_SDK_DEV_BLE.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCB1233083730059A3DB /* JUB_SDK_DEV_BLE.h */; };
+		67189F1523A20FED00F8A5CD /* JUB_SDK_DEV_HID.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAB233083730059A3DB /* JUB_SDK_DEV_HID.h */; };
+		67189F1623A20FED00F8A5CD /* JUB_SDK_BTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCB0233083730059A3DB /* JUB_SDK_BTC.h */; };
+		67189F1723A20FED00F8A5CD /* JUB_SDK_ETH.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAF233083730059A3DB /* JUB_SDK_ETH.h */; };
+		67189F1823A20FED00F8A5CD /* JUB_SDK_Hcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A79F239FBC4F0083A34D /* JUB_SDK_Hcash.h */; };
+		67189F1923A20FED00F8A5CD /* JUB_SDK_EOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6766222F234D8EB200AFAFA2 /* JUB_SDK_EOS.h */; };
+		67189F1A23A20FED00F8A5CD /* JUB_SDK_XRP.h in Headers */ = {isa = PBXBuildFile; fileRef = 675C796F238B81190015C95D /* JUB_SDK_XRP.h */; };
+		67189F1B23A20FF100F8A5CD /* xManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCD1233084470059A3DB /* xManager.hpp */; };
+		67189F1C23A20FF100F8A5CD /* Context.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC86233082960059A3DB /* Context.h */; };
+		67189F1D23A20FF100F8A5CD /* ContextBTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC87233082960059A3DB /* ContextBTC.h */; };
+		67189F1E23A20FF100F8A5CD /* ContextETH.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC88233082960059A3DB /* ContextETH.h */; };
+		67189F1F23A20FF100F8A5CD /* ContextHC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7A1239FBC940083A34D /* ContextHC.h */; };
+		67189F2023A20FF100F8A5CD /* ContextEOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 67662233234D905B00AFAFA2 /* ContextEOS.h */; };
+		67189F2123A20FF100F8A5CD /* ContextXRP.h in Headers */ = {isa = PBXBuildFile; fileRef = 675C7976238BF0350015C95D /* ContextXRP.h */; };
+		67189F2223A20FF900F8A5CD /* ApduBuilder.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC93233082CA0059A3DB /* ApduBuilder.hpp */; };
+		67189F2323A20FF900F8A5CD /* DeviceIOLogHelper.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC92233082CA0059A3DB /* DeviceIOLogHelper.hpp */; };
+		67189F2423A20FF900F8A5CD /* DeviceTypeBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC91233082CA0059A3DB /* DeviceTypeBase.hpp */; };
+		67189F2523A20FF900F8A5CD /* Fido.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC90233082CA0059A3DB /* Fido.h */; };
+		67189F2623A20FF900F8A5CD /* JubiterBLEDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC94233082CA0059A3DB /* JubiterBLEDevice.hpp */; };
+		67189F2723A20FF900F8A5CD /* JubiterHidDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC8F233082CA0059A3DB /* JubiterHidDevice.hpp */; };
+		67189F2823A20FFC00F8A5CD /* constant.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC9C233083090059A3DB /* constant.hpp */; };
+		67189F2923A20FFC00F8A5CD /* HDKey.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BC9D233083090059A3DB /* HDKey.hpp */; };
+		67189F2A23A2100200F8A5CD /* JubiterBLDImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCA0233083250059A3DB /* JubiterBLDImpl.h */; };
+		67189F2B23A2100200F8A5CD /* TrezorCryptoImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCA1233083250059A3DB /* TrezorCryptoImpl.h */; };
+		67189F2C23A2100600F8A5CD /* TokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCA6233083480059A3DB /* TokenInterface.hpp */; };
+		67189F2D23A2100600F8A5CD /* BTCTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCA4233083480059A3DB /* BTCTokenInterface.hpp */; };
+		67189F2E23A2100600F8A5CD /* ETHTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCA5233083480059A3DB /* ETHTokenInterface.hpp */; };
+		67189F2F23A2100600F8A5CD /* HCTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7A3239FBCD90083A34D /* HCTokenInterface.hpp */; };
+		67189F3023A2100600F8A5CD /* EOSTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67662237234DA4C700AFAFA2 /* EOSTokenInterface.hpp */; };
+		67189F3123A2100600F8A5CD /* XRPTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 675C797A238BF2AB0015C95D /* XRPTokenInterface.hpp */; };
+		67189F3223A2100A00F8A5CD /* libBTC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCBE233083B70059A3DB /* libBTC.hpp */; };
+		67189F3323A2100E00F8A5CD /* libBCH.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCC0233083C50059A3DB /* libBCH.hpp */; };
+		67189F3423A2101100F8A5CD /* AddressChecksum.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCC3233083E20059A3DB /* AddressChecksum.h */; };
+		67189F3523A2101100F8A5CD /* ERC20Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCC2233083E20059A3DB /* ERC20Abi.h */; };
+		67189F3623A2101100F8A5CD /* RLP.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCC4233083E20059A3DB /* RLP.h */; };
+		67189F3723A2102C00F8A5CD /* libHC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7A6239FBD060083A34D /* libHC.h */; };
+		67189F3823A2102F00F8A5CD /* libEOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 678D1A0D235EB4280091D3E8 /* libEOS.hpp */; };
+		67189F3923A2103300F8A5CD /* libXRP.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 675C797F238D17680015C95D /* libXRP.hpp */; };
+		67189F3A23A2103800F8A5CD /* Apdu.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCCC233084200059A3DB /* Apdu.hpp */; };
+		67189F3B23A2103800F8A5CD /* Debug.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCC9233084200059A3DB /* Debug.hpp */; };
+		67189F3C23A2103800F8A5CD /* Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCCA233084200059A3DB /* Singleton.h */; };
+		67189F3D23A2103800F8A5CD /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCCB233084200059A3DB /* util.h */; };
+		67189F3E23A2103800F8A5CD /* trim.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6755ED31233C590F00B418C7 /* trim.hpp */; };
+		67189F3F23A2103F00F8A5CD /* JUB_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD9233084740059A3DB /* JUB_core.cpp */; };
+		67189F4023A2103F00F8A5CD /* JUB_SDK_COMM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD8233084740059A3DB /* JUB_SDK_COMM.cpp */; };
+		67189F4123A2103F00F8A5CD /* JUB_SDK_DEV_BLE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD4233084740059A3DB /* JUB_SDK_DEV_BLE.cpp */; };
+		67189F4223A2103F00F8A5CD /* JUB_SDK_DEV_HID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD5233084740059A3DB /* JUB_SDK_DEV_HID.cpp */; };
+		67189F4323A2103F00F8A5CD /* JUB_SDK_DEV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD7233084740059A3DB /* JUB_SDK_DEV.cpp */; };
+		67189F4423A2103F00F8A5CD /* JUB_SDK_BTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCD6233084740059A3DB /* JUB_SDK_BTC.cpp */; };
+		67189F4523A2103F00F8A5CD /* JUB_SDK_ETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCDB233084740059A3DB /* JUB_SDK_ETH.cpp */; };
+		67189F4623A2103F00F8A5CD /* JUB_SDK_Hcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7AB239FBDD80083A34D /* JUB_SDK_Hcash.cpp */; };
+		67189F4723A2103F00F8A5CD /* JUB_SDK_EOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662231234D8F4C00AFAFA2 /* JUB_SDK_EOS.cpp */; };
+		67189F4823A2103F00F8A5CD /* JUB_SDK_XRP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7971238B83A40015C95D /* JUB_SDK_XRP.cpp */; };
+		67189F4923A2104500F8A5CD /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCE5233084980059A3DB /* Context.cpp */; };
+		67189F4A23A2104500F8A5CD /* ContextBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCE6233084980059A3DB /* ContextBTC.cpp */; };
+		67189F4B23A2104500F8A5CD /* ContextETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCE7233084980059A3DB /* ContextETH.cpp */; };
+		67189F4C23A2104500F8A5CD /* ContextHC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7AF239FBE4F0083A34D /* ContextHC.cpp */; };
+		67189F4D23A2104500F8A5CD /* ContextEOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662235234D907D00AFAFA2 /* ContextEOS.cpp */; };
+		67189F4E23A2104500F8A5CD /* ContextXRP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7978238BF10F0015C95D /* ContextXRP.cpp */; };
+		67189F4F23A2104A00F8A5CD /* ApduBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCEE233084B90059A3DB /* ApduBuilder.cpp */; };
+		67189F5023A2104A00F8A5CD /* Fido.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCED233084B90059A3DB /* Fido.cpp */; };
+		67189F5123A2104A00F8A5CD /* JubiterBLEDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCEC233084B90059A3DB /* JubiterBLEDevice.cpp */; };
+		67189F5223A2104A00F8A5CD /* JubiterHidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCEF233084B90059A3DB /* JubiterHidDevice.cpp */; };
+		67189F5323A2104E00F8A5CD /* HDKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4587D23336DAB00CEB712 /* HDKey.cpp */; };
+		67189F5423A2105200F8A5CD /* libBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A752239F75960083A34D /* libBTC.cpp */; };
+		67189F5523A2105500F8A5CD /* libBCH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A754239F7AA30083A34D /* libBCH.cpp */; };
+		67189F5623A2105900F8A5CD /* AddressChecksum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCF9233086840059A3DB /* AddressChecksum.cpp */; };
+		67189F5723A2105900F8A5CD /* ERC20Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCFA233086840059A3DB /* ERC20Abi.cpp */; };
+		67189F5823A2105900F8A5CD /* RLP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCF8233086840059A3DB /* RLP.cpp */; };
+		67189F5923A2105D00F8A5CD /* libHC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7A9239FBDAA0083A34D /* libHC.cpp */; };
+		67189F5A23A2106100F8A5CD /* libEOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 678D1A0F235EB4390091D3E8 /* libEOS.cpp */; };
+		67189F5B23A2106400F8A5CD /* libXRP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7982238D17810015C95D /* libXRP.cpp */; };
+		67189F5C23A2106900F8A5CD /* JubiterBLDImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE482330C2790059A3DB /* JubiterBLDImpl.cpp */; };
+		67189F5D23A2106900F8A5CD /* JubiterBLDImplBTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE472330C2790059A3DB /* JubiterBLDImplBTC.cpp */; };
+		67189F5E23A2106900F8A5CD /* JubiterBLDImplETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE492330C2790059A3DB /* JubiterBLDImplETH.cpp */; };
+		67189F5F23A2106900F8A5CD /* JubiterBLDImplHC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A7AD239FBE0B0083A34D /* JubiterBLDImplHC.cpp */; };
+		67189F6023A2106900F8A5CD /* JubiterBLDImplEOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662239234DA57B00AFAFA2 /* JubiterBLDImplEOS.cpp */; };
+		67189F6123A2106900F8A5CD /* JubiterBLDImplXRP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C797C238BF31A0015C95D /* JubiterBLDImplXRP.cpp */; };
+		67189F6223A2106900F8A5CD /* TrezorCryptoImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE4A2330C2790059A3DB /* TrezorCryptoImpl.cpp */; };
+		67189F6323A2106E00F8A5CD /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BCFF233086AB0059A3DB /* Debug.cpp */; };
+		67189F6423A2106E00F8A5CD /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD00233086AB0059A3DB /* util.cpp */; };
+		67189F6523A2111300F8A5CD /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE352330B2E90059A3DB /* Data.cpp */; };
+		67189F6623A2111300F8A5CD /* Data.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE342330B2E90059A3DB /* Data.hpp */; };
+		67189F6723A2111700F8A5CD /* BigInteger.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE232330AF200059A3DB /* BigInteger.cc */; };
+		67189F6823A2111700F8A5CD /* BigInteger.hh in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE212330AF200059A3DB /* BigInteger.hh */; };
+		67189F6923A2111700F8A5CD /* BigIntegerAlgorithms.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE1A2330AF200059A3DB /* BigIntegerAlgorithms.cc */; };
+		67189F6A23A2111700F8A5CD /* BigIntegerAlgorithms.hh in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE1C2330AF200059A3DB /* BigIntegerAlgorithms.hh */; };
+		67189F6B23A2111700F8A5CD /* BigIntegerLibrary.hh in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE202330AF200059A3DB /* BigIntegerLibrary.hh */; };
+		67189F6C23A2111700F8A5CD /* BigIntegerUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE1E2330AF200059A3DB /* BigIntegerUtils.cc */; };
+		67189F6D23A2111700F8A5CD /* BigIntegerUtils.hh in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE242330AF200059A3DB /* BigIntegerUtils.hh */; };
+		67189F6E23A2111700F8A5CD /* BigUnsigned.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE1F2330AF200059A3DB /* BigUnsigned.cc */; };
+		67189F6F23A2111700F8A5CD /* BigUnsigned.hh in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE222330AF200059A3DB /* BigUnsigned.hh */; };
+		67189F7023A2111700F8A5CD /* BigUnsignedInABase.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE192330AF200059A3DB /* BigUnsignedInABase.cc */; };
+		67189F7123A2111700F8A5CD /* BigUnsignedInABase.hh in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE1B2330AF200059A3DB /* BigUnsignedInABase.hh */; };
+		67189F7223A2111700F8A5CD /* NumberlikeArray.hh in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE1D2330AF200059A3DB /* NumberlikeArray.hh */; };
+		67189F7323A2111E00F8A5CD /* bech32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE0E2330AED80059A3DB /* bech32.cpp */; };
+		67189F7423A2111F00F8A5CD /* bech32.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE112330AED80059A3DB /* bech32.h */; };
+		67189F7523A2112200F8A5CD /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE0B2330AEB30059A3DB /* byteswap.h */; };
+		67189F7623A2112200F8A5CD /* endian.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE0A2330AEB30059A3DB /* endian.h */; };
+		67189F7723A2112500F8A5CD /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A799239FB9120083A34D /* hash.h */; };
+		67189F7823A2112500F8A5CD /* segwit_addr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A797239FB9120083A34D /* segwit_addr.cpp */; };
+		67189F7923A2112500F8A5CD /* segwit_addr.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A798239FB9120083A34D /* segwit_addr.h */; };
+		67189F7A23A2112A00F8A5CD /* cashaddr.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE042330AE840059A3DB /* cashaddr.cc */; };
+		67189F7B23A2112A00F8A5CD /* cashaddr.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE052330AE840059A3DB /* cashaddr.h */; };
+		67189F7C23A2112F00F8A5CD /* opcode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BE012330AE680059A3DB /* opcode.hpp */; };
+		67189F7D23A2113300F8A5CD /* uchar_vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BDFD2330AE1A0059A3DB /* uchar_vector.h */; };
+		67189F7E23A2113700F8A5CD /* hid.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDE72330AC9E0059A3DB /* hid.c */; };
+		67189F7F23A2113700F8A5CD /* hidapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BDE92330AD090059A3DB /* hidapi.h */; };
+		67189F8023A2113E00F8A5CD /* address.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD582330A1D10059A3DB /* address.h */; };
+		67189F8123A2113E00F8A5CD /* aes.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19A323A105A3001702DD /* aes.h */; };
+		67189F8223A2113E00F8A5CD /* base32.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD572330A1D10059A3DB /* base32.h */; };
+		67189F8323A2113E00F8A5CD /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD552330A1D00059A3DB /* base58.h */; };
+		67189F8423A2113E00F8A5CD /* bignum.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD512330A1D00059A3DB /* bignum.h */; };
+		67189F8523A2113E00F8A5CD /* bip32.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD5B2330A1D10059A3DB /* bip32.h */; };
+		67189F8623A2113E00F8A5CD /* bip39.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD5C2330A1D10059A3DB /* bip39.h */; };
+		67189F8723A2113E00F8A5CD /* blake2b.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD592330A1D10059A3DB /* blake2b.h */; };
+		67189F8823A2113E00F8A5CD /* blake2s.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD522330A1D00059A3DB /* blake2s.h */; };
+		67189F8923A2113E00F8A5CD /* blake256.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD532330A1D00059A3DB /* blake256.h */; };
+		67189F8A23A2113E00F8A5CD /* curves.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD542330A1D00059A3DB /* curves.h */; };
+		67189F8B23A2113E00F8A5CD /* ecdsa.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD562330A1D00059A3DB /* ecdsa.h */; };
+		67189F8C23A2114200F8A5CD /* curve25519-donna-32bit.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19CF23A10628001702DD /* curve25519-donna-32bit.h */; };
+		67189F8D23A2114200F8A5CD /* curve25519-donna-helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19CA23A10628001702DD /* curve25519-donna-helpers.h */; };
+		67189F8E23A2114200F8A5CD /* ed25519-blake2b.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19C923A10628001702DD /* ed25519-blake2b.h */; };
+		67189F8F23A2114200F8A5CD /* ed25519-donna-32bit-tables.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19C723A10628001702DD /* ed25519-donna-32bit-tables.h */; };
+		67189F9023A2114200F8A5CD /* ed25519-donna-basepoint-table.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19CC23A10628001702DD /* ed25519-donna-basepoint-table.h */; };
+		67189F9123A2114200F8A5CD /* ed25519-donna-impl-base.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19CB23A10628001702DD /* ed25519-donna-impl-base.h */; };
+		67189F9223A2114200F8A5CD /* ed25519-donna-portable.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19CD23A10628001702DD /* ed25519-donna-portable.h */; };
+		67189F9323A2114200F8A5CD /* ed25519-keccak.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19CE23A10628001702DD /* ed25519-keccak.h */; };
+		67189F9423A2114200F8A5CD /* ed25519-sha3.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19D023A10628001702DD /* ed25519-sha3.h */; };
+		67189F9523A2114200F8A5CD /* modm-donna-32bit.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19C823A10628001702DD /* modm-donna-32bit.h */; };
+		67189F9623A2114A00F8A5CD /* ed25519-donna.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19DC23A10639001702DD /* ed25519-donna.h */; };
+		67189F9723A2114A00F8A5CD /* ed25519.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19DB23A10639001702DD /* ed25519.h */; };
+		67189F9823A2114A00F8A5CD /* groestl.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD1B2330A1550059A3DB /* groestl.h */; };
+		67189F9923A2114A00F8A5CD /* hasher.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD182330A1550059A3DB /* hasher.h */; };
+		67189F9A23A2114A00F8A5CD /* hmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD162330A1550059A3DB /* hmac.h */; };
+		67189F9B23A2114A00F8A5CD /* memzero.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19DF23A106B6001702DD /* memzero.h */; };
+		67189F9C23A2114A00F8A5CD /* nem.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19E123A106D6001702DD /* nem.h */; };
+		67189F9D23A2114A00F8A5CD /* nist256p1.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19E723A1074C001702DD /* nist256p1.h */; };
+		67189F9E23A2114A00F8A5CD /* pbkdf2.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD1E2330A1560059A3DB /* pbkdf2.h */; };
+		67189F9F23A2114A00F8A5CD /* rand.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD1A2330A1550059A3DB /* rand.h */; };
+		67189FA023A2114A00F8A5CD /* rc4.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD202330A1560059A3DB /* rc4.h */; };
+		67189FA123A2114A00F8A5CD /* rfc6979.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD2E2330A1720059A3DB /* rfc6979.h */; };
+		67189FA223A2114A00F8A5CD /* ripemd160.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD302330A1720059A3DB /* ripemd160.h */; };
+		67189FA323A2114D00F8A5CD /* base58.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F1A2723A10918001702DD /* base58.h */; };
+		67189FA423A2115100F8A5CD /* schnorr.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD322330A1720059A3DB /* schnorr.h */; };
+		67189FA523A2115100F8A5CD /* script.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD332330A1720059A3DB /* script.h */; };
+		67189FA623A2115100F8A5CD /* scrypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD2D2330A1720059A3DB /* scrypt.h */; };
+		67189FA723A2115100F8A5CD /* secp256k1.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD312330A1720059A3DB /* secp256k1.h */; };
+		67189FA823A2115100F8A5CD /* sha2.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD2C2330A1720059A3DB /* sha2.h */; };
+		67189FA923A2115100F8A5CD /* sha3.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD2F2330A1720059A3DB /* sha3.h */; };
+		67189FAA23A2115400F8A5CD /* keypair.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD082330A0D20059A3DB /* keypair.h */; };
+		67189FAB23A2115800F8A5CD /* ed25519_ref10_fe_25_5.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD0C2330A0F70059A3DB /* ed25519_ref10_fe_25_5.h */; };
+		67189FAC23A2115800F8A5CD /* ed25519_ref10.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD0B2330A0F70059A3DB /* ed25519_ref10.h */; };
+		67189FAD23A2115D00F8A5CD /* constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD102330A1150059A3DB /* constants.h */; };
+		67189FAE23A2115D00F8A5CD /* fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD112330A1150059A3DB /* fe.h */; };
+		67189FAF23A2116000F8A5CD /* TrezorCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BD142330A12D0059A3DB /* TrezorCrypto.h */; };
+		67189FB023A2116500F8A5CD /* address.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDE42330AAE30059A3DB /* address.c */; };
+		67189FB123A2116900F8A5CD /* aes_modes.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199823A10574001702DD /* aes_modes.c */; };
+		67189FB223A2116900F8A5CD /* aescrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199623A10574001702DD /* aescrypt.c */; };
+		67189FB323A2116900F8A5CD /* aeskey.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199723A10574001702DD /* aeskey.c */; };
+		67189FB423A2116900F8A5CD /* aesopt.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F199A23A10574001702DD /* aesopt.h */; };
+		67189FB523A2116900F8A5CD /* aestab.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199923A10574001702DD /* aestab.c */; };
+		67189FB623A2116900F8A5CD /* aestab.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F199B23A10574001702DD /* aestab.h */; };
+		67189FB723A2116D00F8A5CD /* base32.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC12330A9F80059A3DB /* base32.c */; };
+		67189FB823A2116D00F8A5CD /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC82330A9F90059A3DB /* base58.c */; };
+		67189FB923A2116D00F8A5CD /* bignum.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDBE2330A9F80059A3DB /* bignum.c */; };
+		67189FBA23A2116D00F8A5CD /* bip32.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC22330A9F80059A3DB /* bip32.c */; };
+		67189FBB23A2116D00F8A5CD /* bip39_english.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BDC32330A9F80059A3DB /* bip39_english.h */; };
+		67189FBC23A2116D00F8A5CD /* bip39.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC42330A9F80059A3DB /* bip39.c */; };
+		67189FBD23A2116D00F8A5CD /* blake2_common.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BDBF2330A9F80059A3DB /* blake2_common.h */; };
+		67189FBE23A2116D00F8A5CD /* blake2b.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC02330A9F80059A3DB /* blake2b.c */; };
+		67189FBF23A2116D00F8A5CD /* blake2s.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC72330A9F80059A3DB /* blake2s.c */; };
+		67189FC023A2116D00F8A5CD /* blake256.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC52330A9F80059A3DB /* blake256.c */; };
+		67189FC123A2116D00F8A5CD /* cash_addr.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDBD2330A9F80059A3DB /* cash_addr.c */; };
+		67189FC223A2116D00F8A5CD /* curves.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC62330A9F80059A3DB /* curves.c */; };
+		67189FC323A2116D00F8A5CD /* ecdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDC92330A9F90059A3DB /* ecdsa.c */; };
+		67189FC423A2117200F8A5CD /* curve25519-donna-32bit.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19B223A105F2001702DD /* curve25519-donna-32bit.c */; };
+		67189FC523A2117200F8A5CD /* curve25519-donna-helpers.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19AB23A105F1001702DD /* curve25519-donna-helpers.c */; };
+		67189FC623A2117200F8A5CD /* curve25519-donna-scalarmult-base.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19AA23A105F1001702DD /* curve25519-donna-scalarmult-base.c */; };
+		67189FC723A2117200F8A5CD /* curve25519-donna-scalarmult-base.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19B323A105F2001702DD /* curve25519-donna-scalarmult-base.h */; };
+		67189FC823A2117200F8A5CD /* ed25519-blake2b.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19AD23A105F2001702DD /* ed25519-blake2b.c */; };
+		67189FC923A2117200F8A5CD /* ed25519-donna-32bit-tables.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19A923A105F1001702DD /* ed25519-donna-32bit-tables.c */; };
+		67189FCA23A2117200F8A5CD /* ed25519-donna-basepoint-table.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19AE23A105F2001702DD /* ed25519-donna-basepoint-table.c */; };
+		67189FCB23A2117200F8A5CD /* ed25519-donna-impl-base.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19B123A105F2001702DD /* ed25519-donna-impl-base.c */; };
+		67189FCC23A2117200F8A5CD /* ed25519-hash-custom-blake2b.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19B523A105F2001702DD /* ed25519-hash-custom-blake2b.h */; };
+		67189FCD23A2117200F8A5CD /* ed25519-hash-custom-keccak.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19A623A105F1001702DD /* ed25519-hash-custom-keccak.h */; };
+		67189FCE23A2117200F8A5CD /* ed25519-hash-custom-sha3.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19AC23A105F2001702DD /* ed25519-hash-custom-sha3.h */; };
+		67189FCF23A2117200F8A5CD /* ed25519-hash-custom.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F19B423A105F2001702DD /* ed25519-hash-custom.h */; };
+		67189FD023A2117200F8A5CD /* ed25519-keccak.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19A723A105F1001702DD /* ed25519-keccak.c */; };
+		67189FD123A2117200F8A5CD /* ed25519-sha3.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19AF23A105F2001702DD /* ed25519-sha3.c */; };
+		67189FD223A2117200F8A5CD /* ed25519.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19B023A105F2001702DD /* ed25519.c */; };
+		67189FD323A2117200F8A5CD /* modm-donna-32bit.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19A823A105F1001702DD /* modm-donna-32bit.c */; };
+		67189FD423A2117500F8A5CD /* groestl.c in Sources */ = {isa = PBXBuildFile; fileRef = 6713A92A23A0BD350083A34D /* groestl.c */; };
+		67189FD523A2117500F8A5CD /* hasher.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD782330A9220059A3DB /* hasher.c */; };
+		67189FD623A2117500F8A5CD /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD7A2330A9220059A3DB /* hmac.c */; };
+		67189FD723A2117500F8A5CD /* memzero.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD792330A9220059A3DB /* memzero.c */; };
+		67189FD823A2117500F8A5CD /* nem.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19E323A10703001702DD /* nem.c */; };
+		67189FD923A2117500F8A5CD /* nist256p1.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19E523A10735001702DD /* nist256p1.c */; };
+		67189FDA23A2117500F8A5CD /* pbkdf2.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F19E923A1078B001702DD /* pbkdf2.c */; };
+		67189FDB23A2117500F8A5CD /* rand.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD812330A9220059A3DB /* rand.c */; };
+		67189FDC23A2117500F8A5CD /* ripemd160.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD852330A9220059A3DB /* ripemd160.c */; };
+		67189FDD23A2117900F8A5CD /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD9A2330A9450059A3DB /* base58.c */; };
+		67189FDE23A2117C00F8A5CD /* schnorr.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD7C2330A9220059A3DB /* schnorr.c */; };
+		67189FDF23A2117C00F8A5CD /* script.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD842330A9220059A3DB /* script.c */; };
+		67189FE023A2117C00F8A5CD /* scrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD802330A9220059A3DB /* scrypt.c */; };
+		67189FE123A2117C00F8A5CD /* secp256k1.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD772330A9210059A3DB /* secp256k1.c */; };
+		67189FE223A2117C00F8A5CD /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD7B2330A9220059A3DB /* sha2.c */; };
+		67189FE323A2117C00F8A5CD /* sha3.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD832330A9220059A3DB /* sha3.c */; };
+		67189FE423A2117F00F8A5CD /* keypair.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD6B2330A3280059A3DB /* keypair.c */; };
+		67189FE523A2118400F8A5CD /* ed25519_ref10_fe_25_5.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD722330A8D10059A3DB /* ed25519_ref10_fe_25_5.c */; };
+		67189FE623A2118400F8A5CD /* ed25519_ref10.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD712330A8D10059A3DB /* ed25519_ref10.c */; };
+		67189FE723A2118700F8A5CD /* fe.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BD6F2330A8B40059A3DB /* fe.c */; };
+		67189FE823A2119F00F8A5CD /* TWPublicKeyType.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621CE234C310E00AFAFA2 /* TWPublicKeyType.h */; };
+		67189FE923A211A400F8A5CD /* Base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 676621DE234C316900AFAFA2 /* Base58.cpp */; };
+		67189FEA23A211A400F8A5CD /* BinaryCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621E0234C316900AFAFA2 /* BinaryCoding.h */; };
+		67189FEB23A211AC00F8A5CD /* Address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 676621E9234C318A00AFAFA2 /* Address.cpp */; };
+		67189FEC23A211AC00F8A5CD /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621EA234C318A00AFAFA2 /* Address.h */; };
+		67189FED23A211AC00F8A5CD /* Asset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 676621E4234C318A00AFAFA2 /* Asset.cpp */; };
+		67189FEE23A211AC00F8A5CD /* Asset.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621E8234C318A00AFAFA2 /* Asset.h */; };
+		67189FEF23A211AC00F8A5CD /* Deserialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621EC234C318A00AFAFA2 /* Deserialization.h */; };
+		67189FF023A211AC00F8A5CD /* Operation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 676621E7234C318A00AFAFA2 /* Operation.cpp */; };
+		67189FF123A211AC00F8A5CD /* Operation.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621E5234C318A00AFAFA2 /* Operation.h */; };
+		67189FF223A211AC00F8A5CD /* Serialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621E6234C318A00AFAFA2 /* Serialization.h */; };
+		67189FF323A211AC00F8A5CD /* Signer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 676621ED234C318A00AFAFA2 /* Signer.cpp */; };
+		67189FF423A211AC00F8A5CD /* Signer.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621EF234C318A00AFAFA2 /* Signer.h */; };
+		67189FF523A211AC00F8A5CD /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 676621EB234C318A00AFAFA2 /* Transaction.cpp */; };
+		67189FF623A211AC00F8A5CD /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621EE234C318A00AFAFA2 /* Transaction.h */; };
+		67189FF723A211B000F8A5CD /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = 67662228234C412900AFAFA2 /* Data.h */; };
+		67189FF823A211B600F8A5CD /* Action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662200234C31B300AFAFA2 /* Action.cpp */; };
+		67189FF923A211B600F8A5CD /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = 67662204234C31B300AFAFA2 /* Action.h */; };
+		67189FFA23A211B600F8A5CD /* Address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662203234C31B300AFAFA2 /* Address.cpp */; };
+		67189FFB23A211B600F8A5CD /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = 67662201234C31B300AFAFA2 /* Address.h */; };
+		67189FFC23A211B600F8A5CD /* Name.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662207234C31B300AFAFA2 /* Name.cpp */; };
+		67189FFD23A211B600F8A5CD /* Name.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621FE234C31B300AFAFA2 /* Name.h */; };
+		67189FFE23A211B600F8A5CD /* PackedTransaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 676621FC234C31B300AFAFA2 /* PackedTransaction.cpp */; };
+		67189FFF23A211B600F8A5CD /* PackedTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621FD234C31B300AFAFA2 /* PackedTransaction.h */; };
+		6718A00023A211B600F8A5CD /* Prefixes.h in Headers */ = {isa = PBXBuildFile; fileRef = 676621FF234C31B300AFAFA2 /* Prefixes.h */; };
+		6718A00123A211B600F8A5CD /* Signer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662208234C31B300AFAFA2 /* Signer.cpp */; };
+		6718A00223A211B600F8A5CD /* Signer.h in Headers */ = {isa = PBXBuildFile; fileRef = 67662202234C31B300AFAFA2 /* Signer.h */; };
+		6718A00323A211B600F8A5CD /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662205234C31B300AFAFA2 /* Transaction.cpp */; };
+		6718A00423A211B600F8A5CD /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 67662206234C31B300AFAFA2 /* Transaction.h */; };
+		6718A00523A211B600F8A5CD /* Hash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662216234C31DB00AFAFA2 /* Hash.cpp */; };
+		6718A00623A211B600F8A5CD /* Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67662219234C31DB00AFAFA2 /* Hash.h */; };
+		6718A00723A211B600F8A5CD /* HexCoding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67662217234C31DB00AFAFA2 /* HexCoding.cpp */; };
+		6718A00823A211B600F8A5CD /* HexCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 6766221C234C31DC00AFAFA2 /* HexCoding.h */; };
+		6718A00923A211B600F8A5CD /* PrivateKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6766221B234C31DC00AFAFA2 /* PrivateKey.cpp */; };
+		6718A00A23A211B600F8A5CD /* PrivateKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 67662218234C31DB00AFAFA2 /* PrivateKey.h */; };
+		6718A00B23A211B600F8A5CD /* PublicKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6766221A234C31DC00AFAFA2 /* PublicKey.cpp */; };
+		6718A00C23A211B600F8A5CD /* PublicKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 6766221D234C31DC00AFAFA2 /* PublicKey.h */; };
+		6718A00D23A211BB00F8A5CD /* Address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7967238B78B00015C95D /* Address.cpp */; };
+		6718A00E23A211BB00F8A5CD /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = 675C7963238B78B00015C95D /* Address.h */; };
+		6718A00F23A211BB00F8A5CD /* BinaryCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 675C7962238B78B00015C95D /* BinaryCoding.h */; };
+		6718A01023A211BB00F8A5CD /* Signer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7961238B78B00015C95D /* Signer.cpp */; };
+		6718A01123A211BB00F8A5CD /* Signer.h in Headers */ = {isa = PBXBuildFile; fileRef = 675C7966238B78B00015C95D /* Signer.h */; };
+		6718A01223A211BB00F8A5CD /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7965238B78B00015C95D /* Transaction.cpp */; };
+		6718A01323A211BB00F8A5CD /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 675C7964238B78B00015C95D /* Transaction.h */; };
+		6718A33923A336AD00F8A5CD /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6718A33623A336AC00F8A5CD /* JubSDKCore.h */; };
 		674F199C23A10574001702DD /* aescrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199623A10574001702DD /* aescrypt.c */; };
 		674F199D23A10574001702DD /* aeskey.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199723A10574001702DD /* aeskey.c */; };
 		674F199E23A10574001702DD /* aes_modes.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199823A10574001702DD /* aes_modes.c */; };
@@ -292,6 +553,10 @@
 		6713A7AD239FBE0B0083A34D /* JubiterBLDImplHC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBLDImplHC.cpp; path = ../../src/token/JubiterBLDImplHC.cpp; sourceTree = "<group>"; };
 		6713A7AF239FBE4F0083A34D /* ContextHC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContextHC.cpp; path = ../../src/context/ContextHC.cpp; sourceTree = "<group>"; };
 		6713A92A23A0BD350083A34D /* groestl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = groestl.c; path = "../../trezor-crypto/src/groestl.c"; sourceTree = "<group>"; };
+		67189F0823A20C7D00F8A5CD /* JubSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JubSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6718A33623A336AC00F8A5CD /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
+		6718A33723A336AC00F8A5CD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../JubSDKCore/Info.plist; sourceTree = "<group>"; };
+		6718A33823A336AC00F8A5CD /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = ../../JubSDKCore/module.modulemap; sourceTree = "<group>"; };
 		674F199623A10574001702DD /* aescrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = aescrypt.c; path = "../../trezor-crypto/src/aes/aescrypt.c"; sourceTree = "<group>"; };
 		674F199723A10574001702DD /* aeskey.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = aeskey.c; path = "../../trezor-crypto/src/aes/aeskey.c"; sourceTree = "<group>"; };
 		674F199823A10574001702DD /* aes_modes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = aes_modes.c; path = "../../trezor-crypto/src/aes/aes_modes.c"; sourceTree = "<group>"; };
@@ -553,6 +818,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		67189F0523A20C7D00F8A5CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67A4BC7A233082130059A3DB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -577,6 +849,23 @@
 				6713A7A9239FBDAA0083A34D /* libHC.cpp */,
 			);
 			name = libHC;
+			sourceTree = "<group>";
+		};
+		6718A33523A3369B00F8A5CD /* JubSDKCore */ = {
+			isa = PBXGroup;
+			children = (
+				6718A33723A336AC00F8A5CD /* Info.plist */,
+				6718A33623A336AC00F8A5CD /* JubSDKCore.h */,
+				6718A33823A336AC00F8A5CD /* module.modulemap */,
+			);
+			name = JubSDKCore;
+			sourceTree = "<group>";
+		};
+		6718A33B23A3371500F8A5CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		674F199523A1055F001702DD /* aes */ = {
@@ -800,7 +1089,9 @@
 			children = (
 				6761F64C23542912007404A2 /* CMakeLists.txt */,
 				67A4BC83233082750059A3DB /* JubSDK */,
+				6718A33523A3369B00F8A5CD /* JubSDKCore */,
 				67A4BC7D233082130059A3DB /* Products */,
+				6718A33B23A3371500F8A5CD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -808,6 +1099,7 @@
 			isa = PBXGroup;
 			children = (
 				67A4BC7C233082130059A3DB /* libJubSDK.a */,
+				67189F0823A20C7D00F8A5CD /* JubSDKCore.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1340,6 +1632,160 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		67189F0323A20C7D00F8A5CD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67189F8823A2113E00F8A5CD /* blake2s.h in Headers */,
+				67189F8123A2113E00F8A5CD /* aes.h in Headers */,
+				67189FB423A2116900F8A5CD /* aesopt.h in Headers */,
+				67189FF223A211AC00F8A5CD /* Serialization.h in Headers */,
+				67189F1823A20FED00F8A5CD /* JUB_SDK_Hcash.h in Headers */,
+				67189FA423A2115100F8A5CD /* schnorr.h in Headers */,
+				67189F9223A2114200F8A5CD /* ed25519-donna-portable.h in Headers */,
+				67189F8723A2113E00F8A5CD /* blake2b.h in Headers */,
+				67189F3223A2100A00F8A5CD /* libBTC.hpp in Headers */,
+				67189F3523A2101100F8A5CD /* ERC20Abi.h in Headers */,
+				67189F3123A2100600F8A5CD /* XRPTokenInterface.hpp in Headers */,
+				67189F2B23A2100200F8A5CD /* TrezorCryptoImpl.h in Headers */,
+				67189F6D23A2111700F8A5CD /* BigIntegerUtils.hh in Headers */,
+				67189FF623A211AC00F8A5CD /* Transaction.h in Headers */,
+				67189F8523A2113E00F8A5CD /* bip32.h in Headers */,
+				67189F8023A2113E00F8A5CD /* address.h in Headers */,
+				67189F7723A2112500F8A5CD /* hash.h in Headers */,
+				6718A00A23A211B600F8A5CD /* PrivateKey.h in Headers */,
+				67189F1F23A20FF100F8A5CD /* ContextHC.h in Headers */,
+				67189FA823A2115100F8A5CD /* sha2.h in Headers */,
+				67189F8C23A2114200F8A5CD /* curve25519-donna-32bit.h in Headers */,
+				67189FF923A211B600F8A5CD /* Action.h in Headers */,
+				67189FA223A2114A00F8A5CD /* ripemd160.h in Headers */,
+				67189FFB23A211B600F8A5CD /* Address.h in Headers */,
+				67189FBB23A2116D00F8A5CD /* bip39_english.h in Headers */,
+				67189FCE23A2117200F8A5CD /* ed25519-hash-custom-sha3.h in Headers */,
+				67189F8D23A2114200F8A5CD /* curve25519-donna-helpers.h in Headers */,
+				67189F3D23A2103800F8A5CD /* util.h in Headers */,
+				67189F1623A20FED00F8A5CD /* JUB_SDK_BTC.h in Headers */,
+				67189F3A23A2103800F8A5CD /* Apdu.hpp in Headers */,
+				67189F2823A20FFC00F8A5CD /* constant.hpp in Headers */,
+				6718A00023A211B600F8A5CD /* Prefixes.h in Headers */,
+				67189F8B23A2113E00F8A5CD /* ecdsa.h in Headers */,
+				67189F9C23A2114A00F8A5CD /* nem.h in Headers */,
+				67189F3423A2101100F8A5CD /* AddressChecksum.h in Headers */,
+				67189FFF23A211B600F8A5CD /* PackedTransaction.h in Headers */,
+				67189F7F23A2113700F8A5CD /* hidapi.h in Headers */,
+				67189F2923A20FFC00F8A5CD /* HDKey.hpp in Headers */,
+				67189F8223A2113E00F8A5CD /* base32.h in Headers */,
+				67189F1423A20FED00F8A5CD /* JUB_SDK_DEV_BLE.h in Headers */,
+				67189FA523A2115100F8A5CD /* script.h in Headers */,
+				67189F2F23A2100600F8A5CD /* HCTokenInterface.hpp in Headers */,
+				67189F2423A20FF900F8A5CD /* DeviceTypeBase.hpp in Headers */,
+				67189F9323A2114200F8A5CD /* ed25519-keccak.h in Headers */,
+				67189F3E23A2103800F8A5CD /* trim.hpp in Headers */,
+				67189FAA23A2115400F8A5CD /* keypair.h in Headers */,
+				67189FFD23A211B600F8A5CD /* Name.h in Headers */,
+				67189FC723A2117200F8A5CD /* curve25519-donna-scalarmult-base.h in Headers */,
+				67189F9B23A2114A00F8A5CD /* memzero.h in Headers */,
+				67189F8323A2113E00F8A5CD /* base58.h in Headers */,
+				67189F1023A20FED00F8A5CD /* JUB_SDK.h in Headers */,
+				67189F2323A20FF900F8A5CD /* DeviceIOLogHelper.hpp in Headers */,
+				67189F7923A2112500F8A5CD /* segwit_addr.h in Headers */,
+				67189F6B23A2111700F8A5CD /* BigIntegerLibrary.hh in Headers */,
+				67189FA923A2115100F8A5CD /* sha3.h in Headers */,
+				67189F3723A2102C00F8A5CD /* libHC.h in Headers */,
+				67189F9023A2114200F8A5CD /* ed25519-donna-basepoint-table.h in Headers */,
+				67189F8E23A2114200F8A5CD /* ed25519-blake2b.h in Headers */,
+				6718A00423A211B600F8A5CD /* Transaction.h in Headers */,
+				67189F8A23A2113E00F8A5CD /* curves.h in Headers */,
+				67189FF723A211B000F8A5CD /* Data.h in Headers */,
+				6718A00F23A211BB00F8A5CD /* BinaryCoding.h in Headers */,
+				67189F9D23A2114A00F8A5CD /* nist256p1.h in Headers */,
+				67189F9A23A2114A00F8A5CD /* hmac.h in Headers */,
+				67189F2123A20FF100F8A5CD /* ContextXRP.h in Headers */,
+				67189F3B23A2103800F8A5CD /* Debug.hpp in Headers */,
+				67189F1223A20FED00F8A5CD /* JUB_SDK_COMM.h in Headers */,
+				67189F1123A20FED00F8A5CD /* JUB_core.h in Headers */,
+				6718A00823A211B600F8A5CD /* HexCoding.h in Headers */,
+				67189F6A23A2111700F8A5CD /* BigIntegerAlgorithms.hh in Headers */,
+				67189F7B23A2112A00F8A5CD /* cashaddr.h in Headers */,
+				67189F3623A2101100F8A5CD /* RLP.h in Headers */,
+				67189F2623A20FF900F8A5CD /* JubiterBLEDevice.hpp in Headers */,
+				67189F9623A2114A00F8A5CD /* ed25519-donna.h in Headers */,
+				6718A01123A211BB00F8A5CD /* Signer.h in Headers */,
+				67189F9523A2114200F8A5CD /* modm-donna-32bit.h in Headers */,
+				67189FAF23A2116000F8A5CD /* TrezorCrypto.h in Headers */,
+				67189F1723A20FED00F8A5CD /* JUB_SDK_ETH.h in Headers */,
+				6718A33923A336AD00F8A5CD /* JubSDKCore.h in Headers */,
+				67189F9123A2114200F8A5CD /* ed25519-donna-impl-base.h in Headers */,
+				67189F3023A2100600F8A5CD /* EOSTokenInterface.hpp in Headers */,
+				67189F2723A20FF900F8A5CD /* JubiterHidDevice.hpp in Headers */,
+				67189F7C23A2112F00F8A5CD /* opcode.hpp in Headers */,
+				67189F2D23A2100600F8A5CD /* BTCTokenInterface.hpp in Headers */,
+				67189F8923A2113E00F8A5CD /* blake256.h in Headers */,
+				67189FB623A2116900F8A5CD /* aestab.h in Headers */,
+				67189F9423A2114200F8A5CD /* ed25519-sha3.h in Headers */,
+				6718A00623A211B600F8A5CD /* Hash.h in Headers */,
+				67189F6F23A2111700F8A5CD /* BigUnsigned.hh in Headers */,
+				67189F2C23A2100600F8A5CD /* TokenInterface.hpp in Headers */,
+				67189F2023A20FF100F8A5CD /* ContextEOS.h in Headers */,
+				6718A00E23A211BB00F8A5CD /* Address.h in Headers */,
+				67189FCC23A2117200F8A5CD /* ed25519-hash-custom-blake2b.h in Headers */,
+				67189FBD23A2116D00F8A5CD /* blake2_common.h in Headers */,
+				67189F3823A2102F00F8A5CD /* libEOS.hpp in Headers */,
+				67189FA323A2114D00F8A5CD /* base58.h in Headers */,
+				67189F9F23A2114A00F8A5CD /* rand.h in Headers */,
+				67189FF123A211AC00F8A5CD /* Operation.h in Headers */,
+				6718A01323A211BB00F8A5CD /* Transaction.h in Headers */,
+				67189F1923A20FED00F8A5CD /* JUB_SDK_EOS.h in Headers */,
+				67189FCF23A2117200F8A5CD /* ed25519-hash-custom.h in Headers */,
+				67189F8F23A2114200F8A5CD /* ed25519-donna-32bit-tables.h in Headers */,
+				67189FEF23A211AC00F8A5CD /* Deserialization.h in Headers */,
+				67189F7223A2111700F8A5CD /* NumberlikeArray.hh in Headers */,
+				67189FCD23A2117200F8A5CD /* ed25519-hash-custom-keccak.h in Headers */,
+				67189F7123A2111700F8A5CD /* BigUnsignedInABase.hh in Headers */,
+				67189F3323A2100E00F8A5CD /* libBCH.hpp in Headers */,
+				67189F6823A2111700F8A5CD /* BigInteger.hh in Headers */,
+				67189FA623A2115100F8A5CD /* scrypt.h in Headers */,
+				67189F8423A2113E00F8A5CD /* bignum.h in Headers */,
+				67189F7623A2112200F8A5CD /* endian.h in Headers */,
+				67189F1323A20FED00F8A5CD /* JUB_SDK_DEV.h in Headers */,
+				67189FA023A2114A00F8A5CD /* rc4.h in Headers */,
+				67189F9723A2114A00F8A5CD /* ed25519.h in Headers */,
+				6718A00C23A211B600F8A5CD /* PublicKey.h in Headers */,
+				67189F2523A20FF900F8A5CD /* Fido.h in Headers */,
+				67189F1B23A20FF100F8A5CD /* xManager.hpp in Headers */,
+				67189F1523A20FED00F8A5CD /* JUB_SDK_DEV_HID.h in Headers */,
+				67189F7423A2111F00F8A5CD /* bech32.h in Headers */,
+				67189FAB23A2115800F8A5CD /* ed25519_ref10_fe_25_5.h in Headers */,
+				67189FAC23A2115800F8A5CD /* ed25519_ref10.h in Headers */,
+				67189F1A23A20FED00F8A5CD /* JUB_SDK_XRP.h in Headers */,
+				67189FEE23A211AC00F8A5CD /* Asset.h in Headers */,
+				67189F2A23A2100200F8A5CD /* JubiterBLDImpl.h in Headers */,
+				67189FEA23A211A400F8A5CD /* BinaryCoding.h in Headers */,
+				67189F9823A2114A00F8A5CD /* groestl.h in Headers */,
+				67189F8623A2113E00F8A5CD /* bip39.h in Headers */,
+				67189FA123A2114A00F8A5CD /* rfc6979.h in Headers */,
+				6718A00223A211B600F8A5CD /* Signer.h in Headers */,
+				67189F6623A2111300F8A5CD /* Data.hpp in Headers */,
+				67189F1E23A20FF100F8A5CD /* ContextETH.h in Headers */,
+				67189FEC23A211AC00F8A5CD /* Address.h in Headers */,
+				67189FF423A211AC00F8A5CD /* Signer.h in Headers */,
+				67189FA723A2115100F8A5CD /* secp256k1.h in Headers */,
+				67189F3C23A2103800F8A5CD /* Singleton.h in Headers */,
+				67189FAD23A2115D00F8A5CD /* constants.h in Headers */,
+				67189F3923A2103300F8A5CD /* libXRP.hpp in Headers */,
+				67189FAE23A2115D00F8A5CD /* fe.h in Headers */,
+				67189F9923A2114A00F8A5CD /* hasher.h in Headers */,
+				67189F2E23A2100600F8A5CD /* ETHTokenInterface.hpp in Headers */,
+				67189F7D23A2113300F8A5CD /* uchar_vector.h in Headers */,
+				67189FE823A2119F00F8A5CD /* TWPublicKeyType.h in Headers */,
+				67189F2223A20FF900F8A5CD /* ApduBuilder.hpp in Headers */,
+				67189F1D23A20FF100F8A5CD /* ContextBTC.h in Headers */,
+				67189F9E23A2114A00F8A5CD /* pbkdf2.h in Headers */,
+				67189F7523A2112200F8A5CD /* byteswap.h in Headers */,
+				67189F1C23A20FF100F8A5CD /* Context.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67A4BC78233082130059A3DB /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1504,6 +1950,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		67189F0723A20C7D00F8A5CD /* JubSDKCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67189F0F23A20C7D00F8A5CD /* Build configuration list for PBXNativeTarget "JubSDKCore" */;
+			buildPhases = (
+				67189F0323A20C7D00F8A5CD /* Headers */,
+				67189F0423A20C7D00F8A5CD /* Sources */,
+				67189F0523A20C7D00F8A5CD /* Frameworks */,
+				67189F0623A20C7D00F8A5CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JubSDKCore;
+			productName = JubSDKCore;
+			productReference = 67189F0823A20C7D00F8A5CD /* JubSDKCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		67A4BC7B233082130059A3DB /* JubSDK */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 67A4BC80233082130059A3DB /* Build configuration list for PBXNativeTarget "JubSDK" */;
@@ -1530,6 +1994,9 @@
 				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = ft;
 				TargetAttributes = {
+					67189F0723A20C7D00F8A5CD = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
 					67A4BC7B233082130059A3DB = {
 						CreatedOnToolsVersion = 10.3;
 					};
@@ -1549,11 +2016,143 @@
 			projectRoot = "";
 			targets = (
 				67A4BC7B233082130059A3DB /* JubSDK */,
+				67189F0723A20C7D00F8A5CD /* JubSDKCore */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		67189F0623A20C7D00F8A5CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		67189F0423A20C7D00F8A5CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67189FD623A2117500F8A5CD /* hmac.c in Sources */,
+				67189F5E23A2106900F8A5CD /* JubiterBLDImplETH.cpp in Sources */,
+				6718A00D23A211BB00F8A5CD /* Address.cpp in Sources */,
+				67189FD723A2117500F8A5CD /* memzero.c in Sources */,
+				67189FB823A2116D00F8A5CD /* base58.c in Sources */,
+				67189FBF23A2116D00F8A5CD /* blake2s.c in Sources */,
+				67189F6123A2106900F8A5CD /* JubiterBLDImplXRP.cpp in Sources */,
+				67189F4923A2104500F8A5CD /* Context.cpp in Sources */,
+				67189FCB23A2117200F8A5CD /* ed25519-donna-impl-base.c in Sources */,
+				67189F4A23A2104500F8A5CD /* ContextBTC.cpp in Sources */,
+				67189F5D23A2106900F8A5CD /* JubiterBLDImplBTC.cpp in Sources */,
+				67189F4223A2103F00F8A5CD /* JUB_SDK_DEV_HID.cpp in Sources */,
+				67189FE123A2117C00F8A5CD /* secp256k1.c in Sources */,
+				67189FEB23A211AC00F8A5CD /* Address.cpp in Sources */,
+				67189F6223A2106900F8A5CD /* TrezorCryptoImpl.cpp in Sources */,
+				67189FE323A2117C00F8A5CD /* sha3.c in Sources */,
+				67189FE523A2118400F8A5CD /* ed25519_ref10_fe_25_5.c in Sources */,
+				67189F4323A2103F00F8A5CD /* JUB_SDK_DEV.cpp in Sources */,
+				6718A01223A211BB00F8A5CD /* Transaction.cpp in Sources */,
+				67189F5523A2105500F8A5CD /* libBCH.cpp in Sources */,
+				67189F5F23A2106900F8A5CD /* JubiterBLDImplHC.cpp in Sources */,
+				6718A01023A211BB00F8A5CD /* Signer.cpp in Sources */,
+				67189FC223A2116D00F8A5CD /* curves.c in Sources */,
+				67189FC523A2117200F8A5CD /* curve25519-donna-helpers.c in Sources */,
+				67189FD023A2117200F8A5CD /* ed25519-keccak.c in Sources */,
+				67189FC023A2116D00F8A5CD /* blake256.c in Sources */,
+				6718A00123A211B600F8A5CD /* Signer.cpp in Sources */,
+				67189FE723A2118700F8A5CD /* fe.c in Sources */,
+				67189F5623A2105900F8A5CD /* AddressChecksum.cpp in Sources */,
+				67189FB323A2116900F8A5CD /* aeskey.c in Sources */,
+				67189F7023A2111700F8A5CD /* BigUnsignedInABase.cc in Sources */,
+				67189F5323A2104E00F8A5CD /* HDKey.cpp in Sources */,
+				67189F6323A2106E00F8A5CD /* Debug.cpp in Sources */,
+				67189F6423A2106E00F8A5CD /* util.cpp in Sources */,
+				67189FC623A2117200F8A5CD /* curve25519-donna-scalarmult-base.c in Sources */,
+				67189FDA23A2117500F8A5CD /* pbkdf2.c in Sources */,
+				67189F4C23A2104500F8A5CD /* ContextHC.cpp in Sources */,
+				67189FDF23A2117C00F8A5CD /* script.c in Sources */,
+				67189FF523A211AC00F8A5CD /* Transaction.cpp in Sources */,
+				6718A00323A211B600F8A5CD /* Transaction.cpp in Sources */,
+				67189FDB23A2117500F8A5CD /* rand.c in Sources */,
+				67189FD223A2117200F8A5CD /* ed25519.c in Sources */,
+				67189F4623A2103F00F8A5CD /* JUB_SDK_Hcash.cpp in Sources */,
+				67189FD923A2117500F8A5CD /* nist256p1.c in Sources */,
+				67189F4B23A2104500F8A5CD /* ContextETH.cpp in Sources */,
+				67189FE223A2117C00F8A5CD /* sha2.c in Sources */,
+				67189F6923A2111700F8A5CD /* BigIntegerAlgorithms.cc in Sources */,
+				6718A00B23A211B600F8A5CD /* PublicKey.cpp in Sources */,
+				67189FC323A2116D00F8A5CD /* ecdsa.c in Sources */,
+				67189FE423A2117F00F8A5CD /* keypair.c in Sources */,
+				67189FBA23A2116D00F8A5CD /* bip32.c in Sources */,
+				67189FD323A2117200F8A5CD /* modm-donna-32bit.c in Sources */,
+				67189F5223A2104A00F8A5CD /* JubiterHidDevice.cpp in Sources */,
+				67189FBC23A2116D00F8A5CD /* bip39.c in Sources */,
+				67189F5B23A2106400F8A5CD /* libXRP.cpp in Sources */,
+				67189FF823A211B600F8A5CD /* Action.cpp in Sources */,
+				67189FFC23A211B600F8A5CD /* Name.cpp in Sources */,
+				67189FB523A2116900F8A5CD /* aestab.c in Sources */,
+				67189F6E23A2111700F8A5CD /* BigUnsigned.cc in Sources */,
+				67189F5923A2105D00F8A5CD /* libHC.cpp in Sources */,
+				67189FD423A2117500F8A5CD /* groestl.c in Sources */,
+				67189FB023A2116500F8A5CD /* address.c in Sources */,
+				67189FE023A2117C00F8A5CD /* scrypt.c in Sources */,
+				67189FD123A2117200F8A5CD /* ed25519-sha3.c in Sources */,
+				67189FDD23A2117900F8A5CD /* base58.c in Sources */,
+				67189F5723A2105900F8A5CD /* ERC20Abi.cpp in Sources */,
+				67189FB223A2116900F8A5CD /* aescrypt.c in Sources */,
+				67189FD523A2117500F8A5CD /* hasher.c in Sources */,
+				67189FC123A2116D00F8A5CD /* cash_addr.c in Sources */,
+				67189FC923A2117200F8A5CD /* ed25519-donna-32bit-tables.c in Sources */,
+				67189F4523A2103F00F8A5CD /* JUB_SDK_ETH.cpp in Sources */,
+				67189F4023A2103F00F8A5CD /* JUB_SDK_COMM.cpp in Sources */,
+				67189F5023A2104A00F8A5CD /* Fido.cpp in Sources */,
+				67189FC423A2117200F8A5CD /* curve25519-donna-32bit.c in Sources */,
+				67189FCA23A2117200F8A5CD /* ed25519-donna-basepoint-table.c in Sources */,
+				67189F7E23A2113700F8A5CD /* hid.c in Sources */,
+				67189F6023A2106900F8A5CD /* JubiterBLDImplEOS.cpp in Sources */,
+				67189FE923A211A400F8A5CD /* Base58.cpp in Sources */,
+				67189F4823A2103F00F8A5CD /* JUB_SDK_XRP.cpp in Sources */,
+				67189FBE23A2116D00F8A5CD /* blake2b.c in Sources */,
+				67189FDC23A2117500F8A5CD /* ripemd160.c in Sources */,
+				67189F4D23A2104500F8A5CD /* ContextEOS.cpp in Sources */,
+				67189F6523A2111300F8A5CD /* Data.cpp in Sources */,
+				6718A00923A211B600F8A5CD /* PrivateKey.cpp in Sources */,
+				67189F6C23A2111700F8A5CD /* BigIntegerUtils.cc in Sources */,
+				67189F4723A2103F00F8A5CD /* JUB_SDK_EOS.cpp in Sources */,
+				6718A00523A211B600F8A5CD /* Hash.cpp in Sources */,
+				67189F7823A2112500F8A5CD /* segwit_addr.cpp in Sources */,
+				67189FB723A2116D00F8A5CD /* base32.c in Sources */,
+				67189F4123A2103F00F8A5CD /* JUB_SDK_DEV_BLE.cpp in Sources */,
+				67189FFE23A211B600F8A5CD /* PackedTransaction.cpp in Sources */,
+				67189F4F23A2104A00F8A5CD /* ApduBuilder.cpp in Sources */,
+				67189FB123A2116900F8A5CD /* aes_modes.c in Sources */,
+				67189F5423A2105200F8A5CD /* libBTC.cpp in Sources */,
+				67189F4423A2103F00F8A5CD /* JUB_SDK_BTC.cpp in Sources */,
+				67189F6723A2111700F8A5CD /* BigInteger.cc in Sources */,
+				67189F5C23A2106900F8A5CD /* JubiterBLDImpl.cpp in Sources */,
+				67189FD823A2117500F8A5CD /* nem.c in Sources */,
+				67189F7323A2111E00F8A5CD /* bech32.cpp in Sources */,
+				67189FF323A211AC00F8A5CD /* Signer.cpp in Sources */,
+				67189F4E23A2104500F8A5CD /* ContextXRP.cpp in Sources */,
+				67189FFA23A211B600F8A5CD /* Address.cpp in Sources */,
+				67189F3F23A2103F00F8A5CD /* JUB_core.cpp in Sources */,
+				67189FB923A2116D00F8A5CD /* bignum.c in Sources */,
+				67189FED23A211AC00F8A5CD /* Asset.cpp in Sources */,
+				67189F5A23A2106100F8A5CD /* libEOS.cpp in Sources */,
+				67189FDE23A2117C00F8A5CD /* schnorr.c in Sources */,
+				67189F5823A2105900F8A5CD /* RLP.cpp in Sources */,
+				67189FE623A2118400F8A5CD /* ed25519_ref10.c in Sources */,
+				67189FC823A2117200F8A5CD /* ed25519-blake2b.c in Sources */,
+				67189FF023A211AC00F8A5CD /* Operation.cpp in Sources */,
+				6718A00723A211B600F8A5CD /* HexCoding.cpp in Sources */,
+				67189F5123A2104A00F8A5CD /* JubiterBLEDevice.cpp in Sources */,
+				67189F7A23A2112A00F8A5CD /* cashaddr.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67A4BC79233082130059A3DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1678,6 +2277,92 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		67189F0D23A20C7D00F8A5CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = S47T4UESP3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = (
+					../../include,
+					../../deps/bleTransmit,
+					../../deps/bleTransmit/ios,
+					../../deps/libbitcoin,
+					../../deps/,
+					"../../trezor-crypto/include",
+					"../../deps/TrustWallet/wallet-core",
+					"../../deps/TrustWallet/wallet-core/include",
+					"../../deps/TrustWallet/wallet-core/src",
+					"../../deps/TrustWallet/wallet-core/src/EOS",
+					../../deps/json/include,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/../../JubSDKCore/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ftsafe.JubSDKCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		67189F0E23A20C7D00F8A5CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = S47T4UESP3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = (
+					../../include,
+					../../deps/bleTransmit,
+					../../deps/bleTransmit/ios,
+					../../deps/libbitcoin,
+					../../deps/,
+					"../../trezor-crypto/include",
+					"../../deps/TrustWallet/wallet-core",
+					"../../deps/TrustWallet/wallet-core/include",
+					"../../deps/TrustWallet/wallet-core/src",
+					"../../deps/TrustWallet/wallet-core/src/EOS",
+					../../deps/json/include,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/../../JubSDKCore/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ftsafe.JubSDKCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		67A4BC7E233082130059A3DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1850,6 +2535,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		67189F0F23A20C7D00F8A5CD /* Build configuration list for PBXNativeTarget "JubSDKCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67189F0D23A20C7D00F8A5CD /* Debug */,
+				67189F0E23A20C7D00F8A5CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		67A4BC77233082130059A3DB /* Build configuration list for PBXProject "JubSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

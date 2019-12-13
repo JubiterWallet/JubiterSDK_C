@@ -1,7 +1,21 @@
-#pragma once
+#ifndef JUB_SDK_HCASH_H
+#define JUB_SDK_HCASH_H
+
 #include "JUB_SDK_BTC.h"
 
-typedef stContextCfg CONTEXT_CONFIG_HC;
+#ifdef __cplusplus
+extern "C" {
+#endif // #ifdef __cplusplus
+
+// Remove c++ features for swift framework
+//typedef stContextCfg CONTEXT_CONFIG_HC;
+typedef struct stContextCfgHC {
+    JUB_CHAR_PTR            mainPath;
+    int                 chainID;
+
+//    virtual ~stContextCfgHC() {}
+} CONTEXT_CONFIG_HC;
+// Remove c++ features for swift framework end
 
 typedef struct {
 	JUB_UINT64		amount;
@@ -39,3 +53,9 @@ JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
                              IN OUTPUT_HC outputs[], IN JUB_UINT16 oCount,
                              IN JUB_CHAR_PTR unsignedTrans,
                              OUT JUB_CHAR_PTR_PTR raw);
+
+#ifdef __cplusplus
+}
+#endif // #ifdef __cplusplus
+
+#endif /* JUB_SDK_HCASH_H */

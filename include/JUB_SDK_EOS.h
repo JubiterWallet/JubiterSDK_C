@@ -15,24 +15,30 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
-typedef enum class JubEOSPubFormat {
-    HEX = 0x00,
+// Remove c++ features for swift framework
+//typedef enum class JubEOSPubFormat {
+typedef enum {
+//    HEX = 0x00,
     EOS = 0x01,
-    NS_ITEM_PUB_FORMAT
+    NS_ITEM_EOS_PUB_FORMAT
 } JUB_ENUM_EOS_PUB_FORMAT;
+// Remove c++ features for swift framework end
 
 typedef struct {
     JUB_CHAR_PTR        mainPath;
 } CONTEXT_CONFIG_EOS;
 
-typedef enum class JubEOSActionType {
+// Remove c++ features for swift framework
+//typedef enum class JubEOSActionType {
+typedef enum {
     XFER   = 0x00, // transfer
       DELE = 0x01, //   delegatebw
     UNDELE = 0x02, // undelegatebw
     BUYRAM = 0x03, //  buyrambytes
    SELLRAM = 0x04, // sellrambytes
-    NS_ITEM_ACTION_TYPE
+    NS_ITEM_EOS_ACTION_TYPE
 } JUB_ENUM_EOS_ACTION_TYPE;
+// Remove c++ features for swift framework end
 
 typedef struct stTransferAction {
     JUB_CHAR_PTR from;

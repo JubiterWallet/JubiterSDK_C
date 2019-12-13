@@ -46,21 +46,30 @@ typedef enum {
     ns
 } JUB_ENUM_BTC_UNIT_TYPE;
 
-typedef struct stContextCfgBTC : stContextCfg {
+// Remove c++ features for swift framework
+//typedef struct stContextCfgBTC : stContextCfg {
+typedef struct stContextCfgBTC {
+    JUB_CHAR_PTR            mainPath;
     JUB_ENUM_COINTYPE_BTC    coinType;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE transType;
 
-    stContextCfgBTC() = default;
-    stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
-                    JUB_CHAR_PTR _mainPath,
-                    JUB_ENUM_BTC_TRANS_TYPE _transType) {
-         mainPath = _mainPath;
-         coinType =  _coinType;
-        transType = _transType;
-    }
+//    stContextCfgBTC() = default;
+//    stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
+//                    JUB_CHAR_PTR _mainPath,
+//                    JUB_ENUM_BTC_TRANS_TYPE _transType) {
+//         mainPath = _mainPath;
+//         coinType =  _coinType;
+//        transType = _transType;
+//    }
+//
+//    virtual ~stContextCfgBTC() {}
 
-    virtual ~stContextCfgBTC() {}
+//    stContextCfgBTC();
+//    stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
+//                    JUB_CHAR_PTR _mainPath,
+//                    JUB_ENUM_BTC_TRANS_TYPE _transType);
 } CONTEXT_CONFIG_BTC;
+// Remove c++ features for swift framework end
 
 typedef enum {
     P2PKH   = 0x00,
@@ -69,6 +78,7 @@ typedef enum {
     QRC20 = 0x03,
 } JUB_ENUM_SCRIPT_BTC_TYPE;
 
+// Remove c++ features for swift framework
 typedef struct stInput {
     JUB_ENUM_SCRIPT_BTC_TYPE type;
     JUB_CHAR_PTR    preHash;
@@ -77,37 +87,45 @@ typedef struct stInput {
     JUB_UINT64      amount;
     BIP44_Path      path;
 
-     stInput();
-    ~stInput() = default;
+//     stInput();
+//    ~stInput() = default;
 } INPUT_BTC;
+// Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stOutput {
     JUB_CHAR_PTR    address;
     JUB_UINT64      amount;
     JUB_ENUM_BOOL   changeAddress;
     BIP44_Path      path;
 
-     stOutput();
-    ~stOutput() = default;
+//     stOutput();
+//    ~stOutput() = default;
 } OUTPUT;
+// Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stOutputReturn0 {
     JUB_UINT64      amount;
     JUB_UINT16      dataLen;
     JUB_BYTE        data[40];
 
-     stOutputReturn0();
-    ~stOutputReturn0() = default;
+//     stOutputReturn0();
+//    ~stOutputReturn0() = default;
 } OUTPUT_RETURN0;
+// Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stOutputQRC20 {
     JUB_UINT16      dataLen;
     JUB_BYTE        data[200];
 
-     stOutputQRC20();
-    ~stOutputQRC20() = default;
+//     stOutputQRC20();
+//    ~stOutputQRC20() = default;
 } OUTPUT_QRC20;
+// Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stOutputBTC {
     JUB_ENUM_SCRIPT_BTC_TYPE type;
     union {
@@ -116,9 +134,10 @@ typedef struct stOutputBTC {
         OUTPUT_QRC20 qrc20;
     };
 
-     stOutputBTC();
-    ~stOutputBTC() = default;
+//     stOutputBTC();
+//    ~stOutputBTC() = default;
 } OUTPUT_BTC;
+// Remove c++ features for swift framework end
 
 /*****************************************************************************
  * @function name : JUB_CreateContextBTC
