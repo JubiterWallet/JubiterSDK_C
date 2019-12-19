@@ -35,7 +35,7 @@ JUB_RV JUB_GetAddressHC(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     std::string strAddress;
-    JUB_VERIFY_RV(context->GetAddress(path, bshow, strAddress));
+    JUB_VERIFY_RV(context->GetAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, bshow, strAddress));
     JUB_VERIFY_RV(_allocMem(address, strAddress));
 
     return JUBR_OK;
@@ -87,7 +87,7 @@ JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
     std::vector<OUTPUT_HC> vOutputs(outputs, outputs + oCount);
 
     std::string strRaw;
-    auto rv = context->signTX(vInputs, vOutputs, unsignedTrans, strRaw);
+    auto rv = context->signTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, vInputs, vOutputs, unsignedTrans, strRaw);
     if (   JUBR_OK          == rv
         || JUBR_MULTISIG_OK == rv
         ) {

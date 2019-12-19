@@ -145,7 +145,7 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     std::string str_address;
-    JUB_VERIFY_RV(context->GetAddress(path, bshow, str_address));
+    JUB_VERIFY_RV(context->GetAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, bshow, str_address));
     JUB_VERIFY_RV(_allocMem(address, str_address));
 
     return JUBR_OK;
@@ -168,7 +168,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     std::string str_address;
-    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
+    JUB_VERIFY_RV(context->SetMyAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, str_address));
     JUB_VERIFY_RV(_allocMem(address, str_address));
 
     return JUBR_OK;
@@ -223,7 +223,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     std::string str_raw;
-    JUB_VERIFY_RV(context->SignTX(vInputs, vOutputs, lockTime, str_raw));
+    JUB_VERIFY_RV(context->SignTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, vInputs, vOutputs, lockTime, str_raw));
 
     JUB_VERIFY_RV(_allocMem(raw, str_raw));
 

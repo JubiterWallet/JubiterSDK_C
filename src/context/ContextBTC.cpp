@@ -30,24 +30,24 @@ JUB_RV ContextBTC::GetMainHDNode(std::string& xpub) {
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
+JUB_RV ContextBTC::GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetAddressBTC(_transType, strPath, tag, address));
+    JUB_VERIFY_RV(token->GetAddressBTC(_RealAddressFormat(addrFmt), _transType, strPath, tag, address));
 
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::SetMyAddress(const BIP44_Path& path, std::string& address) {
+JUB_RV ContextBTC::SetMyAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, std::string& address) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetAddressBTC(_transType, strPath, 0x02, address));
+    JUB_VERIFY_RV(token->GetAddressBTC(_RealAddressFormat(addrFmt), _transType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
@@ -174,7 +174,7 @@ JUB_RV ContextBTC::BuildQRC20Outputs(JUB_UINT64 gasLimit,JUB_UINT64 gasPrice,IN 
     return JUBR_OK;
 }
 
-JUB_RV ContextBTC::SignTX(const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw) {
+JUB_RV ContextBTC::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw) {
 
     auto token = dynamic_cast<BTCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -221,7 +221,8 @@ JUB_RV ContextBTC::SignTX(const std::vector<INPUT_BTC>& vInputs, const std::vect
     JUB_VERIFY_RV(ret);
 
     uchar_vector vRaw;
-    JUB_VERIFY_RV(token->SignTXBTC(_transType,
+    JUB_VERIFY_RV(token->SignTXBTC(_RealAddressFormat(addrFmt),
+                                   _transType,
                                    (JUB_UINT16)vInputs.size(),
                                    vInputAmount,
                                    vInputPath,

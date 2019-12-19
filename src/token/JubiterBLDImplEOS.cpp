@@ -264,12 +264,12 @@ JUB_RV JubiterBLDImpl::SignTXEOS(const TW::EOS::Type& type,
                     bOnce = true;
                 }
                 uchar_vector apduDataPart(&apduData[i*kSendOnceLen], kSendOnceLen);
-                JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, kSendOnceLen, bOnce));  // last data or not.
+                JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, bOnce));  // last data or not.
             }
         }
         if (iRemainder) {
             uchar_vector apduDataPart(&apduData[iCnt*kSendOnceLen], iRemainder);
-            JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, kSendOnceLen, true));  // last data.
+            JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, true));  // last data.
         }
         apduData.clear();
 

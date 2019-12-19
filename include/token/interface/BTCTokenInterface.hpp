@@ -13,7 +13,8 @@ public:
     virtual JUB_RV SelectAppletBTC() = 0;
     virtual JUB_RV SetUnitBTC(const JUB_ENUM_BTC_UNIT_TYPE& unit) = 0;
     virtual JUB_RV SetCoinTypeBTC(const JUB_ENUM_COINTYPE_BTC& type) = 0;
-    virtual JUB_RV SignTXBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
+    virtual JUB_RV SignTXBTC(const JUB_BYTE addrFmt,
+                             const JUB_ENUM_BTC_TRANS_TYPE& type,
                              const JUB_UINT16 inputCount,
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<std::string>& vInputPath,
@@ -23,7 +24,8 @@ public:
                              std::vector<JUB_BYTE>& vRaw) = 0;
 
     virtual JUB_RV GetHDNodeBTC(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) = 0;
-    virtual JUB_RV GetAddressBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
+    virtual JUB_RV GetAddressBTC(const JUB_BYTE addrFmt,
+                                 const JUB_ENUM_BTC_TRANS_TYPE& type,
                                  const std::string& path,
                                  const JUB_UINT16 tag,
                                  std::string& address) = 0;

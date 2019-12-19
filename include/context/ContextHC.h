@@ -26,7 +26,7 @@ namespace jub {
 class HCContextBase {
 
 public:
-    virtual JUB_RV signTX(const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) = 0;
+    virtual JUB_RV signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) = 0;
     JUB_RV DeserializeTxHC(const std::string& raw) {
         return hc::DeserializeTx(raw, _tx);
     };
@@ -58,7 +58,7 @@ public:
 // Remove c++ features for swift framework end
     ~ContextHC() {};
 
-    virtual JUB_RV signTX(const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) override;
+    virtual JUB_RV signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) override;
     virtual ContextHC* GetClassType(void) {
         return this;
     }
