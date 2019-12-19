@@ -8,7 +8,7 @@
 
 #import "JubSDKCore+COIN_EOS.h"
 #import "JUB_SDK_EOS.h"
-#import "JUB_core.h"
+#import "JUB_CORE.h"
 
 //typedef struct {
 //    JUB_CHAR_PTR        main_path;
