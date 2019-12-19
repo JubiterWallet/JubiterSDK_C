@@ -46,6 +46,12 @@ typedef enum {
     ns
 } JUB_ENUM_BTC_UNIT_TYPE;
 
+typedef enum {
+    OWN = 0x00,
+    LEGACY,
+    DFLT = OWN
+} JUB_ENUM_BTC_ADDRESS_FORMAT;
+
 // Remove c++ features for swift framework
 //typedef struct stContextCfgBTC : stContextCfg {
 typedef struct stContextCfgBTC {

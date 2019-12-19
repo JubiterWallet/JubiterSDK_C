@@ -20,6 +20,8 @@ using DeviceType = jub::JubiterBLEDevice;
 
 namespace jub {
 
+#define APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION "01090205"
+
 constexpr JUB_BYTE kPKIAID_FIDO[8] = {
     0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
 };
@@ -53,10 +55,11 @@ public:
     //BTC functions
     virtual JUB_RV SelectAppletBTC();
     virtual JUB_RV GetHDNodeBTC(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub);
-    virtual JUB_RV GetAddressBTC(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV GetAddressBTC(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV SetUnitBTC(const JUB_ENUM_BTC_UNIT_TYPE& unit);
     virtual JUB_RV SetCoinTypeBTC(const JUB_ENUM_COINTYPE_BTC& type);
-    virtual JUB_RV SignTXBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
+    virtual JUB_RV SignTXBTC(const JUB_BYTE addrFmt,
+                             const JUB_ENUM_BTC_TRANS_TYPE& type,
                              const JUB_UINT16 inputCount,
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<std::string>& vInputPath,
@@ -138,6 +141,7 @@ private:
                       JUB_BYTE length);
 
     JUB_RV _TranPack(const abcd::DataSlice &apduData,
+                     const JUB_BYTE addrFmt,
                      const JUB_BYTE sigType,
                      const JUB_ULONG ulSendOnceLen,
                      int finalData = false,
@@ -145,6 +149,7 @@ private:
     JUB_RV _TranPackApdu(const JUB_ULONG ncla,
                          const JUB_ULONG nins,
                          const abcd::DataSlice &apduData,
+                         const JUB_BYTE addrFmt,
                          const JUB_BYTE sigType,
                          const JUB_ULONG ulSendOnceLen,
                          JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
@@ -155,9 +160,18 @@ private:
                      JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
                      JUB_ULONG ulMiliSecondTimeout = 1200000);
 
+    bool _isSupportLegacyAddress() {
+        if (0 <= _appletVersion.compare(APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION)) {
+            return true;
+        }
+
+        return false;
+    };
+
     std::shared_ptr<ApduBuilder> _apduBuiler;
     std::shared_ptr<DeviceType> _device;
     std::string _path;
+    std::string _appletVersion;
 }; // class JubiterBLDImpl end
 
 }  // namespace jub end

@@ -58,16 +58,16 @@ JUB_RV JubiterBLDImpl::GetHDNodeBTC(const JUB_ENUM_BTC_TRANS_TYPE& type, const s
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::GetAddressBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
+JUB_RV JubiterBLDImpl::GetAddressBTC(const JUB_BYTE addrFmt,
+                                     const JUB_ENUM_BTC_TRANS_TYPE& type,
                                      const std::string& path,
                                      const JUB_UINT16 tag,
                                      std::string& address) {
 
-    uchar_vector vPath;
-    vPath << path;
-
-    uchar_vector apduData = ToTlv(0x08, vPath);
     JUB_BYTE p1 = (JUB_BYTE)tag;
+    if (_isSupportLegacyAddress()) {
+        p1 |= addrFmt;
+    }
     JUB_BYTE sigType;
     switch (type) {
     case p2pkh:
@@ -84,6 +84,9 @@ JUB_RV JubiterBLDImpl::GetAddressBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
         return JUBR_IMPL_NOT_SUPPORT;
     } // switch (type) end
 
+    uchar_vector vPath;
+    vPath << path;
+    uchar_vector apduData = ToTlv(0x08, vPath);
     APDU apdu(0x00, 0xf6, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = {0,};
@@ -98,7 +101,8 @@ JUB_RV JubiterBLDImpl::GetAddressBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
+JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_BYTE addrFmt,
+                                 const JUB_ENUM_BTC_TRANS_TYPE& type,
                                  const JUB_UINT16 inputCount,
                                  const std::vector<JUB_UINT64>& vInputAmount,
                                  const std::vector<std::string>& vInputPath,
@@ -109,6 +113,11 @@ JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
     //SWITCH_TO_BTC_APP
 
     constexpr JUB_UINT32 kSendOnceLen = 230;
+
+    JUB_BYTE p1 = 0x01;
+    if (_isSupportLegacyAddress()) {
+        p1 |= addrFmt;
+    }
 
     JUB_BYTE sigType;
     switch (type) {
@@ -138,7 +147,7 @@ JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
     apduData << ToTlv(0x0e, amountTLV);
 
     //  first pack
-    APDU apdu(0x00, 0xF8, 0x01, sigType, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF8, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     if (0x9000 != ret) {
@@ -155,13 +164,13 @@ JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
 
     apduData << ToTlv(0x0F, pathLV);
 
-    JUB_VERIFY_RV(_TranPack(apduData, sigType, kSendOnceLen));
+    JUB_VERIFY_RV(_TranPack(apduData, addrFmt, sigType, kSendOnceLen));
     apduData.clear();
 
     //tx TLV
     apduData << ToTlv(0x0D, vUnsigedTrans);
 
-    JUB_VERIFY_RV(_TranPack(apduData, sigType, kSendOnceLen));
+    JUB_VERIFY_RV(_TranPack(apduData, addrFmt, sigType, kSendOnceLen));
     apduData.clear();
 
     //change TLV
@@ -177,7 +186,7 @@ JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_ENUM_BTC_TRANS_TYPE& type,
     changeIndexTLV = ToTlv(0x10, changeLV);
     apduData << changeIndexTLV;
 
-    JUB_VERIFY_RV(_TranPack(apduData, sigType, kSendOnceLen, true)); // last data.
+    JUB_VERIFY_RV(_TranPack(apduData, addrFmt, sigType, kSendOnceLen, true)); // last data.
     apduData.clear();
 
     //  sign transactions

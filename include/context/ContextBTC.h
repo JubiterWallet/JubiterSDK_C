@@ -43,9 +43,9 @@ public:
     virtual JUB_RV GetHDNode(const BIP44_Path& path, std::string& xpub);
     virtual JUB_RV GetMainHDNode(std::string& xpub);
 
-    virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
-    virtual JUB_RV SignTX(const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw);
+    virtual JUB_RV GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, std::string& address);
+    virtual JUB_RV SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw);
     virtual JUB_RV SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType);
 
     virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
@@ -54,6 +54,9 @@ public:
     virtual JUB_RV ActiveSelf() override;
 
 protected:
+    JUB_BYTE _RealAddressFormat(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt) {
+        return ((addrFmt&0x0F) << 4);
+    }
     JUB_ENUM_COINTYPE_BTC   _coinType{ COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE _transType{ p2pkh };
     JUB_ENUM_BTC_UNIT_TYPE  _unitType{ mBTC };

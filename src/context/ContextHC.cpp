@@ -21,7 +21,7 @@ JUB_RV ContextHC::ActiveSelf() {
     return JUBR_OK;
 }
 
-JUB_RV ContextHC::signTX(const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) {
+JUB_RV ContextHC::signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) {
 
     auto token = dynamic_cast<HCTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
     JUB_CHECK_NULL(token);
@@ -47,7 +47,8 @@ JUB_RV ContextHC::signTX(const std::vector<INPUT_HC>& vInputs, const std::vector
     uchar_vector vUnsignedTrans(unsignedTrans);
 
     uchar_vector vRaw;
-    JUB_VERIFY_RV(token->SignTXBTC(p2pkh,
+    JUB_VERIFY_RV(token->SignTXBTC(_RealAddressFormat(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN),
+                                   p2pkh,
                                    (JUB_UINT16)vInputs.size(),
                                    vInputAmount,
                                    vInputPath,

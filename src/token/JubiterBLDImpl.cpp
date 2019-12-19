@@ -461,10 +461,13 @@ JUB_RV JubiterBLDImpl::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
         JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
 
+    uchar_vector vVersion(&retData[4], retData[3]);
+    _appletVersion = vVersion.getHex();
+
     return JUBR_OK;
 }
 
-JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
+JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE addrFmt, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
 
     if (apduData.empty()) {
         JUB_VERIFY_RV(JUBR_ERROR);
@@ -473,7 +476,11 @@ JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE
     JUB_UINT16 ret = 0;
     if (bOnce) {
         // one pack enough
-        APDU apdu(0x00, 0xF8, 0x00, sigType, (JUB_ULONG)apduData.size(), apduData.data());
+        JUB_BYTE p1 = 0x00;
+        if (_isSupportLegacyAddress()) {
+            p1 |= addrFmt;
+        }
+        APDU apdu(0x00, 0xF8, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
             JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
@@ -495,7 +502,11 @@ JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE
     }
 
     // pack by pack
-    APDU apdu(0x00, 0xF8, 0x02, sigType, 0x00);
+    JUB_BYTE p1 = 0x02;
+    if (_isSupportLegacyAddress()) {
+        p1 |= addrFmt;
+    }
+    APDU apdu(0x00, 0xF8, p1, sigType, 0x00);
     apdu.lc = ulSendOnceLen;
     JUB_UINT32 times = 0;
     for (times = 0; times < nextTimes; times++) {
@@ -511,6 +522,9 @@ JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE
     if (apdu.lc) {
         if (finalData) {
             apdu.p1 = 0x03;
+            if (_isSupportLegacyAddress()) {
+                apdu.p1 |= addrFmt;
+            }
         }
 
         apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
@@ -525,6 +539,7 @@ JUB_RV JubiterBLDImpl::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE
 
 JUB_RV JubiterBLDImpl::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
                                      const abcd::DataSlice &apduData,
+                                     const JUB_BYTE addrFmt,
                                      const JUB_BYTE sigType,
                                      const JUB_ULONG ulSendOnceLen,
                                      JUB_BYTE *retData/* = nullptr*/, JUB_ULONG *pulRetDataLen/* = nullptr*/,
@@ -537,7 +552,11 @@ JUB_RV JubiterBLDImpl::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
     JUB_UINT16 ret = 0;
     if (bOnce) {
         // one pack enough
-        APDU apdu(ncla, nins, 0x00, sigType, (JUB_ULONG)apduData.size(), apduData.data());
+        JUB_BYTE p1 = 0x00;
+        if (_isSupportLegacyAddress()) {
+            p1 |= addrFmt;
+        }
+        APDU apdu(ncla, nins, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         if (0x9000 != ret) {
             JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
@@ -559,7 +578,11 @@ JUB_RV JubiterBLDImpl::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
     }
 
     // pack by pack
-    APDU apdu(ncla, nins, 0x02, sigType, 0x00);
+    JUB_BYTE p1 = 0x02;
+    if (_isSupportLegacyAddress()) {
+        p1 |= addrFmt;
+    }
+    APDU apdu(ncla, nins, p1, sigType, 0x00);
     apdu.lc = ulSendOnceLen;
     JUB_UINT32 times = 0;
     for (times = 0; times < nextTimes; times++) {
@@ -575,6 +598,9 @@ JUB_RV JubiterBLDImpl::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
     if (apdu.lc) {
         if (finalData) {
             apdu.p1 = 0x03;
+            if (_isSupportLegacyAddress()) {
+                apdu.p1 |= addrFmt;
+            }
         }
 
         apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
