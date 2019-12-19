@@ -8,7 +8,7 @@
 
 #import "JubSDKCore.h"
 #import "JUB_SDK.h"
-#import "JUB_core.h"
+#import "JUB_CORE.h"
 
 //typedef struct {
 //    JUB_ENUM_BOOL change;
@@ -100,6 +100,7 @@ JUB_ENUM_MNEMONIC_STRENGTH (^inlineMnemonicStrength)(JUB_NS_ENUM_MNEMONIC_STRENG
             break;
         case JUB_NS_ENUM_MNEMONIC_STRENGTH_NR_ITEMS:
         default:
+            strength = JUB_ENUM_MNEMONIC_STRENGTH::STRENGTH128;
             break;
     }
     return strength;

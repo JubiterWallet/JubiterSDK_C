@@ -8,7 +8,7 @@
 
 #import "JubSDKCore+COIN_BTC.h"
 #import "JUB_SDK_BTC.h"
-#import "JUB_core.h"
+#import "JUB_CORE.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 
 //typedef struct stInput {
