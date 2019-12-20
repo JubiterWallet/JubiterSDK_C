@@ -266,13 +266,13 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
 
         for (int i = 0; i < outputNumber; i++) {
             OUTPUT_BTC output;
-            output.type = OUTPUT_ENUM_BTC_TYPE::STANDARD;
-            output.outputStandard.address = (char*)root["outputs"][i]["address"].asCString();
-            output.outputStandard.amount = root["outputs"][i]["amount"].asUInt64();
-            output.outputStandard.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
-            if (output.outputStandard.changeAddress) {
-                output.outputStandard.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
-                output.outputStandard.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
+            output.type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
+            output.stdOutput.address = (char*)root["outputs"][i]["address"].asCString();
+            output.stdOutput.amount = root["outputs"][i]["amount"].asUInt64();
+            output.stdOutput.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
+            if (output.stdOutput.changeAddress) {
+                output.stdOutput.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
+                output.stdOutput.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
             }
             outputs.push_back(output);
         }
@@ -333,13 +333,13 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 
         for (int i = 0; i < outputNumber; i++) {
             OUTPUT_BTC output;
-            output.type = OUTPUT_ENUM_BTC_TYPE::STANDARD;
-            output.outputStandard.address = (char*)root["outputs"][i]["address"].asCString();
-            output.outputStandard.amount = root["outputs"][i]["amount"].asUInt64();
-            output.outputStandard.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
-            if (output.outputStandard.changeAddress) {
-                output.outputStandard.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
-                output.outputStandard.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
+            output.type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
+            output.stdOutput.address = (char*)root["outputs"][i]["address"].asCString();
+            output.stdOutput.amount = root["outputs"][i]["amount"].asUInt64();
+            output.stdOutput.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
+            if (output.stdOutput.changeAddress) {
+                output.stdOutput.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
+                output.stdOutput.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
             }
             outputs.push_back(output);
         }

@@ -222,24 +222,28 @@ void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
         return;
     }
 
-    uint32_t nonce = root["ERC20"]["nonce"].asUInt();//.asDouble();
-    uint32_t gasLimit = root["ERC20"]["gasLimit"].asUInt();//.asDouble();
-    char* gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
+    char* tokenName = (char*)root["ERC20"]["tokenName"].asCString();
+    JUB_UINT16 unitDP = root["ERC20"]["dp"].asUInt();
+    char* contractAddress = (char*)root["ERC20"]["contract_address"].asCString();
     char* to = (char*)root["ERC20"]["contract_address"].asCString();
     char* token_to = (char*)root["ERC20"]["token_to"].asCString();
     char* token_value = (char*)root["ERC20"]["token_value"].asCString();
 
-    BIP44_Path path;
-    path.change = (JUB_ENUM_BOOL)root["ERC20"]["bip32_path"]["change"].asBool();
-    path.addressIndex = root["ERC20"]["bip32_path"]["addressIndex"].asUInt();
-
     char* abi = nullptr;
-    rv = JUB_BuildERC20AbiETH(contextID, token_to, token_value, &abi);
+    rv = JUB_BuildERC20AbiETH(contextID,
+                              tokenName, unitDP, contractAddress,
+                              token_to, token_value, &abi);
     if (JUBR_OK != rv) {
         cout << "JUB_BuildERC20AbiETH() return " << GetErrMsg(rv) << endl;
         return;
     }
 
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["ERC20"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["ERC20"]["bip32_path"]["addressIndex"].asUInt();
+    uint32_t nonce = root["ERC20"]["nonce"].asUInt();//.asDouble();
+    uint32_t gasLimit = root["ERC20"]["gasLimit"].asUInt();//.asDouble();
+    char* gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
     char* raw = nullptr;
     rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, nullptr, abi, &raw);
 
