@@ -235,7 +235,7 @@ void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
             action.sellRam.account = (char*)(*it)[sType]["account"].asCString();
             action.sellRam.bytes   = (char*)(*it)[sType]["bytes"].asCString();
             break;
-        case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_ACTION_TYPE:
+        case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
         default:
             break;
         }
