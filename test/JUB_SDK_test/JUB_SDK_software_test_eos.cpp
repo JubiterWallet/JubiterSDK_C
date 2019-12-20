@@ -31,7 +31,6 @@
 void software_test_eos() {
     JUB_RV rv = JUBR_ERROR;
 
-    JUB_ENUM_EOS_PUB_FORMAT format = JUB_ENUM_EOS_PUB_FORMAT::EOS;
 /*    JUB_CHAR_PTR mnemonic = nullptr;
     JUB_RV rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
     if(rv == JUBR_OK) {
@@ -108,6 +107,7 @@ void software_test_eos() {
     cout << "JUB_GetAddressEOS return " << address << endl;
     JUB_FreeMemory(address);
 
+//    JUB_ENUM_EOS_PUB_FORMAT format = JUB_ENUM_EOS_PUB_FORMAT::EOS;
 //    JUB_CHAR_PTR mainXpub = nullptr;
 //    rv = JUB_GetMainHDNodeEOS(contextID,
 //                              format,
