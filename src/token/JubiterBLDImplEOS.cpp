@@ -11,18 +11,19 @@
 
 namespace jub {
 
-constexpr JUB_BYTE kPKIAID_EOS[16] = {
-    0xD1, 0x56, 0x00, 0x01, 0x32, 0x03, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x45, 0x54, 0x49, 0x01
-};
-
 #define SWITCH_TO_EOS_APP                       \
 do {				                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_EOS, 16)); \
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, 16));\
 } while (0);                                    \
 
 JUB_RV JubiterBLDImpl::SelectAppletEOS() {
     SWITCH_TO_EOS_APP;
     return JUBR_OK;
+}
+
+//MISC functions
+JUB_RV JubiterBLDImpl::SetCoinTypeEOS() {
+    return _SetCoinType((JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINEOS);
 }
 
 JUB_RV JubiterBLDImpl::GetAddressEOS(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {

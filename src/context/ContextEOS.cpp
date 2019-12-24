@@ -25,6 +25,7 @@ JUB_RV ContextEOS::ActiveSelf() {
 
     JUB_VERIFY_RV(token->SelectAppletEOS());
     JUB_VERIFY_RV(ctoken->SetTimeout(_timeout));
+    JUB_VERIFY_RV(token->SetCoinTypeEOS());
 
     return JUBR_OK;
 }

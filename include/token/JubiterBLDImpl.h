@@ -20,11 +20,20 @@ using DeviceType = jub::JubiterBLEDevice;
 
 namespace jub {
 
-#define APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION "01090205"
-
 constexpr JUB_BYTE kPKIAID_FIDO[8] = {
     0xa0, 0x00,	0x00, 0x06, 0x47, 0x2f, 0x00, 0x01
 };
+
+constexpr JUB_BYTE kPKIAID_MISC[16] = {
+    0xD1, 0x56, 0x00, 0x01, 0x32, 0x03, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x6D, 0x69, 0x73, 0x63, 0x01
+};
+
+typedef enum class enumCoinTypeMisc {
+    COIN = 0x00,
+    COINEOS = 0x01,
+    COINXRP = 0x02,
+    Default = COIN
+} JUB_ENUM_COINTYPE_MISC;
 
 typedef struct _stAppInfos_ {
     abcd::DataChunk appID;
@@ -89,6 +98,7 @@ public:
 
     //EOS functions
     virtual JUB_RV SelectAppletEOS();
+    virtual JUB_RV SetCoinTypeEOS();
     virtual JUB_RV GetAddressEOS(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNodeEOS(const JUB_BYTE format, const std::string& path, std::string& pubkey);
     virtual JUB_RV SignTXEOS(const TW::EOS::Type& type,
@@ -100,6 +110,7 @@ public:
 
     //XRP functions
     virtual JUB_RV SelectAppletXRP();
+    virtual JUB_RV SetCoinTypeXRP();
     virtual JUB_RV GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey);
     virtual JUB_RV SignTXXRP(const std::vector<JUB_BYTE>& vPath,
@@ -140,8 +151,10 @@ private:
     JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
                       JUB_BYTE length);
 
+    JUB_RV _SetCoinType(const JUB_BYTE& type);
+
     JUB_RV _TranPack(const abcd::DataSlice &apduData,
-                     const JUB_BYTE addrFmt,
+                     const JUB_BYTE highMark,
                      const JUB_BYTE sigType,
                      const JUB_ULONG ulSendOnceLen,
                      int finalData = false,
@@ -149,7 +162,7 @@ private:
     JUB_RV _TranPackApdu(const JUB_ULONG ncla,
                          const JUB_ULONG nins,
                          const abcd::DataSlice &apduData,
-                         const JUB_BYTE addrFmt,
+                         const JUB_BYTE highMark,
                          const JUB_BYTE sigType,
                          const JUB_ULONG ulSendOnceLen,
                          JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
@@ -160,13 +173,14 @@ private:
                      JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
                      JUB_ULONG ulMiliSecondTimeout = 1200000);
 
-    bool _isSupportLegacyAddress() {
-        if (0 <= _appletVersion.compare(APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION)) {
-            return true;
-        }
+    JUB_BYTE _HighMark(const JUB_ULONG& highMark) {
+        return ((highMark&0x0F) << 4);
+    }
 
-        return false;
-    };
+    //BTC functions
+    bool _isSupportLegacyAddress();
+    JUB_BYTE _RealAddressFormat(const JUB_ULONG& addrFmt);
+    JUB_BYTE _RealAddressFormat(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt);
 
     std::shared_ptr<ApduBuilder> _apduBuiler;
     std::shared_ptr<DeviceType> _device;

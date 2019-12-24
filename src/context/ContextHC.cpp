@@ -47,7 +47,7 @@ JUB_RV ContextHC::signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::
     uchar_vector vUnsignedTrans(unsignedTrans);
 
     uchar_vector vRaw;
-    JUB_VERIFY_RV(token->SignTXBTC(_RealAddressFormat(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN),
+    JUB_VERIFY_RV(token->SignTXBTC(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN,
                                    p2pkh,
                                    (JUB_UINT16)vInputs.size(),
                                    vInputAmount,

@@ -24,6 +24,7 @@ JUB_RV ContextXRP::ActiveSelf() {
 
     JUB_VERIFY_RV(token->SelectAppletXRP());
     JUB_VERIFY_RV(ctoken->SetTimeout(_timeout));
+    JUB_VERIFY_RV(token->SetCoinTypeXRP());
 
     return JUBR_OK;
 }

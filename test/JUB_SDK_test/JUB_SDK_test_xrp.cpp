@@ -191,10 +191,6 @@ void transaction_test_XRP(JUB_UINT16 contextID, Json::Value root) {
     path.change = (JUB_ENUM_BOOL)root["XRP"]["bip32_path"]["change"].asBool();
     path.addressIndex = root["XRP"]["bip32_path"]["addressIndex"].asUInt();
 
-    if (!root["XRP"]["actions"].isArray()) {
-        return;
-    }
-
     //typedef struct stPaymentXRP {
     //    JUB_ENUM_XRP_PYMT_TYPE type;
     //    JUB_CHAR_PTR invoiceID; // [Optional]

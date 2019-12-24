@@ -31,8 +31,8 @@
 void software_test_xrp() {
     JUB_RV rv = JUBR_ERROR;
 
-    JUB_ENUM_EOS_PUB_FORMAT format = JUB_ENUM_EOS_PUB_FORMAT::EOS;
-/*    JUB_CHAR_PTR mnemonic = nullptr;
+/*    JUB_ENUM_EOS_PUB_FORMAT format = JUB_ENUM_EOS_PUB_FORMAT::EOS;
+    JUB_CHAR_PTR mnemonic = nullptr;
     JUB_RV rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
     if(rv == JUBR_OK) {
         cout << mnemonic << endl;

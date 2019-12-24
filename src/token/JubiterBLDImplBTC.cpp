@@ -13,6 +13,24 @@ constexpr JUB_BYTE PKIAID_BTC[16] = {
     0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x42, 0x54, 0x43, 0x01
 };
 
+#define APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION "01090205"
+
+bool JubiterBLDImpl::_isSupportLegacyAddress() {
+    if (0 <= _appletVersion.compare(APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION)) {
+        return true;
+    }
+
+    return false;
+};
+
+JUB_BYTE JubiterBLDImpl::_RealAddressFormat(const JUB_ULONG& addrFmt) {
+    return _HighMark((JUB_ULONG)addrFmt);
+}
+
+JUB_BYTE JubiterBLDImpl::_RealAddressFormat(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt) {
+    return _RealAddressFormat((JUB_ULONG)addrFmt);
+}
+
 #define SWITCH_TO_BTC_APP                       \
 do {				                            \
     JUB_VERIFY_RV(_SelectApp(PKIAID_BTC, 16));  \
@@ -66,7 +84,7 @@ JUB_RV JubiterBLDImpl::GetAddressBTC(const JUB_BYTE addrFmt,
 
     JUB_BYTE p1 = (JUB_BYTE)tag;
     if (_isSupportLegacyAddress()) {
-        p1 |= addrFmt;
+        p1 |= _RealAddressFormat(addrFmt);
     }
     JUB_BYTE sigType;
     switch (type) {
@@ -116,7 +134,7 @@ JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_BYTE addrFmt,
 
     JUB_BYTE p1 = 0x01;
     if (_isSupportLegacyAddress()) {
-        p1 |= addrFmt;
+        p1 |= _RealAddressFormat(addrFmt);
     }
 
     JUB_BYTE sigType;
@@ -164,13 +182,17 @@ JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_BYTE addrFmt,
 
     apduData << ToTlv(0x0F, pathLV);
 
-    JUB_VERIFY_RV(_TranPack(apduData, addrFmt, sigType, kSendOnceLen));
+    JUB_BYTE highMark = 0x00;
+    if (_isSupportLegacyAddress()) {
+        highMark |= _RealAddressFormat(addrFmt);
+    }
+    JUB_VERIFY_RV(_TranPack(apduData, highMark, sigType, kSendOnceLen));
     apduData.clear();
 
     //tx TLV
     apduData << ToTlv(0x0D, vUnsigedTrans);
 
-    JUB_VERIFY_RV(_TranPack(apduData, addrFmt, sigType, kSendOnceLen));
+    JUB_VERIFY_RV(_TranPack(apduData, highMark, sigType, kSendOnceLen));
     apduData.clear();
 
     //change TLV
@@ -186,7 +208,7 @@ JUB_RV JubiterBLDImpl::SignTXBTC(const JUB_BYTE addrFmt,
     changeIndexTLV = ToTlv(0x10, changeLV);
     apduData << changeIndexTLV;
 
-    JUB_VERIFY_RV(_TranPack(apduData, addrFmt, sigType, kSendOnceLen, true)); // last data.
+    JUB_VERIFY_RV(_TranPack(apduData, highMark, sigType, kSendOnceLen, true)); // last data.
     apduData.clear();
 
     //  sign transactions
@@ -261,16 +283,7 @@ JUB_RV JubiterBLDImpl::SetUnitBTC(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 
 JUB_RV JubiterBLDImpl::SetCoinTypeBTC(const JUB_ENUM_COINTYPE_BTC& type) {
 
-    APDU apdu(0x00, 0xf5, (JUB_BYTE)type, 0x00, 0x00);
-    JUB_UINT16 ret = 0;
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-    if (   0x9000 == ret
-        || 0x6d00 == ret
-        ) {
-        return JUBR_OK;
-    }
-
-    return JUBR_ERROR;
+    return _SetCoinType((JUB_BYTE)type);
 }
 
 } // namespace jub end

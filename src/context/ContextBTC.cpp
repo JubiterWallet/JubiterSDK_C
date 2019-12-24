@@ -36,7 +36,7 @@ JUB_RV ContextBTC::GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const 
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetAddressBTC(_RealAddressFormat(addrFmt), _transType, strPath, tag, address));
+    JUB_VERIFY_RV(token->GetAddressBTC(addrFmt, _transType, strPath, tag, address));
 
     return JUBR_OK;
 }
@@ -47,7 +47,7 @@ JUB_RV ContextBTC::SetMyAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, cons
     JUB_CHECK_NULL(token);
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetAddressBTC(_RealAddressFormat(addrFmt), _transType, strPath, 0x02, address));
+    JUB_VERIFY_RV(token->GetAddressBTC(addrFmt, _transType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
@@ -221,7 +221,7 @@ JUB_RV ContextBTC::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std:
     JUB_VERIFY_RV(ret);
 
     uchar_vector vRaw;
-    JUB_VERIFY_RV(token->SignTXBTC(_RealAddressFormat(addrFmt),
+    JUB_VERIFY_RV(token->SignTXBTC(addrFmt,
                                    _transType,
                                    (JUB_UINT16)vInputs.size(),
                                    vInputAmount,
