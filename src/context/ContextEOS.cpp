@@ -23,9 +23,20 @@ JUB_RV ContextEOS::ActiveSelf() {
     JUB_CHECK_NULL(token);
     JUB_CHECK_NULL(ctoken);
 
-    JUB_VERIFY_RV(token->SelectAppletEOS());
+    JUB_RV rv = token->SelectAppletEOS();
+    if (                 JUBR_OK != rv
+        && JUBR_EOS_APP_INDEP_OK != rv
+        ) {
+        return rv;
+    }
+    bool isIndep = false;
+    if (JUBR_EOS_APP_INDEP_OK == rv) {
+        isIndep = true;
+    }
     JUB_VERIFY_RV(ctoken->SetTimeout(_timeout));
-    JUB_VERIFY_RV(token->SetCoinTypeEOS());
+    if (!isIndep) {
+        JUB_VERIFY_RV(token->SetCoinTypeEOS());
+    }
 
     return JUBR_OK;
 }
