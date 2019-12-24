@@ -11,9 +11,18 @@
 
 namespace jub {
 
+constexpr JUB_BYTE kPKIAID_EOS[16] = {
+    0xD1, 0x56, 0x00, 0x01, 0x32, 0x03, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x45, 0x54, 0x49, 0x01
+};
+
 #define SWITCH_TO_EOS_APP                       \
 do {				                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, 16));\
+    if (JUBR_OK == _SelectApp(kPKIAID_MISC, 16)) {  \
+        break;                                      \
+    }                                               \
+    if (JUBR_OK == _SelectApp(kPKIAID_EOS,  16)) {  \
+        return JUBR_EOS_APP_INDEP_OK;               \
+    }                                               \
 } while (0);                                    \
 
 JUB_RV JubiterBLDImpl::SelectAppletEOS() {

@@ -34,6 +34,12 @@ stAppInfos JubiterBLDImpl::g_appInfo[] = {
         "USDT",
         "01080002"
     },
+    // EOS-independent applet JUBR_PKIAID_INVALID
+    {
+        {0xD1, 0x56, 0x00, 0x01, 0x32, 0x03, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x45, 0x54, 0x49, 0x01},
+        "EOS",
+        "01000009"
+    },
     // MISC applet, start adding new apps below:
     {
         {0xD1, 0x56, 0x00, 0x01, 0x32, 0x03, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x6D, 0x69, 0x73, 0x63, 0x01},
@@ -112,6 +118,7 @@ JUB_RV JubiterBLDImpl::EnumSupportCoins(std::string& coinList) {
     std::string appletList;
     JUB_VERIFY_RV(EnumApplet(appletList));
 
+    std::vector<std::string> coinNameList;
     auto vAppList = Split(appletList, " ");
     for (auto appID : vAppList) {
         std::string version;
@@ -123,13 +130,15 @@ JUB_RV JubiterBLDImpl::EnumSupportCoins(std::string& coinList) {
             uchar_vector _appID(appInfo.appID);
             if (_appID.getHex() == appID) {
                 if (appInfo.minimumAppletVersion <= version) {
-                    coinList += appInfo.coinName;
-                    coinList += " ";
+                    if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {
+                        coinList += appInfo.coinName;
+                        coinList += " ";
+                        coinNameList.insert(coinNameList.end(), appInfo.coinName);
+                    }
                 }
             }
         }
     }
-
     return JUBR_OK;
 }
 

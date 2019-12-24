@@ -25,9 +25,9 @@
 #define JUBR_OTHER_ERROR            0x00001003
 #define JUBR_CMD_ERROR              0x00001004
 #define JUBR_BT_BOND_FAILED         0x00001005
-#define JUBR_PKIAID_INVALID         0x00006A82
 
 #define JUBR_CUSTOM_DEFINED         0x80000000UL
+#define JUBR_EOS_APP_INDEP_OK       JUBR_CUSTOM_DEFINED + 1
 
 #ifdef __cplusplus
 extern "C" {
