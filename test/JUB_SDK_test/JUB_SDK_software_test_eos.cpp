@@ -214,11 +214,11 @@ void software_test_eos() {
                                 referenceBlockTime,
                                 actionsInJSON,
                                 &rawInJSON);
+    JUB_FreeMemory(actionsInJSON);
     if (JUBR_OK != rv) {
         cout << "JUB_SignTransactionEOS return " << rv << endl;
         return ;
     }
     cout << "JUB_SignTransactionEOS return " << rawInJSON << endl;
-    JUB_FreeMemory(actionsInJSON);
     JUB_FreeMemory(rawInJSON);
 }
