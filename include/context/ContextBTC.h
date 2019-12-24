@@ -54,9 +54,6 @@ public:
     virtual JUB_RV ActiveSelf() override;
 
 protected:
-    JUB_BYTE _RealAddressFormat(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt) {
-        return ((addrFmt&0x0F) << 4);
-    }
     JUB_ENUM_COINTYPE_BTC   _coinType{ COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE _transType{ p2pkh };
     JUB_ENUM_BTC_UNIT_TYPE  _unitType{ mBTC };

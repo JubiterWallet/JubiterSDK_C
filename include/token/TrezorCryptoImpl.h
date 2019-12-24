@@ -77,6 +77,7 @@ public:
 
     //EOS functions
     virtual JUB_RV SelectAppletEOS();
+    virtual JUB_RV SetCoinTypeEOS();
     virtual JUB_RV GetAddressEOS(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNodeEOS(const JUB_BYTE format, const std::string& path, std::string& pubkey);
     virtual JUB_RV SignTXEOS(const TW::EOS::Type& type,
@@ -87,6 +88,7 @@ public:
                              const bool bWithType=false);
     //XRP functions
     virtual JUB_RV SelectAppletXRP();
+    virtual JUB_RV SetCoinTypeXRP();
     virtual JUB_RV GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey);
     virtual JUB_RV SignTXXRP(const std::vector<JUB_BYTE>& vPath,

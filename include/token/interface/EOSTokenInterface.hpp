@@ -20,6 +20,7 @@ class EOSTokenInterface {
 
 public:
     virtual JUB_RV SelectAppletEOS() = 0;
+    virtual JUB_RV SetCoinTypeEOS() = 0;
     virtual JUB_RV GetAddressEOS(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
     virtual JUB_RV GetHDNodeEOS(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
     virtual JUB_RV SignTXEOS(const TW::EOS::Type& type,

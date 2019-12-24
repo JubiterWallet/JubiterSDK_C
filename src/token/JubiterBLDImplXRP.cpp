@@ -12,18 +12,19 @@
 
 namespace jub {
 
-constexpr JUB_BYTE kPKIAID_XRP[16] = {
-    0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x78, 0x72, 0x70, 0x01
-};
-
 #define SWITCH_TO_XRP_APP                       \
 do {				                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_XRP, 16)); \
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, 16));\
 } while (0);                                    \
 
 JUB_RV JubiterBLDImpl::SelectAppletXRP() {
     SWITCH_TO_XRP_APP;
     return JUBR_OK;
+}
+
+//MISC functions
+JUB_RV JubiterBLDImpl::SetCoinTypeXRP() {
+    return _SetCoinType((JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINXRP);
 }
 
 JUB_RV JubiterBLDImpl::GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address) {
