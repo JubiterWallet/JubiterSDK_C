@@ -291,13 +291,13 @@ void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
                                 referenceBlockTime,
                                 actionsInJSON,
                                 &raw);
+    JUB_FreeMemory(actionsInJSON);
     if (JUBR_OK != rv) {
         cout << "JUB_SignTransactionEOS() return " << GetErrMsg(rv) << endl;
         return;
     }
     else {
-        JUB_FreeMemory(raw);
         cout << "raw : " << raw << endl;
+        JUB_FreeMemory(raw);
     }
-    JUB_FreeMemory(actionsInJSON);
 }
