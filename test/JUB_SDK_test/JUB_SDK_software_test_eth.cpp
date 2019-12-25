@@ -59,7 +59,7 @@ void software_test_eth() {
     path.change = BOOL_FALSE;
     path.addressIndex = 0;
     JUB_CHAR_PTR xpub = nullptr;
-        rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_ETH_PUB_FORMAT::HEX, path, &xpub);
+        rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &xpub);
     if (rv == JUBR_OK) {
         cout << xpub << endl;
         JUB_FreeMemory(xpub);

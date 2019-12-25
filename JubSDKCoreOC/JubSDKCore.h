@@ -32,6 +32,15 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_BOOL) {
 };
 
 //typedef enum {
+//    HEX  = 0x00,
+//    XPUB = 0x01
+//} JUB_ENUM_PUB_FORMAT;
+typedef NS_ENUM(NSInteger, JUB_NS_ENUM_PUB_FORMAT) {
+    NS_HEX  = 0x00,
+    NS_XPUB = 0x01
+};
+
+//typedef enum {
 //    STRENGTH128 = 128,
 //    STRENGTH192 = 192,
 //    STRENGTH256 = 256

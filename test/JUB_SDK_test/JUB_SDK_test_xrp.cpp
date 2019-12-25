@@ -130,45 +130,25 @@ void get_address_pubkey_XRP(JUB_UINT16 contextID) {
     path.change = JUB_ENUM_BOOL(change);
     path.addressIndex = index;
 
-//    char* pubkey = nullptr;
-//    rv = JUB_GetMainHDNodeXRP(contextID, JUB_ENUM_XRP_PUB_FORMAT::HEX, &pubkey);
-//    if (JUBR_OK != rv) {
-//        cout << "JUB_GetMainHDNodeXRP() return " << GetErrMsg(rv) << endl;
-//        return;
-//    }
-//
-//    cout << "MainXpub in  hex format :  " << pubkey << endl;
-//    JUB_FreeMemory(pubkey);
-//
-//    pubkey = nullptr;
-//    rv = JUB_GetMainHDNodeXRP(contextID, JUB_ENUM_XRP_PUB_FORMAT::XPUB, &pubkey);
-//    if (JUBR_OK != rv) {
-//        cout << "JUB_GetMainHDNodeXRP() return " << GetErrMsg(rv) << endl;
-//        return;
-//    }
-//
-//    cout << "MainXpub in  xpub format :  " << pubkey << endl;
-//    JUB_FreeMemory(pubkey);
-//
-//    pubkey = nullptr;
-//    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_XRP_PUB_FORMAT::HEX, path, &pubkey);
-//    if (JUBR_OK != rv) {
-//        cout << "JUB_GetHDNodeXRP() return " << GetErrMsg(rv) << endl;
-//        return;
-//    }
-//
-//    cout << "pubkey in  hex format :  "<< pubkey << endl;
-//    JUB_FreeMemory(pubkey);
-//
-//    pubkey = nullptr;
-//    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_XRP_PUB_FORMAT::XPUB, path, &pubkey);
-//    if (JUBR_OK != rv) {
-//        cout << "JUB_GetHDNodeXRP() return " << GetErrMsg(rv) << endl;
-//        return;
-//    }
-//
-//    cout << "pubkey in xpub format :  " << pubkey << endl;
-//    JUB_FreeMemory(pubkey);
+    char* pubkey = nullptr;
+    rv = JUB_GetMainHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
+    if (JUBR_OK != rv) {
+        cout << "JUB_GetMainHDNodeXRP() return " << GetErrMsg(rv) << endl;
+        return;
+    }
+
+    cout << "MainXpub in hex format :  " << pubkey << endl;
+    JUB_FreeMemory(pubkey);
+
+    pubkey = nullptr;
+    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pubkey);
+    if (JUBR_OK != rv) {
+        cout << "JUB_GetHDNodeXRP() return " << GetErrMsg(rv) << endl;
+        return;
+    }
+
+    cout << "pubkey in hex format :  "<< pubkey << endl;
+    JUB_FreeMemory(pubkey);
 
     char* address = nullptr;
     rv = JUB_GetAddressXRP(contextID, path, BOOL_TRUE, &address);

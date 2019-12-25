@@ -88,14 +88,13 @@ JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeXRP
  * @in  param : contextID - context ID
- *          : format - JUB_ENUM_XRP_PUB_FORMAT::HEX(0x00) for hex;
- *                 JUB_ENUM_XRP_PUB_FORMAT::EOS(0x01) for Legacy
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
  *          : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
-                        IN JUB_ENUM_XRP_PUB_FORMAT format,
+                        IN JUB_ENUM_PUB_FORMAT format,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
@@ -114,13 +113,12 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeXRP
  * @in  param : contextID - context ID
- *          : format - JUB_ENUM_XRP_PUB_FORMAT::HEX(0x00) for hex;
- *                 JUB_ENUM_XRP_PUB_FORMAT::EOS(0x01) for Legacy
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
  * @out param : xpub
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
-                            IN JUB_ENUM_XRP_PUB_FORMAT format,
+                            IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
     JUB_CHECK_CONTEXT_XRP(contextID);

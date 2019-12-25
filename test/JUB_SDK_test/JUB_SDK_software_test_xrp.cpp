@@ -83,7 +83,7 @@ void software_test_xrp() {
     path.change = BOOL_FALSE;
     path.addressIndex = 0;
     JUB_CHAR_PTR pub = nullptr;
-    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_XRP_PUB_FORMAT::XRP, path, &pub);
+    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pub);
     if (rv != JUBR_OK) {
         cout << "JUB_GetHDNodeXRP return " << rv << endl;
         return ;
@@ -104,7 +104,7 @@ void software_test_xrp() {
 
     JUB_CHAR_PTR mainXpub = nullptr;
     rv = JUB_GetMainHDNodeXRP(contextID,
-                              JUB_ENUM_XRP_PUB_FORMAT::XRP,
+                              JUB_ENUM_PUB_FORMAT::HEX,
                               &mainXpub);
     if (JUBR_OK != rv) {
         return ;

@@ -161,6 +161,14 @@ extern "C" {
 //} CONTEXT_CONFIG;
 // Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
+typedef enum {
+    HEX = 0x00,
+    XPUB = 0x01,
+    PUB_FORMAT_NS_ITEM
+} JUB_ENUM_PUB_FORMAT;
+// Remove c++ features for swift framework end
+
 typedef enum {
     BOOL_FALSE = 0,
     BOOL_TRUE,

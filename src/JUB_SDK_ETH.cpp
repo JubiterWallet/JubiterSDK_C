@@ -88,14 +88,14 @@ JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeETH
  * @in  param : contextID - context ID
- *            : format - JUB_ENUM_ETH_PUB_FORMAT::HEX (0x00) for hex;
- *                       JUB_ENUM_ETH_PUB_FORMAT::XPUB(0x01) for xpub
+ *            : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
+ *                   JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
  *            : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
-                        IN JUB_ENUM_ETH_PUB_FORMAT format,
+                        IN JUB_ENUM_PUB_FORMAT format,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
@@ -114,13 +114,13 @@ JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeETH
  * @in  param : contextID - context ID
- *            : format - JUB_ENUM_ETH_PUB_FORMAT::HEX (0x00) for hex;
- *                       JUB_ENUM_ETH_PUB_FORMAT::XPUB(0x01) for xpub
+ *            : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
+ *                   JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
  * @out param : xpub
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
-                            IN JUB_ENUM_ETH_PUB_FORMAT format,
+                            IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
     JUB_CHECK_CONTEXT_ETH(contextID);

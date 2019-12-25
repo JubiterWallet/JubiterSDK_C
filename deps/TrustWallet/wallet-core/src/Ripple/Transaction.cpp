@@ -25,11 +25,10 @@ void Transaction::deserialize(const Data& o) {
 
     int key = 0;
     /// "type"
-    uint8_t u8TypeField = vTrx.read_uint8();
     uchar_vector vTypeField;
-    vTypeField << u8TypeField;
+    vTypeField << vTrx.read_uint8();
     FieldType typeField = decodeType(key, vTypeField);
-    uint16_t type = vTrx.read_le_uint16();
+    uint16_t type = vTrx.read_be_uint16();
     if (!(FieldType::int16 == typeField
           &&             2 == key)
         || uint16_t(TransactionType::payment) != type

@@ -19,6 +19,9 @@
 @synthesize chainID;
 @end
 
+extern JUB_ENUM_BOOL (^inlineBool)(JUB_NS_ENUM_BOOL);
+extern JUB_ENUM_PUB_FORMAT (^inlinePubFormat)(JUB_NS_ENUM_PUB_FORMAT);
+
 @implementation JubSDKCore (COIN_ETH)
 
 //JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
@@ -78,30 +81,9 @@
     self.lastError = JUBR_OK;
     
     BIP44_Path bip44Path;
-    switch (path.change) {
-        case BOOL_NS_FALSE:
-            bip44Path.change = BOOL_FALSE;
-            break;
-        case BOOL_NS_TRUE:
-            bip44Path.change = BOOL_TRUE;
-            break;
-        case BOOL_NS_NR_ITEMS:
-            bip44Path.change = BOOL_NR_ITEMS;
-            break;
-    }
+    bip44Path.change = inlineBool(path.change);
     bip44Path.addressIndex = path.addressIndex;
-    JUB_ENUM_BOOL isShow;
-    switch (bShow) {
-        case BOOL_NS_FALSE:
-            isShow = BOOL_FALSE;
-            break;
-        case BOOL_NS_TRUE:
-            isShow = BOOL_TRUE;
-            break;
-        case BOOL_NS_NR_ITEMS:
-            isShow = BOOL_NR_ITEMS;
-            break;
-    }
+    JUB_ENUM_BOOL isShow = inlineBool(bShow);
     JUB_CHAR_PTR address;
     JUB_RV rv = JUB_GetAddressETH(contextID,
                                   bip44Path,
@@ -120,39 +102,22 @@
 }
 
 //JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
-//                        IN JUB_ETH_PUB_FORMAT format,
+//                        IN JUB_ENUM_PUB_FORMAT format,
 //                        IN BIP44_Path path,
 //                        OUT JUB_CHAR_PTR_PTR pubkey);
 - (NSString*)JUB_GetHDNodeETH:(NSUInteger)contextID
-                       format:(JUB_NS_ETH_PUB_FORMAT)format
+                       format:(JUB_NS_ENUM_PUB_FORMAT)format
                          path:(BIP44Path*)path
 {
     self.lastError = JUBR_OK;
     
-    JUB_ENUM_ETH_PUB_FORMAT fmt;
-    switch (format) {
-        case NS_HEX:
-            fmt = JUB_ENUM_ETH_PUB_FORMAT::HEX;
-            break;
-        case NS_XPUB:
-            fmt = JUB_ENUM_ETH_PUB_FORMAT::XPUB;
-            break;
-        default:
-            self.lastError = JUBR_ARGUMENTS_BAD;
-            return @"";
+    JUB_ENUM_PUB_FORMAT fmt = inlinePubFormat(format);
+    if (PUB_FORMAT_NS_ITEM == fmt) {
+        self.lastError = JUBR_ARGUMENTS_BAD;
+        return @"";
     }
     BIP44_Path bip44Path;
-    switch (path.change) {
-        case BOOL_NS_FALSE:
-            bip44Path.change = BOOL_FALSE;
-            break;
-        case BOOL_NS_TRUE:
-            bip44Path.change = BOOL_TRUE;
-            break;
-        case BOOL_NS_NR_ITEMS:
-            bip44Path.change = BOOL_NR_ITEMS;
-            break;
-    }
+    bip44Path.change = inlineBool(path.change);
     bip44Path.addressIndex = path.addressIndex;
     JUB_CHAR_PTR pubkey = nullptr;
     JUB_RV rv = JUB_GetHDNodeETH(contextID,
@@ -172,24 +137,17 @@
 }
 
 //JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
-//                            IN JUB_ETH_PUB_FORMAT format,
+//                            IN JUB_ENUM_PUB_FORMAT format,
 //                            OUT JUB_CHAR_PTR_PTR xpub);
 - (NSString*)JUB_GetMainHDNodeETH:(NSUInteger)contextID
-                           format:(JUB_NS_ETH_PUB_FORMAT)format
+                           format:(JUB_NS_ENUM_PUB_FORMAT)format
 {
     self.lastError = JUBR_OK;
     
-    JUB_ENUM_ETH_PUB_FORMAT fmt;
-    switch (format) {
-        case NS_HEX:
-            fmt = JUB_ENUM_ETH_PUB_FORMAT::HEX;
-            break;
-        case NS_XPUB:
-            fmt = JUB_ENUM_ETH_PUB_FORMAT::XPUB;
-            break;
-        default:
-            self.lastError = JUBR_ARGUMENTS_BAD;
-            return @"";
+    JUB_ENUM_PUB_FORMAT fmt = inlinePubFormat(format);
+    if (PUB_FORMAT_NS_ITEM == fmt) {
+        self.lastError = JUBR_ARGUMENTS_BAD;
+        return @"";
     }
     JUB_CHAR_PTR xpub = nullptr;
     JUB_RV rv = JUB_GetMainHDNodeETH(contextID,
@@ -216,17 +174,7 @@
     self.lastError = JUBR_OK;
     
     BIP44_Path bip44Path;
-    switch (path.change) {
-        case BOOL_NS_FALSE:
-            bip44Path.change = BOOL_FALSE;
-            break;
-        case BOOL_NS_TRUE:
-            bip44Path.change = BOOL_TRUE;
-            break;
-        case BOOL_NS_NR_ITEMS:
-            bip44Path.change = BOOL_NR_ITEMS;
-            break;
-    }
+    bip44Path.change = inlineBool(path.change);
     bip44Path.addressIndex = path.addressIndex;
     JUB_CHAR_PTR address;
     JUB_RV rv = JUB_SetMyAddressETH(contextID,
@@ -265,17 +213,7 @@
     self.lastError = JUBR_OK;
     
     BIP44_Path bip44Path;
-    switch (path.change) {
-        case BOOL_NS_FALSE:
-            bip44Path.change = BOOL_FALSE;
-            break;
-        case BOOL_NS_TRUE:
-            bip44Path.change = BOOL_TRUE;
-            break;
-        case BOOL_NS_NR_ITEMS:
-            bip44Path.change = BOOL_NR_ITEMS;
-            break;
-    }
+    bip44Path.change = inlineBool(path.change);
     bip44Path.addressIndex = path.addressIndex;
     JUB_CHAR_PTR raw = nullptr;
     JUB_RV rv = JUB_SignTransactionETH(contextID,

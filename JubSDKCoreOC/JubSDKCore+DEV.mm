@@ -26,6 +26,8 @@
 @synthesize firmwareVersion;
 @end
 
+extern JUB_NS_ENUM_BOOL (^inlineNSBool)(JUB_ENUM_BOOL);
+
 @implementation JubSDKCore (DEV)
 
 //JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
@@ -107,21 +109,7 @@
 {
     self.lastError = JUBR_OK;
     
-    JUB_ENUM_BOOL bRv = JUB_IsInitialize(deviceID);
-    JUB_NS_ENUM_BOOL bRet;
-    switch (bRv) {
-        case BOOL_FALSE:
-            bRet = BOOL_NS_FALSE;
-            break;
-        case BOOL_TRUE:
-            bRet = BOOL_NS_TRUE;
-            break;
-        case BOOL_NR_ITEMS:
-            bRet = BOOL_NS_NR_ITEMS;
-            break;
-    }
-    
-    return bRet;
+    return inlineNSBool(JUB_IsInitialize(deviceID));
 }
 
 //JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID);
@@ -129,21 +117,7 @@
 {
     self.lastError = JUBR_OK;
     
-    JUB_ENUM_BOOL bRv = JUB_IsBootLoader(deviceID);
-    JUB_NS_ENUM_BOOL bRet;
-    switch (bRv) {
-        case BOOL_FALSE:
-            bRet = BOOL_NS_FALSE;
-            break;
-        case BOOL_TRUE:
-            bRet = BOOL_NS_TRUE;
-            break;
-        case BOOL_NR_ITEMS:
-            bRet = BOOL_NS_NR_ITEMS;
-            break;
-    }
-    
-    return bRet;
+    return inlineNSBool(JUB_IsBootLoader(deviceID));
 }
 
 //JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID, IN JUB_UINT16 timeout);

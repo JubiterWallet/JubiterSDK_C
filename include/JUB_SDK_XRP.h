@@ -15,15 +15,6 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
-// Remove c++ features for swift framework
-//typedef enum class JubXRPPubFormat {
-typedef enum {
-//    HEX = 0x00,
-    XRP = 0x01,
-    NS_ITEM_XRP_PUB_FORMAT
-} JUB_ENUM_XRP_PUB_FORMAT;
-// Remove c++ features for swift framework end
-
 typedef struct {
     JUB_CHAR_PTR        mainPath;
 } CONTEXT_CONFIG_XRP;
@@ -111,29 +102,27 @@ JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeXRP
  * @in  param : contextID - context ID
- *          : format - JUB_ENUM_XRP_PUB_FORMAT::HEX(0x00) for hex;
- *                 JUB_ENUM_XRP_PUB_FORMAT::XRP(0x01) for Legacy
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
  *          : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
-                        IN JUB_ENUM_XRP_PUB_FORMAT format,
+                        IN JUB_ENUM_PUB_FORMAT format,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
 
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeXRP
  * @in  param : contextID - context ID
- *          : format - JUB_ENUM_XRP_PUB_FORMAT::HEX(0x00) for hex;
- *                 JUB_ENUM_XRP_PUB_FORMAT::XRP(0x01) for Legacy
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
  * @out param : xpub
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
-                            IN JUB_ENUM_XRP_PUB_FORMAT format,
+                            IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
