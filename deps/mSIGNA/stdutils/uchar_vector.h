@@ -477,6 +477,19 @@ public:
     };
 
     // JuBiter-defined
+    uint16_t read_be_uint16() {
+        if (end() - m_cur_it < 2) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        uint16_t d = ReadBE16(&(*m_cur_it));
+        m_last_op_it = m_cur_it;
+        m_cur_it += 2;
+        return d;
+    };
+
+    // JuBiter-defined
     uint32_t read_le_uint32() {
         if (end()- m_cur_it < 4) {
             std::string _err = "error in data index: ";
@@ -490,6 +503,19 @@ public:
     }
 
     // JuBiter-defined
+    uint32_t read_be_uint32() {
+        if (end()- m_cur_it < 4) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        uint32_t d = ReadBE32(&(*m_cur_it));
+        m_last_op_it = m_cur_it;
+        m_cur_it += 4;
+        return d;
+    }
+
+    // JuBiter-defined
     uint64_t read_le_uint64() {
         if (end() - m_cur_it < 8) {
             std::string _err = "error in data index: ";
@@ -497,6 +523,19 @@ public:
             throw std::runtime_error(_err);
         }
         uint64_t d = ReadLE64(&(*m_cur_it));
+        m_last_op_it = m_cur_it;
+        m_cur_it += 8;
+        return d;
+    }
+
+    // JuBiter-defined
+    uint64_t read_be_uint64() {
+        if (end() - m_cur_it < 8) {
+            std::string _err = "error in data index: ";
+            _err += std::to_string(m_last_op_it - begin());
+            throw std::runtime_error(_err);
+        }
+        uint64_t d = ReadBE64(&(*m_cur_it));
         m_last_op_it = m_cur_it;
         m_cur_it += 8;
         return d;

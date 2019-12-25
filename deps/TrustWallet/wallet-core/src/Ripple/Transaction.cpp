@@ -46,7 +46,7 @@ void Transaction::deserialize(const Data& o) {
         ) {
         throw std::invalid_argument("Invalid transaction flags");
     }
-    flags = vTrx.read_le_uint32();
+    flags = vTrx.read_be_uint32();
 
     /// "sequence"
     vTypeField.clear();
@@ -57,7 +57,7 @@ void Transaction::deserialize(const Data& o) {
         ) {
         throw std::invalid_argument("Invalid transaction sequence");
     }
-    sequence = vTrx.read_le_uint32();
+    sequence = vTrx.read_be_uint32();
 
     /// "destinationTag"
     int offset = (int)(vTrx.get_cur_it() - vTrx.begin());
@@ -72,13 +72,13 @@ void Transaction::deserialize(const Data& o) {
         vTrx.reset_it(offset);
     }
     else {
-        destination_tag = vTrx.read_le_uint32();
+        destination_tag = vTrx.read_be_uint32();
     }
 
     /// "lastLedgerSequence"
     offset = (int)(vTrx.get_cur_it() - vTrx.begin());
     vTypeField.clear();
-    vTypeField << vTrx.read_uint8();
+    vTypeField << vTrx.read_le_uint16();
     typeField = decodeType(key, vTypeField);
     if (FieldType::int32 != typeField
         ||            27 != key
@@ -88,7 +88,7 @@ void Transaction::deserialize(const Data& o) {
         vTrx.reset_it(offset);
     }
     else {
-        last_ledger_sequence = vTrx.read_le_uint32();
+        last_ledger_sequence = vTrx.read_be_uint32();
     }
 
     /// "amount"
