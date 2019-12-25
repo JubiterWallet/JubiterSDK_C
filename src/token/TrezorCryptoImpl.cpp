@@ -18,7 +18,6 @@
 #include "EOS/Address.h"
 #include "EOS/Signer.h"
 #include "EOS/Transaction.h"
-#include "Ripple/Address.h"
 #include "Ripple/Signer.h"
 #include "Ripple/Transaction.h"
 
@@ -126,10 +125,10 @@ JUB_RV TrezorCryptoImpl::GetHDNodeETH(const JUB_BYTE format, const std::string& 
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
 
-//    typedef enum class JubETHPubFormat {
+//    typedef enum {
 //        HEX = 0x00,
 //        XPUB = 0x01
-//    } JUB_ENUM_ETH_PUB_FORMAT;
+//    } JUB_ENUM_PUB_FORMAT;
     if (0x00 == format) {//hex
         uchar_vector pk(hdkey.public_key, hdkey.public_key+33);
         pubkey = pk.getHex();
@@ -327,10 +326,10 @@ JUB_RV TrezorCryptoImpl::GetHDNodeXRP(const JUB_BYTE format, const std::string& 
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
 
-//    typedef enum class JubXRPPubFormat {
+//    typedef enum class {
 //        HEX = 0x00,
 //        XRP = 0x01
-//    } JUB_ENUM_XRP_PUB_FORMAT;
+//    } JUB_ENUM_PUB_FORMAT;
     uchar_vector pk(hdkey.public_key, hdkey.public_key+33);
     if (0x00 == format) {//hex
         pubkey = pk.getHex();
@@ -362,21 +361,17 @@ JUB_RV TrezorCryptoImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
 
         uchar_vector privk(hdkey.private_key, hdkey.private_key+32);
         TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
+        TW::PublicKey twpubk = twprivk.getPublicKey(TWPublicKeyTypeSECP256k1);
+        tx.pub_key.insert(tx.pub_key.end(), twpubk.bytes.begin(), twpubk.bytes.end());
+        tx.serialize();
+        vUnsignedRaw.clear();
+        vUnsignedRaw = tx.getPreImage();
 
         TW::Ripple::Signer signer;
         signer.sign(twprivk,
                     tx);
 
         vSignatureRaw.push_back(tx.signature);
-
-        TW::PublicKey twpubk = twprivk.getPublicKey(TWPublicKeyTypeSECP256k1);
-        if (!signer.verify(twpubk, tx)) {
-            return JUBR_ERROR;
-        }
-
-        Data txData = tx.serialize();
-        TW::Ripple::Transaction xrp;
-        xrp.deserialize(txData);
     }
     catch(...) {
         return JUBR_ERROR_ARGS;

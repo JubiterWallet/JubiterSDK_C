@@ -37,7 +37,7 @@
 //    JUB_PYMT_AMOUNT sendMax;    // [Optional]
 //    JUB_PYMT_AMOUNT deliverMin; // [Optional]
 //} JUB_PYMT_XRP;
-@implementation Payment
+@implementation PaymentXRP
 @synthesize type;
 @synthesize amount;
 @synthesize destination;
@@ -76,6 +76,7 @@
 
 extern bool (^inlinebool)(JUB_NS_ENUM_BOOL);
 extern JUB_NS_ENUM_BOOL (^inlineNSbool)(bool);
+extern JUB_ENUM_PUB_FORMAT (^inlinePubFormat)(JUB_NS_ENUM_PUB_FORMAT);
 
 // JUB_NS_XRP_TX_TYPE -> JUB_ENUM_XRP_TX_TYPE
 JUB_ENUM_XRP_TX_TYPE (^inlineXRPTxType)(JUB_NS_XRP_TX_TYPE) = ^(JUB_NS_XRP_TX_TYPE argument) {
@@ -171,7 +172,7 @@ PymtAmount* (^inlineNSPymtAmount)(JUB_PYMT_AMOUNT&) = ^(JUB_PYMT_AMOUNT& pymtAmo
 };
 
 // Payment* -> JUB_PYMT_XRP
-JUB_PYMT_XRP (^inlinePayment)(Payment*) = ^(Payment* pymt) {
+JUB_PYMT_XRP (^inlinePayment)(PaymentXRP*) = ^(PaymentXRP* pymt) {
     JUB_PYMT_XRP payment;
     
     payment.type           = inlineXRPPymtType(pymt.type);
@@ -186,8 +187,8 @@ JUB_PYMT_XRP (^inlinePayment)(Payment*) = ^(Payment* pymt) {
 };
 
 // Payment* <- JUB_PYMT_XRP
-Payment* (^inlineNSPayment)(JUB_PYMT_XRP&) = ^(JUB_PYMT_XRP& pymt) {
-    Payment* payment = [[Payment alloc] init];
+PaymentXRP* (^inlineNSPayment)(JUB_PYMT_XRP&) = ^(JUB_PYMT_XRP& pymt) {
+    PaymentXRP* payment = [[PaymentXRP alloc] init];
     
     payment.type   = inlineNSXRPPymtType(pymt.type);
     payment.amount = inlineNSPymtAmount(pymt.amount);
@@ -403,6 +404,70 @@ extern JUB_ENUM_BOOL (^inlineBool)(JUB_NS_ENUM_BOOL);
     JUB_FreeMemory(address);
     
     return strAddress;
+}
+
+//JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
+//                        IN JUB_ENUM_PUB_FORMAT format,
+//                        IN BIP44_Path path,
+//                        OUT JUB_CHAR_PTR_PTR pubkey);
+- (NSString*)JUB_GetHDNodeXRP:(NSUInteger)contextID
+                       format:(JUB_NS_ENUM_PUB_FORMAT)format
+                         path:(BIP44Path*)path
+{
+    self.lastError = JUBR_OK;
+    
+    JUB_ENUM_PUB_FORMAT fmt = inlinePubFormat(format);
+    if (PUB_FORMAT_NS_ITEM == fmt) {
+        self.lastError = JUBR_ARGUMENTS_BAD;
+        return @"";
+    }
+    BIP44_Path bip44Path;
+    bip44Path.change = inlineBool(path.change);
+    bip44Path.addressIndex = path.addressIndex;
+    JUB_CHAR_PTR pubkey = nullptr;
+    JUB_RV rv = JUB_GetHDNodeXRP(contextID,
+                                 fmt,
+                                 bip44Path,
+                                 &pubkey);
+    if (JUBR_OK != rv) {
+        self.lastError = rv;
+        return @"";
+    }
+    
+    NSString* strPubkey = [NSString stringWithCString:pubkey
+                                             encoding:NSUTF8StringEncoding];
+    JUB_FreeMemory(pubkey);
+    
+    return strPubkey;
+}
+
+//JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
+//                            IN JUB_ENUM_PUB_FORMAT format,
+//                            OUT JUB_CHAR_PTR_PTR xpub);
+- (NSString*)JUB_GetMainHDNodeXRP:(NSUInteger)contextID
+                           format:(JUB_NS_ENUM_PUB_FORMAT)format
+{
+    self.lastError = JUBR_OK;
+    
+    JUB_ENUM_PUB_FORMAT fmt = inlinePubFormat(format);
+    if (PUB_FORMAT_NS_ITEM == fmt) {
+        self.lastError = JUBR_ARGUMENTS_BAD;
+        return @"";
+    }
+    JUB_CHAR_PTR xpub = nullptr;
+    JUB_RV rv = JUB_GetMainHDNodeXRP(contextID,
+                                     fmt,
+                                     &xpub);
+    if (JUBR_OK != rv) {
+        self.lastError = rv;
+        return @"";
+    }
+    
+    NSString* strXpub = [NSString stringWithCString:xpub
+                                           encoding:NSUTF8StringEncoding];
+    JUB_FreeMemory(xpub);
+    
+    return strXpub;
 }
 
 //JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,

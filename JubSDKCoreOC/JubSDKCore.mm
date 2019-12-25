@@ -85,6 +85,24 @@ JUB_NS_ENUM_BOOL (^inlineNSBool)(JUB_ENUM_BOOL) = ^(JUB_ENUM_BOOL argument) {
     return b;
 };
 
+// JUB_NS_ENUM_PUB_FORMAT -> JUB_ENUM_PUB_FORMAT
+JUB_ENUM_PUB_FORMAT (^inlinePubFormat)(JUB_NS_ENUM_PUB_FORMAT) = ^(JUB_NS_ENUM_PUB_FORMAT argument) {
+    JUB_ENUM_PUB_FORMAT fmt;
+    switch (argument) {
+        case NS_HEX:
+            fmt = HEX;
+            break;
+        case NS_XPUB:
+            fmt = XPUB;
+            break;
+        default:
+            fmt = PUB_FORMAT_NS_ITEM;
+            break;
+    }
+    
+    return fmt;
+};
+
 // JUB_NS_ENUM_MNEMONIC_STRENGTH -> JUB_ENUM_MNEMONIC_STRENGTH
 JUB_ENUM_MNEMONIC_STRENGTH (^inlineMnemonicStrength)(JUB_NS_ENUM_MNEMONIC_STRENGTH) = ^(JUB_NS_ENUM_MNEMONIC_STRENGTH argument) {
     JUB_ENUM_MNEMONIC_STRENGTH strength;

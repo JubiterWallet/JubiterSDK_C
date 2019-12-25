@@ -9,11 +9,12 @@
 #include "token/JubiterBLDImpl.h"
 #include "Ripple/Address.h"
 #include "Ripple/Transaction.h"
+#include "JUB_SDK_XRP.h"
 
 namespace jub {
 
 #define SWITCH_TO_XRP_APP                       \
-do {				                            \
+do {                                            \
     JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, 16));\
 } while (0);                                    \
 
@@ -50,7 +51,30 @@ JUB_RV JubiterBLDImpl::GetAddressXRP(const std::string& path, const JUB_UINT16 t
 
 JUB_RV JubiterBLDImpl::GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    //path = "m/44'/144'/0'";
+    uchar_vector vPath;
+    vPath << path;
+    uchar_vector apduData = ToTlv(0x08, vPath);
+
+    //0x00 for hex
+    if (   JUB_ENUM_PUB_FORMAT::HEX  != format
+        ) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    APDU apdu(0x00, 0xe6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[2048] = {0,};
+    JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x9000 != ret) {
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+    }
+
+    uchar_vector vPubkey(retData, (unsigned int)ulRetDataLen);
+    pubkey = vPubkey.getHex();
+
+    return JUBR_OK;
 }
 
 JUB_RV JubiterBLDImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
@@ -64,11 +88,10 @@ JUB_RV JubiterBLDImpl::SignTXXRP(const std::vector<JUB_BYTE>& vPath,
         tx.setPreImage(vUnsignedRaw);
 
         std::string path(vPath.begin(), vPath.end());
-        std::string address;
-        JUB_VERIFY_RV(GetAddressXRP(path, false, address));
-
-        TW::Ripple::Address addr(address);
-        tx.pub_key.insert(tx.pub_key.end(), addr.bytes.begin(), addr.bytes.end());
+        std::string pubkey;
+        JUB_VERIFY_RV(GetHDNodeXRP((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, pubkey));
+        uchar_vector vPubkey(pubkey);
+        tx.pub_key.insert(tx.pub_key.end(), vPubkey.begin(), vPubkey.end());
         tx.serialize();
         vUnsignedRaw.clear();
         vUnsignedRaw = tx.getPreImage();

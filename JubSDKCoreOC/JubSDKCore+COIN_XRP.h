@@ -15,15 +15,6 @@
 @property (atomic, copy  ) NSString* _Nonnull mainPath;
 @end
 
-//typedef enum class JubXRPPubFormat {
-//    HEX = 0x00,
-//    XRP = 0x01
-//} JUB_ENUM_XRP_PUB_FORMAT;
-typedef NS_ENUM(NSInteger, JUB_NS_XRP_PUB_FORMAT) {
-    NS_HEX  = 0x00,
-    NS_XPUB = 0x01
-};
-
 //typedef enum class JubXRPTxType {
 //    PYMT = 0x00,
 //    NS_ITEM_TX_TYPE
@@ -72,7 +63,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_XRP_PYMT_TYPE) {
 //    JUB_PYMT_AMOUNT sendMax;    // [Optional]
 //    JUB_PYMT_AMOUNT deliverMin; // [Optional]
 //} JUB_PYMT_XRP;
-@interface Payment : NSObject
+@interface PaymentXRP : NSObject
 @property (atomic, assign) JUB_NS_XRP_PYMT_TYPE type;
 @property (atomic, strong) PymtAmount* _Nonnull amount;
 @property (atomic, copy  ) NSString* _Nonnull destination;
@@ -106,7 +97,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_XRP_PYMT_TYPE) {
 @property (atomic, copy  ) NSString* _Nonnull lastLedgerSequence;
 @property (atomic, copy  ) NSString* _Nonnull memos;
 @property (atomic, copy  ) NSString* _Nonnull sourceTag;
-@property (atomic, strong) Payment* _Nonnull pymt;
+@property (atomic, strong) PaymentXRP* _Nonnull pymt;
 @end
 
 NS_ASSUME_NONNULL_BEGIN
@@ -132,6 +123,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)JUB_GetAddressXRP:(NSUInteger)contextID
                           path:(BIP44Path*)path
                          bShow:(JUB_NS_ENUM_BOOL)bShow;
+
+//JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
+//                        IN JUB_ENUM_PUB_FORMAT format,
+//                        IN BIP44_Path path,
+//                        OUT JUB_CHAR_PTR_PTR pubkey);
+- (NSString*)JUB_GetHDNodeXRP:(NSUInteger)contextID
+                       format:(JUB_NS_ENUM_PUB_FORMAT)format
+                         path:(BIP44Path*)path;
+
+//JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
+//                            IN JUB_ENUM_PUB_FORMAT format,
+//                            OUT JUB_CHAR_PTR_PTR xpub);
+- (NSString*)JUB_GetMainHDNodeXRP:(NSUInteger)contextID
+                           format:(JUB_NS_ENUM_PUB_FORMAT)format;
 
 //JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
 //                           IN BIP44_Path path,

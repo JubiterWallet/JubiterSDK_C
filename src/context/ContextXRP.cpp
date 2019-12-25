@@ -12,6 +12,7 @@
 #include "token/interface/TokenInterface.hpp"
 #include "libXRP/libXRP.hpp"
 #include "Ripple/Transaction.h"
+#include "Ripple/Signer.h"
 
 namespace jub {
 
@@ -104,7 +105,14 @@ JUB_RV ContextXRP::SignTransaction(BIP44_Path path,
         }
         tx.signature = vSignatureRaw[0];
 
+        // Verify
         uchar_vector vTx(tx.serialize());
+        TW::PublicKey verifyPubk(tx.pub_key, TWPublicKeyTypeSECP256k1);
+        TW::Ripple::Signer verifySigner;
+        if (!verifySigner.verify(verifyPubk, tx)) {
+            return JUBR_ERROR;
+        }
+
         signedRaw = vTx.getHex();
     }
     catch (...) {

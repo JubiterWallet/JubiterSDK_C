@@ -8,15 +8,6 @@
 
 #import "JubSDKCore.h"
 
-//typedef enum {
-//    HEX  = 0x00,
-//    XPUB = 0x01
-//} JUB_ETH_PUB_FORMAT;
-typedef NS_ENUM(NSInteger, JUB_NS_ETH_PUB_FORMAT) {
-    NS_HEX  = 0x00,
-    NS_XPUB = 0x01
-};
-
 //typedef struct {
 //    JUB_CHAR_PTR    main_path;
 //    int             chainID;
@@ -51,18 +42,18 @@ NS_ASSUME_NONNULL_BEGIN
                          bShow:(JUB_NS_ENUM_BOOL)bShow;
 
 //JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
-//                        IN JUB_ETH_PUB_FORMAT format,
+//                        IN JUB_ENUM_PUB_FORMAT format,
 //                        IN BIP44_Path path,
 //                        OUT JUB_CHAR_PTR_PTR pubkey);
 - (NSString*)JUB_GetHDNodeETH:(NSUInteger)contextID
-                                 format:(JUB_NS_ETH_PUB_FORMAT)format
+                                 format:(JUB_NS_ENUM_PUB_FORMAT)format
                                    path:(BIP44Path*)path;
 
 //JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
-//                            IN JUB_ETH_PUB_FORMAT format,
+//                            IN JUB_ENUM_PUB_FORMAT format,
 //                            OUT JUB_CHAR_PTR_PTR xpub);
 - (NSString*)JUB_GetMainHDNodeETH:(NSUInteger)contextID
-                           format:(JUB_NS_ETH_PUB_FORMAT)format;
+                           format:(JUB_NS_ENUM_PUB_FORMAT)format;
 
 //JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
 //                           IN BIP44_Path path,
