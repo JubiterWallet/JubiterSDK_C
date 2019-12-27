@@ -58,22 +58,12 @@ typedef struct stContextCfgBTC {
     JUB_CHAR_PTR            mainPath;
     JUB_ENUM_COINTYPE_BTC    coinType;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE transType;
-
-//    stContextCfgBTC() = default;
-//    stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
-//                    JUB_CHAR_PTR _mainPath,
-//                    JUB_ENUM_BTC_TRANS_TYPE _transType) {
-//         mainPath = _mainPath;
-//         coinType =  _coinType;
-//        transType = _transType;
-//    }
 //
-//    virtual ~stContextCfgBTC() {}
-
 //    stContextCfgBTC();
 //    stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
 //                    JUB_CHAR_PTR _mainPath,
 //                    JUB_ENUM_BTC_TRANS_TYPE _transType);
+//    virtual ~stContextCfgBTC() {}
 } CONTEXT_CONFIG_BTC;
 // Remove c++ features for swift framework end
 
@@ -92,7 +82,7 @@ typedef struct stInput {
     JUB_UINT32      nSequence;
     JUB_UINT64      amount;
     BIP44_Path      path;
-
+//
 //     stInput();
 //    ~stInput() = default;
 } INPUT_BTC;
@@ -104,7 +94,7 @@ typedef struct stOutput {
     JUB_UINT64      amount;
     JUB_ENUM_BOOL   changeAddress;
     BIP44_Path      path;
-
+//
 //     stOutput();
 //    ~stOutput() = default;
 } OUTPUT;
@@ -115,7 +105,7 @@ typedef struct stOutputReturn0 {
     JUB_UINT64      amount;
     JUB_UINT16      dataLen;
     JUB_BYTE        data[40];
-
+//
 //     stOutputReturn0();
 //    ~stOutputReturn0() = default;
 } OUTPUT_RETURN0;
@@ -125,7 +115,7 @@ typedef struct stOutputReturn0 {
 typedef struct stOutputQRC20 {
     JUB_UINT16      dataLen;
     JUB_BYTE        data[200];
-
+//
 //     stOutputQRC20();
 //    ~stOutputQRC20() = default;
 } OUTPUT_QRC20;
@@ -139,7 +129,7 @@ typedef struct stOutputBTC {
         OUTPUT_RETURN0 return0;
         OUTPUT_QRC20 qrc20;
     };
-
+//
 //     stOutputBTC();
 //    ~stOutputBTC() = default;
 } OUTPUT_BTC;

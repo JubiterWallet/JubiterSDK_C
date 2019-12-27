@@ -15,18 +15,7 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
-// Remove c++ features for swift framework
-//typedef enum class JubEOSPubFormat {
-typedef enum {
-//    HEX = 0x00,
-    EOS = 0x01,
-    NS_ITEM_EOS_PUB_FORMAT
-} JUB_ENUM_EOS_PUB_FORMAT;
-// Remove c++ features for swift framework end
-
-typedef struct {
-    JUB_CHAR_PTR        mainPath;
-} CONTEXT_CONFIG_EOS;
+typedef CONTEXT_CONFIG CONTEXT_CONFIG_EOS;
 
 // Remove c++ features for swift framework
 //typedef enum class JubEOSActionType {
@@ -40,32 +29,53 @@ typedef enum {
 } JUB_ENUM_EOS_ACTION_TYPE;
 // Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stTransferAction {
     JUB_CHAR_PTR from;
     JUB_CHAR_PTR to;
     JUB_CHAR_PTR asset;
     JUB_CHAR_PTR memo;
+//
+//     stTransferAction();
+//    ~stTransferAction() = default;
 } JUB_ACTION_TRANSFER;
+// Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stDelegateAction {
     JUB_CHAR_PTR from;
     JUB_CHAR_PTR receiver;
     JUB_CHAR_PTR netQty; // stake_net_quantity/unstake_net_quantity
     JUB_CHAR_PTR cpuQty; // stake_cpu_quantity/unstake_cpu_quantity
     bool bStake;
+//
+//     stDelegateAction();
+//    ~stDelegateAction() = default;
 } JUB_ACTION_DELEGATE;
+// Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stBuyRamAction {
     JUB_CHAR_PTR payer;
     JUB_CHAR_PTR quant;
     JUB_CHAR_PTR receiver;
+//
+//     stBuyRamAction();
+//    ~stBuyRamAction() = default;
 } JUB_ACTION_BUYRAM;
+// Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stSellRamAction {
     JUB_CHAR_PTR account;
     JUB_CHAR_PTR bytes;
+//
+//     stSellRamAction();
+//    ~stSellRamAction() = default;
 } JUB_ACTION_SELLRAM;
+// Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
 typedef struct stActionEOS {
     JUB_ENUM_EOS_ACTION_TYPE type;
     JUB_CHAR_PTR currency;
@@ -76,8 +86,12 @@ typedef struct stActionEOS {
         JUB_ACTION_BUYRAM buyRam;
         JUB_ACTION_SELLRAM sellRam;
     };
+//
+//     stActionEOS();
+//    ~stActionEOS() = default;
 } JUB_ACTION_EOS;
 typedef JUB_ACTION_EOS* JUB_ACTION_EOS_PTR;
+// Remove c++ features for swift framework end
 
 /*****************************************************************************
  * @function name : JUB_CreateContextEOS
@@ -109,15 +123,15 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeEOS
  * @in  param : contextID - context ID
- *            : format - JUB_ENUM_EOS_PUB_FORMAT::HEX(0x00) for hex;
- *                       JUB_ENUM_EOS_PUB_FORMAT::EOS(0x01) for Legacy
- *            : path
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
+ *                 JUB_ENUM_PUB_FORMAT::XPUB(0x01)
+ *          : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
-                        IN JUB_ENUM_EOS_PUB_FORMAT format,
+                        IN JUB_ENUM_PUB_FORMAT format,
                         IN BIP44_Path path,
 //                        IN BIP48_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
@@ -125,14 +139,14 @@ JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeEOS
  * @in  param : contextID - context ID
- *            : format - JUB_ENUM_EOS_PUB_FORMAT::HEX(0x00) for hex;
- *                       JUB_ENUM_EOS_PUB_FORMAT::EOS(0x01) for Legacy
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
+ *                 JUB_ENUM_PUB_FORMAT::XPUB(0x01)
  * @out param : xpub
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
-                            IN JUB_ENUM_EOS_PUB_FORMAT format,
+                            IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************

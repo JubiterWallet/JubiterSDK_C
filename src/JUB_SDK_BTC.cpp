@@ -14,6 +14,26 @@
 #include "token/interface/TokenInterface.hpp"
 #include "libBTC/libBTC.hpp"
 
+JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
+
+// Remove c++ features for swift framework
+//stContextCfgBTC::stContextCfgBTC() {
+//    mainPath = nullptr;
+//     coinType = JUB_ENUM_COINTYPE_BTC::Default;
+//    transType = JUB_ENUM_BTC_TRANS_TYPE::p2pkh;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stContextCfgBTC::stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
+//                                 JUB_CHAR_PTR _mainPath,
+//                                 JUB_ENUM_BTC_TRANS_TYPE _transType) {
+//     mainPath = _mainPath;
+//     coinType =  _coinType;
+//    transType = _transType;
+//}
+// Remove c++ features for swift framework end
+
 // Remove c++ features for swift framework
 //stInput::stInput() {
 //    type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
@@ -22,30 +42,43 @@
 //    preIndex = 0;
 //    nSequence = jub::btc::sequence;
 //    amount = 0;
-//    path.change = JUB_ENUM_BOOL::BOOL_FALSE;
-//    path.addressIndex = 0;
+//    path = BIP44_Path();
 //}
-//
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
 //stOutput::stOutput() {
 //    address = NULL;
 //    amount = 0;
 //    changeAddress = JUB_ENUM_BOOL::BOOL_FALSE;
-//    path.change = JUB_ENUM_BOOL::BOOL_FALSE;
-//    path.addressIndex = 0;
-//}
-//
-//stOutputReturn0::stOutputReturn0() {
-//    amount = 0;
-//    dataLen = 0;
-//    memset(data, 0x00, 40);
-//}
-//
-//stOutputBTC::stOutputBTC() {
-//    type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
+//    path = BIP44_Path();
 //}
 // Remove c++ features for swift framework end
 
-JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
+// Remove c++ features for swift framework
+//stOutputReturn0::stOutputReturn0() {
+//    amount = 0;
+//    dataLen = 0;
+//    memset(data, 0x00, sizeof(data)/sizeof(JUB_BYTE));
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stOutputQRC20::stOutputQRC20() {
+//    dataLen = 0;
+//    memset(data, 0x00, sizeof(data)/sizeof(JUB_BYTE));
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stOutputBTC::stOutputBTC() {
+//    type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
+//
+//    stdOutput = OUTPUT();
+//    return0   = OUTPUT_RETURN0();
+//    qrc20     = OUTPUT_QRC20();
+//}
+// Remove c++ features for swift framework end
 
 /*****************************************************************************
  * @function name : JUB_CreateContextBTC

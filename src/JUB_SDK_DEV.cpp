@@ -19,6 +19,17 @@
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
+// Remove c++ features for swift framework end
+//stDevicdInfo::stDevicdInfo() {
+//     memset(label, 0x00, sizeof(label)/sizeof(JUB_CHAR));
+//     memset(sn, 0x00, sizeof(sn)/sizeof(JUB_CHAR));
+//     pinRetry = 0;
+//     pinMaxRetry = 0;
+//     memset(bleVersion, 0x00, sizeof(bleVersion)/sizeof(JUB_CHAR));
+//     memset(firmwareVersion, 0x00, sizeof(firmwareVersion)/sizeof(JUB_CHAR));
+//}
+// Remove c++ features for swift framework
+
 /*****************************************************************************
  * @function name : JUB_GetDeviceInfo
  * @in  param : deviceID - device ID
@@ -49,19 +60,19 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     JUB_BYTE bleVersion[4] = {0,};
     JUB_BYTE fwVersion[4] = {0,};
 
-    token->GetPinRetry(retry);
-    token->GetPinMaxRetry(maxRetry);
-    token->GetSN(sn);
-    token->GetLabel(label);
-    token->GetBleVersion(bleVersion);
-    token->GetFwVersion(fwVersion);
+    JUB_VERIFY_RV(token->GetPinRetry(retry));
+    JUB_VERIFY_RV(token->GetPinMaxRetry(maxRetry));
+    JUB_VERIFY_RV(token->GetSN(sn));
+    JUB_VERIFY_RV(token->GetLabel(label));
+    JUB_VERIFY_RV(token->GetBleVersion(bleVersion));
+    JUB_VERIFY_RV(token->GetFwVersion(fwVersion));
 
-    memcpy(info->sn, sn, 24);
-    memcpy(info->label, label, 32);
+    memcpy(info->sn, sn, sizeof(sn)/sizeof(JUB_BYTE));
+    memcpy(info->label, label, sizeof(label)/sizeof(JUB_BYTE));
     info->pinRetry = retry;
     info->pinMaxRetry = maxRetry;
-    memcpy(info->bleVersion, bleVersion, 4);
-    memcpy(info->firmwareVersion, fwVersion, 4);
+    memcpy(info->bleVersion, bleVersion, sizeof(bleVersion)/sizeof(JUB_BYTE));
+    memcpy(info->firmwareVersion, fwVersion, sizeof(fwVersion)/sizeof(JUB_BYTE));
 
     return JUBR_OK;
 }

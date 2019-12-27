@@ -5,6 +5,20 @@
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
+// Remove c++ features for swift framework
+//stInputHC::stInputHC() {
+//    amount = 0;
+//    path = BIP44_Path();
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stOutputHC::stOutputHC() {
+//    changeAddress = JUB_ENUM_BOOL::BOOL_FALSE;
+//    path = BIP44_Path();
+//}
+// Remove c++ features for swift framework end
+
 JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,
                            IN JUB_UINT16 deviceID,
                            OUT JUB_UINT16* contextID) {

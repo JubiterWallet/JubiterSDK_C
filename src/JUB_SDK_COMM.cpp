@@ -10,7 +10,20 @@
 #include "context/Context.h"
 
 static constexpr char const *kVersionFormat = "1.1.0.%02d%02d%02d";
-static char Version[20];
+static char Version[20] = {0x00,};
+
+// Remove c++ features for swift framework
+//stContextCfg::stContextCfg() {
+//     mainPath = nullptr;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stBip44Path::stBip44Path() {
+//     change = JUB_ENUM_BOOL::BOOL_FALSE;
+//     addressIndex = 0;
+//}
+// Remove c++ features for swift framework end
 
 static std::set<JUB_CHAR_CPTR> memPtrs;
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf) {

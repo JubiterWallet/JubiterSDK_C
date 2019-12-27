@@ -235,10 +235,10 @@ JUB_RV TrezorCryptoImpl::GetHDNodeEOS(const JUB_BYTE format, const std::string& 
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
 
-//    typedef enum class JubEOSPubFormat {
+//    typedef enum class JubPubFormat {
 //        HEX = 0x00,
-//        EOS = 0x01
-//    } JUB_ENUM_EOS_PUB_FORMAT;
+//        XPUB = 0x01
+//    } JUB_ENUM_PUB_FORMAT;
     uchar_vector pk(hdkey.public_key, hdkey.public_key+33);
     if (0x00 == format) {//hex
         pubkey = pk.getHex();
