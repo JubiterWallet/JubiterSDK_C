@@ -21,6 +21,14 @@
 
 //#if defined(ANDROID) || defined(TARGET_OS_IPHONE)
 
+// Remove c++ features for swift framework
+//stDeviceInitParam::stDeviceInitParam() {
+//     callBack = nullptr;
+//     scanCallBack = nullptr;
+//     discCallBack = nullptr;
+//}
+// Remove c++ features for swift framework end
+
 using BLE_device_map = Singleton<xManager<JUB_ULONG>>;
 
 JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {

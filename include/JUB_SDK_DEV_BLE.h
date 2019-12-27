@@ -29,12 +29,17 @@ typedef void(*DEV_ScanCallBack)(JUB_BYTE_PTR devName, JUB_BYTE_PTR uuid, JUB_UIN
 
 typedef void(*DEV_DiscCallBack)(JUB_BYTE_PTR uuid);
 
-typedef struct _DEVICE_INIT_PARAM_ {
+// Remove c++ features for swift framework
+typedef struct stDeviceInitParam {
     void* param;
     DEV_ReadCallBack callBack;
     DEV_ScanCallBack scanCallBack;
     DEV_DiscCallBack discCallBack;
+//
+//     stDeviceInitParam();
+//    ~stDeviceInitParam() = default;
 } DEVICE_INIT_PARAM;
+// Remove c++ features for swift framework end
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param);

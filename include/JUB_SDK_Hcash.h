@@ -7,25 +7,27 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
+typedef CONTEXT_CONFIG CONTEXT_CONFIG_HC;
+
 // Remove c++ features for swift framework
-//typedef stContextCfg CONTEXT_CONFIG_HC;
-typedef struct stContextCfgHC {
-    JUB_CHAR_PTR            mainPath;
-    int                 chainID;
-
-//    virtual ~stContextCfgHC() {}
-} CONTEXT_CONFIG_HC;
-// Remove c++ features for swift framework end
-
-typedef struct {
+typedef struct stInputHC {
 	JUB_UINT64		amount;
 	BIP44_Path      path;
+//
+//     stInputHC();
+//    ~stInputHC() = default;
 } INPUT_HC;
+// Remove c++ features for swift framework end
 
-typedef struct {
+// Remove c++ features for swift framework
+typedef struct stOutputHC {
 	JUB_ENUM_BOOL   changeAddress;
 	BIP44_Path      path;
+//
+//     stOutputHC();
+//    ~stOutputHC() = default;
 } OUTPUT_HC;
+// Remove c++ features for swift framework end
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,

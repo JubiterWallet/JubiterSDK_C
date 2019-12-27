@@ -15,6 +15,13 @@
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
+// Remove c++ features for swift framework
+//stContextCfgETH::stContextCfgETH() {
+//    mainPath = nullptr;
+//    chainID = 0;
+//}
+// Remove c++ features for swift framework end
+
 /*****************************************************************************
  * @function name : JUB_CreateContextETH
  * @in  param : cfg
@@ -159,6 +166,11 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
                               OUT JUB_CHAR_PTR_PTR raw) {
 
     JUB_CHECK_CONTEXT_ETH(contextID);
+
+    JUB_CHECK_NULL(gasPriceInWei);
+    JUB_CHECK_NULL(to);
+//    JUB_CHECK_NULL(valueInWei);// it can be nullptr
+    JUB_CHECK_NULL(input);
 
     auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);

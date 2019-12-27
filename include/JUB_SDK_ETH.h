@@ -20,7 +20,8 @@ extern "C" {
 typedef struct stContextCfgETH {
     JUB_CHAR_PTR            mainPath;
     int                 chainID;
-
+//
+//    stContextCfgETH();
 //    virtual ~stContextCfgETH() {}
 } CONTEXT_CONFIG_ETH;
 // Remove c++ features for swift framework end

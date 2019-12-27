@@ -15,6 +15,53 @@
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
+// Remove c++ features for swift framework
+//stTransferAction::stTransferAction() {
+//    from = nullptr;
+//    to = nullptr;
+//    asset = nullptr;
+//    memo = nullptr;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stDelegateAction::stDelegateAction() {
+//    from = nullptr;
+//    receiver = nullptr;
+//    netQty = nullptr;
+//    cpuQty = nullptr;
+//    bStake = false;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stBuyRamAction::stBuyRamAction() {
+//    payer = nullptr;
+//    quant = nullptr;
+//    receiver = nullptr;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stSellRamAction::stSellRamAction() {
+//    account = nullptr;
+//    bytes = nullptr;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stActionEOS::stActionEOS() {
+//    type = JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE;
+//    currency = nullptr;
+//    name = nullptr;
+//
+//    transfer = stTransferAction();
+//    delegate = stDelegateAction();
+//    buyRam = stBuyRamAction();
+//    sellRam = stSellRamAction();
+//}
+// Remove c++ features for swift framework end
+
 /*****************************************************************************
  * @function name : JUB_CreateContextEOS
  * @in  param : cfg
@@ -90,14 +137,14 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeEOS
  * @in  param : contextID - context ID
- *          : format - JUB_ENUM_EOS_PUB_FORMAT::HEX(0x00) for hex;
- *                 JUB_ENUM_EOS_PUB_FORMAT::EOS(0x01) for Legacy
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
+ *                 JUB_ENUM_PUB_FORMAT::XPUB(0x01)
  *          : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
-                        IN JUB_ENUM_EOS_PUB_FORMAT format,
+                        IN JUB_ENUM_PUB_FORMAT format,
                         IN BIP44_Path path,
 //                        IN BIP48_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
@@ -117,13 +164,13 @@ JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeEOS
  * @in  param : contextID - context ID
- *            : format - JUB_ENUM_EOS_PUB_FORMAT::HEX(0x00) for hex;
- *                       JUB_ENUM_EOS_PUB_FORMAT::EOS(0x01) for Legacy
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
+ *                 JUB_ENUM_PUB_FORMAT::XPUB(0x01)
  * @out param : xpub
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
-                            IN JUB_ENUM_EOS_PUB_FORMAT format,
+                            IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
     JUB_CHECK_CONTEXT_EOS(contextID);

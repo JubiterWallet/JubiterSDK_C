@@ -15,6 +15,85 @@
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
+// Remove c++ features for swift framework
+//stAmount::stAmount() {
+//    currency = nullptr;
+//    value = nullptr;
+//    issuer = nullptr;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//bool stAmount::isValid() const {
+//    bool bRet = true;
+//    if (nullptr == value) {
+//        bRet = false;
+//    }
+//
+//    return bRet;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stPaymentXRP::stPaymentXRP() {
+//    type = JUB_ENUM_XRP_PYMT_TYPE::NS_ITEM_PYMT_TYPE;
+//    amount = stAmount();
+//    destination = nullptr;
+//    destinationTag = nullptr;
+//    invoiceID = nullptr;
+//    invoiceID = nullptr;
+//    sendMax = stAmount();
+//    deliverMin = stAmount();
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//bool stPaymentXRP::isValid() const {
+//    bool bRet = true;
+//    if (JUB_ENUM_XRP_PYMT_TYPE::NS_ITEM_PYMT_TYPE == type
+//        || !amount.isValid()
+//        || nullptr == destination
+//        || nullptr == destinationTag
+//        ) {
+//        bRet = false;
+//    }
+//
+//    return bRet;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//stTxXRP::stTxXRP() {
+//    account = nullptr;
+//    type = JUB_ENUM_XRP_TX_TYPE::NS_ITEM_TX_TYPE;
+//    fee = nullptr;
+//    sequence = nullptr;
+//    accountTxnID = nullptr;
+//    flags = nullptr;
+//    lastLedgerSequence = nullptr;
+//    memos = nullptr;
+//    sourceTag = nullptr;
+//    pymt = JUB_PYMT_XRP();
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//bool stTxXRP::isValid() const {
+//    bool bRet = true;
+//    if (   nullptr == account
+//        || JUB_ENUM_XRP_TX_TYPE::NS_ITEM_TX_TYPE == type
+//        || nullptr == fee
+//        || nullptr == sequence
+//        || nullptr == flags
+//        || nullptr == lastLedgerSequence
+//        ) {
+//        bRet = false;
+//    }
+//
+//    return bRet;
+//}
+// Remove c++ features for swift framework end
+
 /*****************************************************************************
  * @function name : JUB_CreateContextXRP
  * @in  param : cfg

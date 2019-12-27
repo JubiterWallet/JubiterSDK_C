@@ -33,15 +33,20 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
-typedef struct {
+// Remove c++ features for swift framework
+typedef struct stDevicdInfo {
     JUB_CHAR label[32];
     JUB_CHAR sn[24];
     JUB_UINT16 pinRetry;
     JUB_UINT16 pinMaxRetry;
     JUB_CHAR bleVersion[4];
     JUB_CHAR firmwareVersion[4];
+//
+//     stDevicdInfo();
+//    ~stDevicdInfo() = default;
 } JUB_DEVICE_INFO;
 typedef JUB_DEVICE_INFO* JUB_DEVICE_INFO_PTR;
+// Remove c++ features for swift framework end
 
 /*****************************************************************************
  * @function name : JUB_GetDeviceInfo
