@@ -4,7 +4,4 @@
    <FileRef
       location = "group:JubSDK.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:JubSDKCore.xcodeproj">
-   </FileRef>
 </Workspace>
