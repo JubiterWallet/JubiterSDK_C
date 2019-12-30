@@ -15,8 +15,14 @@ cmake ..
 make
 ```
 ### **Android**
+可以直接将cmake直接引入Android Studio的项目里,也可以通过命令行进行操作
+ANDROID_ABI可以是armeabi-v7a,arm64-v8a,x86,x86_64,mips,mips64
 ```bash
-To Do
+mkdir buildAndroid & cd buildAndroid
+
+cmake -G "Unix Makefiles" -DANDROID_ABI=arm64-v8a -DCMAKE_BUILD_TYPE=Release -DANDROID_STL=c++_static -DCMAKE_TOOLCHAIN_FILE=/path/to/sdk/ndk-bundle/build/cmake/android.toolchain.cmake ..
+
+make
 ```
 ### **IOS**
 ```bash
