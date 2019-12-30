@@ -1,17 +1,15 @@
 cmake_minimum_required(VERSION 3.6.0)
 
-#file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp)
-#
-#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}/../protos ${CMAKE_CURRENT_SOURCE_DIR}/../protos/Jub_Common.proto)
-#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}/../protos ${CMAKE_CURRENT_SOURCE_DIR}/../protos/Jub_Bitcoin.proto)
-#execute_process(COMMAND protoc --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}/../protos/cpp --proto_path=${CMAKE_CURRENT_SOURCE_DIR}/../protos ${CMAKE_CURRENT_SOURCE_DIR}/../protos/Jub_Ethereum.proto)
-
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/ SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/utility SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/context SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/device SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/libBTC SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/libBCH SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/libETH SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/libEOS SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/libXRP SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/HDKey SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint SRC_LIST)
@@ -21,6 +19,9 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Bravo SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/EOS SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ripple SRC_LIST)
+
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps)
