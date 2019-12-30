@@ -6,7 +6,7 @@ SET(CMAKE_BUILD_TYPE "Debug")
 
 add_subdirectory(src)
 add_subdirectory(trezor-crypto)
-#add_subdirectory(test)
+add_subdirectory(test)
 #add_subdirectory(monitor)
 
 
