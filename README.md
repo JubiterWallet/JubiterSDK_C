@@ -4,6 +4,10 @@
 3.  windows需要使用cygwin,不支持visual studio,需要在cygwin环境下,安装hidapi-dev
 4.  Android需要安装NDK20+
 
+```bash
+git submodule update --init --recursive
+```
+
 ### **Mac,Linux,Cygwin**
 ```bash
 mkdir build & cd build
