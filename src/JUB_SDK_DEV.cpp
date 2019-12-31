@@ -159,7 +159,7 @@ JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
-                            IN JUB_CHAR_PTR appID,
+                            IN JUB_CHAR_CPTR appID,
                             OUT JUB_CHAR_PTR_PTR version) {
 
     auto token = jub::TokenManager::GetInstance()->GetOne(deviceID);
@@ -226,7 +226,7 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
-                       IN JUB_CHAR_PTR apdu,
+                       IN JUB_CHAR_CPTR apdu,
                        OUT JUB_CHAR_PTR_PTR response) {
 
     auto token = jub::TokenManager::GetInstance()->GetOne(deviceID);
