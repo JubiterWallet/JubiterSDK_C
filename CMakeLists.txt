@@ -4,11 +4,9 @@ project(JubSDK VERSION 0.1.0)
 set (CMAKE_CXX_STANDARD 11)
 SET(CMAKE_BUILD_TYPE "Debug")
 
-add_subdirectory(src)
 add_subdirectory(trezor-crypto)
-if(NOT ANDROID)
+add_subdirectory(src)
+if(NOT ANDROID AND NOT IOS)
 add_subdirectory(test)
 endif()
 #add_subdirectory(monitor)
-
-
