@@ -9,6 +9,11 @@ include_directories(${CMAKE_SOURCE_DIR}/deps/TrustWallet/wallet-core/src)
 
 aux_source_directory(${CMAKE_SOURCE_DIR}/deps/jsoncpp/src/lib_json SRC_LIST)
 aux_source_directory(${CMAKE_SOURCE_DIR}/test/JUB_SDK_test SRC_LIST)
+if(APPLE)
+list(REMOVE_ITEM SRC_LIST "${CMAKE_SOURCE_DIR}/test/JUB_SDK_test/stdafx.h")
+list(REMOVE_ITEM SRC_LIST "${CMAKE_SOURCE_DIR}/test/JUB_SDK_test/stdafx.cpp")
+list(REMOVE_ITEM SRC_LIST "${CMAKE_SOURCE_DIR}/test/JUB_SDK_test/targetver.h")
+endif(APPLE)
 
 add_executable(JUB_test ${SRC_LIST})
 
@@ -21,6 +26,3 @@ if(APPLE)
 else()
     target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto hidapi)  
 endif(APPLE)
-
-
-

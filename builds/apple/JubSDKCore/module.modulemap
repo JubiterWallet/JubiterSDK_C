@@ -1,0 +1,7 @@
+framework module JubSDKCore {
+    umbrella header "JubSDKCore.h"
+    export *
+    module * { export * }
+    link "c++"
+    link "iconv"
+}
