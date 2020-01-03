@@ -11,6 +11,7 @@
 #endif
 #include "JUB_SDK_BTC.h"
 #include "JUB_SDK_ETH.h"
+#include "JUB_SDK_Hcash.h"
 #include "JUB_SDK_EOS.h"
 #include "JUB_SDK_XRP.h"
 
