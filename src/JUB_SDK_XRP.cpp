@@ -10,8 +10,8 @@
 
 #include "utility/util.h"
 
-#include "context/ContextXRP.h"
-#include "token/interface/TokenInterface.hpp"
+#include "context/XRPContext.h"
+#include "token/XRP/JubiterBladeXRPImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -105,12 +105,11 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
 
-    if (nullptr == jub::TokenManager::GetInstance()->GetOne(deviceID)) {
-        return JUBR_ARGUMENTS_BAD;
-    }
+	auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
 
-    jub::ContextXRP* context = new jub::ContextXRP(cfg, deviceID);
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
+
+    jub::context::XRPContext* context = new jub::context::XRPContext(cfg, token);
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     context->ActiveSelf();
 
     return JUBR_OK;
@@ -131,7 +130,7 @@ JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_XRP(contextID);
 
-    auto context = (jub::ContextXRP*)jub::ContextManager::GetInstance()->GetOne(contextID);
+    auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
     std::string str_address;
@@ -154,8 +153,8 @@ JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_XRP(contextID);
 
-    auto context = (jub::ContextXRP*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
@@ -179,8 +178,8 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_XRP(contextID);
 
-    auto context = (jub::ContextXRP*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_pubkey;
     JUB_VERIFY_RV(context->GetHDNode((JUB_BYTE)format, path, str_pubkey));
@@ -202,8 +201,8 @@ JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_XRP(contextID);
 
-    auto context = (jub::ContextXRP*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_xpub;
     JUB_VERIFY_RV(context->GetMainHDNode((JUB_BYTE)format, str_xpub));
@@ -227,8 +226,8 @@ JUB_RV JUB_SignTransactionXRP(IN JUB_UINT16 contextID,
                               OUT JUB_CHAR_PTR_PTR raw) {
     JUB_CHECK_CONTEXT_XRP(contextID);
 
-    auto context = (jub::ContextXRP*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_raw;
     JUB_VERIFY_RV(context->SignTransaction(path,

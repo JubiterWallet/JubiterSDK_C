@@ -1,7 +1,8 @@
 #include <JUB_SDK_Hcash.h>
-#include <token/interface/TokenInterface.hpp>
+#include <token/HC/JubiterBladeHCImpl.h>
 #include <utility/util.h>
-#include <context/ContextHC.h>
+#include <context/HCContext.h>
+#include <string>
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -23,14 +24,13 @@ JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,
                            IN JUB_UINT16 deviceID,
                            OUT JUB_UINT16* contextID) {
 
-    if (nullptr == jub::TokenManager::GetInstance()->GetOne(deviceID)) {
-        JUB_VERIFY_RV(JUBR_ERROR_ARGS);
-    }
+	auto token = std::make_shared<jub::token::JubiterBladeHCImpl>(deviceID);
 
-    jub::ContextHC* context = new jub::ContextHC(cfg, deviceID);
+
+    jub::context::HCContext* context = new jub::context::HCContext(cfg, token);
     JUB_CHECK_NULL(context);
 
-    JUB_UINT16 _contextID = jub::ContextManager::GetInstance()->AddOne(context);
+    JUB_UINT16 _contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     *contextID = _contextID;
 
     JUB_VERIFY_RV(context->ActiveSelf());
@@ -45,8 +45,8 @@ JUB_RV JUB_GetAddressHC(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_HC(contextID);
 
-    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string strAddress;
     JUB_VERIFY_RV(context->GetAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, bshow, strAddress));
@@ -61,8 +61,8 @@ JUB_RV JUB_GetHDNodeHC(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_HC(contextID);
 
-    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string strXpub;
     JUB_VERIFY_RV(context->GetHDNode(path, strXpub));
@@ -76,8 +76,8 @@ JUB_RV JUB_GetMainHDNodeHC(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_HC(contextID);
 
-    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string strXpub;
     JUB_VERIFY_RV(context->GetMainHDNode(strXpub));
@@ -93,7 +93,7 @@ JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
                              OUT JUB_CHAR_PTR_PTR raw) {
 
     JUB_CHECK_CONTEXT_HC(contextID);
-    auto context = dynamic_cast<jub::HCContextBase*>(jub::ContextManager::GetInstance()->GetOne(contextID));
+    auto context = dynamic_cast<jub::context::HCContextBase*>(jub::context::ContextManager::GetInstance()->GetOne(contextID));
     JUB_CHECK_NULL(context);
     JUB_CHECK_NULL(unsignedTrans);
 

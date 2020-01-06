@@ -12,21 +12,24 @@
 #include "JUB_SDK_XRP.h"
 
 #include <vector>
+#include <token/interface/BaseToken.h>
+#include <mSIGNA/stdutils/uchar_vector.h>
 
 namespace jub {
+	namespace token {
 
-class XRPTokenInterface {
+		class XRPTokenInterface :virtual public BaseToken{
 
-public:
-    virtual JUB_RV SelectAppletXRP() = 0;
-    virtual JUB_RV SetCoinTypeXRP() = 0;
-    virtual JUB_RV GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
-    virtual JUB_RV GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
-    virtual JUB_RV SignTXXRP(const std::vector<JUB_BYTE>& vPath,
-                             std::vector<JUB_BYTE>& vUnsignedRaw,
-                             std::vector<uchar_vector>& vSignatureRaw)  = 0;
-}; // class EOSTokenInterface end
-
+		public:
+			virtual JUB_RV SelectAppletXRP() = 0;
+			virtual JUB_RV SetCoinTypeXRP() = 0;
+			virtual JUB_RV GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
+			virtual JUB_RV GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
+			virtual JUB_RV SignTXXRP(const std::vector<JUB_BYTE>& vPath,
+				std::vector<JUB_BYTE>& vUnsignedRaw,
+				std::vector<uchar_vector>& vSignatureRaw) = 0;
+		}; // class EOSTokenInterface end
+	}
 } // namespace jub end
 
 #endif

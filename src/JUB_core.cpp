@@ -10,12 +10,14 @@
 #include <TrezorCrypto/bip32.h>
 #include <utility/util.h>
 #include <HDKey/constant.hpp>
-#include <token/TrezorCryptoImpl.h>
-#include <context/ContextBTC.h>
-#include <context/ContextETH.h>
-#include <context/ContextEOS.h>
-#include <context/ContextXRP.h>
-#include <token/interface/BTCTokenInterface.hpp>
+#include <token/BTC/TrezorCryptoBTCImpl.h>
+#include <token/ETH/TrezorCryptoETHImpl.h>
+#include <token/EOS/TrezorCryptoEOSImpl.h>
+#include <token/XRP/TrezorCryptoXRPImpl.h>
+#include <context/BTCContext.h>
+#include <context/ETHContext.h>
+#include <context/EOSContext.h>
+#include <context/XRPCOntext.h>
 
 //where to place...
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
@@ -89,79 +91,57 @@ JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
     return JUBR_OK;
 }
 
-template<typename T , typename TBase> class TIsExtended {
-public:
-    static int t(TBase* base) {
-        return 1;
-    }
-    static char t(void* t2) {
-        return 2;
-    }
-    enum {
-        Result = ( sizeof(int) == sizeof(t( (T*)NULL) )),
-    };
-};
+// template<typename T , typename TBase> class TIsExtended {
+// public:
+//     static int t(TBase* base) {
+//         return 1;
+//     }
+//     static char t(void* t2) {
+//         return 2;
+//     }
+//     enum {
+//         Result = ( sizeof(int) == sizeof(t( (T*)NULL) )),
+//     };
+// };
 
 JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
-    static_assert(TIsExtended<jub::TrezorCryptoImpl,
-                  jub::BTCTokenInterface>::Result,
-                  "Token class should be extended from BTCTokenInterface");
 
-    jub::TrezorCryptoImpl* token = new jub::TrezorCryptoImpl(std::string(masterPriInXPRV));
-    JUB_UINT16 deviceID = jub::TokenManager::GetInstance()->AddOne(token);
-    jub::ContextBTC* context = new jub::ContextBTC(cfg, deviceID);
-    JUB_CHECK_NULL(context);
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
-
+	auto token = std::make_shared<jub::token::TrezorCryptoBTCImpl>(std::string(masterPriInXPRV));
+    jub::context::BTCContext* context = new jub::context::BTCContext(cfg, token);
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     return JUBR_OK;
 }
 
 JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
-    static_assert(TIsExtended<jub::TrezorCryptoImpl,
-                  jub::ETHTokenInterface>::Result,
-                  "Token class should be extended from ETHTokenInterface");
-
-    jub::TrezorCryptoImpl* token = new jub::TrezorCryptoImpl(std::string(masterPriInXPRV));
-    JUB_UINT16 deviceID = jub::TokenManager::GetInstance()->AddOne(token);
-    jub::ContextETH* context = new jub::ContextETH(cfg, deviceID);
-    JUB_CHECK_NULL(context);
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
-
+	auto token = std::make_shared<jub::token::TrezorCryptoETHImpl>(std::string(masterPriInXPRV));
+    jub::context::ETHContext* context = new jub::context::ETHContext(cfg, token);
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     return JUBR_OK;
 }
 
 JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
-    static_assert(TIsExtended<jub::TrezorCryptoImpl,
-                  jub::EOSTokenInterface>::Result,
-                  "Token class should be extended from EOSTokenInterface");
 
-    jub::TrezorCryptoImpl* token = new jub::TrezorCryptoImpl(std::string(masterPriInXPRV));
-    JUB_UINT16 deviceID = jub::TokenManager::GetInstance()->AddOne(token);
-    jub::ContextEOS* context = new jub::ContextEOS(cfg, deviceID);
+	auto token = std::make_shared<jub::token::TrezorCryptoEOSImpl>(std::string(masterPriInXPRV));
+    jub::context::EOSContext* context = new jub::context::EOSContext(cfg, token);
     JUB_CHECK_NULL(context);
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
-
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     return JUBR_OK;
 }
 
 JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
-    static_assert(TIsExtended<jub::TrezorCryptoImpl,
-                  jub::XRPTokenInterface>::Result,
-                  "Token class should be extended from XRPTokenInterface");
 
-    jub::TrezorCryptoImpl* token = new jub::TrezorCryptoImpl(std::string(masterPriInXPRV));
-    JUB_UINT16 deviceID = jub::TokenManager::GetInstance()->AddOne(token);
-    jub::ContextXRP* context = new jub::ContextXRP(cfg, deviceID);
+	auto token = std::make_shared<jub::token::TrezorCryptoXRPImpl>(std::string(masterPriInXPRV));
+
+    jub::context::XRPContext* context = new jub::context::XRPContext(cfg, token);
     JUB_CHECK_NULL(context);
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
-
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     return JUBR_OK;
 }
