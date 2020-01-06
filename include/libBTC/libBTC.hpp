@@ -4,7 +4,7 @@
 #define __libBTC__
 
 #include "JUB_SDK_BTC.h"
-#include "context/ContextBTC.h"
+#include "context/BTCContext.h"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
 

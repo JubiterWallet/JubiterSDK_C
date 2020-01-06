@@ -13,24 +13,29 @@
 #include "EOS/Prefixes.h"
 
 #include <vector>
+#include <token/interface/BaseToken.h>
+#include <mSIGNA/stdutils/uchar_vector.h>
 
 namespace jub {
+	namespace token {
 
-class EOSTokenInterface {
+		class EOSTokenInterface :virtual public BaseToken{
 
-public:
-    virtual JUB_RV SelectAppletEOS() = 0;
-    virtual JUB_RV SetCoinTypeEOS() = 0;
-    virtual JUB_RV GetAddressEOS(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
-    virtual JUB_RV GetHDNodeEOS(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
-    virtual JUB_RV SignTXEOS(const TW::EOS::Type& type,
-                             const std::vector<JUB_BYTE>& vPath,
-                             const std::vector<JUB_BYTE>& vChainId,
-                             const std::vector<JUB_BYTE>& vRaw,
-                             std::vector<uchar_vector>& vSignatureRaw,
-                             const bool bWithType=false) = 0;
-}; // class EOSTokenInterface end
+		public:
+			virtual ~EOSTokenInterface() = default;
 
+			virtual JUB_RV SelectAppletEOS() = 0;
+			virtual JUB_RV SetCoinTypeEOS() = 0;
+			virtual JUB_RV GetAddressEOS(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
+			virtual JUB_RV GetHDNodeEOS(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
+			virtual JUB_RV SignTXEOS(const TW::EOS::Type& type,
+				const std::vector<JUB_BYTE>& vPath,
+				const std::vector<JUB_BYTE>& vChainId,
+				const std::vector<JUB_BYTE>& vRaw,
+				std::vector<uchar_vector>& vSignatureRaw,
+				const bool bWithType = false) = 0;
+		}; // class EOSTokenInterface end
+	}// namespace token end
 } // namespace jub end
 
 #endif

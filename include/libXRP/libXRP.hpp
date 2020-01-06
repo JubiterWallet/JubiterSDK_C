@@ -4,8 +4,6 @@
 #define __libXRP__
 
 #include "JUB_SDK_XRP.h"
-#include "context/ContextXRP.h"
-
 #include "mSIGNA/stdutils/uchar_vector.h"
 
 namespace jub {

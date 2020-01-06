@@ -11,7 +11,6 @@
 #include "utility/util.h"
 
 #include "device/JubiterHidDevice.hpp"
-#include "token/JubiterBLDImpl.h"
 /*****************************************************************************
  * @function name : JUB_ListDeviceHid
  * @in  param :
@@ -21,29 +20,27 @@
 JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
 #ifdef HID_MODE
-    auto path_list = jub::JubiterHidDevice::EnumDevice();
+    auto path_list = jub::device::JubiterHidDevice::EnumDevice();
     //std::cout <<"** "<< path_list.size() << std::endl;
 
     //deal removed key
-    auto vDeviceIDs = jub::TokenManager::GetInstance()->GetHandleList();
+    auto vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
     for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
-        auto token = dynamic_cast<jub::JubiterBLDImpl*>(jub::TokenManager::GetInstance()->GetOne(vDeviceIDs[i]));
-        if (token) {
-           if (std::end(path_list) == std::find(std::begin(path_list), std::end(path_list), token->getPath())) {
+        auto device = dynamic_cast<jub::device::JubiterHidDevice*>(jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
+        if (device) {
+           if (std::end(path_list) == std::find(std::begin(path_list), std::end(path_list), device->getPath())) {
             //removed key
-            jub::TokenManager::GetInstance()->ClearOne(vDeviceIDs[i]);
+			 jub::device::DeviceManager::GetInstance()->ClearOne(vDeviceIDs[i]);
             }
         }
     }
 
     //deal inserted key
     auto isInManager = [](std::string path)-> bool {
-        auto vDeviceIDs = jub::TokenManager::GetInstance()->GetHandleList();
+        auto vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
         for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
-            auto token = (jub::JubiterBLDImpl*)jub::TokenManager::GetInstance()->GetOne(vDeviceIDs[i]);
-            if (   token
-                && path == token->getPath()
-                ) {
+            auto device = dynamic_cast<jub::device::JubiterHidDevice*>(jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
+            if (device && path == device->getPath()) {
                 return true;
             }
         }
@@ -54,12 +51,12 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
     for (auto path : path_list) {
         if (!isInManager(path)) {
             //new inserted key
-            jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(path);
-            jub::TokenManager::GetInstance()->AddOne(token);
+			jub::device::JubiterHidDevice* token = new jub::device::JubiterHidDevice(path);
+			jub::device::DeviceManager::GetInstance()->AddOne(token);
         }
     }
 
-    auto _vDeviceIDs = jub::TokenManager::GetInstance()->GetHandleList();
+    auto _vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
     for (JUB_UINT16 i = 0 ; i < std::min((size_t)MAX_DEVICE, _vDeviceIDs.size()); i++) {
         deviceIDs[i] = _vDeviceIDs[i];
     }
@@ -79,10 +76,10 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID) {
 
 #ifdef HID_MODE
-    auto token = jub::TokenManager::GetInstance()->GetOne(deviceID);
-    JUB_CHECK_NULL(token);
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
 
-    JUB_VERIFY_RV(token->ConnectToken());
+	JUB_VERIFY_RV(device->Connect());
 
     return JUBR_OK;
 #else
@@ -99,10 +96,10 @@ JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID) {
 JUB_RV JUB_DisconnetDeviceHid(IN JUB_UINT16 deviceID) {
 
 #ifdef HID_MODE
-    auto token = jub::TokenManager::GetInstance()->GetOne(deviceID);
-    JUB_CHECK_NULL(token);
+	auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+	JUB_CHECK_NULL(device);
 
-    JUB_VERIFY_RV(token->DisconnectToken());
+    JUB_VERIFY_RV(device->Disconnect());
 
     return JUBR_OK;
 #else

@@ -10,8 +10,8 @@
 
 #include "utility/util.h"
 
-#include "context/ContextBTC.h"
-#include "token/interface/TokenInterface.hpp"
+#include "context/BTCContext.h"
+#include "token/BTC/JubiterBladeBTCImpl.h"
 #include "libBTC/libBTC.hpp"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
@@ -91,16 +91,14 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
 
-    if (nullptr == jub::TokenManager::GetInstance()->GetOne(deviceID)) {
-        JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
-    }
+	auto token = std::make_shared<jub::token::JubiterBladeBTCImpl>(deviceID);
 
-    jub::ContextBTC* context = NULL;
+    jub::context::BTCContext* context = NULL;
     switch (cfg.transType) {
         case p2pkh:
         case p2sh_p2wpkh:
         {
-            context = new jub::ContextBTC(cfg, deviceID);
+            context = new jub::context::BTCContext(cfg, token);
             JUB_CHECK_NULL(context);
 
             JUB_VERIFY_RV(context->ActiveSelf());
@@ -110,7 +108,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
             JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
     }
 
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
     return JUBR_OK;
 }
@@ -128,7 +126,7 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_BTC(contextID);
 
-    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
+    auto context = (jub::context::BTCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
     std::string str_xpub;
@@ -149,8 +147,8 @@ JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_BTC(contextID);
 
-    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::BTCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_xpub;
     JUB_VERIFY_RV(context->GetMainHDNode(str_xpub));
@@ -174,8 +172,8 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_BTC(contextID);
 
-    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::BTCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->GetAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, bshow, str_address));
@@ -197,8 +195,8 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_BTC(contextID);
 
-    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::BTCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->SetMyAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, str_address));
@@ -252,8 +250,8 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
         }
     }
 
-    jub::ContextBTC* context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::BTCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_raw;
     JUB_VERIFY_RV(context->SignTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, vInputs, vOutputs, lockTime, str_raw));
@@ -275,8 +273,8 @@ JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_BTC(contextID);
 
-    auto context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::BTCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->SetUnit(unit));
 
@@ -298,8 +296,8 @@ JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_BTC(contextID);
 
-    jub::ContextBTC* context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::BTCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->BuildUSDTOutputs(USDTTo, amount, outputs));
 
@@ -327,8 +325,8 @@ JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_BTC(contextID);
 
-    jub::ContextBTC* context = (jub::ContextBTC*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::BTCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->SetQRC20Token(contractAddress,decimal,symbol));
     JUB_VERIFY_RV(context->BuildQRC20Outputs(gasLimit, gasPrice, contractAddress,to,value,outputs));

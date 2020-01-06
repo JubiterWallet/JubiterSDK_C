@@ -10,8 +10,8 @@
 
 #include "utility/util.h"
 
-#include "context/ContextEOS.h"
-#include "token/interface/TokenInterface.hpp"
+#include "context/EOSContext.h"
+#include "token/EOS/JubiterBladeEOSImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -73,12 +73,11 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
 
-    if (nullptr == jub::TokenManager::GetInstance()->GetOne(deviceID)) {
-        return JUBR_ARGUMENTS_BAD;
-    }
+	auto token = std::make_shared<jub::token::JubiterBladeEOSImpl>(deviceID);
 
-    jub::ContextEOS* context = new jub::ContextEOS(cfg, deviceID);
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
+
+    jub::context::EOSContext* context = new jub::context::EOSContext(cfg, token);
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     context->ActiveSelf();
 
     return JUBR_OK;
@@ -100,8 +99,8 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_EOS(contextID);
 
-    auto context = (jub::ContextEOS*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->GetAddress(path, bShow, str_address));
@@ -124,8 +123,8 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_EOS(contextID);
 
-    auto context = (jub::ContextEOS*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
@@ -151,8 +150,8 @@ JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_EOS(contextID);
 
-    auto context = (jub::ContextEOS*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_pubkey;
     JUB_VERIFY_RV(context->GetHDNode((JUB_BYTE)format, path, str_pubkey));
@@ -175,8 +174,8 @@ JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_EOS(contextID);
 
-    auto context = (jub::ContextEOS*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_xpub;
     JUB_VERIFY_RV(context->GetMainHDNode((JUB_BYTE)format, str_xpub));
@@ -209,8 +208,8 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_EOS(contextID);
 
-    auto context = (jub::ContextEOS*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_raw;
     JUB_VERIFY_RV(context->SignTransaction(path,
@@ -241,8 +240,8 @@ JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_EOS(contextID);
 
-    auto context = (jub::ContextEOS*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_actions;
     JUB_VERIFY_RV(context->BuildAction(actions,
