@@ -11,7 +11,7 @@
 #include "utility/util.h"
 
 #include "device/JubiterBLEDevice.hpp"
-#include "token/JubiterBLDImpl.h"
+#include <token/JubiterBlade/JubiterBladeToken.h>
 #ifdef __ANDROID__
 #include "utils/logUtils.h"
 #endif
@@ -34,7 +34,7 @@ using BLE_device_map = Singleton<xManager<JUB_ULONG>>;
 JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 
 #ifdef BLE_MODE
-    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
     }
@@ -54,7 +54,7 @@ JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 JUB_RV JUB_enumDevices(void) {
 
 #ifdef BLE_MODE
-    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
     }
@@ -70,7 +70,7 @@ JUB_RV JUB_enumDevices(void) {
 JUB_RV JUB_stopEnumDevices(void) {
 
 #ifdef BLE_MODE
-    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
     }
@@ -89,7 +89,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
                          JUB_UINT32 timeout) {
 
 #ifdef BLE_MODE
-    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
     }
@@ -101,8 +101,8 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
 
     *pDeviceID = BLE_device_map::GetInstance()->AddOne(pdevHandle);
 //    LOG_INF("JUB_connectDevice rv: %hu", *pDeviceID);
-    jub::JubiterBLDImpl* token = new jub::JubiterBLDImpl(bleDevice);
-    jub::TokenManager::GetInstance()->AddOne(*pDeviceID, token);
+
+    jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, bleDevice);
 
     return rv;
 #else
@@ -113,7 +113,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
 JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
 
 #ifdef BLE_MODE
-    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
     }
@@ -129,7 +129,7 @@ JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
 JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
 
 #ifdef BLE_MODE
-    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
     }
@@ -147,7 +147,7 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
 JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
 
 #ifdef BLE_MODE
-    auto bleDevice = Singleton<jub::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
     }
@@ -174,8 +174,7 @@ JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID,
                         OUT JUB_BYTE_PTR percent) {
 
 #ifdef BLE_MODE
-    auto token = jub::TokenManager::GetInstance()->GetOne(deviceID);
-    JUB_CHECK_NULL(token);
+	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     JUB_VERIFY_RV(token->QueryBattery(*percent));
 

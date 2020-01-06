@@ -7,7 +7,7 @@
 #include "utility/util.h"
 #include "utility/Singleton.h"
 
-#include "context/Context.h"
+#include "context/BaseContext.h"
 
 static constexpr char const *kVersionFormat = "1.1.0.%02d%02d%02d";
 static char Version[20] = {0x00,};
@@ -76,7 +76,7 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
 *****************************************************************************/
 JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID) {
 
-    jub::ContextManager::GetInstance()->ClearOne(contextID);
+    jub::context::ContextManager::GetInstance()->ClearOne(contextID);
 
     return JUBR_OK;
 }
@@ -89,7 +89,7 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID) {
 *****************************************************************************/
 JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID) {
 
-    auto context = jub::ContextManager::GetInstance()->GetOne(contextID);
+    auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->ShowVirtualPwd());
@@ -105,7 +105,7 @@ JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID) {
 *****************************************************************************/
 JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID) {
 
-	auto context = jub::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->CancelVirtualPwd());
@@ -124,7 +124,7 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
                      IN JUB_CHAR_CPTR pinMix,
                      OUT JUB_ULONG_PTR pretry) {
 
-    auto context = jub::ContextManager::GetInstance()->GetOne(contextID);
+    auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->VerifyPIN(pinMix, *pretry));

@@ -4,7 +4,6 @@
 #define __libEOS__
 
 #include "JUB_SDK_EOS.h"
-#include "context/ContextEOS.h"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
 

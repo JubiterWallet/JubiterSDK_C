@@ -10,8 +10,8 @@
 
 #include "utility/util.h"
 
-#include "context/ContextETH.h"
-#include "token/interface/TokenInterface.hpp"
+#include "context/ETHContext.h"
+#include "token/ETH/JubiterBladeETHImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -32,13 +32,10 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
+	auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
 
-    if (nullptr == jub::TokenManager::GetInstance()->GetOne(deviceID)) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    jub::ContextETH* context = new jub::ContextETH(cfg, deviceID);
-    *contextID = jub::ContextManager::GetInstance()->AddOne(context);
+    jub::context::ETHContext* context = new  jub::context::ETHContext(cfg, token);
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     context->ActiveSelf();
 
     return JUBR_OK;
@@ -59,8 +56,8 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_ETH(contextID);
 
-    auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->GetAddress(path, bShow, str_address));
@@ -82,8 +79,8 @@ JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_ETH(contextID);
 
-    auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
@@ -108,8 +105,8 @@ JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_ETH(contextID);
 
-    auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_pubkey;
     JUB_VERIFY_RV(context->GetHDNode((JUB_BYTE)format, path, str_pubkey));
@@ -132,8 +129,8 @@ JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_ETH(contextID);
 
-    auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_xpub;
     JUB_VERIFY_RV(context->GetMainHDNode((JUB_BYTE)format, str_xpub));
@@ -172,8 +169,8 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
 //    JUB_CHECK_NULL(valueInWei);// it can be nullptr
     JUB_CHECK_NULL(input);
 
-    auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     std::string str_raw;
     JUB_VERIFY_RV(context->SignTransaction(path,
@@ -210,8 +207,8 @@ JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
 
     JUB_CHECK_CONTEXT_ETH(contextID);
 
-    auto context = (jub::ContextETH*)jub::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
+	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->SetERC20ETHToken(tokenName, unitDP, contractAddress));
 
