@@ -2,6 +2,7 @@
 #include <device/DeviceTypeBase.hpp>
 #include <device/JubiterHidDevice.hpp>
 #include <utility/util.h>
+#include <token/ErrorHandler.h>
 
 namespace jub {
 	namespace token {
@@ -119,9 +120,7 @@ namespace jub {
 				p1 |= highMark;
 				APDU apdu(0x00, 0xF8, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 
 				return JUBR_OK;
 			}
@@ -147,9 +146,7 @@ namespace jub {
 			for (times = 0; times < nextTimes; times++) {
 				apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 			}
 
 			// next pack
@@ -162,9 +159,7 @@ namespace jub {
 
 				apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 			}
 
 			return JUBR_OK;
@@ -190,9 +185,7 @@ namespace jub {
 				p1 |= highMark;
 				APDU apdu(ncla, nins, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 
 				return JUBR_OK;
 			}
@@ -218,9 +211,7 @@ namespace jub {
 			for (times = 0; times < nextTimes; times++) {
 				apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 			}
 
 			// next pack
@@ -233,9 +224,7 @@ namespace jub {
 
 				apdu.SetData(apduData.data() + times * ulSendOnceLen, apdu.lc);
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, pulRetDataLen));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 			}
 
 			return JUBR_OK;
@@ -250,9 +239,7 @@ namespace jub {
 			JUB_BYTE retData[1024] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			uchar_vector vVersion(&retData[4], retData[3]);
 			_appletVersion = vVersion.getHex();
@@ -268,9 +255,7 @@ namespace jub {
 			JUB_BYTE retData[1024] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			percent = retData[0];
 
@@ -284,9 +269,7 @@ namespace jub {
 			JUB_BYTE retData[1024] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			return JUBR_OK;
 		}
@@ -298,9 +281,7 @@ namespace jub {
 			JUB_BYTE retData[1024] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			return JUBR_OK;
 		}
@@ -457,9 +438,7 @@ namespace jub {
 				APDU apdu(0x00, 0xa4, 0x04, 0x00, 0x00);
 				JUB_UINT16 ret = 0;
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 			}
 
 			// send apdu, then decide which coin types supports.
@@ -469,9 +448,7 @@ namespace jub {
 			JUB_BYTE retData[1024] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			abcd::DataChunk tlvData(retData, retData + ulRetDataLen);
 			auto appList = ParseTlv(tlvData);
@@ -501,9 +478,7 @@ namespace jub {
 				JUB_BYTE retData[1024] = { 0, };
 				JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 
 				//get version
 
@@ -512,9 +487,7 @@ namespace jub {
 				JUB_BYTE retDataVersion[1024] = { 0, };
 				JUB_ULONG ulRetVersionLen = sizeof(retDataVersion) / sizeof(JUB_BYTE);
 				JUB_VERIFY_RV(_SendApdu(&apduVersion, ret, retDataVersion, &ulRetVersionLen));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 
 				uchar_vector vVersion(&retDataVersion[6], 4);
 				version = vVersion.getHex();
@@ -525,9 +498,7 @@ namespace jub {
 				JUB_BYTE retData[1024] = { 0, };
 				JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-				if (0x9000 != ret) {
-					JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 
 				if (0x84 == retData[2]
 					&& 0x04 == retData[3]
@@ -633,9 +604,7 @@ namespace jub {
 				retry = (ret & 0xf);
 				JUB_VERIFY_RV(JUBR_DEVICE_PIN_ERROR);
 			}
-			else if (0x9000 != ret) {
-				JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			return JUBR_OK;
 		}
