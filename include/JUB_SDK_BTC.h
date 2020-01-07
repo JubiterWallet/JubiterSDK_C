@@ -11,6 +11,47 @@
 
 #include "JUB_SDK.h"
 
+
+#define JUBR_NOT_FOUND_INPUT_PUKEY_INFO            0x40006420UL
+#define JUBR_NOT_FOUND_BIP32PATH                   0x40006421UL
+#define JUBR_NO_CORRECT_BIP32PATH_FORMAT           0x40006422UL
+#define JUBR_NOT_FOUND_TRANSCATION_RAW_TEXT        0x40006431UL
+#define JUBR_NOT_FOUND_AMOUNTS_DATA                0x40006432UL
+#define JUBR_NOT_FOUND_CHANGE_ADDR_IDX             0x40006433UL
+
+#define JUBR_SIGN_FAILED                           0x40006F08UL
+//#define JUBR_REJECT                                0x40006F09UL
+#define JUBR_INTER_SYSTEM_FAILED                   0x40006F81UL
+#define JUBR_ALGORITHM_NOT_SUPPORTED               0x40006F83UL
+#define JUBR_PADDING_NOT_SUPPORTED                 0x40006F84UL
+#define JUBR_NEED_PERSONALIZED_FINISH              0x40006A91UL
+#define JUBR_NEED_MASTER_KEY                       0x40006A92UL
+#define JUBR_NEED_SELECT_LANGUAGE                  0x40006A93UL
+#define JUBR_DER_DECODE                            0x40006A94UL
+#define JUBR_STEPOUT                               0x40006A95UL
+#define JUBR_API_USAGE_WRONG                       0x40006A96UL
+#define JUBR_OUT_OF_STORAGE                        0x40006A97UL
+#define JUBR_NOT_FOUND_OUTPUT                      0x40006A98UL
+#define JUBR_NOT_KNOWND_ADDRE_TYPE                 0x40006A99UL
+#define JUBR_CHANGE_ADDR_NOT_MATCH                 0x40006A9AUL
+#define JUBR_CHANGE_ADDR_NUM_NOT_MATCH             0x40006A9BUL
+#define JUBR_CONFIRM_PAGE_INDEX                    0x40006A9CUL
+#define JUBR_ADD_OR_SUB_OVERFLOW                   0x40006A9DUL
+#define JUBR_REGISTER_FAILED                       0x40006A9EUL
+#define JUBR_GET_COIN_DATA_FAILED                  0x40006A9FUL
+#define JUBR_OUTPUTS_NUM                           0x40006AA0UL
+#define JUBR_ADDCOININFO_FAILED					   0x40006AA1UL
+#define JUBR_TRANSATION_TYPE                       0x40006AA2UL
+#define JUBR_TRANSATION_STATE                      0x40006AA3UL
+#define JUBR_TIMER_OUT                             0x40006AA4UL
+#define JUBR_NOT_SUPPORT_COIND_TYPE                0x40006AA5UL
+#define JUBR_NOT_SUPPORT_HASH_TYPE                 0x40006AA6UL
+#define JUBR_NOT_SUPPORT_FORID                     0x40006AA7UL
+#define JUBR_USDT_NUMBER_NOT_MATCH_DUST            0x40006AA8UL
+#define JUBR_CHANGE_ADDR_RULE                      0x40006AA9UL
+#define JUBR_QUTM_ERC20_TOKEN_ADDR_NOT_MATCH       0x40006AA0UL
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif // #ifdef __cplusplus

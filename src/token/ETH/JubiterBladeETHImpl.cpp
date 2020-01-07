@@ -1,5 +1,6 @@
 #include <token/ETH/JubiterBladeETHImpl.h>
 #include <utility/util.h>
+#include <token/ErrorHandler.h>
 
 
 namespace jub {
@@ -36,9 +37,7 @@ namespace jub {
 			JUB_BYTE retData[2048] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				return JUBR_TRANSMIT_DEVICE_ERROR;
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			uchar_vector vAddress(retData, (unsigned int)ulRetDataLen);
 			address = std::string(ETH_PRDFIX) + vAddress.getHex();
@@ -66,9 +65,7 @@ namespace jub {
 			JUB_BYTE retData[2048] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				return JUBR_TRANSMIT_DEVICE_ERROR;
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX == format) {
 				uchar_vector vPubkey(retData, (unsigned int)ulRetDataLen);
@@ -122,9 +119,7 @@ namespace jub {
 			JUB_BYTE retData[2048] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				return JUBR_TRANSMIT_DEVICE_ERROR;
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			vRaw.clear();
 			vRaw.insert(vRaw.end(), retData, retData + ulRetDataLen);
@@ -149,9 +144,7 @@ namespace jub {
 			APDU apdu(0x00, 0xc7, 0x00, 0x00, (JUB_ULONG)data.size(), data.data());
 			JUB_UINT16 ret = 0;
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-			if (0x9000 != ret) {
-				return JUBR_TRANSMIT_DEVICE_ERROR;
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			return JUBR_OK;
 		}
