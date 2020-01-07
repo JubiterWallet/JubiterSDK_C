@@ -3,6 +3,7 @@
 
 #include "Ripple/Address.h"
 #include "Ripple/Transaction.h"
+#include <token/ErrorHandler.h>
 
 namespace jub {
 	namespace token {
@@ -55,9 +56,7 @@ do {                                            \
 			JUB_BYTE retData[2048] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				return JUBR_TRANSMIT_DEVICE_ERROR;
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			address = (JUB_CHAR_PTR)retData;
 
@@ -83,9 +82,7 @@ do {                                            \
 			JUB_BYTE retData[2048] = { 0, };
 			JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
 			JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-			if (0x9000 != ret) {
-				return JUBR_TRANSMIT_DEVICE_ERROR;
-			}
+			JUB_VERIFY_COS_ERROR(ret);
 
 			uchar_vector vPubkey(retData, (unsigned int)ulRetDataLen);
 			pubkey = vPubkey.getHex();
@@ -194,9 +191,7 @@ do {                                            \
 				APDU apdu(0x00, 0xF8, 0x01, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
 				JUB_UINT16 ret = 0;
 				JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-				if (0x9000 != ret) {
-					return JUBR_TRANSMIT_DEVICE_ERROR;
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 				apduData.clear();
 
 				// tx
@@ -229,9 +224,7 @@ do {                                            \
 				if (0x6f09 == ret) {
 					return JUBR_USER_CANCEL;
 				}
-				if (0x9000 != ret) {
-					return JUBR_TRANSMIT_DEVICE_ERROR;
-				}
+				JUB_VERIFY_COS_ERROR(ret);
 
 				uchar_vector signatureRaw(retData, retData + ulRetDataLen);
 				vSignatureRaw.push_back(signatureRaw);
