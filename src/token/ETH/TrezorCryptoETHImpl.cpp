@@ -102,7 +102,7 @@ namespace jub {
 			}
 			abcd::DataChunk r(sig, sig + 32);
 			abcd::DataChunk s(sig + 32, sig + 64);;
-			abcd::DataChunk v(by);
+			abcd::DataChunk v(1,vChainID[0]*2 + 35 + by);
 
 			abcd::append(vRaw, jub::eth::RLP::encode(vNonce));
 			abcd::append(vRaw, jub::eth::RLP::encode(vGasPrice));
