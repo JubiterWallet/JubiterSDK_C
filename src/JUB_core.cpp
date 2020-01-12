@@ -17,7 +17,7 @@
 #include <context/BTCContext.h>
 #include <context/ETHContext.h>
 #include <context/EOSContext.h>
-#include <context/XRPCOntext.h>
+#include <context/XRPContext.h>
 
 //where to place...
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
