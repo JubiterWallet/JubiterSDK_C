@@ -48,6 +48,7 @@ bool convertbits(data& out, const data& in) {
     return true;
 }
 
+template bool convertbits<5,8,false>(data& out, const data& in);
 }
 
 namespace segwit_addr
