@@ -4,9 +4,9 @@
 #include <vector>
 
 #include "airbitz-core/abcd/util/Data.hpp"
-#include <TrezorCrypto/base58.h>
-#include "bitcoin/bech32.h"
-#include "bitcoin/segwit_addr.h"
+#include "TrezorCrypto/base58.h"
+#include "TrustWalletCore/TWHRP.h"
+#include "Bitcoin/SegwitAddress.h"
 #include "machine/opcode.hpp"
 #include "TrezorCrypto/bip32.h"
 
@@ -52,24 +52,31 @@ JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scrip
         return JUBR_OK;
     }
     else {
-        std::pair<std::string, abcd::DataChunk> dec = bech32::decode(address);
-        if (dec.first != std::string(segwit_hrl)) {
+        if (!TW::Bitcoin::SegwitAddress::isValid(address)) {
             return JUBR_ERROR;
         }
-        abcd::DataChunk conv;
-        segwit_addr::convertbits<5, 8, false>(conv, abcd::DataChunk(dec.second.begin() + 1, dec.second.end()));
 
-        if (0x14 == conv.size()) { //p2wpkh
-            scriptPub << (JUB_BYTE)0x00;
-            scriptPub & conv;
+        std::pair<TW::Bitcoin::SegwitAddress, bool> segwitAddrPair = TW::Bitcoin::SegwitAddress::decode(address);
+        TW::Bitcoin::SegwitAddress segwitAddr = segwitAddrPair.first;
+        if (0 != segwitAddr.hrp.compare(HRP_BITCOIN)
+            || !segwitAddrPair.second
+            ) {
+            return JUBR_ERROR;
         }
-        else if (0x20 == conv.size()) { //p2wsh
+
+        if (0x14 == segwitAddr.witnessProgram.size()) { //p2wpkh
             scriptPub << (JUB_BYTE)0x00;
-            scriptPub & conv;
+            scriptPub & segwitAddr.witnessProgram;
+        }
+        else if (0x20 == segwitAddr.witnessProgram.size()) { //p2wsh
+            scriptPub << (JUB_BYTE)0x00;
+            scriptPub & segwitAddr.witnessProgram;
         }
         else {
             return JUBR_ERROR;
         }
+
+        return JUBR_OK;
     }
 
     return JUBR_ERROR;

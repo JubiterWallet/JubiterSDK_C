@@ -23,8 +23,6 @@ constexpr JUB_BYTE p2pkhVersion = 0x00;
 constexpr JUB_BYTE p2shVersion_LTC = 0x32;
 constexpr JUB_BYTE p2pkhVersion_LTC = 0x30;
 
-constexpr char segwit_hrl[] = "bc";
-
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub);
 
 JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
