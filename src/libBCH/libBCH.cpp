@@ -1,7 +1,9 @@
 #include "JUB_SDK.h"
 #include "libBCH/libBCH.hpp"
 
-#include "bitcoin/segwit_addr.h"
+#include "TrustWalletCore/TWHRP.h"
+#include "Bitcoin/CashAddress.h"
+#include "Bech32Address.h"
 #include "machine/opcode.hpp"
 #include "utility/util.h"
 
@@ -11,24 +13,26 @@ namespace bch {
 
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub) {
 
-    auto pubkeyDataBit5 = cashaddr::Decode(address);
-    if (pubkeyDataBit5.first != "bitcoincash") {
-        JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
+    if (!TW::Bitcoin::CashAddress::isValid(address)) {
+        return JUBR_ERROR;
     }
 
-    uchar_vector pubkeyHash;
-    segwit_addr::convertbits<5, 8, false>(pubkeyHash, abcd::DataChunk(pubkeyDataBit5.second.begin(), pubkeyDataBit5.second.end()));
+    std::pair<TW::Bitcoin::CashAddress, bool> cashAddrPair = TW::Bitcoin::CashAddress::decode(address);
+    TW::Bitcoin::CashAddress cashAddr = cashAddrPair.first;
+    if (0 != cashAddr.hrp.compare(HRP_BITCOINCASH)) {
+        return JUBR_ERROR;
+    }
 
-    if (TypeBitsP2PKH == pubkeyHash[0]) { //p2pkh
+    if (TypeBitsP2PKH == cashAddr.program[0]) { //p2pkh
         scriptPub << libbitcoin::machine::opcode::dup;
         scriptPub << libbitcoin::machine::opcode::hash160;
-        scriptPub & uchar_vector(pubkeyHash.begin() + 1, pubkeyHash.end());
+        scriptPub & uchar_vector(cashAddr.program.begin() + 1, cashAddr.program.end());
         scriptPub << libbitcoin::machine::opcode::equalverify;
         scriptPub << libbitcoin::machine::opcode::checksig;
     }
-    else if (TypeBitsP2SH == pubkeyHash[0]) { //p2sh
+    else if (TypeBitsP2SH == cashAddr.program[0]) { //p2sh
         scriptPub << libbitcoin::machine::opcode::hash160;
-        scriptPub & uchar_vector(pubkeyHash.begin() + 1, pubkeyHash.end());
+        scriptPub & uchar_vector(cashAddr.program.begin() + 1, cashAddr.program.end());
         scriptPub << libbitcoin::machine::opcode::equal;
     }
     else {

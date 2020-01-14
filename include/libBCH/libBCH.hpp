@@ -9,7 +9,6 @@
 
 #include "airbitz-core/abcd/util/Data.hpp"
 #include "mSIGNA/stdutils/uchar_vector.h"
-#include "bitcoinABC/cashaddr.h"
 #include "machine/opcode.hpp"
 
 namespace jub {
