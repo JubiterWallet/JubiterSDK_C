@@ -22,7 +22,7 @@
 #include <string>
 #include <algorithm>
 
-#include "machine/opcode.hpp"
+#include "TrustWalletCore/TWBitcoinOpCodes.h"
 #include "bitcoin/crypto/common.h"
 
 const char g_hexBytes[][3] = {
@@ -127,7 +127,7 @@ public:
     }
 
     // JuBiter-defined
-    uchar_vector& operator<<(libbitcoin::machine::opcode byte)
+    uchar_vector& operator<<(OpCode byte)
     {
         this->push_back((unsigned char)byte);
         return *this;
@@ -137,21 +137,25 @@ public:
     // handling OP_PUSHDATA
     uchar_vector& operator &(const std::vector<unsigned char>& rhs)
     {
-        if (rhs.size() < (unsigned char)libbitcoin::machine::opcode::push_one_size) {
+        if (rhs.size() < (unsigned char)OpCode::OP_PUSHDATA1)
+        {
             insert(end(), (unsigned char)rhs.size());
         }
-        else if (rhs.size() <= 0xff) {
-            insert(end(), (unsigned char)libbitcoin::machine::opcode::push_one_size);
+        else if (rhs.size() <= 0xff)
+        {
+            insert(end(), (unsigned char)OpCode::OP_PUSHDATA1);
             insert(end(), (unsigned char)rhs.size());
         }
-        else if (rhs.size() <= 0xffff) {
-            insert(end(), (unsigned char)libbitcoin::machine::opcode::push_two_size);
+        else if (rhs.size() <= 0xffff)
+        {
+            insert(end(), (unsigned char)OpCode::OP_PUSHDATA2);
             uint8_t _data[2] = { 0x00, };
             WriteLE16(_data, (uint16_t)rhs.size());
             insert(end(), _data, _data + sizeof(_data));
         }
-        else {
-            insert(end(), (unsigned char)libbitcoin::machine::opcode::push_four_size);
+        else
+        {
+            insert(end(), (unsigned char)OpCode::OP_PUSHDATA4);
             uint8_t _data[4] = { 0x00, };
             WriteLE32(_data, (uint16_t)rhs.size());
             insert(end(), _data, _data + sizeof(_data));
@@ -376,7 +380,6 @@ public:
 
     uchar_vector& operator | (uchar_vector&  v)
     {
-
         if (m_cur_it == end())
         {
                 std::string _err = "error in data index: ";
@@ -385,17 +388,20 @@ public:
         }
 
         uint32_t len = 0;
-        if (*m_cur_it == (unsigned char)libbitcoin::machine::opcode::push_one_size) {
+        if (*m_cur_it == (unsigned char)OpCode::OP_PUSHDATA1)
+        {
                 m_last_op_it = m_cur_it;
                 m_cur_it++;
                 len = read_uint8();
         }
-        else if (*m_cur_it == (unsigned char)libbitcoin::machine::opcode::push_two_size) {
+        else if (*m_cur_it == (unsigned char)OpCode::OP_PUSHDATA2)
+        {
                 m_last_op_it = m_cur_it;
                 m_cur_it ++;
                 len = read_le_uint16();
         }
-        else if (*m_cur_it == (unsigned char)libbitcoin::machine::opcode::push_four_size) {
+        else if (*m_cur_it == (unsigned char)OpCode::OP_PUSHDATA4)
+        {
                 m_last_op_it = m_cur_it;
                 m_cur_it++;
                 len = read_le_uint32();
@@ -417,6 +423,7 @@ public:
         m_cur_it += len;
         return *this;
     }
+
     uchar_vector& operator || (uchar_vector&  v)
     {
         uint64_t len = read_compact_size();
