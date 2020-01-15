@@ -5,10 +5,10 @@
 
 #include "airbitz-core/abcd/util/Data.hpp"
 #include "TrezorCrypto/base58.h"
+#include "TrezorCrypto/bip32.h"
+#include "TrustWalletCore/TWBitcoinOpCodes.h"
 #include "TrustWalletCore/TWHRP.h"
 #include "Bitcoin/SegwitAddress.h"
-#include "machine/opcode.hpp"
-#include "TrezorCrypto/bip32.h"
 
 namespace jub {
 
@@ -32,18 +32,18 @@ JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scrip
         if (   p2shVersion     == vScriptPub[0]
             || p2shVersion_LTC == vScriptPub[0]
             ) { // p2sh
-            scriptPub << libbitcoin::machine::opcode::hash160;
+            scriptPub << OpCode::OP_HASH160;
             scriptPub & uchar_vector(vScriptPub.begin() + 1, vScriptPub.end());
-            scriptPub << libbitcoin::machine::opcode::equal;
+            scriptPub << OpCode::OP_EQUAL;
         }
         else if (   p2pkhVersion     == vScriptPub[0]
                  || p2pkhVersion_LTC == vScriptPub[0]
                  ) { //p2pkh
-            scriptPub << libbitcoin::machine::opcode::dup;
-            scriptPub << libbitcoin::machine::opcode::hash160;
+            scriptPub << OpCode::OP_DUP;
+            scriptPub << OpCode::OP_HASH160;
             scriptPub & uchar_vector(vScriptPub.begin()+1, vScriptPub.end());
-            scriptPub << libbitcoin::machine::opcode::equalverify;
-            scriptPub << libbitcoin::machine::opcode::checksig;
+            scriptPub << OpCode::OP_EQUALVERIFY;
+            scriptPub << OpCode::OP_CHECKSIG;
         }
         else {
             return JUBR_ERROR;
@@ -128,7 +128,7 @@ JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
         {
             unsignedTrans << (uint64_t)output.return0.amount;
             uchar_vector scriptPub;
-            scriptPub << (JUB_BYTE)libbitcoin::machine::opcode::return_; //op_return0
+            scriptPub << OpCode::OP_RETURN;
             scriptPub << (JUB_BYTE)output.return0.dataLen;
             scriptPub.insert(scriptPub.end(), output.return0.data, output.return0.data + output.return0.dataLen);
 
