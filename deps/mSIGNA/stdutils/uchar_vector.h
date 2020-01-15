@@ -23,7 +23,7 @@
 #include <algorithm>
 
 #include "TrustWalletCore/TWBitcoinOpCodes.h"
-#include "bitcoin/crypto/common.h"
+#include "BinaryCoding.h"
 
 const char g_hexBytes[][3] = {
     "00","01","02","03","04","05","06","07","08","09","0a","0b","0c","0d","0e","0f",
@@ -95,27 +95,27 @@ public:
     // JuBiter-defined
     uchar_vector& operator<<(uint16_t data)
     {
-        uint8_t _data[2] = { 0x00, };
-        WriteLE16(_data, (uint16_t)data);
-        insert(end(), _data, _data + sizeof(_data));
+        uchar_vector _data;
+        TW::encode16LE(data, _data);
+        insert(end(), _data.begin(), _data.end());
         return *this;
     }
 
     // JuBiter-defined
     uchar_vector& operator<<(uint32_t data)
     {
-        uint8_t _data[4] = { 0x00, };
-        WriteLE32(_data, (uint32_t)data);
-        insert(end(), _data, _data + sizeof(_data));
+        uchar_vector _data;
+        TW::encode32LE(data, _data);
+        insert(end(), _data.begin(), _data.end());
         return *this;
     }
 
     // JuBiter-defined
     uchar_vector& operator<<(uint64_t data)
     {
-        uint8_t _data[8] = { 0x00, };
-        WriteLE64(_data, (uint64_t)data);
-        insert(end(), _data, _data + sizeof(_data));
+        uchar_vector _data;
+        TW::encode64LE(data, _data);
+        insert(end(), _data.begin(), _data.end());
         return *this;
     }
 
@@ -144,21 +144,17 @@ public:
         else if (rhs.size() <= 0xff)
         {
             insert(end(), (unsigned char)OpCode::OP_PUSHDATA1);
-            insert(end(), (unsigned char)rhs.size());
+            *this << (uint8_t)rhs.size();
         }
         else if (rhs.size() <= 0xffff)
         {
             insert(end(), (unsigned char)OpCode::OP_PUSHDATA2);
-            uint8_t _data[2] = { 0x00, };
-            WriteLE16(_data, (uint16_t)rhs.size());
-            insert(end(), _data, _data + sizeof(_data));
+            *this << (uint16_t)rhs.size();
         }
         else
         {
             insert(end(), (unsigned char)OpCode::OP_PUSHDATA4);
-            uint8_t _data[4] = { 0x00, };
-            WriteLE32(_data, (uint16_t)rhs.size());
-            insert(end(), _data, _data + sizeof(_data));
+            *this << (uint32_t)rhs.size();
         }
         insert(end(), rhs.begin(), rhs.end());
         return *this;
@@ -173,21 +169,15 @@ public:
         }
         else if (size <= 0xffff) {
             v.insert(v.end(), 0xfd);
-            uint8_t _hash[2] = { 0x00, };
-            WriteLE16(_hash, (uint16_t)size);
-            v.insert(v.end(), _hash, _hash + sizeof(_hash));
+            v << (uint16_t)size;
         }
         else if (size <= 0xffff) {
             v.insert(v.end(), 0xfe);
-            uint8_t _hash[4] = { 0x00, };
-            WriteLE32(_hash, (uint32_t)size);
-            v.insert(v.end(), _hash, _hash + sizeof(_hash));
+            v << (uint32_t)size;
         }
         else {
             v.insert(v.end(), 0xff);
-            uint8_t _hash[8] = { 0x00, };
-            WriteLE64(_hash, size);
-            v.insert(v.end(), _hash, _hash + sizeof(_hash));
+            v << size;
         }
         return v;
     }
@@ -477,7 +467,7 @@ public:
             _err += std::to_string(m_last_op_it - begin());
             throw std::runtime_error(_err);
         }
-        uint16_t d = ReadLE16(&(*m_cur_it));
+        uint16_t d = TW::decode16LE(&(*m_cur_it));
         m_last_op_it = m_cur_it;
         m_cur_it += 2;
         return d;
@@ -490,7 +480,7 @@ public:
             _err += std::to_string(m_last_op_it - begin());
             throw std::runtime_error(_err);
         }
-        uint16_t d = ReadBE16(&(*m_cur_it));
+        uint16_t d = TW::decode16BE(&(*m_cur_it));
         m_last_op_it = m_cur_it;
         m_cur_it += 2;
         return d;
@@ -503,7 +493,7 @@ public:
             _err += std::to_string(m_last_op_it - begin());
             throw std::runtime_error(_err);
         }
-        uint32_t d = ReadLE32(&(*m_cur_it));
+        uint32_t d = TW::decode32LE(&(*m_cur_it));
         m_last_op_it = m_cur_it;
         m_cur_it += 4;
         return d;
@@ -516,7 +506,7 @@ public:
             _err += std::to_string(m_last_op_it - begin());
             throw std::runtime_error(_err);
         }
-        uint32_t d = ReadBE32(&(*m_cur_it));
+        uint32_t d = TW::decode32BE(&(*m_cur_it));
         m_last_op_it = m_cur_it;
         m_cur_it += 4;
         return d;
@@ -529,7 +519,7 @@ public:
             _err += std::to_string(m_last_op_it - begin());
             throw std::runtime_error(_err);
         }
-        uint64_t d = ReadLE64(&(*m_cur_it));
+        uint64_t d = TW::decode64LE(&(*m_cur_it));
         m_last_op_it = m_cur_it;
         m_cur_it += 8;
         return d;
@@ -542,7 +532,7 @@ public:
             _err += std::to_string(m_last_op_it - begin());
             throw std::runtime_error(_err);
         }
-        uint64_t d = ReadBE64(&(*m_cur_it));
+        uint64_t d = TW::decode64BE(&(*m_cur_it));
         m_last_op_it = m_cur_it;
         m_cur_it += 8;
         return d;

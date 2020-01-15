@@ -12,8 +12,6 @@
 #include <sstream>
 #include <iostream>
 #include <cstring>
-//#include "compat/endian.h"
-#include "bitcoin/crypto/common.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "airbitz-core/abcd/util/Data.hpp"
 
