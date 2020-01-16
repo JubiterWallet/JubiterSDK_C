@@ -80,6 +80,10 @@ typedef std::vector<DataChunk> DataChunkList;
 DataChunk
 buildData(std::initializer_list<DataSlice> slices);
 
+// JuBiter-defined
+DataChunk
+buildData(unsigned char* slices, size_t size);
+
 inline void append(abcd::DataChunk& data, const abcd::DataChunk& suffix) {
     data.insert(data.end(), suffix.begin(), suffix.end());
 }

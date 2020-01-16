@@ -14,6 +14,8 @@
 #include "HDKey/HDKey.hpp"
 
 namespace jub {
+
+
 std::vector<JUB_UINT32> parsePath(const std::string& path) {
 
     if (path.empty()) {
@@ -76,6 +78,7 @@ std::vector<JUB_UINT32> parsePath(const std::string& path) {
     return path_vector;
 }
 
+
 JUB_RV hdnode_pub_ckd(std::string xpub, std::string path, std::string curve, JUB_UINT32 xpubPrefix ,JUB_UINT32 xprvPrefix,HDNode* node, JUB_UINT32* parentFingerprint) {
     HDNode hdkey;
     if (0 == hdnode_deserialize(xpub.c_str(),
@@ -104,7 +107,9 @@ JUB_RV hdnode_pub_ckd(std::string xpub, std::string path, std::string curve, JUB
     return JUBR_ARGUMENTS_BAD;
 }
 
+
 JUB_RV hdnode_priv_ckd(std::string xprv, std::string path, std::string curve, JUB_UINT32 xpubPrefix, JUB_UINT32 xprvPrefix, HDNode* node, JUB_UINT32* parentFingerprint) {
+
     HDNode hdkey;
     if (0 == hdnode_deserialize(xprv.c_str(),
                                 xpubPrefix, xprvPrefix,
@@ -130,7 +135,9 @@ JUB_RV hdnode_priv_ckd(std::string xprv, std::string path, std::string curve, JU
         *node = hdkey;
         return JUBR_OK;
     }
+
     return JUBR_ARGUMENTS_BAD;
 }
+
 
 } // namespace jub end

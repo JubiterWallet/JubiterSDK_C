@@ -3,18 +3,21 @@
 #include <token/interface/SoftwareTokenInterface.h>
 
 namespace jub {
-	namespace token {
-		class TrezorCryptoToken :public SoftwareToken {
-
-		public:
-			TrezorCryptoToken(const std::string& xprv) :
-				_MasterKey_XPRV(xprv) {};
-			~TrezorCryptoToken() {};
+namespace token {
 
 
-		protected:
-			std::string _MasterKey_XPRV;
+class TrezorCryptoToken :
+    public SoftwareToken {
 
-		};
-	}//namespace token
-}//namespace jub
+public:
+    TrezorCryptoToken(const std::string& xprv) :
+        _MasterKey_XPRV(xprv) {};
+    ~TrezorCryptoToken() {};
+
+protected:
+    std::string _MasterKey_XPRV;
+}; // class TrezorCryptoToken end
+
+
+} // namespace token end
+} // namespace jub end

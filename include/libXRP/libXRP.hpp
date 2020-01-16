@@ -7,14 +7,14 @@
 #include "mSIGNA/stdutils/uchar_vector.h"
 
 namespace jub {
-
 namespace xrp {
+
 
 JUB_RV serializePreimage(const JUB_TX_XRP& tx,
                          uchar_vector& preimageRaw);
 
-} // namespace xrp end
 
+} // namespace xrp end
 } // namespace jub end
 
 #endif

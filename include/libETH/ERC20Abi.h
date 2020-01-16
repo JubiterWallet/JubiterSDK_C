@@ -39,18 +39,17 @@
 // Solidity: function transferFrom(_from address, _to address, _value uint256) returns(success bool)
 #define ABI_METHOD_ID_TRANSFER_FROM     "0x23b872dd"
 
-namespace jub
-{
-namespace eth
-{
-class ERC20Abi
-{
+namespace jub {
+namespace eth {
+
+
+class ERC20Abi {
 public:
     virtual ~ERC20Abi();
 
     static std::vector<uint8_t> serialize(const std::vector<uint8_t>& address, const std::vector<uint8_t>& value);
 }; // class ERC20Abi end
 
-} // namespace eth end
 
+} // namespace eth end
 } // namespace jub end

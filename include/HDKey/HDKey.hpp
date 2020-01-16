@@ -21,10 +21,14 @@
 #include "constant.hpp"
 
 namespace jub {
+
+
 std::vector<JUB_UINT32> parsePath(const std::string& path);
 
 JUB_RV hdnode_pub_ckd(std::string xpub, std::string path, std::string curve, JUB_UINT32 xpubPrefix, JUB_UINT32 xprvPrefix, HDNode* node, JUB_UINT32* parentFingerprint);
 JUB_RV hdnode_priv_ckd(std::string xprv, std::string path, std::string curve, JUB_UINT32 xpubPrefix, JUB_UINT32 xprvPrefix, HDNode* node, JUB_UINT32* parentFingerprint);
-}
+
+
+} // namespace jub end
 
 #endif /* HDKEY_HPP */

@@ -34,4 +34,3 @@
 
 
 #endif /* CONSTANT_HPP */
-

@@ -9,8 +9,8 @@
 #include <tuple>
 
 namespace jub {
-
 namespace eth {
+
 
 DataChunk RLP::encodeList(const DataChunk& encoded) noexcept {
     auto result = encodeHeader(encoded.size(), 0xc0, 0xf7);
@@ -18,6 +18,7 @@ DataChunk RLP::encodeList(const DataChunk& encoded) noexcept {
     result.insert(result.end(), encoded.begin(), encoded.end());
     return result;
 }
+
 
 //uchar_vector RLP::encode(const Transaction& transaction) noexcept {
 //    auto encoded = Data();
@@ -32,6 +33,7 @@ DataChunk RLP::encodeList(const DataChunk& encoded) noexcept {
 //    append(encoded, encode(transaction.s));
 //    return encodeList(encoded);
 //}
+
 
 DataChunk RLP::encode(const DataChunk& data) noexcept {
     
@@ -49,6 +51,7 @@ DataChunk RLP::encode(const DataChunk& data) noexcept {
     return encoded;
 }
 
+
 DataChunk RLP::encodeHeader(uint64_t size, uint8_t smallTag, uint8_t largeTag) noexcept {
     if (size < 56) {
         return {static_cast<uint8_t>(smallTag + size)};
@@ -62,6 +65,7 @@ DataChunk RLP::encodeHeader(uint64_t size, uint8_t smallTag, uint8_t largeTag) n
     header.insert(header.end(), sizeData.begin(), sizeData.end());
     return header;
 }
+
 
 DataChunk RLP::putint(uint64_t i) noexcept {
     // clang-format off
@@ -126,5 +130,6 @@ DataChunk RLP::putint(uint64_t i) noexcept {
     // clang-format on
 }
 
-}
-}
+
+} // namespace eth end
+} // namespace jub end

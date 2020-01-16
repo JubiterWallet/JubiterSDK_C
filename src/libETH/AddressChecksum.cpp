@@ -11,9 +11,11 @@
 
 namespace jub {
 namespace eth {
+
+
 std::string checksumed(const std::string& address, enum ChecksumType type) {
     
-    JUB_BYTE digest[32] = {0};
+    JUB_BYTE digest[32] = {0,};
     keccak_256(reinterpret_cast<const JUB_BYTE*>(address.data()),address.size(),digest);
     const auto hash = uchar_vector(digest,digest+32).getHex();
     //const auto hash = hex(Hash::keccak256(addressString));
@@ -24,7 +26,8 @@ std::string checksumed(const std::string& address, enum ChecksumType type) {
         const auto h = hash[i];
         if (a >= '0' && a <= 9) {
             string.push_back(a);
-        } else if ((h >= '8' && h <= '9') || (h >= 'a' && h <= 'f')) {
+        }
+        else if ((h >= '8' && h <= '9') || (h >= 'a' && h <= 'f')) {
             switch (type) {
             case eip55:
                 string.push_back(static_cast<char>(toupper(a)));
@@ -33,7 +36,8 @@ std::string checksumed(const std::string& address, enum ChecksumType type) {
                 string.push_back(static_cast<char>(tolower(a)));
                 break;
             }
-        } else {
+        }
+        else {
             switch (type) {
             case eip55:
                 string.push_back(static_cast<char>(tolower(a)));
@@ -47,5 +51,7 @@ std::string checksumed(const std::string& address, enum ChecksumType type) {
 
     return string;
 }
-}
-}
+
+
+} // namespace eth end
+} // namespace jub end
