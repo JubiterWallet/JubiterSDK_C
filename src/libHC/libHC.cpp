@@ -10,10 +10,11 @@
 #include "utility/util.h"
 
 namespace jub {
-
 namespace hc {
 
+
 JUB_RV DeserializeTx(const std::string& raw, TX_Hcash& tx) {
+
     TX_Hcash txTemp;
     uchar_vector rawTx = raw;
     try {
@@ -105,10 +106,12 @@ JUB_RV SerializeTx(const TX_Hcash& tx, std::string& raw) {
     }
 
     raw = rawTx.getHex();
+
     return JUBR_OK;
 }
 
 JUB_RV SerializePreimage(const TX_Hcash& tx , size_t i, const uchar_vector& redeemScript, uchar_vector& preimage) {
+
     uchar_vector rawTx;
 
     //only TxSerializeNoWitness
@@ -161,5 +164,7 @@ JUB_RV SerializePreimage(const TX_Hcash& tx , size_t i, const uchar_vector& rede
 
     return JUBR_OK;
 }
-} //hc
-} //jub
+
+
+} // namespace hc end
+} // namespace jub end

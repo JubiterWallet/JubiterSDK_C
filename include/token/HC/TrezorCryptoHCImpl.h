@@ -4,22 +4,23 @@
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 
 namespace jub {
-	namespace token {
+namespace token {
 
-		class TrezorCryptoHCImpl :
-			public TrezorCryptoBTCImpl,
-			public HCTokenInterface {
 
-		public:
-			TrezorCryptoHCImpl(const std::string& xprv) :
-				TrezorCryptoBTCImpl(xprv) {};
+class TrezorCryptoHCImpl :
+    public TrezorCryptoBTCImpl,
+    public HCTokenInterface {
 
-			~TrezorCryptoHCImpl() {};
+public:
+    TrezorCryptoHCImpl(const std::string& xprv) :
+        TrezorCryptoBTCImpl(xprv) {};
 
-			//HC functions
-			virtual JUB_RV selectApplet_HC();
+    ~TrezorCryptoHCImpl() {};
 
-		};
+    //HC functions
+    virtual JUB_RV selectApplet();
+}; // class TrezorCryptoHCImpl end
 
-	}
-}
+
+} // namespace token end
+} // namespace jub end

@@ -7,13 +7,17 @@
 #include <token/interface/BTCTokenInterface.hpp>
 
 namespace jub {
-	namespace token {
-		class HCTokenInterface : virtual public BTCTokenInterface {
+namespace token {
 
-		public:
-			virtual JUB_RV selectApplet_HC() = 0;
-		};
-	}//namespace token end
+
+class HCTokenInterface :
+virtual public BTCTokenInterface {
+public:
+    virtual JUB_RV selectApplet() = 0;
+}; // class HCTokenInterface end
+
+
+} // namespace token end
 } // namespace jub end
 
 #endif

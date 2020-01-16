@@ -11,8 +11,8 @@
 #include "Bitcoin/SegwitAddress.h"
 
 namespace jub {
-
 namespace btc {
+
 
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub) {
 
@@ -81,6 +81,7 @@ JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scrip
 
     return JUBR_ERROR;
 }
+
 
 JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                            const std::vector<INPUT_BTC>& vInputs,
@@ -169,6 +170,6 @@ JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
     return JUBR_OK;
 }
 
-} // namespace btc end
 
+} // namespace btc end
 } // namespace jub end

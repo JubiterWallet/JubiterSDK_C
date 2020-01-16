@@ -4,12 +4,13 @@
 #include <array>
 
 namespace jub {
-
 namespace eth {
+
 
 const size_t kETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT = 32;
 const size_t kETH_METHOD_HASH_SIZE = 4;
 typedef std::array<uint8_t, kETH_METHOD_HASH_SIZE> EthereumContractMethodHash;
+
 
 struct EthereumContractPayloadStream {
 public:
@@ -34,6 +35,7 @@ protected:
     std::vector<std::uint8_t> m_data;
 }; // struct EthereumContractPayloadStream end
 
+
 EthereumContractPayloadStream& operator<<(EthereumContractPayloadStream& stream, const std::vector<std::uint8_t>& data) {
 
     static const std::array<uint8_t, kETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT> ZEROES = {0,};
@@ -43,12 +45,14 @@ EthereumContractPayloadStream& operator<<(EthereumContractPayloadStream& stream,
     return stream;
 }
 
+
 EthereumContractPayloadStream& operator<<(EthereumContractPayloadStream& stream, const EthereumContractMethodHash& method_hash) {
 
     stream.write_data(method_hash.data(), method_hash.size());
 
     return stream;
 }
+
 
 std::vector<uint8_t> ERC20Abi::serialize(const std::vector<uint8_t>& address, const std::vector<uint8_t>& value) {
 
@@ -60,6 +64,7 @@ std::vector<uint8_t> ERC20Abi::serialize(const std::vector<uint8_t>& address, co
 
     return stream.get_data();
 }
-} // namespace eth end
 
+
+} // namespace eth end
 } // namespace jub end

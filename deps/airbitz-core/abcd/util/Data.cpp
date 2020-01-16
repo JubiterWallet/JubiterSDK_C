@@ -35,4 +35,14 @@ buildData(std::initializer_list<DataSlice> slices)
     return out;
 }
 
+// JuBiter-defined
+DataChunk
+buildData(unsigned char* slices, size_t size)
+{
+    DataChunk out;
+    out.reserve(size);
+    out.insert(out.end(), slices, slices+size);
+    return out;
+}
+
 } // namespace abcd

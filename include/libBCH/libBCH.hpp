@@ -11,8 +11,8 @@
 #include "mSIGNA/stdutils/uchar_vector.h"
 
 namespace jub {
-
 namespace bch {
+
 
 constexpr JUB_UINT32 version1 = 0x01;
 constexpr JUB_UINT32 sequence = 0xffffffff;
@@ -27,8 +27,9 @@ JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                            const std::vector<OUTPUT_BTC>& vOutputs,
                            const JUB_UINT32 lockTime,
                            uchar_vector& unsignedRaw);
-} // namespace bch end
 
+
+} // namespace bch end
 } // namespace jub end
 
 #endif

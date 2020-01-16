@@ -4,26 +4,29 @@
 #include <token/interface/XRPTokenInterface.hpp>
 
 namespace jub {
-	namespace token {
+namespace token {
 
-		class JubiterBladeXRPImpl :
-			public JubiterBladeToken,
-			public XRPTokenInterface {
 
-		public:
-			JubiterBladeXRPImpl(JUB_UINT16 deviceID) :
-				JubiterBladeToken(deviceID) {};
+class JubiterBladeXRPImpl :
+    public JubiterBladeToken,
+    public XRPTokenInterface {
 
-			~JubiterBladeXRPImpl() {};
+public:
+    JubiterBladeXRPImpl(JUB_UINT16 deviceID) :
+        JubiterBladeToken(deviceID) {};
 
-			//XRP functions
-			virtual JUB_RV SelectAppletXRP();
-			virtual JUB_RV SetCoinTypeXRP();
-			virtual JUB_RV GetAddressXRP(const std::string& path, const JUB_UINT16 tag, std::string& address);
-			virtual JUB_RV GetHDNodeXRP(const JUB_BYTE format, const std::string& path, std::string& pubkey);
-			virtual JUB_RV SignTXXRP(const std::vector<JUB_BYTE>& vPath,
-				std::vector<JUB_BYTE>& vUnsignedRaw,
-				std::vector<uchar_vector>& vSignatureRaw);
-		};
-	}
-}
+    ~JubiterBladeXRPImpl() {};
+
+    //XRP functions
+    virtual JUB_RV SelectApplet();
+    virtual JUB_RV SetCoinType();
+    virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey);
+    virtual JUB_RV SignTX(const std::vector<JUB_BYTE>& vPath,
+                          std::vector<JUB_BYTE>& vUnsignedRaw,
+                          std::vector<uchar_vector>& vSignatureRaw);
+}; // class JubiterBladeXRPImpl end
+
+
+} // namespace token end
+} // namespace jub end

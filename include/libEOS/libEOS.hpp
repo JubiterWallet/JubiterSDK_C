@@ -8,8 +8,8 @@
 #include "mSIGNA/stdutils/uchar_vector.h"
 
 namespace jub {
-
 namespace eos {
+
 
 JUB_RV serializePreimage(const std::string& expiration,
                          const std::string& referenceBlockId,
@@ -22,8 +22,8 @@ JUB_RV serializeActions(const JUB_ACTION_EOS_PTR actions,
                         JUB_UINT16 actionCount,
                         std::string& actionInJSON);
 
-} // namespace eos end
 
+} // namespace eos end
 } // namespace jub end
 
 #endif

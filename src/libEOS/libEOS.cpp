@@ -5,8 +5,8 @@
 #include "EOS/Transaction.h"
 
 namespace jub {
-
 namespace eos {
+
 
 JUB_RV serializePreimage(const std::string& expiration,
                          const std::string& referenceBlockId,
@@ -95,6 +95,7 @@ JUB_RV serializePreimage(const std::string& expiration,
     return JUBR_OK;
 }
 
+
 nlohmann::json serializeAction(const JUB_ACTION_EOS& action) {
 
     switch (action.type) {
@@ -150,6 +151,7 @@ nlohmann::json serializeAction(const JUB_ACTION_EOS& action) {
     return nlohmann::json::object();
 }
 
+
 JUB_RV serializeActions(const JUB_ACTION_EOS_PTR actions, JUB_UINT16 actionCount,
                         std::string& actionsInJSON) {
 
@@ -172,6 +174,7 @@ JUB_RV serializeActions(const JUB_ACTION_EOS_PTR actions, JUB_UINT16 actionCount
 
     return JUBR_OK;
 }
-} // namespace eos end
 
+
+} // namespace eos end
 } // namespace jub end
