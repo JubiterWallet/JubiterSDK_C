@@ -4,22 +4,23 @@
 #include <token/BTC/JubiterBladeBTCImpl.h>
 
 namespace jub {
-	namespace token {
-	
-		class JubiterBladeHCImpl :
-			public JubiterBladeBTCImpl,
-			public HCTokenInterface {
+namespace token {
 
-		public:
-			JubiterBladeHCImpl(JUB_UINT16 deviceID) :
-				JubiterBladeBTCImpl(deviceID) {};
 
-			~JubiterBladeHCImpl() {};
+class JubiterBladeHCImpl :
+    public JubiterBladeBTCImpl,
+    public HCTokenInterface {
 
-			//HC functions
-			virtual JUB_RV selectApplet_HC();
+public:
+    JubiterBladeHCImpl(JUB_UINT16 deviceID) :
+        JubiterBladeBTCImpl(deviceID) {};
 
-		};
-	
-	}
-}
+    ~JubiterBladeHCImpl() {};
+
+    //HC functions
+    virtual JUB_RV selectApplet();
+}; // class JubiterBladeHCImpl end
+
+
+} // namespace token end
+} // namespace jub end

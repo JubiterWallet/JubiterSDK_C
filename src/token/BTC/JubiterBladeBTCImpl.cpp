@@ -6,19 +6,18 @@
 namespace jub {
 namespace token {
 
-constexpr JUB_BYTE PKIAID_BTC[16] = {
-    0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x42, 0x54, 0x43, 0x01
-};
 
 #define SWITCH_TO_BTC_APP                       \
 do {				                            \
-    JUB_VERIFY_RV(_SelectApp(PKIAID_BTC, 16));  \
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_BTC, 16)); \
 } while (0)                                     \
 
-JUB_RV JubiterBladeBTCImpl::SelectAppletBTC() {
+
+JUB_RV JubiterBladeBTCImpl::SelectApplet() {
     SWITCH_TO_BTC_APP;
     return JUBR_OK;
 }
+
 
 constexpr JUB_BYTE kMainnetP2PKH = 0x00;
 //constexpr JUB_BYTE kMainnetP2SH = 0x01;
@@ -29,7 +28,8 @@ constexpr JUB_BYTE kMainnetP2SH_P2WPKH = 0x04;
 
 #define APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION "01090205"
 
-JUB_RV JubiterBladeBTCImpl::GetHDNodeBTC(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
+
+JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
 
     uchar_vector vPath;
     vPath << path;
@@ -62,11 +62,12 @@ JUB_RV JubiterBladeBTCImpl::GetHDNodeBTC(const JUB_ENUM_BTC_TRANS_TYPE& type, co
     return JUBR_OK;
 }
 
-JUB_RV JubiterBladeBTCImpl::GetAddressBTC(const JUB_BYTE addrFmt,
-                                          const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                          const std::string& path,
-                                          const JUB_UINT16 tag,
-                                          std::string& address) {
+
+JUB_RV JubiterBladeBTCImpl::GetAddress(const JUB_BYTE addrFmt,
+                                       const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                       const std::string& path,
+                                       const JUB_UINT16 tag,
+                                       std::string& address) {
 
     JUB_BYTE p1 = (JUB_BYTE)tag;
     if (_isSupportLegacyAddress()) {
@@ -103,6 +104,7 @@ JUB_RV JubiterBladeBTCImpl::GetAddressBTC(const JUB_BYTE addrFmt,
     return JUBR_OK;
 }
 
+
 bool JubiterBladeBTCImpl::_isSupportLegacyAddress() {
 
     if (0 <= _appletVersion.compare(APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION)) {
@@ -110,19 +112,22 @@ bool JubiterBladeBTCImpl::_isSupportLegacyAddress() {
     }
 
     return false;
-};
+}
+
 
 JUB_BYTE JubiterBladeBTCImpl::_RealAddressFormat(const JUB_ULONG& addrFmt) {
 
     return _HighMark((JUB_ULONG)addrFmt);
 }
 
+
 JUB_BYTE JubiterBladeBTCImpl::_RealAddressFormat(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt) {
 
     return _RealAddressFormat((JUB_ULONG)addrFmt);
 }
 
-JUB_RV JubiterBladeBTCImpl::SetUnitBTC(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
+
+JUB_RV JubiterBladeBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 
     APDU apdu(0x00, 0xfa, JUB_BYTE(unit), 0x00, 0x00);
     JUB_UINT16 ret = 0;
@@ -134,7 +139,8 @@ JUB_RV JubiterBladeBTCImpl::SetUnitBTC(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
     return JUBR_ERROR;
 }
 
-JUB_RV JubiterBladeBTCImpl::SetCoinTypeBTC(const JUB_ENUM_COINTYPE_BTC& type) {
+
+JUB_RV JubiterBladeBTCImpl::SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) {
 
     APDU apdu(0x00, 0xf5, (JUB_BYTE)type, 0x00, 0x00);
     JUB_UINT16 ret = 0;
@@ -148,15 +154,16 @@ JUB_RV JubiterBladeBTCImpl::SetCoinTypeBTC(const JUB_ENUM_COINTYPE_BTC& type) {
     return JUBR_ERROR;
 }
 
-JUB_RV JubiterBladeBTCImpl::SignTXBTC(const JUB_BYTE addrFmt,
-                                      const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                      const JUB_UINT16 inputCount,
-                                      const std::vector<JUB_UINT64>& vInputAmount,
-                                      const std::vector<std::string>& vInputPath,
-                                      const std::vector<JUB_UINT16>& vChangeIndex,
-                                      const std::vector<std::string>& vChangePath,
-                                      const std::vector<JUB_BYTE>& vUnsigedTrans,
-                                      std::vector<JUB_BYTE>& vRaw) {
+
+JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
+                                   const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                   const JUB_UINT16 inputCount,
+                                   const std::vector<JUB_UINT64>& vInputAmount,
+                                   const std::vector<std::string>& vInputPath,
+                                   const std::vector<JUB_UINT16>& vChangeIndex,
+                                   const std::vector<std::string>& vChangePath,
+                                   const std::vector<JUB_BYTE>& vUnsigedTrans,
+                                   std::vector<JUB_BYTE>& vRaw) {
     //SWITCH_TO_BTC_APP
 
     constexpr JUB_UINT32 kSendOnceLen = 230;
@@ -290,6 +297,7 @@ JUB_RV JubiterBladeBTCImpl::SignTXBTC(const JUB_BYTE addrFmt,
     return JUBR_OK;
 }
 
+
 JUB_RV JubiterBladeBTCImpl::SetQRC20ETHToken(const std::string& tokenName,
                                              const JUB_UINT16 unitDP,
                                              const std::string& contractAddress) {
@@ -312,6 +320,7 @@ JUB_RV JubiterBladeBTCImpl::SetQRC20ETHToken(const std::string& tokenName,
 
     return JUBR_OK;
 }
+
 
 } // namespace token end
 } // namespace jub end

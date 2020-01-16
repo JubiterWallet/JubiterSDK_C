@@ -8,8 +8,8 @@
 #include "utility/util.h"
 
 namespace jub {
-
 namespace bch {
+
 
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub) {
 
@@ -41,6 +41,7 @@ JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scrip
 
     return JUBR_OK;
 }
+
 
 JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                            const std::vector<INPUT_BTC>& vInputs,
@@ -111,6 +112,6 @@ JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
     return JUBR_OK;
 }
 
-} // namespace bch end
 
+} // namespace bch end
 } // namespace jub end

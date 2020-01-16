@@ -6,8 +6,9 @@
 #include "HexCoding.h"
 
 namespace jub {
-
 namespace xrp {
+
+
 // without "signingPubKey"
 JUB_RV serializePreimage(const JUB_TX_XRP& tx,
                          uchar_vector& preimageRaw) {
@@ -55,6 +56,6 @@ JUB_RV serializePreimage(const JUB_TX_XRP& tx,
     return rv;
 }
 
-} // namespace xrp end
 
+} // namespace xrp end
 } // namespace jub end
