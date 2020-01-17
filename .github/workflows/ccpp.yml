@@ -10,8 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: module
-      run: git submodule update --init --recursive
-      run: apt install libhidapi-dev
+      run: 
+        git submodule update --init --recursive
+        apt install libhidapi-dev
     - name: cmake
       run: cmake .
     - name: make
