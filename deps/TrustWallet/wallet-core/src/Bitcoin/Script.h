@@ -13,6 +13,7 @@
 
 #include <string>
 #include <vector>
+#include <assert.h>
 
 namespace TW::Bitcoin {
 

@@ -25,6 +25,8 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Bravo SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/EOS SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ripple SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/airbitz-core/abcd/util SRC_LIST)
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps)
@@ -38,6 +40,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/json/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include/TrustWalletCore)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/EOS)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
 
