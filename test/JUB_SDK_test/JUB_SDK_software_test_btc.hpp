@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <iostream>     // std::cout
-#include "../../include/JUB_core.h"
+#include "../../include/JUB_CORE.h"
 
 using namespace std;
 
