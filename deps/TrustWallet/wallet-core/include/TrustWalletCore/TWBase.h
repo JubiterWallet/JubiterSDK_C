@@ -4,10 +4,6 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#ifdef __GNUC__
-#include <sys/cdefs.h>
-#endif
-
 #if !defined(TW_EXTERN_C_BEGIN)
 #if defined(__cplusplus)
 #define TW_EXTERN_C_BEGIN extern "C" {
@@ -45,6 +41,28 @@
 // Marker for Protobuf types to be serialized across the interface
 #define PROTO(x) TWData *
 
+
+
+#ifdef __GNUC__
+
+#ifndef	__has_attribute
+#define	__has_attribute(x)	0
+#endif
+#ifndef	__has_extension
+#define	__has_extension		__has_feature
+#endif
+#ifndef	__has_feature
+#define	__has_feature(x)	0
+#endif
+#ifndef	__has_include
+#define	__has_include(x)	0
+#endif
+#ifndef	__has_builtin
+#define	__has_builtin(x)	0
+#endif
+
+#endif
+
 #if __has_feature(assume_nonnull)
 #define TW_ASSUME_NONNULL_BEGIN _Pragma("clang assume_nonnull begin")
 #define TW_ASSUME_NONNULL_END   _Pragma("clang assume_nonnull end")
@@ -65,6 +83,7 @@
 #define _Null_unspecified
 #endif
 #endif
+
 
 #include <stdbool.h>
 #include <stddef.h>
