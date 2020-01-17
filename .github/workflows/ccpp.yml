@@ -12,7 +12,7 @@ jobs:
     - name: module
       run: |
         git submodule update --init --recursive
-        apt install libhidapi-dev
+        sudo apt install libhidapi-dev
     - name: cmake
       run: cmake .
     - name: make
