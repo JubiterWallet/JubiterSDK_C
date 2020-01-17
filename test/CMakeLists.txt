@@ -6,6 +6,7 @@ include_directories(${CMAKE_SOURCE_DIR}/deps/jsoncpp/include)
 include_directories(${CMAKE_SOURCE_DIR}/deps)
 include_directories(${CMAKE_SOURCE_DIR}/deps/libbitcoin)
 include_directories(${CMAKE_SOURCE_DIR}/deps/TrustWallet/wallet-core/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include)
 
 aux_source_directory(${CMAKE_SOURCE_DIR}/deps/jsoncpp/src/lib_json SRC_LIST)
 aux_source_directory(${CMAKE_SOURCE_DIR}/test/JUB_SDK_test SRC_LIST)
