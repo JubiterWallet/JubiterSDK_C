@@ -31,7 +31,7 @@ JUB_RV TrezorCryptoETHImpl::GetAddress(const std::string& path, const JUB_UINT16
     //tag used by hardware,this imp not use.
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
     JUB_BYTE ethKeyHash[20] = { 0, };
     if (1 == hdnode_get_ethereum_pubkeyhash(&hdkey, ethKeyHash)) {
@@ -48,7 +48,7 @@ JUB_RV TrezorCryptoETHImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
     //    typedef enum {
     //        HEX = 0x00,
@@ -61,7 +61,7 @@ JUB_RV TrezorCryptoETHImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     }
     else { //xpub
         JUB_CHAR _pk[200] = { 0, };
-        if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, bitcoinXPUB, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
+        if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, TWHDVersion::TWHDVersionXPUB, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
             return JUBR_ERROR;
         }
         pubkey = std::string(_pk);
@@ -103,7 +103,7 @@ JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     std::string path(&vPath[0], &vPath[0] + vPath.size());
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
     JUB_BYTE sig[64] = { 0, };
     JUB_BYTE by = 0;
