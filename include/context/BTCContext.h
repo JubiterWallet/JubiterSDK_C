@@ -21,7 +21,10 @@ do {                                                                        \
     JUB_CHECK_NULL(context);                                                \
     const std::type_info& tCtx = typeid(*context);                          \
     const std::type_info& tCtxBTC = typeid(jub::context::BTCContext);       \
-    if (tCtx.hash_code() != tCtxBTC.hash_code()) {                          \
+    const std::type_info& tCtxBCH = typeid(jub::context::BCHContext);       \
+    if (!(   tCtx.hash_code() == tCtxBTC.hash_code()                        \
+          || tCtx.hash_code() == tCtxBCH.hash_code()                        \
+        )) {                                                                \
         return JUBR_ARGUMENTS_BAD;                                          \
     }                                                                       \
 } while(0)
@@ -31,7 +34,18 @@ namespace jub {
 namespace context {
 
 
+class BTCContextBase {
+public:
+    virtual JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                     const std::vector<INPUT_BTC>& vInputs,
+                                     const std::vector<OUTPUT_BTC>& vOutputs,
+                                     const JUB_UINT32 lockTime,
+                                     uchar_vector& unsignedRaw);
+}; // class BTCContextBase end
+
+
 class BTCContext :
+virtual public BTCContextBase,
     public BaseContext {
 
 public:
@@ -65,6 +79,22 @@ protected:
     JUB_ENUM_BTC_UNIT_TYPE   _unitType{ mBTC };
     std::shared_ptr<token::BTCTokenInterface> _tokenPtr;
 }; // class BTCContext end
+
+
+class BCHContext :
+    public BTCContext {
+public:
+    BCHContext(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr):
+        BTCContext(cfg, tokenPtr) {
+    };
+    ~BCHContext() {};
+
+    JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                             const std::vector<INPUT_BTC>& vInputs,
+                             const std::vector<OUTPUT_BTC>& vOutputs,
+                             const JUB_UINT32 lockTime,
+                             uchar_vector& unsignedRaw) override;
+}; // class BCHContext end
 
 
 } // namespace context end
