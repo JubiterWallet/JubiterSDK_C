@@ -10,7 +10,7 @@
 #define JUB_SDK_software_test_xrp_hpp
 
 #include <stdio.h>
-#include "../../include/JUB_core.h"
+#include "../../include/JUB_CORE.h"
 
 void software_test_xrp();
 
