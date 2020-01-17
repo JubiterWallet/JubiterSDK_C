@@ -68,7 +68,7 @@ typedef enum {
 
 typedef enum {
     p2pkh = 0,
-    //p2pwpkh,
+    //p2wpkh,
     p2sh_p2wpkh,
     trans_type_ns_item
 /*
