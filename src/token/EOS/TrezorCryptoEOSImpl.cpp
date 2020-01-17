@@ -32,7 +32,7 @@ JUB_RV TrezorCryptoEOSImpl::GetAddress(const TW::EOS::Type& type, const std::str
     //tag used by hardware,this imp not use.
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
     uchar_vector pk(hdkey.public_key, hdkey.public_key + 33);
     TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
@@ -47,7 +47,7 @@ JUB_RV TrezorCryptoEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
 //    typedef enum class JubPubFormat {
 //        HEX = 0x00,
@@ -68,7 +68,7 @@ JUB_RV TrezorCryptoEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     }
     else { //xpub
         JUB_CHAR _pk[200] = { 0, };
-        if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, bitcoinXPUB, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
+        if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, TWHDVersion::TWHDVersionXPUB, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
             return JUBR_ERROR;
         }
         pubkey = std::string(_pk);
@@ -93,7 +93,7 @@ JUB_RV TrezorCryptoEOSImpl::SignTX(const TW::EOS::Type& type,
 
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
-        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
         uchar_vector privk(hdkey.private_key, hdkey.private_key + 32);
         TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
