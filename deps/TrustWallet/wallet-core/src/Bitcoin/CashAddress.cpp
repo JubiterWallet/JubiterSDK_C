@@ -112,10 +112,10 @@ Address CashAddress::legacyAddress() const {
     assert(outlen == 21 && "Invalid length");
     if (result[0] == p2khVersion) {
 // JuBiter
-//        result[0] = TW::p2pkhPrefix(TWCoinTypeBitcoinCash);
+//        result[0] = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoinCash);
     } else if (result[0] == p2shVersion) {
 // JuBiter
-//        result[0] = TW::p2shPrefix(TWCoinTypeBitcoinCash);
+//        result[0] = TWCoinTypeP2shPrefix(TWCoinTypeBitcoinCash);
     }
     return Address(result);
 }

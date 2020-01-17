@@ -18,7 +18,7 @@
 #include <TrezorCrypto/bip32.h>
 #include <string>
 #include <vector>
-#include "constant.hpp"
+#include <TrustWalletCore/TWHDVersion.h>
 
 namespace jub {
 
