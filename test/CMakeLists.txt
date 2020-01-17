@@ -18,12 +18,14 @@ endif(APPLE)
 
 add_executable(JUB_test ${SRC_LIST})
 
+FIND_LIBRARY(HID_API_LIBSTATIC
+    NAMES hidapi
+)
+MESSAGE( STATUS "hidapi = ${HID_API_LIBSTATIC}.")
+
 #user lib
 if(APPLE)
-    FIND_LIBRARY(HID_API_LIB_MAC_STATIC
-        NAMES libhidapi.a
-    )
-    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto ${HID_API_LIB_MAC_STATIC}  "-framework CoreFoundation" "-framework IOKit")
+    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto ${HID_API_LIBSTATIC}  "-framework CoreFoundation" "-framework IOKit")
 else()
-    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto hidapi)  
+    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto ${HID_API_LIBSTATIC})  
 endif(APPLE)
