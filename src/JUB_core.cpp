@@ -9,7 +9,7 @@
 #include <TrezorCrypto/bip39.h>
 #include <TrezorCrypto/bip32.h>
 #include <utility/util.h>
-#include <HDKey/constant.hpp>
+#include <TrustWalletCore/TWHDVersion.h>
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/ETH/TrezorCryptoETHImpl.h>
 #include <token/EOS/TrezorCryptoEOSImpl.h>
@@ -74,7 +74,7 @@ JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
                                   OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
     JUB_CHECK_NULL(seed);
     std::string curve_name;
-    JUB_VERIFY_RV(_curveToString(curve,curve_name));
+    JUB_VERIFY_RV(_curveToString(curve, curve_name));
 
     HDNode node;
     if (0 == hdnode_from_seed(seed, seed_len, curve_name.c_str(), &node)) {
@@ -82,7 +82,7 @@ JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
     }
 
     JUB_CHAR str_pri[200] = {0,};
-    if (0 == hdnode_serialize_private(&node, 0x00, defaultXPRV, str_pri, 200)) {
+    if (0 == hdnode_serialize_private(&node, 0x00, TWHDVersion::TWHDVersionXPRV, str_pri, 200)) {
         return JUBR_ERROR;
     }
 
@@ -109,7 +109,30 @@ JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
                                  OUT JUB_UINT16* contextID) {
 
 	auto token = std::make_shared<jub::token::TrezorCryptoBTCImpl>(std::string(masterPriInXPRV));
-    jub::context::BTCContext* context = new jub::context::BTCContext(cfg, token);
+    jub::context::BTCContext* context = NULL;
+    switch (cfg.transType) {
+        case p2pkh:
+        case p2sh_p2wpkh:
+        {
+            switch (cfg.coinType) {
+                case COINBTC:
+                case COINLTC:
+                case COINUSDT:
+                case COINDASH:
+                case COINQTUM:
+                    context = new jub::context::BTCContext(cfg, token);
+                    break;
+                case COINBCH:
+                    context = new jub::context::BCHContext(cfg, token);
+                    break;
+            }
+            JUB_CHECK_NULL(context);
+
+            break;
+        }
+        default:
+            JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
+    }
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     return JUBR_OK;
 }
