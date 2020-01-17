@@ -3,12 +3,16 @@
 #include <TrezorCrypto/curves.h>
 #include <HDKey/HDKey.hpp>
 #include <utility/util.h>
+#include "Bitcoin/Address.h"
+#include "Bitcoin/SegwitAddress.h"
+#include "Bitcoin/Script.h"
 
 namespace jub {
 namespace token {
 
 
 JUB_RV TrezorCryptoBTCImpl::SelectApplet() {
+
     return JUBR_OK;
 }
 
@@ -17,13 +21,13 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, bitcoinXPUB, bitcoinXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
     JUB_CHAR _xpub[200] = { 0, };
     hdnode_fill_public_key(&hdkey);
-    JUB_UINT32 version = bitcoinXPUB;
+    JUB_UINT32 version = TWHDVersion::TWHDVersionXPUB;
     if (p2sh_p2wpkh == type) {
-        version = bitcoinYPUB;
+        version = TWHDVersion::TWHDVersionYPUB;
     }
 
     if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, version, _xpub, sizeof(_xpub) / sizeof(JUB_CHAR))) {
@@ -31,6 +35,7 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
     }
 
     xpub = std::string(_xpub);
+
     return JUBR_OK;
 }
 
@@ -39,13 +44,49 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), SECP256K1_NAME, defaultXPUB, defaultXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
-    JUB_CHAR _address[200] = { 0, };
-    hdnode_fill_public_key(&hdkey);
+    uchar_vector pk(hdkey.public_key, hdkey.public_key + 33);
+    TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
 
-    hdnode_get_address(&hdkey, 0x00, _address, sizeof(_address) / sizeof(JUB_CHAR));
-    address = _address;
+    uint8_t prefix = 0;
+    switch (type) {
+    case p2pkh:
+    {
+        prefix = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoin);
+
+        TW::Bitcoin::Address addr(twpk, prefix);
+        address = addr.string();
+
+        break;
+    }
+    case p2sh_p2wpkh:
+    {
+        prefix = TWCoinTypeP2shPrefix(TWCoinTypeBitcoin);
+
+        // keyhash
+        TW::Bitcoin::SegwitAddress segwitAddr(twpk, OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(TWCoinTypeBitcoin))));
+
+        // redeemScript
+        TW::Bitcoin::Script redeemScript = TW::Bitcoin::Script::buildPayToWitnessProgram(segwitAddr.witnessProgram);
+        TW::Data hRedeemScript = TW::Hash::sha256ripemd(&redeemScript.bytes[0], &redeemScript.bytes[0]+redeemScript.bytes.size());
+
+        // address
+        TW::Data bytes;
+        bytes.insert(bytes.end(), prefix);
+        bytes.insert(bytes.end(), hRedeemScript.begin(), hRedeemScript.end());
+
+        address = TW::Base58::bitcoin.encodeCheck(bytes);
+
+        break;
+    }
+//    case p2wpkh:
+//    case p2sh_multisig:
+//    case p2wsh_multisig:
+//    case p2sh_p2wsh_multisig:
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     return JUBR_OK;
 }
