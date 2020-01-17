@@ -12,6 +12,26 @@ namespace jub {
 namespace context {
 
 
+JUB_RV BTCContextBase::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                         const std::vector<INPUT_BTC>& vInputs,
+                                         const std::vector<OUTPUT_BTC>& vOutputs,
+                                         const JUB_UINT32 lockTime,
+                                         uchar_vector& unsignedRaw) {
+
+    return jub::btc::serializeUnsignedTx(type, vInputs, vOutputs, lockTime, unsignedRaw);
+}
+
+
+JUB_RV BCHContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                     const std::vector<INPUT_BTC>& vInputs,
+                                     const std::vector<OUTPUT_BTC>& vOutputs,
+                                     const JUB_UINT32 lockTime,
+                                     uchar_vector& unsignedRaw) {
+
+    return jub::bch::serializeUnsignedTx(type, vInputs, vOutputs, lockTime, unsignedRaw);
+}
+
+
 JUB_RV BTCContext::GetHDNode(const BIP44_Path& path, std::string& xpub) {
 
     std::string strPath = _FullBip44Path(path);
@@ -161,8 +181,6 @@ JUB_RV BTCContext::BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, I
 
 JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw) {
 
-    JUB_RV ret = JUBR_OK;
-
     //deal inputs
     std::vector<JUB_UINT64> vInputAmount;
     std::vector<std::string> vInputPath;
@@ -186,19 +204,11 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std:
 
     //build unsigned transaction
     uchar_vector unsignedTrans;
-    if (   COINBTC  == _coinType
-        || COINLTC  == _coinType
-        || COINUSDT == _coinType
-        ) { //BTC&LTC
-        ret = jub::btc::serializeUnsignedTx(_transType, vInputs, vOutputs, lockTime, unsignedTrans);
-    }
-    else if (COINBCH == _coinType) { //BCH
-        ret = jub::bch::serializeUnsignedTx(_transType, vInputs, vOutputs, lockTime, unsignedTrans);
-    }
-    else {
-        ret = JUBR_IMPL_NOT_SUPPORT;
-    }
-    JUB_VERIFY_RV(ret);
+    JUB_VERIFY_RV(SerializePreimage(_transType,
+                                    vInputs,
+                                    vOutputs,
+                                    lockTime,
+                                    unsignedTrans));
 
     uchar_vector vRaw;
     JUB_VERIFY_RV(_tokenPtr->SignTX(addrFmt,
