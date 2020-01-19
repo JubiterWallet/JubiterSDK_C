@@ -94,6 +94,7 @@ JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scrip
     if (rv) {
         if (   p2shVersion     == vScriptPub[0]
             || p2shVersion_LTC == vScriptPub[0]
+            || p2shVersion_QTUM == vScriptPub[0]
             ) { // p2sh
             scriptPub << OpCode::OP_HASH160;
             scriptPub & uchar_vector(vScriptPub.begin() + 1, vScriptPub.end());
@@ -101,6 +102,7 @@ JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scrip
         }
         else if (   p2pkhVersion     == vScriptPub[0]
                  || p2pkhVersion_LTC == vScriptPub[0]
+                 || p2pkhVersion_QTUM == vScriptPub[0]
                  ) { //p2pkh
             scriptPub << OpCode::OP_DUP;
             scriptPub << OpCode::OP_HASH160;

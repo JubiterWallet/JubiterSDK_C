@@ -23,6 +23,9 @@ constexpr JUB_BYTE p2pkhVersion = 0x00;
 constexpr JUB_BYTE p2shVersion_LTC = 0x32;
 constexpr JUB_BYTE p2pkhVersion_LTC = 0x30;
 
+constexpr JUB_BYTE  p2shVersion_QTUM = 0x32;
+constexpr JUB_BYTE p2pkhVersion_QTUM = 0x3a;
+
 JUB_RV serializeUnsignedTx(const uint32_t coin,
                            const JUB_ENUM_BTC_TRANS_TYPE& type,
                            const std::vector<INPUT_BTC>& vInputs,
