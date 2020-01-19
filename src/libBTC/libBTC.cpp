@@ -6,12 +6,75 @@
 #include "airbitz-core/abcd/util/Data.hpp"
 #include "TrezorCrypto/base58.h"
 #include "TrezorCrypto/bip32.h"
-#include "TrustWalletCore/TWBitcoinOpCodes.h"
-#include "TrustWalletCore/TWHRP.h"
 #include "Bitcoin/SegwitAddress.h"
+#include "Bitcoin/Script.h"
+#include "Bitcoin/Transaction.h"
 
 namespace jub {
 namespace btc {
+
+
+JUB_RV serializeUnsignedTx(const uint32_t coin,
+                           const JUB_ENUM_BTC_TRANS_TYPE& type,
+                           const std::vector<INPUT_BTC>& vInputs,
+                           const std::vector<OUTPUT_BTC>& vOutputs,
+                           const JUB_UINT32 lockTime,
+                           uchar_vector& unsignedRaw) {
+
+    bool witness = false;
+    TW::Bitcoin::Transaction tx(0x01, lockTime);
+
+    // inputs
+    for (const auto& input:vInputs) {
+        uchar_vector preHash(input.preHash);
+        preHash.reverse();
+        TW::Bitcoin::OutPoint outpoint(preHash, input.preIndex);
+        TW::Bitcoin::Script script;// null
+        TW::Bitcoin::TransactionInput txInput(outpoint, script, input.nSequence);
+        tx.inputs.push_back(txInput);
+
+        if (p2sh_p2wpkh == type) {
+            witness = true;
+        }
+    }
+
+    // outputs
+    for (const auto& output:vOutputs) {
+        TW::Bitcoin::Script scriptPubkey;
+        JUB_UINT64 amount = 0;
+        switch (output.type) {
+            case JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0:
+            {
+                TW::Data return0(output.return0.dataLen);
+                std::memcpy(&return0[0], output.return0.data, output.return0.dataLen);
+
+                scriptPubkey = TW::Bitcoin::Script::buildReturn0(return0);
+                amount = output.return0.amount;
+                break;
+            }
+            case JUB_ENUM_SCRIPT_BTC_TYPE::QRC20:
+            {
+                TW::Data qrc20(output.qrc20.dataLen);
+                std::memcpy(&qrc20[0], output.qrc20.data, output.qrc20.dataLen);
+
+                scriptPubkey = TW::Bitcoin::Script(qrc20.begin(), qrc20.end());
+                break;
+            }
+            default:
+            {
+                scriptPubkey = TW::Bitcoin::Script::buildForAddress(std::string(output.stdOutput.address), (TWCoinType)coin);
+                amount = output.stdOutput.amount;
+                break;
+            }
+        }
+        TW::Bitcoin::TransactionOutput txOutput(TW::Bitcoin::Amount(amount), scriptPubkey);
+        tx.outputs.push_back(txOutput);
+    }
+
+    tx.encode(witness, unsignedRaw);
+
+    return JUBR_OK;
+}
 
 
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub) {

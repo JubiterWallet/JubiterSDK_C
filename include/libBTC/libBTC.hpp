@@ -23,6 +23,13 @@ constexpr JUB_BYTE p2pkhVersion = 0x00;
 constexpr JUB_BYTE p2shVersion_LTC = 0x32;
 constexpr JUB_BYTE p2pkhVersion_LTC = 0x30;
 
+JUB_RV serializeUnsignedTx(const uint32_t coin,
+                           const JUB_ENUM_BTC_TRANS_TYPE& type,
+                           const std::vector<INPUT_BTC>& vInputs,
+                           const std::vector<OUTPUT_BTC>& vOutputs,
+                           const JUB_UINT32 lockTime,
+                           uchar_vector& unsignedRaw);
+
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub);
 
 JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,

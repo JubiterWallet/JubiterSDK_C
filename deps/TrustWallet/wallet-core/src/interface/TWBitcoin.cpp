@@ -4,17 +4,12 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#pragma once
+#include <TrustWalletCore/TWBitcoin.h>
 
-#include "TWBase.h"
+bool TWSignatureHashTypeIsSingle(uint32_t type) {
+    return (type & 0x1f) == TWSignatureHashTypeSingle;
+}
 
-TW_EXTERN_C_BEGIN
-
-TW_EXPORT_ENUM(uint32_t)
-enum TWEOSKeyType {
-    TWEOSKeyTypeLegacy = 0,
-    TWEOSKeyTypeModernK1 = 1,
-    TWEOSKeyTypeModernR1 = 2,
-};
-
-TW_EXTERN_C_END
+bool TWSignatureHashTypeIsNone(uint32_t type) {
+    return (type & 0x1f) == TWSignatureHashTypeNone;
+}

@@ -7,12 +7,12 @@
 #pragma once
 
 #include "TWBase.h"
-#include "TWBlockchain.h"
+//#include "TWBlockchain.h"
 #include "TWCurve.h"
 #include "TWHDVersion.h"
 #include "TWHRP.h"
 #include "TWPrivateKey.h"
-#include "TWPurpose.h"
+//#include "TWPurpose.h"
 #include "TWString.h"
 
 TW_EXTERN_C_BEGIN
@@ -80,43 +80,43 @@ enum TWCoinType {
     TWCoinTypePolkadot = 354,
 };
 
-/// Returns the blockchain for a coin type.
-TW_EXPORT_PROPERTY
-enum TWBlockchain TWCoinTypeBlockchain(enum TWCoinType coin);
-
-/// Returns the purpose for a coin type.
-TW_EXPORT_PROPERTY
-enum TWPurpose TWCoinTypePurpose(enum TWCoinType coin);
-
-/// Returns the curve that should be used for a coin type.
-TW_EXPORT_PROPERTY
-enum TWCurve TWCoinTypeCurve(enum TWCoinType coin);
-
-/// Returns the xpub HD version that should be used for a coin type.
-TW_EXPORT_PROPERTY
-enum TWHDVersion TWCoinTypeXpubVersion(enum TWCoinType coin);
-
-/// Returns the xprv HD version that should be used for a coin type.
-TW_EXPORT_PROPERTY
-enum TWHDVersion TWCoinTypeXprvVersion(enum TWCoinType coin);
-
-/// Validates an address string.
-TW_EXPORT_METHOD
-bool TWCoinTypeValidate(enum TWCoinType coin, TWString *_Nonnull address);
-
-/// Returns the default derivation path for a particular coin.
-TW_EXPORT_METHOD
-TWString *_Nonnull TWCoinTypeDerivationPath(enum TWCoinType coin);
-
-/// Derives the address for a particular coin from the private key.
-TW_EXPORT_METHOD
-TWString *_Nonnull TWCoinTypeDeriveAddress(enum TWCoinType coin,
-                                           struct TWPrivateKey *_Nonnull privateKey);
-
-/// Derives the address for a particular coin from the public key.
-TW_EXPORT_METHOD
-TWString *_Nonnull TWCoinTypeDeriveAddressFromPublicKey(enum TWCoinType coin,
-                                                        struct TWPublicKey *_Nonnull publicKey);
+///// Returns the blockchain for a coin type.
+//TW_EXPORT_PROPERTY
+//enum TWBlockchain TWCoinTypeBlockchain(enum TWCoinType coin);
+//
+///// Returns the purpose for a coin type.
+//TW_EXPORT_PROPERTY
+//enum TWPurpose TWCoinTypePurpose(enum TWCoinType coin);
+//
+///// Returns the curve that should be used for a coin type.
+//TW_EXPORT_PROPERTY
+//enum TWCurve TWCoinTypeCurve(enum TWCoinType coin);
+//
+///// Returns the xpub HD version that should be used for a coin type.
+//TW_EXPORT_PROPERTY
+//enum TWHDVersion TWCoinTypeXpubVersion(enum TWCoinType coin);
+//
+///// Returns the xprv HD version that should be used for a coin type.
+//TW_EXPORT_PROPERTY
+//enum TWHDVersion TWCoinTypeXprvVersion(enum TWCoinType coin);
+//
+///// Validates an address string.
+//TW_EXPORT_METHOD
+//bool TWCoinTypeValidate(enum TWCoinType coin, TWString *_Nonnull address);
+//
+///// Returns the default derivation path for a particular coin.
+//TW_EXPORT_METHOD
+//TWString *_Nonnull TWCoinTypeDerivationPath(enum TWCoinType coin);
+//
+///// Derives the address for a particular coin from the private key.
+//TW_EXPORT_METHOD
+//TWString *_Nonnull TWCoinTypeDeriveAddress(enum TWCoinType coin,
+//                                           struct TWPrivateKey *_Nonnull privateKey);
+//
+///// Derives the address for a particular coin from the public key.
+//TW_EXPORT_METHOD
+//TWString *_Nonnull TWCoinTypeDeriveAddressFromPublicKey(enum TWCoinType coin,
+//                                                        struct TWPublicKey *_Nonnull publicKey);
 
 /// HRP for this coin type
 TW_EXPORT_PROPERTY

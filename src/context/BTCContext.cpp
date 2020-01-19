@@ -3,10 +3,11 @@
 #include "context/BTCContext.h"
 #include <token/interface/HardwareTokenInterface.hpp>
 #include "libBTC/libBTC.hpp"
-#include "libBCH/libBCH.hpp"
+//#include "libBCH/libBCH.hpp"
 #include "libETH/ERC20Abi.h"
 #include <TrezorCrypto/base58.h>
 #include "BinaryCoding.h"
+#include <TrustWalletCore/TWCoinType.h>
 
 namespace jub {
 namespace context {
@@ -18,7 +19,7 @@ JUB_RV BTCContextBase::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                          const JUB_UINT32 lockTime,
                                          uchar_vector& unsignedRaw) {
 
-    return jub::btc::serializeUnsignedTx(type, vInputs, vOutputs, lockTime, unsignedRaw);
+    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeBitcoin, type, vInputs, vOutputs, lockTime, unsignedRaw);
 }
 
 
@@ -28,7 +29,37 @@ JUB_RV BCHContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                      const JUB_UINT32 lockTime,
                                      uchar_vector& unsignedRaw) {
 
-    return jub::bch::serializeUnsignedTx(type, vInputs, vOutputs, lockTime, unsignedRaw);
+    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeBitcoinCash, type, vInputs, vOutputs, lockTime, unsignedRaw);
+}
+
+
+JUB_RV LTCContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                     const std::vector<INPUT_BTC>& vInputs,
+                                     const std::vector<OUTPUT_BTC>& vOutputs,
+                                     const JUB_UINT32 lockTime,
+                                     uchar_vector& unsignedRaw) {
+
+    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeLitecoin, type, vInputs, vOutputs, lockTime, unsignedRaw);
+}
+
+
+JUB_RV QTUMContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                      const std::vector<INPUT_BTC>& vInputs,
+                                      const std::vector<OUTPUT_BTC>& vOutputs,
+                                      const JUB_UINT32 lockTime,
+                                      uchar_vector& unsignedRaw) {
+
+    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeQtum, type, vInputs, vOutputs, lockTime, unsignedRaw);
+}
+
+
+JUB_RV DASHContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                      const std::vector<INPUT_BTC>& vInputs,
+                                      const std::vector<OUTPUT_BTC>& vOutputs,
+                                      const JUB_UINT32 lockTime,
+                                      uchar_vector& unsignedRaw) {
+
+    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeDash, type, vInputs, vOutputs, lockTime, unsignedRaw);
 }
 
 

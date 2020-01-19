@@ -66,7 +66,7 @@ JUB_RV serializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
             unsignedTrans << (JUB_UINT32)input.preIndex;
             //sig
             unsignedTrans << (JUB_BYTE)0;
-            unsignedTrans << sequence;
+            unsignedTrans << input.nSequence;
             break;
         } // case JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH end
         default:
