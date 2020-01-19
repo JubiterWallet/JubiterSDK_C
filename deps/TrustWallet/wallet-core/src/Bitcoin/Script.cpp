@@ -248,6 +248,16 @@ Script Script::buildPayToWitnessScriptHash(const Data& scriptHash) {
     return Script::buildPayToWitnessProgram(scriptHash);
 }
 
+// JuBiter-defined
+/// Builds a return0 script from a script.
+Script Script::buildReturn0(const Data& data) {
+    Script script;
+    script.bytes.push_back(OP_RETURN);
+    script.bytes.push_back(data.size());
+    script.bytes.insert(script.bytes.end(), data.begin(), data.end());
+    return script;
+}
+
 void Script::encode(Data& data) const {
     encodeVarInt(bytes.size(), data);
     std::copy(std::begin(bytes), std::end(bytes), std::back_inserter(data));
