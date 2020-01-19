@@ -23,13 +23,13 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
-    JUB_CHAR _xpub[200] = { 0, };
     hdnode_fill_public_key(&hdkey);
     JUB_UINT32 version = TWHDVersion::TWHDVersionXPUB;
     if (p2sh_p2wpkh == type) {
         version = TWHDVersion::TWHDVersionYPUB;
     }
 
+    JUB_CHAR _xpub[200] = { 0, };
     if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, version, _xpub, sizeof(_xpub) / sizeof(JUB_CHAR))) {
         return JUBR_ERROR;
     }
@@ -42,6 +42,10 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
 
 JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
+    TWCoinType coin = TWCoinTypeBitcoin;
+//    TWCoinType coin = TWCoinTypeLitecoin;
+//    TWCoinType coin = TWCoinTypeQtum;
+
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
@@ -53,7 +57,7 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     switch (type) {
     case p2pkh:
     {
-        prefix = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoin);
+        prefix = TWCoinTypeP2pkhPrefix(coin);
 
         TW::Bitcoin::Address addr(twpk, prefix);
         address = addr.string();
@@ -62,10 +66,10 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     }
     case p2sh_p2wpkh:
     {
-        prefix = TWCoinTypeP2shPrefix(TWCoinTypeBitcoin);
+        prefix = TWCoinTypeP2shPrefix(coin);
 
         // keyhash
-        TW::Bitcoin::SegwitAddress segwitAddr(twpk, OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(TWCoinTypeBitcoin))));
+        TW::Bitcoin::SegwitAddress segwitAddr(twpk, OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(coin))));
 
         // redeemScript
         TW::Bitcoin::Script redeemScript = TW::Bitcoin::Script::buildPayToWitnessProgram(segwitAddr.witnessProgram);
