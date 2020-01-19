@@ -100,14 +100,20 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
         {
             switch (cfg.coinType) {
                 case COINBTC:
-                case COINLTC:
                 case COINUSDT:
-                case COINDASH:
-                case COINQTUM:
                     context = new jub::context::BTCContext(cfg, token);
                     break;
                 case COINBCH:
                     context = new jub::context::BCHContext(cfg, token);
+                    break;
+                case COINLTC:
+                    context = new jub::context::LTCContext(cfg, token);
+                    break;
+                case COINQTUM:
+                    context = new jub::context::QTUMContext(cfg, token);
+                    break;
+                case COINDASH:
+                    context = new jub::context::DASHContext(cfg, token);
                     break;
             }
             JUB_CHECK_NULL(context);

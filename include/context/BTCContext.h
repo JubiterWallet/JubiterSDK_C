@@ -22,8 +22,14 @@ do {                                                                        \
     const std::type_info& tCtx = typeid(*context);                          \
     const std::type_info& tCtxBTC = typeid(jub::context::BTCContext);       \
     const std::type_info& tCtxBCH = typeid(jub::context::BCHContext);       \
+    const std::type_info& tCtxLTC = typeid(jub::context::LTCContext);       \
+    const std::type_info& tCtxQTUM = typeid(jub::context::QTUMContext);     \
+    const std::type_info& tCtxDASH = typeid(jub::context::DASHContext);     \
     if (!(   tCtx.hash_code() == tCtxBTC.hash_code()                        \
           || tCtx.hash_code() == tCtxBCH.hash_code()                        \
+          || tCtx.hash_code() == tCtxLTC.hash_code()                        \
+          || tCtx.hash_code() == tCtxQTUM.hash_code()                       \
+          || tCtx.hash_code() == tCtxDASH.hash_code()                       \
         )) {                                                                \
         return JUBR_ARGUMENTS_BAD;                                          \
     }                                                                       \
@@ -95,6 +101,54 @@ public:
                              const JUB_UINT32 lockTime,
                              uchar_vector& unsignedRaw) override;
 }; // class BCHContext end
+
+
+class LTCContext :
+    public BTCContext {
+public:
+    LTCContext(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr):
+        BTCContext(cfg, tokenPtr) {
+    };
+    ~LTCContext() {};
+
+    JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                             const std::vector<INPUT_BTC>& vInputs,
+                             const std::vector<OUTPUT_BTC>& vOutputs,
+                             const JUB_UINT32 lockTime,
+                             uchar_vector& unsignedRaw) override;
+}; // class LTCContext end
+
+
+class QTUMContext :
+    public BTCContext {
+public:
+    QTUMContext(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr):
+        BTCContext(cfg, tokenPtr) {
+    };
+    ~QTUMContext() {};
+
+    JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                             const std::vector<INPUT_BTC>& vInputs,
+                             const std::vector<OUTPUT_BTC>& vOutputs,
+                             const JUB_UINT32 lockTime,
+                             uchar_vector& unsignedRaw) override;
+}; // class QTUMContext end
+
+
+class DASHContext :
+    public BTCContext {
+public:
+    DASHContext(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr):
+        BTCContext(cfg, tokenPtr) {
+    };
+    ~DASHContext() {};
+
+    JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                             const std::vector<INPUT_BTC>& vInputs,
+                             const std::vector<OUTPUT_BTC>& vOutputs,
+                             const JUB_UINT32 lockTime,
+                             uchar_vector& unsignedRaw) override;
+}; // class QTUMContext end
 
 
 } // namespace context end

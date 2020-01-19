@@ -6,105 +6,47 @@
 
 #include <TrustWalletCore/TWCoinType.h>
 
-#include <cstring>
+//#include "../Coin.h"
 
-/// HRP for this coin type
-//enum TWHRP TWCoinTypeHRP(enum TWCoinType coin);
-TWHRP TWCoinTypeHRP(enum TWCoinType coin) {
-
-    TWHRP hrp = TWHRP::TWHRPUnknown;
-
-    switch (coin) {
-    case TWCoinTypeAeternity:
-    case TWCoinTypeAion:
-        break;
-    case TWCoinTypeBinance:
-        hrp = TWHRP::TWHRPBinance;
-        break;
-    case TWCoinTypeBitcoin:
-        hrp = TWHRP::TWHRPBitcoin;
-        break;
-    case TWCoinTypeBitcoinCash:
-        hrp = TWHRP::TWHRPBitcoinCash;
-        break;
-    case TWCoinTypeBravoCoin:
-    case TWCoinTypeCallisto:
-    case TWCoinTypeCardano:
-        break;
-    case TWCoinTypeCosmos:
-        hrp = TWHRP::TWHRPCosmos;
-        break;
-    case TWCoinTypeDash:
-    case TWCoinTypeDecred:
-        break;
-    case TWCoinTypeDigiByte:
-        hrp = TWHRP::TWHRPDigiByte;
-        break;
-    case TWCoinTypeDogecoin:
-    case TWCoinTypeEOS:
-    case TWCoinTypeEthereum:
-    case TWCoinTypeEthereumClassic:
-    case TWCoinTypeFIO:
-    case TWCoinTypeGoChain:
-        break;
-    case TWCoinTypeGroestlcoin:
-        hrp = TWHRP::TWHRPGroestlcoin;
-        break;
-    case TWCoinTypeICON:
-    case TWCoinTypeIoTeX:
-    case TWCoinTypeKava:
-    case TWCoinTypeKin:
-        break;
-    case TWCoinTypeLitecoin:
-        hrp = TWHRP::TWHRPLitecoin;
-        break;
-    case TWCoinTypeMonacoin:
-    case TWCoinTypeNebulas:
-    case TWCoinTypeNULS:
-    case TWCoinTypeNano:
-    case TWCoinTypeNEAR:
-    case TWCoinTypeNimiq:
-    case TWCoinTypeOntology:
-    case TWCoinTypePOANetwork:
-        break;
-    case TWCoinTypeQtum:
-        hrp = TWHRP::TWHRPQtum;
-        break;
-    case TWCoinTypeXRP:
-    case TWCoinTypeSolana:
-    case TWCoinTypeStellar:
-    case TWCoinTypeTON:
-    case TWCoinTypeTezos:
-    case TWCoinTypeTheta:
-    case TWCoinTypeThunderToken:
-    case TWCoinTypeTomoChain:
-    case TWCoinTypeTron:
-    case TWCoinTypeVeChain:
-        break;
-    case TWCoinTypeViacoin:
-        hrp = TWHRP::TWHRPViacoin;
-        break;
-    case TWCoinTypeWanchain:
-    case TWCoinTypeZcash:
-    case TWCoinTypeZcoin:
-        break;
-    case TWCoinTypeZilliqa:
-        hrp = TWHRP::TWHRPZilliqa;
-        break;
-    case TWCoinTypeZelcash:
-    case TWCoinTypeRavencoin:
-    case TWCoinTypeWaves:
-    case TWCoinTypeTerra:
-    case TWCoinTypeHarmony:
-    case TWCoinTypeAlgorand:
-    case TWCoinTypeKusama:
-    case TWCoinTypePolkadot:
-    default:
-        break;
-    }
-
-    return hrp;
-}
+//enum TWBlockchain TWCoinTypeBlockchain(enum TWCoinType coin) {
+//    return TW::blockchain(coin);
+//}
+//
+//enum TWPurpose TWCoinTypePurpose(enum TWCoinType coin) {
+//    return TW::purpose(coin);
+//}
+//
+//enum TWCurve TWCoinTypeCurve(enum TWCoinType coin) {
+//    return TW::curve(coin);
+//}
+//
+//enum TWHDVersion TWCoinTypeXpubVersion(enum TWCoinType coin) {
+//    return TW::xpubVersion(coin);
+//}
+//
+//enum TWHDVersion TWCoinTypeXprvVersion(enum TWCoinType coin) {
+//    return TW::xprvVersion(coin);
+//}
+//
+//bool TWCoinTypeValidate(enum TWCoinType coin, TWString *_Nonnull address) {
+//    return TW::validateAddress(coin, *reinterpret_cast<const std::string*>(address));
+//}
+//
+//TWString *_Nonnull TWCoinTypeDerivationPath(enum TWCoinType coin) {
+//    const auto path = TW::derivationPath(coin);
+//    const auto string = path.string();
+//    return TWStringCreateWithUTF8Bytes(string.c_str());
+//}
+//
+//TWString *_Nonnull TWCoinTypeDeriveAddress(enum TWCoinType coin, struct TWPrivateKey *_Nonnull privateKey) {
+//    const auto string = TW::deriveAddress(coin, privateKey->impl);
+//    return TWStringCreateWithUTF8Bytes(string.c_str());
+//}
+//
+//TWString *_Nonnull TWCoinTypeDeriveAddressFromPublicKey(enum TWCoinType coin, struct TWPublicKey *_Nonnull publicKey) {
+//    const auto string = TW::deriveAddress(coin, publicKey->impl);
+//    return TWStringCreateWithUTF8Bytes(string.c_str());
+//}
 
 /// P2PKH prefix for this coin type
 uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
@@ -112,15 +54,17 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     uint8_t prefix = 0x00;
 
     switch (coin) {
-    case TWCoinTypeAeternity:
-    case TWCoinTypeAion:
-    case TWCoinTypeBinance:
-        break;
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
         prefix = 0x00;
         break;
+    case TWCoinTypeLitecoin:
+        prefix = 0x30;
+        break;
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
     case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
@@ -139,9 +83,6 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeIoTeX:
     case TWCoinTypeKava:
     case TWCoinTypeKin:
-    case TWCoinTypeLitecoin:
-        prefix = 0x30;
-        break;
     case TWCoinTypeMonacoin:
     case TWCoinTypeNebulas:
     case TWCoinTypeNULS:
@@ -187,16 +128,17 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     uint8_t prefix = 0x00;
 
     switch (coin) {
-    case TWCoinTypeAeternity:
-    case TWCoinTypeAion:
-    case TWCoinTypeBinance:
-        break;
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
-    case TWCoinTypeLitecoin:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
         prefix = 0x05;
         break;
+    case TWCoinTypeLitecoin:
+        prefix = 0x32;
+        break;
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
     case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
@@ -252,9 +194,4 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     }
 
     return prefix;
-}
-
-/// Static prefix for this coin type
-uint8_t TWCoinTypeStaticPrefix(enum TWCoinType coin) {
-    return 0;
 }
