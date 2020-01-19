@@ -8,6 +8,7 @@
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
 #include "JUB_SDK_test_btc.hpp"
+#include "JUB_SDK_test_qtum.hpp"
 #include "JUB_SDK_test_eth.hpp"
 #include "JUB_SDK_test_eos.hpp"
 #include "JUB_SDK_test_xrp.hpp"
@@ -86,21 +87,23 @@ void main_test() {
     auto deviceID = deviceIDs[0];
 
     while (true) {
-        cout << "--------------------------------------" << endl;
-        cout << "|******* Jubiter Wallet Test ********|" << endl;
-        cout << "|  1. get_device_info_test           |" << endl;
-        cout << "|  2. send_one_apdu_test.            |" << endl;
-        cout << "|  3. BTC_test.                      |" << endl;
-        cout << "|  4. BTC_segwit_test.               |" << endl;
-        cout << "|  5. BCH_test.                      |" << endl;
-        cout << "|  6. LTC_test.                      |" << endl;
-        cout << "|  7. USDT_test.                     |" << endl;
-        cout << "| 60. ETH_test & ETC_test.           |" << endl;
-        cout << "|144. XRP_test.                      |" << endl;
-        cout << "|194. EOS_test.                      |" << endl;
-        cout << "| 99. get_version.                   |" << endl;
-        cout << "|  0. exit.                          |" << endl;
-        cout << "--------------------------------------" << endl;
+        cout << "-------------------------------------------" << endl;
+        cout << "|********** Jubiter Wallet Test **********|" << endl;
+        cout << "|   1. get_device_info_test               |" << endl;
+        cout << "|   2. LTC_test.                          |" << endl;
+        cout << "|  31. BTC_test.                          |" << endl;
+        cout << "|  32. BTC_segwit_test.                   |" << endl;
+        cout << "|  39. BTC_USDT_test.                     |" << endl;
+        cout << "|  60. ETH_test & ETC_test.               |" << endl;
+        cout << "| 144. XRP_test.                          |" << endl;
+        cout << "| 145. BCH_test.                          |" << endl;
+        cout << "| 194. EOS_test.                          |" << endl;
+        cout << "|  88.QTUM_QRC20_test.                    |" << endl;
+        cout << "|2301.QTUM_test.                          |" << endl;
+        cout << "|  98. send_apdu_test.                    |" << endl;
+        cout << "|  99. get_version.                       |" << endl;
+        cout << "|   0. exit.                              |" << endl;
+        cout << "-------------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
         rv = JUB_DisconnetDeviceHid(deviceID);
@@ -116,21 +119,15 @@ void main_test() {
             get_device_info_test();
             break;
         case 2:
-            send_apdu_test();
-            break;
-        case 3:
-            BTC_test("json/testBTC44.json", COINBTC);
-            break;
-        case 4:
-            BTC_test("json/testBTC49.json", COINBTC);
-            break;
-        case 5:
-            BTC_test("json/testBCH.json", COINBCH);
-            break;
-        case 6:
             BTC_test("json/testLTC.json", COINLTC);
             break;
-        case 7:
+        case 31:
+            BTC_test("json/testBTC44.json", COINBTC);
+            break;
+        case 32:
+            BTC_test("json/testBTC49.json", COINBTC);
+            break;
+        case 39:
             USDT_test("json/testUSDT.json");
             break;
         case 60:
@@ -139,8 +136,20 @@ void main_test() {
         case 144:
             XRP_test("json/testXRP.json");
             break;
+        case 145:
+            BTC_test("json/testBCH.json", COINBCH);
+            break;
         case 194:
             EOS_test("json/testEOS.json");
+            break;
+        case 88:
+            QTUM_test(deviceID, "json/testQTUM_qrc20.json");
+            break;
+        case 2301:
+            BTC_test("json/testQTUM.json", COINQTUM);
+            break;
+        case 98:
+            send_apdu_test();
             break;
         case 99:
             getVersion();

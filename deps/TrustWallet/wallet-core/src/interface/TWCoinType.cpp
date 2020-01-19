@@ -62,6 +62,9 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeLitecoin:
         prefix = 0x30;
         break;
+    case TWCoinTypeQtum:
+        prefix = 0x3a;
+        break;
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
@@ -91,7 +94,6 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeNimiq:
     case TWCoinTypeOntology:
     case TWCoinTypePOANetwork:
-    case TWCoinTypeQtum:
     case TWCoinTypeXRP:
     case TWCoinTypeSolana:
     case TWCoinTypeStellar:
@@ -134,6 +136,7 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
         prefix = 0x05;
         break;
     case TWCoinTypeLitecoin:
+    case TWCoinTypeQtum:
         prefix = 0x32;
         break;
     case TWCoinTypeAeternity:
@@ -165,7 +168,6 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     case TWCoinTypeNimiq:
     case TWCoinTypeOntology:
     case TWCoinTypePOANetwork:
-    case TWCoinTypeQtum:
     case TWCoinTypeXRP:
     case TWCoinTypeSolana:
     case TWCoinTypeStellar:
