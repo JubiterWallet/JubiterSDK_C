@@ -110,7 +110,7 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
 
     jub::context::XRPContext* context = new jub::context::XRPContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
-    context->ActiveSelf();
+	JUB_VERIFY_RV(context->ActiveSelf());
 
     return JUBR_OK;
 }
@@ -128,9 +128,7 @@ JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
-    JUB_CHECK_CONTEXT_XRP(contextID);
-
-    auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
     JUB_CHECK_NULL(context);
 
     std::string str_address;
@@ -151,9 +149,7 @@ JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
                            IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
-    JUB_CHECK_CONTEXT_XRP(contextID);
-
-	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_address;
@@ -176,9 +172,7 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
-    JUB_CHECK_CONTEXT_XRP(contextID);
-
-	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_pubkey;
@@ -199,9 +193,7 @@ JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
-    JUB_CHECK_CONTEXT_XRP(contextID);
-
-	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_xpub;
@@ -224,9 +216,8 @@ JUB_RV JUB_SignTransactionXRP(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,
                               IN JUB_TX_XRP tx,
                               OUT JUB_CHAR_PTR_PTR raw) {
-    JUB_CHECK_CONTEXT_XRP(contextID);
 
-	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_raw;

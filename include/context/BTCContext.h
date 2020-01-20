@@ -14,28 +14,6 @@
 #include "token/interface/BTCTokenInterface.hpp"
 #include "utility/util.h"
 
-
-#define JUB_CHECK_CONTEXT_BTC(x)                                            \
-do {                                                                        \
-    auto context = jub::context::ContextManager::GetInstance()->GetOne(x);  \
-    JUB_CHECK_NULL(context);                                                \
-    const std::type_info& tCtx = typeid(*context);                          \
-    const std::type_info& tCtxBTC = typeid(jub::context::BTCContext);       \
-    const std::type_info& tCtxBCH = typeid(jub::context::BCHContext);       \
-    const std::type_info& tCtxLTC = typeid(jub::context::LTCContext);       \
-    const std::type_info& tCtxQTUM = typeid(jub::context::QTUMContext);     \
-    const std::type_info& tCtxDASH = typeid(jub::context::DASHContext);     \
-    if (!(   tCtx.hash_code() == tCtxBTC.hash_code()                        \
-          || tCtx.hash_code() == tCtxBCH.hash_code()                        \
-          || tCtx.hash_code() == tCtxLTC.hash_code()                        \
-          || tCtx.hash_code() == tCtxQTUM.hash_code()                       \
-          || tCtx.hash_code() == tCtxDASH.hash_code()                       \
-        )) {                                                                \
-        return JUBR_ARGUMENTS_BAD;                                          \
-    }                                                                       \
-} while(0)
-
-
 namespace jub {
 namespace context {
 

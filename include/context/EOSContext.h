@@ -22,17 +22,6 @@
 #include "EOS/Prefixes.h"
 #include <token/interface/EOSTokenInterface.hpp>
 
-#define JUB_CHECK_CONTEXT_EOS(x)                                            \
-do {                                                                        \
-    auto context = jub::context::ContextManager::GetInstance()->GetOne(x);  \
-    JUB_CHECK_NULL(context);                                                \
-    const std::type_info& tCtx = typeid(*context);                          \
-    const std::type_info& tCtxEOS = typeid(jub::context::EOSContext);       \
-    if (tCtx.hash_code() != tCtxEOS.hash_code()) {                          \
-        return JUBR_ARGUMENTS_BAD;                                          \
-    }                                                                       \
-} while(0)
-
 
 namespace jub {
 namespace context {
