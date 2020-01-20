@@ -22,18 +22,6 @@
 #include <token/interface/XRPTokenInterface.hpp>
 
 
-#define JUB_CHECK_CONTEXT_XRP(x)                                            \
-do {                                                                        \
-    auto context = jub::context::ContextManager::GetInstance()->GetOne(x);  \
-    JUB_CHECK_NULL(context);                                                \
-    const std::type_info& tCtx = typeid(*context);                          \
-    const std::type_info& tCtxXRP = typeid(jub::context::XRPContext);       \
-    if (tCtx.hash_code() != tCtxXRP.hash_code()) {                          \
-        return JUBR_ARGUMENTS_BAD;                                          \
-    }                                                                       \
-} while(0)
-
-
 namespace jub {
 namespace context {
 

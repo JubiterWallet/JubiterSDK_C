@@ -97,9 +97,7 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
-    JUB_CHECK_CONTEXT_EOS(contextID);
-
-	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_address;
@@ -121,9 +119,7 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
 //                           IN BIP48_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
-    JUB_CHECK_CONTEXT_EOS(contextID);
-
-	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_address;
@@ -148,9 +144,7 @@ JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
 //                        IN BIP48_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
-    JUB_CHECK_CONTEXT_EOS(contextID);
-
-	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_pubkey;
@@ -172,9 +166,7 @@ JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
-    JUB_CHECK_CONTEXT_EOS(contextID);
-
-	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_xpub;
@@ -206,9 +198,7 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
                               IN JUB_CHAR_CPTR actionsInJSON,
                               OUT JUB_CHAR_PTR_PTR rawInJSON) {
 
-    JUB_CHECK_CONTEXT_EOS(contextID);
-
-	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_raw;
@@ -238,9 +228,7 @@ JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
                           IN JUB_UINT16 actionCount,
                           OUT JUB_CHAR_PTR_PTR actionsInJSON) {
 
-    JUB_CHECK_CONTEXT_EOS(contextID);
-
-	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string str_actions;

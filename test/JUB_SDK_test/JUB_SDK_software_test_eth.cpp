@@ -90,10 +90,10 @@ void software_test_eth() {
 
     uint32_t nonce = 5;//.asDouble();
     uint32_t gasLimit = 21000;//.asDouble();
-    char* gasPriceInWei = "10000000000";
-    char* valueInWei = "500000000000000";
-    char* to = "0xef31DEc147DCDcd64F6a0ABFA7D441B62A216BC9";
-    char* data = "4A75626974657257616C6C6574";
+    const char* gasPriceInWei = "10000000000";
+    const char* valueInWei = "500000000000000";
+    const char* to = "0xef31DEc147DCDcd64F6a0ABFA7D441B62A216BC9";
+    const char* data = "4A75626974657257616C6C6574";
 
     char* raw = nullptr;
     rv = JUB_SignTransactionETH(contextID,
