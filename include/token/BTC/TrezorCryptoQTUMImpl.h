@@ -3,19 +3,23 @@
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 
 namespace jub {
-	namespace token {
+namespace token {
 
 
-		class TrezorCryptoQTUMImpl : public TrezorCryptoBTCImpl {
+class TrezorCryptoQTUMImpl :
+    public TrezorCryptoBTCImpl {
 
-		public:
-			TrezorCryptoQTUMImpl(const std::string& xprv) :
-				TrezorCryptoBTCImpl(xprv) {};
-			~TrezorCryptoQTUMImpl() {};
+public:
+    TrezorCryptoQTUMImpl(const std::string& xprv) :
+        TrezorCryptoBTCImpl(xprv) {
+            _coin = TWCoinType::TWCoinTypeBitcoin;
+        };
+    ~TrezorCryptoQTUMImpl() {};
 
-			static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoQTUMImpl>(xprv); }
+    static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoQTUMImpl>(xprv);
+    }
+}; // class TrezorCryptoQTUMImpl end
 
-		};
 
-	}
-}
+} // namespace token end
+} // namespace jub end

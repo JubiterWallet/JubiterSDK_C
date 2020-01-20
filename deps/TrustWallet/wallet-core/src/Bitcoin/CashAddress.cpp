@@ -4,6 +4,7 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
+#include "TrustWalletCore/TWCoinType.h"
 #include "TrustWalletCore/TWHRP.h"
 #include "CashAddress.h"
 //#include "../Coin.h"
@@ -111,11 +112,9 @@ Address CashAddress::legacyAddress() const {
     cash_data_to_addr(result.data(), &outlen, bytes.data(), CashAddress::size);
     assert(outlen == 21 && "Invalid length");
     if (result[0] == p2khVersion) {
-// JuBiter
-//        result[0] = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoinCash);
+        result[0] = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoinCash);
     } else if (result[0] == p2shVersion) {
-// JuBiter
-//        result[0] = TWCoinTypeP2shPrefix(TWCoinTypeBitcoinCash);
+        result[0] = TWCoinTypeP2shPrefix(TWCoinTypeBitcoinCash);
     }
     return Address(result);
 }
