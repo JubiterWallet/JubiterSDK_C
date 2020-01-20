@@ -1,5 +1,5 @@
 //
-//  JUB_SDK_test_btc.cpp
+//  JUB_SDK_test_qtum.cpp
 //  JubSDKTest
 //
 //  Created by panmin on 2020/1/19.
