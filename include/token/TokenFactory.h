@@ -6,8 +6,21 @@
 #include <utility/Singleton.h>
 
 #include <token/interface/BTCTokenInterface.hpp>
+
 #include <token/BTC/JubiterBladeBTCImpl.h>
+#include <token/BTC/JubiterBladeBCHImpl.h>
+#include <token/BTC/JubiterBladeDashImpl.h>
+#include <token/BTC/JubiterBladeLTCImpl.h>
+#include <token/BTC/JubiterBladeQTUMImpl.h>
+
+
 #include <token/BTC/TrezorCryptoBTCImpl.h>
+#include <token/BTC/TrezorCryptoBCHImpl.h>
+#include <token/BTC/TrezorCryptoDashImpl.h>
+#include <token/BTC/TrezorCryptoLTCImpl.h>
+#include <token/BTC/TrezorCryptoQTUMImpl.h>
+
+
 
 #include <string>
 #include <memory>
@@ -25,12 +38,10 @@ namespace jub {
 			xTrezorCryptoBTCFactory() {
 
 				Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &TrezorCryptoBTCImpl::Create);
-
-				//if we have tokens each coin, modify this.
-				Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &TrezorCryptoBTCImpl::Create);
-				Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &TrezorCryptoBTCImpl::Create);
-				Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &TrezorCryptoBTCImpl::Create);
-				Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &TrezorCryptoBTCImpl::Create);
+				Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &TrezorCryptoBCHImpl::Create);
+				Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &TrezorCryptoLTCImpl::Create);
+				Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &TrezorCryptoDashImpl::Create);
+				Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &TrezorCryptoQTUMImpl::Create);
 
 			};
 		};
@@ -39,12 +50,10 @@ namespace jub {
 		public:
 			xJubiterBladeBTCFactory() {
 				Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &JubiterBladeBTCImpl::Create);
-
-				//if we have tokens each coin, modify this.
-				Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &JubiterBladeBTCImpl::Create);
-				Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &JubiterBladeBTCImpl::Create);
-				Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterBladeBTCImpl::Create);
-				Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterBladeBTCImpl::Create);
+				Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &JubiterBladeBCHImpl::Create);
+				Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &JubiterBladeLTCImpl::Create);
+				Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterBladeDashImpl::Create);
+				Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterBladeQTUMImpl::Create);
 			};
 		};
 
