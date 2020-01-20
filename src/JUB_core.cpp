@@ -9,13 +9,15 @@
 #include <TrezorCrypto/bip39.h>
 #include <TrezorCrypto/bip32.h>
 #include <utility/util.h>
-#include <TrustWalletCore/TWHDVersion.h>
+#include <TrustWalletCore/TWCoinType.h>
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/ETH/TrezorCryptoETHImpl.h>
+#include <token/HC/TrezorCryptoHCImpl.h>
 #include <token/EOS/TrezorCryptoEOSImpl.h>
 #include <token/XRP/TrezorCryptoXRPImpl.h>
 #include <context/BTCContext.h>
 #include <context/ETHContext.h>
+#include <context/HCContext.h>
 #include <context/EOSContext.h>
 #include <context/XRPContext.h>
 
@@ -75,6 +77,15 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, 
 
 JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
                                   OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
+
+//    TWCoinType coin = TWCoinTypeBitcoin;
+//    TWCoinType coin = TWCoinTypeLitecoin;
+//    TWCoinType coin = TWCoinTypeQtum;
+
+    TWCoinType coin = TWCoinTypeHcash;
+    JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(coin);
+    JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(coin);
+
     JUB_CHECK_NULL(seed);
     std::string curve_name;
     JUB_VERIFY_RV(_curveToString(curve, curve_name));
@@ -85,11 +96,17 @@ JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
     }
 
     JUB_CHAR str_pri[200] = {0,};
-    if (0 == hdnode_serialize_private(&node, 0x00, TWHDVersion::TWHDVersionXPRV, str_pri, 200)) {
+    if (0 == hdnode_serialize_private(&node, 0x00, hdVersionPrv, str_pri, sizeof(str_pri) / sizeof(JUB_CHAR))) {
         return JUBR_ERROR;
     }
 
-    JUB_VERIFY_RV(_allocMem(prikeyInXprv,std::string(str_pri)));
+    JUB_CHAR str_pub[200] = {0,};
+    if (0 == hdnode_serialize_public(&node, 0x00, hdVersionPub, str_pub, sizeof(str_pub) / sizeof(JUB_CHAR))) {
+        return JUBR_ERROR;
+    }
+    std::cout << "xpub: " << std::string(str_pub) << std::endl;
+
+    JUB_VERIFY_RV(_allocMem(prikeyInXprv, std::string(str_pri)));
 
     return JUBR_OK;
 }
@@ -113,6 +130,17 @@ JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
 
 	auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
 	JUB_CHECK_NULL(context);
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+    return JUBR_OK;
+}
+
+JUB_RV JUB_CreateContextHC_soft(IN CONTEXT_CONFIG_HC cfg,
+                                IN JUB_CHAR_CPTR masterPriInXPRV,
+                                OUT JUB_UINT16* contextID) {
+
+    auto token = std::make_shared<jub::token::TrezorCryptoHCImpl>(std::string(masterPriInXPRV));
+    jub::context::HCContext* context = new jub::context::HCContext(cfg, token);
+    JUB_CHECK_NULL(context);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     return JUBR_OK;
 }

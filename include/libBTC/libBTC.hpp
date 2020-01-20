@@ -7,6 +7,7 @@
 #include "context/BTCContext.h"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
+#include "Bitcoin/Transaction.h"
 
 namespace jub {
 namespace btc {
