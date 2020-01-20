@@ -1,21 +1,24 @@
 #pragma once
 
-#include <token/BTC/JubiterBladeBTCImpl.h>
+#include "token/BTC/JubiterBladeBTCImpl.h"
 
 namespace jub {
-	namespace token {
+namespace token {
 
 
-		class JubiterBladeLTCImpl : public JubiterBladeBTCImpl {
+class JubiterBladeLTCImpl :
+    public JubiterBladeBTCImpl {
 
-		public:
-			JubiterBladeLTCImpl(JUB_UINT16 deviceID) :
-				JubiterBladeBTCImpl(deviceID) {};
-			~JubiterBladeLTCImpl() {};
+public:
+    JubiterBladeLTCImpl(JUB_UINT16 deviceID) :
+        JubiterBladeBTCImpl(deviceID) {};
+    ~JubiterBladeLTCImpl() {};
 
-			static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) { return std::make_shared<JubiterBladeLTCImpl>(deviceID); }
+    static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeLTCImpl>(deviceID);
+    }
+}; // class JubiterBladeLTCImpl end
 
-		};
 
-	}
-}
+} // namespace token end
+} // namespace jub end

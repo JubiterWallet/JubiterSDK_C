@@ -1,6 +1,7 @@
 #pragma once
 #include <token/TrezorCrypto/TrezorCryptoToken.h>
 #include <token/interface/BTCTokenInterface.hpp>
+#include <TrustWalletCore/TWCoinType.h>
 
 #include <memory>
 
@@ -14,7 +15,9 @@ virtual public BTCTokenInterface {
 
 public:
     TrezorCryptoBTCImpl(const std::string& xprv) :
-        TrezorCryptoToken(xprv){};
+        TrezorCryptoToken(xprv) {
+            _coin = TWCoinType::TWCoinTypeBitcoin;
+        };
     ~TrezorCryptoBTCImpl() {};
 
     //BTC functions
@@ -38,10 +41,11 @@ public:
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
 
-
 	//for Factory
 	static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBTCImpl>(xprv); }
 
+protected:
+    TWCoinType _coin;
 }; // class TrezorCryptoBTCImpl end
 
 

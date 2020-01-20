@@ -11,6 +11,7 @@
 #if SW
 #include "JUB_SDK_software_test_btc.hpp"
 #include "JUB_SDK_software_test_eth.hpp"
+#include "JUB_SDK_software_test_hcash.hpp"
 #include "JUB_SDK_software_test_eos.hpp"
 #include "JUB_SDK_software_test_xrp.hpp"
 #endif
@@ -55,6 +56,7 @@ int main() {
         cout << "|  2. software_test_btc.             |" << endl;
         cout << "| 60. software_test_eth.             |" << endl;
         cout << "|144. software_test_xrp.             |" << endl;
+        cout << "|171. software_test_hcash.           |" << endl;
         cout << "|194. software_test_eos.             |" << endl;
 #endif
         cout << "|  0. exit.                          |" << endl;
@@ -76,6 +78,9 @@ int main() {
                 break;
             case 144:
                 software_test_xrp();
+                break;
+            case 171:
+                software_test_hcash();
                 break;
             case 194:
                 software_test_eos();

@@ -8,7 +8,6 @@
 #include "TrezorCrypto/bip32.h"
 #include "Bitcoin/SegwitAddress.h"
 #include "Bitcoin/Script.h"
-#include "Bitcoin/Transaction.h"
 
 namespace jub {
 namespace btc {

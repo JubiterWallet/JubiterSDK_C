@@ -41,6 +41,7 @@ enum TWCoinType {
     TWCoinTypeFIO = 235,
     TWCoinTypeGoChain = 6060,
     TWCoinTypeGroestlcoin = 17,
+    TWCoinTypeHcash = 171,
     TWCoinTypeICON = 74,
     TWCoinTypeIoTeX = 304,
     TWCoinTypeKava = 459,
@@ -135,4 +136,18 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin);
 TW_EXPORT_PROPERTY
 uint8_t TWCoinTypeStaticPrefix(enum TWCoinType coin);
 
+// JuBiter-defined
+/// Static hd version public for this coin type
+TW_EXPORT_PROPERTY
+uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin);
+
+// JuBiter-defined
+/// Static hd version public for this coin type
+TW_EXPORT_PROPERTY
+uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin);
+
 TW_EXTERN_C_END
+
+// JuBiter-defined
+#include <vector>
+std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin);
