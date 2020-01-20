@@ -42,19 +42,19 @@ protected:
 class AutoContextManager :
     public xManager<BaseContext> {
 public:
-    BaseContext* GetOne(JUB_UINT16 ID) {
-
-        auto it = _mapList.find(ID);
-        if (it != _mapList.end()) {
-            if (_last != it->second) {
-                it->second->ActiveSelf();
-            }
-            _last = it->second;
-
-            return it->second;
-        }
-
-        return nullptr;
+	template<typename T>
+    T* GetOneSafe(JUB_UINT16 ID) {
+		BaseContext* pContext= GetOne(ID);
+		T* t = dynamic_cast<T*>(pContext); 
+		if (t != nullptr)
+		{
+			if (_last != pContext)
+			{
+				pContext->ActiveSelf();
+				_last = pContext;
+			}
+		}
+		return t;
     }
 }; // class AutoContextManager end
 

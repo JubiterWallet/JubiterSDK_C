@@ -26,13 +26,10 @@ JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,
 
 	auto token = std::make_shared<jub::token::JubiterBladeHCImpl>(deviceID);
 
-
     jub::context::HCContext* context = new jub::context::HCContext(cfg, token);
     JUB_CHECK_NULL(context);
 
-    JUB_UINT16 _contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
-    *contextID = _contextID;
-
+	*contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     JUB_VERIFY_RV(context->ActiveSelf());
 
     return JUBR_OK;
@@ -43,9 +40,7 @@ JUB_RV JUB_GetAddressHC(IN JUB_UINT16 contextID,
                         IN JUB_ENUM_BOOL bshow,
                         OUT JUB_CHAR_PTR_PTR address) {
 
-    JUB_CHECK_CONTEXT_HC(contextID);
-
-	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string strAddress;
@@ -59,9 +54,7 @@ JUB_RV JUB_GetHDNodeHC(IN JUB_UINT16 contextID,
                        IN BIP44_Path path,
                        OUT JUB_CHAR_PTR_PTR xpub) {
 
-    JUB_CHECK_CONTEXT_HC(contextID);
-
-	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string strXpub;
@@ -74,9 +67,7 @@ JUB_RV JUB_GetHDNodeHC(IN JUB_UINT16 contextID,
 JUB_RV JUB_GetMainHDNodeHC(IN JUB_UINT16 contextID,
                            OUT JUB_CHAR_PTR_PTR xpub) {
 
-    JUB_CHECK_CONTEXT_HC(contextID);
-
-	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     std::string strXpub;
@@ -92,9 +83,8 @@ JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
                              IN JUB_CHAR_CPTR unsignedTrans,
                              OUT JUB_CHAR_PTR_PTR raw) {
 
-    JUB_CHECK_CONTEXT_HC(contextID);
-    auto context = dynamic_cast<jub::context::HCContextBase*>(jub::context::ContextManager::GetInstance()->GetOne(contextID));
-    JUB_CHECK_NULL(context);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
+	JUB_CHECK_NULL(context);
     JUB_CHECK_NULL(unsignedTrans);
 
     std::vector<INPUT_HC> vInputs(inputs, inputs + iCount);

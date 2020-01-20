@@ -13,16 +13,6 @@
 #include "context/BaseContext.h"
 #include <token/interface/ETHTokenInterface.hpp>
 
-#define JUB_CHECK_CONTEXT_ETH(x)                                            \
-do {                                                                        \
-    auto context = jub::context::ContextManager::GetInstance()->GetOne(x);  \
-    JUB_CHECK_NULL(context);                                                \
-    const std::type_info& tCtx = typeid(*context);                          \
-    const std::type_info& tCtxETH = typeid(jub::context::ETHContext);       \
-    if (tCtx.hash_code() != tCtxETH.hash_code()) {                          \
-        return JUBR_ARGUMENTS_BAD;                                          \
-    }                                                                       \
-} while(0)
 
 namespace jub {
 namespace context {
