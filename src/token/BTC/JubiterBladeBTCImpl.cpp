@@ -2,6 +2,7 @@
 #include <utility/util.h>
 #include <token/ErrorHandler.h>
 #include "BinaryCoding.h"
+#include "TrustWalletCore/TWCoinType.h"
 
 namespace jub {
 namespace token {
@@ -19,7 +20,7 @@ JUB_RV JubiterBladeBTCImpl::SelectApplet() {
 }
 
 
-constexpr JUB_BYTE kMainnetP2PKH = 0x00;
+//constexpr JUB_BYTE kMainnetP2PKH = 0x00;
 //constexpr JUB_BYTE kMainnetP2SH = 0x01;
 //constexpr JUB_BYTE kMainnetP2WPKH = 0x02;
 //constexpr JUB_BYTE kMainnetP2WSH = 0x03;
@@ -77,7 +78,7 @@ JUB_RV JubiterBladeBTCImpl::GetAddress(const JUB_BYTE addrFmt,
     switch (type) {
     case p2pkh:
     {
-        sigType = kMainnetP2PKH;
+        sigType = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoin);
         break;
     } // case p2pkh end
     case p2sh_p2wpkh:
@@ -177,7 +178,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
     switch (type) {
     case p2pkh:
     {
-        sigType = kMainnetP2PKH;
+        sigType = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoin);
         break;
     } // case p2pkh end
     case p2sh_p2wpkh:

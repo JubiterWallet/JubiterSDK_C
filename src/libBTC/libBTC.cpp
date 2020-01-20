@@ -8,7 +8,6 @@
 #include "TrezorCrypto/bip32.h"
 #include "Bitcoin/SegwitAddress.h"
 #include "Bitcoin/Script.h"
-#include "Bitcoin/Transaction.h"
 
 namespace jub {
 namespace btc {
@@ -21,8 +20,32 @@ JUB_RV serializeUnsignedTx(const uint32_t coin,
                            const JUB_UINT32 lockTime,
                            uchar_vector& unsignedRaw) {
 
+    JUB_RV rv = JUBR_ERROR;
+
     bool witness = false;
-    TW::Bitcoin::Transaction tx(0x01, lockTime);
+    if (p2sh_p2wpkh == type) {
+        witness = true;
+    }
+
+    TW::Bitcoin::Transaction tx(lockTime);
+    rv = serializeUnsignedTx(coin,
+                             vInputs,
+                             vOutputs,
+                             tx);
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
+    tx.encode(witness, unsignedRaw);
+
+    return JUBR_OK;
+}
+
+
+JUB_RV serializeUnsignedTx(const uint32_t coin,
+                           const std::vector<INPUT_BTC>& vInputs,
+                           const std::vector<OUTPUT_BTC>& vOutputs,
+                           TW::Bitcoin::Transaction& tx) {
 
     // inputs
     for (const auto& input:vInputs) {
@@ -32,10 +55,6 @@ JUB_RV serializeUnsignedTx(const uint32_t coin,
         TW::Bitcoin::Script script;// null
         TW::Bitcoin::TransactionInput txInput(outpoint, script, input.nSequence);
         tx.inputs.push_back(txInput);
-
-        if (p2sh_p2wpkh == type) {
-            witness = true;
-        }
     }
 
     // outputs
@@ -70,8 +89,6 @@ JUB_RV serializeUnsignedTx(const uint32_t coin,
         TW::Bitcoin::TransactionOutput txOutput(TW::Bitcoin::Amount(amount), scriptPubkey);
         tx.outputs.push_back(txOutput);
     }
-
-    tx.encode(witness, unsignedRaw);
 
     return JUBR_OK;
 }

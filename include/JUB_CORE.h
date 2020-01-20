@@ -56,6 +56,11 @@ JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
                                  OUT JUB_UINT16* contextID);
 
 JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CreateContextHC_soft(IN CONTEXT_CONFIG_HC cfg,
+                                IN JUB_CHAR_CPTR masterPriInXPRV,
+                                OUT JUB_UINT16* contextID);
+
+JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID);

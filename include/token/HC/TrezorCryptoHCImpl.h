@@ -13,12 +13,15 @@ class TrezorCryptoHCImpl :
 
 public:
     TrezorCryptoHCImpl(const std::string& xprv) :
-        TrezorCryptoBTCImpl(xprv) {};
+        TrezorCryptoBTCImpl(xprv) {
+            _coin = TWCoinType::TWCoinTypeHcash;
+        };
 
     ~TrezorCryptoHCImpl() {};
 
     //HC functions
     virtual JUB_RV selectApplet();
+    JUB_RV GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address) override;
 }; // class TrezorCryptoHCImpl end
 
 
