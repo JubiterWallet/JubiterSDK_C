@@ -28,6 +28,12 @@ constexpr JUB_BYTE  p2shVersion_QTUM = 0x32;
 constexpr JUB_BYTE p2pkhVersion_QTUM = 0x3a;
 
 JUB_RV serializeUnsignedTx(const uint32_t coin,
+                           const std::vector<INPUT_BTC>& vInputs,
+                           const std::vector<OUTPUT_BTC>& vOutputs,
+                           TW::Bitcoin::Transaction& tx);
+
+
+JUB_RV serializeUnsignedTx(const uint32_t coin,
                            const JUB_ENUM_BTC_TRANS_TYPE& type,
                            const std::vector<INPUT_BTC>& vInputs,
                            const std::vector<OUTPUT_BTC>& vOutputs,

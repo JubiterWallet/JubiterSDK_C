@@ -1,4 +1,5 @@
 #include <token/BTC/TrezorCryptoBTCImpl.h>
+#include <TrustWalletCore/TWCoinType.h>
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
 #include <HDKey/HDKey.hpp>
@@ -55,7 +56,7 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), SECP256K1_NAME, hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
 
-    uchar_vector pk(hdkey.public_key, hdkey.public_key + 33);
+    uchar_vector pk(hdkey.public_key, hdkey.public_key + TW::PublicKey::secp256k1Size);
     TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
 
     uint8_t prefix = 0;
