@@ -5,6 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include <TrustWalletCore/TWCoinType.h>
+#include <TrustWalletCore/TWHDVersion.h>
 
 //#include "../Coin.h"
 
@@ -82,6 +83,7 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeFIO:
     case TWCoinTypeGoChain:
     case TWCoinTypeGroestlcoin:
+    case TWCoinTypeHcash:
     case TWCoinTypeICON:
     case TWCoinTypeIoTeX:
     case TWCoinTypeKava:
@@ -156,6 +158,7 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     case TWCoinTypeFIO:
     case TWCoinTypeGoChain:
     case TWCoinTypeGroestlcoin:
+    case TWCoinTypeHcash:
     case TWCoinTypeICON:
     case TWCoinTypeIoTeX:
     case TWCoinTypeKava:
@@ -196,4 +199,229 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     }
 
     return prefix;
+}
+
+
+// JuBiter-defined
+std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin) {
+    std::vector<uint8_t> prefix;
+
+    switch (coin) {
+    case TWCoinTypeHcash:
+        prefix = {0x09, 0x7f};  //MainNetID
+//        prefix = {0x0f, 0x21};  //TestNetID
+        break;
+    case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinCash:
+    case TWCoinTypeLitecoin:
+    case TWCoinTypeQtum:
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
+    case TWCoinTypeBravoCoin:
+    case TWCoinTypeCallisto:
+    case TWCoinTypeCardano:
+    case TWCoinTypeCosmos:
+    case TWCoinTypeDash:
+    case TWCoinTypeDecred:
+    case TWCoinTypeDigiByte:
+    case TWCoinTypeDogecoin:
+    case TWCoinTypeEOS:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeFIO:
+    case TWCoinTypeGoChain:
+    case TWCoinTypeGroestlcoin:
+    case TWCoinTypeICON:
+    case TWCoinTypeIoTeX:
+    case TWCoinTypeKava:
+    case TWCoinTypeKin:
+    case TWCoinTypeMonacoin:
+    case TWCoinTypeNebulas:
+    case TWCoinTypeNULS:
+    case TWCoinTypeNano:
+    case TWCoinTypeNEAR:
+    case TWCoinTypeNimiq:
+    case TWCoinTypeOntology:
+    case TWCoinTypePOANetwork:
+    case TWCoinTypeXRP:
+    case TWCoinTypeSolana:
+    case TWCoinTypeStellar:
+    case TWCoinTypeTON:
+    case TWCoinTypeTezos:
+    case TWCoinTypeTheta:
+    case TWCoinTypeThunderToken:
+    case TWCoinTypeTomoChain:
+    case TWCoinTypeTron:
+    case TWCoinTypeVeChain:
+    case TWCoinTypeViacoin:
+    case TWCoinTypeWanchain:
+    case TWCoinTypeZcash:
+    case TWCoinTypeZcoin:
+    case TWCoinTypeZilliqa:
+    case TWCoinTypeZelcash:
+    case TWCoinTypeRavencoin:
+    case TWCoinTypeWaves:
+    case TWCoinTypeTerra:
+    case TWCoinTypeHarmony:
+    case TWCoinTypeAlgorand:
+    case TWCoinTypeKusama:
+    case TWCoinTypePolkadot:
+    default:
+        break;
+    }
+
+    return prefix;
+}
+
+
+// JuBiter-defined
+uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin) {
+    uint32_t hdVersionPublic = TWHDVersionNone;
+
+    switch (coin) {
+    case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinCash:
+    case TWCoinTypeQtum:
+        hdVersionPublic = TWHDVersionXPUB;
+        break;
+    case TWCoinTypeLitecoin:
+        hdVersionPublic = TWHDVersionYPUB;
+        break;
+    case TWCoinTypeHcash:
+        hdVersionPublic = TWHDVersionDPUB;
+        break;
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
+    case TWCoinTypeBravoCoin:
+    case TWCoinTypeCallisto:
+    case TWCoinTypeCardano:
+    case TWCoinTypeCosmos:
+    case TWCoinTypeDash:
+    case TWCoinTypeDecred:
+    case TWCoinTypeDigiByte:
+    case TWCoinTypeDogecoin:
+    case TWCoinTypeEOS:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeFIO:
+    case TWCoinTypeGoChain:
+    case TWCoinTypeGroestlcoin:
+    case TWCoinTypeICON:
+    case TWCoinTypeIoTeX:
+    case TWCoinTypeKava:
+    case TWCoinTypeKin:
+    case TWCoinTypeMonacoin:
+    case TWCoinTypeNebulas:
+    case TWCoinTypeNULS:
+    case TWCoinTypeNano:
+    case TWCoinTypeNEAR:
+    case TWCoinTypeNimiq:
+    case TWCoinTypeOntology:
+    case TWCoinTypePOANetwork:
+    case TWCoinTypeXRP:
+    case TWCoinTypeSolana:
+    case TWCoinTypeStellar:
+    case TWCoinTypeTON:
+    case TWCoinTypeTezos:
+    case TWCoinTypeTheta:
+    case TWCoinTypeThunderToken:
+    case TWCoinTypeTomoChain:
+    case TWCoinTypeTron:
+    case TWCoinTypeVeChain:
+    case TWCoinTypeViacoin:
+    case TWCoinTypeWanchain:
+    case TWCoinTypeZcash:
+    case TWCoinTypeZcoin:
+    case TWCoinTypeZilliqa:
+    case TWCoinTypeZelcash:
+    case TWCoinTypeRavencoin:
+    case TWCoinTypeWaves:
+    case TWCoinTypeTerra:
+    case TWCoinTypeHarmony:
+    case TWCoinTypeAlgorand:
+    case TWCoinTypeKusama:
+    case TWCoinTypePolkadot:
+    default:
+        break;
+    }
+
+    return hdVersionPublic;
+}
+
+
+// JuBiter-defined
+uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin) {
+    uint32_t hdVersionPrivate = TWHDVersionNone;
+
+    switch (coin) {
+    case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinCash:
+    case TWCoinTypeQtum:
+        hdVersionPrivate = TWHDVersionXPRV;
+        break;
+    case TWCoinTypeLitecoin:
+        hdVersionPrivate = TWHDVersionYPRV;
+        break;
+    case TWCoinTypeHcash:
+        hdVersionPrivate = TWHDVersionDPRV;
+        break;
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
+    case TWCoinTypeBravoCoin:
+    case TWCoinTypeCallisto:
+    case TWCoinTypeCardano:
+    case TWCoinTypeCosmos:
+    case TWCoinTypeDash:
+    case TWCoinTypeDecred:
+    case TWCoinTypeDigiByte:
+    case TWCoinTypeDogecoin:
+    case TWCoinTypeEOS:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeFIO:
+    case TWCoinTypeGoChain:
+    case TWCoinTypeGroestlcoin:
+    case TWCoinTypeICON:
+    case TWCoinTypeIoTeX:
+    case TWCoinTypeKava:
+    case TWCoinTypeKin:
+    case TWCoinTypeMonacoin:
+    case TWCoinTypeNebulas:
+    case TWCoinTypeNULS:
+    case TWCoinTypeNano:
+    case TWCoinTypeNEAR:
+    case TWCoinTypeNimiq:
+    case TWCoinTypeOntology:
+    case TWCoinTypePOANetwork:
+    case TWCoinTypeXRP:
+    case TWCoinTypeSolana:
+    case TWCoinTypeStellar:
+    case TWCoinTypeTON:
+    case TWCoinTypeTezos:
+    case TWCoinTypeTheta:
+    case TWCoinTypeThunderToken:
+    case TWCoinTypeTomoChain:
+    case TWCoinTypeTron:
+    case TWCoinTypeVeChain:
+    case TWCoinTypeViacoin:
+    case TWCoinTypeWanchain:
+    case TWCoinTypeZcash:
+    case TWCoinTypeZcoin:
+    case TWCoinTypeZilliqa:
+    case TWCoinTypeZelcash:
+    case TWCoinTypeRavencoin:
+    case TWCoinTypeWaves:
+    case TWCoinTypeTerra:
+    case TWCoinTypeHarmony:
+    case TWCoinTypeAlgorand:
+    case TWCoinTypeKusama:
+    case TWCoinTypePolkadot:
+    default:
+        break;
+    }
+
+    return hdVersionPrivate;
 }

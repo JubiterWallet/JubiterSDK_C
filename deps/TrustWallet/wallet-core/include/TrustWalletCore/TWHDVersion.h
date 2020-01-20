@@ -30,7 +30,7 @@ enum TWHDVersion {
     TWHDVersionMTUB = 0x01b26ef6,
     TWHDVersionMTPV = 0x01b26792,
 
-    // Decred
+    // Decred, Hcash
     TWHDVersionDPUB = 0x2fda926,
     TWHDVersionDPRV = 0x2fda4e8,
 

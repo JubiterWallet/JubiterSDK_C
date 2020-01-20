@@ -8,6 +8,7 @@
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
 #include "JUB_SDK_test_btc.hpp"
+#include "JUB_SDK_test_hcash.hpp"
 #include "JUB_SDK_test_qtum.hpp"
 #include "JUB_SDK_test_eth.hpp"
 #include "JUB_SDK_test_eos.hpp"
@@ -97,6 +98,7 @@ void main_test() {
         cout << "|  60. ETH_test & ETC_test.               |" << endl;
         cout << "| 144. XRP_test.                          |" << endl;
         cout << "| 145. BCH_test.                          |" << endl;
+        cout << "| 171. Hcash_test.                        |" << endl;
         cout << "| 194. EOS_test.                          |" << endl;
         cout << "|  88.QTUM_QRC20_test.                    |" << endl;
         cout << "|2301.QTUM_test.                          |" << endl;
@@ -138,6 +140,9 @@ void main_test() {
             break;
         case 145:
             BTC_test("json/testBCH.json", COINBCH);
+            break;
+        case 171:
+            HC_test(deviceID, "json/testHCash.json");
             break;
         case 194:
             EOS_test("json/testEOS.json");
