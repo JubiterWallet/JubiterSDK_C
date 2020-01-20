@@ -19,6 +19,9 @@
 #include <context/EOSContext.h>
 #include <context/XRPContext.h>
 
+#include <context/ContextFactory.h>
+
+
 //where to place...
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -108,37 +111,8 @@ JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
 
-	auto token = std::make_shared<jub::token::TrezorCryptoBTCImpl>(std::string(masterPriInXPRV));
-    jub::context::BTCContext* context = NULL;
-    switch (cfg.transType) {
-        case p2pkh:
-        case p2sh_p2wpkh:
-        {
-            switch (cfg.coinType) {
-                case COINBTC:
-                case COINUSDT:
-                    context = new jub::context::BTCContext(cfg, token);
-                    break;
-                case COINBCH:
-                    context = new jub::context::BCHContext(cfg, token);
-                    break;
-                case COINLTC:
-                    context = new jub::context::LTCContext(cfg, token);
-                    break;
-                case COINQTUM:
-                    context = new jub::context::QTUMContext(cfg, token);
-                    break;
-                case COINDASH:
-                    context = new jub::context::DASHContext(cfg, token);
-                    break;
-            }
-            JUB_CHECK_NULL(context);
-
-            break;
-        }
-        default:
-            JUB_VERIFY_RV(JUBR_ARGUMENTS_BAD);
-    }
+	auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
+	JUB_CHECK_NULL(context);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     return JUBR_OK;
 }

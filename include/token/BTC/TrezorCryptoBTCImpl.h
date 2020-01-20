@@ -2,6 +2,8 @@
 #include <token/TrezorCrypto/TrezorCryptoToken.h>
 #include <token/interface/BTCTokenInterface.hpp>
 
+#include <memory>
+
 namespace jub {
 namespace token {
 
@@ -35,6 +37,11 @@ public:
     virtual JUB_RV SetQRC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
+
+
+	//for Factory
+	static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBTCImpl>(xprv); }
+
 }; // class TrezorCryptoBTCImpl end
 
 

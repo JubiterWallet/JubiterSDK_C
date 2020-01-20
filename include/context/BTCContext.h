@@ -79,6 +79,12 @@ public:
     virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]);
     virtual JUB_RV ActiveSelf() override;
 
+	//for Factory
+	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {
+		return new BTCContext(cfg, tokenPtr);
+	}
+
+
 protected:
     JUB_ENUM_COINTYPE_BTC    _coinType{ COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE _transType{ p2pkh };
@@ -100,6 +106,12 @@ public:
                              const std::vector<OUTPUT_BTC>& vOutputs,
                              const JUB_UINT32 lockTime,
                              uchar_vector& unsignedRaw) override;
+
+
+	//for Factory
+	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {
+		return new BCHContext(cfg, tokenPtr);
+	}
 }; // class BCHContext end
 
 
@@ -116,6 +128,12 @@ public:
                              const std::vector<OUTPUT_BTC>& vOutputs,
                              const JUB_UINT32 lockTime,
                              uchar_vector& unsignedRaw) override;
+
+
+	//for Factory
+	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {
+		return new LTCContext(cfg, tokenPtr);
+	}
 }; // class LTCContext end
 
 
@@ -132,6 +150,11 @@ public:
                              const std::vector<OUTPUT_BTC>& vOutputs,
                              const JUB_UINT32 lockTime,
                              uchar_vector& unsignedRaw) override;
+
+	//for Factory
+	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {
+		return new QTUMContext(cfg, tokenPtr);
+	}
 }; // class QTUMContext end
 
 
@@ -148,6 +171,11 @@ public:
                              const std::vector<OUTPUT_BTC>& vOutputs,
                              const JUB_UINT32 lockTime,
                              uchar_vector& unsignedRaw) override;
+
+	//for Factory
+	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {
+		return new DASHContext(cfg, tokenPtr);
+	}
 }; // class QTUMContext end
 
 
