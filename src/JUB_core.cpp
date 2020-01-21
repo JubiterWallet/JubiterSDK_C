@@ -78,11 +78,11 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, 
 JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
                                   OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
 
-//    TWCoinType coin = TWCoinTypeBitcoin;
+    TWCoinType coin = TWCoinTypeBitcoin;
 //    TWCoinType coin = TWCoinTypeLitecoin;
 //    TWCoinType coin = TWCoinTypeQtum;
 
-    TWCoinType coin = TWCoinTypeHcash;
+//    TWCoinType coin = TWCoinTypeHcash;
     JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(coin);
     JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(coin);
 
