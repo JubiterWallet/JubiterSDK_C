@@ -36,11 +36,14 @@ JUB_RV serializeUnsignedTx(const uint32_t coin,
         return rv;
     }
 
-    tx.encode(witness, unsignedRaw);
+    if (!witness) {
+        unsignedRaw = tx.getPreImage();
+    }
+    else {
+    }
 
     return JUBR_OK;
 }
-
 
 JUB_RV serializeUnsignedTx(const uint32_t coin,
                            const std::vector<INPUT_BTC>& vInputs,
