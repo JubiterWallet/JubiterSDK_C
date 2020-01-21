@@ -93,6 +93,19 @@ JUB_RV serializeUnsignedTx(const uint32_t coin,
 }
 
 
+JUB_RV serializeTx(const uint32_t coin,
+                   const JUB_ENUM_BTC_TRANS_TYPE& type,
+                   const std::vector<INPUT_BTC>& vInputs,
+                   const std::vector<OUTPUT_BTC>& vOutputs,
+                   const JUB_UINT32 lockTime,
+                   const std::vector<uchar_vector>& vSignatureRaw,
+                   uchar_vector& signedRaw) {
+
+    // JuBiter-not-finished
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub) {
 
     abcd::DataChunk vScriptPub;
