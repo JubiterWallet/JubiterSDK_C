@@ -46,6 +46,31 @@ bool TransactionInput::decode(const Data& data) {
 }
 
 // JuBiter-defined
+/// Decodes the provided buffer into the witness data.
+bool TransactionInput::decodeWitness(const Data& data) {
+    size_t index = 0;
+
+    size_t size = 0;
+    size_t witnessCnt = decodeVarInt(data, size);
+    index += size;
+
+    for (size_t i=0; i<witnessCnt; ++i) {
+        Data temp(std::begin(data)+index, std::end(data));
+
+        size_t subIndex = 0;
+        size_t witnessSize = decodeVarInt(temp, size);
+        subIndex += size;
+        Data witness;
+        std::copy(std::begin(temp)+subIndex, std::begin(temp)+subIndex+witnessSize, std::back_inserter(witness));
+        scriptWitness.push_back(witness);
+        subIndex += witnessSize;
+        index += subIndex;
+    }
+
+    return true;
+}
+
+// JuBiter-defined
 size_t TransactionInput::size() {
     return (previousOutput.size() + script.size() + sizeof(sequence)/sizeof(uint8_t));
 }
