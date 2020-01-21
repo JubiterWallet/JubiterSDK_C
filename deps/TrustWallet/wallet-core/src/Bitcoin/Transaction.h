@@ -63,6 +63,10 @@ struct Transaction {
     /// Encodes the transaction into the provided buffer.
     void encode(bool witness, std::vector<uint8_t>& data) const;
 
+    // JuBiter-defined
+    /// Decodes the provided buffer into the transaction.
+    bool decode(bool witness, const std::vector<uint8_t>& data);
+
     /// Generates the signature hash for this transaction.
     std::vector<uint8_t> getSignatureHash(const Script& scriptCode, size_t index, enum TWBitcoinSigHashType hashType,
                                           uint64_t amount, TWBitcoinSignatureVersion version) const;
