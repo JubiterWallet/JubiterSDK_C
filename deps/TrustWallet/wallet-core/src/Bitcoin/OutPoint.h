@@ -24,6 +24,10 @@ class OutPoint {
     /// The index of the specific output in the transaction.
     uint32_t index;
 
+    // JuBiter-defined
+    OutPoint() {}
+   ~OutPoint() {}
+
     /// Initializes an out-point reference with a hash and an index.
     template <typename T>
     OutPoint(const T& h, uint32_t index) {
@@ -40,6 +44,13 @@ class OutPoint {
 
     /// Encodes the out-point into the provided buffer.
     void encode(std::vector<uint8_t>& data) const;
+
+    // JuBiter-defined
+    /// Decodes the out-point into the provided buffer.
+    bool decode(const std::vector<uint8_t>& data);
+
+    // JuBiter-defined
+    size_t size();
 
     friend bool operator<(const OutPoint& a, const OutPoint& b) {
         int cmp = std::memcmp(a.hash.data(), b.hash.data(), 32);

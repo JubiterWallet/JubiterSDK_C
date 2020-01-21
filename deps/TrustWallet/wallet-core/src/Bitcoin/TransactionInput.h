@@ -32,6 +32,14 @@ class TransactionInput {
     /// Witness stack.
     std::vector<Data> scriptWitness;
 
+    // JuBiter-defined
+    TransactionInput() {}
+   ~TransactionInput() {
+        if (!scriptWitness.empty()) {
+            scriptWitness.clear();
+        }
+    }
+
     /// Initializes a transaction input with a previous output, a script and a
     /// sequence number.
     TransactionInput(OutPoint previousOutput, Script script, uint32_t sequence)
@@ -42,6 +50,13 @@ class TransactionInput {
 
     /// Encodes the witness data into the provided buffer.
     void encodeWitness(Data& data) const;
+
+    // JuBiter-defined
+    /// Decodes the provided buffer into the transactionInput.
+    bool decode(const Data& data);
+
+    // JuBiter-defined
+    size_t size();
 };
 
 } // namespace TW::Bitcoin

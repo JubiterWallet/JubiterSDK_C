@@ -124,6 +124,29 @@ inline std::size_t encodeVarInt(std::size_t size, std::vector<uint8_t>& data) {
     return 9;
 }
 
+// JuBiter-defined
+/// Decodes a variable-length integer  as a value.
+///
+/// @returns the number of bytes.
+inline std::size_t decodeVarInt(const std::vector<uint8_t>& data, std::size_t& size) {
+    uint8_t tag = data[0];
+
+    switch (tag) {
+        case 0xfd:
+            size = 3;
+            return decode16LE(&data[1]);
+        case 0xfe:
+            size = 5;
+            return decode32LE(&data[1]);
+        case 0xff:
+            size = 9;
+            return decode64LE(&data[1]);
+        default:
+            size = 1;
+            return tag;
+    }
+}
+
 /// Encodes a 16-bit big-endian value into the provided buffer.
 inline void encode16BE(uint16_t val, std::vector<uint8_t>& data) {
     data.push_back(static_cast<uint8_t>(val >> 8));
