@@ -41,7 +41,6 @@ JUB_RV serializeUnsignedTx(const uint32_t coin,
     return JUBR_OK;
 }
 
-
 JUB_RV serializeUnsignedTx(const uint32_t coin,
                            const std::vector<INPUT_BTC>& vInputs,
                            const std::vector<OUTPUT_BTC>& vOutputs,

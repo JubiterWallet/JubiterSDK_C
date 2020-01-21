@@ -24,3 +24,28 @@ void TransactionInput::encodeWitness(Data& data) const {
         std::copy(std::begin(item), std::end(item), std::back_inserter(data));
     }
 }
+
+// JuBiter-defined
+/// Decodes the provided buffer into the transactionInput.
+bool TransactionInput::decode(const Data& data) {
+    size_t index = 0;
+    if (!previousOutput.decode(data)) {
+        return false;
+    }
+    index += previousOutput.size();
+
+    Data temp(std::begin(data)+index, std::end(data));
+    if (!script.decode(temp)) {
+        return false;
+    }
+    index += script.size();
+
+    sequence = decode32LE(&data[index]);
+
+    return true;
+}
+
+// JuBiter-defined
+size_t TransactionInput::size() {
+    return (previousOutput.size() + script.size() + sizeof(sequence)/sizeof(uint8_t));
+}

@@ -263,6 +263,26 @@ void Script::encode(Data& data) const {
     std::copy(std::begin(bytes), std::end(bytes), std::back_inserter(data));
 }
 
+// JuBiter-defined
+/// Dncodes the script.
+bool Script::decode(const Data& data) {
+
+    size_t szScript = decodeVarInt(data, _varIntSize);
+    if (0 == szScript) {
+        return true;
+    }
+    std::copy(std::begin(data)+_varIntSize, std::begin(data)+_varIntSize+szScript, std::back_inserter(bytes));
+
+    return true;
+}
+
+// JuBiter-defined
+/// Return the size of the script,
+/// including the number of bytes that represent the number of script bytes(decodeVarInt())
+size_t Script::size() {
+    return (_varIntSize + bytes.size());
+}
+
 Script Script::buildForAddress(const std::string& string, enum TWCoinType coin) {
     if (Address::isValid(string)) {
         auto address = Address(string);

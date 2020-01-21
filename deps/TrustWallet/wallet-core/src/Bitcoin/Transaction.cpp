@@ -15,6 +15,7 @@
 
 using namespace TW::Bitcoin;
 
+
 std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t index,
                                               TWBitcoinSigHashType hashType, uint64_t amount) const {
     assert(index < inputs.size());
@@ -135,6 +136,72 @@ void Transaction::encode(bool witness, std::vector<uint8_t>& data) const {
     }
 
     encode32LE(lockTime, data);
+}
+
+// JuBiter-defined
+/// Decodes the provided buffer into the transaction.
+bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
+
+    bool bSuccess = true;
+
+//         [nVersion]              [nInputCount][txInputs][nOutputCount][txOutputs]         [nLockTime]
+    int index = 0;
+
+    // [nVersion]
+    version = decode32LE(&data[index]);
+    index += (sizeof(uint32_t)/sizeof(uint8_t));
+
+    // [nInputCount]
+    size_t indexInc = 0;
+    std::vector<uint8_t> tempInputCount(std::begin(data)+index, std::end(data));
+    size_t nInputCount = decodeVarInt(tempInputCount, indexInc);
+    index += indexInc;
+
+    // [txInputs]
+    for(size_t i=0; i<nInputCount; ++i) {
+        indexInc = 0;
+        std::vector<uint8_t> tempInput(std::begin(data)+index+indexInc, std::end(data));
+        TransactionInput input;
+        if (!input.decode(tempInput)) {
+            bSuccess = false;
+            break;
+        }
+        inputs.push_back(input);
+        indexInc += input.size();
+        index += indexInc;
+    }
+    if (!bSuccess) {
+        return bSuccess;
+    }
+
+    // [nOutputCount]
+    indexInc = 0;
+    std::vector<uint8_t> tempOutputCount(std::begin(data)+index, std::end(data));
+    size_t nOutputCount = decodeVarInt(tempOutputCount, indexInc);
+    index += indexInc;
+
+    // [txOutputs]
+    for(size_t i=0; i<nOutputCount; ++i) {
+        indexInc = 0;
+        // [preHash]
+        std::vector<uint8_t> tempOutput(std::begin(data)+index+indexInc, std::end(data));
+        TransactionOutput output;
+        if (!output.decode(tempOutput)) {
+            bSuccess = false;
+            break;
+        }
+        outputs.push_back(output);
+        indexInc += output.size();
+        index += indexInc;
+    }
+    if (!bSuccess) {
+        return bSuccess;
+    }
+
+    // [nLockTime]
+    lockTime = decode32LE(&data[index]);
+
+    return empty();
 }
 
 std::vector<uint8_t> Transaction::getSignatureHash(const Script& scriptCode, size_t index,
