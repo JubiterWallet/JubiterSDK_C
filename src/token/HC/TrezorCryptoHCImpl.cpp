@@ -36,7 +36,7 @@ JUB_RV TrezorCryptoHCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC
         prefix = TWCoinTypeP2pkhPrefixData(_coin);
         TW::Data bytes = twpk.hash(prefix, TW::Hash::blake256ripemd);
 
-        address = TW::Base58::bitcoin.encodeCheck(bytes);
+        address = TW::Base58::bitcoin.encodeCheck(bytes,TW::Hash::blake256d);
         break;
     }
     case p2sh_p2wpkh:
