@@ -30,6 +30,14 @@ struct TransactionOutput {
 
     /// Encodes the output into the provided buffer.
     void encode(std::vector<uint8_t>& data) const;
+    
+    // JuBiter-defined
+    /// Decodes the provided buffer into the output.
+    bool decode(const std::vector<uint8_t>& data);
+
+    // JuBiter-defined
+    ///
+    size_t size();
 };
 
 } // namespace TW::Bitcoin

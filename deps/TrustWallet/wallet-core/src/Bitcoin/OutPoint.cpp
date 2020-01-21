@@ -14,3 +14,16 @@ void OutPoint::encode(std::vector<uint8_t>& data) const {
     std::copy(std::begin(hash), std::end(hash), std::back_inserter(data));
     encode32LE(index, data);
 }
+
+// JuBiter-defined
+/// Decodes the out-point into the provided buffer.
+bool OutPoint::decode(const std::vector<uint8_t>& data) {
+    std::copy(std::begin(data), std::begin(data)+sizeof(hash), std::begin(hash));
+    index = decode32LE(&data[sizeof(hash)]);
+    return true;
+}
+
+// JuBiter-defined
+size_t OutPoint::size() {
+    return (sizeof(hash) + sizeof(index)/sizeof(uint8_t));
+}

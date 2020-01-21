@@ -54,6 +54,8 @@ struct Transaction {
     bool empty() const { return inputs.empty() && outputs.empty(); }
 
     /// Generates the signature pre-image.
+    // JuBiter-defined
+    std::vector<uint8_t> getPreImage(TWBitcoinSigHashType hashType=TWBitcoinSigHashType::TWBitcoinSigHashTypeAll) const;
     std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index, TWBitcoinSigHashType hashType,
                                      uint64_t amount) const;
     std::vector<uint8_t> getPrevoutHash() const;
@@ -62,6 +64,10 @@ struct Transaction {
 
     /// Encodes the transaction into the provided buffer.
     void encode(bool witness, std::vector<uint8_t>& data) const;
+
+    // JuBiter-defined
+    /// Decodes the provided buffer into the transaction.
+    bool decode(bool witness, const std::vector<uint8_t>& data);
 
     /// Generates the signature hash for this transaction.
     std::vector<uint8_t> getSignatureHash(const Script& scriptCode, size_t index, enum TWBitcoinSigHashType hashType,

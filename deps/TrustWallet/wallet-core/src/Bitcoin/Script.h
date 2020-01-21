@@ -92,6 +92,15 @@ class Script {
     /// Encodes the script.
     void encode(Data& data) const;
 
+    // JuBiter-defined
+    /// Dncodes the script.
+    bool decode(const Data& data);
+
+    // JuBiter-defined
+    /// Return the size of the script,
+    /// including the number of bytes that represent the number of script bytes(decodeVarInt())
+    size_t size();
+
     /// Encodes a small integer
     static uint8_t encodeNumber(int n) {
         assert(n >= 0 && n <= 16);
@@ -102,6 +111,9 @@ class Script {
     }
 
   private:
+    /// The number of bytes that represent the number of script bytes(decodeVarInt())
+    size_t _varIntSize = 0;
+    
     /// Extracts a single opcode at the given index including its operand.
     ///
     /// \param index [in/out] index where the operation starts, on return the
