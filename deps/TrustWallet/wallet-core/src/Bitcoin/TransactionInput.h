@@ -61,6 +61,9 @@ class TransactionInput {
 
     // JuBiter-defined
     size_t size();
+
+    // JuBiter-defined
+    size_t sizeWitness();
 };
 
 } // namespace TW::Bitcoin

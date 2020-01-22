@@ -223,35 +223,19 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
     if (witness) {
         for (size_t i=0; i<nInputCount; ++i) {
             indexInc = 0;
-            TransactionInput tempInput;
+
             std::vector<uint8_t> tempWitness(std::begin(data)+index+indexInc, std::end(data));
-            if (!tempInput.decodeWitness(tempWitness)) {
+            if (!inputs[i].decodeWitness(tempWitness)) {
                 bSuccess = false;
                 break;
             }
-            // Matching the input
-            for (const auto& script:tempInput.scriptWitness) {
-                if (PublicKey::secp256k1Size == script.size()) {
-                    PublicKey pubkey(script, TWPublicKeyType::TWPublicKeyTypeSECP256k1);
-                    Data prefix;
-                    Data hash = pubkey.hash(prefix, Hash::sha256ripemd);
 
-                    for (size_t j=0; i<nInputCount; ++j) {
-                        // JuBiter-not-finished
-                        if (true) {
-                            std::copy(std::begin(tempInput.scriptWitness), std::end(tempInput.scriptWitness), std::begin(inputs[j].scriptWitness));
-                            break;
-                        }
-                    }
-                }
-            }
+            indexInc += inputs[i].sizeWitness();
+            index += indexInc;
         }
         if (!bSuccess) {
             return bSuccess;
         }
-    }
-    if (!bSuccess) {
-        return bSuccess;
     }
 
     // [nLockTime]
