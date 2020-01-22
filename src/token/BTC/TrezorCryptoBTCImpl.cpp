@@ -9,6 +9,7 @@
 #include <Bitcoin/Script.h>
 #include <Base58Address.h>
 #include <TrustWalletCore/TWCoinType.h>
+#include <PrivateKey.h>
 #include "libBTC/libBTC.hpp"
 
 namespace jub {
@@ -124,6 +125,51 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
 
     JUB_RV rv = JUBR_IMPL_NOT_SUPPORT;
 
+    bool witness = false;
+    if (p2sh_p2wpkh == type) {
+        witness = true;
+    }
+
+    TW::Bitcoin::Transaction tx;
+    tx.decode(witness, vUnsigedTrans);
+
+    // JuBiter-not-finished
+    // Tx filling complete
+
+    JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(_coin);
+    JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
+
+    // JuBiter-not-finished
+    std::vector<uchar_vector> vSignatureRaw;
+    for (size_t i=0; i<tx.inputs.size(); ++i) {
+
+        HDNode hdkey;
+        JUB_UINT32 parentFingerprint;
+        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, vInputPath[i].c_str(), SECP256K1_NAME, hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
+
+        TW::Data prvKey(TW::PrivateKey::size);
+        prvKey.insert(prvKey.end(), &hdkey.private_key[0], &hdkey.private_key[0]+TW::PrivateKey::size);
+        TW::PrivateKey twpk(prvKey);
+
+        // JuBiter-not-finished
+        TWBitcoinSigHashType hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
+        // TWBitcoinSigHashType::TWBitcoinSigHashTypeAll|_forkID for BCH
+        TW::Data preImage = tx.getPreImage(tx.inputs[i].script, tx.inputs[i].previousOutput.index, hashType, uint16_t(vInputAmount[i]));
+
+        // JuBiter-not-finished
+        TW::Data digest;
+        TW::Data signature = twpk.signAsDER(digest, TWCurveSECP256k1);
+        vSignatureRaw.push_back(signature);
+    }
+
+    // JuBiter-not-finished
+//    serializeTx(TWCoinType::TWCoinTypeBitcoin,
+//                type,
+//                vInputs,
+//                vOutputs,
+//                lockTime,
+//                vSignatureRaw,
+//                vRaw);
     return rv;
 }
 
