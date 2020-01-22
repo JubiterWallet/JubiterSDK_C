@@ -157,11 +157,21 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
     bool bSuccess = true;
 
 //         [nVersion]              [nInputCount][txInputs][nOutputCount][txOutputs]         [nLockTime]
+// SegWit: [nVersion][marker][flag][nInputCount][txins]   [nOutputCount][txouts]   [witness][nLockTime]
     int index = 0;
 
     // [nVersion]
     version = decode32LE(&data[index]);
     index += (sizeof(uint32_t)/sizeof(uint8_t));
+
+    if (witness) {
+        // [marker]
+        marker = data[index];
+        index += (sizeof(marker)/sizeof(int8_t));
+        // [flag]
+        flag = data[index];
+        index += (sizeof(flag)/sizeof(int8_t));
+    }
 
     // [nInputCount]
     size_t indexInc = 0;
@@ -195,7 +205,6 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
     // [txOutputs]
     for(size_t i=0; i<nOutputCount; ++i) {
         indexInc = 0;
-        // [preHash]
         std::vector<uint8_t> tempOutput(std::begin(data)+index+indexInc, std::end(data));
         TransactionOutput output;
         if (!output.decode(tempOutput)) {
@@ -205,6 +214,41 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
         outputs.push_back(output);
         indexInc += output.size();
         index += indexInc;
+    }
+    if (!bSuccess) {
+        return bSuccess;
+    }
+
+    // [witness]
+    if (witness) {
+        for (size_t i=0; i<nInputCount; ++i) {
+            indexInc = 0;
+            TransactionInput tempInput;
+            std::vector<uint8_t> tempWitness(std::begin(data)+index+indexInc, std::end(data));
+            if (!tempInput.decodeWitness(tempWitness)) {
+                bSuccess = false;
+                break;
+            }
+            // Matching the input
+            for (const auto& script:tempInput.scriptWitness) {
+                if (PublicKey::secp256k1Size == script.size()) {
+                    PublicKey pubkey(script, TWPublicKeyType::TWPublicKeyTypeSECP256k1);
+                    Data prefix;
+                    Data hash = pubkey.hash(prefix, Hash::sha256ripemd);
+
+                    for (size_t j=0; i<nInputCount; ++j) {
+                        // JuBiter-not-finished
+                        if (true) {
+                            std::copy(std::begin(tempInput.scriptWitness), std::end(tempInput.scriptWitness), std::begin(inputs[j].scriptWitness));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (!bSuccess) {
+            return bSuccess;
+        }
     }
     if (!bSuccess) {
         return bSuccess;

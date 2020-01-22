@@ -56,6 +56,10 @@ class TransactionInput {
     bool decode(const Data& data);
 
     // JuBiter-defined
+    /// Decodes the provided buffer into the witness data
+    bool decodeWitness(const Data& data);
+
+    // JuBiter-defined
     size_t size();
 };
 
