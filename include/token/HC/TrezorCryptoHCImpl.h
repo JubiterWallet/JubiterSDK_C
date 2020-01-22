@@ -20,7 +20,7 @@ public:
     ~TrezorCryptoHCImpl() {};
 
     //HC functions
-    virtual JUB_RV selectApplet();
+    virtual JUB_RV selectApplet() override;
     JUB_RV GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address) override;
 }; // class TrezorCryptoHCImpl end
 
