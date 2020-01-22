@@ -249,6 +249,43 @@ Script Script::buildPayToWitnessScriptHash(const Data& scriptHash) {
 }
 
 // JuBiter-defined
+/// Builds a redeem script for pay-to-script-hash (P2SH).
+Script Script::buildRedeemScript(const uint8_t m, const uint8_t n, const std::vector<Data>& publicKeys) {
+    //[m] [pubkey1] [pubkey2] ... [pubkeyn] [n] [OP_CHECKMULTISIG]
+    Script script;
+    script.bytes.push_back(m);
+    for (const auto&publicKey:publicKeys) {
+        script.bytes.insert(script.bytes.end(), publicKey.begin(), publicKey.end());
+    }
+    script.bytes.push_back(n);
+    script.bytes.push_back(OP_CHECKMULTISIG);
+    return script;
+}
+
+// JuBiter-defined
+/// Builds a scriptSig for pay-to-public-key-hash (P2PKH) script.
+Script Script::buildPayToPublicKeyHashScriptSig(const Data& signature, const Data& publicKey) {
+    // 0x02 [signature] [publicKey]
+    Script script;
+    script.bytes.push_back(0x02);
+    script += Script(signature.begin(), signature.end());
+    script += Script(publicKey.begin(), publicKey.end());
+    return script;
+}
+
+// JuBiter-defined
+/// Builds a scriptSig for the redeem of pay-to-script-hash (P2SH) script.
+Script Script::buildPayToScriptHashWitness(const Data& redeemScript, const std::vector<Data>& signatures) {
+    // {[signature1] [signature2]} [witness script]
+    Script script;
+    for (const auto& signature:signatures) {
+        script.bytes.insert(script.bytes.end(), signature.begin(), signature.end());
+    }
+    script.bytes.insert(script.bytes.end(), redeemScript.begin(), redeemScript.end());
+    return script;
+}
+
+// JuBiter-defined
 /// Builds a return0 script from a script.
 Script Script::buildReturn0(const Data& data) {
     Script script;
