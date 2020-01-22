@@ -12,7 +12,9 @@ class JubiterBladeDashImpl :
 public:
     JubiterBladeDashImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {};
-    ~JubiterBladeDashImpl() {};
+    ~JubiterBladeDashImpl() {
+		_coin = TWCoinType::TWCoinTypeDash;
+	};
 
     static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBladeDashImpl>(deviceID);
