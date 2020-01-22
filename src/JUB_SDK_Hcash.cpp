@@ -26,7 +26,7 @@ JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,
 
 	auto token = std::make_shared<jub::token::JubiterBladeHCImpl>(deviceID);
 
-    jub::context::HCContext* context = new jub::context::HCContext(cfg, token);
+    jub::context::HCContext* context = new jub::context::HCContext(cfg, std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(token));
     JUB_CHECK_NULL(context);
 
 	*contextID = jub::context::ContextManager::GetInstance()->AddOne(context);

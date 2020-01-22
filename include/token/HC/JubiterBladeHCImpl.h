@@ -1,6 +1,6 @@
 #pragma once
 
-#include <token/interface/HCTokenInterface.hpp>
+#include <token/interface/BTCTokenInterface.hpp>
 #include <token/BTC/JubiterBladeBTCImpl.h>
 
 namespace jub {
@@ -9,7 +9,7 @@ namespace token {
 
 class JubiterBladeHCImpl :
     public JubiterBladeBTCImpl,
-    public HCTokenInterface {
+    virtual public BTCTokenInterface {
 
 public:
     JubiterBladeHCImpl(JUB_UINT16 deviceID) :
@@ -18,7 +18,7 @@ public:
     ~JubiterBladeHCImpl() {};
 
     //HC functions
-    virtual JUB_RV selectApplet();
+    virtual JUB_RV SelectApplet() override;
 }; // class JubiterBladeHCImpl end
 
 

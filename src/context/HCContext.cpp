@@ -1,7 +1,7 @@
 #include "JUB_SDK_Hcash.h"
 #include "context/HCContext.h"
 #include "utility/util.h"
-#include "token/interface/HCTokenInterface.hpp"
+#include "token/interface/BTCTokenInterface.hpp"
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include <TrezorCrypto/ecdsa.h>
 #include <TrezorCrypto/secp256k1.h>
@@ -12,7 +12,7 @@ namespace context {
 
 JUB_RV HCContext::ActiveSelf() {
 
-    JUB_VERIFY_RV(_tokenPtr->selectApplet());
+    JUB_VERIFY_RV(_tokenPtr->SelectApplet());
     BTCContext::SetTimeout(_timeout);
 
     return JUBR_OK;
