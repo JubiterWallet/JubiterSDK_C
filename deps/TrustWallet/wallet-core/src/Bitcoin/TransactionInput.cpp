@@ -74,3 +74,10 @@ bool TransactionInput::decodeWitness(const Data& data) {
 size_t TransactionInput::size() {
     return (previousOutput.size() + script.size() + sizeof(sequence)/sizeof(uint8_t));
 }
+
+// JuBiter-defined
+size_t TransactionInput::sizeWitness() {
+    Data script;
+    encodeWitness(script);
+    return script.size();
+}
