@@ -12,7 +12,9 @@ class JubiterBladeLTCImpl :
 public:
     JubiterBladeLTCImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {};
-    ~JubiterBladeLTCImpl() {};
+    ~JubiterBladeLTCImpl() {
+		_coin = TWCoinType::TWCoinTypeLitecoin;
+	};
 
     static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBladeLTCImpl>(deviceID);
