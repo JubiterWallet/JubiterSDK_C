@@ -35,10 +35,6 @@ public:
                               const std::string& path,
                               const JUB_UINT16 tag,
                               std::string& address) = 0;
-
-    virtual JUB_RV SetQRC20ETHToken(const std::string& tokenName,
-                                    const JUB_UINT16 unitDP,
-                                    const std::string& contractAddress) = 0;
 }; // class BTCTokenInterface end
 
 

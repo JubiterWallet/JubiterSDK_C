@@ -35,11 +35,6 @@ public:
                           const std::vector<JUB_BYTE>& vUnsigedTrans,
                           std::vector<JUB_BYTE>& vRaw);
 
-    //QTUM functions
-    virtual JUB_RV SetQRC20ETHToken(const std::string& tokenName,
-                                    const JUB_UINT16 unitDP,
-                                    const std::string& contractAddress);
-
 	//for Factory
 	static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBTCImpl>(xprv); }
 
