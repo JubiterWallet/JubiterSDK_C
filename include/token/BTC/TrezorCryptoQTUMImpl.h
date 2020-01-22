@@ -12,7 +12,7 @@ class TrezorCryptoQTUMImpl :
 public:
     TrezorCryptoQTUMImpl(const std::string& xprv) :
         TrezorCryptoBTCImpl(xprv) {
-            _coin = TWCoinType::TWCoinTypeBitcoin;
+            _coin = TWCoinType::TWCoinTypeQtum;
         };
     ~TrezorCryptoQTUMImpl() {};
 

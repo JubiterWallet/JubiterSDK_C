@@ -13,7 +13,7 @@ public:
     JubiterBladeQTUMImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {};
     ~JubiterBladeQTUMImpl() {
-		_coin = TWCoinType::TWCoinTypeBitcoin;
+		_coin = TWCoinType::TWCoinTypeQtum;
 	};
 
     static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {

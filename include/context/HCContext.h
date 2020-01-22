@@ -8,7 +8,7 @@
 #include <utility/Singleton.h>
 #include <utility/xManager.hpp>
 #include <context/BTCContext.h>
-#include <token/interface/HCTokenInterface.hpp>
+#include <token/interface/BTCTokenInterface.hpp>
 #include "../libHC/libHC.h"
 
 
@@ -36,8 +36,8 @@ class HCContext :
     public HCContextBase {
 
 public:
-    HCContext(CONTEXT_CONFIG_HC cfg, std::shared_ptr<token::HCTokenInterface> tokenPtr):
-    BTCContext(CONTEXT_CONFIG_BTC{ cfg.mainPath, COINBTC, p2pkh }, std::dynamic_pointer_cast<token::BTCTokenInterface>(tokenPtr)),
+    HCContext(CONTEXT_CONFIG_HC cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr):
+    BTCContext(CONTEXT_CONFIG_BTC{ cfg.mainPath, COINBTC, p2pkh },tokenPtr),
         _tokenPtr(tokenPtr) {
         _timeout = 120 * 2;
     };
@@ -51,7 +51,7 @@ public:
     virtual JUB_RV ActiveSelf() override;
 
 protected:
-    std::shared_ptr<token::HCTokenInterface> _tokenPtr;
+    std::shared_ptr<token::BTCTokenInterface> _tokenPtr;
 }; // class HCContext end
 
 
