@@ -82,6 +82,18 @@ class Script {
     static Script buildPayToWitnessScriptHash(const Data& scriptHash);
 
     // JuBiter-defined
+    /// Builds a redeem script for pay-to-script-hash (P2SH).
+    static Script buildRedeemScript(const uint8_t m, const uint8_t n, const std::vector<Data>& publicKeys);
+
+    // JuBiter-defined
+    /// Builds a scriptSig for pay-to-public-key-hash (P2PKH) script.
+    static Script buildPayToPublicKeyHashScriptSig(const Data& signature, const Data& publicKey);
+
+    // JuBiter-defined
+    /// Builds a scriptSig for the redeem of pay-to-script-hash (P2SH) script.
+    static Script buildPayToScriptHashWitness(const Data& redeemScript, const std::vector<Data>& signatures);
+
+    // JuBiter-defined
     /// Builds a return0 script from a script.
     static Script buildReturn0(const Data& data);
 
@@ -108,6 +120,20 @@ class Script {
             return OP_0;
         }
         return OP_1 + uint8_t(n - 1);
+    }
+
+    // JuBiter-defined
+    Script& operator+(const Script& rhs) {
+        Data rds;
+        rhs.encode(rds);
+
+        this->bytes.insert(this->bytes.end(), rds.begin(), rds.end());
+        return *this;
+    }
+
+    // JuBiter-defined
+    Script& operator+=(const Script& rhs) {
+        return (*this + rhs);
     }
 
   private:
