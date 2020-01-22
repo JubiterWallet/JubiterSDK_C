@@ -13,13 +13,6 @@
 namespace jub {
 namespace token {
 
-
-JUB_RV TrezorCryptoHCImpl::selectApplet() {
-
-    return JUBR_OK;
-}
-
-
 JUB_RV TrezorCryptoHCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
     HDNode hdkey;
