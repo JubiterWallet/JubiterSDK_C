@@ -21,6 +21,12 @@ struct Transaction {
     /// Transaction data format version (note, this is signed)
     int32_t version = 1;
 
+    // JuBiter-defined
+    int8_t marker = 0;
+
+    // JuBiter-defined
+    int8_t flag = 1;
+
     /// The block number or timestamp at which this transaction is unlocked
     ///
     ///     | Value          | Description
