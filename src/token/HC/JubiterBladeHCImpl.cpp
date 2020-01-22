@@ -13,6 +13,7 @@ constexpr JUB_BYTE PKIAID_HC[14] = {
 JUB_RV JubiterBladeHCImpl::SelectApplet() {
 
 	JUB_VERIFY_RV(_SelectApp(PKIAID_HC, 14));
+    return JUBR_OK;
 }
 
 
