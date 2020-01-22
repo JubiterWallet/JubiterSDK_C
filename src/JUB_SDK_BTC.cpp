@@ -297,7 +297,7 @@ JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
                              IN JUB_CHAR_CPTR to, IN JUB_CHAR_CPTR value,
                              OUT OUTPUT_BTC outputs[1]) {
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
+	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::QTUMContext>(contextID);
 	JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->SetQRC20Token(contractAddress,decimal,symbol));
