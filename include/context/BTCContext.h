@@ -53,8 +53,6 @@ public:
     virtual JUB_RV SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType);
 
     virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
-    virtual JUB_RV SetQRC20Token(IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_CPTR symbol);
-    virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]);
     virtual JUB_RV ActiveSelf() override;
 
 	//for Factory
@@ -128,6 +126,10 @@ public:
                              const std::vector<OUTPUT_BTC>& vOutputs,
                              const JUB_UINT32 lockTime,
                              uchar_vector& unsignedRaw) override;
+
+	virtual JUB_RV SetQRC20Token(IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_CPTR symbol);
+	virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]);
+
 
 	//for Factory
 	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {

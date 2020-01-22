@@ -1,13 +1,15 @@
 #pragma once
 
 #include <token/BTC/JubiterBladeBTCImpl.h>
+#include <token/interface/QTUMTokenInterface.hpp>
 
 namespace jub {
 namespace token {
 
 
 class JubiterBladeQTUMImpl :
-    public JubiterBladeBTCImpl {
+    public JubiterBladeBTCImpl,
+	virtual public QTUMTokenInterface {
 
 public:
     JubiterBladeQTUMImpl(JUB_UINT16 deviceID) :
@@ -15,6 +17,11 @@ public:
     ~JubiterBladeQTUMImpl() {
 		_coin = TWCoinType::TWCoinTypeQtum;
 	};
+
+	//QTUM functions
+	virtual JUB_RV SetQRC20ETHToken(const std::string& tokenName,
+		const JUB_UINT16 unitDP,
+		const std::string& contractAddress) override;
 
     static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBladeQTUMImpl>(deviceID);

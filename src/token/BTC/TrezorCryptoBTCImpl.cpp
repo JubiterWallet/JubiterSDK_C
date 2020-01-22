@@ -174,13 +174,5 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
 }
 
 
-JUB_RV TrezorCryptoBTCImpl::SetQRC20ETHToken(const std::string& tokenName,
-                                             const JUB_UINT16 unitDP,
-                                             const std::string& contractAddress) {
-
-    return JUBR_OK;
-}
-
-
 } // namespace token end
 } // namespace jub end

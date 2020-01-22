@@ -5,8 +5,6 @@
 
 namespace jub {
 namespace context {
-// 		template<typename T>
-// 		T* CheckImpl(std::shared_ptr<void> f) { auto token = std::dynamic_pointer_cast<T>(f); }
 
 
 JUB_RV BaseContext::ShowVirtualPwd() {
