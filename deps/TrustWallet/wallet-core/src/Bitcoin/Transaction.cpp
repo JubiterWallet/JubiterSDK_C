@@ -241,7 +241,7 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
     // [nLockTime]
     lockTime = decode32LE(&data[index]);
 
-    return empty();
+    return !empty();
 }
 
 std::vector<uint8_t> Transaction::getSignatureHash(const Script& scriptCode, size_t index,
