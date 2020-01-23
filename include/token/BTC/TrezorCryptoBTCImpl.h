@@ -1,6 +1,6 @@
 #pragma once
 #include <token/TrezorCrypto/TrezorCryptoToken.h>
-#include <token/BTC/BaseBTCImpl.h>
+#include <token/BTC/JubiterBaseBTCImpl.h>
 #include <TrustWalletCore/TWCoinType.h>
 
 #include <memory>
@@ -11,7 +11,7 @@ namespace token {
 
 class TrezorCryptoBTCImpl :
         public TrezorCryptoToken,
-virtual public BaseBTCImpl {
+virtual public JubiterBaseBTCImpl {
 
 public:
     TrezorCryptoBTCImpl(const std::string& xprv) :
