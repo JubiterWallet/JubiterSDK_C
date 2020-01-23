@@ -1,6 +1,6 @@
 #pragma once
 #include <token/JubiterBlade/JubiterBladeToken.h>
-#include <token/BTC/BaseBTCImpl.h>
+#include <token/BTC/JubiterBaseBTCImpl.h>
 
 #include <memory>
 
@@ -15,7 +15,7 @@ constexpr JUB_BYTE kPKIAID_BTC[16] = {
 
 class JubiterBladeBTCImpl :
         public JubiterBladeToken,
-virtual public BaseBTCImpl {
+virtual public JubiterBaseBTCImpl {
 
 public:
     JubiterBladeBTCImpl(JUB_UINT16 deviceID) :
