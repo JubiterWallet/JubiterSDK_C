@@ -18,19 +18,7 @@ namespace jub {
 namespace context {
 
 
-class BTCContextBase {
-public:
-    virtual JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                     const std::vector<INPUT_BTC>& vInputs,
-                                     const std::vector<OUTPUT_BTC>& vOutputs,
-                                     const JUB_UINT32 lockTime,
-                                     uchar_vector& unsignedRaw);
-}; // class BTCContextBase end
-
-
-class BTCContext :
-virtual public BTCContextBase,
-    public BaseContext {
+class BTCContext :public BaseContext {
 
 public:
     BTCContext(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr):
@@ -77,13 +65,6 @@ public:
     };
     ~BCHContext() {};
 
-    JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                             const std::vector<INPUT_BTC>& vInputs,
-                             const std::vector<OUTPUT_BTC>& vOutputs,
-                             const JUB_UINT32 lockTime,
-                             uchar_vector& unsignedRaw) override;
-
-
 	//for Factory
 	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {
 		return new BCHContext(cfg, tokenPtr);
@@ -99,13 +80,6 @@ public:
     };
     ~LTCContext() {};
 
-    JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                             const std::vector<INPUT_BTC>& vInputs,
-                             const std::vector<OUTPUT_BTC>& vOutputs,
-                             const JUB_UINT32 lockTime,
-                             uchar_vector& unsignedRaw) override;
-
-
 	//for Factory
 	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {
 		return new LTCContext(cfg, tokenPtr);
@@ -120,12 +94,6 @@ public:
         BTCContext(cfg, tokenPtr) {
     };
     ~QTUMContext() {};
-
-    JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                             const std::vector<INPUT_BTC>& vInputs,
-                             const std::vector<OUTPUT_BTC>& vOutputs,
-                             const JUB_UINT32 lockTime,
-                             uchar_vector& unsignedRaw) override;
 
 	virtual JUB_RV SetQRC20Token(IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_CPTR symbol);
 	virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]);
@@ -145,12 +113,6 @@ public:
         BTCContext(cfg, tokenPtr) {
     };
     ~DASHContext() {};
-
-    JUB_RV SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                             const std::vector<INPUT_BTC>& vInputs,
-                             const std::vector<OUTPUT_BTC>& vOutputs,
-                             const JUB_UINT32 lockTime,
-                             uchar_vector& unsignedRaw) override;
 
 	//for Factory
 	static  BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BTCTokenInterface> tokenPtr) {

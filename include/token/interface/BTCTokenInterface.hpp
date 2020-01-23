@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <token/interface/BaseToken.h>
+#include <mSIGNA/stdutils/uchar_vector.h>
 
 namespace jub {
 namespace token {
@@ -35,6 +36,13 @@ public:
                               const std::string& path,
                               const JUB_UINT16 tag,
                               std::string& address) = 0;
+
+
+	virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+		const std::vector<INPUT_BTC>& vInputs,
+		const std::vector<OUTPUT_BTC>& vOutputs,
+		const JUB_UINT32 lockTime,
+		uchar_vector& unsignedRaw) = 0;
 }; // class BTCTokenInterface end
 
 
