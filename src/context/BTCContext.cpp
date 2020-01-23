@@ -13,56 +13,6 @@ namespace jub {
 namespace context {
 
 
-JUB_RV BTCContextBase::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                         const std::vector<INPUT_BTC>& vInputs,
-                                         const std::vector<OUTPUT_BTC>& vOutputs,
-                                         const JUB_UINT32 lockTime,
-                                         uchar_vector& unsignedRaw) {
-
-    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeBitcoin, type, vInputs, vOutputs, lockTime, unsignedRaw);
-}
-
-
-JUB_RV BCHContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                     const std::vector<INPUT_BTC>& vInputs,
-                                     const std::vector<OUTPUT_BTC>& vOutputs,
-                                     const JUB_UINT32 lockTime,
-                                     uchar_vector& unsignedRaw) {
-
-    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeBitcoinCash, type, vInputs, vOutputs, lockTime, unsignedRaw);
-}
-
-
-JUB_RV LTCContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                     const std::vector<INPUT_BTC>& vInputs,
-                                     const std::vector<OUTPUT_BTC>& vOutputs,
-                                     const JUB_UINT32 lockTime,
-                                     uchar_vector& unsignedRaw) {
-
-    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeLitecoin, type, vInputs, vOutputs, lockTime, unsignedRaw);
-}
-
-
-JUB_RV QTUMContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                      const std::vector<INPUT_BTC>& vInputs,
-                                      const std::vector<OUTPUT_BTC>& vOutputs,
-                                      const JUB_UINT32 lockTime,
-                                      uchar_vector& unsignedRaw) {
-
-    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeQtum, type, vInputs, vOutputs, lockTime, unsignedRaw);
-}
-
-
-JUB_RV DASHContext::SerializePreimage(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                      const std::vector<INPUT_BTC>& vInputs,
-                                      const std::vector<OUTPUT_BTC>& vOutputs,
-                                      const JUB_UINT32 lockTime,
-                                      uchar_vector& unsignedRaw) {
-
-    return jub::btc::serializeUnsignedTx(TWCoinType::TWCoinTypeDash, type, vInputs, vOutputs, lockTime, unsignedRaw);
-}
-
-
 JUB_RV BTCContext::GetHDNode(const BIP44_Path& path, std::string& xpub) {
 
     std::string strPath = _FullBip44Path(path);
@@ -165,7 +115,7 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std:
 
     //build unsigned transaction
     uchar_vector unsignedTrans;
-    JUB_VERIFY_RV(SerializePreimage(_transType,
+    JUB_VERIFY_RV(_tokenPtr->SerializeUnsignedTx(_transType,
                                     vInputs,
                                     vOutputs,
                                     lockTime,
