@@ -162,6 +162,33 @@ bool Script::matchMultisig(std::vector<Data>& keys, int& required) const {
     return true;
 }
 
+// JuBiter-defined
+/// Matches the script to a scriptSig for a pay-to-public-key-hash (P2PKH).
+bool Script::matchPayToPublicKeyHashScriptSig(Data& signature, Data& publicKey) const {
+
+    // [signature] [publicKey]
+
+    size_t index = 0;
+    size_t size = 0;
+    Data tempSignature(bytes.begin()+index, bytes.end());
+    size_t signatureLen = decodeVarInt(tempSignature, size);
+    Script signScript(tempSignature.begin()+size, tempSignature.begin()+size+signatureLen);
+    index = signScript.size();
+
+    Data tempPublicKey(bytes.begin()+index, bytes.end());
+    size_t publicKeyLen = decodeVarInt(tempPublicKey, size);
+    Script pubkeyScript(tempPublicKey.begin()+size, tempPublicKey.begin()+size+publicKeyLen);
+    index += pubkeyScript.size();
+    if (bytes.end() != (bytes.begin()+index)) {
+        return false;
+    }
+
+    signature = signScript.bytes;
+    publicKey = pubkeyScript.bytes;
+
+    return true;
+}
+
 bool Script::getScriptOp(size_t& index, uint8_t& opcode, Data& operand) const {
     operand.clear();
 
@@ -317,6 +344,11 @@ bool Script::decode(const Data& data) {
 /// Return the size of the script,
 /// including the number of bytes that represent the number of script bytes(decodeVarInt())
 size_t Script::size() {
+    if (0 == _varIntSize) {
+        Data temp;
+        _varIntSize = encodeVarInt(bytes.size(), temp);
+    }
+
     return (_varIntSize + bytes.size());
 }
 

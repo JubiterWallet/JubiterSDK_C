@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "airbitz-core/abcd/util/Data.hpp"
 #include "TrezorCrypto/base58.h"
 #include "TrezorCrypto/bip32.h"
 #include "Bitcoin/SegwitAddress.h"
@@ -36,11 +35,7 @@ JUB_RV serializeUnsignedTx(const uint32_t coin,
         return rv;
     }
 
-    if (!witness) {
-        unsignedRaw = tx.getPreImage();
-    }
-    else {
-    }
+    tx.encode(witness, unsignedRaw);
 
     return JUBR_OK;
 }
@@ -112,7 +107,7 @@ JUB_RV serializeTx(const uint32_t coin,
 
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub) {
 
-    abcd::DataChunk vScriptPub;
+    TW::Data vScriptPub;
     bool rv = false;
     int scriptLen = (int)address.length();
     uint8_t *script = new uint8_t[scriptLen];

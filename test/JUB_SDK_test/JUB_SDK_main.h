@@ -23,5 +23,6 @@ using namespace std;
 
 std::string GetErrMsg(JUB_RV rv);
 void error_exit(const char* message);
+Json::Value readJSON(const char* json_file);
 
 #endif /* JUB_SDK_main_h */

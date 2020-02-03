@@ -460,7 +460,7 @@ JUB_RV JubiterBladeToken::EnumApplet(std::string& appletList) {
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     JUB_VERIFY_COS_ERROR(ret);
 
-    abcd::DataChunk tlvData(retData, retData + ulRetDataLen);
+    std::vector<uint8_t> tlvData(retData, retData + ulRetDataLen);
     auto appList = ParseTlv(tlvData);
 
     for (auto appID : appList) {
@@ -598,7 +598,7 @@ JUB_RV JubiterBladeToken::SendOneApdu(const std::string& apdu, std::string& resp
 
 JUB_RV JubiterBladeToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) {
 
-    abcd::DataChunk pinCoord;
+    std::vector<uint8_t> pinCoord;
     std::transform(pinMix.begin(),
                    pinMix.end(),
                    std::back_inserter(pinCoord),

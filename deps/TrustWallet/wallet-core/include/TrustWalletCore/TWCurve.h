@@ -18,4 +18,6 @@ enum TWCurve {
     TWCurveNIST256p1              /* "nist256p1" */,
 };
 
+char* TWCurve2name(enum TWCurve curve);
+
 TW_EXTERN_C_END

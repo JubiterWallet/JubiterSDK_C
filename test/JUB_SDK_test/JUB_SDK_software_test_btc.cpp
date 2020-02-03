@@ -7,11 +7,12 @@
 //
 
 #include "JUB_SDK_software_test_btc.hpp"
+#include "JUB_SDK_test_btc.hpp"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "JUB_SDK_main.h"
 
-void software_test_btc(CONTEXT_CONFIG_BTC cfg) {
+void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -66,10 +67,12 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
-    if(rv == JUBR_OK){
+    if(rv == JUBR_OK) {
         cout << address << endl;
         JUB_FreeMemory(address);
     }
+
+    rv = transaction_proc(contextID, root);
 }
 
 void software_test_btc() {
@@ -91,49 +94,56 @@ void software_test_btc() {
         int choice = 0;
         cin >> choice;
 
+        const char* json_file;
         CONTEXT_CONFIG_BTC cfg;
         switch (choice) {
             case 2:
             {
                 cfg.coinType = COINLTC;
-                cfg.mainPath = (JUB_CHAR_PTR)"m/49'/2'/0'";
                 cfg.transType = p2sh_p2wpkh;
+                json_file = "json/testLTC.json";
                 break;
             }
             case 31:
             {
                 cfg.coinType = COINBTC;
-                cfg.mainPath = (JUB_CHAR_PTR)"m/44'/0'/0'";
                 cfg.transType = p2pkh;
+                json_file = "json/testBTC44.json";
                 break;
             }
             case 32:
             {
                 cfg.coinType = COINBTC;
-                cfg.mainPath = (JUB_CHAR_PTR)"m/49'/0'/0'";
                 cfg.transType = p2sh_p2wpkh;
+                json_file = "json/testBTC49.json";
                 break;
             }
             case 39:
             {
                 cfg.coinType = COINUSDT;
-                cfg.mainPath = (JUB_CHAR_PTR)"m/44'/0'/0'";
                 cfg.transType = p2pkh;
+                json_file = "json/testBTC44.json";
                 break;
             }
             case 145:
             {
                 cfg.coinType = COINBCH;
-                cfg.mainPath = (JUB_CHAR_PTR)"m/44'/145'/0'";
                 cfg.transType = p2pkh;
+                json_file = "json/testBCH.json";
                 break;
             }
             case 88:
+            {
+                cfg.coinType = COINQTUM;
+                cfg.transType = p2pkh;
+                json_file = "json/testQTUM.json";
+                break;
+            }
             case 2301:
             {
                 cfg.coinType = COINQTUM;
-                cfg.mainPath = (JUB_CHAR_PTR)"m/44'/88'/0'";
                 cfg.transType = p2pkh;
+                json_file = "json/testQTUM_qrc20.json";
                 break;
             }
             case 0:
@@ -142,6 +152,10 @@ void software_test_btc() {
                 continue;
         }
 
-        software_test_btc(cfg);
+        Json::Value root = readJSON(json_file);
+
+        cfg.mainPath = (char*)root["main_path"].asCString();
+
+        software_test_btc(cfg, root);
     }
 }

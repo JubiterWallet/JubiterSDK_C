@@ -7,7 +7,6 @@
 #include <Bitcoin/SegwitAddress.h>
 #include <Bitcoin/Script.h>
 #include <Base58Address.h>
-#include <TrustWalletCore/TWCoinType.h>
 #include "libBTC/libBTC.hpp"
 
 namespace jub {
@@ -17,10 +16,10 @@ JUB_RV TrezorCryptoHCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), TWCurve2name(_curve), TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
-    uchar_vector pk(hdkey.public_key, hdkey.public_key + 33);
-    TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
+    uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
+    TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), _publicKeyType);
 
     TW::Data prefix;
     switch (type) {
