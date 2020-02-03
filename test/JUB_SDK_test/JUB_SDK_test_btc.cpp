@@ -30,16 +30,7 @@ void BTC_test(const char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
         return;
     }
 
-    Json::CharReaderBuilder builder;
-    Json::Value root;
-    ifstream in(json_file, ios::binary);
-    if (!in.is_open()) {
-        error_exit("Error opening json file\n");
-    }
-    JSONCPP_STRING errs;
-    if (!parseFromStream(builder, in, &root, &errs)) {
-        error_exit("Error parse json file\n");
-    }
+    Json::Value root = readJSON(json_file);
     JUB_UINT16 contextID = 0;
 
     try {
@@ -212,6 +203,8 @@ void set_my_address_test_BTC(JUB_UINT16 contextID) {
 
 void transaction_test(JUB_UINT16 contextID, Json::Value root) {
 
+    JUB_RV rv = JUBR_ERROR;
+
     JUB_ENUM_BTC_UNIT_TYPE unit = mBTC;
 
     cout << "Please input BTCunit on JubiterBLD" << endl;
@@ -242,10 +235,26 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
             break;
     }
 
-    JUB_RV rv = verify_pin(contextID);
+    rv = JUB_SetUnitBTC(contextID, unit);
+    if (JUBR_OK != rv) {
+        cout << "JUB_SetUnitBTC() return " << GetErrMsg(rv) << endl;
+        return;
+    }
+
+    rv = verify_pin(contextID);
     if (JUBR_OK != rv) {
         return;
     }
+
+    rv = transaction_proc(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
 
     try {
         std::vector<INPUT_BTC> inputs;
@@ -278,25 +287,19 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
             outputs.push_back(output);
         }
 
-        rv = JUB_SetUnitBTC(contextID, unit);
-        if (JUBR_OK != rv) {
-            cout << "JUB_SetUnitBTC() return " << GetErrMsg(rv) << endl;
-            return;
-        }
-
         char* raw = nullptr;
         rv = JUB_SignTransactionBTC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
         cout << "JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {
             cout << "User cancel the transaction !" << endl;
-            return;
+            return rv;
         }
         if (   JUBR_OK != rv
             || nullptr == raw
             ) {
             cout << "error sign tx" << endl;
-            return;
+            return rv;
         }
         if (raw) {
             cout << raw;
@@ -305,7 +308,10 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
     }
     catch (...) {
         error_exit("Error format json file\n");
+        return rv;
     }
+
+    return rv;
 }
 
 void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
@@ -397,16 +403,7 @@ void USDT_test(const char* json_file) {
         return;
     }
 
-    Json::CharReaderBuilder builder;
-    Json::Value root;
-    ifstream in(json_file, ios::binary);
-    if (!in.is_open()) {
-        error_exit("Error opening json file\n");
-    }
-    JSONCPP_STRING errs;
-    if (!parseFromStream(builder, in, &root, &errs)) {
-        error_exit("Error parse json file\n");
-    }
+    Json::Value root = readJSON(json_file);
     JUB_UINT16 contextID = 0;
 
     try {

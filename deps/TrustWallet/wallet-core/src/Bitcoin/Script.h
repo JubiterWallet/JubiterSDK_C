@@ -65,6 +65,10 @@ class Script {
     /// Matches the script to a multisig script.
     bool matchMultisig(std::vector<Data>& publicKeys, int& required) const;
 
+    // JuBiter-defined
+    /// Matches the script to a scriptSig for a pay-to-public-key-hash (P2PKH).
+    bool matchPayToPublicKeyHashScriptSig(Data& signature, Data& publicKey) const;
+
     /// Builds a pay-to-public-key-hash (P2PKH) script from a public key hash.
     static Script buildPayToPublicKeyHash(const Data& hash);
 
