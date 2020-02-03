@@ -7,6 +7,7 @@
 //
 
 #include "JUB_SDK_test.h"
+#include "JUB_SDK_main.h"
 #define SW 1
 #if SW
 #include "JUB_SDK_software_test_btc.hpp"
@@ -44,6 +45,21 @@ void error_exit(const char* message) {
     char str[9] = { 0, };
     cin >> str;
     exit(0);
+}
+
+Json::Value readJSON(const char* json_file) {
+    Json::CharReaderBuilder builder;
+    Json::Value root;
+    ifstream in(json_file, ios::binary);
+    if (!in.is_open()) {
+        error_exit("Error opening json file\n");
+    }
+    JSONCPP_STRING errs;
+    if (!parseFromStream(builder, in, &root, &errs)) {
+        error_exit("Error parse json file\n");
+    }
+
+    return root;
 }
 
 int main() {

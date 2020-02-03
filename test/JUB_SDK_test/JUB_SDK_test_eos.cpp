@@ -31,20 +31,11 @@ void EOS_test(const char* json_file) {
         return;
     }
 
-    Json::CharReaderBuilder builder;
-    Json::Value root;
-    ifstream in(json_file, ios::binary);
-    if (!in.is_open()) {
-        error_exit("Error opening json file\n");
-    }
-    JSONCPP_STRING errs;
-    if (!parseFromStream(builder, in, &root , &errs)) {
-        error_exit("Error parse json file\n");
-    }
+    Json::Value root = readJSON(json_file);
+    JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_EOS cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
-    JUB_UINT16 contextID = 0;
     rv = JUB_CreateContextEOS(cfg, deviceIDs[0], &contextID);
     if (JUBR_OK != rv) {
         cout << "JUB_CreateContextEOS() return " << GetErrMsg(rv) << endl;

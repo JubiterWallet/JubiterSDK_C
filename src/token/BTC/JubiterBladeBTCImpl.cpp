@@ -1,8 +1,14 @@
 #include <token/BTC/JubiterBladeBTCImpl.h>
 #include <utility/util.h>
 #include <token/ErrorHandler.h>
+#include <TrezorCrypto/bip32.h>
+#include <TrezorCrypto/curves.h>
 #include "BinaryCoding.h"
-#include "TrustWalletCore/TWCoinType.h"
+#include <Bitcoin/Address.h>
+#include <Bitcoin/SegwitAddress.h>
+#include <Bitcoin/Script.h>
+#include <PrivateKey.h>
+#include "libBTC/libBTC.hpp"
 
 namespace jub {
 namespace token {
@@ -174,6 +180,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
         p1 |= _RealAddressFormat(addrFmt);
     }
 
+    bool witness = false;
     JUB_BYTE sigType;
     switch (type) {
     case p2pkh:
@@ -183,6 +190,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
     } // case p2pkh end
     case p2sh_p2wpkh:
     {
+        witness = true;
         sigType = kMainnetP2SH_P2WPKH;
         break;
     } // case p2sh_p2wpkh end
@@ -262,7 +270,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
     }
 
     JUB_UINT16 totalReadLen = TW::decode16BE(retData);
-    abcd::DataChunk sigRawTx(totalReadLen, 0x00);
+    TW::Data sigRawTx(totalReadLen, 0x00);
 
     constexpr JUB_UINT16 kReadOnceLen = 256;
     apdu.le = kReadOnceLen;
@@ -292,12 +300,84 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
         JUB_VERIFY_COS_ERROR(ret);
     }
 
+    // verify signature
+    TW::Bitcoin::Transaction unsignedTx;
+    if (!unsignedTx.decode(witness, vUnsigedTrans)) {
+        return JUBR_ERROR;
+    }
+    TW::Bitcoin::Transaction signedTx;
+    if (!signedTx.decode(witness, sigRawTx)) {
+        return JUBR_ERROR;
+    }
+
+    bool bVerified = false;
+    JUB_RV rv = JUBR_ERROR;
+    for (const auto& inputPath:vInputPath) {
+        std::string xpub;
+        rv = GetHDNode(type, inputPath, xpub);
+        if (JUBR_OK != rv) {
+            break;
+        }
+
+        HDNode hdkey;
+        JUB_UINT32 parentFingerprint;
+
+        if (0 != hdnode_deserialize(xpub.c_str(), TWCoinType2HDVersionPublic(_coin), TWCoinType2HDVersionPrivate(_coin), TWCurve2name(_curve), &hdkey, &parentFingerprint)) {
+            rv = JUBR_ERROR;
+            break;
+        }
+
+        uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
+        TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), _publicKeyType);
+
+        for (size_t i=0; i<signedTx.inputs.size(); ++i) {
+            TW::Bitcoin::Script script;
+            if (witness) {
+//                script.decode(input.scriptWitness);
+            }
+            else {
+                TW::Data signature;
+                TW::Data publicKey;
+                if (signedTx.inputs[i].script.matchPayToPublicKeyHashScriptSig(signature, publicKey)) {
+                    if (pk != publicKey) {
+                        continue;
+                    }
+
+                    // script code - scriptPubKey
+                    uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
+                    TW::Bitcoin::Address addr(twpk, prefix);
+                    TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
+                    TW::Data preImage = unsignedTx.getPreImage(scriptCode, i, TWBitcoinSigHashType::TWBitcoinSigHashTypeAll, vInputAmount[i], witness);
+                    TW::Data digest = TW::Hash::sha256(preImage);
+                    bVerified = twpk.verifyAsDER(signature, digest);
+                    if (!bVerified) {
+                        rv = JUBR_ERROR;
+                        break;
+                    }
+                }
+//                else if (signedTx.inputs[i].script.matchxxx) {
+//
+//                }
+                else {
+                    continue;
+                }
+            }
+        }
+        if (JUBR_OK != rv
+            || !bVerified
+            ) {
+            return rv;
+        }
+    }
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
     vRaw.clear();
     vRaw = sigRawTx;
 
     return JUBR_OK;
 }
-
 
 } // namespace token end
 } // namespace jub end

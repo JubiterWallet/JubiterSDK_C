@@ -147,16 +147,7 @@ void HC_test(JUB_UINT16 deviceID, const char* json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
-    Json::CharReaderBuilder builder;
-    Json::Value root;
-    ifstream in(json_file, ios::binary);
-    if (!in.is_open()) {
-        error_exit("Error opening json file\n");
-    }
-    JSONCPP_STRING errs;
-    if (!parseFromStream(builder, in, &root, &errs)) {
-        error_exit("Error parse json file\n");
-    }
+    Json::Value root = readJSON(json_file);
     JUB_UINT16 contextID = 0;
 
     try {

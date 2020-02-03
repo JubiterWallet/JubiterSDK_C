@@ -1,5 +1,4 @@
 #include <token/BTC/TrezorCryptoBTCImpl.h>
-#include <TrustWalletCore/TWCoinType.h>
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
 #include <HDKey/HDKey.hpp>
@@ -8,7 +7,6 @@
 #include <Bitcoin/SegwitAddress.h>
 #include <Bitcoin/Script.h>
 #include <Base58Address.h>
-#include <TrustWalletCore/TWCoinType.h>
 #include <PrivateKey.h>
 #include "libBTC/libBTC.hpp"
 
@@ -29,7 +27,7 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, TWCurve2name(_curve), hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
 
     hdnode_fill_public_key(&hdkey);
     JUB_UINT32 version = hdVersionPub;
@@ -55,10 +53,10 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), SECP256K1_NAME, hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), TWCurve2name(_curve), hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
 
-    uchar_vector pk(hdkey.public_key, hdkey.public_key + TW::PublicKey::secp256k1Size);
-    TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
+    uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
+    TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), _publicKeyType);
 
     uint8_t prefix = 0;
     switch (type) {
@@ -113,6 +111,7 @@ JUB_RV TrezorCryptoBTCImpl::SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) {
     return JUBR_OK;
 }
 
+
 JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
                                    const JUB_ENUM_BTC_TRANS_TYPE& type,
                                    const JUB_UINT16 inputCount,
@@ -133,9 +132,6 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
     TW::Bitcoin::Transaction tx;
     tx.decode(witness, vUnsigedTrans);
 
-    // JuBiter-not-finished
-    // Tx filling complete
-
     JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(_coin);
     JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
 
@@ -145,21 +141,32 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
 
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
-        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, vInputPath[i].c_str(), SECP256K1_NAME, hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
+        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, vInputPath[i].c_str(), TWCurve2name(_curve), hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
 
-        TW::Data prvKey(TW::PrivateKey::size);
+        TW::Data prvKey;
         prvKey.insert(prvKey.end(), &hdkey.private_key[0], &hdkey.private_key[0]+TW::PrivateKey::size);
-        TW::PrivateKey twpk(prvKey);
+        TW::PrivateKey twprvk(prvKey);
+
+        uchar_vector pubKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
+        TW::PublicKey twpk = TW::PublicKey(TW::Data(pubKey), _publicKeyType);
 
         // JuBiter-not-finished
         TWBitcoinSigHashType hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
         // TWBitcoinSigHashType::TWBitcoinSigHashTypeAll|_forkID for BCH
-        TW::Data preImage = tx.getPreImage(tx.inputs[i].script, tx.inputs[i].previousOutput.index, hashType, uint16_t(vInputAmount[i]));
+        TW::Data preImage = tx.getPreImage(tx.inputs[i].script, tx.inputs[i].previousOutput.index, hashType, uint16_t(vInputAmount[i]), witness);
 
         // JuBiter-not-finished
-        TW::Data digest;
-        TW::Data signature = twpk.signAsDER(digest, TWCurveSECP256k1);
+        TW::Data digest = TW::Hash::sha256(preImage);
+        TW::Data signature = twprvk.signAsDER(digest, _curve);
+        if (!twpk.verifyAsDER(signature, digest)) {
+            rv = JUBR_ERROR;
+            break;
+        }
+
         vSignatureRaw.push_back(signature);
+    }
+    if (JUBR_OK != rv) {
+        return rv;
     }
 
     // JuBiter-not-finished

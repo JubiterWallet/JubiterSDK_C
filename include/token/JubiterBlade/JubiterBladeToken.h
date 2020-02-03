@@ -19,7 +19,7 @@ constexpr JUB_BYTE kPKIAID_FIDO[8] = {
 
 
 typedef struct _stAppInfos_ {
-    abcd::DataChunk appID;
+    std::vector<uint8_t> appID;
     std::string coinName;
     std::string minimumAppletVersion;
 } stAppInfos;

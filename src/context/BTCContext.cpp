@@ -116,10 +116,10 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std:
     //build unsigned transaction
     uchar_vector unsignedTrans;
     JUB_VERIFY_RV(_tokenPtr->SerializeUnsignedTx(_transType,
-                                    vInputs,
-                                    vOutputs,
-                                    lockTime,
-                                    unsignedTrans));
+                                                 vInputs,
+                                                 vOutputs,
+                                                 lockTime,
+                                                 unsignedTrans));
 
     uchar_vector vRaw;
     JUB_VERIFY_RV(_tokenPtr->SignTX(addrFmt,
