@@ -5,11 +5,44 @@
 
 #include "TrezorCrypto/base58.h"
 #include "TrezorCrypto/bip32.h"
+#include "Bitcoin/Address.h"
 #include "Bitcoin/SegwitAddress.h"
 #include "Bitcoin/Script.h"
 
 namespace jub {
 namespace btc {
+
+
+JUB_RV verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
+                                         const TW::Bitcoin::Transaction& tx,
+                                         const size_t index, const TWBitcoinSigHashType& hashType, const uint64_t amount,
+                                         const TW::Data& signature,
+                                         const TW::Data& publicKey, const TWPublicKeyType& publicKeyType,
+                                         bool witness) {
+
+    JUB_RV rv = JUBR_OK;
+
+    // script code - scriptPubKey
+    TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), publicKeyType);
+    uint8_t prefix = TWCoinTypeP2pkhPrefix(coin);
+    TW::Bitcoin::Address addr(twpk, prefix);
+    TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), coin);
+
+    TW::Data preImage;
+    if (!witness) {
+        preImage = tx.getPreImage(scriptCode, index, hashType);
+    }
+    else {
+        preImage = tx.getPreImage(scriptCode, index, hashType, amount);
+    }
+    const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
+    TW::Data digest = tx.hasher(begin, begin+preImage.size());
+    if (!twpk.verifyAsDER(signature, digest)) {
+        rv = JUBR_ERROR;
+    }
+
+    return rv;
+}
 
 
 JUB_RV serializeUnsignedTx(const uint32_t coin,
@@ -39,6 +72,7 @@ JUB_RV serializeUnsignedTx(const uint32_t coin,
 
     return JUBR_OK;
 }
+
 
 JUB_RV serializeUnsignedTx(const uint32_t coin,
                            const std::vector<INPUT_BTC>& vInputs,
