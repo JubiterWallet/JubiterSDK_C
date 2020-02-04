@@ -67,6 +67,7 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
     }
     }
     else {
+        // Input
         encodeVarInt(inputs.size(), data);
         for (size_t i=0; i<inputs.size(); ++i) {
             if (i == index) {
@@ -76,13 +77,14 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
                 reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[index].previousOutput).encode(data);
                 scriptCode.encode(data);
 
-                encode64LE(amount, data);
                 encode32LE(inputs[index].sequence, data);
             }
             else {
                 inputs[i].encode(data);
             }
         }
+
+        // Outputs
         encodeVarInt(outputs.size(), data);
         for (auto& output : outputs) {
             output.encode(data);

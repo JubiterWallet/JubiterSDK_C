@@ -129,15 +129,14 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
         witness = true;
     }
 
-    TW::Bitcoin::Transaction tx;
-    tx.decode(witness, vUnsigedTrans);
+    TW::Bitcoin::Transaction unsignedTx;
+    unsignedTx.decode(witness, vUnsigedTrans);
 
     JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(_coin);
     JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
 
-    // JuBiter-not-finished
     std::vector<uchar_vector> vSignatureRaw;
-    for (size_t i=0; i<tx.inputs.size(); ++i) {
+    for (size_t i=0; i<unsignedTx.inputs.size(); ++i) {
 
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
@@ -150,17 +149,24 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
         uchar_vector pubKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
         TW::PublicKey twpk = TW::PublicKey(TW::Data(pubKey), _publicKeyType);
 
-        // JuBiter-not-finished
+        // script code - scriptPubKey
+        uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
+        TW::Bitcoin::Address addr(twpk, prefix);
+        TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
+
         TWBitcoinSigHashType hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
         // TWBitcoinSigHashType::TWBitcoinSigHashTypeAll|_forkID for BCH
-        TW::Data preImage = tx.getPreImage(tx.inputs[i].script, tx.inputs[i].previousOutput.index, hashType, uint16_t(vInputAmount[i]), witness);
+        TW::Data preImage = unsignedTx.getPreImage(scriptCode, i, hashType, uint16_t(vInputAmount[i]), witness);
+        const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
+        TW::Data digest = unsignedTx.hasher(begin, begin+preImage.size());
 
-        // JuBiter-not-finished
-        TW::Data digest = TW::Hash::sha256(preImage);
         TW::Data signature = twprvk.signAsDER(digest, _curve);
         if (!twpk.verifyAsDER(signature, digest)) {
             rv = JUBR_ERROR;
             break;
+        }
+        else {
+            rv = JUBR_OK;
         }
 
         vSignatureRaw.push_back(signature);
