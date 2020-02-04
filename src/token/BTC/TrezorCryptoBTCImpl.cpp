@@ -135,28 +135,33 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
     JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(_coin);
     JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
 
+    TWBitcoinSigHashType hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
+    // TWBitcoinSigHashType::TWBitcoinSigHashTypeAll|_forkID for BCH
     std::vector<uchar_vector> vSignatureRaw;
-    for (size_t i=0; i<unsignedTx.inputs.size(); ++i) {
-
+    for (size_t index=0; index<unsignedTx.inputs.size(); ++index) {
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
-        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, vInputPath[i].c_str(), TWCurve2name(_curve), hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
+        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, vInputPath[index].c_str(), TWCurve2name(_curve), hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
 
         TW::Data prvKey;
         prvKey.insert(prvKey.end(), &hdkey.private_key[0], &hdkey.private_key[0]+TW::PrivateKey::size);
         TW::PrivateKey twprvk(prvKey);
 
-        uchar_vector pubKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
-        TW::PublicKey twpk = TW::PublicKey(TW::Data(pubKey), _publicKeyType);
+        uchar_vector publicKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
+        TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
 
         // script code - scriptPubKey
         uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
         TW::Bitcoin::Address addr(twpk, prefix);
         TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
 
-        TWBitcoinSigHashType hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
-        // TWBitcoinSigHashType::TWBitcoinSigHashTypeAll|_forkID for BCH
-        TW::Data preImage = unsignedTx.getPreImage(scriptCode, i, hashType, uint16_t(vInputAmount[i]), witness);
+        TW::Data preImage;
+        if (!witness) {
+            preImage = unsignedTx.getPreImage(scriptCode, index, hashType);
+        }
+        else {
+            preImage = unsignedTx.getPreImage(scriptCode, index, hashType, vInputAmount[index]);
+        }
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
         TW::Data digest = unsignedTx.hasher(begin, begin+preImage.size());
 

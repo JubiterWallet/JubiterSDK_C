@@ -15,10 +15,9 @@
 
 using namespace TW::Bitcoin;
 
-// JuBiter-modified
+// JuBiter-defined
 std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t index,
-                                              TWBitcoinSigHashType hashType, uint64_t amount,
-                                              const bool witness) const {
+                                              TWBitcoinSigHashType hashType) const {
     assert(index < inputs.size());
 
     auto data = std::vector<uint8_t>{};
@@ -26,7 +25,47 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
     // Version
     encode32LE(version, data);
 
-    if (witness) {
+    // Input
+    encodeVarInt(inputs.size(), data);
+    for (size_t i=0; i<inputs.size(); ++i) {
+        if (i == index) {
+            // The input being signed (replacing the scriptSig with scriptCode + amount)
+            // The prevout may already be contained in hashPrevout, and the nSequence
+            // may already be contain in hashSequence.
+            reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[index].previousOutput).encode(data);
+            scriptCode.encode(data);
+
+            encode32LE(inputs[index].sequence, data);
+        }
+        else {
+            inputs[i].encode(data);
+        }
+    }
+
+    // Outputs
+    encodeVarInt(outputs.size(), data);
+    for (auto& output : outputs) {
+        output.encode(data);
+    }
+
+    // Locktime
+    encode32LE(lockTime, data);
+
+    // Sighash type
+    encode32LE(hashType, data);
+
+    return data;
+}
+
+std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t index,
+                                              TWBitcoinSigHashType hashType, uint64_t amount) const {
+    assert(index < inputs.size());
+
+    auto data = std::vector<uint8_t>{};
+
+    // Version
+    encode32LE(version, data);
+
     // Input prevouts (none/all, depending on flags)
     if ((hashType & TWSignatureHashTypeAnyoneCanPay) == 0) {
         auto hashPrevouts = getPrevoutHash();
@@ -64,31 +103,6 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
         copy(begin(hashOutputs), end(hashOutputs), back_inserter(data));
     } else {
         fill_n(back_inserter(data), 32, 0);
-    }
-    }
-    else {
-        // Input
-        encodeVarInt(inputs.size(), data);
-        for (size_t i=0; i<inputs.size(); ++i) {
-            if (i == index) {
-                // The input being signed (replacing the scriptSig with scriptCode + amount)
-                // The prevout may already be contained in hashPrevout, and the nSequence
-                // may already be contain in hashSequence.
-                reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[index].previousOutput).encode(data);
-                scriptCode.encode(data);
-
-                encode32LE(inputs[index].sequence, data);
-            }
-            else {
-                inputs[i].encode(data);
-            }
-        }
-
-        // Outputs
-        encodeVarInt(outputs.size(), data);
-        for (auto& output : outputs) {
-            output.encode(data);
-        }
     }
 
     // Locktime

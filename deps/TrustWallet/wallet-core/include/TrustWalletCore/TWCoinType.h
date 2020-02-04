@@ -139,12 +139,12 @@ uint8_t TWCoinTypeStaticPrefix(enum TWCoinType coin);
 // JuBiter-defined
 /// Static hd version public for this coin type
 TW_EXPORT_PROPERTY
-uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin);
+uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness=false);
 
 // JuBiter-defined
 /// Static hd version public for this coin type
 TW_EXPORT_PROPERTY
-uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin);
+uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness=false);
 
 TW_EXTERN_C_END
 
