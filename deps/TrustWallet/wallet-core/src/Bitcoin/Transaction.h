@@ -59,11 +59,12 @@ struct Transaction {
     /// Whether the transaction is empty.
     bool empty() const { return inputs.empty() && outputs.empty(); }
 
-    // JuBiter-modified
     /// Generates the signature pre-image.
+    // JuBiter-defined
+    std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index,
+                                     TWBitcoinSigHashType hashType) const;
     std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index, TWBitcoinSigHashType hashType,
-                                     uint64_t amount,
-                                     const bool witness=true) const;
+                                     uint64_t amount) const;
     std::vector<uint8_t> getPrevoutHash() const;
     std::vector<uint8_t> getSequenceHash() const;
     std::vector<uint8_t> getOutputsHash() const;

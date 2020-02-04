@@ -276,7 +276,7 @@ std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin) {
 
 
 // JuBiter-defined
-uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin) {
+uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     uint32_t hdVersionPublic = TWHDVersionNone;
 
     switch (coin) {
@@ -284,6 +284,9 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin) {
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeQtum:
         hdVersionPublic = TWHDVersionXPUB;
+        if (witness) {
+            hdVersionPublic = TWHDVersionYPUB;
+        }
         break;
     case TWCoinTypeLitecoin:
         hdVersionPublic = TWHDVersionYPUB;
@@ -352,7 +355,7 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin) {
 
 
 // JuBiter-defined
-uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin) {
+uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     uint32_t hdVersionPrivate = TWHDVersionNone;
 
     switch (coin) {
@@ -360,6 +363,9 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin) {
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeQtum:
         hdVersionPrivate = TWHDVersionXPRV;
+        if (witness) {
+            hdVersionPrivate = TWHDVersionYPRV;
+        }
         break;
     case TWCoinTypeLitecoin:
         hdVersionPrivate = TWHDVersionYPRV;

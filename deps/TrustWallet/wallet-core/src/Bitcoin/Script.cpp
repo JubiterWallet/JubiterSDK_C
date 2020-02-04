@@ -46,6 +46,7 @@ bool Script::isPayToWitnessScriptHash() const {
 }
 
 bool Script::isWitnessProgram() const {
+    // [nVersion][Data]
     if (bytes.size() < 4 || bytes.size() > 42) {
         return false;
     }
