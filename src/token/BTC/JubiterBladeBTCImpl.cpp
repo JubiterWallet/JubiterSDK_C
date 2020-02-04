@@ -301,6 +301,9 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
     }
 
     // verify signature
+    uint32_t versionPublic  = TWCoinType2HDVersionPublic(_coin, witness);
+    uint32_t versionPrivate = TWCoinType2HDVersionPrivate(_coin, witness);
+
     TW::Bitcoin::Transaction unsignedTx;
     if (!unsignedTx.decode(witness, vUnsigedTrans)) {
         return JUBR_ERROR;
@@ -322,7 +325,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
 
-        if (0 != hdnode_deserialize(xpub.c_str(), TWCoinType2HDVersionPublic(_coin), TWCoinType2HDVersionPrivate(_coin), TWCurve2name(_curve), &hdkey, &parentFingerprint)) {
+        if (0 != hdnode_deserialize(xpub.c_str(), versionPublic, versionPrivate, TWCurve2name(_curve), &hdkey, &parentFingerprint)) {
             rv = JUBR_ERROR;
             break;
         }
@@ -331,9 +334,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
         TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), _publicKeyType);
 
         for (size_t i=0; i<signedTx.inputs.size(); ++i) {
-            TW::Bitcoin::Script script;
             if (witness) {
-//                script.decode(input.scriptWitness);
             }
             else {
                 TW::Data signature;
@@ -347,8 +348,12 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
                     uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
                     TW::Bitcoin::Address addr(twpk, prefix);
                     TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
-                    TW::Data preImage = unsignedTx.getPreImage(scriptCode, i, TWBitcoinSigHashType::TWBitcoinSigHashTypeAll, vInputAmount[i], witness);
-                    TW::Data digest = TW::Hash::sha256(preImage);
+
+                    TWBitcoinSigHashType hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
+                    // TWBitcoinSigHashType::TWBitcoinSigHashTypeAll|_forkID for BCH
+                    TW::Data preImage = unsignedTx.getPreImage(scriptCode, i, hashType, uint16_t(vInputAmount[i]), witness);
+                    const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
+                    TW::Data digest = unsignedTx.hasher(begin, begin+preImage.size());
                     bVerified = twpk.verifyAsDER(signature, digest);
                     if (!bVerified) {
                         rv = JUBR_ERROR;
