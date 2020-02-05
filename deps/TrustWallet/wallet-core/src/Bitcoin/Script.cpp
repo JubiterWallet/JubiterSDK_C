@@ -293,12 +293,20 @@ Script Script::buildRedeemScript(const uint8_t m, const uint8_t n, const std::ve
 // JuBiter-defined
 /// Builds a scriptSig for pay-to-public-key-hash (P2PKH) script.
 Script Script::buildPayToPublicKeyHashScriptSig(const Data& signature, const Data& publicKey) {
-    // 0x02 [signature] [publicKey]
+    // [signature] [publicKey]
     Script script;
-    script.bytes.push_back(0x02);
     script += Script(signature.begin(), signature.end());
     script += Script(publicKey.begin(), publicKey.end());
     return script;
+}
+
+// JuBiter-defined
+/// Builds a scriptSig for pay-to-public-key-hash (P2WPKH) script.
+std::vector<Data> Script::buildPayToPublicKeyHashScriptSigWitness(Data signature, Data publicKey) {
+    std::vector<Data> scriptWitness;
+    scriptWitness.push_back(signature);
+    scriptWitness.push_back(publicKey);
+    return scriptWitness;
 }
 
 // JuBiter-defined

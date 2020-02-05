@@ -33,6 +33,18 @@ JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& ty
                                          unsignedRaw);
 }
 
+JUB_RV JubiterBaseBTCImpl::VerifyTx(const bool witness,
+                                    const uchar_vector& signedRaw,
+                                    const std::vector<JUB_UINT64>& vInputAmount,
+                                    const std::vector<TW::Data>& vInputPublicKey) {
+
+    return jub::btc::verifyTx(witness,
+                              _coin,
+                              signedRaw,
+                              _hashType,
+                              vInputAmount,
+                              vInputPublicKey, _publicKeyType);
+}
 
 } // namespace token end
 } // namespace jub end

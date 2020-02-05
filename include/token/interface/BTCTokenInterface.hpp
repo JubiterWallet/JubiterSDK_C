@@ -39,10 +39,10 @@ public:
 
 
 	virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
-		const std::vector<INPUT_BTC>& vInputs,
-		const std::vector<OUTPUT_BTC>& vOutputs,
-		const JUB_UINT32 lockTime,
-		uchar_vector& unsignedRaw) = 0;
+                                       const std::vector<INPUT_BTC>& vInputs,
+                                       const std::vector<OUTPUT_BTC>& vOutputs,
+                                       const JUB_UINT32 lockTime,
+                                       uchar_vector& unsignedRaw) = 0;
 }; // class BTCTokenInterface end
 
 
