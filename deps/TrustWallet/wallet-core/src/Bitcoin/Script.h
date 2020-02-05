@@ -94,6 +94,10 @@ class Script {
     static Script buildPayToPublicKeyHashScriptSig(const Data& signature, const Data& publicKey);
 
     // JuBiter-defined
+    /// Builds a scriptSig for pay-to-public-key-hash (P2WPKH) script.
+    static std::vector<Data> buildPayToPublicKeyHashScriptSigWitness(Data signature, Data publicKey);
+
+    // JuBiter-defined
     /// Builds a scriptSig for the redeem of pay-to-script-hash (P2SH) script.
     static Script buildPayToScriptHashWitness(const Data& redeemScript, const std::vector<Data>& signatures);
 

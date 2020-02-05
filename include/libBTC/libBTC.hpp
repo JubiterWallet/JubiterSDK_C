@@ -7,6 +7,8 @@
 #include "context/BTCContext.h"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
+#include "Bitcoin/Address.h"
+#include "Bitcoin/SegwitAddress.h"
 #include "Bitcoin/Transaction.h"
 
 namespace jub {
@@ -28,11 +30,26 @@ constexpr JUB_BYTE  p2shVersion_QTUM = 0x32;
 constexpr JUB_BYTE p2pkhVersion_QTUM = 0x3a;
 
 
+JUB_RV verifyTx(const TWCoinType& coin,
+                const TW::Bitcoin::Transaction& tx,
+                const TWBitcoinSigHashType& hashType,
+                const std::vector<JUB_UINT64>& vInputAmount,
+                const std::vector<TW::PublicKey>& vInputPublicKey);
+
+
+JUB_RV verifyTx(const bool witness,
+                const TWCoinType& coin,
+                const uchar_vector& signedRaw,
+                const TWBitcoinSigHashType& hashType,
+                const std::vector<JUB_UINT64>& vInputAmount,
+                const std::vector<TW::Data>& vInputPublicKey, TWPublicKeyType publicKeyType);
+
+
 JUB_RV verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
                                          const TW::Bitcoin::Transaction& tx,
                                          const size_t index, const TWBitcoinSigHashType& hashType, const uint64_t amount,
                                          const TW::Data& signature,
-                                         const TW::Data& publicKey, const TWPublicKeyType& publicKeyType,
+                                         const TW::PublicKey publicKey,
                                          bool witness=false);
 
 
