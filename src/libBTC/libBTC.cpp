@@ -5,8 +5,6 @@
 
 #include "TrezorCrypto/base58.h"
 #include "TrezorCrypto/bip32.h"
-#include "Bitcoin/Address.h"
-#include "Bitcoin/SegwitAddress.h"
 #include "Bitcoin/Script.h"
 
 namespace jub {
@@ -17,15 +15,14 @@ JUB_RV verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
                                          const TW::Bitcoin::Transaction& tx,
                                          const size_t index, const TWBitcoinSigHashType& hashType, const uint64_t amount,
                                          const TW::Data& signature,
-                                         const TW::Data& publicKey, const TWPublicKeyType& publicKeyType,
+                                         const TW::PublicKey publicKey,
                                          bool witness) {
 
     JUB_RV rv = JUBR_OK;
 
     // script code - scriptPubKey
-    TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), publicKeyType);
     uint8_t prefix = TWCoinTypeP2pkhPrefix(coin);
-    TW::Bitcoin::Address addr(twpk, prefix);
+    TW::Bitcoin::Address addr(publicKey, prefix);
     TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), coin);
 
     TW::Data preImage;
@@ -37,8 +34,129 @@ JUB_RV verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
     }
     const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
     TW::Data digest = tx.hasher(begin, begin+preImage.size());
-    if (!twpk.verifyAsDER(signature, digest)) {
+    if (!publicKey.verifyAsDER(signature, digest)) {
         rv = JUBR_ERROR;
+    }
+
+    return rv;
+}
+
+
+JUB_RV verifyTx(const bool witness,
+                const TWCoinType& coin,
+                const uchar_vector& signedRaw,
+                const TWBitcoinSigHashType& hashType,
+                const std::vector<JUB_UINT64>& vInputAmount,
+                const std::vector<TW::Data>& vInputPublicKey, TWPublicKeyType publicKeyType) {
+
+    JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
+    try {
+        TW::Bitcoin::Transaction tx;
+        if (!tx.decode(witness, signedRaw)) {
+            return rv;
+        }
+
+        std::vector<TW::PublicKey> vInputPubkey;
+        for(const auto& inputPublicKey:vInputPublicKey) {
+            vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), publicKeyType));
+        }
+        return verifyTx(coin,
+                        tx,
+                        hashType,
+                        vInputAmount,
+                        vInputPubkey);
+    }
+    catch (...) {
+        rv = JUBR_ERROR;
+    }
+
+    return rv;
+}
+
+
+JUB_RV verifyTx(const TWCoinType& coin,
+                const TW::Bitcoin::Transaction& tx,
+                const TWBitcoinSigHashType& hashType,
+                const std::vector<JUB_UINT64>& vInputAmount,
+                const std::vector<TW::PublicKey>& vInputPublicKey) {
+
+    JUB_RV rv = JUBR_OK;
+
+    for (size_t index=0; index<tx.inputs.size(); ++index) {
+        rv = JUBR_ERROR;
+
+        TW::Bitcoin::Script witnessProgram;
+        if (!witnessProgram.decode(tx.inputs[index].script.bytes)) {
+            rv = JUBR_ERROR;
+            break;
+        }
+
+        if (witnessProgram.isWitnessProgram()) {
+            TW::Data signature;
+            TW::Data publicKey;
+            // P2WPKH
+            if (witnessProgram.isPayToWitnessScriptHash()) {
+                if (2 != tx.inputs[index].scriptWitness.size()) {
+                    rv = JUBR_ERROR;
+                    break;
+                }
+                signature = tx.inputs[index].scriptWitness[0];
+                publicKey = tx.inputs[index].scriptWitness[1];
+                if (vInputPublicKey[index].bytes != publicKey) {
+                    continue;
+                }
+
+                rv = verifyPayToPublicKeyHashScriptSig(coin,
+                                                       tx,
+                                                       index, hashType, vInputAmount[index],
+                                                       signature,
+                                                       vInputPublicKey[index],
+                                                       true);
+                if (JUBR_OK != rv) {
+                    break;
+                }
+                else {
+                    rv = JUBR_OK;
+                }
+            }
+//                else if (witnessProgram.isPayToWitnessxxx) {
+//
+//                }
+            else {
+                rv = JUBR_ERROR;
+                continue;
+            }
+        }
+        else {
+            TW::Data signature;
+            TW::Data publicKey;
+            // P2PKH
+            if (tx.inputs[index].script.matchPayToPublicKeyHashScriptSig(signature, publicKey)) {
+                if (vInputPublicKey[index].bytes != publicKey) {
+                    continue;
+                }
+
+                rv = verifyPayToPublicKeyHashScriptSig(coin,
+                                                       tx,
+                                                       index, hashType, vInputAmount[index],
+                                                       signature,
+                                                       vInputPublicKey[index]);
+                if (JUBR_OK != rv) {
+                    break;
+                }
+                else {
+                    rv = JUBR_OK;
+                }
+            }
+//                else if (signedTx.inputs[index].script.matchxxx) {
+//
+//                }
+            else {
+                rv = JUBR_ERROR;
+                continue;
+            }
+        }
     }
 
     return rv;

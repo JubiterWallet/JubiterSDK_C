@@ -10,6 +10,16 @@
 
 using namespace TW::Bitcoin;
 
+// JuBiter-defined
+/// Encodes the transaction's preimage into the provided buffer.
+void TransactionInput::encodeZeroScript(Data& data) const {
+    auto& outpoint = reinterpret_cast<const TW::Bitcoin::OutPoint&>(previousOutput);
+    outpoint.encode(data);
+    TW::Bitcoin::Script zeroScript;
+    zeroScript.encode(data);
+    encode32LE(sequence, data);
+}
+
 void TransactionInput::encode(Data& data) const {
     auto& outpoint = reinterpret_cast<const TW::Bitcoin::OutPoint&>(previousOutput);
     outpoint.encode(data);

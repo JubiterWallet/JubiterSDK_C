@@ -304,16 +304,8 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
     uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin,  witness);
     uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
 
-    TW::Bitcoin::Transaction unsignedTx;
-    if (!unsignedTx.decode(witness, vUnsigedTrans)) {
-        return JUBR_ERROR;
-    }
-    TW::Bitcoin::Transaction signedTx;
-    if (!signedTx.decode(witness, sigRawTx)) {
-        return JUBR_ERROR;
-    }
-
     JUB_RV rv = JUBR_ERROR;
+    std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {
         std::string xpub;
         rv = GetHDNode(type, inputPath, xpub);
@@ -330,87 +322,13 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
         }
 
         uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
-        TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), _publicKeyType);
-
-        TWBitcoinSigHashType hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
-        // TWBitcoinSigHashType::TWBitcoinSigHashTypeAll|_forkID for BCH
-        for (size_t index=0; index<signedTx.inputs.size(); ++index) {
-            TW::Bitcoin::Script witnessProgram;
-            if (!witnessProgram.decode(signedTx.inputs[index].script.bytes)) {
-                rv = JUBR_ERROR;
-                break;
-            }
-
-            if (witnessProgram.isWitnessProgram()) {
-                TW::Data signature;
-                TW::Data publicKey;
-                // P2WPKH
-                if (witnessProgram.isPayToWitnessScriptHash()) {
-                    if (2 != signedTx.inputs[index].scriptWitness.size()) {
-                        rv = JUBR_ERROR;
-                        break;
-                    }
-                    signature = signedTx.inputs[index].scriptWitness[0];
-                    publicKey = signedTx.inputs[index].scriptWitness[1];
-                    if (pk != publicKey) {
-                        continue;
-                    }
-
-                    rv = btc::verifyPayToPublicKeyHashScriptSig(_coin,
-                                                                unsignedTx,
-                                                                index, hashType, vInputAmount[index],
-                                                                signature,
-                                                                publicKey, _publicKeyType, witness);
-                    if (JUBR_OK != rv) {
-                        break;
-                    }
-                    else {
-                        rv = JUBR_OK;
-                    }
-                }
-//                else if (witnessProgram.isPayToWitnessxxx) {
-//
-//                }
-                else {
-                    rv = JUBR_ERROR;
-                    continue;
-                }
-            }
-            else {
-                TW::Data signature;
-                TW::Data publicKey;
-                // P2PKH
-                if (signedTx.inputs[index].script.matchPayToPublicKeyHashScriptSig(signature, publicKey)) {
-                    if (pk != publicKey) {
-                        continue;
-                    }
-
-                    rv = btc::verifyPayToPublicKeyHashScriptSig(_coin,
-                                                                unsignedTx,
-                                                                index, hashType, vInputAmount[index],
-                                                                signature,
-                                                                publicKey, _publicKeyType, witness);
-                    if (JUBR_OK != rv) {
-                        break;
-                    }
-                    else {
-                        rv = JUBR_OK;
-                    }
-                }
-//                else if (signedTx.inputs[index].script.matchxxx) {
-//
-//                }
-                else {
-                    rv = JUBR_ERROR;
-                    continue;
-                }
-            }
-        }
-        if (JUBR_OK != rv) {
-            rv = JUBR_ERROR;
-            break;
-        }
+        vInputPublicKey.push_back(TW::Data(pk));
     }
+
+    rv = VerifyTx(witness,
+                  sigRawTx,
+                  vInputAmount,
+                  vInputPublicKey);
     if (JUBR_OK != rv) {
         return rv;
     }

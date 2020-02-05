@@ -45,6 +45,10 @@ class TransactionInput {
     TransactionInput(OutPoint previousOutput, Script script, uint32_t sequence)
         : previousOutput(std::move(previousOutput)), sequence(sequence), script(std::move(script)) {}
 
+    // JuBiter-defined
+    /// Encodes the transaction's preimage into the provided buffer.
+    void encodeZeroScript(Data& data) const;
+
     /// Encodes the transaction into the provided buffer.
     void encode(Data& data) const;
 

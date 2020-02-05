@@ -38,7 +38,7 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
             encode32LE(inputs[index].sequence, data);
         }
         else {
-            inputs[i].encode(data);
+            inputs[i].encodeZeroScript(data);
         }
     }
 

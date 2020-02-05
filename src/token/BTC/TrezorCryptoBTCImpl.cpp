@@ -129,16 +129,17 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
         witness = true;
     }
 
-    TW::Bitcoin::Transaction unsignedTx;
-    unsignedTx.decode(witness, vUnsigedTrans);
+    TW::Bitcoin::Transaction tx;
+    if (!tx.decode(witness, vUnsigedTrans)) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(_coin);
     JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
 
-    TWBitcoinSigHashType hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
-    // TWBitcoinSigHashType::TWBitcoinSigHashTypeAll|_forkID for BCH
+//    std::vector<TW::Data> vInputPublicKey;
     std::vector<uchar_vector> vSignatureRaw;
-    for (size_t index=0; index<unsignedTx.inputs.size(); ++index) {
+    for (size_t index=0; index<tx.inputs.size(); ++index) {
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
         JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, vInputPath[index].c_str(), TWCurve2name(_curve), hdVersionPub, hdVersionPrv, &hdkey, &parentFingerprint));
@@ -149,6 +150,7 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
 
         uchar_vector publicKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
         TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
+//        vInputPublicKey.push_back(TW::Data(publicKey));
 
         // script code - scriptPubKey
         uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
@@ -157,14 +159,13 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
 
         TW::Data preImage;
         if (!witness) {
-            preImage = unsignedTx.getPreImage(scriptCode, index, hashType);
+            preImage = tx.getPreImage(scriptCode, index, _hashType);
         }
         else {
-            preImage = unsignedTx.getPreImage(scriptCode, index, hashType, vInputAmount[index]);
+            preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);
         }
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
-        TW::Data digest = unsignedTx.hasher(begin, begin+preImage.size());
-
+        TW::Data digest = tx.hasher(begin, begin+preImage.size());
         TW::Data signature = twprvk.signAsDER(digest, _curve);
         if (!twpk.verifyAsDER(signature, digest)) {
             rv = JUBR_ERROR;
@@ -174,20 +175,38 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
             rv = JUBR_OK;
         }
 
+        if (!witness) {
+            // P2PKH
+            tx.inputs[index].script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(signature, TW::Data(publicKey));
+        }
+        else {
+            // P2WPKH
+            TW::Data scriptPubkey;
+            TW::Bitcoin::Script::buildPayToWitnessPubkeyHash(twpk.hash(TW::Data())).encode(scriptPubkey);
+            tx.inputs[index].script.bytes = scriptPubkey;
+
+            tx.inputs[index].scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(signature, TW::Data(publicKey));
+        }
+
         vSignatureRaw.push_back(signature);
     }
     if (JUBR_OK != rv) {
         return rv;
     }
 
-    // JuBiter-not-finished
-//    serializeTx(TWCoinType::TWCoinTypeBitcoin,
-//                type,
-//                vInputs,
-//                vOutputs,
-//                lockTime,
-//                vSignatureRaw,
-//                vRaw);
+    uchar_vector signedRaw;
+    tx.encode(witness, signedRaw);
+    if (0 >= signedRaw.size()) {
+        rv = JUBR_ERROR;
+    }
+
+    vRaw = signedRaw;
+
+//    rv = VerifyTx(witness,
+//                  signedRaw,
+//                  vInputAmount,
+//                  vInputPublicKey);
+
     return rv;
 }
 
