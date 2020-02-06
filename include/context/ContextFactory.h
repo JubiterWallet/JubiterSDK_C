@@ -11,34 +11,32 @@
 
 
 namespace jub {
-	namespace context {
+namespace context {
 
-		typedef  BTCContext* (*CreateBTCContextFn)(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<jub::token::BTCTokenInterface>);
+typedef  BTCContext* (*CreateBTCContextFn)(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<jub::token::BTCTokenInterface>);
 
-		class xBTCContextFactory : protected xFactory<BTCContext*,JUB_ENUM_COINTYPE_BTC, CreateBTCContextFn> {
-		public:
-			xBTCContextFactory() {
- 				Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &BTCContext::Create);
- 				Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &BCHContext::Create);
- 				Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &LTCContext::Create);
- 				Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &DASHContext::Create);
- 				Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &QTUMContext::Create);
-			};
+class xBTCContextFactory :
+protected xFactory<BTCContext*,JUB_ENUM_COINTYPE_BTC, CreateBTCContextFn> {
+public:
+    xBTCContextFactory() {
+        Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &BTCContext::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &BCHContext::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &LTCContext::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &DASHContext::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &QTUMContext::Create);
+    };
 
-			BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, std::string xprv) {
-				auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, xprv);
-				return Create(cfg.coinType,cfg,token);
-			}
+    BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, std::string xprv) {
+        auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, xprv);
+        return Create(cfg.coinType,cfg,token);
+    }
 
-			BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, JUB_UINT16 devieID) {
-				auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, devieID);
-				return Create(cfg.coinType,cfg,token);
-			}
+    BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, JUB_UINT16 devieID) {
+        auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, devieID);
+        return Create(cfg.coinType,cfg,token);
+    }
+};
 
-		}; 
-
-		using BTCseriesContextFactory = Singleton<xBTCContextFactory>;
-
-
-	}
-}
+using BTCseriesContextFactory = Singleton<xBTCContextFactory>;
+} // namespace context end
+} // namespace jub end

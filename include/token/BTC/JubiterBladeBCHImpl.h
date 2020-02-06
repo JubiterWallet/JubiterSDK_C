@@ -13,6 +13,7 @@ public:
     JubiterBladeBCHImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
 		_coin = TWCoinType::TWCoinTypeBitcoinCash;
+        _hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAllFork;
 	};
     ~JubiterBladeBCHImpl() {};
 

@@ -13,11 +13,15 @@ public:
     TrezorCryptoBCHImpl(const std::string& xprv) :
         TrezorCryptoBTCImpl(xprv) {
             _coin = TWCoinType::TWCoinTypeBitcoinCash;
+            _hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAllFork;
         };
     ~TrezorCryptoBCHImpl() {};
 
     static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBCHImpl>(xprv);
     }
+
+protected:
+    JUB_RV _GetAddress(const TW::Data publicKey, std::string& address);
 }; // class TrezorCryptoBCHImpl end
 
 

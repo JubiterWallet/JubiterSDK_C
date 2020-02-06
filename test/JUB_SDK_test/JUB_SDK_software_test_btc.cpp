@@ -46,7 +46,7 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root) {
     JUB_CHAR_PTR masterXprv = nullptr;
     rv = JUB_SeedToMasterPrivateKey(seed, seedLen, secp256k1, &masterXprv);
     if (rv == JUBR_OK) {
-        cout << masterXprv << endl;
+        cout << "MasterPrivateKey: " << masterXprv << endl;
     }
 
     JUB_UINT16 contextID;
@@ -55,20 +55,27 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root) {
         cout << "JUB_CreateContextBTC_soft return " << rv << endl;
     }
 
+    JUB_CHAR_PTR mainXpub;
+    rv = JUB_GetMainHDNodeBTC(contextID, &mainXpub);
+    if (rv == JUBR_OK) {
+        cout << "JUB_GetMainHDNodeBTC: " << mainXpub << endl;
+        JUB_FreeMemory(mainXpub);
+    }
+
     BIP44_Path path;
     path.change = BOOL_FALSE;
     path.addressIndex = 0;
     JUB_CHAR_PTR  xpub = nullptr;
     rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
     if (rv == JUBR_OK) {
-        cout << xpub << endl;
+        cout << "JUB_GetHDNodeBTC: " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
     if(rv == JUBR_OK) {
-        cout << address << endl;
+        cout << "JUB_GetAddressBTC: " << address << endl;
         JUB_FreeMemory(address);
     }
 
