@@ -38,6 +38,9 @@ public:
 	//for Factory
 	static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBTCImpl>(xprv); }
 
+protected:
+    virtual JUB_RV _GetAddress(const TW::Data publicKey, std::string& address);
+    virtual JUB_RV _GetSegwitAddress(const TW::Data publicKey, std::string& address);
 }; // class TrezorCryptoBTCImpl end
 
 
