@@ -11,7 +11,6 @@ protected:
 public:
 	~xFactory() { m_FactoryMap.clear(); }
 
-
 	void Register(const T & name, F pfnCreate) {
 		m_FactoryMap[name] = pfnCreate;
 	};
@@ -23,4 +22,4 @@ public:
 			return it->second(std::forward<Args>(args)...);
 		return nullptr;
 	}
-};
+}; // class xFactory end
