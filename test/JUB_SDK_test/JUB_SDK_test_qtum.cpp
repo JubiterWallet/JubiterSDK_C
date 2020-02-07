@@ -9,6 +9,7 @@
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
 #include "JUB_SDK_test_btc.hpp"
+#include "JUB_SDK_test_qtum.hpp"
 
 #include "JUB_SDK_main.h"
 
@@ -19,6 +20,16 @@ void transactionQTUM_test(JUB_UINT16 contextID, Json::Value root) {
     if (JUBR_OK != rv) {
         return;
     }
+
+    rv = transactionQTUM_proc(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
 
     try {
         std::vector<INPUT_BTC> inputs;
@@ -66,7 +77,7 @@ void transactionQTUM_test(JUB_UINT16 contextID, Json::Value root) {
                                    &QRC20_output);
         if (JUBR_OK != rv) {
             cout << "JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
-            return;
+            return rv;
         }
         outputs.emplace_back(QRC20_output);
 
@@ -76,13 +87,13 @@ void transactionQTUM_test(JUB_UINT16 contextID, Json::Value root) {
 
         if (JUBR_USER_CANCEL == rv) {
             cout << "User cancel the transaction !" << endl;
-            return;
+            return rv;
         }
         if (   JUBR_OK != rv
             || nullptr == raw
             ) {
             cout << "error sign tx" << endl;
-            return;
+            return rv;
         }
         if (raw) {
             cout << raw;
@@ -92,6 +103,8 @@ void transactionQTUM_test(JUB_UINT16 contextID, Json::Value root) {
     catch (...) {
         error_exit("Error format json file\n");
     }
+
+    return rv;
 }
 
 void QTUM_test(JUB_UINT16 deviceID, const char* json_file) {

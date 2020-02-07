@@ -13,10 +13,10 @@ class JubiterBladeQTUMImpl :
 
 public:
     JubiterBladeQTUMImpl(JUB_UINT16 deviceID) :
-        JubiterBladeBTCImpl(deviceID) {};
-    ~JubiterBladeQTUMImpl() {
-		_coin = TWCoinType::TWCoinTypeQtum;
-	};
+        JubiterBladeBTCImpl(deviceID) {
+        _coin = TWCoinType::TWCoinTypeQtum;
+    };
+    ~JubiterBladeQTUMImpl() {};
 
 	//QTUM functions
 	virtual JUB_RV SetQRC20ETHToken(const std::string& tokenName,
