@@ -8,11 +8,12 @@
 
 #include "JUB_SDK_software_test_btc.hpp"
 #include "JUB_SDK_test_btc.hpp"
+#include "JUB_SDK_test_qtum.hpp"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "JUB_SDK_main.h"
 
-void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root) {
+void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=false) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -79,7 +80,12 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root) {
         JUB_FreeMemory(address);
     }
 
-    rv = transaction_proc(contextID, root);
+    if (isQRC20) {
+        rv = transactionQTUM_proc(contextID, root);
+    }
+    else {
+        rv = transaction_proc(contextID, root);
+    }
 }
 
 void software_test_btc() {
@@ -101,6 +107,7 @@ void software_test_btc() {
         int choice = 0;
         cin >> choice;
 
+        bool isQRC20 = false;
         const char* json_file;
         CONTEXT_CONFIG_BTC cfg;
         switch (choice) {
@@ -143,14 +150,15 @@ void software_test_btc() {
             {
                 cfg.coinType = COINQTUM;
                 cfg.transType = p2pkh;
-                json_file = "json/testQTUM.json";
+                json_file = "json/testQTUM_qrc20.json";
+                isQRC20 = true;
                 break;
             }
             case 2301:
             {
                 cfg.coinType = COINQTUM;
                 cfg.transType = p2pkh;
-                json_file = "json/testQTUM_qrc20.json";
+                json_file = "json/testQTUM.json";
                 break;
             }
             case 0:
@@ -163,6 +171,6 @@ void software_test_btc() {
 
         cfg.mainPath = (char*)root["main_path"].asCString();
 
-        software_test_btc(cfg, root);
+        software_test_btc(cfg, root, isQRC20);
     }
 }

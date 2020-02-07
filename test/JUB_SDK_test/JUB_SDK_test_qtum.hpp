@@ -15,7 +15,7 @@
 #include "../../include/JUB_SDK_BTC.h"
 
 void QTUM_test(JUB_UINT16 deviceID, const char* json_file);
-void transactionQTUM_test(JUB_UINT16 contextID, Json::Value root);
-
+void   transactionQTUM_test(JUB_UINT16 contextID, Json::Value root);
+JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root);
 
 #endif /* JUB_SDK_test_qtum_hpp */
