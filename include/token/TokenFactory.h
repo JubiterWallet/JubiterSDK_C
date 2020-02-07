@@ -9,14 +9,16 @@
 
 #include <token/BTC/JubiterBladeBTCImpl.h>
 #include <token/BTC/JubiterBladeBCHImpl.h>
-#include <token/BTC/JubiterBladeDashImpl.h>
 #include <token/BTC/JubiterBladeLTCImpl.h>
+#include <token/BTC/JubiterBladeUSDTImpl.h>
+#include <token/BTC/JubiterBladeDashImpl.h>
 #include <token/BTC/JubiterBladeQTUMImpl.h>
 
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/BTC/TrezorCryptoBCHImpl.h>
-#include <token/BTC/TrezorCryptoDashImpl.h>
 #include <token/BTC/TrezorCryptoLTCImpl.h>
+#include <token/BTC/TrezorCryptoUSDTImpl.h>
+#include <token/BTC/TrezorCryptoDashImpl.h>
 #include <token/BTC/TrezorCryptoQTUMImpl.h>
 
 #include <string>
@@ -37,6 +39,7 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &TrezorCryptoBTCImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &TrezorCryptoBCHImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &TrezorCryptoLTCImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &TrezorCryptoUSDTImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &TrezorCryptoDashImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &TrezorCryptoQTUMImpl::Create);
     };
@@ -50,6 +53,7 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &JubiterBladeBTCImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &JubiterBladeBCHImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &JubiterBladeLTCImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &JubiterBladeUSDTImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterBladeDashImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterBladeQTUMImpl::Create);
     };
