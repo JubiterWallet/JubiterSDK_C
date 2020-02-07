@@ -22,6 +22,7 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &BTCContext::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &BCHContext::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &LTCContext::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &USDTContext::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &DASHContext::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &QTUMContext::Create);
     };
