@@ -12,8 +12,8 @@ class TrezorCryptoDashImpl :
 public:
     TrezorCryptoDashImpl(const std::string& xprv) :
         TrezorCryptoBTCImpl(xprv) {
-            _coin = TWCoinType::TWCoinTypeDash;
-        };
+        _coin = TWCoinType::TWCoinTypeDash;
+    };
     ~TrezorCryptoDashImpl() {};
 
     static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoDashImpl>(xprv);

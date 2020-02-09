@@ -78,13 +78,8 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, 
 JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
                                   OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
 
-    TWCoinType coin = TWCoinTypeBitcoin;
-//    TWCoinType coin = TWCoinTypeLitecoin;
-//    TWCoinType coin = TWCoinTypeQtum;
-
-//    TWCoinType coin = TWCoinTypeHcash;
-    JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(coin);
-    JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(coin);
+    JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin);
+    JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin);
 
     JUB_CHECK_NULL(seed);
     std::string curve_name;
@@ -104,7 +99,6 @@ JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
     if (0 == hdnode_serialize_public(&node, 0x00, hdVersionPub, str_pub, sizeof(str_pub) / sizeof(JUB_CHAR))) {
         return JUBR_ERROR;
     }
-    std::cout << "xpub: " << std::string(str_pub) << std::endl;
 
     JUB_VERIFY_RV(_allocMem(prikeyInXprv, std::string(str_pri)));
 

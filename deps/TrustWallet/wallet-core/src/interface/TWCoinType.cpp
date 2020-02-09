@@ -66,6 +66,9 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeQtum:
         prefix = 0x3a;
         break;
+    case TWCoinTypeDash:
+        prefix = 0x4c;
+        break;
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
@@ -73,7 +76,6 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
-    case TWCoinTypeDash:
     case TWCoinTypeDecred:
     case TWCoinTypeDigiByte:
     case TWCoinTypeDogecoin:
@@ -141,6 +143,9 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     case TWCoinTypeQtum:
         prefix = 0x32;
         break;
+    case TWCoinTypeDash:
+        prefix = 0x10;
+        break;
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
@@ -148,7 +153,6 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
-    case TWCoinTypeDash:
     case TWCoinTypeDecred:
     case TWCoinTypeDigiByte:
     case TWCoinTypeDogecoin:
@@ -283,6 +287,7 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeQtum:
+    case TWCoinTypeDash:
         hdVersionPublic = TWHDVersionXPUB;
         if (witness) {
             hdVersionPublic = TWHDVersionYPUB;
@@ -301,7 +306,6 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
-    case TWCoinTypeDash:
     case TWCoinTypeDecred:
     case TWCoinTypeDigiByte:
     case TWCoinTypeDogecoin:
