@@ -1,0 +1,35 @@
+{
+    "ver" : "01000000",
+    "p2sh-segwit" : false,
+    "main_path" : "m/44'/5'/0'",
+    "inputs" : [
+    {
+        "preHash" : "a94af9a62819c1c2a181d99f80862eba86ad26888d7d39255e8c369de47ab791",
+        "preIndex" : 1,
+        "amount" : 55508455,
+        "bip32_path" : {
+            "change" : false,
+            "addressIndex" : 0
+        }
+    }],
+    "outputs" : [
+    {
+        "address" : "Xp96C27zLBwRxQuaW37Vc8szweZmvef81S",
+        "amount" : 448522,
+        "change_address" : false,
+        "bip32_path" : {
+            "change" : false,
+            "addressIndex" : 1
+        }
+    },
+    {
+        "address" : "XdfQTdFFqA2fEHMvaPNFFgTEM6VLQKLi8T",
+        "amount" : 55058601,
+        "change_address" : false,
+        "bip32_path" : {
+            "change" : false,
+            "addressIndex" : 1
+        }
+    }],
+    "lock_time" : 0
+}

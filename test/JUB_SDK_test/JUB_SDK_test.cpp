@@ -92,6 +92,7 @@ void main_test() {
         cout << "|********** Jubiter Wallet Test **********|" << endl;
         cout << "|   1. get_device_info_test               |" << endl;
         cout << "|   2. LTC_test.                          |" << endl;
+        cout << "|   5.DASH_test.                          |" << endl;
         cout << "|  31. BTC_test.                          |" << endl;
         cout << "|  32. BTC_segwit_test.                   |" << endl;
         cout << "|  39. BTC_USDT_test.                     |" << endl;
@@ -122,6 +123,9 @@ void main_test() {
             break;
         case 2:
             BTC_test("json/testLTC.json", COINLTC);
+            break;
+        case 5:
+            BTC_test("json/testDASH.json", COINDASH);
             break;
         case 31:
             BTC_test("json/testBTC44.json", COINBTC);
