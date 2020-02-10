@@ -12,7 +12,6 @@
 
 #include "context/BTCContext.h"
 #include "token/BTC/JubiterBladeBTCImpl.h"
-#include "libBTC/libBTC.hpp"
 
 #include <context/ContextFactory.h>
 

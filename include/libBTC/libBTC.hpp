@@ -10,6 +10,7 @@
 #include "Bitcoin/Address.h"
 #include "Bitcoin/SegwitAddress.h"
 #include "Bitcoin/Transaction.h"
+#include "Bitcoin/TransactionDash.h"
 
 namespace jub {
 namespace btc {
@@ -29,50 +30,6 @@ constexpr JUB_BYTE p2pkhVersion_LTC = 0x30;
 constexpr JUB_BYTE  p2shVersion_QTUM = 0x32;
 constexpr JUB_BYTE p2pkhVersion_QTUM = 0x3a;
 
-
-JUB_RV verifyTx(const TWCoinType& coin,
-                const TW::Bitcoin::Transaction& tx,
-                const TWBitcoinSigHashType& hashType,
-                const std::vector<JUB_UINT64>& vInputAmount,
-                const std::vector<TW::PublicKey>& vInputPublicKey);
-
-
-JUB_RV verifyTx(const bool witness,
-                const TWCoinType& coin,
-                const uchar_vector& signedRaw,
-                const TWBitcoinSigHashType& hashType,
-                const std::vector<JUB_UINT64>& vInputAmount,
-                const std::vector<TW::Data>& vInputPublicKey, TWPublicKeyType publicKeyType);
-
-
-JUB_RV verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
-                                         const TW::Bitcoin::Transaction& tx,
-                                         const size_t index, const TWBitcoinSigHashType& hashType, const uint64_t amount,
-                                         const TW::Data& signature,
-                                         const TW::PublicKey publicKey,
-                                         bool witness=false);
-
-
-JUB_RV serializeUnsignedTx(const uint32_t coin,
-                           const std::vector<INPUT_BTC>& vInputs,
-                           const std::vector<OUTPUT_BTC>& vOutputs,
-                           TW::Bitcoin::Transaction& tx);
-
-
-JUB_RV serializeUnsignedTx(const uint32_t coin,
-                           const JUB_ENUM_BTC_TRANS_TYPE& type,
-                           const std::vector<INPUT_BTC>& vInputs,
-                           const std::vector<OUTPUT_BTC>& vOutputs,
-                           const JUB_UINT32 lockTime,
-                           uchar_vector& unsignedRaw);
-
-JUB_RV serializeTx(const uint32_t coin,
-                   const JUB_ENUM_BTC_TRANS_TYPE& type,
-                   const std::vector<INPUT_BTC>& vInputs,
-                   const std::vector<OUTPUT_BTC>& vOutputs,
-                   const JUB_UINT32 lockTime,
-                   const std::vector<uchar_vector>& vSignatureRaw,
-                   uchar_vector& signedRaw);
 
 JUB_RV buildScriptPubFromAddress(const std::string& address, uchar_vector& scriptPub);
 

@@ -69,6 +69,11 @@ struct Transaction {
     std::vector<uint8_t> getSequenceHash() const;
     std::vector<uint8_t> getOutputsHash() const;
 
+    // JuBiter-defined
+    virtual void encodeVersion(std::vector<uint8_t>& data) const;
+    // JuBiter-defined
+    virtual void decodeVersion(const std::vector<uint8_t>& data, int& index);
+
     /// Encodes the transaction into the provided buffer.
     void encode(bool witness, std::vector<uint8_t>& data) const;
 

@@ -7,7 +7,6 @@
 #include <Bitcoin/SegwitAddress.h>
 #include <Bitcoin/Script.h>
 #include <Base58Address.h>
-#include "libBTC/libBTC.hpp"
 
 namespace jub {
 namespace token {

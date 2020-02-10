@@ -2,8 +2,6 @@
 
 #include "context/BTCContext.h"
 #include <token/interface/HardwareTokenInterface.hpp>
-#include "libBTC/libBTC.hpp"
-//#include "libBCH/libBCH.hpp"
 #include "libETH/ERC20Abi.h"
 #include <TrezorCrypto/base58.h>
 #include "BinaryCoding.h"

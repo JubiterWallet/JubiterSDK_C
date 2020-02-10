@@ -142,8 +142,20 @@ std::vector<uint8_t> Transaction::getOutputsHash() const {
     return hash;
 }
 
-void Transaction::encode(bool witness, std::vector<uint8_t>& data) const {
+// JuBiter-defined
+void Transaction::encodeVersion(std::vector<uint8_t>& data) const {
     encode32LE(version, data);
+}
+
+// JuBiter-defined
+void Transaction::decodeVersion(const std::vector<uint8_t>& data, int& index) {
+    version = decode32LE(&data[0]);
+    index += (sizeof(uint32_t)/sizeof(uint8_t));
+}
+
+void Transaction::encode(bool witness, std::vector<uint8_t>& data) const {
+    // JuBiter-modified
+    encodeVersion(data);
 
     if (witness) {
         // Use extended format in case witnesses are to be serialized.
@@ -190,8 +202,7 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
     int index = 0;
 
     // [nVersion]
-    version = decode32LE(&data[index]);
-    index += (sizeof(uint32_t)/sizeof(uint8_t));
+    decodeVersion(data, index);
 
     if (witness) {
         // [marker]
