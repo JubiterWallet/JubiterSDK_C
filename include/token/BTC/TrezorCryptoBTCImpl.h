@@ -41,6 +41,13 @@ public:
 protected:
     virtual JUB_RV _GetAddress(const TW::Data publicKey, std::string& address);
     virtual JUB_RV _GetSegwitAddress(const TW::Data publicKey, std::string& address);
+    virtual JUB_RV _SignTx(bool witness,
+                           const std::vector<JUB_UINT64>& vInputAmount,
+                           const std::vector<std::string>& vInputPath,
+                           const std::vector<JUB_UINT16>& vChangeIndex,
+                           const std::vector<std::string>& vChangePath,
+                           TW::Bitcoin::Transaction& tx,
+                           std::vector<JUB_BYTE>& vRaw);
 }; // class TrezorCryptoBTCImpl end
 
 

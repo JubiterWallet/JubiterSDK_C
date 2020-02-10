@@ -8,7 +8,6 @@
 #include <Bitcoin/Script.h>
 #include <Base58Address.h>
 #include <PrivateKey.h>
-#include "libBTC/libBTC.hpp"
 
 namespace jub {
 namespace token {
@@ -25,7 +24,7 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
     // derive key using BTC version
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, TWCurve2name(_curve), TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin), TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin), &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, TWCurve2name(_curve), TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),  TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin), &hdkey, &parentFingerprint));
 
     hdnode_fill_public_key(&hdkey);
     bool witness = false;
@@ -139,8 +138,6 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
                                    const std::vector<JUB_BYTE>& vUnsigedTrans,
                                    std::vector<JUB_BYTE>& vRaw) {
 
-    JUB_RV rv = JUBR_IMPL_NOT_SUPPORT;
-
     bool witness = false;
     if (p2sh_p2wpkh == type) {
         witness = true;
@@ -150,6 +147,25 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
     if (!tx.decode(witness, vUnsigedTrans)) {
         return JUBR_ARGUMENTS_BAD;
     }
+
+    return _SignTx(witness,
+                   vInputAmount,
+                   vInputPath,
+                   vChangeIndex,
+                   vChangePath,
+                   tx,
+                   vRaw);
+}
+
+JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
+                                    const std::vector<JUB_UINT64>& vInputAmount,
+                                    const std::vector<std::string>& vInputPath,
+                                    const std::vector<JUB_UINT16>& vChangeIndex,
+                                    const std::vector<std::string>& vChangePath,
+                                    TW::Bitcoin::Transaction& tx,
+                                    std::vector<JUB_BYTE>& vRaw) {
+
+    JUB_RV rv = JUBR_ERROR;
 
 //    std::vector<TW::Data> vInputPublicKey;
     std::vector<uchar_vector> vSignatureRaw;
