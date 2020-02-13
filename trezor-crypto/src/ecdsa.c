@@ -1172,16 +1172,17 @@ int der_to_ecdsa_sig(const uint8_t *der, uint8_t *sig)
     q++;
 
     // process R
+    len1Zero = len1 - 32;
     i = 0;
-    len1Zero = 0;
+    while (i < len1Zero) {
+        q++;
+        i++;
+    }
+    i = len1Zero;
     while (i < len1) { // copy bytes to output
-        if (0x00 != (*q)) {
-            *p = *q;
-            p++;
-        }
-        else {
-            len1Zero += 1;
-        }
+        *p = *q;
+        p++;
+
         q++;
         i++;
     }
@@ -1194,16 +1195,17 @@ int der_to_ecdsa_sig(const uint8_t *der, uint8_t *sig)
     q++;                        // integer
 
     // process S
+    len2Zero = len2 - 32;
     i = 0;
-    len2Zero = 0;
+    while (i < len2Zero) {
+        q++;
+        i++;
+    }
+    i = len2Zero;
     while (i < len2) { // copy bytes to output
-        if (0x00 != (*q)) {
-            *p = *q;
-            p++;
-        }
-        else {
-            len2Zero += 1;
-        }
+        *p = *q;
+        p++;
+
         q++;
         i++;
     }
