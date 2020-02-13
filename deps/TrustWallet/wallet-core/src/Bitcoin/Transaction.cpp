@@ -17,7 +17,7 @@ using namespace TW::Bitcoin;
 
 // JuBiter-defined
 std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t index,
-                                              TWBitcoinSigHashType hashType) const {
+                                              uint32_t hashType) const {
     assert(index < inputs.size());
 
     auto data = std::vector<uint8_t>{};
@@ -28,18 +28,17 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
     // Input
     encodeVarInt(inputs.size(), data);
     for (size_t i=0; i<inputs.size(); ++i) {
+        // The input being signed (replacing the scriptSig with scriptCode + amount)
+        // The prevout may already be contained in hashPrevout, and the nSequence
+        // may already be contain in hashSequence.
+        reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[i].previousOutput).encode(data);
         if (i == index) {
-            // The input being signed (replacing the scriptSig with scriptCode + amount)
-            // The prevout may already be contained in hashPrevout, and the nSequence
-            // may already be contain in hashSequence.
-            reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[index].previousOutput).encode(data);
             scriptCode.encode(data);
-
-            encode32LE(inputs[index].sequence, data);
         }
         else {
-            inputs[i].encodeZeroScript(data);
+            scriptCode.encodeZero(data);
         }
+        encode32LE(inputs[index].sequence, data);
     }
 
     // Outputs
@@ -58,7 +57,7 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
 }
 
 std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t index,
-                                              TWBitcoinSigHashType hashType, uint64_t amount) const {
+                                              uint32_t hashType, uint64_t amount) const {
     assert(index < inputs.size());
 
     auto data = std::vector<uint8_t>{};
@@ -285,7 +284,7 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
 }
 
 std::vector<uint8_t> Transaction::getSignatureHash(const Script& scriptCode, size_t index,
-                                                   TWBitcoinSigHashType hashType, uint64_t amount,
+                                                   uint32_t hashType, uint64_t amount,
                                                    TWBitcoinSignatureVersion version) const {
     switch (version) {
     case BASE:
@@ -297,7 +296,7 @@ std::vector<uint8_t> Transaction::getSignatureHash(const Script& scriptCode, siz
 
 /// Generates the signature hash for Witness version 0 scripts.
 std::vector<uint8_t> Transaction::getSignatureHashWitnessV0(const Script& scriptCode, size_t index,
-                                                            TWBitcoinSigHashType hashType,
+                                                            uint32_t hashType,
                                                             uint64_t amount) const {
     auto preimage = getPreImage(scriptCode, index, hashType, amount);
     auto hash = TW::Hash::hash(hasher, preimage);
@@ -306,7 +305,7 @@ std::vector<uint8_t> Transaction::getSignatureHashWitnessV0(const Script& script
 
 /// Generates the signature hash for for scripts other than witness scripts.
 std::vector<uint8_t> Transaction::getSignatureHashBase(const Script& scriptCode, size_t index,
-                                                       TWBitcoinSigHashType hashType) const {
+                                                       uint32_t hashType) const {
     assert(index < inputs.size());
 
     auto data = std::vector<uint8_t>{};
@@ -344,7 +343,7 @@ std::vector<uint8_t> Transaction::getSignatureHashBase(const Script& scriptCode,
 }
 
 void Transaction::serializeInput(size_t subindex, const Script& scriptCode, size_t index,
-                                 TWBitcoinSigHashType hashType, std::vector<uint8_t>& data) const {
+                                 uint32_t hashType, std::vector<uint8_t>& data) const {
     // In case of SIGHASH_ANYONECANPAY, only the input being signed is
     // serialized
     if ((hashType & TWSignatureHashTypeAnyoneCanPay) != 0) {

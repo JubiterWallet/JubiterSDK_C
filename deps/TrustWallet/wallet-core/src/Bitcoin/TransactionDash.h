@@ -13,7 +13,6 @@
 #include "../Hash.h"
 
 #include <TrustWalletCore/TWBitcoin.h>
-#include <TrustWalletCore/TWBitcoinSigHashType.h>
 #include <vector>
 
 namespace TW::Bitcoin {

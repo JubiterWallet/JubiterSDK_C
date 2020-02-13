@@ -8,7 +8,7 @@
 
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
-//#include "JUB_SDK_test_btc.hpp"
+#include "JUB_SDK_test_hcash.hpp"
 
 #include "JUB_SDK_main.h"
 
@@ -86,13 +86,22 @@ void show_address_test_HC(JUB_UINT16 contextID) {
     JUB_FreeMemory(address);
 }
 
-
 void transactionHC_test(JUB_UINT16 contextID, Json::Value root) {
 
     JUB_RV rv = verify_pin(contextID);
     if (JUBR_OK != rv) {
         return;
     }
+
+    rv = transactionHC_proc(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
 
     try {
         std::vector<INPUT_HC> inputs;
@@ -119,19 +128,22 @@ void transactionHC_test(JUB_UINT16 contextID, Json::Value root) {
             outputs.push_back(output);
         }
 
+        char* unsignedRaw = (char*)root["unsigned_tx"].asCString();
+        //NSString* unsignedTx = [NSString stringWithUTF8String:(char*)root["unsigned_tx"].asCString()];
+
         char* raw = nullptr;
-        rv = JUB_SignTransactionHC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
+        rv = JUB_SignTransactionHC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), unsignedRaw, &raw);
         cout << "JUB_SignTransactionHC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {
             cout << "User cancel the transaction !" << endl;
-            return;
+            return rv;
         }
         if (   JUBR_OK != rv
             || nullptr == raw
             ) {
             cout << "error sign tx" << endl;
-            return;
+            return rv;
         }
         if (raw) {
             cout << raw;
@@ -141,6 +153,8 @@ void transactionHC_test(JUB_UINT16 contextID, Json::Value root) {
     catch (...) {
         error_exit("Error format json file\n");
     }
+
+    return rv;
 }
 
 void HC_test(JUB_UINT16 deviceID, const char* json_file) {

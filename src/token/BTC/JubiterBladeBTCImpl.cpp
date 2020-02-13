@@ -315,14 +315,16 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
 
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
-
-        if (0 != hdnode_deserialize(xpub.c_str(), hdVersionPub, hdVersionPrv, TWCurve2name(_curve), &hdkey, &parentFingerprint)) {
+        if (0 != hdnode_deserialize(xpub.c_str(), hdVersionPub, hdVersionPrv, _curve_name, &hdkey, &parentFingerprint)) {
             rv = JUBR_ERROR;
             break;
         }
 
         uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
         vInputPublicKey.push_back(TW::Data(pk));
+    }
+    if (JUBR_OK != rv) {
+        return rv;
     }
 
     rv = VerifyTx(witness,
@@ -338,6 +340,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
 
     return JUBR_OK;
 }
+
 
 } // namespace token end
 } // namespace jub end

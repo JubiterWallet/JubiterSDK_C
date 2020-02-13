@@ -2,7 +2,7 @@
 #include <token/interface/BTCTokenInterface.hpp>
 #include <TrezorCrypto/curves.h>
 #include <TrustWalletCore/TWCoinType.h>
-#include <TrustWalletCore/TWBitcoinSigHashType.h>
+#include <TrustWalletCore/TWBitcoin.h>
 #include "Bitcoin/Address.h"
 #include "Bitcoin/Transaction.h"
 #include <Hash.h>
@@ -28,8 +28,6 @@ public:
                             const std::vector<TW::Data>& vInputPublicKey);
 
 protected:
-    TW::Hash::Hasher _getHasherForPublicKey();
-
     JUB_RV _serializeUnsignedTx(const uint32_t coin,
                                 const std::vector<INPUT_BTC>& vInputs,
                                 const std::vector<OUTPUT_BTC>& vOutputs,
@@ -37,31 +35,30 @@ protected:
 
     JUB_RV _verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
                                               const TW::Bitcoin::Transaction& tx,
-                                              const size_t index, const TWBitcoinSigHashType& hashType, const uint64_t amount,
+                                              const size_t index, const uint32_t& hashType, const uint64_t amount,
                                               const TW::Data& signature,
                                               const TW::PublicKey publicKey,
                                               bool witness=false);
 
-    JUB_RV _verifyTx(const TWCoinType& coin,
-                     const TW::Bitcoin::Transaction& tx,
-                     const TWBitcoinSigHashType& hashType,
-                     const std::vector<JUB_UINT64>& vInputAmount,
-                     const std::vector<TW::PublicKey>& vInputPublicKey);
-
-    JUB_RV _serializeTx(const uint32_t coin,
-                        const JUB_ENUM_BTC_TRANS_TYPE& type,
-                        const std::vector<INPUT_BTC>& vInputs,
-                        const std::vector<OUTPUT_BTC>& vOutputs,
-                        const JUB_UINT32 lockTime,
-                        const std::vector<uchar_vector>& vSignatureRaw,
-                        uchar_vector& signedRaw);
+    virtual JUB_RV _verifyTx(const TWCoinType& coin,
+                             const TW::Bitcoin::Transaction& tx,
+                             const uint32_t& hashType,
+                             const std::vector<JUB_UINT64>& vInputAmount,
+                             const std::vector<TW::PublicKey>& vInputPublicKey);
+    virtual JUB_RV _serializeTx(const uint32_t coin,
+                                const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                const std::vector<INPUT_BTC>& vInputs,
+                                const std::vector<OUTPUT_BTC>& vOutputs,
+                                const JUB_UINT32 lockTime,
+                                const std::vector<uchar_vector>& vSignatureRaw,
+                                uchar_vector& signedRaw);
 
 protected:
     // add curve, prefix here
     TWCoinType _coin = TWCoinType::TWCoinTypeBitcoin;
-    TWCurve _curve = TWCurve::TWCurveSECP256k1;
+    char *_curve_name = (char*)SECP256K1_NAME;
     TWPublicKeyType _publicKeyType = TWPublicKeyType::TWPublicKeyTypeSECP256k1;
-    TWBitcoinSigHashType _hashType = TWBitcoinSigHashType::TWBitcoinSigHashTypeAll;
+    uint32_t _hashType = TWSignatureHashTypeAll;
 }; // class JubiterBaseBTCImpl end
 
 

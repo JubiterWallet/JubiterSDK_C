@@ -12,7 +12,6 @@
 #include "../Hash.h"
 
 #include <TrustWalletCore/TWBitcoin.h>
-#include <TrustWalletCore/TWBitcoinSigHashType.h>
 #include <vector>
 
 namespace TW::Bitcoin {
@@ -47,7 +46,7 @@ struct Transaction {
 
     TW::Hash::Hasher hasher = TW::Hash::sha256d;
 
-    Transaction() = default;
+    Transaction(TW::Hash::Hasher hasher = TW::Hash::sha256d) : hasher(hasher) {}
 
     Transaction(int32_t version, uint32_t lockTime, TW::Hash::Hasher hasher = TW::Hash::sha256d)
         : version(version), lockTime(lockTime), inputs(), outputs(), hasher(hasher) {}
@@ -57,13 +56,19 @@ struct Transaction {
         : lockTime(lockTime), inputs(), outputs(), hasher(hasher) {}
 
     /// Whether the transaction is empty.
-    bool empty() const { return inputs.empty() && outputs.empty(); }
+    virtual bool empty() const { return inputs.empty() && outputs.empty(); }
+
+    // JuBiter-defined
+    virtual size_t scopeInputCount() const { return inputs.size(); }
+
+    // JuBiter-defined
+    virtual TransactionInput scopeInput(size_t index) const { return inputs[index]; }
 
     /// Generates the signature pre-image.
     // JuBiter-defined
     std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index,
-                                     TWBitcoinSigHashType hashType) const;
-    std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index, TWBitcoinSigHashType hashType,
+                                     uint32_t hashType) const;
+    virtual std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index, uint32_t hashType,
                                      uint64_t amount) const;
     std::vector<uint8_t> getPrevoutHash() const;
     std::vector<uint8_t> getSequenceHash() const;
@@ -75,17 +80,17 @@ struct Transaction {
     virtual void decodeVersion(const std::vector<uint8_t>& data, int& index);
 
     /// Encodes the transaction into the provided buffer.
-    void encode(bool witness, std::vector<uint8_t>& data) const;
+    virtual void encode(bool witness, std::vector<uint8_t>& data) const;
 
     // JuBiter-defined
     /// Decodes the provided buffer into the transaction.
-    bool decode(bool witness, const std::vector<uint8_t>& data);
+    virtual bool decode(bool witness, const std::vector<uint8_t>& data);
 
     /// Generates the signature hash for this transaction.
-    std::vector<uint8_t> getSignatureHash(const Script& scriptCode, size_t index, enum TWBitcoinSigHashType hashType,
+    std::vector<uint8_t> getSignatureHash(const Script& scriptCode, size_t index, uint32_t hashType,
                                           uint64_t amount, TWBitcoinSignatureVersion version) const;
 
-    void serializeInput(size_t subindex, const Script&, size_t index, enum TWBitcoinSigHashType hashType,
+    void serializeInput(size_t subindex, const Script&, size_t index, uint32_t hashType,
                         std::vector<uint8_t>& data) const;
 
 //    /// Converts to Protobuf model
@@ -94,11 +99,11 @@ struct Transaction {
   private:
     /// Generates the signature hash for Witness version 0 scripts.
     std::vector<uint8_t> getSignatureHashWitnessV0(const Script& scriptCode, size_t index,
-                                                   enum TWBitcoinSigHashType hashType, uint64_t amount) const;
+                                                   uint32_t hashType, uint64_t amount) const;
 
     /// Generates the signature hash for for scripts other than witness scripts.
     std::vector<uint8_t> getSignatureHashBase(const Script& scriptCode, size_t index,
-                                              enum TWBitcoinSigHashType hashType) const;
+                                              uint32_t hashType) const;
 };
 
 } // namespace TW::Bitcoin

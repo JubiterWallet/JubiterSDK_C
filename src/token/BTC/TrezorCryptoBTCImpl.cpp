@@ -1,5 +1,4 @@
 #include <token/BTC/TrezorCryptoBTCImpl.h>
-#include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
 #include <HDKey/HDKey.hpp>
 #include "utility/util.h"
@@ -24,7 +23,7 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
     // derive key using BTC version
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, TWCurve2name(_curve), TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),  TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin), &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(_HdnodePrivCkd(path, &hdkey, &parentFingerprint));
 
     hdnode_fill_public_key(&hdkey);
     bool witness = false;
@@ -41,6 +40,12 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
     xpub = std::string(_xpub);
 
     return JUBR_OK;
+}
+
+
+JUB_RV TrezorCryptoBTCImpl::_HdnodePrivCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint) {
+
+    return hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),  TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin), node, parentFingerprint);
 }
 
 
@@ -90,7 +95,7 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     // derive key using BTC version
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), TWCurve2name(_curve), TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin), TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin), &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(_HdnodePrivCkd(path, &hdkey, &parentFingerprint));
 
     uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
     switch (type) {
@@ -169,11 +174,11 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
 
 //    std::vector<TW::Data> vInputPublicKey;
     std::vector<uchar_vector> vSignatureRaw;
-    for (size_t index=0; index<tx.inputs.size(); ++index) {
+    for (size_t index=0; index<tx.scopeInputCount(); ++index) {
         // derive key using BTC version
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
-        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, vInputPath[index].c_str(), TWCurve2name(_curve), TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin), TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin), &hdkey, &parentFingerprint));
+        JUB_VERIFY_RV(_HdnodePrivCkd(vInputPath[index].c_str(), &hdkey, &parentFingerprint));
 
         TW::Data prvKey;
         prvKey.insert(prvKey.end(), &hdkey.private_key[0], &hdkey.private_key[0]+TW::PrivateKey::size);
@@ -184,10 +189,12 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
 //        vInputPublicKey.push_back(TW::Data(publicKey));
 
         // script code - scriptPubKey
-        uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
-        TW::Bitcoin::Address addr(twpk, prefix);
-        TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
-
+        std::string address;
+        rv = _GetAddress(TW::Data(publicKey), address);
+        if (JUBR_OK != rv) {
+            break;
+        }
+        TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(address, _coin);
         TW::Data preImage;
         if (!witness) {
             preImage = tx.getPreImage(scriptCode, index, _hashType);
@@ -197,7 +204,7 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         }
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
         TW::Data digest = tx.hasher(begin, begin+preImage.size());
-        TW::Data signature = twprvk.signAsDER(digest, _curve);
+        TW::Data signature = twprvk.signAsDER(digest, curveName2TWCurve(_curve_name));
         if (!twpk.verifyAsDER(signature, digest)) {
             rv = JUBR_ERROR;
             break;
