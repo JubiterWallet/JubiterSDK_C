@@ -1,41 +1,26 @@
 #include <token/HC/TrezorCryptoHCImpl.h>
-#include <TrezorCrypto/bip32.h>
-#include <TrezorCrypto/curves.h>
-#include <HDKey/HDKey.hpp>
-#include "utility/util.h"
-#include <Bitcoin/Address.h>
-#include <Bitcoin/SegwitAddress.h>
-#include <Bitcoin/Script.h>
-#include <Base58Address.h>
+#include <TrustWalletCore/TWCurve.h>
 
 namespace jub {
 namespace token {
 
-JUB_RV TrezorCryptoHCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
-    HDNode hdkey;
-    JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path.c_str(), TWCurve2name(_curve), TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
+JUB_RV TrezorCryptoHCImpl::_GetAddress(const TW::Data publicKey, std::string& address) {
 
-    uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
-    TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), _publicKeyType);
+    try {
+        TW::Hash::Hasher hasherPubkey;
+        TW::Hash::Hasher hasherBase58;
+        if (   !hasher2HasherType(get_curve_by_name(_curve_name)->hasher_pubkey, hasherPubkey)
+            || !hasher2HasherType(get_curve_by_name(_curve_name)->hasher_base58, hasherBase58)
+            ) {
+            return JUBR_ARGUMENTS_BAD;
+        }
 
-    TW::Data prefix;
-    switch (type) {
-    case p2pkh:
-    {
-        prefix = TWCoinTypeP2pkhPrefixData(_coin);
-        TW::Data bytes = twpk.hash(prefix, TW::Hash::blake256ripemd);
-
-        address = TW::Base58::bitcoin.encodeCheck(bytes,TW::Hash::blake256d);
-        break;
+        TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
+        TW::Data bytes = twpk.hash(TWCoinTypeP2pkhPrefixData(_coin), hasherPubkey);
+        address = TW::Base58::bitcoin.encodeCheck(bytes, hasherBase58);
     }
-    case p2sh_p2wpkh:
-//    case p2wpkh:
-//    case p2sh_multisig:
-//    case p2wsh_multisig:
-//    case p2sh_p2wsh_multisig:
-    default:
+    catch (...) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -43,5 +28,33 @@ JUB_RV TrezorCryptoHCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC
 }
 
 
+JUB_RV TrezorCryptoHCImpl::SignTX(const JUB_BYTE addrFmt,
+                                  const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                  const JUB_UINT16 inputCount,
+                                  const std::vector<JUB_UINT64>& vInputAmount,
+                                  const std::vector<std::string>& vInputPath,
+                                  const std::vector<JUB_UINT16>& vChangeIndex,
+                                  const std::vector<std::string>& vChangePath,
+                                  const std::vector<JUB_BYTE>& vUnsigedTrans,
+                                  std::vector<JUB_BYTE>& vRaw) {
+
+    bool witness = false;
+    if (p2sh_p2wpkh == type) {
+        witness = true;
+    }
+
+    TW::Bitcoin::HcashTransaction tx;
+    if (!tx.decode(witness, vUnsigedTrans)) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return _SignTx(witness,
+                   vInputAmount,
+                   vInputPath,
+                   vChangeIndex,
+                   vChangePath,
+                   tx,
+                   vRaw);
+}
 } // namespace token end
 } // namespace jub end

@@ -63,5 +63,6 @@ JUB_RV JubiterBaseDashImpl::VerifyTx(const bool witness,
     return rv;
 }
 
+
 } // namespace token end
 } // namespace jub end

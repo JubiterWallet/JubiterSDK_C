@@ -1,20 +1,23 @@
 #pragma once
 
-#include <token/interface/BTCTokenInterface.hpp>
 #include <token/BTC/JubiterBladeBTCImpl.h>
+#include <token/HC/JubiterBaseHCImpl.h>
 
 namespace jub {
 namespace token {
 
 
 class JubiterBladeHCImpl :
-    public JubiterBladeBTCImpl,
-    virtual public BTCTokenInterface {
+        public JubiterBladeBTCImpl,
+virtual public JubiterBaseHCImpl {
 
 public:
     JubiterBladeHCImpl(JUB_UINT16 deviceID) :
-        JubiterBladeBTCImpl(deviceID) {};
-
+        JubiterBladeBTCImpl(deviceID) {
+        _coin = TWCoinType::TWCoinTypeHcash;
+        _curve_name = (char*)SECP256K1_HCASH_NAME;
+        _hashType = TxSerializeFull;
+    };
     ~JubiterBladeHCImpl() {};
 
     //HC functions
