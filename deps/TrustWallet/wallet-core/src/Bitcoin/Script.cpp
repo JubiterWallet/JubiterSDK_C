@@ -166,10 +166,9 @@ bool Script::matchMultisig(std::vector<Data>& keys, int& required) const {
 // JuBiter-defined
 /// Matches the script to a scriptSig for a pay-to-public-key-hash (P2PKH).
 bool Script::matchPayToPublicKeyHashScriptSig(Data& signature, Data& publicKey) const {
-
+    size_t index = 0;
     // [signature] [publicKey]
 
-    size_t index = 0;
     size_t size = 0;
     Data tempSignature(bytes.begin()+index, bytes.end());
     size_t signatureLen = decodeVarInt(tempSignature, size);
@@ -337,6 +336,12 @@ void Script::encode(Data& data) const {
 }
 
 // JuBiter-defined
+void Script::encodeZero(Data& data) const {
+    TW::Bitcoin::Script zeroScript;
+    zeroScript.encode(data);
+}
+
+// JuBiter-defined
 /// Dncodes the script.
 bool Script::decode(const Data& data) {
 
@@ -419,4 +424,17 @@ Script Script::buildForAddress(const std::string& string, enum TWCoinType coin) 
 //        }
     }
     return {};
+}
+
+// JuBiter-defined
+bool Script::parseWitnessStackToPayToWitnessScriptHash(const std::vector<Data>& scriptWitness, Data& signature, Data& publicKey) {
+
+    if (2 != scriptWitness.size()) {
+        return false;
+    }
+
+    signature = scriptWitness[0];
+    publicKey = scriptWitness[1];
+
+    return true;
 }

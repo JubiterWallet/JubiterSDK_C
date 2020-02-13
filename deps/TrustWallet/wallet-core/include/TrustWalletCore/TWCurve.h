@@ -6,6 +6,8 @@
 
 #pragma once
 #include "TWBase.h"
+#include "../Hash.h"
+#include <TrezorCrypto/hasher.h>
 
 TW_EXTERN_C_BEGIN
 
@@ -19,5 +21,11 @@ enum TWCurve {
 };
 
 char* TWCurve2name(enum TWCurve curve);
+
+// JuBiter-defined
+enum TWCurve curveName2TWCurve(char* name);
+
+// JuBiter-defined
+bool hasher2HasherType(const HasherType hasherType, TW::Hash::Hasher& hasher);
 
 TW_EXTERN_C_END

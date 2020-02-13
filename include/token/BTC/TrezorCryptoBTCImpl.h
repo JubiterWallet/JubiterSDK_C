@@ -2,6 +2,7 @@
 #include <token/TrezorCrypto/TrezorCryptoToken.h>
 #include <token/BTC/JubiterBaseBTCImpl.h>
 #include <TrustWalletCore/TWCoinType.h>
+#include <TrezorCrypto/bip32.h>
 
 #include <memory>
 
@@ -15,8 +16,7 @@ virtual public JubiterBaseBTCImpl {
 
 public:
     TrezorCryptoBTCImpl(const std::string& xprv) :
-        TrezorCryptoToken(xprv) {
-        };
+        TrezorCryptoToken(xprv) {};
     ~TrezorCryptoBTCImpl() {};
 
     //BTC functions
@@ -39,6 +39,7 @@ public:
 	static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBTCImpl>(xprv); }
 
 protected:
+    virtual JUB_RV _HdnodePrivCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint);
     virtual JUB_RV _GetAddress(const TW::Data publicKey, std::string& address);
     virtual JUB_RV _GetSegwitAddress(const TW::Data publicKey, std::string& address);
     virtual JUB_RV _SignTx(bool witness,

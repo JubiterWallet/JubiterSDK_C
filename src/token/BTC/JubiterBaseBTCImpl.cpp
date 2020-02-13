@@ -5,19 +5,6 @@ namespace jub {
 namespace token {
 
 
-TW::Hash::Hasher JubiterBaseBTCImpl::_getHasherForPublicKey() {
-    switch (_publicKeyType) {
-        case TWPublicKeyTypeSECP256k1:
-        case TWPublicKeyTypeSECP256k1Extended:
-        case TWPublicKeyTypeNIST256p1:
-        case TWPublicKeyTypeNIST256p1Extended:
-        case TWPublicKeyTypeED25519:
-        case TWPublicKeyTypeED25519Blake2b:
-            return TW::Hash::sha256ripemd;
-    }
-}
-
-
 JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
                                                 const std::vector<INPUT_BTC>& vInputs,
                                                 const std::vector<OUTPUT_BTC>& vOutputs,
@@ -106,7 +93,7 @@ JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& ty
 
 JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
                                                               const TW::Bitcoin::Transaction& tx,
-                                                              const size_t index, const TWBitcoinSigHashType& hashType, const uint64_t amount,
+                                                              const size_t index, const uint32_t& hashType, const uint64_t amount,
                                                               const TW::Data& signature,
                                                               const TW::PublicKey publicKey,
                                                               bool witness) {
@@ -137,17 +124,17 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& 
 
 JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType& coin,
                                      const TW::Bitcoin::Transaction& tx,
-                                     const TWBitcoinSigHashType& hashType,
+                                     const uint32_t& hashType,
                                      const std::vector<JUB_UINT64>& vInputAmount,
                                      const std::vector<TW::PublicKey>& vInputPublicKey) {
 
     JUB_RV rv = JUBR_OK;
 
-    for (size_t index=0; index<tx.inputs.size(); ++index) {
+    for (size_t index=0; index<tx.scopeInputCount(); ++index) {
         rv = JUBR_ERROR;
 
         TW::Bitcoin::Script witnessProgram;
-        if (!witnessProgram.decode(tx.inputs[index].script.bytes)) {
+        if (!witnessProgram.decode(tx.scopeInput(index).script.bytes)) {
             rv = JUBR_ERROR;
             break;
         }
@@ -157,12 +144,12 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType& coin,
             TW::Data publicKey;
             // P2WPKH
             if (witnessProgram.isPayToWitnessScriptHash()) {
-                if (2 != tx.inputs[index].scriptWitness.size()) {
+                if (!TW::Bitcoin::Script::parseWitnessStackToPayToWitnessScriptHash(tx.scopeInput(index).scriptWitness,
+                                                                                    signature, publicKey)) {
                     rv = JUBR_ERROR;
                     break;
                 }
-                signature = tx.inputs[index].scriptWitness[0];
-                publicKey = tx.inputs[index].scriptWitness[1];
+                
                 if (vInputPublicKey[index].bytes != publicKey) {
                     continue;
                 }
@@ -180,9 +167,9 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType& coin,
                     rv = JUBR_OK;
                 }
             }
-//                else if (witnessProgram.isPayToWitnessxxx) {
+//            else if (witnessProgram.isPayToWitnessxxx) {
 //
-//                }
+//            }
             else {
                 rv = JUBR_ERROR;
                 continue;
@@ -209,9 +196,9 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType& coin,
                     rv = JUBR_OK;
                 }
             }
-//                else if (signedTx.inputs[index].script.matchxxx) {
+//            else if (signedTx.inputs[index].script.matchxxx) {
 //
-//                }
+//            }
             else {
                 rv = JUBR_ERROR;
                 continue;
@@ -266,6 +253,7 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(const uint32_t coin,
     // JuBiter-not-finished
     return JUBR_IMPL_NOT_SUPPORT;
 }
+
 
 } // namespace token end
 } // namespace jub end

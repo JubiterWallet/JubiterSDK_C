@@ -45,29 +45,25 @@ class TransactionInput {
     TransactionInput(OutPoint previousOutput, Script script, uint32_t sequence)
         : previousOutput(std::move(previousOutput)), sequence(sequence), script(std::move(script)) {}
 
-    // JuBiter-defined
-    /// Encodes the transaction's preimage into the provided buffer.
-    void encodeZeroScript(Data& data) const;
-
     /// Encodes the transaction into the provided buffer.
-    void encode(Data& data) const;
+    virtual void encode(Data& data) const;
 
     /// Encodes the witness data into the provided buffer.
-    void encodeWitness(Data& data) const;
+    virtual void encodeWitness(Data& data) const;
 
     // JuBiter-defined
     /// Decodes the provided buffer into the transactionInput.
-    bool decode(const Data& data);
+    virtual bool decode(const Data& data);
 
     // JuBiter-defined
     /// Decodes the provided buffer into the witness data
-    bool decodeWitness(const Data& data);
+    virtual bool decodeWitness(const Data& data);
 
     // JuBiter-defined
-    size_t size();
+    virtual size_t size();
 
     // JuBiter-defined
-    size_t sizeWitness();
+    virtual size_t sizeWitness();
 };
 
 } // namespace TW::Bitcoin

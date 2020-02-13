@@ -8,6 +8,7 @@
 #include <string>
 #include <TrezorCrypto/bip39.h>
 #include <TrezorCrypto/bip32.h>
+#include <TrezorCrypto/curves.h>
 #include <utility/util.h>
 #include <TrustWalletCore/TWCoinType.h>
 #include <token/BTC/TrezorCryptoBTCImpl.h>
@@ -31,13 +32,13 @@ JUB_RV _curveToString(JUB_ENUM_CURVES enumCurve, std::string& strCurve) {
 
     switch(enumCurve) {
         case secp256k1:
-            strCurve = "secp256k1";
+            strCurve = SECP256K1_NAME;
             return JUBR_OK;
         case ed25519:
-            strCurve = "ed25519";
+            strCurve = ED25519_NAME;
             return JUBR_OK;
         case nist256p1:
-            strCurve = "nist256p1";
+            strCurve = NIST256P1_NAME;
             return JUBR_OK;
         default:
             return JUBR_ARGUMENTS_BAD;   

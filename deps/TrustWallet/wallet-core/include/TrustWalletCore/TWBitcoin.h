@@ -14,6 +14,7 @@ static const uint32_t TWSignatureHashTypeAll = 0x01;
 static const uint32_t TWSignatureHashTypeNone = 0x02;
 static const uint32_t TWSignatureHashTypeSingle = 0x03;
 static const uint32_t TWSignatureHashTypeFork = 0x40;
+static const uint32_t TWSignatureHashTypeAllFork = TWSignatureHashTypeAll|TWSignatureHashTypeFork;
 static const uint32_t TWSignatureHashTypeAnyoneCanPay = 0x80;
 
 extern bool TWSignatureHashTypeIsSingle(uint32_t type);

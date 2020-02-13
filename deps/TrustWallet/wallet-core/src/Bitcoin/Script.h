@@ -109,8 +109,15 @@ class Script {
     /// address.
     static Script buildForAddress(const std::string& address, enum TWCoinType coin);
 
+    // JuBiter-defined
+    static bool parseWitnessStackToPayToWitnessScriptHash(const std::vector<Data>& scriptWitness, Data& signature, Data& publicKey);
+
     /// Encodes the script.
     void encode(Data& data) const;
+
+    // JuBiter-defined
+    /// Encodes the zero script.
+    void encodeZero(Data& data) const;
 
     // JuBiter-defined
     /// Dncodes the script.

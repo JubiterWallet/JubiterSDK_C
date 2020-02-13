@@ -7,11 +7,12 @@
 //
 
 #include "JUB_SDK_software_test_hcash.hpp"
+#include "JUB_SDK_test_hcash.hpp"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "JUB_SDK_main.h"
 
-void software_test_hcash() {
+void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -67,9 +68,6 @@ void software_test_hcash() {
         cout << masterXprv << endl;
     }
 
-    CONTEXT_CONFIG_HC cfg;
-    cfg.mainPath = (JUB_CHAR_PTR)"m/44'/171'/0'";
-
     JUB_UINT16 contextID;
     rv = JUB_CreateContextHC_soft(cfg, masterXprv, &contextID);
     if (rv != JUBR_OK) {
@@ -88,8 +86,24 @@ void software_test_hcash() {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressHC(contextID, path, BOOL_FALSE, &address);
-    if(rv == JUBR_OK){
+    if(rv == JUBR_OK) {
         cout << address << endl;
         JUB_FreeMemory(address);
     }
+
+    rv = transactionHC_proc(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+void software_test_hcash() {
+
+    const char* json_file = "json/testHCash.json";
+    Json::Value root = readJSON(json_file);
+
+    CONTEXT_CONFIG_HC cfg;
+    cfg.mainPath = (char*)root["main_path"].asCString();
+
+    software_test_hcash(cfg, root);
 }

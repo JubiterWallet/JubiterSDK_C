@@ -43,14 +43,14 @@ class OutPoint {
 //    }
 
     /// Encodes the out-point into the provided buffer.
-    void encode(std::vector<uint8_t>& data) const;
+    virtual void encode(std::vector<uint8_t>& data) const;
 
     // JuBiter-defined
     /// Decodes the out-point into the provided buffer.
-    bool decode(const std::vector<uint8_t>& data);
+    virtual bool decode(const std::vector<uint8_t>& data);
 
     // JuBiter-defined
-    size_t size();
+    virtual size_t size();
 
     friend bool operator<(const OutPoint& a, const OutPoint& b) {
         int cmp = std::memcmp(a.hash.data(), b.hash.data(), 32);
