@@ -24,13 +24,28 @@ JUB_RV TrezorCryptoDashImpl::SignTX(const JUB_BYTE addrFmt,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    return _SignTx(witness,
-                   vInputAmount,
-                   vInputPath,
-                   vChangeIndex,
-                   vChangePath,
-                   tx,
-                   vRaw);
+    std::vector<TW::Data> vInputPublicKey;
+    std::vector<uchar_vector> vSignatureRaw;
+    JUB_VERIFY_RV(_SignTx(witness,
+                          vInputAmount,
+                          vInputPath,
+                          vChangeIndex,
+                          vChangePath,
+                          tx,
+                          vInputPublicKey,
+                          vSignatureRaw));
+
+    uchar_vector signedRaw;
+    JUB_VERIFY_RV(_serializeTx(witness,
+                               vInputAmount,
+                               vInputPublicKey,
+                               vSignatureRaw,
+                               tx,
+                               signedRaw));
+
+    vRaw = signedRaw;
+
+    return JUBR_OK;
 }
 
 

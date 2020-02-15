@@ -1,13 +1,15 @@
 #pragma once
 
 #include <token/BTC/JubiterBladeBTCImpl.h>
+#include <token/BTC/JubiterBaseBCHImpl.h>
 
 namespace jub {
 namespace token {
 
 
 class JubiterBladeBCHImpl :
-    public JubiterBladeBTCImpl {
+    public JubiterBladeBTCImpl,
+virtual public JubiterBaseBCHImpl {
 
 public:
     JubiterBladeBCHImpl(JUB_UINT16 deviceID) :
