@@ -25,7 +25,7 @@ const char* stringForHRP(enum TWHRP hrp) {
     }
 }
 
-enum TWHRP hrpForString(const char *_Nonnull string) {
+enum TWHRP hrpForString(const char *_Nullable string) {
     if (std::strcmp(string, HRP_BITCOIN) == 0) {
         return TWHRPBitcoin;
     } else if (std::strcmp(string, HRP_LITECOIN) == 0) {

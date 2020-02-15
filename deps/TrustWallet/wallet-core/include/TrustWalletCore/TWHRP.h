@@ -39,6 +39,6 @@ static const char *_Nonnull HRP_QTUM = "qc";
 static const char *_Nonnull HRP_ZILLIQA = "zil";
 
 const char *_Nullable stringForHRP(enum TWHRP hrp);
-enum TWHRP hrpForString(const char *_Nonnull string);
+enum TWHRP hrpForString(const char *_Nullable string);
 
 TW_EXTERN_C_END
