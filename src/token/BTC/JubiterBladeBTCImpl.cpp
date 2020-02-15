@@ -8,7 +8,6 @@
 #include <Bitcoin/SegwitAddress.h>
 #include <Bitcoin/Script.h>
 #include <PrivateKey.h>
-#include "libBTC/libBTC.hpp"
 
 namespace jub {
 namespace token {
@@ -300,6 +299,23 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
         JUB_VERIFY_COS_ERROR(ret);
     }
 
+    vRaw.clear();
+    vRaw = sigRawTx;
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                     const std::vector<JUB_UINT64>& vInputAmount,
+                                     const std::vector<std::string>& vInputPath,
+                                     const std::vector<JUB_BYTE>& vSigedTrans) {
+
+    bool witness = false;
+    if (p2sh_p2wpkh == type) {
+        witness = true;
+    }
+
     // verify signature
     uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin,  witness);
     uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
@@ -327,18 +343,10 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
         return rv;
     }
 
-    rv = VerifyTx(witness,
-                  sigRawTx,
-                  vInputAmount,
-                  vInputPublicKey);
-    if (JUBR_OK != rv) {
-        return rv;
-    }
-
-    vRaw.clear();
-    vRaw = sigRawTx;
-
-    return JUBR_OK;
+    return VerifyTx(witness,
+                    vSigedTrans,
+                    vInputAmount,
+                    vInputPublicKey);
 }
 
 

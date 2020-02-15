@@ -45,12 +45,12 @@ protected:
                              const uint32_t& hashType,
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<TW::PublicKey>& vInputPublicKey);
-    virtual JUB_RV _serializeTx(const uint32_t coin,
-                                const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                const std::vector<INPUT_BTC>& vInputs,
-                                const std::vector<OUTPUT_BTC>& vOutputs,
-                                const JUB_UINT32 lockTime,
+
+    virtual JUB_RV _serializeTx(bool witness,
+                                const std::vector<JUB_UINT64>& vInputAmount,
+                                const std::vector<TW::Data>& vInputPublicKey,
                                 const std::vector<uchar_vector>& vSignatureRaw,
+                                TW::Bitcoin::Transaction& tx,
                                 uchar_vector& signedRaw);
 
 protected:

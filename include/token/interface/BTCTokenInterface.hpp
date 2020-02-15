@@ -3,10 +3,8 @@
 
 #include "JUB_SDK_BTC.h"
 
-#include <vector>
-#include <string>
 #include <token/interface/BaseToken.h>
-#include <mSIGNA/stdutils/uchar_vector.h>
+#include <utility/util.h>
 
 namespace jub {
 namespace token {
@@ -29,6 +27,10 @@ public:
                           const std::vector<std::string>& vChangePath,
                           const std::vector<JUB_BYTE>& vUnsigedTrans,
                           std::vector<JUB_BYTE>& vRaw) = 0;
+    virtual JUB_RV VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                            const std::vector<JUB_UINT64>& vInputAmount,
+                            const std::vector<std::string>& vInputPath,
+                            const std::vector<JUB_BYTE>& vSigedTrans) = 0;
 
     virtual JUB_RV GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) = 0;
     virtual JUB_RV GetAddress(const JUB_BYTE addrFmt,

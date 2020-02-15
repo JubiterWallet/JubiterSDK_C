@@ -3,6 +3,7 @@
 #include <memory>
 #include <device/ApduBuilder.hpp>
 #include <airbitz-core/abcd/util/Data.hpp>
+#include "utility/util.h"
 
 namespace jub {
 namespace token {
