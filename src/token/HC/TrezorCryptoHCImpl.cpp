@@ -50,7 +50,7 @@ JUB_RV TrezorCryptoHCImpl::SignTX(const JUB_BYTE addrFmt,
 
     std::vector<TW::Data> vInputPublicKey;
     std::vector<uchar_vector> vSignatureRaw;
-    JUB_VERIFY_RV(_SignTx(witness,
+    JUB_VERIFY_RV(_SignTx(!witness,
                           vInputAmount,
                           vInputPath,
                           vChangeIndex,

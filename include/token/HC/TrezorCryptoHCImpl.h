@@ -16,7 +16,7 @@ public:
         TrezorCryptoBTCImpl(xprv) {
         _coin = TWCoinType::TWCoinTypeHcash;
         _curve_name = (char*)SECP256K1_HCASH_NAME;
-        _hashType = TxSerializeFull;
+        _hashType = SigHashAll;
     };
     ~TrezorCryptoHCImpl() {};
 

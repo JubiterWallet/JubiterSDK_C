@@ -7,6 +7,6 @@
 #include <TrustWalletCore/TWHcash.h>
 
 // JuBiter-defined
-bool TxSerializeIsFull(uint32_t type) {
-    return (type & 0x1f) == TxSerializeFull;
+bool SigHashIsAll(uint32_t type) {
+    return (type & 0x1f) == SigHashAll;
 }

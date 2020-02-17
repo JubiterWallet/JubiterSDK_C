@@ -22,20 +22,28 @@ std::vector<uint8_t> HcashTransaction::getPreImage(const Script& scriptCode, siz
 
     auto data = std::vector<uint8_t>{};
 
-    if (!TxSerializeIsFull(hashType)) {
+    if (!SigHashIsAll(hashType)) {
         return data;
     }
 
     // HashType
     encode32LE(hashType, data);
 
-    //only TxSerializeNoWitness
-    auto hashTxSerializeNoWitness = getTxSerializeNoWitnessHash();
-    copy(begin(hashTxSerializeNoWitness), end(hashTxSerializeNoWitness), back_inserter(data));
+    switch (hashType) {
+    case SigHashAll:
+    {
+        // TxSerializeNoWitnessHash
+        auto hashTxSerializeNoWitness = getTxSerializeNoWitnessHash();
+        copy(begin(hashTxSerializeNoWitness), end(hashTxSerializeNoWitness), back_inserter(data));
 
-    //only TxSerializeWitnessSigning
-    auto hashTxSerializeWitnessSigning = getTxSerializeWitnessSigningHash();
-    copy(begin(hashTxSerializeWitnessSigning), end(hashTxSerializeWitnessSigning), back_inserter(data));
+        //only TxSerializeWitnessSigning
+        auto hashTxSerializeWitnessSigning = getTxSerializeWitnessSigningHash(scriptCode, index);
+        copy(begin(hashTxSerializeWitnessSigning), end(hashTxSerializeWitnessSigning), back_inserter(data));
+        break;
+    }
+    default:
+        break;
+    }
 
     return data;
 }
@@ -44,9 +52,9 @@ std::vector<uint8_t> HcashTransaction::txSerializeNoWitness() const {
     auto data = std::vector<uint8_t>{};
 
     // Version
-//    encode32LE((version|TxSerializeNoWitness<<16), data);
-    encode32LE(version, data);
+    encode32LE((version|TxSerializeNoWitness<<16), data);
 
+    //not support many inputs
     encodeVarInt(inputs.size(), data);
     for (auto& input : inputs) {
         input.encode(data);
@@ -58,8 +66,70 @@ std::vector<uint8_t> HcashTransaction::txSerializeNoWitness() const {
     }
 
     encode32LE(lockTime, data);
-    
+
     encode32LE(expiry, data);
+
+    return data;
+}
+
+std::vector<uint8_t> HcashTransaction::txSerializeOnlyWitness(const Script& signScript, size_t index) const {
+    auto data = std::vector<uint8_t>{};
+
+    // Version
+    encode32LE((version|TxSerializeOnlyWitness<<16), data);
+
+    //not support many inputs
+    encodeVarInt(inputs.size(), data);
+    for (size_t i=0; i<inputs.size(); ++i) {
+        encode64BE(inputs[i].value, data);
+        encode32BE(inputs[i].blockHeight, data);
+        encode32BE(inputs[i].blockIndex, data);
+        if (i == index) {
+            signScript.encode(data);
+        }
+        else {
+            signScript.encodeZero(data);
+        }
+    }
+
+    return data;
+}
+
+std::vector<uint8_t> HcashTransaction::txSerializeWitnessSigning(const Script& pkScript, size_t index) const {
+    auto data = std::vector<uint8_t>{};
+
+    // Version
+    encode32LE((version|TxSerializeWitnessSigning<<16), data);
+
+    encodeVarInt(inputs.size(), data);
+    for (size_t i=0; i<inputs.size(); ++i) {
+        if (i == index) {
+            pkScript.encode(data);
+        }
+        else {
+            pkScript.encodeZero(data);
+        }
+    }
+
+    return data;
+}
+
+std::vector<uint8_t> HcashTransaction::txSerializeWitnessValueSigning(const Script& pkScript, size_t index) const {
+    auto data = std::vector<uint8_t>{};
+
+    // Version
+    encode32LE((version|TxSerializeWitnessValueSigning<<16), data);
+
+    encodeVarInt(inputs.size(), data);
+    for (size_t i=0; i<inputs.size(); ++i) {
+        encode64BE(inputs[i].value, data);
+        if (i == index) {
+            pkScript.encode(data);
+        }
+        else {
+            pkScript.encodeZero(data);
+        }
+    }
 
     return data;
 }
@@ -70,28 +140,14 @@ std::vector<uint8_t> HcashTransaction::getTxSerializeNoWitnessHash() const {
     return hash;
 }
 
-std::vector<uint8_t> HcashTransaction::txSerializeWitnessSigning() const {
-    auto data = std::vector<uint8_t>{};
-
-    // Version
-//    encode32LE((version|TxSerializeOnlyWitness<<16), data);
-    encode32LE(version, data);
-
-    encodeVarInt(inputs.size(), data);
-    for (auto& input : inputs) {//
-//        encode64LE(input.value, data);
-        encode64LE(0xffffffffffffffff, data);
-        encode32LE(input.blockHeight, data);
-        encode32LE(input.blockIndex, data);
-        data.push_back(0x00);
-//        input.encodeWitness(data);
-    }
-
-    return data;
+std::vector<uint8_t> HcashTransaction::getTxSerializeWitnessSigningHash(const Script& pkScript, size_t index) const {
+    auto data = txSerializeWitnessSigning(pkScript, index);
+    auto hash = TW::Hash::hash(hasher, data);
+    return hash;
 }
 
-std::vector<uint8_t> HcashTransaction::getTxSerializeWitnessSigningHash() const {
-    auto data = txSerializeWitnessSigning();
+std::vector<uint8_t> HcashTransaction::getTxSerializeWitnessValueSigningHash(const Script& pkScript, size_t index) const {
+    auto data = txSerializeWitnessValueSigning(pkScript, index);
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
 }
