@@ -50,9 +50,12 @@ struct HcashTransaction :
     virtual std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index, uint32_t hashType,
                                   uint64_t amount) const override;
     std::vector<uint8_t> txSerializeNoWitness() const;
-    std::vector<uint8_t> txSerializeWitnessSigning() const;
+    std::vector<uint8_t> txSerializeOnlyWitness(const Script& signScript, size_t index) const;
+    std::vector<uint8_t> txSerializeWitnessSigning(const Script& pkScript, size_t index) const;
+    std::vector<uint8_t> txSerializeWitnessValueSigning(const Script& pkScript, size_t index) const;
     std::vector<uint8_t> getTxSerializeNoWitnessHash() const;
-    std::vector<uint8_t> getTxSerializeWitnessSigningHash() const;
+    std::vector<uint8_t> getTxSerializeWitnessSigningHash(const Script& pkScript, size_t index) const;
+    std::vector<uint8_t> getTxSerializeWitnessValueSigningHash(const Script& pkScript, size_t index) const;
 
     /// Encodes the transaction into the provided buffer.
     virtual void encode(bool witness, std::vector<uint8_t>& data) const override;

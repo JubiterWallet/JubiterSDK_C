@@ -55,6 +55,9 @@ bool HcashTransactionInput::decodeWitness(const Data& data) {
     size_t size = 0;
     Data temp(std::begin(data)+index, std::end(data));
     size_t witnessSize = decodeVarInt(temp, size);
+    if (0 == witnessSize) {
+        return true;
+    }
     index += size;
 
     size_t witnessCnt = 2;
