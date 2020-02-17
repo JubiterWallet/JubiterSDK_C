@@ -18,7 +18,19 @@ static const uint32_t TxSerializeWitnessSigning = 0x03;
 static const uint32_t TxSerializeWitnessValueSigning = 0x04;
 
 // JuBiter-defined
-extern bool TxSerializeIsFull(uint32_t type);
+// Hash type bits from the end of a signature.
+static const uint32_t SigHashOld = 0x00;
+static const uint32_t SigHashAll = 0x01;
+static const uint32_t SigHashNone =  0x02;
+static const uint32_t SigHashSingle = 0x03;
+static const uint32_t SigHashAllValue = 0x04;
+static const uint32_t SigHashAnyOneCanPay = 0x80;
+// sigHashMask defines the number of bits of the hash type which is used
+// to identify which outputs are signed.
+static const uint32_t sigHashMask = 0x1F;
+
+// JuBiter-defined
+extern bool SigHashIsAll(uint32_t type);
 
 TW_EXTERN_C_END
 
