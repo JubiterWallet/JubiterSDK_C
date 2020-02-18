@@ -9,7 +9,6 @@
 #include <utility/xManager.hpp>
 #include <context/BTCContext.h>
 #include <token/interface/BTCTokenInterface.hpp>
-#include "../libHC/libHC.h"
 
 
 namespace jub {
@@ -19,15 +18,6 @@ namespace context {
 class HCContextBase {
 public:
     virtual JUB_RV signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) = 0;
-    JUB_RV DeserializeTx(const std::string& raw) {
-        return hc::DeserializeTx(raw, _tx);
-    };
-    JUB_RV SerializeTx(std::string& raw) {
-        return hc::SerializeTx(_tx, raw);
-    };
-
-protected:
-    hc::TX_Hcash _tx;
 }; // class HCContextBase end
 
 
