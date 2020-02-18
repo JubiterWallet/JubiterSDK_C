@@ -51,7 +51,7 @@ JUB_RV JubiterBaseDashImpl::VerifyTx(const bool witness,
         }
 
         return _verifyTx(_coin,
-                         tx,
+                         &tx,
                          _hashType,
                          vInputAmount,
                          vInputPubkey);

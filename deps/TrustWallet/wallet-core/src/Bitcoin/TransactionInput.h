@@ -9,6 +9,7 @@
 #include "OutPoint.h"
 #include "Script.h"
 #include "../Data.h"
+#include "Amount.h"
 
 #include <vector>
 

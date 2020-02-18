@@ -39,10 +39,10 @@ struct Transaction {
     uint32_t lockTime = 0;
 
     /// A list of 1 or more transaction inputs or sources for coins
-    std::vector<TransactionInput> inputs;
+    std::vector<TransactionInput*> inputs;
 
     /// A list of 1 or more transaction outputs or destinations for coins
-    std::vector<TransactionOutput> outputs;
+    std::vector<TransactionOutput*> outputs;
 
     TW::Hash::Hasher hasher = TW::Hash::sha256d;
 
@@ -55,14 +55,25 @@ struct Transaction {
     Transaction(uint32_t lockTime, TW::Hash::Hasher hasher = TW::Hash::sha256d)
         : lockTime(lockTime), inputs(), outputs(), hasher(hasher) {}
 
+    // JuBiter-defined
+    ~Transaction() {
+        for (size_t i=0; i<inputs.size(); ++i) {
+            if (inputs[i]) {
+                delete inputs[i]; inputs[i] = nullptr;
+            }
+        }
+        inputs.clear();
+
+        for (size_t i=0; i<outputs.size(); ++i) {
+            if (outputs[i]) {
+                delete outputs[i]; outputs[i] = nullptr;
+            }
+        }
+        outputs.clear();
+    }
+
     /// Whether the transaction is empty.
-    virtual bool empty() const { return inputs.empty() && outputs.empty(); }
-
-    // JuBiter-defined
-    virtual size_t scopeInputCount() const { return inputs.size(); }
-
-    // JuBiter-defined
-    virtual TransactionInput scopeInput(size_t index) const { return inputs[index]; }
+    bool empty() const { return inputs.empty() && outputs.empty(); }
 
     /// Generates the signature pre-image.
     // JuBiter-defined
