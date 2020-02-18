@@ -97,6 +97,9 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& 
     uint8_t prefix = TWCoinTypeP2pkhPrefix(coin);
     TW::Bitcoin::Address addr(publicKey, prefix);
     TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), coin);
+    if (0 == scriptCode.size()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     TW::Data preImage;
     if (!witness) {
