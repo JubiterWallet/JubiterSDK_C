@@ -263,7 +263,7 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
     uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin,  witness);
     uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
 
-    JUB_RV rv = JUBR_ERROR;
+    JUB_RV rv = JUBR_OK;
     std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {
         std::string xpub;
