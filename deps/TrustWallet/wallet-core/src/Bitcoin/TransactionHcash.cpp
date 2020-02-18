@@ -48,6 +48,7 @@ std::vector<uint8_t> HcashTransaction::getPreImage(const Script& scriptCode, siz
     return data;
 }
 
+// JuBiter-defined
 std::vector<uint8_t> HcashTransaction::txSerializeNoWitness() const {
     auto data = std::vector<uint8_t>{};
 
@@ -57,12 +58,12 @@ std::vector<uint8_t> HcashTransaction::txSerializeNoWitness() const {
     //not support many inputs
     encodeVarInt(inputs.size(), data);
     for (auto& input : inputs) {
-        input.encode(data);
+        input->encode(data);
     }
 
     encodeVarInt(outputs.size(), data);
     for (auto& output : outputs) {
-        output.encode(data);
+        output->encode(data);
     }
 
     encode32LE(lockTime, data);
@@ -72,6 +73,7 @@ std::vector<uint8_t> HcashTransaction::txSerializeNoWitness() const {
     return data;
 }
 
+// JuBiter-defined
 std::vector<uint8_t> HcashTransaction::txSerializeOnlyWitness(const Script& signScript, size_t index) const {
     auto data = std::vector<uint8_t>{};
 
@@ -81,9 +83,9 @@ std::vector<uint8_t> HcashTransaction::txSerializeOnlyWitness(const Script& sign
     //not support many inputs
     encodeVarInt(inputs.size(), data);
     for (size_t i=0; i<inputs.size(); ++i) {
-        encode64BE(inputs[i].value, data);
-        encode32BE(inputs[i].blockHeight, data);
-        encode32BE(inputs[i].blockIndex, data);
+        encode64LE(dynamic_cast<HcashTransactionInput*>(inputs[i])->value, data);
+        encode32BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->blockHeight, data);
+        encode32BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->blockIndex, data);
         if (i == index) {
             signScript.encode(data);
         }
@@ -95,6 +97,7 @@ std::vector<uint8_t> HcashTransaction::txSerializeOnlyWitness(const Script& sign
     return data;
 }
 
+// JuBiter-defined
 std::vector<uint8_t> HcashTransaction::txSerializeWitnessSigning(const Script& pkScript, size_t index) const {
     auto data = std::vector<uint8_t>{};
 
@@ -114,6 +117,7 @@ std::vector<uint8_t> HcashTransaction::txSerializeWitnessSigning(const Script& p
     return data;
 }
 
+// JuBiter-defined
 std::vector<uint8_t> HcashTransaction::txSerializeWitnessValueSigning(const Script& pkScript, size_t index) const {
     auto data = std::vector<uint8_t>{};
 
@@ -122,7 +126,7 @@ std::vector<uint8_t> HcashTransaction::txSerializeWitnessValueSigning(const Scri
 
     encodeVarInt(inputs.size(), data);
     for (size_t i=0; i<inputs.size(); ++i) {
-        encode64BE(inputs[i].value, data);
+        encode64BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->value, data);
         if (i == index) {
             pkScript.encode(data);
         }
@@ -134,18 +138,21 @@ std::vector<uint8_t> HcashTransaction::txSerializeWitnessValueSigning(const Scri
     return data;
 }
 
+// JuBiter-defined
 std::vector<uint8_t> HcashTransaction::getTxSerializeNoWitnessHash() const {
     auto data = txSerializeNoWitness();
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
 }
 
+// JuBiter-defined
 std::vector<uint8_t> HcashTransaction::getTxSerializeWitnessSigningHash(const Script& pkScript, size_t index) const {
     auto data = txSerializeWitnessSigning(pkScript, index);
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
 }
 
+// JuBiter-defined
 std::vector<uint8_t> HcashTransaction::getTxSerializeWitnessValueSigningHash(const Script& pkScript, size_t index) const {
     auto data = txSerializeWitnessValueSigning(pkScript, index);
     auto hash = TW::Hash::hash(hasher, data);
@@ -160,30 +167,27 @@ void HcashTransaction::encode(bool witness, std::vector<uint8_t>& data) const {
 
     encodeVarInt(inputs.size(), data);
     for (auto& input : inputs) {
-        input.encode(data);
+        input->encode(data);
     }
 
     encodeVarInt(outputs.size(), data);
     for (auto& output : outputs) {
-        output.encode(data);
+        output->encode(data);
     }
 
     encode32LE(lockTime, data);
+
+    encode32LE(expiry, data);
 
     if (witness) {
         // Use extended format in case witnesses are to be serialized.
         // TxSerializeOnlyWitness: [nInputCount][amount][InputBlockHeight][InputBlockIndex][SignatureScript]
         encodeVarInt(inputs.size(), data);
-        bool bPreimage = false;
-        for (auto& input : inputs) {
-            if (0 == input.scriptWitness.size()) {
-                bPreimage = true;
-                continue;
-            }
-            input.encodeWitness(data);
-        }
-        if (bPreimage) {
-            data.push_back(0);
+        for (size_t i=0; i<inputs.size(); ++i) {
+            encode64LE(dynamic_cast<HcashTransactionInput*>(inputs[i])->value, data);
+            encode32BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->blockHeight, data);
+            encode32BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->blockIndex, data);
+            inputs[i]->encodeWitness(data);
         }
     }
 }
@@ -212,13 +216,13 @@ bool HcashTransaction::decode(bool witness, const std::vector<uint8_t>& data) {
     for(size_t i=0; i<nInputCount; ++i) {
         indexInc = 0;
         std::vector<uint8_t> tempInput(std::begin(data)+index+indexInc, std::end(data));
-        HcashTransactionInput input;
-        if (!input.decode(tempInput)) {
+        HcashTransactionInput *input = new HcashTransactionInput();
+        if (!input->decode(tempInput)) {
             bSuccess = false;
             break;
         }
-        HcashTransaction::inputs.push_back(input);
-        indexInc += input.size();
+        inputs.push_back(input);
+        indexInc += input->size();
         index += indexInc;
     }
     if (!bSuccess) {
@@ -235,13 +239,13 @@ bool HcashTransaction::decode(bool witness, const std::vector<uint8_t>& data) {
     for(size_t i=0; i<nOutputCount; ++i) {
         indexInc = 0;
         std::vector<uint8_t> tempOutput(std::begin(data)+index+indexInc, std::end(data));
-        HcashTransactionOutput output;
-        if (!output.decode(tempOutput)) {
+        HcashTransactionOutput *output = new HcashTransactionOutput();
+        if (!output->decode(tempOutput)) {
             bSuccess = false;
             break;
         }
-        HcashTransaction::outputs.push_back(output);
-        indexInc += output.size();
+        outputs.push_back(output);
+        indexInc += output->size();
         index += indexInc;
     }
     if (!bSuccess) {
@@ -267,20 +271,22 @@ bool HcashTransaction::decode(bool witness, const std::vector<uint8_t>& data) {
     }
     index += indexInc;
 
-    for (size_t i=0; i<wnInputCount; ++i) {
-        indexInc = 0;
+    if (witness) {
+        for (size_t i=0; i<wnInputCount; ++i) {
+            indexInc = 0;
 
-        std::vector<uint8_t> tempWitness(std::begin(data)+index+indexInc, std::end(data));
-        if (!HcashTransaction::inputs[i].decodeWitness(tempWitness)) {
-            bSuccess = false;
-            break;
+            std::vector<uint8_t> tempWitness(std::begin(data)+index+indexInc, std::end(data));
+            if (!inputs[i]->decodeWitness(tempWitness)) {
+                bSuccess = false;
+                break;
+            }
+
+            indexInc += inputs[i]->sizeWitness();
+            index += indexInc;
         }
-
-        indexInc += HcashTransaction::inputs[i].sizeWitness();
-        index += indexInc;
-    }
-    if (!bSuccess) {
-        return bSuccess;
+        if (!bSuccess) {
+            return bSuccess;
+        }
     }
 
     return !empty();

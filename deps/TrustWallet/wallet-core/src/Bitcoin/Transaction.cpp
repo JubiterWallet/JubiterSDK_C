@@ -31,20 +31,20 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
         // The input being signed (replacing the scriptSig with scriptCode + amount)
         // The prevout may already be contained in hashPrevout, and the nSequence
         // may already be contain in hashSequence.
-        reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[i].previousOutput).encode(data);
+        reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[i]->previousOutput).encode(data);
         if (i == index) {
             scriptCode.encode(data);
         }
         else {
             scriptCode.encodeZero(data);
         }
-        encode32LE(inputs[index].sequence, data);
+        encode32LE(inputs[index]->sequence, data);
     }
 
     // Outputs
     encodeVarInt(outputs.size(), data);
     for (auto& output : outputs) {
-        output.encode(data);
+        output->encode(data);
     }
 
     // Locktime
@@ -85,11 +85,11 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
     // The input being signed (replacing the scriptSig with scriptCode + amount)
     // The prevout may already be contained in hashPrevout, and the nSequence
     // may already be contain in hashSequence.
-    reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[index].previousOutput).encode(data);
+    reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[index]->previousOutput).encode(data);
     scriptCode.encode(data);
 
     encode64LE(amount, data);
-    encode32LE(inputs[index].sequence, data);
+    encode32LE(inputs[index]->sequence, data);
 
     // Outputs (none/one/all, depending on flags)
     if (!TWSignatureHashTypeIsSingle(hashType) && !TWSignatureHashTypeIsNone(hashType)) {
@@ -97,7 +97,7 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
         copy(begin(hashOutputs), end(hashOutputs), back_inserter(data));
     } else if (TWSignatureHashTypeIsSingle(hashType) && index < outputs.size()) {
         auto outputData = std::vector<uint8_t>{};
-        outputs[index].encode(outputData);
+        outputs[index]->encode(outputData);
         auto hashOutputs = TW::Hash::hash(hasher, outputData);
         copy(begin(hashOutputs), end(hashOutputs), back_inserter(data));
     } else {
@@ -116,7 +116,7 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
 std::vector<uint8_t> Transaction::getPrevoutHash() const {
     auto data = std::vector<uint8_t>{};
     for (auto& input : inputs) {
-        auto& outpoint = reinterpret_cast<const TW::Bitcoin::OutPoint&>(input.previousOutput);
+        auto& outpoint = reinterpret_cast<const TW::Bitcoin::OutPoint&>(input->previousOutput);
         outpoint.encode(data);
     }
     auto hash = TW::Hash::hash(hasher, data);
@@ -126,7 +126,7 @@ std::vector<uint8_t> Transaction::getPrevoutHash() const {
 std::vector<uint8_t> Transaction::getSequenceHash() const {
     auto data = std::vector<uint8_t>{};
     for (auto& input : inputs) {
-        encode32LE(input.sequence, data);
+        encode32LE(input->sequence, data);
     }
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
@@ -135,7 +135,7 @@ std::vector<uint8_t> Transaction::getSequenceHash() const {
 std::vector<uint8_t> Transaction::getOutputsHash() const {
     auto data = std::vector<uint8_t>{};
     for (auto& output : outputs) {
-        output.encode(data);
+        output->encode(data);
     }
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
@@ -164,23 +164,23 @@ void Transaction::encode(bool witness, std::vector<uint8_t>& data) const {
 
     encodeVarInt(inputs.size(), data);
     for (auto& input : inputs) {
-        input.encode(data);
+        input->encode(data);
     }
 
     encodeVarInt(outputs.size(), data);
     for (auto& output : outputs) {
-        output.encode(data);
+        output->encode(data);
     }
 
     // modified by JuBiter for supports encoding preimage
     if (witness) {
         bool bPreimage = false;
         for (auto& input : inputs) {
-            if (0 == input.scriptWitness.size()) {
+            if (0 == input->scriptWitness.size()) {
                 bPreimage = true;
                 continue;
             }
-            input.encodeWitness(data);
+            input->encodeWitness(data);
         }
         if (bPreimage) {
             data.push_back(0);
@@ -222,13 +222,13 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
     for(size_t i=0; i<nInputCount; ++i) {
         indexInc = 0;
         std::vector<uint8_t> tempInput(std::begin(data)+index+indexInc, std::end(data));
-        TransactionInput input;
-        if (!input.decode(tempInput)) {
+        TransactionInput *input = new TransactionInput();
+        if (!input->decode(tempInput)) {
             bSuccess = false;
             break;
         }
         inputs.push_back(input);
-        indexInc += input.size();
+        indexInc += input->size();
         index += indexInc;
     }
     if (!bSuccess) {
@@ -245,13 +245,13 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
     for(size_t i=0; i<nOutputCount; ++i) {
         indexInc = 0;
         std::vector<uint8_t> tempOutput(std::begin(data)+index+indexInc, std::end(data));
-        TransactionOutput output;
-        if (!output.decode(tempOutput)) {
+        TransactionOutput *output = new TransactionOutput();
+        if (!output->decode(tempOutput)) {
             bSuccess = false;
             break;
         }
         outputs.push_back(output);
-        indexInc += output.size();
+        indexInc += output->size();
         index += indexInc;
     }
     if (!bSuccess) {
@@ -264,12 +264,12 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
             indexInc = 0;
 
             std::vector<uint8_t> tempWitness(std::begin(data)+index+indexInc, std::end(data));
-            if (!inputs[i].decodeWitness(tempWitness)) {
+            if (!inputs[i]->decodeWitness(tempWitness)) {
                 bSuccess = false;
                 break;
             }
 
-            indexInc += inputs[i].sizeWitness();
+            indexInc += inputs[i]->sizeWitness();
             index += indexInc;
         }
         if (!bSuccess) {
@@ -328,7 +328,7 @@ std::vector<uint8_t> Transaction::getSignatureHashBase(const Script& scriptCode,
             auto output = TransactionOutput(-1, {});
             output.encode(data);
         } else {
-            outputs[subindex].encode(data);
+            outputs[subindex]->encode(data);
         }
     }
 
@@ -350,7 +350,7 @@ void Transaction::serializeInput(size_t subindex, const Script& scriptCode, size
         subindex = index;
     }
 
-    reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[subindex].previousOutput).encode(data);
+    reinterpret_cast<const TW::Bitcoin::OutPoint&>(inputs[subindex]->previousOutput).encode(data);
 
     // Serialize the script
     if (subindex != index) {
@@ -365,7 +365,7 @@ void Transaction::serializeInput(size_t subindex, const Script& scriptCode, size
     if (subindex != index && (hashSingle || hashNone)) {
         encode32LE(0, data);
     } else {
-        encode32LE(inputs[subindex].sequence, data);
+        encode32LE(inputs[subindex]->sequence, data);
     }
 }
 
