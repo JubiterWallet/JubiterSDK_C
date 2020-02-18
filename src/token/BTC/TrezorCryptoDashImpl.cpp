@@ -40,7 +40,7 @@ JUB_RV TrezorCryptoDashImpl::SignTX(const JUB_BYTE addrFmt,
                                vInputAmount,
                                vInputPublicKey,
                                vSignatureRaw,
-                               tx,
+                               &tx,
                                signedRaw));
 
     vRaw = signedRaw;

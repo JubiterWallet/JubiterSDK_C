@@ -169,7 +169,7 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt,
                                vInputAmount,
                                vInputPublicKey,
                                vSignatureRaw,
-                               tx,
+                               &tx,
                                signedRaw));
 
     vRaw = signedRaw;
@@ -189,7 +189,7 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
 
     JUB_RV rv = JUBR_ERROR;
 
-    for (size_t index=0; index<tx.scopeInputCount(); ++index) {
+    for (size_t index=0; index<tx.inputs.size(); ++index) {
         // derive key using BTC version
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;

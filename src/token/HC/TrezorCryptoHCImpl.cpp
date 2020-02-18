@@ -44,7 +44,7 @@ JUB_RV TrezorCryptoHCImpl::SignTX(const JUB_BYTE addrFmt,
     }
 
     TW::Bitcoin::HcashTransaction tx;
-    if (!tx.decode(witness, vUnsigedTrans)) {
+    if (!tx.decode(!witness, vUnsigedTrans)) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -60,11 +60,11 @@ JUB_RV TrezorCryptoHCImpl::SignTX(const JUB_BYTE addrFmt,
                           vSignatureRaw));
 
     uchar_vector signedRaw;
-    JUB_VERIFY_RV(_serializeTx(witness,
+    JUB_VERIFY_RV(_serializeTx(!witness,
                                vInputAmount,
                                vInputPublicKey,
                                vSignatureRaw,
-                               tx,
+                               &tx,
                                signedRaw));
 
     vRaw = signedRaw;

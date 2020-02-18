@@ -25,10 +25,17 @@ public:
 
 protected:
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
-                             const TW::Bitcoin::Transaction& tx,
+                             const TW::Bitcoin::Transaction* tx,
                              const uint32_t& hashType,
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<TW::PublicKey>& vInputPublicKey) override;
+
+    virtual JUB_RV _serializeTx(bool witness,
+                                const std::vector<JUB_UINT64>& vInputAmount,
+                                const std::vector<TW::Data>& vInputPublicKey,
+                                const std::vector<uchar_vector>& vSignatureRaw,
+                                TW::Bitcoin::Transaction* tx,
+                                uchar_vector& signedRaw) override;
 }; // class JubiterBaseHCImpl end
 
 

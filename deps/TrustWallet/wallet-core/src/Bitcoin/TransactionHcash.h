@@ -23,12 +23,6 @@ struct HcashTransaction :
 
     uint32_t expiry = 0;
 
-    /// A list of 1 or more transaction inputs or sources for coins
-    std::vector<HcashTransactionInput> inputs;
-
-    /// A list of 1 or more transaction outputs or destinations for coins
-    std::vector<HcashTransactionOutput> outputs;
-
     HcashTransaction(TW::Hash::Hasher hasher = [](const byte* begin, const byte* end) mutable -> TW::Data {
        return TW::Hash::blake256(begin, end);
     }) : Transaction(hasher) {};
@@ -39,13 +33,6 @@ struct HcashTransaction :
                      }) : expiry(expiry),
     Transaction(lockTime, hasher) {};
     virtual ~HcashTransaction() = default;
-
-    /// Whether the transaction is empty.
-    virtual bool empty() const override { return inputs.empty() && outputs.empty(); }
-
-    virtual size_t scopeInputCount() const override { return inputs.size(); }
-
-    virtual TransactionInput scopeInput(size_t index) const override { return HcashTransaction::inputs[index]; }
 
     virtual std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index, uint32_t hashType,
                                   uint64_t amount) const override;
@@ -68,6 +55,6 @@ struct HcashTransaction :
 } // namespace TW::Bitcoin
 
 /// Wrapper for C interface.
-struct TWBitcoinHcashTransaction {
+struct TWHcashTransaction {
     TW::Bitcoin::HcashTransaction impl;
-}; // struct TWBitcoinHcashTransaction end
+}; // struct TWHcashTransaction end

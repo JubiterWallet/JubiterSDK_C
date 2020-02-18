@@ -56,7 +56,7 @@ JUB_RV TrezorCryptoBCHImpl::SignTX(const JUB_BYTE addrFmt,
                                vInputAmount,
                                vInputPublicKey,
                                vSignatureRaw,
-                               tx,
+                               &tx,
                                signedRaw));
 
     vRaw = signedRaw;

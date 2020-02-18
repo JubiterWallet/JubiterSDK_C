@@ -17,10 +17,18 @@ void HcashTransactionInput::encode(Data& data) const {
 
 // JuBiter-defined
 void HcashTransactionInput::encodeWitness(Data& data) const {
-    for (auto& item : scriptWitness) {
-        encodeVarInt(item.size(), data);
-        std::copy(std::begin(item), std::end(item), std::back_inserter(data));
+    if (0 == scriptWitness.size()) {
+        return ;
     }
+
+    Data witnesses;
+    for (auto& item : scriptWitness) {
+        encodeVarInt(item.size(), witnesses);
+        std::copy(std::begin(item), std::end(item), std::back_inserter(witnesses));
+    }
+
+    encodeVarInt(witnesses.size(), data);
+    std::copy(std::begin(witnesses), std::end(witnesses), std::back_inserter(data));
 }
 
 // JuBiter-defined

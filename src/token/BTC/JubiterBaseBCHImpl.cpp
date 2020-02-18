@@ -6,27 +6,28 @@ namespace token {
 
 
 JUB_RV JubiterBaseBCHImpl::_verifyTx(const TWCoinType& coin,
-                                     const TW::Bitcoin::Transaction& tx,
+                                     const TW::Bitcoin::Transaction* tx,
                                      const uint32_t& hashType,
                                      const std::vector<JUB_UINT64>& vInputAmount,
                                      const std::vector<TW::PublicKey>& vInputPublicKey) {
 
     JUB_RV rv = JUBR_OK;
 
-    for (size_t index=0; index<tx.scopeInputCount(); ++index) {
+    for (size_t index=0; index<tx->inputs.size(); ++index) {
         rv = JUBR_ERROR;
 
         TW::Data signature;
         TW::Data publicKey;
+        TW::Bitcoin::Script script = tx->inputs[index]->script;
         // P2WPKH
-        if (tx.inputs[index].script.matchPayToPublicKeyHashScriptSig(signature, publicKey)) {
+        if (script.matchPayToPublicKeyHashScriptSig(signature, publicKey)) {
             if (vInputPublicKey[index].bytes != publicKey) {
                 continue;
             }
 
             // preimage using SegWit
             rv = _verifyPayToPublicKeyHashScriptSig(coin,
-                                                    tx,
+                                                    *tx,
                                                     index, hashType, vInputAmount[index],
                                                     signature,
                                                     vInputPublicKey[index], true);

@@ -14,7 +14,7 @@ public:
 
 protected:
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
-                             const TW::Bitcoin::Transaction& tx,
+                             const TW::Bitcoin::Transaction* tx,
                              const uint32_t& hashType,
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<TW::PublicKey>& vInputPublicKey) override;
