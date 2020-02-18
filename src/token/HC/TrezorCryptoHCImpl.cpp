@@ -1,8 +1,43 @@
 #include <token/HC/TrezorCryptoHCImpl.h>
 #include <TrustWalletCore/TWCurve.h>
+#include "HDKey/HDKey.hpp"
 
 namespace jub {
 namespace token {
+
+
+JUB_RV TrezorCryptoHCImpl::_HdnodePrivCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint) {
+
+    HDNode hdkey;
+    if (0 == hdnode_deserialize(_MasterKey_XPRV.c_str(),
+                                TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin), TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin),
+                                SECP256K1_NAME, &hdkey, parentFingerprint)) {
+        try {
+            auto vPath = parsePath(path);
+            // replace curve to SECP256K1_HCASH_NAME
+            hdkey.curve = get_curve_by_name(_curve_name);
+            uint32_t depth = hdkey.depth;
+            for (uint32_t i=0; i<vPath.size(); ++i) {
+                if (i < depth) {
+                    continue;
+                }
+                *parentFingerprint = hdnode_fingerprint(&hdkey);
+                if (1 != hdnode_private_ckd(&hdkey, vPath[i])) {
+                    return JUBR_ARGUMENTS_BAD;
+                }
+                hdnode_fill_public_key(&hdkey);
+            }
+        }
+        catch( ...) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+        hdnode_fill_public_key(&hdkey);
+        *node = hdkey;
+        return JUBR_OK;
+    }
+
+    return JUBR_ARGUMENTS_BAD;
+}
 
 
 JUB_RV TrezorCryptoHCImpl::_GetAddress(const TW::Data publicKey, std::string& address) {
