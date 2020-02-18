@@ -203,12 +203,14 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
 
         // script code - scriptPubKey
-        std::string address;
-        rv = _GetAddress(TW::Data(publicKey), address);
-        if (JUBR_OK != rv) {
+        uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
+        TW::Bitcoin::Address addr(twpk, prefix);
+        TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
+        if (0 == scriptCode.size()) {
+            rv = JUBR_ARGUMENTS_BAD;
             break;
         }
-        TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(address, _coin);
+
         TW::Data preImage;
         if (!witness) {
             preImage = tx.getPreImage(scriptCode, index, _hashType);
@@ -216,6 +218,7 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         else {
             preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);
         }
+
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
         TW::Data digest = tx.hasher(begin, begin+preImage.size());
         TW::Data signature = twprvk.signAsDER(digest, curveName2TWCurve(_curve_name));

@@ -80,7 +80,7 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     JUB_CHAR_PTR  xpub = nullptr;
     rv = JUB_GetHDNodeHC(contextID, path, &xpub);
     if (rv == JUBR_OK) {
-        cout << xpub << endl;
+        cout << "JUB_GetHDNodeHC return " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
