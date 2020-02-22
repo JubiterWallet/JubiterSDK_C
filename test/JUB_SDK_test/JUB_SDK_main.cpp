@@ -14,6 +14,8 @@
 #include "JUB_SDK_software_test_eos.hpp"
 #include "JUB_SDK_software_test_xrp.hpp"
 #endif
+
+#include <thread>
 using namespace std;
 
 std::string GetErrMsg(JUB_RV rv) {
@@ -46,6 +48,17 @@ void error_exit(const char* message) {
 }
 
 int main() {
+    
+    std::thread c[5];
+    for (int i = 0; i < 5; i++){
+            c[i] = std::thread(software_test_btc,i+1);
+    }
+    
+    for (int i = 0; i < 5; i++){
+            c[i].join();
+    }
+
+ 
 
     while(true) {
         cout << "--------------------------------------" << endl;
@@ -69,7 +82,7 @@ int main() {
                 break;
 #if SW
             case 2:
-                software_test_btc();
+                software_test_btc(0);
                 break;
             case 60:
                 software_test_eth();

@@ -3,6 +3,7 @@
 #include <utility/util.h>
 #include <context/HCContext.h>
 #include <string>
+#include <utility/mutex.h>
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -24,6 +25,7 @@ JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,
                            IN JUB_UINT16 deviceID,
                            OUT JUB_UINT16* contextID) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeHCImpl>(deviceID);
 
 
@@ -43,6 +45,7 @@ JUB_RV JUB_GetAddressHC(IN JUB_UINT16 contextID,
                         IN JUB_ENUM_BOOL bshow,
                         OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_HC(contextID);
 
 	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -59,6 +62,7 @@ JUB_RV JUB_GetHDNodeHC(IN JUB_UINT16 contextID,
                        IN BIP44_Path path,
                        OUT JUB_CHAR_PTR_PTR xpub) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_HC(contextID);
 
 	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -74,6 +78,7 @@ JUB_RV JUB_GetHDNodeHC(IN JUB_UINT16 contextID,
 JUB_RV JUB_GetMainHDNodeHC(IN JUB_UINT16 contextID,
                            OUT JUB_CHAR_PTR_PTR xpub) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_HC(contextID);
 
 	auto context = (jub::context::HCContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -92,6 +97,7 @@ JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
                              IN JUB_CHAR_CPTR unsignedTrans,
                              OUT JUB_CHAR_PTR_PTR raw) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_HC(contextID);
     auto context = dynamic_cast<jub::context::HCContextBase*>(jub::context::ContextManager::GetInstance()->GetOne(contextID));
     JUB_CHECK_NULL(context);

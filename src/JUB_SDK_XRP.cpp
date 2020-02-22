@@ -9,6 +9,7 @@
 #include "JUB_SDK_XRP.h"
 
 #include "utility/util.h"
+#include <utility/mutex.h>
 
 #include "context/XRPContext.h"
 #include "token/XRP/JubiterBladeXRPImpl.h"
@@ -105,6 +106,7 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
 
 
@@ -128,6 +130,7 @@ JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_XRP(contextID);
 
     auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -151,6 +154,7 @@ JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
                            IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_XRP(contextID);
 
 	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -176,6 +180,7 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_XRP(contextID);
 
 	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -199,6 +204,7 @@ JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_XRP(contextID);
 
 	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -224,6 +230,7 @@ JUB_RV JUB_SignTransactionXRP(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,
                               IN JUB_TX_XRP tx,
                               OUT JUB_CHAR_PTR_PTR raw) {
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_XRP(contextID);
 
 	auto context = (jub::context::XRPContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);

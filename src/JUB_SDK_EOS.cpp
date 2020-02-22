@@ -9,6 +9,7 @@
 #include "JUB_SDK_EOS.h"
 
 #include "utility/util.h"
+#include <utility/mutex.h>
 
 #include "context/EOSContext.h"
 #include "token/EOS/JubiterBladeEOSImpl.h"
@@ -73,6 +74,7 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeEOSImpl>(deviceID);
 
 
@@ -97,6 +99,7 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_EOS(contextID);
 
 	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -121,6 +124,7 @@ JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
 //                           IN BIP48_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_EOS(contextID);
 
 	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -148,6 +152,7 @@ JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
 //                        IN BIP48_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_EOS(contextID);
 
 	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -172,6 +177,7 @@ JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_EOS(contextID);
 
 	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -206,6 +212,7 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
                               IN JUB_CHAR_CPTR actionsInJSON,
                               OUT JUB_CHAR_PTR_PTR rawInJSON) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_EOS(contextID);
 
 	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -238,6 +245,7 @@ JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
                           IN JUB_UINT16 actionCount,
                           OUT JUB_CHAR_PTR_PTR actionsInJSON) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_EOS(contextID);
 
 	auto context = (jub::context::EOSContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);

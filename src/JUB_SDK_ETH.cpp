@@ -9,6 +9,7 @@
 #include "JUB_SDK_ETH.h"
 
 #include "utility/util.h"
+#include <utility/mutex.h>
 
 #include "context/ETHContext.h"
 #include "token/ETH/JubiterBladeETHImpl.h"
@@ -32,7 +33,9 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
-	auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
+    CREATE_THREAD_LOCK_GUARD
+    
+    auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
 
     jub::context::ETHContext* context = new  jub::context::ETHContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
@@ -54,6 +57,7 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_ETH(contextID);
 
 	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -77,6 +81,7 @@ JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
                            IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_ETH(contextID);
 
 	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -103,6 +108,7 @@ JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_ETH(contextID);
 
 	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -127,6 +133,7 @@ JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_ETH(contextID);
 
 	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
@@ -162,6 +169,7 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
                               IN JUB_CHAR_CPTR input,
                               OUT JUB_CHAR_PTR_PTR raw) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_ETH(contextID);
 
     JUB_CHECK_NULL(gasPriceInWei);
@@ -205,6 +213,7 @@ JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
                             IN JUB_CHAR_CPTR tokenValue,
                             OUT JUB_CHAR_PTR_PTR abi) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_CONTEXT_ETH(contextID);
 
 	auto context = (jub::context::ETHContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);

@@ -12,6 +12,7 @@
 
 #include "utility/util.h"
 #include "utility/Singleton.h"
+#include <utility/mutex.h>
 
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #include <context/BaseContext.h>
@@ -38,6 +39,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
                          OUT JUB_DEVICE_INFO_PTR info) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     /*
@@ -83,6 +85,7 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
  *****************************************************************************/
 JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     return (JUB_ENUM_BOOL)token->IsInitialize();
@@ -96,6 +99,7 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
  *****************************************************************************/
 JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
 	jub::context::ContextManager::GetInstance()->ClearLast();
@@ -112,6 +116,7 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
                        OUT JUB_CHAR_PTR_PTR appList) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     std::string appletList;
@@ -130,6 +135,7 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
 JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR coinsList) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     std::string str_coinsList;
@@ -150,6 +156,7 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
                             IN JUB_CHAR_CPTR appID,
                             OUT JUB_CHAR_PTR_PTR version) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     std::string str_version;
@@ -169,6 +176,7 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
 JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID,
                       IN JUB_UINT16 timeout) {
 
+    CREATE_THREAD_LOCK_GUARD
     auto context = (jub::context::BaseContext*)jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
@@ -190,6 +198,7 @@ JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID,
 JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
                          OUT JUB_CHAR_PTR_PTR cert) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     // Let's go to the main security domain,
@@ -215,6 +224,7 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
                        IN JUB_CHAR_CPTR apdu,
                        OUT JUB_CHAR_PTR_PTR response) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     std::string str_response;
