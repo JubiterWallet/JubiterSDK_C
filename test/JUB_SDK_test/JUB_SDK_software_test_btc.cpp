@@ -83,6 +83,9 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     if (isQRC20) {
         rv = transactionQTUM_proc(contextID, root);
     }
+    else if (COINUSDT == cfg.coinType) {
+        rv = transactionUSDT_proc(contextID, root);
+    }
     else {
         rv = transaction_proc(contextID, root);
     }
@@ -144,7 +147,7 @@ void software_test_btc() {
             {
                 cfg.coinType = COINUSDT;
                 cfg.transType = p2pkh;
-                json_file = "json/testBTC44.json";
+                json_file = "json/testUSDT.json";
                 break;
             }
             case 145:
