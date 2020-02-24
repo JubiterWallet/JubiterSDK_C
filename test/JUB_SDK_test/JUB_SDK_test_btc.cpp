@@ -269,6 +269,7 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
             input.path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
             input.path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
             input.amount = root["inputs"][i]["amount"].asUInt64();
+            input.nSequence = 0xffffffff;
             inputs.push_back(input);
         }
 
@@ -321,6 +322,16 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
         return;
     }
 
+    rv = transactionUSDT_proc(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
     try {
         std::vector<INPUT_BTC> inputs;
         std::vector<OUTPUT_BTC> outputs;
@@ -334,6 +345,7 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
             input.path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
             input.path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
             input.amount = root["inputs"][i]["amount"].asUInt64();
+            input.nSequence = 0xffffffff;
             inputs.push_back(input);
         }
 
@@ -356,7 +368,7 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
         rv = JUB_BuildUSDTOutputs(contextID, (char*)root["USDT_to"].asCString(), root["USDT_amount"].asUInt64(), USDT_outputs);
         if (JUBR_OK != rv) {
             cout << "JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
-            return;
+            return rv;
         }
         outputs.emplace_back(USDT_outputs[0]);
         outputs.emplace_back(USDT_outputs[1]);
@@ -367,13 +379,13 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 
         if (JUBR_USER_CANCEL == rv) {
             cout << "User cancel the transaction !" << endl;
-            return;
+            return rv;
         }
         if (   JUBR_OK != rv
             || nullptr == raw
             ) {
             cout << "error sign tx" << endl;
-            return;
+            return rv;
         }
         if (raw) {
             cout << raw;
@@ -383,6 +395,8 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
     catch (...) {
         error_exit("Error format json file\n");
     }
+
+    return JUBR_OK;
 }
 
 void USDT_test(const char* json_file) {
