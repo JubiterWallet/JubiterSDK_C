@@ -1,19 +1,23 @@
 #pragma once
-#include <token/TrezorCrypto/TrezorCryptoToken.h>
+#include <token/JubiterNFC/JubiterNFCToken.h>
+#include <token/JubiterNFC/JubiterNFCImpl.h>
 #include <token/ETH/JubiterBaseETHImpl.h>
+
+#include <memory>
 
 namespace jub {
 namespace token {
 
 
-class TrezorCryptoETHImpl :
-        public TrezorCryptoToken,
+class JubiterNFCETHImpl :
+        public JubiterNFCImpl,
 virtual public JubiterBaseETHImpl {
 
 public:
-    TrezorCryptoETHImpl(const std::string& xprv) :
-        TrezorCryptoToken(xprv) {};
-    ~TrezorCryptoETHImpl() {};
+    JubiterNFCETHImpl(JUB_UINT16 deviceID) :
+        JubiterNFCImpl(deviceID) {};
+
+    ~JubiterNFCETHImpl() {};
 
     //ETH functions
     virtual JUB_RV SelectApplet();
@@ -33,7 +37,7 @@ public:
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
-}; // class TrezorCryptoETHImpl end
+}; // class JubiterNFCETHImpl end
 
 
 } // namespace token end

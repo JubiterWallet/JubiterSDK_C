@@ -33,14 +33,10 @@ JUB_RV TrezorCryptoETHImpl::GetAddress(const std::string& path, const JUB_UINT16
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
-    JUB_BYTE ethKeyHash[20] = { 0, };
-    if (1 == hdnode_get_ethereum_pubkeyhash(&hdkey, ethKeyHash)) {
-        uchar_vector _address(ethKeyHash, ethKeyHash + 20);
-        address = jub::eth::checksumed(_address.getHex(), jub::eth::eip55);
-        return JUBR_OK;
-    }
+    uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
+    TW::Data publicKey(vPublicKey);
 
-    return JUBR_ERROR;
+    return _getAddress(publicKey, address);
 }
 
 

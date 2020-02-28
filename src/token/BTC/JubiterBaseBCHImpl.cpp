@@ -1,8 +1,23 @@
 #include <token/BTC/JubiterBaseBCHImpl.h>
+#include <Bitcoin/CashAddress.h>
 
 
 namespace jub {
 namespace token {
+
+
+JUB_RV JubiterBaseBCHImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+
+    try {
+        TW::Bitcoin::CashAddress addr(TW::PublicKey(TW::Data(publicKey), _publicKeyType));
+        address = addr.string();
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
 
 
 JUB_RV JubiterBaseBCHImpl::_verifyTx(const TWCoinType& coin,

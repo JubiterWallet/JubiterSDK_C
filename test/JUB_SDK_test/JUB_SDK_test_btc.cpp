@@ -236,7 +236,9 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
     }
 
     rv = JUB_SetUnitBTC(contextID, unit);
-    if (JUBR_OK != rv) {
+    if (   JUBR_OK               != rv
+        && JUBR_IMPL_NOT_SUPPORT != rv
+        ) {
         cout << "JUB_SetUnitBTC() return " << GetErrMsg(rv) << endl;
         return;
     }

@@ -1,7 +1,6 @@
 #pragma once
 #include <token/interface/BTCTokenInterface.hpp>
-#include <TrezorCrypto/curves.h>
-#include <TrustWalletCore/TWCoinType.h>
+#include <TrezorCrypto/bip32.h>
 #include <TrustWalletCore/TWBitcoin.h>
 #include "Bitcoin/Address.h"
 #include "Bitcoin/Transaction.h"
@@ -14,7 +13,9 @@ namespace token {
 class JubiterBaseBTCImpl :
 virtual public BTCTokenInterface {
 public:
-    JubiterBaseBTCImpl() {};
+    JubiterBaseBTCImpl() {
+        _coin = TWCoinType::TWCoinTypeBitcoin;
+    };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                        const std::vector<INPUT_BTC>& vInputs,
@@ -53,11 +54,14 @@ protected:
                                 TW::Bitcoin::Transaction* tx,
                                 uchar_vector& signedRaw);
 
+    virtual JUB_RV _getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
+                                      uint32_t hdVersionPub=TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
+                                      uint32_t hdVersionPrv=TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin));
+
+    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address);
+    virtual JUB_RV _getSegwitAddress(const TW::Data publicKey, std::string& address);
+
 protected:
-    // add curve, prefix here
-    TWCoinType _coin = TWCoinType::TWCoinTypeBitcoin;
-    char *_curve_name = (char*)SECP256K1_NAME;
-    TWPublicKeyType _publicKeyType = TWPublicKeyType::TWPublicKeyTypeSECP256k1;
     uint32_t _hashType = TWSignatureHashTypeAll;
 }; // class JubiterBaseBTCImpl end
 
