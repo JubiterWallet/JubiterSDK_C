@@ -1,5 +1,7 @@
 #include <token/HC/JubiterBaseHCImpl.h>
 #include "Bitcoin/Script.h"
+#include <TrustWalletCore/TWCurve.h>
+#include "HDKey/HDKey.hpp"
 
 
 namespace jub {
@@ -137,6 +139,29 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
     tx->encode(witness, signedRaw);
     if (0 >= signedRaw.size()) {
         return JUBR_ERROR;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseHCImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+
+    try {
+        TW::Hash::Hasher hasherPubkey;
+        TW::Hash::Hasher hasherBase58;
+        if (   !hasherType2Hasher(get_curve_by_name(_curve_name)->hasher_pubkey, hasherPubkey)
+            || !hasherType2Hasher(get_curve_by_name(_curve_name)->hasher_base58, hasherBase58)
+            ) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+
+        TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
+        TW::Data bytes = twpk.hash(TWCoinTypeP2pkhPrefixData(_coin), hasherPubkey);
+        address = TW::Base58::bitcoin.encodeCheck(bytes, hasherBase58);
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
     return JUBR_OK;

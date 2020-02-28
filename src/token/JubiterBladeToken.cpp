@@ -4,6 +4,7 @@
 #include <token/EOS/JubiterBladeEOSImpl.h>
 #include <device/DeviceTypeBase.hpp>
 #include <device/JubiterHidDevice.hpp>
+#include <token/JubiterNFC/JubiterNFCToken.h>
 #include <utility/util.h>
 #include <token/ErrorHandler.h>
 
@@ -11,6 +12,11 @@ namespace jub {
 namespace token {
 
 stAppInfos JubiterBladeToken::g_appInfo[] = {
+    {
+        abcd::buildData((unsigned char*)(&kPKIAID_NFC[0]), sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE)),
+        "NFC",
+        "0000000"
+    },
     {
         abcd::buildData((unsigned char*)(&kPKIAID_BTC[0]), sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE)),
         "BTC",
@@ -63,7 +69,7 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
 
 
 JubiterBladeToken::JubiterBladeToken(JUB_UINT16 deviceID)
-    :_apduBuiler(std::make_shared<JubApudBuiler>()),
+    :_apduBuilder(std::make_shared<JubApudBuiler>()),
     _deviceID(deviceID) {
 
 }
@@ -79,7 +85,7 @@ JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE
     JUB_ULONG ulRetDataLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
 
     std::vector<JUB_BYTE> vSendApdu;
-    if (JUBR_OK == _apduBuiler->BuildApdu(apdu, vSendApdu)) {
+    if (JUBR_OK == _apduBuilder->BuildApdu(apdu, vSendApdu)) {
         if (JUBR_OK != device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
             JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }

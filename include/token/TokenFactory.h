@@ -14,6 +14,13 @@
 #include <token/BTC/JubiterBladeDashImpl.h>
 #include <token/BTC/JubiterBladeQTUMImpl.h>
 
+#include <token/BTC/JubiterNFCBTCImpl.h>
+#include <token/BTC/JubiterNFCBCHImpl.h>
+#include <token/BTC/JubiterNFCLTCImpl.h>
+#include <token/BTC/JubiterNFCUSDTImpl.h>
+#include <token/BTC/JubiterNFCDashImpl.h>
+#include <token/BTC/JubiterNFCQTUMImpl.h>
+
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/BTC/TrezorCryptoBCHImpl.h>
 #include <token/BTC/TrezorCryptoLTCImpl.h>
@@ -60,10 +67,25 @@ public:
 }; // class xJubiterBladeBTCFactory end
 
 
+class xJubiterNFCBTCFactory :
+    public xFactory<std::shared_ptr<BTCTokenInterface>, JUB_ENUM_COINTYPE_BTC, CreateJubiterBladeBTCFn> {
+public:
+    xJubiterNFCBTCFactory() {
+        Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &JubiterNFCBTCImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &JubiterNFCBCHImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &JubiterNFCLTCImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &JubiterNFCUSDTImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterNFCDashImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterNFCQTUMImpl::Create);
+    };
+}; // class xJubiterNFCBTCFactory end
+
+
 class xBTCTokenFactory {
 protected:
     xTrezorCryptoBTCFactory  trezorFactory;
     xJubiterBladeBTCFactory  jubiterFactory;
+    xJubiterNFCBTCFactory  jubiterNFCFactory;
 
 public:
     std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, std::string xprv) {
@@ -71,7 +93,8 @@ public:
     };
 
     std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, JUB_UINT16 devieID) {
-        return jubiterFactory.Create(type, devieID);
+//        return jubiterFactory.Create(type, devieID);
+        return jubiterNFCFactory.Create(type, devieID);
     };
 }; // class xBTCTokenFactory end
 

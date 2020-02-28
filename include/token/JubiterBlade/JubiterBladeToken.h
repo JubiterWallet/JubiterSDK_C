@@ -85,7 +85,7 @@ protected:
     JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
                       JUB_BYTE length);
 
-    std::shared_ptr<ApduBuilder> _apduBuiler;
+    std::shared_ptr<ApduBuilder> _apduBuilder;
     JUB_UINT16 _deviceID;
 
     std::string _appletVersion;

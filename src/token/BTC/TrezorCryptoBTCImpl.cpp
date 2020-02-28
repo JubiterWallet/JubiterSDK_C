@@ -2,8 +2,6 @@
 #include <TrezorCrypto/curves.h>
 #include <HDKey/HDKey.hpp>
 #include "utility/util.h"
-#include <Bitcoin/Address.h>
-#include <Bitcoin/SegwitAddress.h>
 #include <Bitcoin/Script.h>
 #include <Base58Address.h>
 #include <PrivateKey.h>
@@ -49,45 +47,6 @@ JUB_RV TrezorCryptoBTCImpl::_HdnodePrivCkd(std::string path, HDNode* node, JUB_U
 }
 
 
-JUB_RV TrezorCryptoBTCImpl::_GetAddress(const TW::Data publicKey, std::string& address) {
-
-    try {
-        TW::Bitcoin::Address addr(TW::PublicKey(publicKey, _publicKeyType), TWCoinTypeP2pkhPrefix(_coin));
-        address = addr.string();
-    }
-    catch (...) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    return JUBR_OK;
-}
-
-
-JUB_RV TrezorCryptoBTCImpl::_GetSegwitAddress(const TW::Data publicKey, std::string& address) {
-
-    try {
-        // keyhash
-        TW::Bitcoin::SegwitAddress segwitAddr(TW::PublicKey(publicKey, _publicKeyType), OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(_coin))));
-
-        // redeemScript
-        TW::Bitcoin::Script redeemScript = TW::Bitcoin::Script::buildPayToWitnessProgram(segwitAddr.witnessProgram);
-        TW::Data hRedeemScript = TW::Hash::sha256ripemd(&redeemScript.bytes[0], &redeemScript.bytes[0]+redeemScript.bytes.size());
-
-        // address
-        TW::Data bytes;
-        bytes.insert(bytes.end(), TWCoinTypeP2shPrefix(_coin));
-        bytes.insert(bytes.end(), hRedeemScript.begin(), hRedeemScript.end());
-
-        address = TW::Base58::bitcoin.encodeCheck(bytes);
-    }
-    catch (...) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    return JUBR_OK;
-}
-
-
 JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
     JUB_RV rv = JUBR_ERROR;
@@ -101,12 +60,12 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     switch (type) {
     case p2pkh:
     {
-        rv = _GetAddress(TW::Data(pk), address);
+        rv = _getAddress(TW::Data(pk), address);
         break;
     }
     case p2sh_p2wpkh:
     {
-        rv = _GetSegwitAddress(TW::Data(pk), address);
+        rv = _getSegwitAddress(TW::Data(pk), address);
         break;
     }
 //    case p2wpkh:
@@ -233,15 +192,15 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         // move to JubiterBaseBTCImpl::_serializeTx()
 //        if (!witness) {
 //            // P2PKH
-//            tx.inputs[index].script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(signature, TW::Data(publicKey));
+//            tx.inputs[index]->script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(signature, TW::Data(publicKey));
 //        }
 //        else {
 //            // P2WPKH
 //            TW::Data scriptPubkey;
 //            TW::Bitcoin::Script::buildPayToWitnessPubkeyHash(twpk.hash(TW::Data())).encode(scriptPubkey);
-//            tx.inputs[index].script.bytes = scriptPubkey;
+//            tx.inputs[index]->script.bytes = scriptPubkey;
 //
-//            tx.inputs[index].scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(signature, TW::Data(publicKey));
+//            tx.inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(signature, TW::Data(publicKey));
 //        }
 
         vInputPublicKey.push_back(TW::Data(publicKey));
@@ -262,33 +221,22 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
         witness = true;
     }
 
-    // verify signature
     uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin,  witness);
     uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
 
-    JUB_RV rv = JUBR_OK;
     std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {
         std::string xpub;
-        rv = GetHDNode(type, inputPath, xpub);
-        if (JUBR_OK != rv) {
-            break;
-        }
+        JUB_VERIFY_RV(GetHDNode(type, inputPath, xpub));
 
-        HDNode hdkey;
-        JUB_UINT32 parentFingerprint;
-        if (0 != hdnode_deserialize(xpub.c_str(), hdVersionPub, hdVersionPrv, _curve_name, &hdkey, &parentFingerprint)) {
-            rv = JUBR_ERROR;
-            break;
-        }
+        TW::Data publicKey;
+        JUB_VERIFY_RV(_getPubkeyFromXpub(xpub, publicKey,
+                                         hdVersionPub, hdVersionPrv));
 
-        uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
-        vInputPublicKey.push_back(TW::Data(pk));
-    }
-    if (JUBR_OK != rv) {
-        return rv;
+        vInputPublicKey.push_back(publicKey);
     }
 
+    // verify signature
     return VerifyTx(witness,
                     vSigedTrans,
                     vInputAmount,

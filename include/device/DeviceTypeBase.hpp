@@ -25,9 +25,28 @@ public:
                             IN JUB_ULONG ulMiliSecondTimeout = 1200000) = 0;
 }; // class DeviceTypeBase end
 
+
+class AutoDeviceManager :
+    public xManager<DeviceTypeBase> {
+public:
+    template<typename T>
+    T* GetOneSafe(JUB_UINT16 ID) {
+        DeviceTypeBase* pDevice = GetOne(ID);
+        T* t = dynamic_cast<T*>(pDevice);
+        if (t != nullptr)
+        {
+            if (_last != pDevice)
+            {
+                _last = pDevice;
+            }
+        }
+        return t;
+    }
+}; // class class AutoDeviceManager end
+
 #define FT3KHN_READWRITE_SIZE_ONCE_NEW 4096
 
-using DeviceManager = Singleton<xManager<DeviceTypeBase>>;
+using DeviceManager = Singleton<AutoDeviceManager>;
 
 } // namespace device end
 } // namespace jub end
