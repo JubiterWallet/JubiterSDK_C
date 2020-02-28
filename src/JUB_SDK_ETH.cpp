@@ -12,6 +12,7 @@
 
 #include "context/ETHContext.h"
 #include "token/ETH/JubiterBladeETHImpl.h"
+#include "token/ETH/JubiterNFCETHImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -32,7 +33,8 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
-	auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
+//	auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
+    auto token = std::make_shared<jub::token::JubiterNFCETHImpl>(deviceID);
 
     jub::context::ETHContext* context = new  jub::context::ETHContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
@@ -53,7 +55,6 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
                          IN BIP44_Path    path,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
-
 
 	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
 	JUB_CHECK_NULL(context);

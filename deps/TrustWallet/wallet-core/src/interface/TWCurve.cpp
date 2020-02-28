@@ -52,7 +52,7 @@ enum TWCurve curveName2TWCurve(char* name) {
 }
 
 // JuBiter-defined
-bool hasher2HasherType(const HasherType hasherType, TW::Hash::Hasher& hasher) {
+bool hasherType2Hasher(const HasherType hasherType, TW::Hash::Hasher& hasher) {
     bool b = true;
 
     switch (hasherType) {

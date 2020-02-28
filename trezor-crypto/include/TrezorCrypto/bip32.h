@@ -79,6 +79,9 @@ uint32_t hdnode_fingerprint(HDNode *node);
 
 void hdnode_fill_public_key(HDNode *node);
 
+// JuBiter-defined
+int pubkey_get_ethereum_pubkeyhash(const uint8_t *uncompressed_pubkey, size_t uncompressed_pubkey_len, uint8_t *pubkeyhash);
+// JuBiter-modified
 int hdnode_get_ethereum_pubkeyhash(const HDNode *node, uint8_t *pubkeyhash);
 
 int hdnode_get_nem_address(HDNode *node, uint8_t version, char *address);

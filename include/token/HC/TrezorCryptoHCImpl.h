@@ -1,5 +1,4 @@
 #pragma once
-
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/HC/JubiterBaseHCImpl.h>
 
@@ -14,8 +13,6 @@ virtual public JubiterBaseHCImpl {
 public:
     TrezorCryptoHCImpl(const std::string& xprv) :
         TrezorCryptoBTCImpl(xprv) {
-        _coin = TWCoinType::TWCoinTypeHcash;
-        _curve_name = (char*)SECP256K1_HCASH_NAME;
         _hashType = SigHashAll;
     };
     ~TrezorCryptoHCImpl() {};
@@ -32,7 +29,6 @@ public:
 
 protected:
     virtual JUB_RV _HdnodePrivCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint) override;
-    JUB_RV _GetAddress(const TW::Data publicKey, std::string& address) override;
 }; // class TrezorCryptoHCImpl end
 
 

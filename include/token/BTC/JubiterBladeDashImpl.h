@@ -13,9 +13,7 @@ virtual public JubiterBaseDashImpl {
 
 public:
     JubiterBladeDashImpl(JUB_UINT16 deviceID) :
-        JubiterBladeBTCImpl(deviceID) {
-        _coin = TWCoinType::TWCoinTypeDash;
-    };
+        JubiterBladeBTCImpl(deviceID) {};
     ~JubiterBladeDashImpl() {};
 
     static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {
