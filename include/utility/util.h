@@ -13,7 +13,7 @@
 #include <iostream>
 #include <cstring>
 #include "mSIGNA/stdutils/uchar_vector.h"
-#include "airbitz-core/abcd/util/Data.hpp"
+#include "Data.h"
 
 namespace jub {
 
@@ -98,9 +98,9 @@ std::string ETHCharPtr2HexStr(std::vector<unsigned char> v);
  */
 std::vector<unsigned char> ETHHexStr2CharPtr(std::string str);
 
-abcd::DataChunk ToTlv(uint8_t tag, const abcd::DataSlice &data);
-abcd::DataChunkList ParseTlv(const abcd::DataSlice &data);
-abcd::DataChunk Tollv(const std::string& strData);
+TW::Data ToTlv(uint8_t tag, const TW::Data &data);
+std::vector<TW::Data> ParseTlv(const TW::Data &data);
+TW::Data Tollv(const std::string& strData);
 } // namespace jub
 
 #endif

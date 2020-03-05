@@ -329,15 +329,14 @@ JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
             break;
         }
 
-        HDNode hdkey;
-        JUB_UINT32 parentFingerprint;
-        if (0 != hdnode_deserialize(xpub.c_str(), hdVersionPub, hdVersionPrv, _curve_name, &hdkey, &parentFingerprint)) {
-            rv = JUBR_ERROR;
+        TW::Data publicKey;
+        rv = _getPubkeyFromXpub(xpub, publicKey,
+                                hdVersionPub, hdVersionPrv);
+        if (JUBR_OK != rv) {
             break;
         }
 
-        uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
-        vInputPublicKey.push_back(TW::Data(pk));
+        vInputPublicKey.push_back(publicKey);
     }
     if (JUBR_OK != rv) {
         return rv;

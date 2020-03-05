@@ -9,6 +9,24 @@ namespace jub {
 namespace token {
 
 
+TW::Data JubiterBaseBTCImpl::pushAll(const TW::Data& results) {
+    auto data = TW::Data{};
+
+    data.insert(data.end(), results.begin(), results.begin()+results.size());
+
+    switch (_hashType) {
+    case TWSignatureHashTypeAll:
+    case TWSignatureHashTypeAllFork:
+        data.push_back(_hashType);
+        break;
+    default:
+        break;
+    }
+
+    return data;
+}
+
+
 JUB_RV JubiterBaseBTCImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
                                               uint32_t hdVersionPub, uint32_t hdVersionPrv) {
 

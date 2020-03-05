@@ -41,6 +41,8 @@ protected:
                                               const TW::PublicKey publicKey,
                                               bool witness=false);
 
+    virtual TW::Data pushAll(const TW::Data& results);
+
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,
                              const uint32_t& hashType,

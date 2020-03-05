@@ -30,6 +30,9 @@ public:
     virtual JUB_RV SignTX(const std::vector<JUB_BYTE>& vPath,
                           std::vector<JUB_BYTE>& vUnsignedRaw,
                           std::vector<uchar_vector>& vSignatureRaw) = 0;
+
+    virtual JUB_RV SerializePreimage(const JUB_TX_XRP& tx,
+                                     uchar_vector& preimageRaw) = 0;
 }; // class XRPTokenInterface end
 
 

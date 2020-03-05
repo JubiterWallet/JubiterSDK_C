@@ -73,7 +73,8 @@ public:
     void serialize(Data& os, const bool bWithType=false) const noexcept;
     nlohmann::json serialize() const;
 
-    inline bool isValid() { return maxNetUsageWords < UINT32_MAX / 8UL; }
+    // JuBiter-modified
+    inline bool isValid() const { return maxNetUsageWords < UINT32_MAX / 8UL; }
 
     uint16_t refBlockNumber = 0;
     uint32_t refBlockPrefix = 0;

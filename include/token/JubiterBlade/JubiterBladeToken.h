@@ -1,8 +1,6 @@
 #pragma once
 #include <token/interface/HardwareTokenInterface.hpp>
-#include <memory>
 #include <device/ApduBuilder.hpp>
-#include <airbitz-core/abcd/util/Data.hpp>
 #include "utility/util.h"
 
 namespace jub {
@@ -65,7 +63,7 @@ protected:
                      JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
                      JUB_ULONG ulMiliSecondTimeout = 1200000);
 
-    JUB_RV _TranPack(const abcd::DataSlice &apduData,
+    JUB_RV _TranPack(const TW::Data &apduData,
                      const JUB_BYTE highMark,
                      const JUB_BYTE sigType,
                      const JUB_ULONG ulSendOnceLen,
@@ -74,7 +72,7 @@ protected:
 
     JUB_RV _TranPackApdu(const JUB_ULONG ncla,
                          const JUB_ULONG nins,
-                         const abcd::DataSlice &apduData,
+                         const TW::Data &apduData,
                          const JUB_BYTE highMark,
                          const JUB_BYTE sigType,
                          const JUB_ULONG ulSendOnceLen,
