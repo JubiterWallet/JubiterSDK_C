@@ -19,9 +19,7 @@ virtual public JubiterBaseBTCImpl {
 
 public:
     JubiterBladeBTCImpl(JUB_UINT16 deviceID) :
-    JubiterBladeToken(deviceID) {
-		_coin = TWCoinType::TWCoinTypeBitcoin;
-	};
+    JubiterBladeToken(deviceID) {};
 
     virtual ~JubiterBladeBTCImpl() = default;
 

@@ -76,7 +76,7 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
                                    to, value,
                                    &QRC20_output);
         if (JUBR_OK != rv) {
-            cout << "JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
+            cout << "JUB_BuildQRC20Outputs() return " << GetErrMsg(rv) << endl;
             return rv;
         }
         outputs.emplace_back(QRC20_output);

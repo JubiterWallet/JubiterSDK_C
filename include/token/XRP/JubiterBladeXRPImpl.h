@@ -1,15 +1,15 @@
 #pragma once
 
 #include <token/JubiterBlade/JubiterBladeToken.h>
-#include <token/interface/XRPTokenInterface.hpp>
+#include <token/XRP/JubiterBaseXRPImpl.h>
 
 namespace jub {
 namespace token {
 
 
 class JubiterBladeXRPImpl :
-    public JubiterBladeToken,
-    public XRPTokenInterface {
+        public JubiterBladeToken,
+virtual public JubiterBaseXRPImpl {
 
 public:
     JubiterBladeXRPImpl(JUB_UINT16 deviceID) :

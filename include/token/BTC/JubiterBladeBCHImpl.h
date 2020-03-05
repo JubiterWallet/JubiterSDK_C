@@ -1,5 +1,4 @@
 #pragma once
-
 #include <token/BTC/JubiterBladeBTCImpl.h>
 #include <token/BTC/JubiterBaseBCHImpl.h>
 
@@ -8,13 +7,12 @@ namespace token {
 
 
 class JubiterBladeBCHImpl :
-    public JubiterBladeBTCImpl,
+        public JubiterBladeBTCImpl,
 virtual public JubiterBaseBCHImpl {
 
 public:
     JubiterBladeBCHImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
-		_coin = TWCoinType::TWCoinTypeBitcoinCash;
         _hashType = TWSignatureHashTypeAllFork;
 	};
     ~JubiterBladeBCHImpl() {};

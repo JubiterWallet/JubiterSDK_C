@@ -1,14 +1,14 @@
 #pragma once
 #include <token/TrezorCrypto/TrezorCryptoToken.h>
-#include <token/interface/ETHTokenInterface.hpp>
+#include <token/ETH/JubiterBaseETHImpl.h>
 
 namespace jub {
 namespace token {
 
 
 class TrezorCryptoETHImpl :
-    public TrezorCryptoToken,
-    public ETHTokenInterface {
+        public TrezorCryptoToken,
+virtual public JubiterBaseETHImpl {
 
 public:
     TrezorCryptoETHImpl(const std::string& xprv) :
@@ -26,7 +26,7 @@ public:
                           const std::vector<JUB_BYTE>& vGasLimit,
                           const std::vector<JUB_BYTE>& vTo,
                           const std::vector<JUB_BYTE>& vValue,
-                          const std::vector<JUB_BYTE>& vData,
+                          const std::vector<JUB_BYTE>& vInput,
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainID,
                           std::vector<JUB_BYTE>& vRaw);

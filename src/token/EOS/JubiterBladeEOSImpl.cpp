@@ -93,7 +93,28 @@ JUB_RV JubiterBladeEOSImpl::GetAddress(const TW::EOS::Type& type, const std::str
 
 JUB_RV JubiterBladeEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    //path = "m/44'/194'/0'";
+    uchar_vector vPath;
+    vPath << path;
+    uchar_vector apduData = ToTlv(0x08, vPath);
+
+    //0x00 for hex
+    if (JUB_ENUM_PUB_FORMAT::HEX != format
+        ) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    APDU apdu(0x00, 0xe6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[2048] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    uchar_vector vPubkey(retData, (unsigned int)ulRetDataLen);
+    pubkey = vPubkey.getHex();
+
+    return JUBR_OK;
 }
 
 

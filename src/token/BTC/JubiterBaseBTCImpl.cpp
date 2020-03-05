@@ -1,8 +1,92 @@
 #include <token/BTC/JubiterBaseBTCImpl.h>
+#include <TrezorCrypto/base58.h>
+#include <TrezorCrypto/bip32.h>
+#include <Bitcoin/Address.h>
+#include <Bitcoin/SegwitAddress.h>
 
 
 namespace jub {
 namespace token {
+
+
+TW::Data JubiterBaseBTCImpl::pushAll(const TW::Data& results) {
+    auto data = TW::Data{};
+
+    data.insert(data.end(), results.begin(), results.begin()+results.size());
+
+    switch (_hashType) {
+    case TWSignatureHashTypeAll:
+    case TWSignatureHashTypeAllFork:
+        data.push_back(_hashType);
+        break;
+    default:
+        break;
+    }
+
+    return data;
+}
+
+
+JUB_RV JubiterBaseBTCImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
+                                              uint32_t hdVersionPub, uint32_t hdVersionPrv) {
+
+    try {
+        HDNode hdkey;
+        uint32_t fingerprint = 0;
+        if (0 != hdnode_deserialize(xpub.c_str(),
+                                    hdVersionPub, hdVersionPrv,
+                                    _curve_name, &hdkey, &fingerprint)) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+
+        uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
+        publicKey = TW::Data(vPublicKey);
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+
+    try {
+        TW::Bitcoin::Address addr(TW::PublicKey(publicKey, _publicKeyType), TWCoinTypeP2pkhPrefix(_coin));
+        address = addr.string();
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data publicKey, std::string& address) {
+
+    try {
+        // keyhash
+        TW::Bitcoin::SegwitAddress segwitAddr(TW::PublicKey(publicKey, _publicKeyType), OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(_coin))));
+
+        // redeemScript
+        TW::Bitcoin::Script redeemScript = TW::Bitcoin::Script::buildPayToWitnessProgram(segwitAddr.witnessProgram);
+        TW::Data hRedeemScript = TW::Hash::sha256ripemd(&redeemScript.bytes[0], &redeemScript.bytes[0]+redeemScript.bytes.size());
+
+        // address
+        TW::Data bytes;
+        bytes.insert(bytes.end(), TWCoinTypeP2shPrefix(_coin));
+        bytes.insert(bytes.end(), hRedeemScript.begin(), hRedeemScript.end());
+
+        address = TW::Base58::bitcoin.encodeCheck(bytes);
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
 
 
 JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,

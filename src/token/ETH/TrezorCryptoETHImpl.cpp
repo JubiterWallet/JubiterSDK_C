@@ -4,8 +4,9 @@
 #include <TrezorCrypto/curves.h>
 #include <TrezorCrypto/sha3.h>
 
-#include <libETH/RLP.h>
-#include <libETH/AddressChecksum.h>
+#include <Ethereum/RLP.h>
+#include <Ethereum/Transaction.h>
+#include <Ethereum/Signer.h>
 
 #include <HDKey/HDKey.hpp>
 #include <utility/util.h>
@@ -31,16 +32,12 @@ JUB_RV TrezorCryptoETHImpl::GetAddress(const std::string& path, const JUB_UINT16
     //tag used by hardware,this imp not use.
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
-    JUB_BYTE ethKeyHash[20] = { 0, };
-    if (1 == hdnode_get_ethereum_pubkeyhash(&hdkey, ethKeyHash)) {
-        uchar_vector _address(ethKeyHash, ethKeyHash + 20);
-        address = jub::eth::checksumed(_address.getHex(), jub::eth::eip55);
-        return JUBR_OK;
-    }
+    uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
+    TW::Data publicKey(vPublicKey);
 
-    return JUBR_ERROR;
+    return _getAddress(publicKey, address);
 }
 
 
@@ -48,7 +45,7 @@ JUB_RV TrezorCryptoETHImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
     //    typedef enum {
     //        HEX = 0x00,
@@ -77,53 +74,30 @@ JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
                                    const std::vector<JUB_BYTE>& vGasLimit,
                                    const std::vector<JUB_BYTE>& vTo,
                                    const std::vector<JUB_BYTE>& vValue,
-                                   const std::vector<JUB_BYTE>& vData,
+                                   const std::vector<JUB_BYTE>& vInput,
                                    const std::vector<JUB_BYTE>& vPath,
                                    const std::vector<JUB_BYTE>& vChainID,
                                    std::vector<JUB_BYTE>& vRaw) {
 
-    auto encoded = abcd::DataChunk();
-    abcd::append(encoded, jub::eth::RLP::encode(vNonce));
-    abcd::append(encoded, jub::eth::RLP::encode(vGasPrice));
-    abcd::append(encoded, jub::eth::RLP::encode(vGasLimit));
-    abcd::append(encoded, jub::eth::RLP::encode(vTo));
-    abcd::append(encoded, jub::eth::RLP::encode(vValue));
-    abcd::append(encoded, jub::eth::RLP::encode(vData));
-    abcd::append(encoded, jub::eth::RLP::encode(vChainID));
-    abcd::append(encoded, jub::eth::RLP::encode(abcd::DataChunk{ 0 }));
-    abcd::append(encoded, jub::eth::RLP::encode(abcd::DataChunk{ 0 }));
-    encoded = jub::eth::RLP::encodeList(encoded);
-
-    uchar_vector rlps = encoded;
-    std::string rlprlp = rlps.getHex();
-
-    JUB_BYTE digest[32] = { 0, };
-    keccak_256(&encoded[0], encoded.size(), digest);
-
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     std::string path(&vPath[0], &vPath[0] + vPath.size());
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
-    JUB_BYTE sig[64] = { 0, };
-    JUB_BYTE by = 0;
-    if (0 != hdnode_sign_digest(&hdkey, digest, sig, &by, nullptr)) {
+    TW::Ethereum::Transaction tx(vNonce,
+                                 vGasPrice,
+                                 vGasLimit,
+                                 TW::Ethereum::Address(vTo),
+                                 vValue,
+                                 vInput);
+    TW::Ethereum::Signer signer(vChainID);
+    signer.sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
+                tx);
+
+    if (!signer.verify(TW::PublicKey(TW::Data(uchar_vector(hdkey.public_key, TW::PublicKey::secp256k1Size)), TWPublicKeyType::TWPublicKeyTypeSECP256k1),
+                       tx)) {
         return JUBR_ERROR;
     }
-    abcd::DataChunk r(sig, sig + 32);
-    abcd::DataChunk s(sig + 32, sig + 64);;
-    abcd::DataChunk v(1, vChainID[0]*2 + 35 + by);
-
-    abcd::append(vRaw, jub::eth::RLP::encode(vNonce));
-    abcd::append(vRaw, jub::eth::RLP::encode(vGasPrice));
-    abcd::append(vRaw, jub::eth::RLP::encode(vGasLimit));
-    abcd::append(vRaw, jub::eth::RLP::encode(vTo));
-    abcd::append(vRaw, jub::eth::RLP::encode(vValue));
-    abcd::append(vRaw, jub::eth::RLP::encode(vData));
-    abcd::append(vRaw, jub::eth::RLP::encode(v));
-    abcd::append(vRaw, jub::eth::RLP::encode(r));
-    abcd::append(vRaw, jub::eth::RLP::encode(s));
-    vRaw = jub::eth::RLP::encodeList(vRaw);
 
     return JUBR_OK;
 }

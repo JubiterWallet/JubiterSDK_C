@@ -12,50 +12,50 @@ namespace token {
 
 stAppInfos JubiterBladeToken::g_appInfo[] = {
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_BTC[0]), sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "BTC",
         "0000000"
     },
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_ETH[0]), sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE))),
         "ETH",
         "0000000"
     },
     // BTC and ETH index position fixed, start adding new apps below:
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_ETH[0]), sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE))),
         "ETC",
         "01010000"
     },
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_BTC[0]), sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "BCH",
         "01070003"
     },
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_BTC[0]), sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "LTC",
         "01070003",
     },
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_BTC[0]), sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "USDT",
         "01080002"
     },
     // EOS-independent applet JUBR_PKIAID_INVALID
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_EOS[0]), sizeof(kPKIAID_EOS)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_EOS, sizeof(kPKIAID_EOS)/sizeof(JUB_BYTE))),
         "EOS",
         "01000009"
     },
     // MISC applet, start adding new apps below:
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_MISC[0]), sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE))),
         "EOS",
         "01000001"
     },
     {
-        abcd::buildData((unsigned char*)(&kPKIAID_MISC[0]), sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE)),
+        TW::Data(uchar_vector(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE))),
         "XRP",
         "01000001"
     },
@@ -63,7 +63,7 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
 
 
 JubiterBladeToken::JubiterBladeToken(JUB_UINT16 deviceID)
-    :_apduBuiler(std::make_shared<JubApudBuiler>()),
+    :_apduBuilder(std::make_shared<JubApudBuiler>()),
     _deviceID(deviceID) {
 
 }
@@ -79,7 +79,7 @@ JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE
     JUB_ULONG ulRetDataLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
 
     std::vector<JUB_BYTE> vSendApdu;
-    if (JUBR_OK == _apduBuiler->BuildApdu(apdu, vSendApdu)) {
+    if (JUBR_OK == _apduBuilder->BuildApdu(apdu, vSendApdu)) {
         if (JUBR_OK != device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
             JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
@@ -111,7 +111,7 @@ JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE
 }
 
 
-JUB_RV JubiterBladeToken::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE highMark, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
+JUB_RV JubiterBladeToken::_TranPack(const TW::Data &apduData, const JUB_BYTE highMark, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
 
     if (apduData.empty()) {
         JUB_VERIFY_RV(JUBR_ERROR);
@@ -171,7 +171,7 @@ JUB_RV JubiterBladeToken::_TranPack(const abcd::DataSlice &apduData, const JUB_B
 
 
 JUB_RV JubiterBladeToken::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
-                                        const abcd::DataSlice &apduData,
+                                        const TW::Data &apduData,
                                         const JUB_BYTE highMark,
                                         const JUB_BYTE sigType,
                                         const JUB_ULONG ulSendOnceLen,
