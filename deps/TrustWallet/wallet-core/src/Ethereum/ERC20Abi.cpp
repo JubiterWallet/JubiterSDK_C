@@ -1,4 +1,4 @@
-#include "libETH/ERC20Abi.h"
+#include "ERC20Abi.h"
 
 #include <vector>
 #include <array>

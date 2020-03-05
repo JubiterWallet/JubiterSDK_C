@@ -1,17 +1,20 @@
-#include "JUB_SDK_XRP.h"
-#include "libXRP/libXRP.hpp"
-
+#include <token/XRP/JubiterBaseXRPImpl.h>
 #include <bigint/BigIntegerUtils.hh>
+#include <TrezorCrypto/bip32.h>
+#include <PublicKey.h>
+#include <utility/util.h>
+#include "Ripple/Address.h"
 #include "Ripple/Transaction.h"
 #include "HexCoding.h"
 
+
 namespace jub {
-namespace xrp {
+namespace token {
 
 
 // without "signingPubKey"
-JUB_RV serializePreimage(const JUB_TX_XRP& tx,
-                         uchar_vector& preimageRaw) {
+JUB_RV JubiterBaseXRPImpl::SerializePreimage(const JUB_TX_XRP& tx,
+                                             uchar_vector& preimageRaw) {
 
     JUB_RV rv = JUBR_OK;
 
@@ -36,8 +39,7 @@ JUB_RV serializePreimage(const JUB_TX_XRP& tx,
                                     destination, destination_tag);
 
             TW::Data raw = xrp.getPreImage();
-            uchar_vector vRaw(raw);
-            preimageRaw = vRaw;
+            preimageRaw = uchar_vector(raw);
             break;
         }
         case JUB_ENUM_XRP_PYMT_TYPE::NS_ITEM_PYMT_TYPE:
@@ -57,5 +59,44 @@ JUB_RV serializePreimage(const JUB_TX_XRP& tx,
 }
 
 
-} // namespace xrp end
+JUB_RV JubiterBaseXRPImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
+                                              uint32_t hdVersionPub, uint32_t hdVersionPrv) {
+
+    try {
+        HDNode hdkey;
+        uint32_t fingerprint = 0;
+        if (0 != hdnode_deserialize(xpub.c_str(),
+                                    hdVersionPub, hdVersionPrv,
+                                    _curve_name, &hdkey, &fingerprint)) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+
+        uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
+        publicKey = TW::Data(vPublicKey);
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseXRPImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+
+    try {
+        TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
+        TW::Ripple::Address addr(twpk);
+        address = addr.string();
+
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+} // namespace token end
 } // namespace jub end

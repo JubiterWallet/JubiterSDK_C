@@ -1,15 +1,14 @@
 #pragma once
-
-#include <token/interface/EOSTokenInterface.hpp>
 #include <token/TrezorCrypto/TrezorCryptoToken.h>
+#include <token/EOS/JubiterBaseEOSImpl.h>
 
 namespace jub {
 namespace token {
 
 
 class TrezorCryptoEOSImpl :
-    public TrezorCryptoToken,
-    public EOSTokenInterface {
+        public TrezorCryptoToken,
+virtual public JubiterBaseEOSImpl {
 
 public:
     TrezorCryptoEOSImpl(const std::string& xprv) :

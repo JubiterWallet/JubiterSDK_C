@@ -1,7 +1,6 @@
 #pragma once
 #include <token/interface/BTCTokenInterface.hpp>
 #include <token/BTC/JubiterBaseBTCImpl.h>
-#include "Bitcoin/Transaction.h"
 
 namespace jub {
 namespace token {
@@ -10,9 +9,13 @@ namespace token {
 class JubiterBaseBCHImpl :
 virtual public JubiterBaseBTCImpl {
 public:
-    JubiterBaseBCHImpl() {};
+    JubiterBaseBCHImpl() {
+        _coin = TWCoinType::TWCoinTypeBitcoinCash;
+    };
 
 protected:
+    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address) override;
+
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,
                              const uint32_t& hashType,

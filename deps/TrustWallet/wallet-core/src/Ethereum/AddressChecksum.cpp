@@ -4,30 +4,26 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include <libETH/AddressChecksum.h>
+#include "AddressChecksum.h"
+
+#include "../Hash.h"
+#include "../HexCoding.h"
 #include <cctype>
-#include <utility/util.h>
-#include <TrezorCrypto/sha3.h>
 
-namespace jub {
-namespace eth {
+using namespace TW;
+using namespace TW::Ethereum;
 
-
-std::string checksumed(const std::string& address, enum ChecksumType type) {
-    
-    JUB_BYTE digest[32] = {0,};
-    keccak_256(reinterpret_cast<const JUB_BYTE*>(address.data()),address.size(),digest);
-    const auto hash = uchar_vector(digest,digest+32).getHex();
-    //const auto hash = hex(Hash::keccak256(addressString));
+std::string Ethereum::checksumed(const Address& address, enum ChecksumType type) {
+    const auto addressString = hex(address.bytes);
+    const auto hash = hex(Hash::keccak256(addressString));
 
     std::string string = "0x";
-    for (auto i = 0; i < std::min(address.size(), hash.size()); i += 1) {
-        const auto a = address[i];
+    for (auto i = 0; i < std::min(addressString.size(), hash.size()); i += 1) {
+        const auto a = addressString[i];
         const auto h = hash[i];
         if (a >= '0' && a <= 9) {
             string.push_back(a);
-        }
-        else if ((h >= '8' && h <= '9') || (h >= 'a' && h <= 'f')) {
+        } else if ((h >= '8' && h <= '9') || (h >= 'a' && h <= 'f')) {
             switch (type) {
             case eip55:
                 string.push_back(static_cast<char>(toupper(a)));
@@ -36,8 +32,7 @@ std::string checksumed(const std::string& address, enum ChecksumType type) {
                 string.push_back(static_cast<char>(tolower(a)));
                 break;
             }
-        }
-        else {
+        } else {
             switch (type) {
             case eip55:
                 string.push_back(static_cast<char>(tolower(a)));
@@ -51,7 +46,3 @@ std::string checksumed(const std::string& address, enum ChecksumType type) {
 
     return string;
 }
-
-
-} // namespace eth end
-} // namespace jub end

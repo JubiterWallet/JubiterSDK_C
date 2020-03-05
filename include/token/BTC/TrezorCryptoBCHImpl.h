@@ -1,5 +1,4 @@
 #pragma once
-
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/BTC/JubiterBaseBCHImpl.h>
 
@@ -8,15 +7,14 @@ namespace token {
 
 
 class TrezorCryptoBCHImpl :
-    public TrezorCryptoBTCImpl,
-virtual public JubiterBaseBCHImpl {
+        public TrezorCryptoBTCImpl,
+virtual public  JubiterBaseBCHImpl {
 
 public:
     TrezorCryptoBCHImpl(const std::string& xprv) :
         TrezorCryptoBTCImpl(xprv) {
-            _coin = TWCoinType::TWCoinTypeBitcoinCash;
-            _hashType = TWSignatureHashTypeAllFork;
-        };
+        _hashType = TWSignatureHashTypeAllFork;
+    };
     ~TrezorCryptoBCHImpl() {};
 
     static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBCHImpl>(xprv);
@@ -31,9 +29,6 @@ public:
                           const std::vector<std::string>& vChangePath,
                           const std::vector<JUB_BYTE>& vUnsigedTrans,
                           std::vector<JUB_BYTE>& vRaw) override;
-
-protected:
-    JUB_RV _GetAddress(const TW::Data publicKey, std::string& address) override;
 }; // class TrezorCryptoBCHImpl end
 
 

@@ -10,7 +10,10 @@ namespace token {
 class JubiterBaseDashImpl :
 virtual public JubiterBaseBTCImpl {
 public:
-    JubiterBaseDashImpl() : JubiterBaseBTCImpl() {};
+    JubiterBaseDashImpl() :
+        JubiterBaseBTCImpl() {
+        _coin = TWCoinType::TWCoinTypeDash;
+    };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                        const std::vector<INPUT_BTC>& vInputs,

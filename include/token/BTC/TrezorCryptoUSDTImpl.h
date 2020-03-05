@@ -1,5 +1,4 @@
 #pragma once
-
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 
 namespace jub {

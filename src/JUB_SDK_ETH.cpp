@@ -54,7 +54,6 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
-
 	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
 	JUB_CHECK_NULL(context);
 

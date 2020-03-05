@@ -14,6 +14,7 @@
 
 #include <vector>
 #include <token/interface/BaseToken.h>
+#include <nlohmann/json.hpp>
 #include <mSIGNA/stdutils/uchar_vector.h>
 
 namespace jub {
@@ -35,6 +36,17 @@ public:
                           const std::vector<JUB_BYTE>& vRaw,
                           std::vector<uchar_vector>& vSignatureRaw,
                           const bool bWithType = false) = 0;
+
+    virtual nlohmann::json SerializeAction(const JUB_ACTION_EOS& action) = 0;
+    virtual JUB_RV SerializeActions(const JUB_ACTION_EOS_PTR actions, JUB_UINT16 actionCount,
+                                    std::string& actionsInJSON) = 0;
+
+    virtual JUB_RV SerializePreimage(const std::string& expiration,
+                                     const std::string& referenceBlockId,
+                                     const std::string& referenceBlockTime,
+                                     const std::string& actionsInJSON,
+                                     uchar_vector& preimageRaw,
+                                     const bool bWithType) = 0;
 }; // class EOSTokenInterface end
 
 

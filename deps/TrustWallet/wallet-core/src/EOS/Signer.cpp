@@ -16,7 +16,7 @@ using namespace TW::EOS;
 
 void Signer::sign(const PrivateKey& privateKey, Type type, Transaction& transaction) const {
     if (!transaction.isValid()) {
-        throw std::invalid_argument("Invalid transaction!");;
+        throw std::invalid_argument("Invalid transaction!");
     }
 
     // values for Legacy and ModernK1
@@ -35,6 +35,40 @@ void Signer::sign(const PrivateKey& privateKey, Type type, Transaction& transact
     const Data result = privateKey.sign(hash(transaction), curve, canonicalChecker);
 
     transaction.signatures.push_back(Signature(result, type));
+}
+
+// JuBiter-defined
+/// Verifies the given signature.
+bool Signer::verify(const PublicKey& publicKey, Type type, const Transaction& transaction) const noexcept {
+
+    if (!transaction.isValid()) {
+        return false;
+    }
+
+    // values for Legacy and ModernK1
+    TWCurve curve = TWCurveSECP256k1;
+    auto canonicalChecker = is_canonical;
+
+    //  Values for ModernR1
+    if (type == Type::ModernR1) {
+        curve = TWCurveNIST256p1;
+        canonicalChecker = nullptr;
+    }
+    else if (type == Type::Legacy) {
+        type = Type::ModernK1;
+    }
+
+    bool bSuccess = false;
+    for (const auto& signature:transaction.signatures) {
+        Data rs(signature.data.size()-1, 0x00);
+        std::copy(std::begin(signature.data)+1, std::end(signature.data), std::begin(rs));
+        bSuccess = publicKey.verify(rs, hash(transaction));
+        if (!bSuccess) {
+            break;
+        }
+    }
+
+    return bSuccess;
 }
 
 TW::Data Signer::hash(const Transaction& transaction) const noexcept {
