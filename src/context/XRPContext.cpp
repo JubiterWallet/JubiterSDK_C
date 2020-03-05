@@ -9,8 +9,6 @@
 #include "utility/util.h"
 
 #include "context/XRPContext.h"
-#include "libXRP/libXRP.hpp"
-#include "Ripple/Transaction.h"
 #include "Ripple/Signer.h"
 #include <token/interface/HardwareTokenInterface.hpp>
 
@@ -77,8 +75,8 @@ JUB_RV XRPContext::SignTransaction(BIP44_Path path,
 
     try {
         uchar_vector vPreimage;
-        JUB_VERIFY_RV(jub::xrp::serializePreimage(tx,
-                                                  vPreimage));
+        JUB_VERIFY_RV(_tokenPtr->SerializePreimage(tx,
+                                                   vPreimage));
 
         std::vector<uchar_vector> vSignatureRaw;
         JUB_VERIFY_RV(_tokenPtr->SignTX(vPath,

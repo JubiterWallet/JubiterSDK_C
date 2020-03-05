@@ -773,6 +773,10 @@ const curve_info *get_curve_by_name(const char *curve_name) {
     if (strcmp(curve_name, SECP256K1_HCASH_NAME) == 0) {
         return &secp256k1_hcash_info;
     }
+    // JuBiter-defined
+    if (strcmp(curve_name, SECP256K1_XRP_NAME) == 0) {
+        return &secp256k1_ripple_info;
+    }
 	if (strcmp(curve_name, SECP256K1_DECRED_NAME) == 0) {
 		return &secp256k1_decred_info;
 	}

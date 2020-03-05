@@ -1,5 +1,5 @@
 #include <context/BTCContext.h>
-#include "libETH/ERC20Abi.h"
+#include "Ethereum/ERC20Abi.h"
 #include <TrezorCrypto/base58.h>
 #include <token/interface/QTUMTokenInterface.hpp>
 #include <context/BTCContext.h>

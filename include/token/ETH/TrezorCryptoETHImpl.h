@@ -26,7 +26,7 @@ public:
                           const std::vector<JUB_BYTE>& vGasLimit,
                           const std::vector<JUB_BYTE>& vTo,
                           const std::vector<JUB_BYTE>& vValue,
-                          const std::vector<JUB_BYTE>& vData,
+                          const std::vector<JUB_BYTE>& vInput,
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainID,
                           std::vector<JUB_BYTE>& vRaw);
