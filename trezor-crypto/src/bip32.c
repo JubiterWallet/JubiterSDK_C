@@ -504,23 +504,49 @@ void hdnode_fill_public_key(HDNode *node)
 #endif
 }
 
+// JuBiter-defined
+int pubkey_get_ethereum_pubkeyhash(const uint8_t *uncompressed_pubkey,
+                                   size_t uncompressed_pubkey_len,
+                                   uint8_t *pubkeyhash)
+{
+    uint8_t buf[65];
+    SHA3_CTX ctx;
+
+    /* get uncompressed public key */
+    // JuBiter-modified
+//    ecdsa_get_public_key65(node->curve->params, node->private_key, buf);
+    memcpy(buf, uncompressed_pubkey, uncompressed_pubkey_len);
+
+    /* compute sha3 of x and y coordinate without 04 prefix */
+    sha3_256_Init(&ctx);
+    sha3_Update(&ctx, buf + 1, 64);
+    keccak_Final(&ctx, buf);
+
+    /* result are the least significant 160 bits */
+    memcpy(pubkeyhash, buf + 12, 20);
+
+    return 1;
+}
+
+// JuBiter-modified
 int hdnode_get_ethereum_pubkeyhash(const HDNode *node, uint8_t *pubkeyhash)
 {
 	uint8_t buf[65];
-	SHA3_CTX ctx;
+//	SHA3_CTX ctx;
 
 	/* get uncompressed public key */
 	ecdsa_get_public_key65(node->curve->params, node->private_key, buf);
 
-	/* compute sha3 of x and y coordinate without 04 prefix */
-	sha3_256_Init(&ctx);
-	sha3_Update(&ctx, buf + 1, 64);
-	keccak_Final(&ctx, buf);
-
-	/* result are the least significant 160 bits */
-	memcpy(pubkeyhash, buf + 12, 20);
-
-	return 1;
+//	/* compute sha3 of x and y coordinate without 04 prefix */
+//	sha3_256_Init(&ctx);
+//	sha3_Update(&ctx, buf + 1, 64);
+//	keccak_Final(&ctx, buf);
+//
+//	/* result are the least significant 160 bits */
+//	memcpy(pubkeyhash, buf + 12, 20);
+//
+//	return 1;
+    return pubkey_get_ethereum_pubkeyhash(buf, 65, pubkeyhash);
 }
 
 int hdnode_get_nem_address(HDNode *node, uint8_t version, char *address) {
@@ -746,6 +772,10 @@ const curve_info *get_curve_by_name(const char *curve_name) {
     // JuBiter-defined
     if (strcmp(curve_name, SECP256K1_HCASH_NAME) == 0) {
         return &secp256k1_hcash_info;
+    }
+    // JuBiter-defined
+    if (strcmp(curve_name, SECP256K1_XRP_NAME) == 0) {
+        return &secp256k1_ripple_info;
     }
 	if (strcmp(curve_name, SECP256K1_DECRED_NAME) == 0) {
 		return &secp256k1_decred_info;

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/BTC/JubiterBaseDashImpl.h>
 
@@ -13,9 +12,7 @@ virtual public JubiterBaseDashImpl {
 
 public:
     TrezorCryptoDashImpl(const std::string& xprv) :
-        TrezorCryptoBTCImpl(xprv) {
-        _coin = TWCoinType::TWCoinTypeDash;
-    };
+        TrezorCryptoBTCImpl(xprv) {};
     ~TrezorCryptoDashImpl() {};
 
     static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) {

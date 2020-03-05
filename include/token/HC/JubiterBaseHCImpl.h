@@ -10,7 +10,11 @@ namespace token {
 class JubiterBaseHCImpl :
 virtual public JubiterBaseBTCImpl {
 public:
-    JubiterBaseHCImpl() : JubiterBaseBTCImpl() {};
+    JubiterBaseHCImpl() :
+        JubiterBaseBTCImpl() {
+        _coin = TWCoinType::TWCoinTypeHcash;
+        _curve_name = (char*)SECP256K1_HCASH_NAME;
+    };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                        const std::vector<INPUT_BTC>& vInputs,
@@ -24,6 +28,8 @@ public:
                             const std::vector<TW::Data>& vInputPublicKey) override;
 
 protected:
+    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address) override;
+
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,
                              const uint32_t& hashType,

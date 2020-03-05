@@ -11,7 +11,7 @@
 #include "context/EOSContext.h"
 #include "token/interface/EOSTokenInterface.hpp"
 #include <token/interface/HardwareTokenInterface.hpp>
-#include "libEOS/libEOS.hpp"
+#include "EOS/Signer.h"
 #include "EOS/Transaction.h"
 #include "EOS/PackedTransaction.h"
 
@@ -119,31 +119,31 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
     std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    uchar_vector vChinIds;
+    uchar_vector vChainIds;
     if (nullptr == chainID
         ||    0 == strlen(chainID)
         ) {
         uchar_vector vChain(chainIds[4]);
-        vChinIds << vChain;
+        vChainIds << vChain;
     }
     else {
         uchar_vector vChain(chainID);
-        vChinIds << vChain;
+        vChainIds << vChain;
     }
 
     bool bWithType = true;
     uchar_vector vRaw;
-    JUB_VERIFY_RV(jub::eos::serializePreimage(expiration,
-                                              referenceBlockId,
-                                              referenceBlockTime,
-                                              actionsInJSON,
-                                              vRaw,
-                                              bWithType));
+    JUB_VERIFY_RV(_tokenPtr->SerializePreimage(expiration,
+                                               referenceBlockId,
+                                               referenceBlockTime,
+                                               actionsInJSON,
+                                               vRaw,
+                                               bWithType));
 
     std::vector<uchar_vector> vSignatureRaw;
     JUB_VERIFY_RV(_tokenPtr->SignTX(_eosType,
                                     vPath,
-                                    vChinIds,
+                                    vChainIds,
                                     vRaw,
                                     vSignatureRaw,
                                     bWithType));
@@ -156,6 +156,16 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
         for (const uchar_vector& signatureRaw : vSignatureRaw) {
             TW::EOS::Signature signature(signatureRaw, TW::EOS::Type::ModernK1);
             tx.signatures.push_back(signature);
+
+            //verify
+            std::string pubkey;
+            JUB_VERIFY_RV(_tokenPtr->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
+            TW::EOS::Signer signer{ vChainIds };
+            if (!signer.verify(TW::PublicKey(TW::Data(uchar_vector(pubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1),
+                               _eosType,
+                               tx)) {
+                return JUBR_ERROR;
+            }
         }
 
         TW::EOS::PackedTransaction packedTx(tx);
@@ -199,12 +209,12 @@ JUB_RV EOSContext::SignTransaction(const BIP48_Path& path,
 
     bool bWithType = true;
     uchar_vector vRaw;
-    JUB_VERIFY_RV(jub::eos::serializePreimage(expiration,
-                                              referenceBlockId,
-                                              referenceBlockTime,
-                                              actionsInJSON,
-                                              vRaw,
-                                              bWithType));
+    JUB_VERIFY_RV(_tokenPtr->SerializePreimage(expiration,
+                                               referenceBlockId,
+                                               referenceBlockTime,
+                                               actionsInJSON,
+                                               vRaw,
+                                               bWithType));
 
     std::vector<uchar_vector> vSignatureRaw;
     JUB_VERIFY_RV(_tokenPtr->SignTX(_eosType,
@@ -242,8 +252,8 @@ JUB_RV EOSContext::BuildAction(const JUB_ACTION_EOS_PTR actions,
     JUB_CHECK_NULL(actions);
 
     try {
-        JUB_VERIFY_RV(jub::eos::serializeActions(actions, actionCount,
-            actionsInJSON));
+        JUB_VERIFY_RV(_tokenPtr->SerializeActions(actions, actionCount,
+                                                  actionsInJSON));
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;

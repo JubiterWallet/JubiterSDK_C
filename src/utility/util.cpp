@@ -194,7 +194,7 @@ std::vector<std::string> CharPtrArr2StrVector(const char* Arr[]) {
 }
 */
 /*
-bool AddPKCSPadding(abcd::DataChunk &data, unsigned int block_size) {
+bool AddPKCSPadding(TW::Data &data, unsigned int block_size) {
 
 	if (data.empty()) {
 		return false;
@@ -209,7 +209,7 @@ bool AddPKCSPadding(abcd::DataChunk &data, unsigned int block_size) {
 }
 */
 /*
-bool StripPKCSPadding(abcd::DataChunk &data, unsigned long block_size) {
+bool StripPKCSPadding(TW::Data &data, unsigned long block_size) {
 
     if (data.empty()) {
         return false;
@@ -233,8 +233,8 @@ bool StripPKCSPadding(abcd::DataChunk &data, unsigned long block_size) {
     return true;
 }
 */
-abcd::DataChunkList ParseTlv(const abcd::DataSlice &data) {
-    abcd::DataChunkList dataList;
+std::vector<TW::Data> ParseTlv(const TW::Data &data) {
+    std::vector<TW::Data> dataList;
 
     for (auto pos = data.begin(); pos < data.end(); ) {
         ++pos; // tag, one byte
@@ -261,16 +261,16 @@ abcd::DataChunkList ParseTlv(const abcd::DataSlice &data) {
             ++pos; // value
         }
 
-        dataList.push_back(abcd::DataChunk(pos, pos + len));
+        dataList.push_back(TW::Data(pos, pos + len));
         pos += len;
     }
 
     return dataList;
 }
 
-abcd::DataChunk ToTlv(uint8_t tag, const abcd::DataSlice &data) {
+TW::Data ToTlv(uint8_t tag, const TW::Data &data) {
 
-    abcd::DataChunk tlvData;
+    TW::Data tlvData;
 
     unsigned int len = static_cast<unsigned int>(data.size());
 
@@ -293,9 +293,9 @@ abcd::DataChunk ToTlv(uint8_t tag, const abcd::DataSlice &data) {
     return tlvData;
 }
 
-abcd::DataChunk Tollv(const std::string& strData) {
+TW::Data Tollv(const std::string& strData) {
 
-    abcd::DataChunk vData;
+    TW::Data vData;
     vData.push_back(' ');
     uchar_vector data;
     data << strData;
@@ -304,7 +304,7 @@ abcd::DataChunk Tollv(const std::string& strData) {
     }
     vData.push_back(0x00);
 
-    abcd::DataChunk llvData;
+    TW::Data llvData;
     unsigned int len = static_cast<unsigned int>(vData.size());
 
     llvData.push_back(len);

@@ -30,6 +30,8 @@ extern "C" {
 extern const char SECP256K1_NAME[];
 // JuBiter-defined
 extern const char SECP256K1_HCASH_NAME[];
+// JuBiter-defined
+extern const char SECP256K1_XRP_NAME[];
 extern const char SECP256K1_DECRED_NAME[];
 extern const char SECP256K1_GROESTL_NAME[];
 extern const char SECP256K1_SMART_NAME[];

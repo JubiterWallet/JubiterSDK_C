@@ -9,8 +9,8 @@ namespace token {
 
 
 class TrezorCryptoQTUMImpl :
-    public TrezorCryptoBTCImpl,
-	virtual public QTUMTokenInterface {
+        public TrezorCryptoBTCImpl,
+virtual public QTUMTokenInterface {
 
 public:
     TrezorCryptoQTUMImpl(const std::string& xprv) :

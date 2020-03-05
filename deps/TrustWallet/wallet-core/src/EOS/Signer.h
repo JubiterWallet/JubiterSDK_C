@@ -26,6 +26,9 @@ public:
 
     /// Signs the given transaction.
     void sign(const PrivateKey& privateKey, Type type, Transaction& transaction) const;
+    // JuBiter-defined
+    /// Verifies the given signature.
+    bool verify(const PublicKey& publicKey, Type type, const Transaction& transaction) const noexcept;
 
     /// Computes the transaction hash.
     Data hash(const Transaction& transaction) const noexcept;
