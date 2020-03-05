@@ -6,19 +6,17 @@
 
 #pragma once
 
+#include "Address.h"
 #include <string>
 
-namespace jub {
-namespace eth {
+namespace TW::Ethereum {
 
 /// Checksum types for Ethereum-based blockchains.
 enum ChecksumType {
     eip55 = 0,
     wanchain = 1,
-}; // enum ChecksumType end
+};
 
-std::string checksumed(const std::string& address, enum ChecksumType type);
+std::string checksumed(const Address& address, enum ChecksumType type);
 
-
-} // namespace eth end
-} // namespace jub end
+} // namespace TW::Ethereum

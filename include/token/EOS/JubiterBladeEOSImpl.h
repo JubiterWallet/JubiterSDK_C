@@ -1,7 +1,6 @@
 #pragma once
-
 #include <token/JubiterBlade/JubiterBladeToken.h>
-#include <token/interface/EOSTokenInterface.hpp>
+#include <token/EOS/JubiterBaseEOSImpl.h>
 
 namespace jub {
 namespace token {
@@ -13,8 +12,8 @@ constexpr JUB_BYTE kPKIAID_EOS[16] = {
 
 
 class JubiterBladeEOSImpl :
-    public JubiterBladeToken,
-    public EOSTokenInterface {
+        public JubiterBladeToken,
+virtual public JubiterBaseEOSImpl {
 
 public:
     JubiterBladeEOSImpl(JUB_UINT16 deviceID) :
@@ -34,7 +33,6 @@ public:
                           const std::vector<JUB_BYTE>& vRaw,
                           std::vector<uchar_vector>& vSignatureRaw,
                           const bool bWithType = false);
-
 }; // class JubiterBladeEOSImpl end
 
 

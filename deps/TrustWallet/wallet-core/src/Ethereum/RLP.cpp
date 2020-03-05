@@ -4,39 +4,51 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "libETH/ERC20Abi.h"
-#include <libETH/RLP.h>
-#include <tuple>
+#include "RLP.h"
 
-namespace jub {
-namespace eth {
+#include "../Data.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
 
+//#include <tuple>
 
-DataChunk RLP::encodeList(const DataChunk& encoded) noexcept {
+using namespace TW;
+using namespace TW::Ethereum;
+
+//Data RLP::encode(const uint256_t& value) noexcept {
+//    using boost::multiprecision::cpp_int;
+//
+//    Data bytes;
+//    export_bits(value, std::back_inserter(bytes), 8);
+//
+//    if (bytes.empty() || (bytes.size() == 1 && bytes[0] == 0)) {
+//        return {0x80};
+//    }
+//
+//    return encode(bytes);
+//}
+//
+Data RLP::encodeList(const Data& encoded) noexcept {
     auto result = encodeHeader(encoded.size(), 0xc0, 0xf7);
     result.reserve(result.size() + encoded.size());
     result.insert(result.end(), encoded.begin(), encoded.end());
     return result;
 }
 
+Data RLP::encode(const Transaction& transaction) noexcept {
+    auto encoded = Data();
+    append(encoded, encode(transaction.nonce));
+    append(encoded, encode(transaction.gasPrice));
+    append(encoded, encode(transaction.gasLimit));
+    append(encoded, encode(transaction.to.bytes));
+    append(encoded, encode(transaction.amount));
+    append(encoded, encode(transaction.payload));
+    append(encoded, encode(transaction.v));
+    append(encoded, encode(transaction.r));
+    append(encoded, encode(transaction.s));
+    return encodeList(encoded);
+}
 
-//uchar_vector RLP::encode(const Transaction& transaction) noexcept {
-//    auto encoded = Data();
-//    append(encoded, encode(transaction.nonce));
-//    append(encoded, encode(transaction.gasPrice));
-//    append(encoded, encode(transaction.gasLimit));
-//    append(encoded, encode(transaction.to.bytes));
-//    append(encoded, encode(transaction.amount));
-//    append(encoded, encode(transaction.payload));
-//    append(encoded, encode(transaction.v));
-//    append(encoded, encode(transaction.r));
-//    append(encoded, encode(transaction.s));
-//    return encodeList(encoded);
-//}
-
-
-DataChunk RLP::encode(const DataChunk& data) noexcept {
-    
+Data RLP::encode(const Data& data) noexcept {
     if (data.empty() || (data.size() == 1 && data[0] == 0)) {
         return {0x80};
     }
@@ -51,23 +63,21 @@ DataChunk RLP::encode(const DataChunk& data) noexcept {
     return encoded;
 }
 
-
-DataChunk RLP::encodeHeader(uint64_t size, uint8_t smallTag, uint8_t largeTag) noexcept {
+Data RLP::encodeHeader(uint64_t size, uint8_t smallTag, uint8_t largeTag) noexcept {
     if (size < 56) {
         return {static_cast<uint8_t>(smallTag + size)};
     }
 
     const auto sizeData = putint(size);
 
-    auto header = DataChunk();
+    auto header = Data();
     header.reserve(1 + sizeData.size());
     header.push_back(largeTag + static_cast<uint8_t>(sizeData.size()));
     header.insert(header.end(), sizeData.begin(), sizeData.end());
     return header;
 }
 
-
-DataChunk RLP::putint(uint64_t i) noexcept {
+Data RLP::putint(uint64_t i) noexcept {
     // clang-format off
     if (i < (1l << 8))
         return {static_cast<uint8_t>(i)};
@@ -129,7 +139,3 @@ DataChunk RLP::putint(uint64_t i) noexcept {
     };
     // clang-format on
 }
-
-
-} // namespace eth end
-} // namespace jub end

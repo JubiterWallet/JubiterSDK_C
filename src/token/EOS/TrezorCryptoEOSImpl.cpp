@@ -1,13 +1,9 @@
 #include <token/EOS/TrezorCryptoEOSImpl.h>
 
-#include <TrezorCrypto/bip32.h>
-#include <TrezorCrypto/curves.h>
 #include <HDKey/HDKey.hpp>
 #include <utility/util.h>
 
 #include "HexCoding.h"
-#include "PublicKey.h"
-#include "EOS/Address.h"
 #include "EOS/Signer.h"
 #include "EOS/Transaction.h"
 
@@ -32,22 +28,22 @@ JUB_RV TrezorCryptoEOSImpl::GetAddress(const TW::EOS::Type& type, const std::str
     //tag used by hardware,this imp not use.
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
-    uchar_vector pk(hdkey.public_key, hdkey.public_key + 33);
-    TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
-    TW::EOS::Address addr(twpk);
-    address = addr.string();
+    uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
+    TW::Data publicKey(vPublicKey);
 
-    return JUBR_OK;
+    return _getAddress(publicKey, address);
 }
 
 
 JUB_RV TrezorCryptoEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
+    JUB_RV rv = JUBR_ERROR;
+
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
 //    typedef enum class JubPubFormat {
 //        HEX = 0x00,
@@ -56,14 +52,11 @@ JUB_RV TrezorCryptoEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     uchar_vector pk(hdkey.public_key, hdkey.public_key + 33);
     if (0x00 == format) {//hex
         pubkey = pk.getHex();
-        pubkey = ETH_PRDFIX + pubkey;
     }
     else if (0x01 == format) {
-        TW::PublicKey twpk = TW::PublicKey(TW::Data(pk), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
-        TW::EOS::Address address(twpk);
-        pubkey = address.string();
-        if (!TW::EOS::Address::isValid(pubkey)) {
-            return JUBR_ERROR;
+        rv = _getAddress(TW::Data(pk), pubkey);
+        if (JUBR_OK != rv) {
+            return rv;
         }
     }
     else { //xpub
@@ -93,7 +86,7 @@ JUB_RV TrezorCryptoEOSImpl::SignTX(const TW::EOS::Type& type,
 
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
-        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, SECP256K1_NAME, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
+        JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
         uchar_vector privk(hdkey.private_key, hdkey.private_key + 32);
         TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));

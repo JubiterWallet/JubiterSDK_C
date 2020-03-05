@@ -1,19 +1,64 @@
-#include "JUB_SDK_EOS.h"
-#include "libEOS/libEOS.hpp"
+#include <token/EOS/JubiterBaseEOSImpl.h>
+#include <TrezorCrypto/bip32.h>
+#include "EOS/Address.h"
+#include <PublicKey.h>
+#include <utility/util.h>
 
 #include <bigint/BigIntegerUtils.hh>
 #include "EOS/Transaction.h"
 
+
 namespace jub {
-namespace eos {
+namespace token {
 
 
-JUB_RV serializePreimage(const std::string& expiration,
-                         const std::string& referenceBlockId,
-                         const std::string& referenceBlockTime,
-                         const std::string& actionsInJSON,
-                         uchar_vector& preimageRaw,
-                         const bool bWithType) {
+JUB_RV JubiterBaseEOSImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
+                                              uint32_t hdVersionPub, uint32_t hdVersionPrv) {
+
+    try {
+        HDNode hdkey;
+        uint32_t fingerprint = 0;
+        if (0 != hdnode_deserialize(xpub.c_str(),
+                                    hdVersionPub, hdVersionPrv,
+                                    _curve_name, &hdkey, &fingerprint)) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+
+        uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
+        publicKey = TW::Data(vPublicKey);
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseEOSImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+
+    try {
+        TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
+        TW::EOS::Address addr(twpk);
+        address = addr.string();
+        if (!addr.isValid(address)) {
+            return JUBR_ERROR;
+        }
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseEOSImpl::SerializePreimage(const std::string& expiration,
+                                             const std::string& referenceBlockId,
+                                             const std::string& referenceBlockTime,
+                                             const std::string& actionsInJSON,
+                                             uchar_vector& preimageRaw,
+                                             const bool bWithType) {
 
     JUB_RV rv = JUBR_OK;
 
@@ -96,7 +141,7 @@ JUB_RV serializePreimage(const std::string& expiration,
 }
 
 
-nlohmann::json serializeAction(const JUB_ACTION_EOS& action) {
+nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action) {
 
     switch (action.type) {
     case JUB_ENUM_EOS_ACTION_TYPE::XFER:
@@ -152,14 +197,14 @@ nlohmann::json serializeAction(const JUB_ACTION_EOS& action) {
 }
 
 
-JUB_RV serializeActions(const JUB_ACTION_EOS_PTR actions, JUB_UINT16 actionCount,
-                        std::string& actionsInJSON) {
+JUB_RV JubiterBaseEOSImpl::SerializeActions(const JUB_ACTION_EOS_PTR actions, JUB_UINT16 actionCount,
+                                            std::string& actionsInJSON) {
 
     JUB_RV rv = JUBR_OK;
 
     nlohmann::json jsonActions = nlohmann::json::array();
     for (JUB_UINT16 i=0; i<actionCount; ++i) {
-        nlohmann::json jsonAction = serializeAction(actions[i]);
+        nlohmann::json jsonAction = SerializeAction(actions[i]);
         if (jsonAction.empty()) {
             rv = JUBR_ARGUMENTS_BAD;
             break;
@@ -176,5 +221,5 @@ JUB_RV serializeActions(const JUB_ACTION_EOS_PTR actions, JUB_UINT16 actionCount
 }
 
 
-} // namespace eos end
+} // namespace token end
 } // namespace jub end

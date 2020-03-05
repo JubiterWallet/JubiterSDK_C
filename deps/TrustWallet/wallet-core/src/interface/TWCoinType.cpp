@@ -288,6 +288,10 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeQtum:
     case TWCoinTypeDash:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeEOS:
+    case TWCoinTypeXRP:
         hdVersionPublic = TWHDVersionXPUB;
         if (witness) {
             hdVersionPublic = TWHDVersionYPUB;
@@ -309,9 +313,6 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeDecred:
     case TWCoinTypeDigiByte:
     case TWCoinTypeDogecoin:
-    case TWCoinTypeEOS:
-    case TWCoinTypeEthereum:
-    case TWCoinTypeEthereumClassic:
     case TWCoinTypeFIO:
     case TWCoinTypeGoChain:
     case TWCoinTypeGroestlcoin:
@@ -327,7 +328,6 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeNimiq:
     case TWCoinTypeOntology:
     case TWCoinTypePOANetwork:
-    case TWCoinTypeXRP:
     case TWCoinTypeSolana:
     case TWCoinTypeStellar:
     case TWCoinTypeTON:
@@ -366,6 +366,11 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeQtum:
+    case TWCoinTypeDash:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeEOS:
+    case TWCoinTypeXRP:
         hdVersionPrivate = TWHDVersionXPRV;
         if (witness) {
             hdVersionPrivate = TWHDVersionYPRV;
@@ -384,13 +389,9 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
-    case TWCoinTypeDash:
     case TWCoinTypeDecred:
     case TWCoinTypeDigiByte:
     case TWCoinTypeDogecoin:
-    case TWCoinTypeEOS:
-    case TWCoinTypeEthereum:
-    case TWCoinTypeEthereumClassic:
     case TWCoinTypeFIO:
     case TWCoinTypeGoChain:
     case TWCoinTypeGroestlcoin:
@@ -406,7 +407,6 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeNimiq:
     case TWCoinTypeOntology:
     case TWCoinTypePOANetwork:
-    case TWCoinTypeXRP:
     case TWCoinTypeSolana:
     case TWCoinTypeStellar:
     case TWCoinTypeTON:

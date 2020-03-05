@@ -1,14 +1,14 @@
 #pragma once
-#include <token/interface/XRPTokenInterface.hpp>
 #include <token/TrezorCrypto/TrezorCryptoToken.h>
+#include <token/XRP/JubiterBaseXRPImpl.h>
 
 namespace jub {
 namespace token {
 
 
 class TrezorCryptoXRPImpl :
-    public TrezorCryptoToken,
-    public XRPTokenInterface {
+        public TrezorCryptoToken,
+virtual public JubiterBaseXRPImpl {
 
 public:
     TrezorCryptoXRPImpl(const std::string& xprv) :

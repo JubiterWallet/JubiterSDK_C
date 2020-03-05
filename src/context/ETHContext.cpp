@@ -3,7 +3,7 @@
 #include "context/ETHContext.h"
 #include "token/interface/ETHTokenInterface.hpp"
 #include <token/interface/HardwareTokenInterface.hpp>
-#include "libETH/ERC20Abi.h"
+#include "Ethereum/ERC20Abi.h"
 
 namespace jub {
 namespace context {
