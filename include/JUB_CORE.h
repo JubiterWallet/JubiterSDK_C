@@ -28,10 +28,11 @@ typedef enum {
     STRENGTH256 = 256
 } JUB_ENUM_MNEMONIC_STRENGTH;
 
+// The definition is the same as the COS definition
 typedef enum {
     secp256k1 = 0,
-    ed25519,
-    nist256p1      
+    nist256p1,
+    ed25519
 } JUB_ENUM_CURVES;
 
 JUB_COINCORE_DLL_EXPORT
