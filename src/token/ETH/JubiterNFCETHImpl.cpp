@@ -1,8 +1,8 @@
 #include <token/ETH/JubiterNFCETHImpl.h>
-#include <TrezorCrypto/base58.h>
 #include <TrezorCrypto/bip32.h>
-#include <utility/util.h>
-#include <token/ErrorHandler.h>
+#include <Ethereum/RLP.h>
+#include <Ethereum/Transaction.h>
+#include <Ethereum/Signer.h>
 
 namespace jub {
 namespace token {
@@ -68,6 +68,20 @@ JUB_RV JubiterNFCETHImpl::GetHDNode(const JUB_BYTE format, const std::string& pa
 }
 
 
+JUB_RV JubiterNFCETHImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV,
+                                     const std::vector<JUB_BYTE>& vChainID,
+                                     TW::Data& r, TW::Data& s, TW::Data& v) {
+
+    auto tuple = TW::Ethereum::Signer::values(TW::Data(vChainID), TW::Data(vRSV));
+
+    r = std::get<0>(tuple);
+    s = std::get<1>(tuple);
+    v = std::get<2>(tuple);
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
                                  const std::vector<JUB_BYTE>& vNonce,
                                  const std::vector<JUB_BYTE>& vGasPrice,
@@ -79,41 +93,58 @@ JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
                                  const std::vector<JUB_BYTE>& vChainID,
                                  std::vector<JUB_BYTE>& vRaw) {
 
-//    uchar_vector data;
-//
-//    if (0x00 == vNonce[0]) {
-//        data << (JUB_BYTE)0x41;
-//        data << (JUB_BYTE)0x00;
-//    }
-//    else {
-//        data << ToTlv(0x41, vNonce);
-//    }
-//
-//    data << ToTlv(0x42, vGasPrice);
-//    data << ToTlv(0x43, vGasLimit);
-//    data << ToTlv(0x44, vTo);
-//    data << ToTlv(0x45, vValue);
-//    data << ToTlv(0x46, vInput);
-//    data << ToTlv(0x47, vPath);
-//    data << ToTlv(0x48, vChainID);
-//
-//    JUB_BYTE ins = 0x2a;
-//    if (bERC20) {
-//        ins = 0xc8;
-//    }
-//
-//    //one pack can do it
-//    APDU apdu(0x00, ins, 0x01, 0x00, (JUB_ULONG)data.size(), data.data());
-//    JUB_UINT16 ret = 0;
-//    JUB_BYTE retData[2048] = { 0, };
-//    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-//    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-//    JUB_VERIFY_COS_ERROR(ret);
-//
-//    vRaw.clear();
-//    vRaw.insert(vRaw.end(), retData, retData + ulRetDataLen);
+    try {
+        TW::Ethereum::Transaction tx(vNonce,
+                                     vGasPrice,
+                                     vGasLimit,
+                                     TW::Ethereum::Address(vTo),
+                                     vValue,
+                                     vInput);
+        TW::Ethereum::Signer signer(vChainID);
+        TW::Data half = signer.hash(tx);
 
-    return JUBR_IMPL_NOT_SUPPORT;
+        std::string path(vPath.begin(), vPath.end());
+        std::vector<std::string> vInputPath;
+        vInputPath.push_back(path);
+
+        std::string btcXpub;
+        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, btcXpub));
+        uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
+        uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
+        TW::Data publicKey;
+        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+                                         hdVersionPub, hdVersionPrv));
+
+        TW::Hash::Hasher halfHasher;
+        JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
+
+        std::vector<TW::Data> vPreImageHash;
+        vPreImageHash.push_back(half);
+
+        std::vector<TW::Data> vRSV;
+        JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
+                                             vInputPath,
+                                             _getSignType(_curve_name),
+                                             halfHasherType,
+                                             vPreImageHash,
+                                             vRSV));
+
+        for (const auto& rsv : vRSV) {
+            JUB_VERIFY_RV(_encodeRSV(rsv, vChainID,
+                                     tx.r, tx.s, tx.v));
+            if (!signer.verify(TW::PublicKey(publicKey, TWPublicKeyType::TWPublicKeyTypeSECP256k1),
+                               tx)) {
+                return JUBR_ERROR;
+            }
+        }
+
+        vRaw = TW::Ethereum::RLP::encode(tx);
+    }
+    catch (...) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    return JUBR_OK;
 }
 
 
