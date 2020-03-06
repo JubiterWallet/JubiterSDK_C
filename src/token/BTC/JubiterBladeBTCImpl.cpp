@@ -272,10 +272,10 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
     TW::Data sigRawTx(totalReadLen, 0x00);
 
     constexpr JUB_UINT16 kReadOnceLen = 256;
-    apdu.le = kReadOnceLen;
     JUB_ULONG ulRetLen = kReadOnceLen;
 
     apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
+    apdu.le = kReadOnceLen;
     JUB_UINT16 times = 0;
     for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
 

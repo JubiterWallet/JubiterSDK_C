@@ -50,6 +50,10 @@ typedef enum {
 
     HASHER_BLAKE2B,
     HASHER_BLAKE2B_PERSONAL,
+
+    // JuBiter-defined
+    HASHER_SHA2_KECCAK,
+    HASHER_SHA3_KECCAK,
 } HasherType;
 
 typedef struct {

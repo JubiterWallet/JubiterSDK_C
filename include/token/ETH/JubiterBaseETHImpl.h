@@ -11,6 +11,7 @@ virtual public ETHTokenInterface {
 public:
     JubiterBaseETHImpl() {
         _coin = TWCoinType::TWCoinTypeEthereum;
+        _curve_name = (char*)SECP256K1_ETH_NAME;
     };
 
 protected:
