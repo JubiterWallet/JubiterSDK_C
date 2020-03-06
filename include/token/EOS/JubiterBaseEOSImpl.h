@@ -11,6 +11,7 @@ virtual public EOSTokenInterface {
 public:
     JubiterBaseEOSImpl() {
         _coin = TWCoinType::TWCoinTypeEOS;
+        _curve_name = (char*)SECP256K1_EOS_NAME;
     };
 
     virtual nlohmann::json SerializeAction(const JUB_ACTION_EOS& action);
