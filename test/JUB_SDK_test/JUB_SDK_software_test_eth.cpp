@@ -7,11 +7,15 @@
 //
 
 #include "JUB_SDK_software_test_eth.hpp"
+#include "JUB_SDK_test_eth.hpp"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "JUB_SDK_main.h"
 
-void software_test_eth() {
+void software_test_eth(const char* json_file) {
+
+    Json::Value root = readJSON(json_file);
+
     JUB_CHAR_PTR mnemonic = nullptr;
 
     JUB_RV rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
@@ -47,8 +51,8 @@ void software_test_eth() {
     }
 
     CONTEXT_CONFIG_ETH cfgeth;
-    cfgeth.chainID = 1;
-    cfgeth.mainPath = (JUB_CHAR_PTR)"m/44'/60'/0'";
+    cfgeth.chainID = root["chainID"].asInt();
+    cfgeth.mainPath = (char*)root["main_path"].asCString();
     JUB_UINT16 contextID = 0;
     rv = JUB_CreateContextETH_soft(cfgeth, masterXprv, &contextID);
     if (rv != JUBR_OK) {
@@ -56,10 +60,10 @@ void software_test_eth() {
     }
 
     BIP44_Path path;
-    path.change = BOOL_FALSE;
-    path.addressIndex = 0;
+    path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asInt();
     JUB_CHAR_PTR xpub = nullptr;
-        rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &xpub);
+    rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &xpub);
     if (rv == JUBR_OK) {
         cout << xpub << endl;
         JUB_FreeMemory(xpub);
@@ -67,47 +71,18 @@ void software_test_eth() {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressETH(contextID, path, BOOL_FALSE, &address);
-    if(rv == JUBR_OK){
+    if(rv == JUBR_OK) {
         cout << address << endl;
         JUB_FreeMemory(address);
     }
 
-//    JUB_UINT16 deviceIDs[MAX_DEVICE] = {0,};
-//    fill_n(deviceIDs, MAX_DEVICE, 0xffff);
-//    rv = JUB_ListDeviceHid(deviceIDs);
-//
-//    rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-//
-//    CONTEXT_CONFIG_ETH cfg_eth;
-//    cfg_eth.mainPath = "m/44'/60'/0'";
-//    cfg_eth.chainID = 1;
-//    JUB_UINT16 contextID_hard = 0;
-//    rv = JUB_CreateContextETH(cfg_eth, deviceIDs[0], &contextID_hard);
-//    if (JUBR_OK != rv) {
-//        cout << "JUB_CreateContextETH() return " << GetErrMsg(rv) << endl;
-//        return;
-//    }
-
-    uint32_t nonce = 5;//.asDouble();
-    uint32_t gasLimit = 21000;//.asDouble();
-    const char* gasPriceInWei = "10000000000";
-    const char* valueInWei = "500000000000000";
-    const char* to = "0xef31DEc147DCDcd64F6a0ABFA7D441B62A216BC9";
-    const char* data = "4A75626974657257616C6C6574";
-
-    char* raw = nullptr;
-    rv = JUB_SignTransactionETH(contextID,
-                                path, nonce,
-                                gasLimit, gasPriceInWei,
-                                to,
-                                valueInWei, data,
-                                &raw);
+    rv = transaction_proc_ETH(contextID, root);
     if (JUBR_OK != rv) {
-        cout << "JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
         return;
     }
-    else {
-        cout << "raw : " << raw << endl;
-        JUB_FreeMemory(raw);
+
+    rv = transaction_proc_ERC20_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
     }
 }

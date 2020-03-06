@@ -770,12 +770,20 @@ const curve_info *get_curve_by_name(const char *curve_name) {
 		return &secp256k1_info;
 	}
     // JuBiter-defined
-    if (strcmp(curve_name, SECP256K1_HCASH_NAME) == 0) {
-        return &secp256k1_hcash_info;
+    if (strcmp(curve_name, SECP256K1_ETH_NAME) == 0) {
+        return &secp256k1_ethereum_info;
     }
     // JuBiter-defined
     if (strcmp(curve_name, SECP256K1_XRP_NAME) == 0) {
         return &secp256k1_ripple_info;
+    }
+    // JuBiter-defined
+    if (strcmp(curve_name, SECP256K1_HCASH_NAME) == 0) {
+        return &secp256k1_hcash_info;
+    }
+    // JuBiter-defined
+    if (strcmp(curve_name, SECP256K1_EOS_NAME) == 0) {
+        return &secp256k1_eos_info;
     }
 	if (strcmp(curve_name, SECP256K1_DECRED_NAME) == 0) {
 		return &secp256k1_decred_info;
