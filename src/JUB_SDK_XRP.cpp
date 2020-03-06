@@ -12,6 +12,7 @@
 
 #include "context/XRPContext.h"
 #include "token/XRP/JubiterBladeXRPImpl.h"
+#include "token/XRP/JubiterNFCXRPImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -105,8 +106,8 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
 
-	auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
-
+//	auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
+    auto token = std::make_shared<jub::token::JubiterNFCXRPImpl>(deviceID);
 
     jub::context::XRPContext* context = new jub::context::XRPContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);

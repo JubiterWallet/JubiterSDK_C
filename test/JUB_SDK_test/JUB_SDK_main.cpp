@@ -90,7 +90,7 @@ int main() {
                 software_test_btc();
                 break;
             case 60:
-                software_test_eth();
+                software_test_eth("json/testETH.json");
                 break;
             case 144:
                 software_test_xrp();

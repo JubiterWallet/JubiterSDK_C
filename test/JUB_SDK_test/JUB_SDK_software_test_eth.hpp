@@ -15,6 +15,6 @@
 
 using namespace std;
 
-void software_test_eth();
+void software_test_eth(const char* json_file);
 
 #endif /* JUB_SDK_software_test_eth_hpp */

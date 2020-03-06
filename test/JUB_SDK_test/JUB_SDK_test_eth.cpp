@@ -65,7 +65,7 @@ void ETH_test(const char* json_file) {
                 transaction_test_ETH(contextID, root);
                 break;
             case 3:
-                transaction_ERC20_ETH(contextID, root);
+                transaction_test_ERC20_ETH(contextID, root);
                 break;
             case 4:
                 set_my_address_test_ETH(contextID);
@@ -181,6 +181,16 @@ void transaction_test_ETH(JUB_UINT16 contextID, Json::Value root) {
         return;
     }
 
+    rv = transaction_proc_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
     BIP44_Path path;
     path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
     path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
@@ -197,21 +207,33 @@ void transaction_test_ETH(JUB_UINT16 contextID, Json::Value root) {
     rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
     if (JUBR_OK != rv) {
         cout << "JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
-        return;
+        return rv;
     }
     else {
         cout << "raw : " << raw << endl;
         JUB_FreeMemory(raw);
     }
+
+    return rv;
 }
 
 //ERC-20 Test
-void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
+void transaction_test_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
 
     JUB_RV rv = verify_pin(contextID);
     if (JUBR_OK != rv) {
         return;
     }
+
+    rv = transaction_proc_ERC20_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
 
     char* tokenName = (char*)root["ERC20"]["tokenName"].asCString();
     JUB_UINT16 unitDP = root["ERC20"]["dp"].asUInt();
@@ -226,7 +248,7 @@ void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
                               token_to, token_value, &abi);
     if (JUBR_OK != rv) {
         cout << "JUB_BuildERC20AbiETH() return " << GetErrMsg(rv) << endl;
-        return;
+        return rv;
     }
 
     BIP44_Path path;
@@ -237,14 +259,15 @@ void transaction_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     char* gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
     char* raw = nullptr;
     rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, nullptr, abi, &raw);
-
     JUB_FreeMemory(abi);
     if (JUBR_OK != rv) {
         cout << "JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
-        return;
+        return rv;
     }
     else {
         cout << raw << endl;
         JUB_FreeMemory(raw);
     }
+
+    return rv;
 }

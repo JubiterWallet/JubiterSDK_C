@@ -37,6 +37,11 @@ public:
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
+
+protected:
+    virtual JUB_RV _encodeRSV(const std::vector<JUB_BYTE>& vRSV,
+                              const std::vector<JUB_BYTE>& vChainID,
+                              TW::Data& r, TW::Data& s, TW::Data& v);
 }; // class JubiterNFCETHImpl end
 
 
