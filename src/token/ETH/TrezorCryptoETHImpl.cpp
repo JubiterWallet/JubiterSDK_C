@@ -99,6 +99,8 @@ JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
         return JUBR_ERROR;
     }
 
+    vRaw = TW::Ethereum::RLP::encode(tx);
+
     return JUBR_OK;
 }
 
