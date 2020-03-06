@@ -95,7 +95,7 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
     vChainID.push_back(_chainID);
 
     bool bERC20 = false;
-    if (0 == memcmp(input, ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))) { // erc20 function sign
+    if (0 == memcmp(uchar_vector(vInput).getHex().c_str(), ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))) { // erc20 function sign
         bERC20 = true;
     }
 
