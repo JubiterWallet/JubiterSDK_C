@@ -81,6 +81,16 @@ bool hasherType2Hasher(const HasherType hasherType, TW::Hash::Hasher& hasher) {
     case HASHER_GROESTLD_TRUNC:
         hasher = TW::Hash::groestl512d;
         break;
+    case HASHER_SHA2_KECCAK:
+        hasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
+           return TW::Hash::keccak256(begin, end);
+        };
+        break;
+    case HASHER_SHA3_KECCAK:
+        hasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
+           return TW::Hash::keccak512(begin, end);
+        };
+        break;
     case HASHER_BLAKE2B:
     case HASHER_BLAKE2B_PERSONAL:
     default:
