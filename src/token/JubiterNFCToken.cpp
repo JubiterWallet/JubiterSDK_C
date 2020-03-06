@@ -237,7 +237,7 @@ JUB_RV JubiterNFCToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retr
         return (uint8_t)elem;
     });
 
-    APDU apdu(0x00, 0x20, 0x02, 0x00, (JUB_ULONG)pin.size(), pin.data());
+    APDU apdu(0x00, 0x20, 0x03, 0x00, (JUB_ULONG)pin.size(), pin.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -257,7 +257,7 @@ JUB_RV JubiterNFCToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retr
 
 JUB_RV JubiterNFCToken::SetTimeout(const JUB_UINT16 timeout) {
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    return JUBR_OK;
 }
 
 

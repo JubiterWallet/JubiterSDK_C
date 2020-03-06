@@ -12,6 +12,7 @@
 
 #include "context/EOSContext.h"
 #include "token/EOS/JubiterBladeEOSImpl.h"
+#include "token/EOS/JubiterNFCEOSImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -73,8 +74,8 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
 
-	auto token = std::make_shared<jub::token::JubiterBladeEOSImpl>(deviceID);
-
+//	auto token = std::make_shared<jub::token::JubiterBladeEOSImpl>(deviceID);
+    auto token = std::make_shared<jub::token::JubiterNFCEOSImpl>(deviceID);
 
     jub::context::EOSContext* context = new jub::context::EOSContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);

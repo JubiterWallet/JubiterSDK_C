@@ -1,7 +1,5 @@
 #include <token/BTC/JubiterNFCBTCImpl.h>
 #include <TrezorCrypto/base58.h>
-#include <TrezorCrypto/bip32.h>
-#include <TrustWalletCore/TWCurve.h>
 
 namespace jub {
 namespace token {
@@ -54,13 +52,43 @@ JUB_RV JubiterNFCBTCImpl::GetAddress(const JUB_BYTE addrFmt,
                                      const JUB_UINT16 tag,
                                      std::string& address) {
 
+    JUB_RV rv = JUBR_ERROR;
+
     std::string btcXpub;
     JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, path, btcXpub));
 
-    TW::Data publicKey;
-    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
+    bool witness = false;
+    if (p2sh_p2wpkh == type) {
+        witness = true;
+    }
 
-    return _getAddress(publicKey, address);
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+
+    TW::Data publicKey;
+    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+                                     hdVersionPub, hdVersionPrv));
+
+    switch (type) {
+    case p2pkh:
+    {
+        rv = _getAddress(publicKey, address);
+        break;
+    }
+    case p2sh_p2wpkh:
+    {
+        rv = _getSegwitAddress(publicKey, address);
+        break;
+    }
+//    case p2wpkh:
+//    case p2sh_multisig:
+//    case p2wsh_multisig:
+//    case p2sh_p2wsh_multisig:
+    default:
+        rv = JUBR_ARGUMENTS_BAD;
+    }
+
+    return rv;
 }
 
 
@@ -93,54 +121,40 @@ JUB_RV JubiterNFCBTCImpl::SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) {
     return JUBR_OK;
 }
 
-inline bool halfHasher(const HasherType hasherType, HasherType& halfHasherType, TW::Hash::Hasher& halfHasher) {
-    bool bMode = true;
 
-    switch (hasherType) {
-    case HASHER_SHA2:
-        halfHasherType = HASHER_SHA2;
-        bMode = false;
-    case HASHER_SHA2D:
-        halfHasherType = HASHER_SHA2;
-        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
-           return TW::Hash::sha256(begin, end);
-        };
-        break;
-    case HASHER_SHA2_RIPEMD:
-        bMode = false;
-        halfHasherType = HASHER_SHA2_RIPEMD;
-        halfHasher = TW::Hash::sha256ripemd;
-        break;
-    case HASHER_BLAKE:
-        bMode = false;
-        halfHasherType = HASHER_BLAKE;
-    case HASHER_BLAKED:
-        halfHasherType = HASHER_BLAKE;
-        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
-           return TW::Hash::blake256(begin, end);
-        };
-        break;
-    case HASHER_BLAKE_RIPEMD:
-        bMode = false;
-        halfHasherType = HASHER_BLAKE_RIPEMD;
-        halfHasher = TW::Hash::blake256ripemd;
-        break;
-    case HASHER_GROESTLD_TRUNC:
-        bMode = false;
-        halfHasherType = HASHER_GROESTLD_TRUNC;
-        halfHasher = TW::Hash::groestl512d;
-        break;
-    case HASHER_BLAKE2B:
-        halfHasherType = HASHER_BLAKE2B;
-    case HASHER_BLAKE2B_PERSONAL:
-        halfHasherType = HASHER_BLAKE2B_PERSONAL;
-    default:
-        bMode = false;
-        break;
+JUB_RV JubiterNFCBTCImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature) {
+
+    ecdsa_curve *curve = (ecdsa_curve *)get_curve_by_name(_curve_name)->params;
+
+    // RSV: 32 + 32 + 1
+    curve_point R;
+    uint8_t r[32] = {0x00,};
+    memcpy(r, &vRSV[0], 32);
+    bn_read_be(r, &R.x);
+    uint8_t s[32] = {0x00,};
+    memcpy(s, &vRSV[32], 32);
+    bn_read_be(s, &R.y);
+    uint8_t by = R.y.val[0] & 1;// signature recovery byte
+
+    uint8_t sig[64] = {0x00,};
+    // if S > order/2 => S = -S
+    if (bn_is_less(&curve->order_half, &R.y)) {
+        bn_subtract(&curve->order, &R.y, &R.y);
+        by ^= 1;
     }
 
-    return bMode;
+    // we are done, R.x and s is the result signature
+    bn_write_be(&R.x, sig);
+    bn_write_be(&R.y, sig + 32);
+
+    // signature DER encode
+    std::array<uint8_t, 72> resultBytes;
+    size_t size = ecdsa_sig_to_der(sig, resultBytes.data());
+    std::copy(resultBytes.begin(), resultBytes.begin() + size, std::back_inserter(signature));
+
+    return JUBR_OK;
 }
+
 
 JUB_RV JubiterNFCBTCImpl::SignTX(const JUB_BYTE addrFmt,
                                  const JUB_ENUM_BTC_TRANS_TYPE& type,
@@ -162,16 +176,56 @@ JUB_RV JubiterNFCBTCImpl::SignTX(const JUB_BYTE addrFmt,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_RV rv = JUBR_ERROR;
-
     std::vector<TW::Data> vInputPublicKey;
     std::vector<uchar_vector> vSignatureRaw;
+    JUB_VERIFY_RV(_SignTx(witness,
+                          type,
+                          vInputAmount,
+                          vInputPath,
+                          vChangeIndex,
+                          vChangePath,
+                          tx,
+                          vInputPublicKey,
+                          vSignatureRaw));
+
+    uchar_vector signedRaw;
+    JUB_VERIFY_RV(_serializeTx(witness,
+                               vInputAmount,
+                               vInputPublicKey,
+                               vSignatureRaw,
+                               &tx,
+                               signedRaw));
+
+    vRaw = signedRaw;
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
+                                  const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                  const std::vector<JUB_UINT64>& vInputAmount,
+                                  const std::vector<std::string>& vInputPath,
+                                  const std::vector<JUB_UINT16>& vChangeIndex,
+                                  const std::vector<std::string>& vChangePath,
+                                  const TW::Bitcoin::Transaction& tx,
+                                  std::vector<TW::Data>& vInputPublicKey,
+                                  std::vector<uchar_vector>& vSignatureRaw) {
+
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+
+    TW::Hash::Hasher halfHasher;
+    JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
+
+    std::vector<TW::Data> vPreImageHash;
     for (size_t index=0; index<tx.inputs.size(); ++index) {
         std::string btcXpub;
         JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, vInputPath[index], btcXpub));
 
         TW::Data publicKey;
-        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
+        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+                                         hdVersionPub, hdVersionPrv));
 
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
 
@@ -180,8 +234,7 @@ JUB_RV JubiterNFCBTCImpl::SignTX(const JUB_BYTE addrFmt,
         TW::Bitcoin::Address addr(twpk, prefix);
         TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
         if (0 == scriptCode.size()) {
-            rv = JUBR_ARGUMENTS_BAD;
-            break;
+            return JUBR_ARGUMENTS_BAD;
         }
 
         TW::Data preImage;
@@ -193,46 +246,28 @@ JUB_RV JubiterNFCBTCImpl::SignTX(const JUB_BYTE addrFmt,
         }
 
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
-        HasherType halfHasherType;
-        TW::Hash::Hasher halfHasherSign;
-        JUB_BYTE hashMode = (JUB_BYTE)JUB_ENUM_NFC_HASHMODE::DOUBLE;
-        if (!halfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasherType, halfHasherSign)) {
-            hashMode = (JUB_BYTE)JUB_ENUM_NFC_HASHMODE::SINGLE;
-        }
-        TW::Data digest = halfHasherSign(begin, begin+preImage.size());
-        TW::Data signature;
-        JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath[index],
-                                             hashMode,
-                                             (JUB_BYTE)halfHasherType,
-                                             digest,
-                                             signature));
-        if (!twpk.verifyAsDER(signature, digest)) {
-            rv = JUBR_ERROR;
-            break;
-        }
-        else {
-            rv = JUBR_OK;
-        }
-
-        // move to JubiterBaseBTCImpl::_serializeTx()
-//        if (!witness) {
-//            // P2PKH
-//            tx.inputs[index]->script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(signature, TW::Data(publicKey));
-//        }
-//        else {
-//            // P2WPKH
-//            TW::Data scriptPubkey;
-//            TW::Bitcoin::Script::buildPayToWitnessPubkeyHash(twpk.hash(TW::Data())).encode(scriptPubkey);
-//            tx.inputs[index]->script.bytes = scriptPubkey;
-//
-//            tx.inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(signature, TW::Data(publicKey));
-//        }
+        TW::Data halfDigest = halfHasher(begin, begin+preImage.size());
+        vPreImageHash.push_back(halfDigest);
 
         vInputPublicKey.push_back(publicKey);
+    }
+
+    std::vector<TW::Data> vRSV;
+    JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
+                                         vInputPath,
+                                         _getSignType(_curve_name),
+                                         halfHasherType,
+                                         vPreImageHash,
+                                         vRSV));
+
+    for (const auto& rsv : vRSV) {
+        TW::Data sign;
+        JUB_VERIFY_RV(_encodeRSV(rsv, sign));
+        TW::Data signature = pushAll(sign);
         vSignatureRaw.push_back(signature);
     }
 
-    return rv;
+    return JUBR_OK;
 }
 
 
@@ -246,13 +281,17 @@ JUB_RV JubiterNFCBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
         witness = true;
     }
 
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+
     std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {
         std::string btcXpub;
         JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, inputPath, btcXpub));
 
         TW::Data publicKey;
-        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
+        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+                                         hdVersionPub, hdVersionPrv));
 
         vInputPublicKey.push_back(publicKey);
     }

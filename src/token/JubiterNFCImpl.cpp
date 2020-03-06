@@ -55,35 +55,49 @@ JUB_RV JubiterNFCImpl::GetAddress(const JUB_BYTE addrFmt,
 }
 
 
-JUB_RV JubiterNFCImpl::SignTX(const std::string& path,
-                              const JUB_BYTE& hashMode,
+JUB_RV JubiterNFCImpl::SignTX(const JUB_UINT16 inputCount,
+                              const std::vector<std::string>& vInputPath,
+                              const JUB_BYTE& signType,
                               const JUB_BYTE& hashType,
-                              const std::vector<JUB_BYTE>& vPreImageHash,
-                              std::vector<JUB_BYTE>& vSignatureRaw) {
+                              const std::vector<TW::Data>& vPreImageHash,
+                              std::vector<TW::Data>& vRSV) {
 
     constexpr JUB_UINT32 kSendOnceLen = 230;
 
-    // if double-hash
-    JUB_BYTE p1 = hashMode;
+    JUB_BYTE p1 = signType;
     JUB_BYTE p2 = hashType;
 
+    // number of input
+    uchar_vector apduData;
+    apduData << (JUB_BYTE)(inputCount);
+
+    uchar_vector preImageHashLV;
+    for (auto preImageHash : vPreImageHash) {
+        preImageHashLV << (JUB_BYTE)(preImageHash.size());
+        preImageHashLV << preImageHash;
+    }
+    apduData << ToTlv(0x07, preImageHashLV);
+
     //  first pack
-    uchar_vector apduData = ToTlv(0x07, vPreImageHash);
-    APDU apdu(0x00, 0xF8, p1, p2, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF8, 0x00, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     JUB_VERIFY_COS_ERROR(ret);
     apduData.clear();
 
-    uchar_vector vPath;
-    vPath << path;
-    apduData << ToTlv(0x08, vPath);
+    // pathTLV
+    uchar_vector pathLV;
+    for (auto path : vInputPath) {
+        pathLV << (JUB_BYTE)(path.size());
+        pathLV << path;
+    }
+    apduData << ToTlv(0x0F, pathLV);
 
-    JUB_VERIFY_RV(_TranPack(apduData, p1, p2, kSendOnceLen, true)); // last data.
+    JUB_VERIFY_RV(_TranPack(apduData, 0x00, 0x00, kSendOnceLen, true)); // last data.
     apduData.clear();
 
-    //  sign transactions
-    JUB_BYTE retData[2] = { 0, };
+    // sign transactions
+    JUB_BYTE retData[kSendOnceLen] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     //one pack can do it
     apdu.SetApdu(0x00, 0xCA, p1, p2, 0);
@@ -93,91 +107,130 @@ JUB_RV JubiterNFCImpl::SignTX(const std::string& path,
     }
     JUB_VERIFY_COS_ERROR(ret);
 
+    JUB_UINT16 totalReadLen;
+    TW::Data sigRawTx;
     // get transactions (pack by pack)
     if (2 != ulRetDataLen) { // total length
-        return JUBR_TRANSMIT_DEVICE_ERROR;
+        totalReadLen = ulRetDataLen;
+        TW::Data totalData;
+        totalData.insert(totalData.end(), retData, retData + ulRetDataLen);
+
+        sigRawTx.insert(sigRawTx.end(), totalData.begin(), totalData.end());
+    }
+    else {
+        totalReadLen = TW::decode16BE(retData);
+        TW::Data totalData(totalReadLen, 0x00);
+
+        constexpr JUB_UINT16 kReadOnceLen = 256;
+        JUB_ULONG ulRetLen = kReadOnceLen;
+
+        apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
+        apdu.le = kReadOnceLen;
+        JUB_UINT16 times = 0;
+        for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
+            JUB_UINT16 offset = times * kReadOnceLen;
+            apdu.p1 = offset >> 8;
+            apdu.p2 = offset & 0x00ff;
+
+            JUB_VERIFY_RV(_SendApdu(&apdu, ret, totalData.data() + times * kReadOnceLen, &ulRetLen));
+            JUB_VERIFY_COS_ERROR(ret);
+        }
+
+        apdu.le = totalReadLen % kReadOnceLen;
+        if (apdu.le) {
+            JUB_UINT16 offset = times * kReadOnceLen;
+            apdu.p1 = offset >> 8;
+            apdu.p2 = offset & 0x00ff;
+
+            ulRetLen = totalReadLen - times * kReadOnceLen;
+
+            JUB_VERIFY_RV(_SendApdu(&apdu, ret, totalData.data() + times * kReadOnceLen, &ulRetLen));
+            JUB_VERIFY_COS_ERROR(ret);
+        }
+
+        sigRawTx.insert(sigRawTx.end(), totalData.begin(), totalData.end());
     }
 
-    JUB_UINT16 totalReadLen = TW::decode16BE(retData);
-    TW::Data sigRawTx(totalReadLen, 0x00);
-
-    constexpr JUB_UINT16 kReadOnceLen = 256;
-    apdu.le = kReadOnceLen;
-    JUB_ULONG ulRetLen = kReadOnceLen;
-
-    apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
-    JUB_UINT16 times = 0;
-    for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
-
-        JUB_UINT16 offset = times * kReadOnceLen;
-        apdu.p1 = offset >> 8;
-        apdu.p2 = offset & 0x00ff;
-
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret, sigRawTx.data() + times * kReadOnceLen, &ulRetLen));
-        JUB_VERIFY_COS_ERROR(ret);
+    JUB_UINT32 rsvLVLen = 66;
+    if (0 != (totalReadLen%rsvLVLen)) {
+        return JUBR_ERROR;
     }
-
-    apdu.le = totalReadLen % kReadOnceLen;
-    if (apdu.le) {
-        JUB_UINT16 offset = times * kReadOnceLen;
-        apdu.p1 = offset >> 8;
-        apdu.p2 = offset & 0x00ff;
-
-        ulRetLen = totalReadLen - times * kReadOnceLen;
-
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret, sigRawTx.data() + times * kReadOnceLen, &ulRetLen));
-        JUB_VERIFY_COS_ERROR(ret);
+    JUB_UINT16 times = totalReadLen / rsvLVLen;
+    for (times = 0; times < (totalReadLen / rsvLVLen); times++) {
+        JUB_UINT16 offset = times * rsvLVLen;
+        JUB_UINT32 rsvLen = sigRawTx[offset];
+        TW::Data rsv;
+        rsv.insert(rsv.end(), sigRawTx.data()+offset+1, sigRawTx.data()+offset+1+rsvLen);
+        vRSV.push_back(rsv);
     }
-
-    vSignatureRaw.clear();
-    vSignatureRaw = sigRawTx;
 
     return JUBR_OK;
 }
 
 
-//JUB_RV JubiterNFCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
-//                                const std::vector<JUB_UINT64>& vInputAmount,
-//                                const std::vector<std::string>& vInputPath,
-//                                const std::vector<JUB_BYTE>& vSigedTrans) {
-//
-//    bool witness = false;
-//    if (p2sh_p2wpkh == type) {
-//        witness = true;
-//    }
-//
-//    // verify signature
-//    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin,  witness);
-//    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
-//
-//    JUB_RV rv = JUBR_ERROR;
-//    std::vector<TW::Data> vInputPublicKey;
-//    for (const auto& inputPath:vInputPath) {
-//        std::string xpub;
-//        rv = GetHDNode(type, inputPath, xpub);
-//        if (JUBR_OK != rv) {
-//            break;
-//        }
-//
-//        HDNode hdkey;
-//        JUB_UINT32 parentFingerprint;
-//        if (0 != hdnode_deserialize(xpub.c_str(), hdVersionPub, hdVersionPrv, _curve_name, &hdkey, &parentFingerprint)) {
-//            rv = JUBR_ERROR;
-//            break;
-//        }
-//
-//        uchar_vector pk(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
-//        vInputPublicKey.push_back(TW::Data(pk));
-//    }
-//    if (JUBR_OK != rv) {
-//        return rv;
-//    }
-//
-//    return VerifyTx(witness,
-//                    vSigedTrans,
-//                    vInputAmount,
-//                    vInputPublicKey);
-//}
+JUB_BYTE JubiterNFCImpl::_getSignType(const char *curve_name) {
+
+    if (0 == strcmp(curve_name, NIST256P1_NAME)) {
+        return JUB_ENUM_CURVES::nist256p1;
+    }
+    if (0 == strcmp(curve_name, ED25519_NAME)) {
+        return JUB_ENUM_CURVES::ed25519;
+    }
+
+    return JUB_ENUM_CURVES::secp256k1;
+}
+
+
+JUB_BYTE JubiterNFCImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::Hasher& halfHasher) {
+    JUB_BYTE halfHasherType = 0xEE; // Identifiers do not hash
+
+    switch (hasherType) {
+    case HASHER_SHA2D:
+        halfHasherType = (JUB_BYTE)HASHER_SHA2;
+    case HASHER_SHA2:
+        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
+           return TW::Hash::sha256(begin, end);
+        };
+        break;
+    case HASHER_SHA2_RIPEMD:
+//        halfHasherType = HASHER_SHA2_RIPEMD;
+        halfHasher = TW::Hash::sha256ripemd;
+        break;
+    case HASHER_SHA3:
+//        halfHasherType = HASHER_SHA3;
+        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
+           return TW::Hash::sha512(begin, end);
+        };
+        break;
+    case HASHER_BLAKED:
+        halfHasherType = HASHER_BLAKE;
+    case HASHER_BLAKE:
+        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
+           return TW::Hash::blake256(begin, end);
+        };
+        break;
+    case HASHER_BLAKE_RIPEMD:
+//        halfHasherType = HASHER_BLAKE_RIPEMD;
+        halfHasher = TW::Hash::blake256ripemd;
+        break;
+    case HASHER_GROESTLD_TRUNC:
+//        halfHasherType = HASHER_GROESTLD_TRUNC;
+        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
+           return TW::Hash::groestl512(begin, end);
+        };
+        break;
+    case HASHER_BLAKE2B:
+//        halfHasherType = HASHER_BLAKE2B;
+    case HASHER_BLAKE2B_PERSONAL:
+//        halfHasherType = HASHER_BLAKE2B_PERSONAL;
+    case HASHER_SHA2_KECCAK:
+    case HASHER_SHA3_KECCAK:
+    default:
+        break;
+    }
+
+    return halfHasherType;
+}
 
 
 } // namespace token end
