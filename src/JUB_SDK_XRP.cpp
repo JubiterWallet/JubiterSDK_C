@@ -9,6 +9,7 @@
 #include "JUB_SDK_XRP.h"
 
 #include "utility/util.h"
+#include "utility/mutex.h"
 
 #include "context/XRPContext.h"
 #include "token/XRP/JubiterBladeXRPImpl.h"
@@ -106,6 +107,7 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
 
+    CREATE_THREAD_LOCK_GUARD
 //	auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
     auto token = std::make_shared<jub::token::JubiterNFCXRPImpl>(deviceID);
 
