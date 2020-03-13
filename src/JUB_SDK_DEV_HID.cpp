@@ -9,6 +9,8 @@
 #include "JUB_SDK_DEV_HID.h"
 
 #include "utility/util.h"
+#include "utility/mutex.h"
+
 
 #include "device/JubiterHidDevice.hpp"
 /*****************************************************************************
@@ -20,6 +22,7 @@
 JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
 #ifdef HID_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto path_list = jub::device::JubiterHidDevice::EnumDevice();
     //std::cout <<"** "<< path_list.size() << std::endl;
 
@@ -76,6 +79,7 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID) {
 
 #ifdef HID_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(device);
 
@@ -96,8 +100,9 @@ JUB_RV JUB_ConnetDeviceHid(IN JUB_UINT16 deviceID) {
 JUB_RV JUB_DisconnetDeviceHid(IN JUB_UINT16 deviceID) {
 
 #ifdef HID_MODE
-	auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
-	JUB_CHECK_NULL(device);
+    CREATE_THREAD_LOCK_GUARD
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
 
     JUB_VERIFY_RV(device->Disconnect());
 
