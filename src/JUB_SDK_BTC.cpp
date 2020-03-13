@@ -9,6 +9,7 @@
 #include "JUB_SDK_BTC.h"
 
 #include "utility/util.h"
+#include "utility/mutex.h"
 
 #include "context/BTCContext.h"
 #include "token/BTC/JubiterBladeBTCImpl.h"
@@ -91,10 +92,10 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
-
-	auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
-	JUB_CHECK_NULL(context);
-	context->ActiveSelf();
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    JUB_CHECK_NULL(context);
+    context->ActiveSelf();
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
     return JUBR_OK;
@@ -110,7 +111,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
 JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR xpub) {
-
+CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
     JUB_CHECK_NULL(context);
 
@@ -130,8 +131,9 @@ JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID,
 JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
-	JUB_CHECK_NULL(context);
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     std::string str_xpub;
     JUB_VERIFY_RV(context->GetMainHDNode(str_xpub));
@@ -153,8 +155,9 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
                          IN JUB_ENUM_BOOL bshow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
-	JUB_CHECK_NULL(context);
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->GetAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, bshow, str_address));
@@ -174,8 +177,9 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
                            IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
-	JUB_CHECK_NULL(context);
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     std::string str_address;
     JUB_VERIFY_RV(context->SetMyAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, str_address));
@@ -201,6 +205,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
                               IN JUB_UINT32 lockTime,
                               OUT JUB_CHAR_PTR_PTR raw) {
 
+    CREATE_THREAD_LOCK_GUARD
     std::vector<INPUT_BTC> vInputs(inputs, inputs + iCount);
     std::vector<OUTPUT_BTC> vOutputs(outputs, outputs + oCount);
     bool isQrc20    = false;
@@ -248,8 +253,9 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
 JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID,
                       IN JUB_ENUM_BTC_UNIT_TYPE unit) {
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
-	JUB_CHECK_NULL(context);
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->SetUnit(unit));
 
@@ -269,8 +275,9 @@ JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
                             IN JUB_UINT64 amount,
                             OUT OUTPUT_BTC outputs[2]) {
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
-	JUB_CHECK_NULL(context);
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->BuildUSDTOutputs(USDTTo, amount, outputs));
 
@@ -296,8 +303,9 @@ JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
                              IN JUB_CHAR_CPTR to, IN JUB_CHAR_CPTR value,
                              OUT OUTPUT_BTC outputs[1]) {
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::QTUMContext>(contextID);
-	JUB_CHECK_NULL(context);
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::QTUMContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->SetQRC20Token(contractAddress,decimal,symbol));
     JUB_VERIFY_RV(context->BuildQRC20Outputs(gasLimit, gasPrice, contractAddress,to,value,outputs));
