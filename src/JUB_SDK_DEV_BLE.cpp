@@ -9,6 +9,7 @@
 #include "JUB_SDK_DEV_BLE.h"
 
 #include "utility/util.h"
+#include "utility/mutex.h"
 
 #include "device/JubiterBLEDevice.hpp"
 #include <token/JubiterBlade/JubiterBladeToken.h>
@@ -34,6 +35,7 @@ using BLE_device_map = Singleton<xManager<JUB_ULONG>>;
 JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 
 #ifdef BLE_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
@@ -54,6 +56,7 @@ JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 JUB_RV JUB_enumDevices(void) {
 
 #ifdef BLE_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
@@ -70,6 +73,7 @@ JUB_RV JUB_enumDevices(void) {
 JUB_RV JUB_stopEnumDevices(void) {
 
 #ifdef BLE_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
@@ -89,6 +93,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
                          JUB_UINT32 timeout) {
 
 #ifdef BLE_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
@@ -129,6 +134,7 @@ JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
 JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
 
 #ifdef BLE_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
@@ -147,6 +153,7 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
 JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
 
 #ifdef BLE_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
@@ -174,7 +181,8 @@ JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID,
                         OUT JUB_BYTE_PTR percent) {
 
 #ifdef BLE_MODE
-	auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    CREATE_THREAD_LOCK_GUARD
+    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     JUB_VERIFY_RV(token->QueryBattery(*percent));
 

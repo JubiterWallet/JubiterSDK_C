@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "utility/util.h"
+#include "utility/mutex.h"
 #include "utility/Singleton.h"
 
 #include "context/BaseContext.h"
@@ -54,6 +55,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf) {
 *****************************************************************************/
 JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
 
+    CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_NULL(memPtr);
 
     auto pos = memPtrs.find(memPtr);
@@ -76,6 +78,7 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
 *****************************************************************************/
 JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID) {
 
+    CREATE_THREAD_LOCK_GUARD
     jub::context::ContextManager::GetInstance()->ClearOne(contextID);
 
     return JUBR_OK;
@@ -89,6 +92,7 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID) {
 *****************************************************************************/
 JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID) {
 
+    CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
@@ -105,7 +109,8 @@ JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID) {
 *****************************************************************************/
 JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID) {
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->CancelVirtualPwd());
@@ -124,6 +129,7 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
                      IN JUB_CHAR_CPTR pinMix,
                      OUT JUB_ULONG_PTR pretry) {
 
+    CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
     JUB_CHECK_NULL(context);
 
