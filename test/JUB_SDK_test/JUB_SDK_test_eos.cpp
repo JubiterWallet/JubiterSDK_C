@@ -178,12 +178,22 @@ void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
         return;
     }
 
+    rv = transaction_proc_EOS(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
     BIP44_Path path;
     path.change = (JUB_ENUM_BOOL)root["EOS"]["bip32_path"]["change"].asBool();
     path.addressIndex = root["EOS"]["bip32_path"]["addressIndex"].asUInt();
 
     if (!root["EOS"]["actions"].isArray()) {
-        return;
+        return JUBR_ARGUMENTS_BAD;
     }
 
     std::vector<JUB_ACTION_EOS> actions;
@@ -228,7 +238,7 @@ void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
         default:
-            break;
+            return JUBR_ARGUMENTS_BAD;
         }
         actions.push_back(action);
     }
@@ -248,7 +258,7 @@ void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
     delete [] pActions; pActions = nullptr;
     if (JUBR_OK != rv) {
         cout << "JUB_BuildActionEOS() return " << GetErrMsg(rv) << endl;
-        return;
+        return rv;
     }
     char* chainID    = (char*)root["EOS"]["chainID"].asCString();
     char* expiration = (char*)root["EOS"]["expiration"].asCString();
@@ -285,10 +295,12 @@ void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
     JUB_FreeMemory(actionsInJSON);
     if (JUBR_OK != rv) {
         cout << "JUB_SignTransactionEOS() return " << GetErrMsg(rv) << endl;
-        return;
+        return rv;
     }
     else {
         cout << "raw : " << raw << endl;
         JUB_FreeMemory(raw);
     }
+
+    return JUBR_OK;
 }

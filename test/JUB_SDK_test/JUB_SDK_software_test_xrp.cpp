@@ -7,9 +7,11 @@
 //
 
 #include "JUB_SDK_test.h"
+#include "JUB_SDK_test_xrp.hpp"
 #include "JUB_SDK_software_test_xrp.hpp"
 
 #include "mSIGNA/stdutils/uchar_vector.h"
+#include "JUB_SDK_main.h"
 //#include "HexCoding.h"
 //#include "PublicKey.h"
 //#include "PrivateKey.h"
@@ -28,21 +30,12 @@
 
 #include "Base58.h"
 
-void software_test_xrp() {
+void software_test_xrp(const char* json_file) {
+
+    Json::Value root = readJSON(json_file);
+
     JUB_RV rv = JUBR_ERROR;
 
-/*    JUB_ENUM_EOS_PUB_FORMAT format = JUB_ENUM_EOS_PUB_FORMAT::EOS;
-    JUB_CHAR_PTR mnemonic = nullptr;
-    JUB_RV rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
-    if(rv == JUBR_OK) {
-        cout << mnemonic << endl;
-    }
-
-    rv = JUB_CheckMnemonic(mnemonic);
-    if(rv != JUBR_OK) {
-        cout << "JUB_CheckMnemonic return" << rv << endl;
-    }
-*/
     JUB_BYTE seed[64] = {0,};
     JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
     auto callback = [](JUB_UINT32 current, JUB_UINT32 total) -> void {
@@ -71,22 +64,53 @@ void software_test_xrp() {
     }
 
     CONTEXT_CONFIG_XRP cfg;
-    cfg.mainPath = (JUB_CHAR_PTR)"m/44'/144'/0'";
+    cfg.mainPath = (char*)root["main_path"].asCString();
     JUB_UINT16 contextID;
     rv = JUB_CreateContextXRP_soft(cfg, masterXprv, &contextID);
     if (rv != JUBR_OK) {
         cout << "JUB_CreateContextXRP_soft return " << rv << endl;
-        return ;
+        return;
     }
 
+    JUB_CHAR_PTR mainXpub = nullptr;
+    rv = JUB_GetMainHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, &mainXpub);
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "JUB_GetMainHDNodeXRP return " << mainXpub << endl;
+    JUB_FreeMemory(mainXpub);
+
+    rv = JUB_GetMainHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &mainXpub);
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "JUB_GetMainHDNodeXRP return " << mainXpub << endl;
+    JUB_FreeMemory(mainXpub);
+
     BIP44_Path path;
-    path.change = BOOL_FALSE;
-    path.addressIndex = 0;
+    path.change = (JUB_ENUM_BOOL)root["XRP"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["XRP"]["bip32_path"]["addressIndex"].asInt();
     JUB_CHAR_PTR pub = nullptr;
     rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pub);
     if (rv != JUBR_OK) {
         cout << "JUB_GetHDNodeXRP return " << rv << endl;
-        return ;
+        return;
+    }
+    cout << "JUB_GetHDNodeXRP return " << pub << endl;
+    JUB_FreeMemory(pub);
+
+    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &pub);
+    if (rv != JUBR_OK) {
+        cout << "JUB_GetHDNodeXRP return " << rv << endl;
+        return;
+    }
+    cout << "JUB_GetHDNodeXRP return " << pub << endl;
+    JUB_FreeMemory(pub);
+
+    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &pub);
+    if (rv != JUBR_OK) {
+        cout << "JUB_GetHDNodeXRP return " << rv << endl;
+        return;
     }
     cout << "JUB_GetHDNodeXRP return " << pub << endl;
     JUB_FreeMemory(pub);
@@ -102,65 +126,8 @@ void software_test_xrp() {
     cout << "JUB_GetAddressXRP return " << address << endl;
     JUB_FreeMemory(address);
 
-    JUB_CHAR_PTR mainXpub = nullptr;
-    rv = JUB_GetMainHDNodeXRP(contextID,
-                              JUB_ENUM_PUB_FORMAT::HEX,
-                              &mainXpub);
+    rv = transaction_proc_XRP(contextID, root);
     if (JUBR_OK != rv) {
-        return ;
+        return;
     }
-    cout << "JUB_GetMainHDNodeXRP return " << mainXpub << endl;
-    JUB_FreeMemory(mainXpub);
-
-//typedef struct stPaymentXRP {
-//    JUB_ENUM_XRP_PYMT_TYPE type;
-//    JUB_CHAR_PTR invoiceID; // [Optional]
-//    JUB_CHAR_PTR sendMax;   // [Optional]
-//    JUB_CHAR_PTR deliverMin;// [Optional]
-//    union {
-//        JUB_PYMT_DXRP dxrp;
-//        JUB_PYMT_DXRP fx;
-//    };
-//} JUB_PYMT_XRP;
-//typedef struct stTxXRP {
-//    JUB_CHAR_PTR account;
-//    JUB_ENUM_XRP_TX_TYPE type;
-//    JUB_CHAR_PTR fee;
-//    JUB_CHAR_PTR sequence;
-//    JUB_CHAR_PTR accountTxnID;
-//    JUB_CHAR_PTR flags;
-//    JUB_CHAR_PTR lastLedgerSequence;
-//    JUB_CHAR_PTR memos;
-//    JUB_CHAR_PTR sourceTag;
-//    union {
-//        JUB_PYMT_XRP pymt;
-//    };
-//} JUB_TX_XRP;
-    JUB_TX_XRP xrp;
-    xrp.type  = JUB_ENUM_XRP_TX_TYPE::PYMT;
-    xrp.account  = (char*)"r9LqNeG6qHxjeUocjvVki2XR35weJ9mZgQ";
-    xrp.fee   = (char*)"10";
-    xrp.flags = (char*)"2147483648";
-    xrp.sequence = (char*)"1";
-    xrp.lastLedgerSequence = (char*)"0";
-//typedef struct stDxrpPymt {
-//    JUB_CHAR_PTR destination;
-//    JUB_CHAR_PTR amount;
-//    JUB_CHAR_PTR destinationTag;
-//} JUB_PYMT_DXRP;
-    xrp.pymt.type = JUB_ENUM_XRP_PYMT_TYPE::DXRP;
-    xrp.pymt.destination    = (char*)"rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh";
-    xrp.pymt.amount.value   = (char*)"1000";
-    xrp.pymt.destinationTag = (char*)"0";
-    char* raw = nullptr;
-    rv = JUB_SignTransactionXRP(contextID,
-                                path,
-                                xrp,
-                                &raw);
-    if (JUBR_OK != rv) {
-        cout << "JUB_SignTransactionXRP return " << rv << endl;
-        return ;
-    }
-    cout << "JUB_SignTransactionXRP return " << raw << endl;
-    JUB_FreeMemory(raw);
 }

@@ -64,6 +64,25 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 // Remove c++ features for swift framework end
 
 // Remove c++ features for swift framework
+//stMemoXRP::stMemoXRP() {
+//    type = nullptr;
+//    data = nullptr;
+//    format = nullptr;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//bool stMemoXRP::isValid() const {
+//    bool bRet = true;
+//    if (nullptr == data) {
+//        bRet = false;
+//    }
+//
+//    return bRet;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
 //stTxXRP::stTxXRP() {
 //    account = nullptr;
 //    type = JUB_ENUM_XRP_TX_TYPE::NS_ITEM_TX_TYPE;
@@ -72,7 +91,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 //    accountTxnID = nullptr;
 //    flags = nullptr;
 //    lastLedgerSequence = nullptr;
-//    memos = nullptr;
+//    memo = JUB_XRP_MEMO();
 //    sourceTag = nullptr;
 //    pymt = JUB_PYMT_XRP();
 //}
