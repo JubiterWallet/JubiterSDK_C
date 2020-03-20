@@ -112,7 +112,8 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
 JUB_RV JUB_GetHDNodeBTC(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR xpub) {
-CREATE_THREAD_LOCK_GUARD
+
+    CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
     JUB_CHECK_NULL(context);
 

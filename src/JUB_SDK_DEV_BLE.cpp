@@ -118,6 +118,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
 JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
 
 #ifdef BLE_MODE
+    CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
         return JUBR_ERROR;
