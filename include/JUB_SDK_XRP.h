@@ -39,6 +39,19 @@ typedef enum {
 // Remove c++ features for swift framework end
 
 // Remove c++ features for swift framework
+typedef struct stMemoXRP {
+    JUB_CHAR_PTR type;
+    JUB_CHAR_PTR data;
+    JUB_CHAR_PTR format;
+//
+//    stMemosXRP();
+//   ~stMemosXRP() = default;
+//
+//   bool isValid() const;
+} JUB_XRP_MEMO;
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
 typedef struct stAmount {
     JUB_CHAR_PTR currency;  // [Optional]
     JUB_CHAR_PTR value;
@@ -77,7 +90,7 @@ typedef struct stTxXRP {
     JUB_CHAR_PTR accountTxnID;  // [Optional]
     JUB_CHAR_PTR flags;
     JUB_CHAR_PTR lastLedgerSequence;
-    JUB_CHAR_PTR memos;         // [Optional]
+    JUB_XRP_MEMO memo;          // [Optional]
     JUB_CHAR_PTR sourceTag;     // [Optional]
     union {
         JUB_PYMT_XRP pymt;
