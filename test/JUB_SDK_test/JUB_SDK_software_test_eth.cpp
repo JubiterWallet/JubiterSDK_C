@@ -59,13 +59,31 @@ void software_test_eth(const char* json_file) {
         cout << "JUB_CreateContextETH_soft return " << rv << endl;
     }
 
+    JUB_CHAR_PTR xpub = nullptr;
+    rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, &xpub);
+    if (rv == JUBR_OK) {
+        cout << "main hex: " << xpub << endl;
+        JUB_FreeMemory(xpub);
+    }
+
+    rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &xpub);
+    if (rv == JUBR_OK) {
+        cout << "main xpub: " << xpub << endl;
+        JUB_FreeMemory(xpub);
+    }
+
     BIP44_Path path;
     path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
     path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asInt();
-    JUB_CHAR_PTR xpub = nullptr;
     rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &xpub);
     if (rv == JUBR_OK) {
-        cout << xpub << endl;
+        cout << "hex: " << xpub << endl;
+        JUB_FreeMemory(xpub);
+    }
+
+    rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &xpub);
+    if (rv == JUBR_OK) {
+        cout << "xpub: " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 

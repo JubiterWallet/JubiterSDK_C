@@ -93,13 +93,13 @@ int main() {
                 software_test_eth("json/testETH.json");
                 break;
             case 144:
-                software_test_xrp();
+                software_test_xrp("json/testXRP.json");
                 break;
             case 171:
                 software_test_hcash();
                 break;
             case 194:
-                software_test_eos();
+                software_test_eos("json/testEOS.json");
                 break;
 #endif
             case 0:
