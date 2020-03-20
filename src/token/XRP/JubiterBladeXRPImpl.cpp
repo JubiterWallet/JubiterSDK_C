@@ -133,6 +133,12 @@ JUB_RV JubiterBladeXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         //        destinationTLV                - tag = 0x04
         //           destinationIndex
         //           destinationLength
+        //        destinationTagTLV             - tag = 0x07
+        //           destinationTagIndex
+        //           destinationTagLength
+        //        memoTLV                       - tag = 0x08
+        //           memoIndex
+        //           memoLength
         //NETWORK_PREFIX TLV                    - tag = 0x06
         //signingPubKeyTLV
         uchar_vector vSigningPubKey;
@@ -146,6 +152,18 @@ JUB_RV JubiterBladeXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         vDestination << (uint8_t)tx.destination.pubkeyHashSize();
         uchar_vector vDestinationTLV;
         vDestinationTLV << ToTlv(0x04, vDestination);
+        //destinationTagTLV
+        uchar_vector vDestinationTag;
+        vDestinationTag << tx.getDestinationTagIndex();
+        vDestinationTag << (uint8_t)(0 < tx.destination_tag ? 4 : 0);
+        uchar_vector vDestinationTagTLV;
+        vDestinationTagTLV << ToTlv(0x07, vDestinationTag);
+        //memoTLV
+        uchar_vector vMemo;
+        vMemo << tx.getShowMemoIndex();
+        vMemo << (uint8_t)tx.getShowMemoSize();
+        uchar_vector vMemoTLV;
+        vMemoTLV << ToTlv(0x08, vMemo);
 
         //dxrpTLV
         uchar_vector vDxrp;
@@ -153,6 +171,8 @@ JUB_RV JubiterBladeXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         vDxrp << tx.getFeeIndex();
         vDxrp << vSigningPubKeyTLV;
         vDxrp << vDestinationTLV;
+        vDxrp << vDestinationTagTLV;
+        vDxrp << vMemoTLV;
         uchar_vector vDxrpTLV;
         vDxrpTLV << ToTlv(0x05, vDxrp);
 
