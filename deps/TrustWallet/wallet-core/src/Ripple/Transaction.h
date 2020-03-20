@@ -6,7 +6,9 @@
 
 #pragma once
 
+#include "SField.h"
 #include "Address.h"
+#include "Memo.h"
 #include "../Data.h"
 //#include "../proto/Ripple.pb.h"
 
@@ -15,14 +17,6 @@ namespace TW::Ripple {
 extern const int NETWORK_PREFIX;
 // JuBiter-added
 extern const int NETWORK_PREFIX_MULTI_SIGN;
-
-enum class FieldType: int {
-    int16   = 1,
-    int32   = 2,
-    amount  = 6,
-    vl      = 7,
-    account = 8
-};
 
 enum class TransactionType { payment = 0 };
 
@@ -39,14 +33,17 @@ public:
     Address account;
     Address destination;
     int64_t destination_tag;
+    Memo memo;
     Data pub_key;
     Data signature;
 
     // JuBiter-defined
     Transaction() {};
-    Transaction(int64_t amount, int64_t fee, int64_t flags, int32_t sequence,
-                int32_t last_ledger_sequence, Address account, Address destination,
-                int64_t destination_tag)
+    Transaction(int64_t amount, int64_t fee,
+                int64_t flags,
+                int32_t sequence, int32_t last_ledger_sequence,
+                Address account, Address destination, int64_t destination_tag,
+                Memo memo = {})
         : amount(amount)
         , fee(fee)
         , flags(flags)
@@ -54,7 +51,8 @@ public:
         , last_ledger_sequence(last_ledger_sequence)
         , account(account)
         , destination(destination)
-        , destination_tag(destination_tag) {}
+        , destination_tag(destination_tag)
+        , memo(memo) {}
 
 public:
     // JuBiter-defined
@@ -101,12 +99,33 @@ public:
     virtual uint16_t getSignPubkeyIndex() const {
         return signPubkeyIndex;
     }
+    // JuBiter-defined
     virtual void setDestinationIndex(const uint16_t destIndex) {
         destinationIndex = destIndex;
     }
     // JuBiter-defined
+    virtual void setDestinationTagIndex(const uint16_t destTagIndex) {
+        destinationTagIndex = destTagIndex;
+    }
+    // JuBiter-defined
+    virtual void setShowMemoIndex(const uint16_t memoIndex) {
+        showMemoIndex = memoIndex;
+    }
+    // JuBiter-defined
     virtual uint16_t getDestinationIndex() const {
         return destinationIndex;
+    }
+    // JuBiter-defined
+    virtual uint16_t getDestinationTagIndex() const {
+        return destinationTagIndex;
+    }
+    // JuBiter-defined
+    virtual uint16_t getShowMemoIndex() const {
+        return showMemoIndex;
+    }
+    // JuBiter-defined
+    virtual size_t getShowMemoSize() const {
+        return memo.memoData.size();
     }
     // JuBiter-defined
     virtual Data getNetworkPrefix();
@@ -116,6 +135,8 @@ private:
     uint16_t feeIndex = 0;
     uint16_t signPubkeyIndex = 0;
     uint16_t destinationIndex = 0;
+    uint16_t destinationTagIndex = 0;
+    uint16_t showMemoIndex = 0;
 };
 
 } // namespace TW::Ripple

@@ -95,7 +95,7 @@ void Transaction::deserialize(const Data& o) {
     vTypeField << vTrx.read_uint8();
     typeField = decodeType(key, vTypeField);
     if (FieldType::amount != typeField
-        ||              1 != key
+        || (int)FieldAmountKey::positive != key
         ) {
         throw std::invalid_argument("Invalid transaction amount");
     }
@@ -211,6 +211,37 @@ void Transaction::deserialize(const Data& o) {
     offset += destLen;
     vTrx.reset_it();
     vTrx.reset_it(offset);
+
+    if (o.size() <= offset) {
+        return ;
+    }
+
+    /// "memos"
+    vTypeField.clear();
+    vTypeField << vTrx.read_uint8();
+    typeField = decodeType(key, vTypeField);
+    if (FieldType::starray != typeField
+        ||               9 != key
+        ) {
+        throw std::invalid_argument("Invalid transaction memos");
+    }
+
+    Data vMemo(vTrx.get_cur_it(), vTrx.end()-1);
+    memo.deserialize(vMemo);
+
+    offset = (int)(vTrx.get_cur_it() - vTrx.begin());
+    offset += memo.size();
+    vTrx.reset_it();
+    vTrx.reset_it(offset);
+
+    vTypeField.clear();
+    vTypeField << vTrx.read_uint8();
+    typeField = decodeType(key, vTypeField);
+    if (        FieldType::starray  != typeField
+        || (int)FieldObjectKey::end != key
+        ) {
+        throw std::invalid_argument("Invalid transaction memos end");
+    }
 }
 
 // JuBiter-defined
@@ -220,6 +251,9 @@ size_t Transaction::size() {
 }
 
 Data Transaction::serialize() {
+    uint16_t currDataLen = 0;
+    size_t varLen = 0;
+
     auto data = Data();
     /// field must be sorted by field type then by field name
     /// "type"
@@ -234,23 +268,23 @@ Data Transaction::serialize() {
     /// "destinationTag"
     if (destination_tag > 0) {
         encodeType(FieldType::int32, 14, data);
+        currDataLen = data.size();
         encode32BE(static_cast<uint32_t>(destination_tag), data);
     }
+    setDestinationTagIndex(currDataLen);
     /// "lastLedgerSequence"
     if (last_ledger_sequence > 0) {
         encodeType(FieldType::int32, 27, data);
         encode32BE(last_ledger_sequence, data);
     }
     /// "amount"
-    encodeType(FieldType::amount, 1, data);
+    encodeType(FieldType::amount, (int)FieldAmountKey::positive, data);
     setAmountIndex(data.size());
     append(data, serializeAmount(amount));
     /// "fee"
     encodeType(FieldType::amount, 8, data);
     setFeeIndex(data.size());
     append(data, serializeAmount(fee));
-    uint16_t currDataLen = 0;
-    size_t varLen = 0;
     /// "signingPubKey"
     if (!pub_key.empty()) {
         encodeType(FieldType::vl, 3, data);
@@ -273,6 +307,22 @@ Data Transaction::serialize() {
     encodeBytes(serializeAddress(destination), data, varLen);
     currDataLen += varLen;
     setDestinationIndex(currDataLen);
+
+    /// "memos"
+    if (!memo.isEmpty()) {
+        encodeType(FieldType::starray, 9, data);
+
+        Data memoByte;
+        memo.serialize(memoByte);
+
+        currDataLen = data.size();
+        currDataLen += memo.getMemoDataIndex();
+        setShowMemoIndex(currDataLen);
+
+        append(data, memoByte);
+
+        encodeType(FieldType::starray, (int)FieldObjectKey::end, data);
+    }
 
     return data;
 }

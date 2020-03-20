@@ -65,6 +65,25 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 // Remove c++ features for swift framework end
 
 // Remove c++ features for swift framework
+//stMemoXRP::stMemoXRP() {
+//    type = nullptr;
+//    data = nullptr;
+//    format = nullptr;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+//bool stMemoXRP::isValid() const {
+//    bool bRet = true;
+//    if (nullptr == data) {
+//        bRet = false;
+//    }
+//
+//    return bRet;
+//}
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
 //stTxXRP::stTxXRP() {
 //    account = nullptr;
 //    type = JUB_ENUM_XRP_TX_TYPE::NS_ITEM_TX_TYPE;
@@ -73,7 +92,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 //    accountTxnID = nullptr;
 //    flags = nullptr;
 //    lastLedgerSequence = nullptr;
-//    memos = nullptr;
+//    memo = JUB_XRP_MEMO();
 //    sourceTag = nullptr;
 //    pymt = JUB_PYMT_XRP();
 //}
@@ -131,6 +150,7 @@ JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
     JUB_CHECK_NULL(context);
 
@@ -152,6 +172,7 @@ JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
                            IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
 	JUB_CHECK_NULL(context);
 
@@ -175,6 +196,7 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
 	JUB_CHECK_NULL(context);
 
@@ -196,6 +218,7 @@ JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
 	JUB_CHECK_NULL(context);
 
@@ -220,6 +243,7 @@ JUB_RV JUB_SignTransactionXRP(IN JUB_UINT16 contextID,
                               IN JUB_TX_XRP tx,
                               OUT JUB_CHAR_PTR_PTR raw) {
 
+    CREATE_THREAD_LOCK_GUARD
 	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
 	JUB_CHECK_NULL(context);
 
