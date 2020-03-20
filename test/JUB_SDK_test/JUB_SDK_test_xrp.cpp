@@ -138,7 +138,7 @@ void get_address_pubkey_XRP(JUB_UINT16 contextID) {
         return;
     }
 
-    cout << "pubkey in hex format :  "<< pubkey << endl;
+    cout << "pubkey in hex format :  " << pubkey << endl;
     JUB_FreeMemory(pubkey);
 
     char* address = nullptr;
@@ -157,6 +157,16 @@ void transaction_test_XRP(JUB_UINT16 contextID, Json::Value root) {
     if (JUBR_OK != rv) {
         return;
     }
+
+    rv = transaction_proc_XRP(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transaction_proc_XRP(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
 
     BIP44_Path path;
     path.change = (JUB_ENUM_BOOL)root["XRP"]["bip32_path"]["change"].asBool();
@@ -177,29 +187,32 @@ void transaction_test_XRP(JUB_UINT16 contextID, Json::Value root) {
     //    JUB_ENUM_XRP_TX_TYPE type;
     //    JUB_CHAR_PTR fee;
     //    JUB_CHAR_PTR sequence;
-    //    JUB_CHAR_PTR accountTxnID;
+    //    JUB_CHAR_PTR accountTxnID;// [Optional]
     //    JUB_CHAR_PTR flags;
     //    JUB_CHAR_PTR lastLedgerSequence;
-    //    JUB_CHAR_PTR memos;
-    //    JUB_CHAR_PTR sourceTag;
+    //    JUB_XRP_MEMO memo;        // [Optional]
+    //    JUB_CHAR_PTR sourceTag;   // [Optional]
     //    union {
     //        JUB_PYMT_XRP pymt;
     //    };
     //} JUB_TX_XRP;
     JUB_TX_XRP xrp;
     xrp.type = (JUB_ENUM_XRP_TX_TYPE)root["XRP"]["type"].asUInt();
+    xrp.memo.type   = (char*)root["XRP"]["memo"]["type"].asCString();
+    xrp.memo.data   = (char*)root["XRP"]["memo"]["data"].asCString();
+    xrp.memo.format = (char*)root["XRP"]["memo"]["format"].asCString();
     switch (xrp.type) {
         case JUB_ENUM_XRP_TX_TYPE::PYMT:
         {
-            xrp.account = (char*)root["XRP"]["account"].asCString();
-            xrp.fee   = (char*)root["XRP"]["fee"].asCString();
-            xrp.flags = (char*)root["XRP"]["flags"].asCString();
+            xrp.account  = (char*)root["XRP"]["account"].asCString();
+            xrp.fee      = (char*)root["XRP"]["fee"].asCString();
+            xrp.flags    = (char*)root["XRP"]["flags"].asCString();
             xrp.sequence = (char*)root["XRP"]["sequence"].asCString();
             xrp.lastLedgerSequence = (char*)root["XRP"]["lastLedgerSequence"].asCString();
             break;
         }
         default:
-            return;
+            return JUBR_ARGUMENTS_BAD;
     }
 
     //typedef struct stDxrpPymt {
@@ -218,7 +231,7 @@ void transaction_test_XRP(JUB_UINT16 contextID, Json::Value root) {
             break;
         }
         default:
-            return;
+            return JUBR_ARGUMENTS_BAD;
     }
     char* raw = nullptr;
     rv = JUB_SignTransactionXRP(contextID,
@@ -227,8 +240,10 @@ void transaction_test_XRP(JUB_UINT16 contextID, Json::Value root) {
                                 &raw);
     if (JUBR_OK != rv) {
         cout << "JUB_SignTransactionXRP return " << rv << endl;
-        return ;
+        return rv;
     }
     cout << "JUB_SignTransactionXRP return " << raw << endl;
     JUB_FreeMemory(raw);
+
+    return JUBR_OK;
 }

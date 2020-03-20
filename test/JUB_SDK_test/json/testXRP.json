@@ -8,7 +8,11 @@
         "accountTxnID" : "-",
         "flags" : "2147483648",
         "lastLedgerSequence" : "0",
-        "memos" : "-",
+        "memo" : {
+            "type" : "http://example.eom/memo/generic",
+            "data" : "rent",
+            "format" : "text/plain"
+        },
         "sourceTag" : "-",
         "0" : {
             "type" : 0,
@@ -18,7 +22,7 @@
                 "issuer" : "-"
             },
             "destination" : "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-            "destinationTag" : "0",
+            "destinationTag" : "23480",
             "invoiceID" : "-",
             "sendMax" : {
             },
