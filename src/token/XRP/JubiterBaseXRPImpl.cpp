@@ -22,6 +22,19 @@ JUB_RV JubiterBaseXRPImpl::SerializePreimage(const JUB_TX_XRP& tx,
     int64_t flags = stringToBigInteger(tx.flags).toLong();
     int32_t sequence = stringToBigInteger(tx.sequence).toInt();
     int32_t last_ledger_sequence = stringToBigInteger(tx.lastLedgerSequence).toInt();
+    uchar_vector memoType;
+    if (nullptr != tx.memo.type) {
+        memoType << tx.memo.type;
+    }
+    uchar_vector memoData;
+    if (nullptr != tx.memo.data) {
+        memoData << tx.memo.data;
+    }
+    uchar_vector memoFormat;
+    if (nullptr != tx.memo.format) {
+        memoFormat << tx.memo.format;
+    }
+    TW::Ripple::Memo memo(memoType, memoData, memoFormat);
     TW::Ripple::Address account(tx.account);
     switch (tx.type) {
     case JUB_ENUM_XRP_TX_TYPE::PYMT:
@@ -36,7 +49,8 @@ JUB_RV JubiterBaseXRPImpl::SerializePreimage(const JUB_TX_XRP& tx,
             TW::Ripple::Transaction(amount, fee,
                                     flags, sequence, last_ledger_sequence,
                                     account,
-                                    destination, destination_tag);
+                                    destination, destination_tag,
+                                    memo);
 
             TW::Data raw = xrp.getPreImage();
             preimageRaw = uchar_vector(raw);
