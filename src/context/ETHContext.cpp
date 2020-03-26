@@ -116,6 +116,12 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
                                     vPath,
                                     vChainID,
                                     raw));
+
+    //verify
+    JUB_VERIFY_RV(_tokenPtr->VerifyTX(vChainID,
+                                      strPath,
+                                      raw));
+
     strRaw = std::string(ETH_PRDFIX) + raw.getHex();
 
     return JUBR_OK;

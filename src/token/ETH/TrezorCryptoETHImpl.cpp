@@ -1,15 +1,6 @@
 #include <token/ETH/TrezorCryptoETHImpl.h>
-
-#include <TrezorCrypto/bip32.h>
-#include <TrezorCrypto/curves.h>
-#include <TrezorCrypto/sha3.h>
-
-#include <Ethereum/RLP.h>
-#include <Ethereum/Transaction.h>
 #include <Ethereum/Signer.h>
-
 #include <HDKey/HDKey.hpp>
-#include <utility/util.h>
 
 namespace jub {
 namespace token {
@@ -47,10 +38,10 @@ JUB_RV TrezorCryptoETHImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name, TWHDVersion::TWHDVersionXPUB, TWHDVersion::TWHDVersionXPRV, &hdkey, &parentFingerprint));
 
-    //    typedef enum {
-    //        HEX = 0x00,
-    //        XPUB = 0x01
-    //    } JUB_ENUM_PUB_FORMAT;
+//    typedef enum {
+//        HEX = 0x00,
+//        XPUB = 0x01
+//    } JUB_ENUM_PUB_FORMAT;
     if (0x00 == format) {//hex
         uchar_vector pk(hdkey.public_key, hdkey.public_key + 33);
         pubkey = pk.getHex();
@@ -94,14 +85,30 @@ JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
     signer.sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
                 tx);
 
-    if (!signer.verify(TW::PublicKey(TW::Data(uchar_vector(hdkey.public_key, TW::PublicKey::secp256k1Size)), TWPublicKeyType::TWPublicKeyTypeSECP256k1),
-                       tx)) {
-        return JUBR_ERROR;
-    }
-
     vRaw = TW::Ethereum::RLP::encode(tx);
 
     return JUBR_OK;
+}
+
+
+JUB_RV TrezorCryptoETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
+                                     const std::string& path,
+                                     const std::vector<JUB_BYTE>& vSigedTrans) {
+
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
+
+    std::string xpub;
+    JUB_VERIFY_RV(GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB, path, xpub));
+
+    TW::Data publicKey;
+    JUB_VERIFY_RV(_getPubkeyFromXpub(xpub, publicKey,
+                                     hdVersionPub, hdVersionPrv));
+
+    // verify signature
+    return VerifyTx(vChainID,
+                    vSigedTrans,
+                    publicKey);
 }
 
 
