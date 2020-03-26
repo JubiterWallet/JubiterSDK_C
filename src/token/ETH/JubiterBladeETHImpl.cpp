@@ -1,5 +1,4 @@
 #include <token/ETH/JubiterBladeETHImpl.h>
-#include <utility/util.h>
 #include <token/ErrorHandler.h>
 
 namespace jub {
@@ -125,6 +124,28 @@ JUB_RV JubiterBladeETHImpl::SignTX(const bool bERC20,
     vRaw.insert(vRaw.end(), retData, retData + ulRetDataLen);
 
     return JUBR_OK;
+}
+
+
+JUB_RV JubiterBladeETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
+                                     const std::string& path,
+                                     const std::vector<JUB_BYTE>& vSigedTrans) {
+
+    // verify signature
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
+
+    std::string xpub;
+    JUB_VERIFY_RV(GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB, path, xpub));
+
+    TW::Data publicKey;
+    JUB_VERIFY_RV(_getPubkeyFromXpub(xpub, publicKey,
+                                     hdVersionPub, hdVersionPrv));
+
+    // verify signature
+    return VerifyTx(vChainID,
+                    vSigedTrans,
+                    publicKey);
 }
 
 

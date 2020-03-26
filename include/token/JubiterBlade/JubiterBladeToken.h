@@ -1,7 +1,6 @@
 #pragma once
 #include <token/interface/HardwareTokenInterface.hpp>
 #include <device/ApduBuilder.hpp>
-#include "utility/util.h"
 
 namespace jub {
 namespace token {

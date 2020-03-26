@@ -1,6 +1,5 @@
 #include <JUB_SDK_Hcash.h>
 #include <token/HC/JubiterBladeHCImpl.h>
-#include <utility/util.h>
 #include "utility/mutex.h"
 
 #include <context/HCContext.h>

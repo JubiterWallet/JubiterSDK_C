@@ -1,12 +1,33 @@
 #include <token/ETH/JubiterBaseETHImpl.h>
-#include <Ethereum/AddressChecksum.h>
 #include <TrezorCrypto/bip32.h>
 #include <PublicKey.h>
-#include <utility/util.h>
+#include <Ethereum/RLP.h>
+#include <Ethereum/AddressChecksum.h>
+#include <Ethereum/Transaction.h>
+#include <Ethereum/Signer.h>
 
 
 namespace jub {
 namespace token {
+
+
+JUB_RV JubiterBaseETHImpl::VerifyTx(const std::vector<JUB_BYTE>& vChainID,
+                                    const uchar_vector& signedRaw,
+                                    const TW::Data& publicKey) {
+
+    TW::Ethereum::Transaction tx = TW::Ethereum::RLP::decode(TW::Data(signedRaw));
+    if (!tx.isValid()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    TW::Ethereum::Signer signer(vChainID);
+    if (!signer.verify(TW::PublicKey(publicKey, _publicKeyType),
+                       tx)) {
+        return JUBR_ERROR;
+    }
+
+    return JUBR_OK;
+}
 
 
 JUB_RV JubiterBaseETHImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,

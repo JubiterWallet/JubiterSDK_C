@@ -4,7 +4,6 @@
 #include <token/EOS/JubiterBladeEOSImpl.h>
 #include <device/DeviceTypeBase.hpp>
 #include <device/JubiterHidDevice.hpp>
-#include <utility/util.h>
 #include <token/ErrorHandler.h>
 
 namespace jub {

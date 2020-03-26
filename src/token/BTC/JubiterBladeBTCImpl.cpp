@@ -1,5 +1,4 @@
 #include <token/BTC/JubiterBladeBTCImpl.h>
-#include <utility/util.h>
 #include <token/ErrorHandler.h>
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>

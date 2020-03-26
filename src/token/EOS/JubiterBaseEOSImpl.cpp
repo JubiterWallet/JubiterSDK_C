@@ -2,7 +2,6 @@
 #include <TrezorCrypto/bip32.h>
 #include "EOS/Address.h"
 #include <PublicKey.h>
-#include <utility/util.h>
 
 #include <bigint/BigIntegerUtils.hh>
 #include "EOS/Transaction.h"

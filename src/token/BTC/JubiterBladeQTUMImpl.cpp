@@ -1,4 +1,3 @@
-#include <utility/util.h>
 #include <token/BTC/JubiterBladeQTUMImpl.h>
 #include <token/ErrorHandler.h>
 

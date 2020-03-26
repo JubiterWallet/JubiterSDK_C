@@ -1,5 +1,4 @@
 #include <token/HC/JubiterBladeHCImpl.h>
-#include <utility/util.h>
 
 namespace jub {
 namespace token {

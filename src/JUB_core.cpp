@@ -6,11 +6,8 @@
 
 #include "JUB_CORE.h"
 #include <string>
-#include <TrezorCrypto/bip39.h>
-#include <TrezorCrypto/bip32.h>
-#include <TrezorCrypto/curves.h>
-#include <utility/util.h>
 #include "utility/mutex.h"
+#include <TrezorCrypto/bip39.h>
 #include <TrustWalletCore/TWCoinType.h>
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/ETH/TrezorCryptoETHImpl.h>
