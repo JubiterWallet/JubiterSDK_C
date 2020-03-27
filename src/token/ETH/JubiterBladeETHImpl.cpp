@@ -102,7 +102,17 @@ JUB_RV JubiterBladeETHImpl::SignTX(const bool bERC20,
     data << ToTlv(0x42, vGasPrice);
     data << ToTlv(0x43, vGasLimit);
     data << ToTlv(0x44, vTo);
-    data << ToTlv(0x45, vValue);
+
+    // If value=0, when sending apdu,
+    // it is clear that this part is empty
+    uchar_vector vValueInWei(vValue);
+    if (   1 == vValueInWei.size()
+        && 0 == vValueInWei[0]
+        ) {
+        vValueInWei.clear();
+    }
+    data << ToTlv(0x45, vValueInWei);
+
     data << ToTlv(0x46, vInput);
     data << ToTlv(0x47, vPath);
     data << ToTlv(0x48, vChainID);
