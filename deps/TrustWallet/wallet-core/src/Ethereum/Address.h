@@ -29,6 +29,9 @@ class Address {
     /// Determines whether a string makes a valid  address.
     static bool isValid(const std::string& string);
 
+    // JuBiter-defined
+    explicit Address() {}
+
     /// Initializes an address with a string representation.
     explicit Address(const std::string& string);
 
