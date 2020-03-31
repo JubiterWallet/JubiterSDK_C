@@ -42,11 +42,11 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
-    /*
-     JUB_VERIFY_RV(token->getPinRetry(info.pinRetry));
-     JUB_VERIFY_RV(token->getPinMaxRetry(info.pinMaxRetry));
-     JUB_VERIFY_RV(token->getSN(sn));
-     JUB_VERIFY_RV(token->getLabel(label));*/
+/*
+    JUB_VERIFY_RV(token->getPinRetry(info.pinRetry));
+    JUB_VERIFY_RV(token->getPinMaxRetry(info.pinMaxRetry));
+    JUB_VERIFY_RV(token->getSN(sn));
+    JUB_VERIFY_RV(token->getLabel(label));*/
 
     // Let's go to the main security domain,
     // instead of judging the return value,

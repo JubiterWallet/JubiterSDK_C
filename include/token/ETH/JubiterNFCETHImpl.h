@@ -34,6 +34,9 @@ public:
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainID,
                           std::vector<JUB_BYTE>& vRaw);
+    virtual JUB_RV VerifyTX(const std::vector<JUB_BYTE>& vChainID,
+                            const std::string& path,
+                            const std::vector<JUB_BYTE>& vSigedTrans);
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);

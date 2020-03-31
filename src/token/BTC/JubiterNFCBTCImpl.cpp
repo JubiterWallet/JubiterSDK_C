@@ -14,7 +14,7 @@ JUB_RV JubiterNFCBTCImpl::SelectApplet() {
 JUB_RV JubiterNFCBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
 
     std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, btcXpub));
 
     const curve_info *curve = get_curve_by_name(_curve_name);
     uint8_t nodeData[128] = {0x00,};
@@ -54,20 +54,23 @@ JUB_RV JubiterNFCBTCImpl::GetAddress(const JUB_BYTE addrFmt,
 
     JUB_RV rv = JUBR_ERROR;
 
-    std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, path, btcXpub));
-
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
-
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
-
     TW::Data publicKey;
-    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
-                                     hdVersionPub, hdVersionPrv));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+
+//    std::string btcXpub;
+//    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, path, btcXpub));
+//
+//    bool witness = false;
+//    if (p2sh_p2wpkh == type) {
+//        witness = true;
+//    }
+//
+//    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
+//    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+//
+//    TW::Data publicKey;
+//    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+//                                     hdVersionPub, hdVersionPrv));
 
     switch (type) {
     case p2pkh:
@@ -212,20 +215,23 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
                                   std::vector<TW::Data>& vInputPublicKey,
                                   std::vector<uchar_vector>& vSignatureRaw) {
 
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+//    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
+//    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
 
     TW::Hash::Hasher halfHasher;
     JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
 
     std::vector<TW::Data> vPreImageHash;
     for (size_t index=0; index<tx.inputs.size(); ++index) {
-        std::string btcXpub;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, vInputPath[index], btcXpub));
-
         TW::Data publicKey;
-        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
-                                         hdVersionPub, hdVersionPrv));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, vInputPath[index], publicKey));
+
+//        std::string btcXpub;
+//        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, vInputPath[index], btcXpub));
+//
+//        TW::Data publicKey;
+//        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+//                                         hdVersionPub, hdVersionPrv));
 
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
 
@@ -247,18 +253,26 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
 
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
         TW::Data halfDigest = halfHasher(begin, begin+preImage.size());
+//panmin
+std::cout << "half digest: " << uchar_vector(halfDigest).getHex() << std::endl;
         vPreImageHash.push_back(halfDigest);
 
         vInputPublicKey.push_back(publicKey);
     }
 
     std::vector<TW::Data> vRSV;
-    JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
-                                         vInputPath,
-                                         _getSignType(_curve_name),
-                                         halfHasherType,
-                                         vPreImageHash,
-                                         vRSV));
+//    JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
+//                                         vInputPath,
+//                                         _getSignType(_curve_name),
+//                                         halfHasherType,
+//                                         vPreImageHash,
+//                                         vRSV));
+    JUB_VERIFY_RV(JubiterNFCImpl::SignTXPack(vInputPath.size(),
+                                             vInputPath,
+                                             _getSignType(_curve_name),
+                                             halfHasherType,
+                                             vPreImageHash,
+                                             vRSV));
 
     for (const auto& rsv : vRSV) {
         TW::Data sign;
@@ -281,17 +295,20 @@ JUB_RV JubiterNFCBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
         witness = true;
     }
 
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+//    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
+//    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
 
     std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {
-        std::string btcXpub;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, inputPath, btcXpub));
-
         TW::Data publicKey;
-        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
-                                         hdVersionPub, hdVersionPrv));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, inputPath, publicKey));
+
+//        std::string btcXpub;
+//        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, inputPath, btcXpub));
+//
+//        TW::Data publicKey;
+//        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+//                                         hdVersionPub, hdVersionPrv));
 
         vInputPublicKey.push_back(publicKey);
     }

@@ -61,6 +61,7 @@ JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
 }
 
 JUB_RV JUB_CheckMnemonic(IN JUB_CHAR_CPTR mnemonic) {
+
     CREATE_THREAD_LOCK_GUARD
     if (0 == mnemonic_check(mnemonic)) {
         return JUBR_ERROR;
@@ -128,6 +129,7 @@ JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
 JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
+
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
     JUB_CHECK_NULL(context);
@@ -150,6 +152,7 @@ JUB_RV JUB_CreateContextHC_soft(IN CONTEXT_CONFIG_HC cfg,
 JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
+
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::TrezorCryptoETHImpl>(std::string(masterPriInXPRV));
     jub::context::ETHContext* context = new jub::context::ETHContext(cfg, token);
