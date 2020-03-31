@@ -1,7 +1,5 @@
 #include <token/ETH/JubiterNFCETHImpl.h>
 #include <TrezorCrypto/bip32.h>
-#include <Ethereum/RLP.h>
-#include <Ethereum/Transaction.h>
 #include <Ethereum/Signer.h>
 
 namespace jub {
@@ -32,11 +30,15 @@ JUB_RV JubiterNFCETHImpl::GetAppletVersion(std::string &version) {
 
 JUB_RV JubiterNFCETHImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
-    std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
-
     TW::Data publicKey;
-    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+
+//    std::string btcXpub;
+//    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
+//
+//    TW::Data publicKey;
+//    publicKey.clear();
+//    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
 
     return _getAddress(publicKey, address);
 }
@@ -48,10 +50,10 @@ JUB_RV JubiterNFCETHImpl::GetHDNode(const JUB_BYTE format, const std::string& pa
     std::string btcXpub;
     JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
 
-    //    typedef enum {
-    //        HEX = 0x00,
-    //        XPUB = 0x01
-    //    } JUB_ENUM_PUB_FORMAT;
+//    typedef enum {
+//        HEX = 0x00,
+//        XPUB = 0x01
+//    } JUB_ENUM_PUB_FORMAT;
     if (0x00 == format) {//hex
         TW::Data publicKey;
         JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
@@ -107,13 +109,16 @@ JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
         std::vector<std::string> vInputPath;
         vInputPath.push_back(path);
 
-        std::string btcXpub;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, btcXpub));
-        uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
-        uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
         TW::Data publicKey;
-        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
-                                         hdVersionPub, hdVersionPrv));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+
+//        std::string btcXpub;
+//        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, btcXpub));
+//        uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
+//        uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
+//        TW::Data publicKey;
+//        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+//                                         hdVersionPub, hdVersionPrv));
 
         TW::Hash::Hasher halfHasher;
         JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
@@ -132,10 +137,10 @@ JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
         for (const auto& rsv : vRSV) {
             JUB_VERIFY_RV(_encodeRSV(rsv, vChainID,
                                      tx.r, tx.s, tx.v));
-            if (!signer.verify(TW::PublicKey(publicKey, TWPublicKeyType::TWPublicKeyTypeSECP256k1),
-                               tx)) {
-                return JUBR_ERROR;
-            }
+//            if (!signer.verify(TW::PublicKey(publicKey, TWPublicKeyType::TWPublicKeyTypeSECP256k1),
+//                               tx)) {
+//                return JUBR_ERROR;
+//            }
         }
 
         vRaw = TW::Ethereum::RLP::encode(tx);
@@ -145,6 +150,30 @@ JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
     }
 
     return JUBR_OK;
+}
+
+
+JUB_RV JubiterNFCETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
+                                   const std::string& path,
+                                   const std::vector<JUB_BYTE>& vSigedTrans) {
+
+//    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
+//    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+
+    TW::Data publicKey;
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, publicKey));
+
+//        std::string btcXpub;
+//        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, inputPath, btcXpub));
+//
+//        TW::Data publicKey;
+//        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
+//                                         hdVersionPub, hdVersionPrv));
+
+    // verify signature
+    return VerifyTx(vChainID,
+                    vSigedTrans,
+                    publicKey);
 }
 
 

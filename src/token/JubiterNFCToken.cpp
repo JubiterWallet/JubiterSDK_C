@@ -17,6 +17,7 @@ JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
 
 }
 
+
 //JUB_RV JubiterNFCToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
 //    JUB_ULONG *pulRetDataLen /*= nullptr*/,
 //    JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
@@ -224,6 +225,54 @@ JUB_RV JubiterNFCToken::ShowVirtualPwd() {
 JUB_RV JubiterNFCToken::CancelVirtualPwd() {
 
     return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+bool JubiterNFCToken::IsBootLoader() {
+
+    APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    auto rv = _SendApdu(&apdu, ret, retData, &ulRetDataLen);
+    if (  JUBR_OK == rv
+        && 0x6e00 == ret
+        ) {
+        return true;
+    }
+
+    return false;
+}
+
+
+JUB_RV JubiterNFCToken::EnumApplet(std::string& appletList) {
+
+    {
+        // select main safe scope
+        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
+        JUB_UINT16 ret = 0;
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        JUB_VERIFY_COS_ERROR(ret);
+    }
+    // send apdu, then decide which coin types supports.
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, 0x05,
+        (const JUB_BYTE *)"\xDF\xFF\x02\x81\x06");
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    std::vector<uint8_t> tlvData(retData, retData + ulRetDataLen);
+    auto appList = ParseTlv(tlvData);
+
+    for (auto appID : appList) {
+        uchar_vector id(appID);
+        appletList += id.getHex();
+        appletList += " ";
+    }
+
+    return JUBR_OK;
 }
 
 

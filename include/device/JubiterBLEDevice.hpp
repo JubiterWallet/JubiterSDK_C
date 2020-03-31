@@ -1,6 +1,7 @@
 #ifndef __JubiterBLEDevice__
 #define __JubiterBLEDevice__
 
+
 #include "device/DeviceTypeBase.hpp"
 #include "JUB_SDK_DEV.h"
 
@@ -9,11 +10,13 @@
 
 #include "bleTransmit/bleTransmit.h"
 
+
 namespace jub {
 namespace device {
 
-class JubiterBLEDevice
-    : public DeviceTypeBase {
+
+class JubiterBLEDevice :
+public DeviceTypeBase {
 
 public:
     JubiterBLEDevice();
@@ -76,6 +79,7 @@ protected:
     unsigned long _handle;
     bool _bConnected;
 }; // class JubiterBLEDevice end
+
 
 } // namespace device end
 } // namespace jub end

@@ -140,7 +140,7 @@ JUB_RV JubiterBladeToken::_TranPack(const TW::Data &apduData, const JUB_BYTE hig
     auto left = apduData.size() % ulSendOnceLen;
 
     // split last pack
-    if (0 == left
+    if (   0 == left
         && 0 != nextTimes
         ) {
         nextTimes--;
@@ -205,7 +205,7 @@ JUB_RV JubiterBladeToken::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG ni
     auto left = apduData.size() % ulSendOnceLen;
 
     // split last pack
-    if (0 == left
+    if (   0 == left
         && 0 != nextTimes
         ) {
         nextTimes--;
@@ -323,7 +323,7 @@ bool JubiterBladeToken::IsBootLoader() {
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     auto rv = _SendApdu(&apdu, ret, retData, &ulRetDataLen);
-    if (JUBR_OK == rv
+    if (  JUBR_OK == rv
         && 0x6e00 == ret
         ) {
         return true;
@@ -516,7 +516,7 @@ JUB_RV JubiterBladeToken::GetAppletVersionBlade(const std::string& appID, std::s
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         JUB_VERIFY_COS_ERROR(ret);
 
-        if (0x84 == retData[2]
+        if (   0x84 == retData[2]
             && 0x04 == retData[3]
             ) {
             uchar_vector vVersion(&retData[4], 4);
