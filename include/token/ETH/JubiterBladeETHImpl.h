@@ -1,6 +1,6 @@
 #pragma once
 #include <token/JubiterBlade/JubiterBladeToken.h>
-#include <token/interface/ETHTokenInterface.hpp>
+#include <token/ETH/JubiterBaseETHImpl.h>
 
 namespace jub {
 namespace token {
@@ -10,8 +10,8 @@ constexpr JUB_BYTE kPKIAID_ETH[16] = {
 };
 
 class JubiterBladeETHImpl :
-    public JubiterBladeToken,
-    public ETHTokenInterface {
+        public JubiterBladeToken,
+virtual public JubiterBaseETHImpl {
 
 public:
     JubiterBladeETHImpl(JUB_UINT16 deviceID) :
@@ -34,6 +34,9 @@ public:
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainID,
                           std::vector<JUB_BYTE>& vRaw);
+    virtual JUB_RV VerifyTX(const std::vector<JUB_BYTE>& vChainID,
+                            const std::string& path,
+                            const std::vector<JUB_BYTE>& vSigedTrans);
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);

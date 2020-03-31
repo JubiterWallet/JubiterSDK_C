@@ -32,6 +32,7 @@
 
 using BLE_device_map = Singleton<xManager<JUB_ULONG>>;
 
+
 JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 
 #ifdef BLE_MODE
@@ -53,6 +54,7 @@ JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 #endif // #ifdef BLE_MODE
 }
 
+
 JUB_RV JUB_enumDevices(void) {
 
 #ifdef BLE_MODE
@@ -70,6 +72,7 @@ JUB_RV JUB_enumDevices(void) {
 #endif // #ifdef BLE_MODE
 }
 
+
 JUB_RV JUB_stopEnumDevices(void) {
 
 #ifdef BLE_MODE
@@ -86,6 +89,7 @@ JUB_RV JUB_stopEnumDevices(void) {
     return JUBR_IMPL_NOT_SUPPORT;
 #endif // #ifdef BLE_MODE
 }
+
 
 JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
                          JUB_UINT32 connectType,
@@ -115,6 +119,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
 #endif // #ifdef BLE_MODE
 }
 
+
 JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
 
 #ifdef BLE_MODE
@@ -131,6 +136,7 @@ JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
     return JUBR_IMPL_NOT_SUPPORT;
 #endif // #ifdef BLE_MODE
 }
+
 
 JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
 
@@ -150,6 +156,7 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
     return JUBR_IMPL_NOT_SUPPORT;
 #endif // #ifdef BLE_MODE
 }
+
 
 JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
 
@@ -171,6 +178,7 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
     return JUBR_IMPL_NOT_SUPPORT;
 #endif // #ifdef BLE_MODE
 }//#endif // #if defined(ANDROID) || defined(TARGET_OS_IPHONE)
+
 
 /*****************************************************************************
  * @function name : JUB_QueryBattery

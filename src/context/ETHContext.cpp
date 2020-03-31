@@ -67,7 +67,7 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
 
     JUB_CHECK_NULL(gasPriceInWei);
     JUB_CHECK_NULL(to);
-    //    JUB_CHECK_NULL(valueInWei);// it can be nullptr
+//    JUB_CHECK_NULL(valueInWei);// it can be nullptr
     JUB_CHECK_NULL(input);
 
     std::vector<JUB_BYTE> vNonce = jub::HexStr2CharPtr(numberToHexString(nonce));
@@ -83,9 +83,15 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
 
     std::vector<JUB_BYTE> vInput;
     if (nullptr != input
-        && 0 != strlen(input)
+        &&    0 != strlen(input)
         ) {
         vInput = jub::ETHHexStr2CharPtr(input);
+        if (0 == vInput.size()) {
+            vInput = jub::HexStr2CharPtr(input);
+        }
+        if (0 == vInput.size()) {
+            return JUBR_ARGUMENTS_BAD;
+        }
     }
 
     std::string strPath = _FullBip44Path(path);
@@ -110,6 +116,12 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
                                     vPath,
                                     vChainID,
                                     raw));
+
+    //verify
+    JUB_VERIFY_RV(_tokenPtr->VerifyTX(vChainID,
+                                      strPath,
+                                      raw));
+
     strRaw = std::string(ETH_PRDFIX) + raw.getHex();
 
     return JUBR_OK;

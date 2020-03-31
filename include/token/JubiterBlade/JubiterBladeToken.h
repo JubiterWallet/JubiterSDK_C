@@ -1,10 +1,16 @@
 #pragma once
+#include <memory>
 #include <token/interface/HardwareTokenInterface.hpp>
 #include <device/ApduBuilder.hpp>
-#include "utility/util.h"
 
 namespace jub {
 namespace token {
+
+
+//00A40400|08|A000000003000000
+constexpr JUB_BYTE kPKIAID_DOMAIN[8] = {
+    0xA0, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00
+};
 
 
 constexpr JUB_BYTE kPKIAID_MISC[16] = {

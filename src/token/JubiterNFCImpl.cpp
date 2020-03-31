@@ -45,6 +45,26 @@ JUB_RV JubiterNFCImpl::GetHDNode(const JUB_BYTE& type, const std::string& path, 
 }
 
 
+JUB_RV JubiterNFCImpl::GetCompPubKey(const JUB_BYTE& type, const std::string& path, TW::Data& pubkey) {
+
+    uchar_vector vPath;
+    vPath << path;
+    uchar_vector apduData = ToTlv(0x08, vPath);
+    JUB_BYTE p2 = type;
+
+    APDU apdu(0x00, 0xf6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[2048] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    pubkey.insert(pubkey.end(), retData, retData+ulRetDataLen);
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterNFCImpl::GetAddress(const JUB_BYTE addrFmt,
                                   const JUB_ENUM_BTC_TRANS_TYPE& type,
                                   const std::string& path,
@@ -52,6 +72,146 @@ JUB_RV JubiterNFCImpl::GetAddress(const JUB_BYTE addrFmt,
                                   std::string& address) {
 
     return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterNFCImpl::SignTXPack(const JUB_UINT16 inputCount,
+                                  const std::vector<std::string>& vInputPath,
+                                  const JUB_BYTE& signType,
+                                  const JUB_BYTE& hashType,
+                                  const std::vector<TW::Data>& vPreImageHash,
+                                  std::vector<TW::Data>& vRSV) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    for (JUB_UINT16 i=1; i<=inputCount; ++i) {
+        TW::Data rsv;
+        rv = SignOne(inputCount,
+                     i,
+                     vInputPath[i-1],
+                     signType,
+                     hashType,
+                     vPreImageHash[i-1],
+                     rsv);
+        if (JUBR_OK != rv) {
+            return rv;
+        }
+
+        vRSV.push_back(rsv);
+    }
+
+    return rv;
+}
+
+
+JUB_RV JubiterNFCImpl::SignOne(const JUB_UINT16 inputCount,
+                               const JUB_UINT16 inputIndex,
+                               const std::string& path,
+                               const JUB_BYTE& signType,
+                               const JUB_BYTE& hashType,
+                               const TW::Data& preImageHash,
+                               TW::Data& rsv) {
+
+    constexpr JUB_UINT32 kSendOnceLen = 230;
+
+    JUB_BYTE p1 = signType;
+    JUB_BYTE p2 = hashType;
+
+    // number of input
+    uchar_vector apduData;
+    apduData << (JUB_BYTE)(inputCount);
+    apduData << (JUB_BYTE)(inputIndex);
+
+    uchar_vector preImageHashLV;
+    preImageHashLV << (JUB_BYTE)(preImageHash.size());
+    preImageHashLV << preImageHash;
+    apduData << ToTlv(0x07, preImageHashLV);
+
+    //  first pack
+    APDU apdu(0x00, 0xF8, 0x00, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    JUB_VERIFY_COS_ERROR(ret);
+    apduData.clear();
+
+    // pathTLV
+    uchar_vector pathLV;
+    pathLV << (JUB_BYTE)(path.size());
+    pathLV << path;
+    apduData << ToTlv(0x08, pathLV);
+
+    JUB_VERIFY_RV(_TranPack(apduData, 0x00, 0x00, kSendOnceLen, true)); // last data.
+    apduData.clear();
+
+    // sign transactions
+    JUB_BYTE retData[kSendOnceLen] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    //one pack can do it
+    apdu.SetApdu(0x00, 0xCB, p1, p2, 0);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x6f09 == ret) {
+        return JUBR_USER_CANCEL;
+    }
+    JUB_VERIFY_COS_ERROR(ret);
+
+    JUB_UINT16 totalReadLen;
+    TW::Data sigRawTx;
+    // get transactions (pack by pack)
+    if (2 != ulRetDataLen) { // total length
+        totalReadLen = ulRetDataLen;
+        TW::Data totalData;
+        totalData.insert(totalData.end(), retData, retData + ulRetDataLen);
+
+        sigRawTx.insert(sigRawTx.end(), totalData.begin(), totalData.end());
+    }
+    else {
+        totalReadLen = TW::decode16BE(retData);
+        TW::Data totalData(totalReadLen, 0x00);
+
+        constexpr JUB_UINT16 kReadOnceLen = 66;//256;
+        JUB_ULONG ulRetLen = kReadOnceLen;
+
+        apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
+        apdu.le = kReadOnceLen;
+        JUB_UINT16 times = 0;
+        for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
+            JUB_UINT16 offset = times * kReadOnceLen;
+            apdu.p1 = offset >> 8;
+            apdu.p2 = offset & 0x00ff;
+
+            JUB_VERIFY_RV(_SendApdu(&apdu, ret, totalData.data() + times * kReadOnceLen, &ulRetLen));
+            JUB_VERIFY_COS_ERROR(ret);
+        }
+
+        apdu.le = totalReadLen % kReadOnceLen;
+        if (apdu.le) {
+            JUB_UINT16 offset = times * kReadOnceLen;
+            apdu.p1 = offset >> 8;
+            apdu.p2 = offset & 0x00ff;
+
+            ulRetLen = totalReadLen - times * kReadOnceLen;
+
+            JUB_VERIFY_RV(_SendApdu(&apdu, ret, totalData.data() + times * kReadOnceLen, &ulRetLen));
+            JUB_VERIFY_COS_ERROR(ret);
+        }
+
+        sigRawTx.insert(sigRawTx.end(), totalData.begin(), totalData.end());
+    }
+
+    JUB_UINT32 rsvLVLen = 66;
+    if (0 != (totalReadLen%rsvLVLen)) {
+        return JUBR_ERROR;
+    }
+    JUB_UINT16 times = totalReadLen / rsvLVLen;
+    for (times = 0; times < (totalReadLen / rsvLVLen); times++) {
+        JUB_UINT16 offset = times * rsvLVLen;
+        JUB_UINT32 rsvLen = sigRawTx[offset];
+//        TW::Data rsv;
+        rsv.insert(rsv.end(), sigRawTx.data()+offset+1, sigRawTx.data()+offset+1+rsvLen);
+//        vRSV.push_back(rsv);
+    }
+
+    return JUBR_OK;
 }
 
 
@@ -121,7 +281,7 @@ JUB_RV JubiterNFCImpl::SignTX(const JUB_UINT16 inputCount,
         totalReadLen = TW::decode16BE(retData);
         TW::Data totalData(totalReadLen, 0x00);
 
-        constexpr JUB_UINT16 kReadOnceLen = 256;
+        constexpr JUB_UINT16 kReadOnceLen = 66;//256;
         JUB_ULONG ulRetLen = kReadOnceLen;
 
         apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);

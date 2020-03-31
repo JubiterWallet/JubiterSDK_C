@@ -22,11 +22,14 @@ JUB_RV JubiterNFCEOSImpl::SetCoinType() {
 
 JUB_RV JubiterNFCEOSImpl::GetAddress(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
-    std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
-
     TW::Data publicKey;
-    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+
+//    std::string btcXpub;
+//    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
+//
+//    TW::Data publicKey;
+//    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
 
     return _getAddress(publicKey, address);
 }
