@@ -10,7 +10,9 @@ namespace context {
 JUB_RV BaseContext::ShowVirtualPwd() {
 
     auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (!token) { return JUBR_IMPL_NOT_SUPPORT; }
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
     JUB_VERIFY_RV(token->ShowVirtualPwd());
 
     return JUBR_OK;
@@ -20,7 +22,9 @@ JUB_RV BaseContext::ShowVirtualPwd() {
 JUB_RV BaseContext::CancelVirtualPwd() {
 
     auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (!token) { return JUBR_IMPL_NOT_SUPPORT; }
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
 
     JUB_VERIFY_RV(token->CancelVirtualPwd());
 
@@ -31,7 +35,9 @@ JUB_RV BaseContext::CancelVirtualPwd() {
 JUB_RV BaseContext::VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry) {
 
     auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (!token) { return JUBR_IMPL_NOT_SUPPORT; }
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
 
     JUB_VERIFY_RV(token->VerifyPIN(pinMix, retry));
 
@@ -44,7 +50,9 @@ JUB_RV BaseContext::SetTimeout(const JUB_UINT16 timeout) {
     _timeout = timeout;
 
     auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (!token) { return JUBR_IMPL_NOT_SUPPORT; }
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
 
     JUB_VERIFY_RV(token->SetTimeout(_timeout));
 

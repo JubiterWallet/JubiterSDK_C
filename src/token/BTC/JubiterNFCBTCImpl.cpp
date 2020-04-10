@@ -253,8 +253,7 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
 
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
         TW::Data halfDigest = halfHasher(begin, begin+preImage.size());
-//panmin
-std::cout << "half digest: " << uchar_vector(halfDigest).getHex() << std::endl;
+
         vPreImageHash.push_back(halfDigest);
 
         vInputPublicKey.push_back(publicKey);

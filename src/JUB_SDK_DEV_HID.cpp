@@ -43,7 +43,9 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
         auto vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
         for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
             auto device = dynamic_cast<jub::device::JubiterHidDevice*>(jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
-            if (device && path == device->getPath()) {
+            if (   device
+                && path == device->getPath()
+                ) {
                 return true;
             }
         }

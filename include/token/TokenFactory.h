@@ -4,6 +4,8 @@
 #include <JUB_SDK_BTC.h>
 #include <utility/xFactory.hpp>
 #include <utility/Singleton.h>
+#include <device/JubiterBLEDevice.hpp>
+#include <device/JubiterNFCDevice.hpp>
 
 #include <token/interface/BTCTokenInterface.hpp>
 
@@ -83,18 +85,29 @@ public:
 
 class xBTCTokenFactory {
 protected:
-    xTrezorCryptoBTCFactory  trezorFactory;
-    xJubiterBladeBTCFactory  jubiterFactory;
-    xJubiterNFCBTCFactory  jubiterNFCFactory;
+    xTrezorCryptoBTCFactory     trezorFactory;
+    xJubiterBladeBTCFactory jubiterBLEFactory;
+    xJubiterNFCBTCFactory   jubiterNFCFactory;
 
 public:
     std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, std::string xprv) {
         return trezorFactory.Create(type, xprv);
     };
 
-    std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, JUB_UINT16 devieID) {
-//        return jubiterFactory.Create(type, devieID);
-        return jubiterNFCFactory.Create(type, devieID);
+    std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, JUB_UINT16 deviceID) {
+        if (dynamic_cast<jub::device::JubiterBLEDevice*>
+            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+            ) {
+            return jubiterBLEFactory.Create(type, deviceID);
+        }
+        else if (dynamic_cast<jub::device::JubiterNFCDevice*>
+            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+            ) {
+            return jubiterNFCFactory.Create(type, deviceID);
+        }
+        else {
+            return nullptr;
+        }
     };
 }; // class xBTCTokenFactory end
 

@@ -23,7 +23,12 @@ namespace device {
 
 
 JubiterBLEDevice::JubiterBLEDevice() :
-    _param{ nullptr, BLE_ReadCallBack, BLE_ScanCallBack, BLE_DiscCallBack },
+    _param {
+        nullptr,
+        BLE_ReadCallBack,
+        BLE_ScanCallBack,
+        BLE_DiscCallBack
+    },
     _handle(0),
     _bConnected(false) {
 

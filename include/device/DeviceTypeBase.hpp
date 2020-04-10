@@ -7,6 +7,8 @@
 #include "utility/Singleton.h"
 #include "utility/xManager.hpp"
 
+using device_map = Singleton<xManager<JUB_ULONG>>;
+
 namespace jub {
 namespace device {
 
@@ -33,11 +35,9 @@ public:
     T* GetOneSafe(JUB_UINT16 ID) {
         DeviceTypeBase* pDevice = GetOne(ID);
         T* t = dynamic_cast<T*>(pDevice);
-        if (t != nullptr)
-        {
-            if (_last != pDevice)
-            {
-                _last = pDevice;
+        if (t != nullptr) {
+            if (_last != pDevice) {
+                _last  = pDevice;
             }
         }
         return t;

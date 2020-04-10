@@ -13,11 +13,6 @@ namespace token {
 
 stAppInfos JubiterBladeToken::g_appInfo[] = {
     {
-        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
-        "NFC",
-        "0000000"
-    },
-    {
         TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "BTC",
         "0000000"
