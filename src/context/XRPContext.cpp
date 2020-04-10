@@ -20,8 +20,10 @@ JUB_RV XRPContext::ActiveSelf() {
 
     JUB_VERIFY_RV(_tokenPtr->SelectApplet());
     JUB_VERIFY_RV(_tokenPtr->SetCoinType());
-                auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (token) {  JUB_VERIFY_RV(SetTimeout(_timeout)); }
+    auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
+    if (token) {
+        JUB_VERIFY_RV(SetTimeout(_timeout));
+    }
 
     return JUBR_OK;
 }

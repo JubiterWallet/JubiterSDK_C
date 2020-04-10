@@ -46,9 +46,11 @@
         #define HID_MODE
     #elif TARGET_OS_IOS // ios
         #define BLE_MODE
+        #define NFC_MODE
     #endif // #if TARGET_OS_OSX
 #elif defined(__ANDROID__)
     #define BLE_MODE
+    #define NFC_MODE
 #else //other
     #define HID_MODE
 #endif // #if defined(_WIN32)

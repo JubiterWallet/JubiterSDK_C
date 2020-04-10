@@ -30,9 +30,6 @@
 //}
 // Remove c++ features for swift framework end
 
-using BLE_device_map = Singleton<xManager<JUB_ULONG>>;
-
-
 JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 
 #ifdef BLE_MODE
@@ -108,7 +105,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
 //    LOG_INF("JUB_connectDevice rv: %lu", *pdevHandle);
     JUB_VERIFY_RV(rv);
 
-    *pDeviceID = BLE_device_map::GetInstance()->AddOne(pdevHandle);
+    *pDeviceID = device_map::GetInstance()->AddOne(pdevHandle);
 //    LOG_INF("JUB_connectDevice rv: %hu", *pDeviceID);
 
     jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, bleDevice);
@@ -147,7 +144,7 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
         return JUBR_ERROR;
     }
 
-    JUB_ULONG *devHandle = BLE_device_map::GetInstance()->GetOne(deviceID);
+    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(devHandle);
     JUB_VERIFY_RV(bleDevice->Disconnect(*devHandle));
 
@@ -166,7 +163,8 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
     if (!bleDevice) {
         return JUBR_ERROR;
     }
-    JUB_ULONG *devHandle = BLE_device_map::GetInstance()->GetOne(deviceID);
+
+    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
     if (NULL == devHandle) {
         return JUBR_CONNECT_DEVICE_ERROR;
     }
