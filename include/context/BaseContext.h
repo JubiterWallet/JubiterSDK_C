@@ -46,10 +46,8 @@ public:
     T* GetOneSafe(JUB_UINT16 ID) {
 		BaseContext* pContext= GetOne(ID);
 		T* t = dynamic_cast<T*>(pContext); 
-		if (t != nullptr)
-		{
-			if (_last != pContext)
-			{
+		if (t != nullptr) {
+			if (_last != pContext) {
 				pContext->ActiveSelf();
 				_last = pContext;
 			}

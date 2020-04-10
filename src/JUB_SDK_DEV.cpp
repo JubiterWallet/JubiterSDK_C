@@ -14,7 +14,11 @@
 #include "utility/mutex.h"
 #include "utility/Singleton.h"
 
+#include <device/JubiterBLEDevice.hpp>
+#include <device/JubiterNFCDevice.hpp>
+
 #include <token/JubiterBlade/JubiterBladeToken.h>
+#include <token/JubiterNFC/JubiterNFCToken.h>
 #include <context/BaseContext.h>
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
@@ -40,7 +44,22 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
                          OUT JUB_DEVICE_INFO_PTR info) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
 /*
     JUB_VERIFY_RV(token->getPinRetry(info.pinRetry));
@@ -51,7 +70,9 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     // Let's go to the main security domain,
     // instead of judging the return value,
     // to get the data back
-    JUB_IsBootLoader(deviceID);
+    if (!(JUB_ENUM_BOOL)token->IsBootLoader()) {
+        return JUBR_ERROR_ARGS;
+    }
 
     JUB_BYTE sn[24] = {0,};
     JUB_BYTE label[32] = {0,};
@@ -86,7 +107,22 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
 JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUB_ENUM_BOOL::BOOL_FALSE;
+    }
 
     return (JUB_ENUM_BOOL)token->IsInitialize();
 }
@@ -100,7 +136,22 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUB_ENUM_BOOL::BOOL_FALSE;
+    }
 
     jub::context::ContextManager::GetInstance()->ClearLast();
 
@@ -117,7 +168,22 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
                        OUT JUB_CHAR_PTR_PTR appList) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     std::string appletList;
     JUB_VERIFY_RV(token->EnumApplet(appletList));
@@ -136,7 +202,22 @@ JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR coinsList) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     std::string str_coinsList;
     JUB_VERIFY_RV(token->EnumSupportCoins(str_coinsList));
@@ -157,7 +238,22 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR version) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     std::string str_version;
     JUB_VERIFY_RV(token->GetAppletVersionBlade(appID,str_version));
@@ -199,7 +295,22 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
                          OUT JUB_CHAR_PTR_PTR cert) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     // Let's go to the main security domain,
     // instead of judging the return value,
@@ -225,7 +336,22 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
                        OUT JUB_CHAR_PTR_PTR response) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     std::string str_response;
     JUB_VERIFY_RV(token->SendOneApdu(apdu, str_response));

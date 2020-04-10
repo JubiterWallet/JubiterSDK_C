@@ -18,8 +18,9 @@ public:
 	template<typename... Args>
 	pI Create(const T &name, Args&&... args) {
 		auto it = m_FactoryMap.find(name);
-		if (it != m_FactoryMap.end())
+        if (it != m_FactoryMap.end()) {
 			return it->second(std::forward<Args>(args)...);
+        }
 		return nullptr;
 	}
 }; // class xFactory end

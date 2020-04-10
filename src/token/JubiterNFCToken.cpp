@@ -1,16 +1,62 @@
 #include <token/JubiterNFC/JubiterNFCToken.h>
-//#include <token/BTC/JubiterBladeBTCImpl.h>
-//#include <token/ETH/JubiterBladeETHImpl.h>
-//#include <token/EOS/JubiterBladeEOSImpl.h>
 #include <device/DeviceTypeBase.hpp>
 #include <device/JubiterHidDevice.hpp>
-//#include <token/JubiterNFC/JubiterNFCImpl.h>
 #include <utility/util.h>
 #include <token/ErrorHandler.h>
 
 namespace jub {
 namespace token {
 
+
+stAppInfos JubiterNFCToken::g_appInfo[] = {
+//    {
+//        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+//        "NFC",
+//        "0000000"
+//    },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "BTC",
+        "0000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "ETH",
+        "0000000"
+    },
+    // BTC and ETH index position fixed, start adding new apps below:
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "ETC",
+        "0000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "BCH",
+        "0000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "LTC",
+        "0000000",
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "USDT",
+        "0000000"
+    },
+    // MISC applet, start adding new apps below:
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "EOS",
+        "0000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "XRP",
+        "0000000"
+    },
+};
 
 JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
     : JubiterBladeToken(deviceID) {
@@ -84,7 +130,7 @@ JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
 //    auto left = apduData.size() % ulSendOnceLen;
 //
 //    // split last pack
-//    if (0 == left
+//    if (   0 == left
 //        && 0 != nextTimes
 //        ) {
 //        nextTimes--;
@@ -149,7 +195,7 @@ JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
 //    auto left = apduData.size() % ulSendOnceLen;
 //
 //    // split last pack
-//    if (0 == left
+//    if (   0 == left
 //        && 0 != nextTimes
 //        ) {
 //        nextTimes--;
@@ -201,20 +247,11 @@ JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
 //}
 //
 //
-//JUB_RV JubiterNFCToken::QueryBattery(JUB_BYTE &percent) {
-//
-//    APDU apdu(0x00, 0xD6, 0xFE, 0xED, 0x00, NULL, 0x01);
-//    JUB_UINT16 ret = 0;
-//    JUB_BYTE retData[1024] = { 0, };
-//    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-//    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-//    JUB_VERIFY_COS_ERROR(ret);
-//
-//    percent = retData[0];
-//
-//    return JUBR_OK;
-//}
-//
+JUB_RV JubiterNFCToken::QueryBattery(JUB_BYTE &percent) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
 
 JUB_RV JubiterNFCToken::ShowVirtualPwd() {
 
@@ -236,12 +273,18 @@ bool JubiterNFCToken::IsBootLoader() {
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     auto rv = _SendApdu(&apdu, ret, retData, &ulRetDataLen);
     if (  JUBR_OK == rv
-        && 0x6e00 == ret
+        && 0x9000 == ret
         ) {
         return true;
     }
 
     return false;
+}
+
+
+JUB_RV JubiterNFCToken::GetBleVersion(JUB_BYTE bleVersion[4]) {
+
+    return JUBR_OK;
 }
 
 
@@ -270,6 +313,37 @@ JUB_RV JubiterNFCToken::EnumApplet(std::string& appletList) {
         uchar_vector id(appID);
         appletList += id.getHex();
         appletList += " ";
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterNFCToken::GetAppletVersionBlade(const std::string& appID, std::string& version) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterNFCToken::EnumSupportCoins(std::string& coinList) {
+
+    std::string appletList;
+    JUB_VERIFY_RV(EnumApplet(appletList));
+
+    std::vector<std::string> coinNameList;
+    auto vAppList = Split(appletList, " ");
+    for (auto appID : vAppList) {
+        for (auto appInfo : JubiterNFCToken::g_appInfo) {
+            uchar_vector _appID(appInfo.appID);
+            if (_appID.getHex() != appID) {
+                continue;
+            }
+            if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {
+                coinList += appInfo.coinName;
+                coinList += " ";
+                coinNameList.insert(coinNameList.end(), appInfo.coinName);
+            }
+        }
     }
 
     return JUBR_OK;
