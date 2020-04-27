@@ -32,6 +32,9 @@ class Transaction {
     Data r;
     Data s;
 
+    // JuBiter-defined
+    Transaction() {}
+
 //    Transaction(uint256_t nonce, uint256_t gasPrice, uint256_t gasLimit, Address to, uint256_t amount, Data payload)
     Transaction(Data nonce, Data gasPrice, Data gasLimit, Address to, Data amount, Data payload)
         : nonce(std::move(nonce))
@@ -40,6 +43,21 @@ class Transaction {
         , to(std::move(to))
         , amount(std::move(amount))
         , payload(std::move(payload)){}
+
+    // JuBiter-defined
+    bool isValid() {
+        if (   0 == nonce.size()
+            || 0 == gasPrice.size()
+            || 0 == gasLimit.size()
+            || !Address::isValid(to.string())
+            || 0 == amount.size()
+            || 0 == payload.size()
+            ) {
+            return false;
+        }
+
+        return true;
+    }
 };
 
 } // namespace TW::Ethereum
