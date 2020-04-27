@@ -52,11 +52,23 @@ struct RLP {
     /// Encodes a transaction.
     static Data encode(const Transaction& transaction) noexcept;
 
+    // JuBiter-defined
+    /// Decodes a transaction.
+    static Transaction decode(const Data& transaction) noexcept;
+
     /// Wraps encoded data as a list.
     static Data encodeList(const Data& encoded) noexcept;
 
+    // JuBiter-defined
+    /// Wraps decoded data as a list.
+    static Data decodeList(const Data& decoded) noexcept;
+
     /// Encodes a block of data.
     static Data encode(const Data& data) noexcept;
+
+    // JuBiter-defined
+    /// Decodes a block of data.
+    static Data decode(const Data& data, uint8_t& offset) noexcept;
 
     /// Encodes a static array.
     template <std::size_t N>
@@ -69,6 +81,18 @@ struct RLP {
         auto encoded = encodeHeader(data.size(), 0x80, 0xb7);
         encoded.insert(encoded.end(), data.begin(), data.end());
         return encoded;
+    }
+
+    // JuBiter-defined
+    /// Decodes to a static array.
+    template <std::size_t N>
+    static std::array<uint8_t, N> decode(const Data& data, uint8_t& headerSize) noexcept {
+        auto array = removeHeader(data, 0x80, 0xb7, headerSize);
+
+        std::array<uint8_t, N> decoded;
+        std::copy(array.begin(), array.end(), decoded.begin());
+
+        return decoded;
     }
 
     /// Encodes a list of elements.
@@ -91,9 +115,22 @@ struct RLP {
     /// Encodes a list header.
     static Data encodeHeader(uint64_t size, uint8_t smallTag, uint8_t largeTag) noexcept;
 
+    // JuBiter-defined
+    /// Removes a list header.
+    static Data removeHeader(const Data& header, const uint8_t smallTag, const uint8_t largeTag, uint8_t& headerSize) noexcept;
+
+    // JuBiter-defined
+    /// Decodes a list header.
+    static uint64_t decodeHeader(const Data& header, const uint8_t smallTag, const uint8_t largeTag, uint8_t& headerSize) noexcept;
+
     /// Returns the representation of an integer using the least number of bytes
     /// needed.
     static Data putint(uint64_t i) noexcept;
+
+    // JuBiter-defined
+    /// Returns the least number of bytes using the representation of an integer
+    /// needed.
+    static uint64_t getint(Data i) noexcept;
 };
 
 } // namespace TW::Ethereum

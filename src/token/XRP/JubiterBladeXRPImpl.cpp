@@ -1,7 +1,6 @@
 #include <token/XRP/JubiterBladeXRPImpl.h>
 #include <utility/util.h>
 
-#include "Ripple/Address.h"
 #include "Ripple/Transaction.h"
 #include <token/ErrorHandler.h>
 

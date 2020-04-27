@@ -292,13 +292,11 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeEthereumClassic:
     case TWCoinTypeEOS:
     case TWCoinTypeXRP:
+    case TWCoinTypeLitecoin:
         hdVersionPublic = TWHDVersionXPUB;
         if (witness) {
             hdVersionPublic = TWHDVersionYPUB;
         }
-        break;
-    case TWCoinTypeLitecoin:
-        hdVersionPublic = TWHDVersionYPUB;
         break;
     case TWCoinTypeHcash:
         hdVersionPublic = TWHDVersionDPUB;
@@ -371,13 +369,11 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeEthereumClassic:
     case TWCoinTypeEOS:
     case TWCoinTypeXRP:
+    case TWCoinTypeLitecoin:
         hdVersionPrivate = TWHDVersionXPRV;
         if (witness) {
             hdVersionPrivate = TWHDVersionYPRV;
         }
-        break;
-    case TWCoinTypeLitecoin:
-        hdVersionPrivate = TWHDVersionYPRV;
         break;
     case TWCoinTypeHcash:
         hdVersionPrivate = TWHDVersionDPRV;
