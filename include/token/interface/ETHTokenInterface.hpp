@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <token/interface/BaseToken.h>
+#include <utility/util.h>
 
 // ETH token extension apdu
 #define APPLET_VERSION_SUPPORT_EXT_TOKEN "01040109"
@@ -30,6 +31,9 @@ public:
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainID,
                           std::vector<JUB_BYTE>& vRaw) = 0;
+    virtual JUB_RV VerifyTX(const std::vector<JUB_BYTE>& vChainID,
+                            const std::string& path,
+                            const std::vector<JUB_BYTE>& vSigedTrans) = 0;
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress) = 0;
