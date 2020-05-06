@@ -45,19 +45,24 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -108,19 +113,24 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUB_ENUM_BOOL::BOOL_FALSE;
     }
 
@@ -137,19 +147,24 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUB_ENUM_BOOL::BOOL_FALSE;
     }
 
@@ -169,19 +184,24 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -203,19 +223,24 @@ JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -239,19 +264,24 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -296,19 +326,24 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -337,19 +372,24 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -374,19 +414,24 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -410,19 +455,24 @@ JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -443,19 +493,24 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-    else {
+#endif
+//    else {
+    if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
 
