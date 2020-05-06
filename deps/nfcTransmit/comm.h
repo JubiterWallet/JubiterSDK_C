@@ -75,11 +75,4 @@ int TransmitNFC(unsigned long ulHandle,
                 int timeoutSec);
 
 
-/**
- *  模块使用结束函数
- *
- *  @return 错误码
-*/
-unsigned int FinalizedNFC(void);
-
 #endif /* comm_h */
