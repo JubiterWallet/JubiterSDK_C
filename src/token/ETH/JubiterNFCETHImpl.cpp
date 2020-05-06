@@ -33,13 +33,6 @@ JUB_RV JubiterNFCETHImpl::GetAddress(const std::string& path, const JUB_UINT16 t
     TW::Data publicKey;
     JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
 
-//    std::string btcXpub;
-//    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
-//
-//    TW::Data publicKey;
-//    publicKey.clear();
-//    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
-
     return _getAddress(publicKey, address);
 }
 
@@ -112,14 +105,6 @@ JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
         TW::Data publicKey;
         JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
 
-//        std::string btcXpub;
-//        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, btcXpub));
-//        uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
-//        uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
-//        TW::Data publicKey;
-//        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
-//                                         hdVersionPub, hdVersionPrv));
-
         TW::Hash::Hasher halfHasher;
         JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
 
@@ -157,18 +142,8 @@ JUB_RV JubiterNFCETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                                    const std::string& path,
                                    const std::vector<JUB_BYTE>& vSigedTrans) {
 
-//    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
-//    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
-
     TW::Data publicKey;
     JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, publicKey));
-
-//        std::string btcXpub;
-//        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, inputPath, btcXpub));
-//
-//        TW::Data publicKey;
-//        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
-//                                         hdVersionPub, hdVersionPrv));
 
     // verify signature
     return VerifyTx(vChainID,

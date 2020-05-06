@@ -58,9 +58,6 @@ JUB_RV JubiterNFCBCHImpl::_SignTx(bool witness,
                                   std::vector<TW::Data>& vInputPublicKey,
                                   std::vector<uchar_vector>& vSignatureRaw) {
 
-//    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin, witness);
-//    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
-
     TW::Hash::Hasher halfHasher;
     JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
 
@@ -68,13 +65,6 @@ JUB_RV JubiterNFCBCHImpl::_SignTx(bool witness,
     for (size_t index=0; index<tx.inputs.size(); ++index) {
         TW::Data publicKey;
         JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(type, vInputPath[index], publicKey));
-
-//        std::string btcXpub;
-//        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(type, vInputPath[index], btcXpub));
-//
-//        TW::Data publicKey;
-//        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
-//                                         hdVersionPub, hdVersionPrv));
 
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
 
