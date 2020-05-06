@@ -17,7 +17,7 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     JUB_RV rv = JUBR_ERROR;
 
     JUB_CHAR_PTR mnemonic = nullptr;
-    rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
+    rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
     if(rv == JUBR_OK) {
         cout << mnemonic << endl;
     }
@@ -32,9 +32,9 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
         cout << ".";
     };
 
-    rv = JUB_GenerateSeed("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
+    rv = JUB_GenerateSeed_soft("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
     if (rv != JUBR_OK) {
-        cout << "JUB_GenerateSeed error" << endl;
+        cout << "JUB_GenerateSeed_soft error" << endl;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
@@ -63,7 +63,9 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
-    rv = JUB_SeedToMasterPrivateKey(hcSeed32, hcSeed32Len, secp256k1, &masterXprv);
+    rv = JUB_SeedToMasterPrivateKey_soft(hcSeed32, hcSeed32Len,
+                                         JUB_ENUM_CURVES::SECP256K1,
+                                         &masterXprv);
     if (rv == JUBR_OK) {
         cout << masterXprv << endl;
     }

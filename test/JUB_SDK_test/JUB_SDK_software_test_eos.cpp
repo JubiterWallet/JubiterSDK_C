@@ -21,7 +21,7 @@ void software_test_eos(const char* json_file) {
     JUB_RV rv = JUBR_ERROR;
 
 /*    JUB_CHAR_PTR mnemonic = nullptr;
-    JUB_RV rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
+    JUB_RV rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
     if(rv == JUBR_OK) {
         cout << mnemonic << endl;
     }
@@ -38,9 +38,9 @@ void software_test_eos(const char* json_file) {
     };
     JUB_CHAR_CPTR mnemonic = "gauge hole clog property soccer idea cycle stadium utility slice hold chief";
 //    JUB_CHAR_CPTR mnemonic = "ensure token dress jar donate recipe once blue chief honey whip enhance";
-    rv = JUB_GenerateSeed(mnemonic, "", seed, callback);
+    rv = JUB_GenerateSeed_soft(mnemonic, "", seed, callback);
     if (rv != JUBR_OK) {
-        cout << "JUB_GenerateSeed error" << endl;
+        cout << "JUB_GenerateSeed_soft error" << endl;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
@@ -50,10 +50,10 @@ void software_test_eos(const char* json_file) {
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
-    rv = JUB_SeedToMasterPrivateKey(seed, seedLen,
-                                    secp256k1,
-//                                    ed25519,
-                                    &masterXprv);
+    rv = JUB_SeedToMasterPrivateKey_soft(seed, seedLen,
+                                         JUB_ENUM_CURVES::SECP256K1,
+//                                         JUB_ENUM_CURVES::ED25519,
+                                         &masterXprv);
     if (rv == JUBR_OK) {
         cout << masterXprv << endl;
     }

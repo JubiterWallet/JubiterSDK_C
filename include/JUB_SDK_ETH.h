@@ -134,6 +134,7 @@ JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
                             IN JUB_CHAR_CPTR contractAddress,
                             IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
                             OUT JUB_CHAR_PTR_PTR abi);
+
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus

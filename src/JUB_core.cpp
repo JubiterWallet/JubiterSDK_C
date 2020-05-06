@@ -32,13 +32,13 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 JUB_RV _curveToString(JUB_ENUM_CURVES enumCurve, std::string& strCurve) {
 
     switch(enumCurve) {
-        case secp256k1:
+        case JUB_ENUM_CURVES::SECP256K1:
             strCurve = SECP256K1_NAME;
             return JUBR_OK;
-        case ed25519:
+        case JUB_ENUM_CURVES::ED25519:
             strCurve = ED25519_NAME;
             return JUBR_OK;
-        case nist256p1:
+        case JUB_ENUM_CURVES::NIST256P1:
             strCurve = NIST256P1_NAME;
             return JUBR_OK;
         default:
@@ -46,8 +46,8 @@ JUB_RV _curveToString(JUB_ENUM_CURVES enumCurve, std::string& strCurve) {
     }
 }
 
-JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
-                            OUT JUB_CHAR_PTR_PTR mnemonic) {
+JUB_RV JUB_GenerateMnemonic_soft(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
+                                 OUT JUB_CHAR_PTR_PTR mnemonic) {
 
     CREATE_THREAD_LOCK_GUARD
     JUB_CHAR _mnemonic[240] = {0,};
@@ -71,8 +71,10 @@ JUB_RV JUB_CheckMnemonic(IN JUB_CHAR_CPTR mnemonic) {
     }
 }
 
-JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, OUT JUB_BYTE seed[64],
-                        void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total)) {
+JUB_RV JUB_GenerateSeed_soft(IN JUB_CHAR_CPTR mnemonic,
+                             IN JUB_CHAR_CPTR passphrase,
+                             OUT JUB_BYTE seed[64],
+                             void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total)) {
 
     CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_NULL(mnemonic);
@@ -81,8 +83,9 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, 
     return JUBR_OK;
 }
 
-JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
-                                  OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
+JUB_RV JUB_SeedToMasterPrivateKey_soft(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
+                                       IN JUB_ENUM_CURVES curve,
+                                       OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
 
     CREATE_THREAD_LOCK_GUARD
     JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin);
