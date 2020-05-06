@@ -95,19 +95,23 @@ public:
     };
 
     std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, JUB_UINT16 deviceID) {
+#ifdef BLE_MODE
         if (dynamic_cast<jub::device::JubiterBLEDevice*>
             (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
             ) {
             return jubiterBLEFactory.Create(type, deviceID);
         }
-        else if (dynamic_cast<jub::device::JubiterNFCDevice*>
+#endif
+#ifdef NFC_MODE
+        if (dynamic_cast<jub::device::JubiterNFCDevice*>
             (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
             ) {
             return jubiterNFCFactory.Create(type, deviceID);
         }
-        else {
+#endif
+//        else {
             return nullptr;
-        }
+//        }
     };
 }; // class xBTCTokenFactory end
 

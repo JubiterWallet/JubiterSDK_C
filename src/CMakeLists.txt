@@ -26,11 +26,11 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps)
-if(IOS)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/ios)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/android)
+if(IOS)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/nfcTransmit/ios)
 elseif(ANDROID)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/android)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/nfcTransmit/android)
 endif()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint)
