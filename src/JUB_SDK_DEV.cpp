@@ -359,3 +359,109 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
 
     return JUBR_OK;
 }
+
+
+/*****************************************************************************
+ * @function name : JUB_GenerateSeed
+ * @in  param : deviceID - device ID
+ *          : curve - curve
+ * @out param : seed - seed
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
+                        IN JUB_ENUM_CURVES curve,
+                        OUT JUB_CHAR_PTR_PTR seed) {
+
+    CREATE_THREAD_LOCK_GUARD
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::string str_response;
+    JUB_VERIFY_RV(token->GenerateSeed(curve, str_response));
+    JUB_VERIFY_RV(_allocMem(seed, str_response));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+* @function name : JUB_ImportSeed
+* @in  param : deviceID - device ID
+*                     : seed - seed
+* @out param :
+* @last change :
+*****************************************************************************/
+JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
+                      IN JUB_CHAR_CPTR seed) {
+
+    CREATE_THREAD_LOCK_GUARD
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    JUB_VERIFY_RV(token->SetSeed(seed));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_ExportMnemonic
+ * @in  param : deviceID - device ID
+ * @out param : mnemonic - mnemonic
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
+                          OUT JUB_CHAR_PTR_PTR mnemonic) {
+
+    CREATE_THREAD_LOCK_GUARD
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    else if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::string str_response;
+    JUB_VERIFY_RV(token->GetMnemonic(str_response));
+    JUB_VERIFY_RV(_allocMem(mnemonic, str_response));
+
+    return JUBR_OK;
+}

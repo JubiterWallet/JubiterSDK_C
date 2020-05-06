@@ -92,9 +92,9 @@ void get_device_info_test() {
     JUB_FreeMemory(cert);
 
     char* coinList;
-    rv = Jub_EnumSupportCoins(deviceID, &coinList);
+    rv = JUB_EnumSupportCoins(deviceID, &coinList);
     if (JUBR_OK != rv) {
-        cout << "Jub_EnumSupportCoins() return " << GetErrMsg(rv) << endl;
+        cout << "JUB_EnumSupportCoins() return " << GetErrMsg(rv) << endl;
         return;
     }
 

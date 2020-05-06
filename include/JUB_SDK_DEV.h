@@ -27,7 +27,7 @@
 #define JUBR_BT_BOND_FAILED         0x00001005
 
 
-//token errors								 
+//token errors
 #define JUBR_UNKNOWN_COS_ERROR				 0x40000000UL
 #define JUBR_NOT_FOUND_MASTER_KEY_TYPE       0x40006401UL
 #define JUBR_NOT_FOUND_ECC_KEY_TYPE          0x40006402UL
@@ -97,6 +97,19 @@ typedef struct stDevicdInfo {
 } JUB_DEVICE_INFO;
 typedef JUB_DEVICE_INFO* JUB_DEVICE_INFO_PTR;
 // Remove c++ features for swift framework end
+
+typedef enum {
+    STRENGTH128 = 128,
+    STRENGTH192 = 192,
+    STRENGTH256 = 256
+} JUB_ENUM_MNEMONIC_STRENGTH;
+
+// The definition is the same as the COS definition
+typedef enum {
+    SECP256K1 = 0,
+    NIST256P1,
+    ED25519
+} JUB_ENUM_CURVES;
 
 /*****************************************************************************
  * @function name : JUB_GetDeviceInfo
@@ -189,6 +202,39 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
                             IN JUB_CHAR_CPTR appID,
                             OUT JUB_CHAR_PTR_PTR version);
+
+/*****************************************************************************
+ * @function name : JUB_GenerateSeed
+ * @in  param : deviceID - device ID
+ *          : curve - curve
+ * @out param : seed - seed
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
+                        IN JUB_ENUM_CURVES curve,
+                        OUT JUB_CHAR_PTR_PTR seed);
+
+/*****************************************************************************
+ * @function name : JUB_ImportSeed
+ * @in  param : deviceID - device ID
+ *          : seed - seed
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
+                      IN JUB_CHAR_CPTR seed);
+
+/*****************************************************************************
+ * @function name : JUB_ExportMnemonic
+ * @in  param : deviceID - device ID
+ * @out param : mnemonic - mnemonic
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
+                          OUT JUB_CHAR_PTR_PTR mnemonic);
 
 #ifdef __cplusplus
 }
