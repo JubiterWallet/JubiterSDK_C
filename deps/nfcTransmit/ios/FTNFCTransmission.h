@@ -62,7 +62,7 @@ unsigned int FTDisconnectNFC(unsigned long ulHandle);
 bool FTIsConnectedNFC(unsigned long ulHandle);
 
 /**
- *  NFC断开连接函数
+ *  NFC收发数据函数
  *
  *  @pragma  ulHandle 设备句柄
  *  @pragma sendBuf    发送数据缓冲区
@@ -71,13 +71,9 @@ bool FTIsConnectedNFC(unsigned long ulHandle);
  *  @pragma recvLen     接收数据长度
  *  @return 错误码
 */
-int FTTransmitNFC(unsigned long ulHandle, unsigned char* sendBuf,unsigned int sendLen,unsigned char * recvBuf,unsigned int* recvLen,int timeoutSec);
-
-/**
- *  模块使用结束函数
- *
- *  @return 错误码
-*/
-unsigned int  FTFinalizedNFC(void);
+unsigned int FTTransmitNFC(unsigned long ulHandle,
+                           unsigned char* sendBuf, unsigned int sendLen,
+                           unsigned char* recvBuf, unsigned int* recvLen,
+                           int timeoutSec);
 
 #endif /* defined(__FTNFCTransmission__) */

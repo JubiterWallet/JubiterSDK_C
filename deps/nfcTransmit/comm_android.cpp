@@ -40,8 +40,4 @@ int TransmitNFC(unsigned long ulHandle, unsigned char* sendBuf,unsigned int send
     return 0;
 }
 
-unsigned int FinalizedNFC(void){
-    return 0;
-}
-
 #endif

@@ -45,7 +45,7 @@ bool IsConnectedNFC(unsigned long ulHandle) {
 
 int TransmitNFC(unsigned long ulHandle,
                 unsigned char* sendBuf, unsigned int sendLen,
-                unsigned char * recvBuf, unsigned int* recvLen,
+                unsigned char* recvBuf, unsigned int* recvLen,
                 int timeoutSec) {
 
     return FTTransmitNFC(ulHandle,
@@ -54,10 +54,5 @@ int TransmitNFC(unsigned long ulHandle,
                          timeoutSec);
 }
 
-
-unsigned int FinalizedNFC(void) {
-
-    return FTFinalizedNFC();
-}
 
 #endif
