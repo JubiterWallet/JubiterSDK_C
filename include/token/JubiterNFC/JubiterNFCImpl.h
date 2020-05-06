@@ -26,12 +26,6 @@ public:
                           const JUB_BYTE& hashType,
                           const std::vector<TW::Data>& vPreImageHash,
                           std::vector<TW::Data>& vRSV);
-    virtual JUB_RV SignTXPack(const JUB_UINT16 inputCount,
-                              const std::vector<std::string>& vInputPath,
-                              const JUB_BYTE& signType,
-                              const JUB_BYTE& hashType,
-                              const std::vector<TW::Data>& vPreImageHash,
-                              std::vector<TW::Data>& vRSV);
     virtual JUB_RV SignOne(const JUB_UINT16 inputCount,
                            const JUB_UINT16 inputIndex,
                            const std::string& path,
