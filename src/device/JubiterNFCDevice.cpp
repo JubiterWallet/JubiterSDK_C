@@ -123,12 +123,7 @@ unsigned int JubiterNFCDevice::Initialize(const NFC_INIT_PARAM& params) {
 
 unsigned int JubiterNFCDevice::Finalize() {
 
-    unsigned int ret = FTFinalizedNFC();
-    if (FT_SUCCESS == ret) {
-        return JUBR_OK;
-    }
-
-    return (unsigned int)MatchErrorCode(ret);
+    return (unsigned int)MatchErrorCode(FT_SUCCESS);
 }
 
 
