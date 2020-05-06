@@ -4,10 +4,13 @@
 
 #include "JUB_SDK_COMM.h"
 #include "JUB_SDK_DEV.h"
-#if defined(BLE_MODE) || defined(NFC_MODE)
+#if defined(BLE_MODE)
 #include "JUB_SDK_DEV_BLE.h"
+#endif
+#if defined(NFC_MODE)
 #include "JUB_SDK_DEV_NFC.h"
-#else
+#endif
+#if defined(HID_MODE)
 #include "JUB_SDK_DEV_HID.h"
 #endif
 #include "JUB_SDK_BTC.h"
