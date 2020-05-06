@@ -216,13 +216,13 @@ JUB_RV JubiterNFCImpl::SignOne(const JUB_UINT16 inputCount,
 JUB_BYTE JubiterNFCImpl::_getSignType(const char *curve_name) {
 
     if (0 == strcmp(curve_name, NIST256P1_NAME)) {
-        return JUB_ENUM_CURVES::nist256p1;
+        return JUB_ENUM_CURVES::NIST256P1;
     }
     if (0 == strcmp(curve_name, ED25519_NAME)) {
-        return JUB_ENUM_CURVES::ed25519;
+        return JUB_ENUM_CURVES::ED25519;
     }
 
-    return JUB_ENUM_CURVES::secp256k1;
+    return JUB_ENUM_CURVES::SECP256K1;
 }
 
 

@@ -58,6 +58,10 @@ public:
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
+    virtual JUB_RV GenerateSeed(const JUB_ENUM_CURVES curve, OUT std::string& seed) override;
+    virtual JUB_RV SetSeed(const std::string &seed) override;
+    virtual JUB_RV GetMnemonic(OUT std::string& mnemonic) override;
+
     static stAppInfos g_appInfo[];
 
 protected:

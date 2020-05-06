@@ -39,6 +39,11 @@ public:
 
     virtual JUB_RV VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
+
+    virtual JUB_RV GenerateSeed(const JUB_ENUM_CURVES curve, OUT std::string& seed) = 0;
+    virtual JUB_RV SetSeed(const std::string &seed) = 0;
+    virtual JUB_RV GetMnemonic(OUT std::string& mnemonic) = 0;
+
 }; // class HardwareTokenInterface end
 
 

@@ -384,5 +384,94 @@ JUB_RV JubiterNFCToken::SetTimeout(const JUB_UINT16 timeout) {
 }
 
 
+JUB_RV JubiterNFCToken::GenerateSeed(const JUB_ENUM_CURVES curve, OUT std::string& seed) {
+
+    switch (curve) {
+        case JUB_ENUM_CURVES::SECP256K1:
+            break;
+        case JUB_ENUM_CURVES::NIST256P1:
+        case JUB_ENUM_CURVES::ED25519:
+        default:
+            return JUBR_ARGUMENTS_BAD;
+    }
+
+    {
+        // select main safe scope
+        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
+        JUB_UINT16 ret = 0;
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        JUB_VERIFY_COS_ERROR(ret);
+    }
+    // send apdu.
+    uchar_vector apduData("DFFE028203");
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x9000 == ret) {
+        seed = std::string(retData, retData+ulRetDataLen);
+
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
+}
+
+
+JUB_RV JubiterNFCToken::SetSeed(const std::string &seed) {
+
+    {
+        // select main safe scope
+        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
+        JUB_UINT16 ret = 0;
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        JUB_VERIFY_COS_ERROR(ret);
+    }
+    // send apdu.
+    uchar_vector apduData("DFFF");
+    apduData << uint16_t(2+1+0x40);
+    apduData << "8202";
+    apduData << uint16_t(1+0x40);
+    apduData << uint8_t(0x40);
+    apduData << seed;
+
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterNFCToken::GetMnemonic(OUT std::string& mnemonic) {
+
+    {
+        // select main safe scope
+        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
+        JUB_UINT16 ret = 0;
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        JUB_VERIFY_COS_ERROR(ret);
+    }
+    // send apdu.
+    uchar_vector apduData("DFFF028202");
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x9000 == ret) {
+        mnemonic = std::string(retData, retData+ulRetDataLen);
+
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
+}
+
+
 } // namespace token end
 } // namespace jub end
