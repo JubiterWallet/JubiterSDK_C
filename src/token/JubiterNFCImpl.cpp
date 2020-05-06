@@ -75,12 +75,12 @@ JUB_RV JubiterNFCImpl::GetAddress(const JUB_BYTE addrFmt,
 }
 
 
-JUB_RV JubiterNFCImpl::SignTXPack(const JUB_UINT16 inputCount,
-                                  const std::vector<std::string>& vInputPath,
-                                  const JUB_BYTE& signType,
-                                  const JUB_BYTE& hashType,
-                                  const std::vector<TW::Data>& vPreImageHash,
-                                  std::vector<TW::Data>& vRSV) {
+JUB_RV JubiterNFCImpl::SignTX(const JUB_UINT16 inputCount,
+                              const std::vector<std::string>& vInputPath,
+                              const JUB_BYTE& signType,
+                              const JUB_BYTE& hashType,
+                              const std::vector<TW::Data>& vPreImageHash,
+                              std::vector<TW::Data>& vRSV) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -206,122 +206,7 @@ JUB_RV JubiterNFCImpl::SignOne(const JUB_UINT16 inputCount,
     for (times = 0; times < (totalReadLen / rsvLVLen); times++) {
         JUB_UINT16 offset = times * rsvLVLen;
         JUB_UINT32 rsvLen = sigRawTx[offset];
-//        TW::Data rsv;
         rsv.insert(rsv.end(), sigRawTx.data()+offset+1, sigRawTx.data()+offset+1+rsvLen);
-//        vRSV.push_back(rsv);
-    }
-
-    return JUBR_OK;
-}
-
-
-JUB_RV JubiterNFCImpl::SignTX(const JUB_UINT16 inputCount,
-                              const std::vector<std::string>& vInputPath,
-                              const JUB_BYTE& signType,
-                              const JUB_BYTE& hashType,
-                              const std::vector<TW::Data>& vPreImageHash,
-                              std::vector<TW::Data>& vRSV) {
-
-    constexpr JUB_UINT32 kSendOnceLen = 230;
-
-    JUB_BYTE p1 = signType;
-    JUB_BYTE p2 = hashType;
-
-    // number of input
-    uchar_vector apduData;
-    apduData << (JUB_BYTE)(inputCount);
-
-    uchar_vector preImageHashLV;
-    for (auto preImageHash : vPreImageHash) {
-        preImageHashLV << (JUB_BYTE)(preImageHash.size());
-        preImageHashLV << preImageHash;
-    }
-    apduData << ToTlv(0x07, preImageHashLV);
-
-    //  first pack
-    APDU apdu(0x00, 0xF8, 0x00, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
-    JUB_UINT16 ret = 0;
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-    JUB_VERIFY_COS_ERROR(ret);
-    apduData.clear();
-
-    // pathTLV
-    uchar_vector pathLV;
-    for (auto path : vInputPath) {
-        pathLV << (JUB_BYTE)(path.size());
-        pathLV << path;
-    }
-    apduData << ToTlv(0x0F, pathLV);
-
-    JUB_VERIFY_RV(_TranPack(apduData, 0x00, 0x00, kSendOnceLen, true)); // last data.
-    apduData.clear();
-
-    // sign transactions
-    JUB_BYTE retData[kSendOnceLen] = { 0, };
-    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    //one pack can do it
-    apdu.SetApdu(0x00, 0xCA, p1, p2, 0);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-    if (0x6f09 == ret) {
-        return JUBR_USER_CANCEL;
-    }
-    JUB_VERIFY_COS_ERROR(ret);
-
-    JUB_UINT16 totalReadLen;
-    TW::Data sigRawTx;
-    // get transactions (pack by pack)
-    if (2 != ulRetDataLen) { // total length
-        totalReadLen = ulRetDataLen;
-        TW::Data totalData;
-        totalData.insert(totalData.end(), retData, retData + ulRetDataLen);
-
-        sigRawTx.insert(sigRawTx.end(), totalData.begin(), totalData.end());
-    }
-    else {
-        totalReadLen = TW::decode16BE(retData);
-        TW::Data totalData(totalReadLen, 0x00);
-
-        constexpr JUB_UINT16 kReadOnceLen = 66;//256;
-        JUB_ULONG ulRetLen = kReadOnceLen;
-
-        apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
-        apdu.le = kReadOnceLen;
-        JUB_UINT16 times = 0;
-        for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
-            JUB_UINT16 offset = times * kReadOnceLen;
-            apdu.p1 = offset >> 8;
-            apdu.p2 = offset & 0x00ff;
-
-            JUB_VERIFY_RV(_SendApdu(&apdu, ret, totalData.data() + times * kReadOnceLen, &ulRetLen));
-            JUB_VERIFY_COS_ERROR(ret);
-        }
-
-        apdu.le = totalReadLen % kReadOnceLen;
-        if (apdu.le) {
-            JUB_UINT16 offset = times * kReadOnceLen;
-            apdu.p1 = offset >> 8;
-            apdu.p2 = offset & 0x00ff;
-
-            ulRetLen = totalReadLen - times * kReadOnceLen;
-
-            JUB_VERIFY_RV(_SendApdu(&apdu, ret, totalData.data() + times * kReadOnceLen, &ulRetLen));
-            JUB_VERIFY_COS_ERROR(ret);
-        }
-
-        sigRawTx.insert(sigRawTx.end(), totalData.begin(), totalData.end());
-    }
-
-    JUB_UINT32 rsvLVLen = 66;
-    if (0 != (totalReadLen%rsvLVLen)) {
-        return JUBR_ERROR;
-    }
-    JUB_UINT16 times = totalReadLen / rsvLVLen;
-    for (times = 0; times < (totalReadLen / rsvLVLen); times++) {
-        JUB_UINT16 offset = times * rsvLVLen;
-        JUB_UINT32 rsvLen = sigRawTx[offset];
-        TW::Data rsv;
-        rsv.insert(rsv.end(), sigRawTx.data()+offset+1, sigRawTx.data()+offset+1+rsvLen);
-        vRSV.push_back(rsv);
     }
 
     return JUBR_OK;

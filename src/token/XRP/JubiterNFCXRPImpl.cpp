@@ -24,12 +24,6 @@ JUB_RV JubiterNFCXRPImpl::GetAddress(const std::string& path, const JUB_UINT16 t
     TW::Data publicKey;
     JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
 
-//    std::string btcXpub;
-//    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
-//
-//    TW::Data publicKey;
-//    JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey));
-
     return _getAddress(publicKey, address);
 }
 
@@ -91,13 +85,6 @@ JUB_RV JubiterNFCXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         TW::Data publicKey;
         JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
 
-//        std::string btcXpub;
-//        JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, btcXpub));
-//        uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
-//        uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
-//        TW::Data publicKey;
-//        JUB_VERIFY_RV(_getPubkeyFromXpub(btcXpub, publicKey,
-//                                         hdVersionPub, hdVersionPrv));
         tx.pub_key.insert(tx.pub_key.end(), publicKey.begin(), publicKey.end());
         tx.serialize();
         vUnsignedRaw.clear();
