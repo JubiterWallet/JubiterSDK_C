@@ -9,6 +9,8 @@
 #ifndef __FTNFCTransmission__
 #define __FTNFCTransmission__
 
+#include <jni.h>
+
 //java虚拟机
 extern JavaVM *g_vm;
 //初始化参数
