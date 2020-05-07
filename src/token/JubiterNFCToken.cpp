@@ -384,7 +384,9 @@ JUB_RV JubiterNFCToken::SetTimeout(const JUB_UINT16 timeout) {
 }
 
 
-JUB_RV JubiterNFCToken::GenerateSeed(const JUB_ENUM_CURVES curve, OUT std::string& seed) {
+JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
+                                     const JUB_ENUM_CURVES& curve,
+                                     OUT std::string& seed) {
 
     switch (curve) {
         case JUB_ENUM_CURVES::SECP256K1:
@@ -402,8 +404,23 @@ JUB_RV JubiterNFCToken::GenerateSeed(const JUB_ENUM_CURVES curve, OUT std::strin
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         JUB_VERIFY_COS_ERROR(ret);
     }
+
     // send apdu.
-    uchar_vector apduData("DFFE028203");
+    std::vector<uint8_t> pin;
+    std::transform(pinMix.begin(),
+                   pinMix.end(),
+                   std::back_inserter(pin),
+                   [](const char elem) {
+        return (uint8_t)elem;
+    });
+
+    uchar_vector apduData("DFFE");
+    apduData << uint8_t(2+1+(1+pin.size()));
+    apduData << uint8_t(0x82);
+    apduData << uint8_t(0x03);
+    apduData << uint8_t(1+pin.size());
+    apduData << uint8_t(pin.size());
+    apduData << pin;
     APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
@@ -419,7 +436,20 @@ JUB_RV JubiterNFCToken::GenerateSeed(const JUB_ENUM_CURVES curve, OUT std::strin
 }
 
 
-JUB_RV JubiterNFCToken::SetSeed(const std::string &seed) {
+JUB_RV JubiterNFCToken::SetSeed(const std::string& pinMix,
+                                const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                                const std::string& entropy,
+                                const std::string& seed) {
+
+    std::vector<uint8_t> vEntropy = HexStr2CharPtr(entropy);
+    if ((JUB_BYTE)strength/8 != vEntropy.size()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::vector<uint8_t> vSeed = HexStr2CharPtr(seed);
+    if (0x40 != vSeed.size()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     {
         // select main safe scope
@@ -428,13 +458,30 @@ JUB_RV JubiterNFCToken::SetSeed(const std::string &seed) {
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         JUB_VERIFY_COS_ERROR(ret);
     }
+
     // send apdu.
+    std::vector<uint8_t> pin;
+    std::transform(pinMix.begin(),
+                   pinMix.end(),
+                   std::back_inserter(pin),
+                   [](const char elem) {
+        return (uint8_t)elem;
+    });
+
+
     uchar_vector apduData("DFFF");
-    apduData << uint16_t(2+1+0x40);
-    apduData << "8202";
-    apduData << uint16_t(1+0x40);
-    apduData << uint8_t(0x40);
-    apduData << seed;
+    apduData << uint16_t(2+1+(1+pin.size())+(1+vEntropy.size())+(1+vSeed.size()));
+    apduData << uint8_t(0x82);
+    apduData << uint8_t(0x02);
+    apduData << uint8_t(1+pin.size());
+    apduData << uint8_t(pin.size());
+    apduData << pin;
+    apduData << uint8_t(1+vEntropy.size());
+    apduData << uint8_t(vEntropy.size());
+    apduData << vEntropy;
+    apduData << uint16_t(1+vSeed.size());
+    apduData << uint8_t(vSeed.size());
+    apduData << vSeed;
 
     APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
@@ -447,7 +494,8 @@ JUB_RV JubiterNFCToken::SetSeed(const std::string &seed) {
 }
 
 
-JUB_RV JubiterNFCToken::GetMnemonic(OUT std::string& mnemonic) {
+JUB_RV JubiterNFCToken::GetMnemonic(const std::string& pinMix,
+                                    OUT std::string& mnemonic) {
 
     {
         // select main safe scope
@@ -456,8 +504,24 @@ JUB_RV JubiterNFCToken::GetMnemonic(OUT std::string& mnemonic) {
         JUB_VERIFY_RV(_SendApdu(&apdu, ret));
         JUB_VERIFY_COS_ERROR(ret);
     }
+
     // send apdu.
-    uchar_vector apduData("DFFF028202");
+    std::vector<uint8_t> pin;
+    std::transform(pinMix.begin(),
+                   pinMix.end(),
+                   std::back_inserter(pin),
+                   [](const char elem) {
+        return (uint8_t)elem;
+    });
+
+    // send apdu.
+    uchar_vector apduData("DFFF");
+    apduData << uint8_t(2+1+(1+pin.size()));
+    apduData << uint8_t(0x82);
+    apduData << uint8_t(0x02);
+    apduData << uint8_t(1+pin.size());
+    apduData << uint8_t(pin.size());
+    apduData << pin;
     APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };

@@ -206,34 +206,44 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
 /*****************************************************************************
  * @function name : JUB_GenerateSeed
  * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
  *          : curve - curve
  * @out param : seed - seed
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
+                        IN JUB_CHAR_CPTR pinMix,
                         IN JUB_ENUM_CURVES curve,
                         OUT JUB_CHAR_PTR_PTR seed);
 
 /*****************************************************************************
  * @function name : JUB_ImportSeed
  * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
+ *          : strength - JUB_ENUM_MNEMONIC_STRENGTH
+ *          : entropy - entropy
  *          : seed - seed
  * @out param :
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
+                      IN JUB_CHAR_CPTR pinMix,
+                      IN JUB_ENUM_MNEMONIC_STRENGTH strength,
+                      IN JUB_CHAR_CPTR entropy,
                       IN JUB_CHAR_CPTR seed);
 
 /*****************************************************************************
  * @function name : JUB_ExportMnemonic
  * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
  * @out param : mnemonic - mnemonic
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
+                          IN JUB_CHAR_CPTR pinMix,
                           OUT JUB_CHAR_PTR_PTR mnemonic);
 
 #ifdef __cplusplus
