@@ -640,19 +640,25 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
 }
 
 
-JUB_RV JubiterBladeToken::GenerateSeed(const JUB_ENUM_CURVES curve, OUT std::string& seed) {
+JUB_RV JubiterBladeToken::GenerateSeed(const std::string& pinMix,
+                                       const JUB_ENUM_CURVES& curve,
+                                       OUT std::string& seed) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
-JUB_RV JubiterBladeToken::SetSeed(const std::string &seed) {
+JUB_RV JubiterBladeToken::SetSeed(const std::string& pinMix,
+                                  const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                                  const std::string& entropy,
+                                  const std::string& seed) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
-JUB_RV JubiterBladeToken::GetMnemonic(OUT std::string& mnemonic) {
+JUB_RV JubiterBladeToken::GetMnemonic(const std::string& pinMix,
+                                      OUT std::string& mnemonic) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
