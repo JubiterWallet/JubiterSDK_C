@@ -5,7 +5,6 @@
 //  Created Pan Min on 2020/3/27.
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
-#include <bleTransmit/android/BTManager.h>
 #include "JUB_SDK_COMM.h"
 
 
@@ -17,6 +16,7 @@
 
 #ifdef __ANDROID__
 #include "nfcTransmit/android/FTNFCTransmission.h"
+#include "nfcTransmit/android/FTMacro.h"
 #else
 #include "nfcTransmit/ios/FTMacro.h"
 #include "nfcTransmit/ios/FTNFCTransmission.h"
@@ -46,18 +46,18 @@ JUB_RV JubiterNFCDevice::MatchErrorCode(int error) {
 
 #ifdef __ANDROID__
     switch (error) {
-    case BT_SUCCESS:
+    case NFC_SUCCESS:
         return JUBR_OK;
-    case BT_ERR_CONNECT_FAIL:
+    case NFC_ERR_CONNECT_FAIL:
         return JUBR_CONNECT_DEVICE_ERROR;
-    case BT_ERR_INIT:
+    case NFC_ERR_INIT:
         return JUBR_INIT_DEVICE_LIB_ERROR;
-    case BT_ERR_BOND_FAIL:
+    case NFC_ERR_BOND_FAIL:
         return JUBR_BT_BOND_FAILED;
-    case BT_ERR_NOT_ENABLE:
-    case BT_ERR_NOT_SUPPORT:
-    case BT_ERR_NO_LOCATION_PERMISSION:
-    case BT_ERR_TRANSMIT_ERROR:
+    case NFC_ERR_NOT_ENABLE:
+    case NFC_ERR_NOT_SUPPORT:
+    case NFC_ERR_NO_LOCATION_PERMISSION:
+    case NFC_ERR_TRANSMIT_ERROR:
     default:
         return JUBR_TRANSMIT_DEVICE_ERROR;
     } // switch (error) end
