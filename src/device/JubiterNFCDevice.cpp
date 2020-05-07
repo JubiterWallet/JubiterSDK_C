@@ -5,6 +5,7 @@
 //  Created Pan Min on 2020/3/27.
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
+#include <bleTransmit/android/BTManager.h>
 #include "JUB_SDK_COMM.h"
 
 
@@ -15,6 +16,7 @@
 
 
 #ifdef __ANDROID__
+#include "nfcTransmit/android/FTNFCTransmission.h"
 #else
 #include "nfcTransmit/ios/FTMacro.h"
 #include "nfcTransmit/ios/FTNFCTransmission.h"
@@ -48,6 +50,8 @@ JUB_RV JubiterNFCDevice::MatchErrorCode(int error) {
         return JUBR_OK;
     case BT_ERR_CONNECT_FAIL:
         return JUBR_CONNECT_DEVICE_ERROR;
+    case BT_ERR_INIT:
+        return JUBR_INIT_DEVICE_LIB_ERROR;
     case BT_ERR_BOND_FAIL:
         return JUBR_BT_BOND_FAILED;
     case BT_ERR_NOT_ENABLE:
