@@ -404,11 +404,13 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
 /*****************************************************************************
  * @function name : JUB_GenerateSeed
  * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
  *          : curve - curve
  * @out param : seed - seed
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
+                        IN JUB_CHAR_CPTR pinMix,
                         IN JUB_ENUM_CURVES curve,
                         OUT JUB_CHAR_PTR_PTR seed) {
 
@@ -436,7 +438,7 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
     }
 
     std::string str_response;
-    JUB_VERIFY_RV(token->GenerateSeed(curve, str_response));
+    JUB_VERIFY_RV(token->GenerateSeed(pinMix, curve, str_response));
     JUB_VERIFY_RV(_allocMem(seed, str_response));
 
     return JUBR_OK;
@@ -446,11 +448,17 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
 /*****************************************************************************
 * @function name : JUB_ImportSeed
 * @in  param : deviceID - device ID
+*                     : pinMix - User's PIN
+*                     : strength - JUB_ENUM_MNEMONIC_STRENGTH
+*                     : entropy - entropy
 *                     : seed - seed
 * @out param :
 * @last change :
 *****************************************************************************/
 JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
+                      IN JUB_CHAR_CPTR pinMix,
+                      IN JUB_ENUM_MNEMONIC_STRENGTH strength,
+                      IN JUB_CHAR_CPTR entropy,
                       IN JUB_CHAR_CPTR seed) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -476,7 +484,10 @@ JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV(token->SetSeed(seed));
+    JUB_VERIFY_RV(token->SetSeed(pinMix,
+                                 strength,
+                                 entropy,
+                                 seed));
 
     return JUBR_OK;
 }
@@ -485,10 +496,12 @@ JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
 /*****************************************************************************
  * @function name : JUB_ExportMnemonic
  * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
  * @out param : mnemonic - mnemonic
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
+                          IN JUB_CHAR_CPTR pinMix,
                           OUT JUB_CHAR_PTR_PTR mnemonic) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -515,7 +528,7 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
     }
 
     std::string str_response;
-    JUB_VERIFY_RV(token->GetMnemonic(str_response));
+    JUB_VERIFY_RV(token->GetMnemonic(pinMix, str_response));
     JUB_VERIFY_RV(_allocMem(mnemonic, str_response));
 
     return JUBR_OK;
