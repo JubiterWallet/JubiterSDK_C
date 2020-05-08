@@ -473,6 +473,7 @@ JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
     apduData << uint8_t(1+pin.size());
     apduData << uint8_t(pin.size());
     apduData << pin;
+
     APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
@@ -510,7 +511,7 @@ JUB_RV JubiterNFCToken::SetSeed(const std::string& pinMix,
         return (uint8_t)elem;
     });
 
-    uchar_vector apduData("DFFF");
+    uchar_vector apduData("DFFE");
     apduData << uint8_t(2+1+(1+pin.size())+(1+vEntropy.size())+(1+vSeed.size()));
     apduData << uint8_t(0x82);
     apduData << uint8_t(0x02);
@@ -561,13 +562,15 @@ JUB_RV JubiterNFCToken::GetMnemonic(const std::string& pinMix,
     apduData << uint8_t(1+pin.size());
     apduData << uint8_t(pin.size());
     apduData << pin;
+
     APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
-        mnemonic = std::string(retData, retData+ulRetDataLen);
+        uchar_vector vMnemonic(retData, (unsigned int)ulRetDataLen);
+        mnemonic = vMnemonic.getHex();
 
         return JUBR_OK;
     }
