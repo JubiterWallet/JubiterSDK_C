@@ -400,12 +400,12 @@ JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &
     apduData << uint8_t(2+1+(1+pinOld.size())+(1+pin.size()));
     apduData << uint8_t(0x82);
     apduData << uint8_t(0x04);
-    apduData << uint8_t(1+pinOld.size());
+    apduData << uint8_t((1+pinOld.size())+(1+pin.size()));
     apduData << uint8_t(pinOld.size());
     apduData << pinOld;
-    apduData << uint8_t(1+pin.size());
     apduData << uint8_t(pin.size());
     apduData << pin;
+
     APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
