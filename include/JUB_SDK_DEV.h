@@ -204,6 +204,16 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR version);
 
 /*****************************************************************************
+* @function name : JUB_Reset
+* @in  param : deviceID - device ID
+*                     : curve - curve
+* @out param :
+* @last change : default User's PIN is '5555'.
+*****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_Reset(IN JUB_UINT16 deviceID);
+
+/*****************************************************************************
 * @function name : JUB_GenerateSeed
 * @in  param : deviceID - device ID
 *                     : curve - curve

@@ -419,8 +419,27 @@ JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &
 }
 
 
-
 JUB_RV JubiterNFCToken::SetTimeout(const JUB_UINT16 timeout) {
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterNFCToken::Reset() {
+
+    {
+        // select main safe scope
+        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
+        JUB_UINT16 ret = 0;
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        JUB_VERIFY_COS_ERROR(ret);
+    }
+
+    // reset
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, 0x05, (const JUB_BYTE *)"\xDF\xFE\x02\x82\x05");
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    JUB_VERIFY_COS_ERROR(ret);
 
     return JUBR_OK;
 }
@@ -435,22 +454,6 @@ JUB_RV JubiterNFCToken::GenerateSeed(const JUB_ENUM_CURVES& curve) {
         case JUB_ENUM_CURVES::ED25519:
         default:
             return JUBR_ARGUMENTS_BAD;
-    }
-
-    {
-        // select main safe scope
-        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
-        JUB_UINT16 ret = 0;
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-        JUB_VERIFY_COS_ERROR(ret);
-    }
-
-    {
-        // reset
-        APDU apdu(0x80, 0xcb, 0x80, 0x00, 0x05, (const JUB_BYTE *)"\xDF\xFE\x02\x82\x05");
-        JUB_UINT16 ret = 0;
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-        JUB_VERIFY_COS_ERROR(ret);
     }
 
     // send apdu.
@@ -498,14 +501,6 @@ JUB_RV JubiterNFCToken::SetSeed(const std::string& pinMix,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    {
-        // select main safe scope
-        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
-        JUB_UINT16 ret = 0;
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-        JUB_VERIFY_COS_ERROR(ret);
-    }
-
     // send apdu.
     std::vector<uint8_t> pin;
     std::transform(pinMix.begin(),
@@ -515,18 +510,15 @@ JUB_RV JubiterNFCToken::SetSeed(const std::string& pinMix,
         return (uint8_t)elem;
     });
 
-
     uchar_vector apduData("DFFF");
-    apduData << uint16_t(2+1+(1+pin.size())+(1+vEntropy.size())+(1+vSeed.size()));
+    apduData << uint8_t(2+1+(1+pin.size())+(1+vEntropy.size())+(1+vSeed.size()));
     apduData << uint8_t(0x82);
     apduData << uint8_t(0x02);
-    apduData << uint8_t(1+pin.size());
+    apduData << uint8_t((1+pin.size())+(1+vEntropy.size())+(1+vSeed.size()));
     apduData << uint8_t(pin.size());
     apduData << pin;
-    apduData << uint8_t(1+vEntropy.size());
     apduData << uint8_t(vEntropy.size());
     apduData << vEntropy;
-    apduData << uint16_t(1+vSeed.size());
     apduData << uint8_t(vSeed.size());
     apduData << vSeed;
 

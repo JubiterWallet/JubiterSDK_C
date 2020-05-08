@@ -400,6 +400,42 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
     return JUBR_OK;
 }
 
+/*****************************************************************************
+* @function name : JUB_Reset
+* @in  param : deviceID - device ID
+*                     : curve - curve
+* @out param :
+* @last change : default User's PIN is '5555'.
+*****************************************************************************/
+JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
+
+    CREATE_THREAD_LOCK_GUARD
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    #ifdef BLE_MODE
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+    #endif
+    #ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    #endif
+//    else {
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    JUB_VERIFY_RV(token->Reset());
+
+    return JUBR_OK;
+}
 
 /*****************************************************************************
  * @function name : JUB_GenerateSeed
