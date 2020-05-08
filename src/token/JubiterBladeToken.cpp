@@ -652,7 +652,8 @@ JUB_RV JubiterBladeToken::Reset() {
 }
 
 
-JUB_RV JubiterBladeToken::GenerateSeed(const JUB_ENUM_CURVES& curve) {
+JUB_RV JubiterBladeToken::GenerateSeed(const std::string& pinMix,
+                                       const JUB_ENUM_CURVES& curve) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }

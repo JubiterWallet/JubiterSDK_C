@@ -440,11 +440,13 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
 /*****************************************************************************
  * @function name : JUB_GenerateSeed
  * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
  *          : curve - curve
  * @out param :
- * @last change : default User's PIN is '5555'.
+ * @last change :
  *****************************************************************************/
 JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
+                        IN JUB_CHAR_CPTR pinMix,
                         IN JUB_ENUM_CURVES curve) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -470,7 +472,7 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV(token->GenerateSeed(curve));
+    JUB_VERIFY_RV(token->GenerateSeed(pinMix, curve));
 
     return JUBR_OK;
 }
