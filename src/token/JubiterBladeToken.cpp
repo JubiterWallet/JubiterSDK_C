@@ -625,6 +625,12 @@ JUB_RV JubiterBladeToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &re
 }
 
 
+JUB_RV JubiterBladeToken::ChangePIN(const std::string &pinMix, const std::string &pinNew) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
 
     JUB_UINT16 p1 = timeout >> 8;
@@ -640,9 +646,7 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
 }
 
 
-JUB_RV JubiterBladeToken::GenerateSeed(const std::string& pinMix,
-                                       const JUB_ENUM_CURVES& curve,
-                                       OUT std::string& seed) {
+JUB_RV JubiterBladeToken::GenerateSeed(const JUB_ENUM_CURVES& curve) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }

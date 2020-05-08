@@ -378,15 +378,55 @@ JUB_RV JubiterNFCToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retr
 }
 
 
+JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &pinNew) {
+
+    std::vector<uint8_t> pinOld;
+    std::transform(pinMix.begin(),
+                   pinMix.end(),
+                   std::back_inserter(pinOld),
+                   [](const char elem) {
+        return (uint8_t)elem;
+    });
+
+    std::vector<uint8_t> pin;
+    std::transform(pinNew.begin(),
+                   pinNew.end(),
+                   std::back_inserter(pin),
+                   [](const char elem) {
+        return (uint8_t)elem;
+    });
+
+    uchar_vector apduData("DFFE");
+    apduData << uint8_t(2+1+(1+pinOld.size())+(1+pin.size()));
+    apduData << uint8_t(0x82);
+    apduData << uint8_t(0x04);
+    apduData << uint8_t(1+pinOld.size());
+    apduData << uint8_t(pinOld.size());
+    apduData << pinOld;
+    apduData << uint8_t(1+pin.size());
+    apduData << uint8_t(pin.size());
+    apduData << pin;
+    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x9000 == ret) {
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
+}
+
+
+
 JUB_RV JubiterNFCToken::SetTimeout(const JUB_UINT16 timeout) {
 
     return JUBR_OK;
 }
 
 
-JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
-                                     const JUB_ENUM_CURVES& curve,
-                                     OUT std::string& seed) {
+JUB_RV JubiterNFCToken::GenerateSeed(const JUB_ENUM_CURVES& curve) {
 
     switch (curve) {
         case JUB_ENUM_CURVES::SECP256K1:
@@ -405,10 +445,19 @@ JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
         JUB_VERIFY_COS_ERROR(ret);
     }
 
+    {
+        // reset
+        APDU apdu(0x80, 0xcb, 0x80, 0x00, 0x05, (const JUB_BYTE *)"\xDF\xFE\x02\x82\x05");
+        JUB_UINT16 ret = 0;
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        JUB_VERIFY_COS_ERROR(ret);
+    }
+
     // send apdu.
+    std::string defaultPIN = "5555";
     std::vector<uint8_t> pin;
-    std::transform(pinMix.begin(),
-                   pinMix.end(),
+    std::transform(defaultPIN.begin(),
+                   defaultPIN.end(),
                    std::back_inserter(pin),
                    [](const char elem) {
         return (uint8_t)elem;
@@ -427,8 +476,6 @@ JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
-        seed = std::string(retData, retData+ulRetDataLen);
-
         return JUBR_OK;
     }
 
