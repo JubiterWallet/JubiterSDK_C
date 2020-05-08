@@ -445,7 +445,8 @@ JUB_RV JubiterNFCToken::Reset() {
 }
 
 
-JUB_RV JubiterNFCToken::GenerateSeed(const JUB_ENUM_CURVES& curve) {
+JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
+                                     const JUB_ENUM_CURVES& curve) {
 
     switch (curve) {
         case JUB_ENUM_CURVES::SECP256K1:
@@ -457,10 +458,9 @@ JUB_RV JubiterNFCToken::GenerateSeed(const JUB_ENUM_CURVES& curve) {
     }
 
     // send apdu.
-    std::string defaultPIN = "5555";
     std::vector<uint8_t> pin;
-    std::transform(defaultPIN.begin(),
-                   defaultPIN.end(),
+    std::transform(pinMix.begin(),
+                   pinMix.end(),
                    std::back_inserter(pin),
                    [](const char elem) {
         return (uint8_t)elem;

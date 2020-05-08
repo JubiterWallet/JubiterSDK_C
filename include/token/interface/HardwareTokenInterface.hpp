@@ -42,7 +42,8 @@ public:
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
 
     virtual JUB_RV Reset() = 0;
-    virtual JUB_RV GenerateSeed(const JUB_ENUM_CURVES& curve) = 0;
+    virtual JUB_RV GenerateSeed(const std::string& pinMix,
+                                const JUB_ENUM_CURVES& curve) = 0;
     virtual JUB_RV SetSeed(const std::string& pinMix,
                            const JUB_ENUM_MNEMONIC_STRENGTH& strength,
                            const std::string& entropy,
