@@ -244,19 +244,6 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
                      OUT JUB_ULONG_PTR pretry);
 
 /*****************************************************************************
-* @function name : JUB_VerifyPIN
-* @in  param : contextID - context ID
-*                     : pinMix - old PIN
-*                     : pinNew - new PIN
-* @out param : 
-* @last change :
-*****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ChangePIN(IN JUB_UINT16 contextID,
-                     IN JUB_CHAR_CPTR pinMix,
-                     IN JUB_CHAR_CPTR pinNew);
-
-/*****************************************************************************
 * @function name : JUB_FreeMemory
 * @in  param : memPtr
 * @out param : 

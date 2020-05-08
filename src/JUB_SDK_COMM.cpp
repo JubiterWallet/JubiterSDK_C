@@ -139,28 +139,6 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
-* @function name : JUB_VerifyPIN
-* @in  param : contextID - context ID
-*                     : pinMix - old PIN
-*                     : pinNew - new PIN
-* @out param :
-* @last change :
-*****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ChangePIN(IN JUB_UINT16 contextID,
-                     IN JUB_CHAR_CPTR pinMix,
-                     IN JUB_CHAR_CPTR pinNew) {
-
-    CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
-    JUB_CHECK_NULL(context);
-
-    JUB_VERIFY_RV(context->ChangePIN(pinMix, pinNew));
-
-    return JUBR_OK;
-}
-
-/*****************************************************************************
 * @function name : JUB_GetVersion
 * @in  param :
 * @out param :
