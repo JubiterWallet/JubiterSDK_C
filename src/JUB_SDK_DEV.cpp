@@ -404,15 +404,12 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
 /*****************************************************************************
  * @function name : JUB_GenerateSeed
  * @in  param : deviceID - device ID
- *          : pinMix - User's PIN
  *          : curve - curve
- * @out param : seed - seed
- * @last change :
+ * @out param :
+ * @last change : default User's PIN is '5555'.
  *****************************************************************************/
 JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
-                        IN JUB_CHAR_CPTR pinMix,
-                        IN JUB_ENUM_CURVES curve,
-                        OUT JUB_CHAR_PTR_PTR seed) {
+                        IN JUB_ENUM_CURVES curve) {
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
@@ -437,9 +434,7 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    std::string str_response;
-    JUB_VERIFY_RV(token->GenerateSeed(pinMix, curve, str_response));
-    JUB_VERIFY_RV(_allocMem(seed, str_response));
+    JUB_VERIFY_RV(token->GenerateSeed(curve));
 
     return JUBR_OK;
 }

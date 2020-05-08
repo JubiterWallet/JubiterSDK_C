@@ -204,18 +204,15 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR version);
 
 /*****************************************************************************
- * @function name : JUB_GenerateSeed
- * @in  param : deviceID - device ID
- *          : pinMix - User's PIN
- *          : curve - curve
- * @out param : seed - seed
- * @last change :
- *****************************************************************************/
+* @function name : JUB_GenerateSeed
+* @in  param : deviceID - device ID
+*                     : curve - curve
+* @out param :
+* @last change : default User's PIN is '5555'.
+*****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
-                        IN JUB_CHAR_CPTR pinMix,
-                        IN JUB_ENUM_CURVES curve,
-                        OUT JUB_CHAR_PTR_PTR seed);
+                        IN JUB_ENUM_CURVES curve);
 
 /*****************************************************************************
  * @function name : JUB_ImportSeed
