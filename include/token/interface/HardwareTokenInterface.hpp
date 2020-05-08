@@ -38,11 +38,10 @@ public:
     virtual JUB_RV QueryBattery(JUB_BYTE &percent) = 0;
 
     virtual JUB_RV VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
+    virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
 
-    virtual JUB_RV GenerateSeed(const std::string& pinMix,
-                                const JUB_ENUM_CURVES& curve,
-                                OUT std::string& seed) = 0;
+    virtual JUB_RV GenerateSeed(const JUB_ENUM_CURVES& curve) = 0;
     virtual JUB_RV SetSeed(const std::string& pinMix,
                            const JUB_ENUM_MNEMONIC_STRENGTH& strength,
                            const std::string& entropy,

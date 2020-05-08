@@ -25,6 +25,7 @@ public:
     virtual JUB_RV ShowVirtualPwd();
     virtual JUB_RV CancelVirtualPwd();
     virtual JUB_RV VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry);
+    virtual JUB_RV ChangePIN(JUB_CHAR_CPTR pinMix, JUB_CHAR_CPTR pinNew);
     virtual JUB_RV ActiveSelf() = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout);
 
