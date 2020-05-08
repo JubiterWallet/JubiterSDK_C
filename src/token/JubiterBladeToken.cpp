@@ -646,6 +646,12 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
 }
 
 
+JUB_RV JubiterBladeToken::Reset() {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 JUB_RV JubiterBladeToken::GenerateSeed(const JUB_ENUM_CURVES& curve) {
 
     return JUBR_IMPL_NOT_SUPPORT;
