@@ -44,10 +44,13 @@ public:
     virtual JUB_RV Reset() = 0;
     virtual JUB_RV GenerateSeed(const std::string& pinMix,
                                 const JUB_ENUM_CURVES& curve) = 0;
-    virtual JUB_RV SetSeed(const std::string& pinMix,
-                           const JUB_ENUM_MNEMONIC_STRENGTH& strength,
-                           const std::string& entropy,
-                           const std::string& seed) = 0;
+
+    virtual JUB_RV ImportMnemonic(const std::string& pinMix,
+                                  const std::string& mnemonic) = 0;
+    virtual JUB_RV SetMnemonic(const std::string& pinMix,
+                               const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                               const std::string& entropy,
+                               const std::string& seed) = 0;
     virtual JUB_RV GetMnemonic(const std::string& pinMix,
                                OUT std::string& mnemonic) = 0;
 

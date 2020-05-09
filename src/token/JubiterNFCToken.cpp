@@ -487,13 +487,13 @@ JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterNFCToken::SetSeed(const std::string& pinMix,
-                                const JUB_ENUM_MNEMONIC_STRENGTH& strength,
-                                const std::string& entropy,
-                                const std::string& seed) {
+JUB_RV JubiterNFCToken::SetMnemonic(const std::string& pinMix,
+                                    const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                                    const std::string& entropy,
+                                    const std::string& seed) {
 
     std::vector<uint8_t> vEntropy = HexStr2CharPtr(entropy);
-    if ((JUB_BYTE)strength/8 != vEntropy.size()) {
+    if ((size_t)strength/8 != vEntropy.size()) {
         return JUBR_ARGUMENTS_BAD;
     }
 

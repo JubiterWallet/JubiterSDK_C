@@ -244,6 +244,19 @@ JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
                       IN JUB_CHAR_CPTR seed);
 
 /*****************************************************************************
+ * @function name : JUB_ImportMnemonic
+ * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
+ *          : mnemonic - mnemonic
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
+                          IN JUB_CHAR_CPTR pinMix,
+                          IN JUB_CHAR_CPTR mnemonic);
+
+/*****************************************************************************
  * @function name : JUB_ExportMnemonic
  * @in  param : deviceID - device ID
  *          : pinMix - User's PIN

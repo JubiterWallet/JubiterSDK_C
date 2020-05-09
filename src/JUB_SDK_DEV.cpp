@@ -103,6 +103,7 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
  * @function name : JUB_IsInitialize
  * @in  param : deviceID - device ID
@@ -136,6 +137,7 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 
     return (JUB_ENUM_BOOL)token->IsInitialize();
 }
+
 
 /*****************************************************************************
  * @function name : JUB_IsBootLoader
@@ -172,6 +174,7 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 
     return (JUB_ENUM_BOOL)token->IsBootLoader();
 }
+
 
 /*****************************************************************************
  * @function name : JUB_EnumApplets
@@ -212,6 +215,7 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
  * @function name : JUB_EnumSupportCoins
  * @in  param : deviceID - device ID
@@ -250,6 +254,7 @@ JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
 
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_GetAppletVersion
@@ -292,6 +297,7 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
  * @function name : JUB_SetTimeOut
  * @in  param : contextID - context ID
@@ -314,6 +320,7 @@ JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID,
 
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_GetDeviceCert
@@ -359,6 +366,7 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
  * @function name : JUB_SendOneApdu
  * @in  param : deviceID - device ID
@@ -400,6 +408,7 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
 * @function name : JUB_Reset
 * @in  param : deviceID - device ID
@@ -436,6 +445,7 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
 
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_GenerateSeed
@@ -517,10 +527,52 @@ JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV(token->SetSeed(pinMix,
-                                 strength,
-                                 entropy,
-                                 seed));
+    JUB_VERIFY_RV(token->SetMnemonic(pinMix,
+                                     strength,
+                                     entropy,
+                                     seed));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_ImportMnemonic
+ * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
+ *          : mnemonic - mnemonic
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
+                          IN JUB_CHAR_CPTR pinMix,
+                          IN JUB_CHAR_CPTR mnemonic) {
+
+    CREATE_THREAD_LOCK_GUARD
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef BLE_MODE
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
+                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
+    }
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
+        )) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+#endif
+//    else {
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    JUB_VERIFY_RV(token->ImportMnemonic(pinMix, mnemonic));
 
     return JUBR_OK;
 }
