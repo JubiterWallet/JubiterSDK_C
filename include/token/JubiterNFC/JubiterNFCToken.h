@@ -46,10 +46,11 @@ public:
     virtual JUB_RV Reset() override;
     virtual JUB_RV GenerateSeed(const std::string& pinMix,
                                 const JUB_ENUM_CURVES& curve) override;
-    virtual JUB_RV SetSeed(const std::string& pinMix,
-                           const JUB_ENUM_MNEMONIC_STRENGTH& strength,
-                           const std::string& entropy,
-                           const std::string& seed) override;
+
+    virtual JUB_RV SetMnemonic(const std::string& pinMix,
+                               const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                               const std::string& entropy,
+                               const std::string& seed) override;
     virtual JUB_RV GetMnemonic(const std::string& pinMix,
                                OUT std::string& mnemonic) override;
 

@@ -7,6 +7,7 @@
 #include <token/JubiterNFC/JubiterNFCToken.h>
 #include <utility/util.h>
 #include <token/ErrorHandler.h>
+#include <TrezorCrypto/bip39.h>
 
 namespace jub {
 namespace token {
@@ -659,10 +660,48 @@ JUB_RV JubiterBladeToken::GenerateSeed(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterBladeToken::SetSeed(const std::string& pinMix,
-                                  const JUB_ENUM_MNEMONIC_STRENGTH& strength,
-                                  const std::string& entropy,
-                                  const std::string& seed) {
+JUB_RV JubiterBladeToken::ImportMnemonic(const std::string& pinMix,
+                                         const std::string& mnemonic) {
+
+    std::vector<std::string> words = Split(mnemonic, " ");
+    JUB_ENUM_MNEMONIC_STRENGTH strength;
+    int entropy_len = 0;
+    switch (words.size()) {
+    case 12:
+    case 15:
+    case 18:
+        strength = JUB_ENUM_MNEMONIC_STRENGTH::STRENGTH192;
+        entropy_len = 0x18;
+        break;
+    case 21:
+    case 24:
+        strength = JUB_ENUM_MNEMONIC_STRENGTH::STRENGTH256;
+        entropy_len = 0x20;
+        break;
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    uint8_t entropy[32+1] = {0x0,};
+    int seed_len = mnemonic_to_entropy(mnemonic.c_str(), entropy);
+    if (0 == seed_len) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+    uint8_t seed[512 / 8] = {0x0,};
+    const char* passphrase = "";//"Bitcoin seed";
+    mnemonic_to_seed(mnemonic.c_str(), passphrase, seed, 0);
+
+    return SetMnemonic(pinMix,
+                       strength,
+                       uchar_vector(entropy, entropy+entropy_len).getHex(),
+                       uchar_vector(seed, seed+(512 / 8)).getHex());
+}
+
+
+JUB_RV JubiterBladeToken::SetMnemonic(const std::string& pinMix,
+                                      const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                                      const std::string& entropy,
+                                      const std::string& seed) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
