@@ -1,0 +1,55 @@
+{
+  "ver": "01000000",
+  "p2sh-segwit" : true,
+  "main_path" : "m/49'/2'/0'",
+  "inputs": [
+    {
+      "preHash": "8e7b009d44dbc88b8ef184f58d75a5160be5dc5cfd37b410077036ba1682245e",
+      "preIndex": 0,
+      "amount": 9536915683,
+      "bip32_path":{
+        "change" :false,
+        "addressIndex":0
+      }
+    },
+    {
+      "preHash": "8e7b009d44dbc88b8ef184f58d75a5160be5dc5cfd37b410077036ba1682245e",
+      "preIndex": 0,
+      "amount": 12384681759,
+      "bip32_path":{
+        "change" :false,
+        "addressIndex":0
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "address": "MT8fwzFog5NF146NXXpQdcbzMSiaqEDkwG",
+      "amount": 38577766,
+      "change_address": false,
+      "bip32_path":{
+        "change" :false,
+        "addressIndex":1
+      }
+    },
+    {
+      "address": "MKcnnTRWPkyZFS76jKcB2BtT3XCz2zKJMx",
+      "amount": 6451828897,
+      "change_address": false,
+      "bip32_path":{
+        "change" :false,
+        "addressIndex":1
+      }
+    },
+    {
+      "address": "LXgRDbEBNVTpncwdrN7KGmcrJKPv7hWz3c",
+      "amount": 15431106539,
+      "change_address": false,
+      "bip32_path":{
+        "change" :false,
+        "addressIndex":1
+      }
+    }
+  ],
+  "lock_time": 0
+}
