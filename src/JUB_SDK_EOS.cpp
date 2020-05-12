@@ -11,6 +11,8 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
+#include <device/JubiterBLEDevice.hpp>
+#include <device/JubiterNFCDevice.hpp>
 
 #include "context/EOSContext.h"
 #include "token/EOS/JubiterBladeEOSImpl.h"
@@ -77,10 +79,27 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-//	auto token = std::make_shared<jub::token::JubiterBladeEOSImpl>(deviceID);
-    auto token = std::make_shared<jub::token::JubiterNFCEOSImpl>(deviceID);
+    jub::context::EOSContext* context = nullptr;
+#ifdef BLE_MODE
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>
+        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+        auto token = std::make_shared<jub::token::JubiterBladeEOSImpl>(deviceID);
+        context = new jub::context::EOSContext(cfg, token);
+    }
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>
+            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+            ) {
+        auto token = std::make_shared<jub::token::JubiterNFCEOSImpl>(deviceID);
+        context = new jub::context::EOSContext(cfg, token);
+    }
+#endif
+    if (nullptr == context) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
-    jub::context::EOSContext* context = new jub::context::EOSContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     context->ActiveSelf();
 
