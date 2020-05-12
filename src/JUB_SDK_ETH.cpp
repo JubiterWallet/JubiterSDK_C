@@ -11,6 +11,8 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
+#include <device/JubiterBLEDevice.hpp>
+#include <device/JubiterNFCDevice.hpp>
 
 #include "context/ETHContext.h"
 #include "token/ETH/JubiterBladeETHImpl.h"
@@ -37,10 +39,27 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-//	auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
-    auto token = std::make_shared<jub::token::JubiterNFCETHImpl>(deviceID);
+    jub::context::ETHContext* context = nullptr;
+#ifdef BLE_MODE
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>
+        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+        auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
+        context = new jub::context::ETHContext(cfg, token);
+    }
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>
+            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+            ) {
+        auto token = std::make_shared<jub::token::JubiterNFCETHImpl>(deviceID);
+        context = new jub::context::ETHContext(cfg, token);
+    }
+#endif
+    if (nullptr == context) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
-    jub::context::ETHContext* context = new  jub::context::ETHContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     context->ActiveSelf();
 
