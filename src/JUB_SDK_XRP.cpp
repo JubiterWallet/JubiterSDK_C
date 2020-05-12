@@ -11,6 +11,9 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
+#include <device/JubiterBLEDevice.hpp>
+#include <device/JubiterNFCDevice.hpp>
+
 #include "context/XRPContext.h"
 #include "token/XRP/JubiterBladeXRPImpl.h"
 #include "token/XRP/JubiterNFCXRPImpl.h"
@@ -127,10 +130,27 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-//	auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
-    auto token = std::make_shared<jub::token::JubiterNFCXRPImpl>(deviceID);
+    jub::context::XRPContext* context = nullptr;
+#ifdef BLE_MODE
+    if (dynamic_cast<jub::device::JubiterBLEDevice*>
+        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+        auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
+        context = new jub::context::XRPContext(cfg, token);
+    }
+#endif
+#ifdef NFC_MODE
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>
+            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+            ) {
+        auto token = std::make_shared<jub::token::JubiterNFCXRPImpl>(deviceID);
+        context = new jub::context::XRPContext(cfg, token);
+    }
+#endif
+    if (nullptr == context) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
-    jub::context::XRPContext* context = new jub::context::XRPContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 	JUB_VERIFY_RV(context->ActiveSelf());
 
