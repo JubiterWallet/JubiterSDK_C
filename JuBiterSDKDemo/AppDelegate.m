@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "JUBCoinTestListController.h"
+#import "JUBBaseController.h"
 
 @interface AppDelegate ()
 
@@ -24,7 +24,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
         
     //直接调用iOS原生通信接口
-    JUBCoinTestListController *mainVC = [[JUBCoinTestListController alloc] init];
+    JUBBaseController *mainVC = [[JUBBaseController alloc] init];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mainVC];
     

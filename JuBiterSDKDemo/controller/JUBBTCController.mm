@@ -22,15 +22,15 @@
     self.selfClass = self;
     self.optItem = JUB_NS_ENUM_MAIN::OPT_BTC;
     
-    self.coinTypeArray = @[@"BTC_P2PKH",
-                           @"BTC_P2WPKH",
-                           @"LTC",
-                           @"DASH",
-                           @"BCH",
-                           @"QTUM",
-                           @"QTUM_QRC20",
-                           @"USDT",
-//                           @"HCASH"
+    self.coinTypeArray = @[BUTTON_TITLE_BTCP2PKH,
+                           BUTTON_TITLE_BTCP2WPKH,
+                           BUTTON_TITLE_LTC,
+                           BUTTON_TITLE_DASH,
+                           BUTTON_TITLE_BCH,
+                           BUTTON_TITLE_QTUM,
+                           BUTTON_TITLE_QTUM_QRC20,
+                           BUTTON_TITLE_USDT,
+//                           BUTTON_TITLE_HCASH
     ];
     
     [super viewDidLoad];

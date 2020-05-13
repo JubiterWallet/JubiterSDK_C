@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 #define JSON_FILE_XRP       "testXRP"
 
 
+#define BUTTON_TITLE_XRP            @"XRP"
+
+
 typedef NS_ENUM(NSInteger, JUB_NS_ENUM_XRP_COINTYPE) {
     COIN_XRP
 };

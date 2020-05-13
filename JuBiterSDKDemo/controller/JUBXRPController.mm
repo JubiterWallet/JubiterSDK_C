@@ -22,7 +22,7 @@
     self.selfClass = self;
     self.optItem = JUB_NS_ENUM_MAIN::OPT_XRP;
     
-    self.coinTypeArray = @[@"XRP"
+    self.coinTypeArray = @[BUTTON_TITLE_XRP
     ];
     
     [super viewDidLoad];

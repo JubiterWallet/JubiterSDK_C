@@ -10,6 +10,7 @@
 		67416525246ABFD600DFAC28 /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67416521246ABFD600DFAC28 /* json_writer.cpp */; };
 		67416526246ABFD600DFAC28 /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67416522246ABFD600DFAC28 /* json_reader.cpp */; };
 		67416527246ABFD600DFAC28 /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67416524246ABFD600DFAC28 /* json_value.cpp */; };
+		6741652A246BDEF000DFAC28 /* JUBBaseController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67416528246BDEEF00DFAC28 /* JUBBaseController.mm */; };
 		67676B082462AB620099E2A8 /* JUBDeviceController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67676B062462AB620099E2A8 /* JUBDeviceController.mm */; };
 		677381A4246548E600F52CBF /* testSeed.json in Resources */ = {isa = PBXBuildFile; fileRef = 677381A3246548E600F52CBF /* testSeed.json */; };
 		677BDA6C2469437100A0F913 /* JUBButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 677BDA6A2469437100A0F913 /* JUBButtonModel.m */; };
@@ -37,8 +38,7 @@
 		67CC31922466592100DDB9CD /* testMnemonic.json in Resources */ = {isa = PBXBuildFile; fileRef = 67CC31912466592100DDB9CD /* testMnemonic.json */; };
 		67CC31982466AB5800DDB9CD /* JUBETHController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC31962466AB5800DDB9CD /* JUBETHController.mm */; };
 		67CC319B2466AEE400DDB9CD /* JUBCoinController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC319A2466AEE400DDB9CD /* JUBCoinController.mm */; };
-		67CC31A12466BFEE00DDB9CD /* JUBController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC31A02466BFEE00DDB9CD /* JUBController.mm */; };
-		687BCEDB245866BD00CD1780 /* JUBCoinTestListController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 687BCEC7245866BC00CD1780 /* JUBCoinTestListController.mm */; };
+		67CC31A12466BFEE00DDB9CD /* JUBDetailBaseController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC31A02466BFEE00DDB9CD /* JUBDetailBaseController.mm */; };
 		687BCEDC245866BD00CD1780 /* JUBCoinTestDetailBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 687BCECA245866BC00CD1780 /* JUBCoinTestDetailBaseController.m */; };
 		687BCEDD245866BD00CD1780 /* JUBBTCController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 687BCECB245866BC00CD1780 /* JUBBTCController.mm */; };
 		687BCEDE245866BD00CD1780 /* JUBCoinTestMainView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 687BCECF245866BC00CD1780 /* JUBCoinTestMainView.mm */; };
@@ -92,6 +92,8 @@
 		67416522246ABFD600DFAC28 /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_reader.cpp; path = ../JubiterSDK_C/deps/jsoncpp/src/lib_json/json_reader.cpp; sourceTree = "<group>"; };
 		67416523246ABFD600DFAC28 /* json_tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json_tool.h; path = ../JubiterSDK_C/deps/jsoncpp/src/lib_json/json_tool.h; sourceTree = "<group>"; };
 		67416524246ABFD600DFAC28 /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_value.cpp; path = ../JubiterSDK_C/deps/jsoncpp/src/lib_json/json_value.cpp; sourceTree = "<group>"; };
+		67416528246BDEEF00DFAC28 /* JUBBaseController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBBaseController.mm; sourceTree = "<group>"; };
+		67416529246BDEF000DFAC28 /* JUBBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBBaseController.h; sourceTree = "<group>"; };
 		67676B062462AB620099E2A8 /* JUBDeviceController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBDeviceController.mm; sourceTree = "<group>"; };
 		67676B072462AB620099E2A8 /* JUBDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBDeviceController.h; sourceTree = "<group>"; };
 		677381A3246548E600F52CBF /* testSeed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testSeed.json; path = testJSONScript/testSeed.json; sourceTree = "<group>"; };
@@ -125,15 +127,13 @@
 		67CC31972466AB5800DDB9CD /* JUBETHController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBETHController.h; sourceTree = "<group>"; };
 		67CC31992466AEE400DDB9CD /* JUBCoinController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBCoinController.h; sourceTree = "<group>"; };
 		67CC319A2466AEE400DDB9CD /* JUBCoinController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBCoinController.mm; sourceTree = "<group>"; };
-		67CC319F2466BFEE00DDB9CD /* JUBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBController.h; sourceTree = "<group>"; };
-		67CC31A02466BFEE00DDB9CD /* JUBController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBController.mm; sourceTree = "<group>"; };
+		67CC319F2466BFEE00DDB9CD /* JUBDetailBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBDetailBaseController.h; sourceTree = "<group>"; };
+		67CC31A02466BFEE00DDB9CD /* JUBDetailBaseController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBDetailBaseController.mm; sourceTree = "<group>"; };
 		680DDAB5242880F400622FB0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		687BCEC7245866BC00CD1780 /* JUBCoinTestListController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBCoinTestListController.mm; sourceTree = "<group>"; };
 		687BCEC8245866BC00CD1780 /* JUBBTCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBBTCController.h; sourceTree = "<group>"; };
 		687BCEC9245866BC00CD1780 /* JUBCoinTestDetailBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBCoinTestDetailBaseController.h; sourceTree = "<group>"; };
 		687BCECA245866BC00CD1780 /* JUBCoinTestDetailBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBCoinTestDetailBaseController.m; sourceTree = "<group>"; };
 		687BCECB245866BC00CD1780 /* JUBBTCController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBBTCController.mm; sourceTree = "<group>"; };
-		687BCECC245866BC00CD1780 /* JUBCoinTestListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBCoinTestListController.h; sourceTree = "<group>"; };
 		687BCECE245866BC00CD1780 /* JUBCoinTestMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBCoinTestMainView.h; sourceTree = "<group>"; };
 		687BCECF245866BC00CD1780 /* JUBCoinTestMainView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBCoinTestMainView.mm; sourceTree = "<group>"; };
 		687BCED0245866BC00CD1780 /* JUBCoinTypeSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBCoinTypeSelectView.m; sourceTree = "<group>"; };
@@ -258,12 +258,12 @@
 			children = (
 				687BCEE324591E8600CD1780 /* JUBCoinTestListBaseController.h */,
 				687BCEE424591E8600CD1780 /* JUBCoinTestListBaseController.m */,
+				67416529246BDEF000DFAC28 /* JUBBaseController.h */,
+				67416528246BDEEF00DFAC28 /* JUBBaseController.mm */,
 				687BCEC9245866BC00CD1780 /* JUBCoinTestDetailBaseController.h */,
 				687BCECA245866BC00CD1780 /* JUBCoinTestDetailBaseController.m */,
-				687BCECC245866BC00CD1780 /* JUBCoinTestListController.h */,
-				687BCEC7245866BC00CD1780 /* JUBCoinTestListController.mm */,
-				67CC319F2466BFEE00DDB9CD /* JUBController.h */,
-				67CC31A02466BFEE00DDB9CD /* JUBController.mm */,
+				67CC319F2466BFEE00DDB9CD /* JUBDetailBaseController.h */,
+				67CC31A02466BFEE00DDB9CD /* JUBDetailBaseController.mm */,
 				67676B072462AB620099E2A8 /* JUBDeviceController.h */,
 				67676B062462AB620099E2A8 /* JUBDeviceController.mm */,
 				67CC31992466AEE400DDB9CD /* JUBCoinController.h */,
@@ -524,7 +524,7 @@
 				687BCEE524591E8600CD1780 /* JUBCoinTestListBaseController.m in Sources */,
 				67416527246ABFD600DFAC28 /* json_value.cpp in Sources */,
 				677BDA6C2469437100A0F913 /* JUBButtonModel.m in Sources */,
-				687BCEDB245866BD00CD1780 /* JUBCoinTestListController.mm in Sources */,
+				6741652A246BDEF000DFAC28 /* JUBBaseController.mm in Sources */,
 				677BDA75246A855900A0F913 /* JUBXRPController.mm in Sources */,
 				677BDA72246A574200A0F913 /* JUBEOSController.mm in Sources */,
 				687BCEDE245866BD00CD1780 /* JUBCoinTestMainView.mm in Sources */,
@@ -542,7 +542,7 @@
 				687BCEDF245866BD00CD1780 /* JUBCoinTypeSelectView.m in Sources */,
 				687BCEDC245866BD00CD1780 /* JUBCoinTestDetailBaseController.m in Sources */,
 				67CC31982466AB5800DDB9CD /* JUBETHController.mm in Sources */,
-				67CC31A12466BFEE00DDB9CD /* JUBController.mm in Sources */,
+				67CC31A12466BFEE00DDB9CD /* JUBDetailBaseController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

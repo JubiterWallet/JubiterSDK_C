@@ -1,61 +1,54 @@
 //
-//  JUBCoinTestListController.m
+//  JUBBaseController.mm
 //  JuBiterSDKDemo
 //
-//  Created by 张川 on 2020/4/28.
-//  Copyright © 2020 Jubiter. All rights reserved.
+//  Created by panmin on 2020/5/13.
+//  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#import "JUBCoinTestListController.h"
+#import "JUBBaseController.h"
 #import "JUBDeviceController.h"
 #import "JUBBTCController.h"
 #import "JUBETHController.h"
 #import "JUBEOSController.h"
 #import "JUBXRPController.h"
 
-@interface JUBCoinTestListController ()
 
-@property (nonatomic, strong) NSArray *buttonTapSelectorNameArray;
+@interface JUBBaseController ()
 
 @end
 
-@implementation JUBCoinTestListController
 
+@implementation JUBBaseController
 
-- (void)viewDidLoad {
-    
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
 
 - (NSArray *)getTransmitTypeArray {
     
-    return @[@"NFC", @"蓝牙"];
-//    return @[@"NFC"];
+    return @[BUTTON_TITLE_NFC,
+             BUTTON_TITLE_BLE
+    ];
 }
 
 
 //设置首页列表内容
 - (NSArray *)getButtonTitleArray {
     
-    NSArray *buttonTapSelectorNameArray = @[@"device",
-                                            @"BTC",
-                                            @"ETH",
-                                            @"EOS",
-                                            @"XRP",
-//                                            @"HC_Test"
+    NSArray *buttonTapSelectorNameArray = @[BUTTON_TITLE_DEVICE,
+                                            BUTTON_TITLE_BTC,
+                                            BUTTON_TITLE_ETH,
+                                            BUTTON_TITLE_EOS,
+                                            BUTTON_TITLE_XRP
     ];
     
-    self.buttonTapSelectorNameArray = buttonTapSelectorNameArray;
+//    self.buttonTapSelectorNameArray = buttonTapSelectorNameArray;
     
     return buttonTapSelectorNameArray;
 }
 
-
 //首页按钮点击响应事件
 - (void)gotoDetailAccordingCoinSeriesType:(NSInteger)coinSeriesType {
     
-    JUBController *vc;
+    JUBDetailBaseController *vc;
     switch (coinSeriesType) {
     case JUB_NS_ENUM_MAIN::OPT_DEVICE:
     {
@@ -88,6 +81,12 @@
     
     [self.navigationController pushViewController:vc
                                          animated:YES];
+}
+
+
+- (void)selectTransmitTypeIndex:(NSInteger)index
+{
+    
 }
 
 

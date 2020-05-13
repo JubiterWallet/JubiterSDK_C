@@ -22,11 +22,11 @@
     self.selfClass = self;
     self.optItem = JUB_NS_ENUM_MAIN::OPT_EOS;
     
-    self.coinTypeArray = @[@"EOS",
-                           @"EOS_BUY_RAM",
-                           @"EOS_SELL_RAM",
-                           @"EOS_STAKE",
-                           @"EOS_UNSTAKE",
+    self.coinTypeArray = @[BUTTON_TITLE_EOS,
+                           BUTTON_TITLE_EOSBUYRAM,
+                           BUTTON_TITLE_EOSSELLRAM,
+                           BUTTON_TITLE_EOSSTAKE,
+                           BUTTON_TITLE_EOSUNSTAKE,
     ];
     
     [super viewDidLoad];

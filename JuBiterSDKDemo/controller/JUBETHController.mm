@@ -22,9 +22,9 @@
     self.selfClass = self;
     self.optItem = JUB_NS_ENUM_MAIN::OPT_ETH;
     
-    self.coinTypeArray = @[@"ETH",
-                           @"ETH_ERC20",
-//                           @"ETC"
+    self.coinTypeArray = @[BUTTON_TITLE_ETH,
+                           BUTTON_TITLE_ETH_ERC20,
+//                           BUTTON_TITLE_ETC
     ];
     
     [super viewDidLoad];

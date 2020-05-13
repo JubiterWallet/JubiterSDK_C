@@ -7,7 +7,6 @@
 //
 
 #import "JUBDeviceController.h"
-#include "JUB_SDK_main.h"
 
 
 @interface JUBDeviceController ()
@@ -23,14 +22,15 @@
     self.selfClass = self;
     self.optItem = JUB_NS_ENUM_MAIN::OPT_DEVICE;
     
-    NSArray *buttonTitleArray = @[@"DEVICE_INFO",
-                                  @"DEVICE_APPLETS",
-                                  @"DEVICE_CERT",
-                                  @"GENERATE_SEED",
-                                  @"IMPORT_MNEMONIC_12",
-                                  @"IMPORT_MNEMONIC_24",
-//                                  @"  import_seed",
-//                                  @"  export_seed",
+    NSArray *buttonTitleArray = @[BUTTON_TITLE_QUERYBATTERY,
+                                  BUTTON_TITLE_DEVICEINFO,
+                                  BUTTON_TITLE_DEVICEAPPLETS,
+                                  BUTTON_TITLE_DEVICECERT,
+                                  BUTTON_TITLE_GENERATESEED,
+                                  BUTTON_TITLE_IMPORTMNEMONIC12,
+                                  BUTTON_TITLE_IMPORTMNEMONIC24,
+//                                  BUTTON_TITLE_IMPORTSEED,
+//                                  BUTTON_TITLE_EXPORTSEED,
     ];
     
     NSMutableArray *buttonModelArray = [NSMutableArray array];
@@ -41,14 +41,21 @@
         model.title = title;
         
         //默认支持全部通信类型，不传就是默认，如果传多个通信类型可以直接按照首页顶部的通信类型index传，比如说如果支持NFC和BLE，则直接传@"01"即可，同理如果只支持第一和第三种通信方式，则传@"02"
-        if (   [title isEqual:@"GENERATE_SEED"]
-            || [title isEqual:@"IMPORT_MNEMONIC_12"]
-            || [title isEqual:@"IMPORT_MNEMONIC_24"]
+        if (   [title isEqual:BUTTON_TITLE_GENERATESEED]
+            || [title isEqual:BUTTON_TITLE_IMPORTMNEMONIC12]
+            || [title isEqual:BUTTON_TITLE_IMPORTMNEMONIC24]
             ) {
-            model.transmitTypeOfButton = @"0";
+            model.transmitTypeOfButton = [NSString stringWithFormat:@"%li",
+                                          (long)JUB_NS_ENUM_DEV_TYPE::NFC];
+        }
+        else if ([title isEqual:BUTTON_TITLE_QUERYBATTERY]) {
+            model.transmitTypeOfButton = [NSString stringWithFormat:@"%li",
+                                          (long)JUB_NS_ENUM_DEV_TYPE::BLE];
         }
         else {
-            model.transmitTypeOfButton = @"01";
+            model.transmitTypeOfButton = [NSString stringWithFormat:@"%li%li",
+                                          (long)JUB_NS_ENUM_DEV_TYPE::NFC,
+                                          (long)JUB_NS_ENUM_DEV_TYPE::BLE];
         }
         
         [buttonModelArray addObject:model];
@@ -64,17 +71,26 @@
 //测试类型的按钮点击回调
 - (void)selectedTestActionTypeIndex:(NSInteger)index {
     
-    NSLog(@"JUBDeviceController--coinType = %ld, selectedTestActionType %ld",
-          (long)self.selectCoinTypeIndex, (long)index);
+    NSLog(@"JUBDeviceController--selectedTransmitTypeIndex = %ld, Type = %ld, selectedTestActionType = %ld", (long)self.selectedTransmitTypeIndex, (long)self.selectCoinTypeIndex, (long)index);
     
     self.optIndex = index;
 
     switch (self.optIndex) {
+        case JUB_NS_ENUM_DEV_OPT::QUERY_BATTERY:
     case JUB_NS_ENUM_DEV_OPT::DEVICE_INFO:
     case JUB_NS_ENUM_DEV_OPT::DEVICE_APPLETS:
     case JUB_NS_ENUM_DEV_OPT::DEVICE_CERT:
     {
-        [self beginNFCSession];
+        switch (self.selectedTransmitTypeIndex) {
+        case JUB_NS_ENUM_DEV_TYPE::NFC:
+            [self beginNFCSession];
+            break;
+        case JUB_NS_ENUM_DEV_TYPE::BLE:
+            [self beginBLESession];
+            break;
+        default:
+            break;
+        }
         break;
     }
     case JUB_NS_ENUM_DEV_OPT::GENERATE_SEED:
@@ -87,7 +103,16 @@
                               getPinCallBackBlock:^(NSString *pin) {
             
             self.userPIN = pin;
-            [self beginNFCSession];
+            
+            switch (self.selectedTransmitTypeIndex) {
+            case JUB_NS_ENUM_DEV_TYPE::NFC:
+                [self beginNFCSession];
+                break;
+            case JUB_NS_ENUM_DEV_TYPE::BLE:
+                break;
+            default:
+                break;
+            }
         }];
         break;
     }

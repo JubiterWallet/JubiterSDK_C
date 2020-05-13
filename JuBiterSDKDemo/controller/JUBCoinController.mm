@@ -19,11 +19,11 @@
 
 - (void)viewDidLoad {
     
-    NSArray *buttonTitleArray = @[@"TRANSACTION",
-                                  @"   GET_ADDRESS",
-                                  @"  SHOW_ADDRESS",
-                                  @"SET_MY_ADDRESS",
-                                  @"SET_TIMEOUT"
+    NSArray *buttonTitleArray = @[BUTTON_TITLE_TRANSACTION,
+                                  BUTTON_TITLE_GETADDRESS,
+                                  BUTTON_TITLE_SHOWADDRESS,
+                                  BUTTON_TITLE_SETMYADDRESS,
+                                  BUTTON_TITLE_SETTIMEOUT,
     ];
     
     NSMutableArray *buttonModelArray = [NSMutableArray array];
@@ -34,14 +34,17 @@
         model.title = title;
         
         //默认支持全部通信类型，不传就是默认，如果传多个通信类型可以直接按照首页顶部的通信类型index传，比如说如果支持NFC和BLE，则直接传@"01"即可，同理如果只支持第一和第三种通信方式，则传@"02"
-        if (   [title isEqual:@"  SHOW_ADDRESS"]
-            || [title isEqual:@"SET_MY_ADDRESS"]
-            || [title isEqual:@"SET_TIMEOUT"]
+        if (   [title isEqual:BUTTON_TITLE_SHOWADDRESS]
+            || [title isEqual:BUTTON_TITLE_SETMYADDRESS]
+            || [title isEqual:BUTTON_TITLE_SETTIMEOUT]
             ) {
-            model.transmitTypeOfButton = @"1";
+            model.transmitTypeOfButton = [NSString stringWithFormat:@"%li",
+                                          (long)JUB_NS_ENUM_DEV_TYPE::BLE];
         }
         else {
-            model.transmitTypeOfButton = @"01";
+            model.transmitTypeOfButton = [NSString stringWithFormat:@"%li%li",
+                                          (long)JUB_NS_ENUM_DEV_TYPE::NFC,
+                                          (long)JUB_NS_ENUM_DEV_TYPE::BLE];
         }
         
         [buttonModelArray addObject:model];
@@ -68,8 +71,7 @@
 //测试类型的按钮点击回调
 - (void)selectedTestActionTypeIndex:(NSInteger)index {
     
-    NSLog(@"JUBBTCController--Type = %ld, selectedTestActionType %ld",
-          (long)self.selectCoinTypeIndex, (long)index);
+    NSLog(@"JUBCoinController--selectedTransmitTypeIndex = %ld, CoinType = %ld, selectedTestActionType = %ld", (long)self.selectedTransmitTypeIndex, (long)self.selectCoinTypeIndex, (long)index);
     
     self.optIndex = index;
     
@@ -80,7 +82,16 @@
                               getPinCallBackBlock:^(NSString *pin) {
             
             self.userPIN = pin;
-            [self beginNFCSession];
+            
+            switch (self.selectedTransmitTypeIndex) {
+            case JUB_NS_ENUM_DEV_TYPE::NFC:
+                [self beginNFCSession];
+                break;
+            case JUB_NS_ENUM_DEV_TYPE::BLE:
+                break;
+            default:
+                break;
+            }
         }];
         break;
     }
@@ -90,14 +101,30 @@
 //        [[Tools defaultTools] showPinAlertAboveVC:self
 //                              getPinCallBackBlock:^(NSString *path) {
 //            self.userPath = path;
-            [self beginNFCSession];
+            
+            switch (self.selectedTransmitTypeIndex) {
+            case JUB_NS_ENUM_DEV_TYPE::NFC:
+                [self beginNFCSession];
+                break;
+            case JUB_NS_ENUM_DEV_TYPE::BLE:
+                break;
+            default:
+                break;
+            }
 //        }];
         break;
     }
     case JUB_NS_ENUM_OPT::SET_MY_ADDRESS:
     case JUB_NS_ENUM_OPT::SET_TIMEOUT:
     {
-        [self beginNFCSession];
+        switch (self.selectedTransmitTypeIndex) {
+        case JUB_NS_ENUM_DEV_TYPE::NFC:
+            break;
+        case JUB_NS_ENUM_DEV_TYPE::BLE:
+            break;
+        default:
+            break;
+        }
         break;
     }
     default:

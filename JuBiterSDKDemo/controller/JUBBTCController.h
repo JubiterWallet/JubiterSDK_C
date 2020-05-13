@@ -22,6 +22,17 @@ NS_ASSUME_NONNULL_BEGIN
 #define JSON_FILE_HCASH      "testHCash"
 
 
+#define BUTTON_TITLE_BTCP2PKH       @"BTC_P2PKH"
+#define BUTTON_TITLE_BTCP2WPKH      @"BTC_P2WPKH"
+#define BUTTON_TITLE_LTC            @"LTC"
+#define BUTTON_TITLE_DASH           @"DASH"
+#define BUTTON_TITLE_BCH            @"BCH"
+#define BUTTON_TITLE_QTUM           @"QTUM"
+#define BUTTON_TITLE_QTUM_QRC20     @"QTUM_QRC20"
+#define BUTTON_TITLE_USDT           @"USDT"
+#define BUTTON_TITLE_HCASH          @"HCASH"
+
+
 typedef NS_ENUM(NSInteger, JUB_NS_ENUM_BTC_COINTYPE) {
     COIN_BTC_P2PKH,
     COIN_BTC_P2WPKH,
