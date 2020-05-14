@@ -41,6 +41,11 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
     },
     {
         TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
+        "DASH",
+        "01080002"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "USDT",
         "01080002"
     },
