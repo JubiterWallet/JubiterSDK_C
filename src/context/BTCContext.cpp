@@ -45,6 +45,11 @@ JUB_RV BTCContext::SetMyAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, cons
     return JUBR_OK;
 }
 
+JUB_RV BTCContext::CheckAddress(const std::string& address){
+    JUB_VERIFY_RV(_tokenPtr->CheckAddress(address));
+    return JUBR_OK;
+}
+
 
 JUB_RV BTCContext::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType) {
 
