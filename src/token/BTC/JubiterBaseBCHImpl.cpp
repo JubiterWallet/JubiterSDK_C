@@ -19,6 +19,10 @@ JUB_RV JubiterBaseBCHImpl::_getAddress(const TW::Data publicKey, std::string& ad
     return JUBR_OK;
 }
 
+JUB_RV JubiterBaseBCHImpl::CheckAddress(const std::string address){
+    return !(TW::Bitcoin::CashAddress::isValid(address));
+}
+
 
 JUB_RV JubiterBaseBCHImpl::_verifyTx(const TWCoinType& coin,
                                      const TW::Bitcoin::Transaction* tx,

@@ -38,7 +38,8 @@ public:
                               const std::string& path,
                               const JUB_UINT16 tag,
                               std::string& address) = 0;
-
+    
+    virtual JUB_RV CheckAddress(const std::string address) = 0;
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                        const std::vector<INPUT_BTC>& vInputs,
