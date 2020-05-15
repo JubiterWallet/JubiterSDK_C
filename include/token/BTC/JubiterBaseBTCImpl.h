@@ -27,6 +27,8 @@ public:
                             const uchar_vector& signedRaw,
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<TW::Data>& vInputPublicKey);
+    
+    virtual JUB_RV CheckAddress(const std::string address);
 
 protected:
     JUB_RV _serializeUnsignedTx(const uint32_t coin,

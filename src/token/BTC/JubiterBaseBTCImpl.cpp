@@ -63,6 +63,17 @@ JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data publicKey, std::string& ad
     return JUBR_OK;
 }
 
+JUB_RV JubiterBaseBTCImpl::CheckAddress(const std::string address){
+    //check legacy address
+    std::vector<TW::Data> prefixs;
+    prefixs.push_back({TWCoinTypeP2pkhPrefix(_coin)});
+    prefixs.push_back({TWCoinTypeP2shPrefix(_coin)});
+    JUB_RV rvLegacy = !(TW::Bitcoin::Address::isValid(address,prefixs));
+    //check segwit address
+    JUB_RV rvSegwit = !(TW::Bitcoin::SegwitAddress::isValid(address,std::string(stringForHRP(TWCoinTypeHRP(_coin)))));
+    
+    return rvLegacy&rvSegwit;
+}
 
 JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data publicKey, std::string& address) {
 

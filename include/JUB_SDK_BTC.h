@@ -225,6 +225,17 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
                          OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
+ * @function name : JUB_CheckAddressBTC
+ * @in  param : contextID - context ID
+ *            : address
+ * @out param : 
+ * @last change :
+ *****************************************************************************/
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID,IN JUB_CHAR_CPTR address);
+
+/*****************************************************************************
  * @function name : JUB_SetMyAddressBTC
  * @in  param : contextID - context ID
  *            : path
