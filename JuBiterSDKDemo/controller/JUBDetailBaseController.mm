@@ -28,20 +28,20 @@ inline void NFCScanFuncCallBack(unsigned int errorCode,
                               &deviceID);
     [g_selfClass addMsgData:[NSString stringWithFormat:@"[JUB_connectNFCDevice() return 0x%lu.]", rv]];
     if (JUBR_OK != rv) {
-        [g_selfClass addMsgData:[NSString stringWithFormat:@"[JUB_connectNFCDevice() 错误]"]];
+        [g_selfClass addMsgData:[NSString stringWithFormat:@"[JUB_connectNFCDevice() ERROR.]"]];
         
         return;
     }
-    [g_selfClass addMsgData:[NSString stringWithFormat:@"[JUB_connectNFCDevice() 成功.]"]];
+    [g_selfClass addMsgData:[NSString stringWithFormat:@"[JUB_connectNFCDevice() OK.]"]];
     
     rv = JUB_isDeviceNFCConnect(deviceID);
     [g_selfClass addMsgData:[NSString stringWithFormat:@"[JUB_isDeviceNFCConnect() return 0x%lu.]", rv]];
     if(JUBR_OK != rv) {
-        [g_selfClass addMsgData:[NSString stringWithFormat:@"[设备未连接]"]];
+        [g_selfClass addMsgData:[NSString stringWithFormat:@"[Device not connected.]"]];
         
         return;
     }
-    [g_selfClass addMsgData:[NSString stringWithFormat:@"[设备已连接]"]];
+    [g_selfClass addMsgData:[NSString stringWithFormat:@"[Device connected]"]];
     
     switch (g_optItem) {
     case JUB_NS_ENUM_MAIN::OPT_DEVICE:
@@ -104,11 +104,11 @@ inline void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
     param.scanCallBack = NFCScanFuncCallBack;
     JUB_RV rv = JUB_initNFCDevice(param);
     if (JUBR_OK != rv) {
-        [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() 失败.]"]];
+        [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() ERROR.]"]];
         
         return;
     }
-    [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() 成功.]"]];
+    [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() OK.]"]];
 }
 
 
@@ -124,15 +124,15 @@ inline void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
     param.discCallBack = BLEDiscFuncCallBack;
     JUB_RV rv = JUB_initDevice(param);
     if (JUBR_OK != rv) {
-        [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initDevice() 失败.]"]];
+        [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initDevice() ERROR.]"]];
 
         return;
     }
-    [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initDevice() 成功.]"]];
+    [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initDevice() OK.]"]];
     
     rv = JUB_enumDevices();
     if (JUBR_OK != rv) {
-        [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_enumDevices() 失败.]"]];
+        [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_enumDevices()ERROR.]"]];
         
         return;
     }

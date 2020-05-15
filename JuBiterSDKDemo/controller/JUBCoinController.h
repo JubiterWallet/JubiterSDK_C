@@ -8,6 +8,7 @@
 
 #import "JUBDetailBaseController.h"
 #import <Foundation/Foundation.h>
+#import "JUBInputAddressView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,6 +30,11 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_OPT) {
 
 
 @interface JUBCoinController : JUBDetailBaseController
+@property (   strong, nonatomic, readwrite) JUBInputAddressView *inputAddrView;
+
+@property (nonatomic, nonatomic, readwrite) long change;
+@property (nonatomic, nonatomic, readwrite) long addressIndex;
+
 - (JUB_RV)verify_pin:(JUB_UINT16)contextID
                  pin:(std::string)pin;
 @end

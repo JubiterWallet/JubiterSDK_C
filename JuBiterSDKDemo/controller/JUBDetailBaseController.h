@@ -15,21 +15,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-typedef NS_ENUM(NSInteger, JUB_NS_ENUM_DEV_TYPE) {
-    NFC,
-    BLE
-};
-
-
-typedef NS_ENUM(NSInteger, JUB_NS_ENUM_MAIN) {
-    OPT_DEVICE,
-    OPT_BTC,
-    OPT_ETH,
-    OPT_EOS,
-    OPT_XRP
-};
-
-
 @interface JUBDetailBaseController : JUBCoinTestDetailBaseController
 
 @property (   strong, nonatomic, readwrite) JUBDetailBaseController *selfClass;

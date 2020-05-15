@@ -15,7 +15,7 @@
 
 
 @implementation JUBCoinController
-
+@synthesize inputAddrView;
 
 - (void)viewDidLoad {
     
@@ -97,11 +97,15 @@
     }
     case JUB_NS_ENUM_OPT::GET_ADDRESS:
     case JUB_NS_ENUM_OPT::SHOW_ADDRESS:
+    case JUB_NS_ENUM_OPT::SET_MY_ADDRESS:
     {
-//        [[Tools defaultTools] showPinAlertAboveVC:self
-//                              getPinCallBackBlock:^(NSString *path) {
-//            self.userPath = path;
-            
+        inputAddrView = [JUBInputAddressView showCallBack:^(NSInteger change, NSInteger address) {
+
+            NSLog(@"showCallBack change = %ld, address = %ld", (long)change, (long)address);
+
+            self.change = change;
+            self.addressIndex = address;
+
             switch (self.selectedTransmitTypeIndex) {
             case JUB_NS_ENUM_DEV_TYPE::NFC:
                 [self beginNFCSession];
@@ -111,10 +115,10 @@
             default:
                 break;
             }
-//        }];
+        }];
+        inputAddrView.addressHeader = @"m/purpose'/coin_type'/account'";
         break;
     }
-    case JUB_NS_ENUM_OPT::SET_MY_ADDRESS:
     case JUB_NS_ENUM_OPT::SET_TIMEOUT:
     {
         switch (self.selectedTransmitTypeIndex) {
@@ -183,7 +187,6 @@
     JUB_ULONG retry;
     rv = JUB_VerifyPIN(contextID, pin.c_str(), &retry);
     if (JUBR_OK != rv) {
-//        cout << "[JUB_VerifyPIN() return " << GetErrMsg(rv) << ".]" << endl;
         [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN() return 0x%2lx.]", rv]];
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN() OK.]"]];

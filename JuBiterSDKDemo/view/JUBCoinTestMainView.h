@@ -2,7 +2,7 @@
 //  JUBCoinTestMainView.h
 //  JuBiterSDKDemo
 //
-//  Created by ID on 2020/4/8.
+//  Created by 张川 on 2020/4/8.
 //  Copyright © 2020 Jubiter. All rights reserved.
 //
 

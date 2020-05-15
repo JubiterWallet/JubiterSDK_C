@@ -208,37 +208,65 @@
     
     JUB_FreeMemory(mainXpub);
     
-    int inputNumber = root["inputs"].size();
-    for (int i = 0; i < inputNumber; i++) {
-        JUB_CHAR_PTR xpub;
-        
-        BIP44_Path path;
-        path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
-        path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
-
-        rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
-        if (JUBR_OK != rv) {
-            [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeBTC() return 0x%2lx.]", rv]];
-            break;
-        }
-        
-        [self addMsgData:[NSString stringWithFormat:@"input %d xpub: %s.", i, xpub]];
+//    int inputNumber = root["inputs"].size();
+//    for (int i = 0; i < inputNumber; i++) {
+//        JUB_CHAR_PTR xpub;
+//
+//        BIP44_Path path;
+//        path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
+//        path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
+//
+//        rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
+//        if (JUBR_OK != rv) {
+//            [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeBTC() return 0x%2lx.]", rv]];
+//            break;
+//        }
+//
+//        [self addMsgData:[NSString stringWithFormat:@"input %d xpub: %s.", i, xpub]];
+//
+//        JUB_FreeMemory(xpub);
+//
+//        JUB_CHAR_PTR address;
+//        rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
+//        if (JUBR_OK != rv) {
+//            [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressBTC() return 0x%2lx.]", rv]];
+//            break;
+//        }
+//
+//        [self addMsgData:[NSString stringWithFormat:@"input %d address: %s.", i, address]];
+//
+//        JUB_FreeMemory(address);
+//    }
+//    if (JUBR_OK != rv) {
+//        return;
+//    }
+    
+    JUB_CHAR_PTR xpub;
+    
+    BIP44_Path path;
+    path.change = (self.change ? JUB_ENUM_BOOL::BOOL_TRUE:JUB_ENUM_BOOL::BOOL_FALSE);
+    path.addressIndex = self.addressIndex;
+    
+    rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeBTC() return 0x%2lx.]", rv]];
+        return;
+    }
+    else {
+        [self addMsgData:[NSString stringWithFormat:@"input xpub(%d/%d): %s.", path.change, path.addressIndex, xpub]];
         
         JUB_FreeMemory(xpub);
-
-        JUB_CHAR_PTR address;
-        rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
-        if (JUBR_OK != rv) {
-            [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressBTC() return 0x%2lx.]", rv]];
-            break;
-        }
-        
-        [self addMsgData:[NSString stringWithFormat:@"input %d address: %s.", i, address]];
+    }
+    
+    JUB_CHAR_PTR address;
+    rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressBTC() return 0x%2lx.]", rv]];
+    }
+    else {
+        [self addMsgData:[NSString stringWithFormat:@"input address(%d/%d): %s.", path.change, path.addressIndex, address]];
         
         JUB_FreeMemory(address);
-    }
-    if (JUBR_OK != rv) {
-        return;
     }
 }
 

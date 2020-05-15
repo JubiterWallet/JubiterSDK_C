@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "JUBBaseController.h"
+#import "JUBHomeController.h"
 
 @interface AppDelegate ()
 
@@ -22,9 +22,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     self.window.backgroundColor = [UIColor whiteColor];
-        
+    
     //直接调用iOS原生通信接口
-    JUBBaseController *mainVC = [[JUBBaseController alloc] init];
+    JUBHomeController *mainVC = [[JUBHomeController alloc] init];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mainVC];
     

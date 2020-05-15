@@ -116,17 +116,6 @@
 
 - (void)get_address_pubkey_ETH:(JUB_UINT16)contextID {
     
-    int change = 0;
-    JUB_UINT64 index = 0;
-//    std::cout << "please input change level (non-zero means 1):" << std::endl;
-//    std::cin >> change;
-//    std::cout << "please input index " << std::endl;
-//    std::cin >> index;
-    
-    BIP44_Path path;
-    path.change = JUB_ENUM_BOOL(change);
-    path.addressIndex = index;
-    
     char* pubkey = nullptr;
     JUB_RV rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
     if (JUBR_OK != rv) {
@@ -147,6 +136,10 @@
     [self addMsgData:[NSString stringWithFormat:@"MainXpub in xpub format: %s.", pubkey]];
     JUB_FreeMemory(pubkey);
     
+    BIP44_Path path;
+    path.change = JUB_ENUM_BOOL(self.change);
+    path.addressIndex = (JUB_UINT64)self.addressIndex;
+    
     pubkey = nullptr;
     rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pubkey);
     if (JUBR_OK != rv) {
@@ -154,7 +147,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"pubkey in hex format: %s.", pubkey]];
+    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%d) in hex format: %s.", path.change, path.addressIndex, pubkey]];
     JUB_FreeMemory(pubkey);
     
     pubkey = nullptr;
@@ -164,7 +157,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"pubkey in xpub format: %s.", pubkey]];
+    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%d) in xpub format: %s.", path.change, path.addressIndex, pubkey]];
     JUB_FreeMemory(pubkey);
     
     char* address = nullptr;
@@ -174,7 +167,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"address: %s.", address]];
+    [self addMsgData:[NSString stringWithFormat:@"address(%d/%d): %s.", path.change, path.addressIndex, address]];
     JUB_FreeMemory(address);
 }
 

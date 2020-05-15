@@ -2,7 +2,7 @@
 //  FTNFCResultDataCell.m
 //  JuBiterSDKDemo
 //
-//  Created by ID on 2020/3/20.
+//  Created by 张川 on 2020/3/20.
 //  Copyright © 2020 飞天诚信科技股份有限公司. All rights reserved.
 //
 
@@ -65,7 +65,7 @@
     
     if (model.sendData) {
         
-        self.typeLabel.text = [NSString stringWithFormat:@"发送%lu字节数据:", model.sendData.length/2];
+        self.typeLabel.text = [NSString stringWithFormat:@"Send %lu byte data:", model.sendData.length/2];
         
         self.contentLabel.text = model.sendData;
         
@@ -77,7 +77,7 @@
     
     if (model.receiveData) {
         
-        self.typeLabel.text = [NSString stringWithFormat:@"接收%lu字节数据:", model.receiveData.length/2];
+        self.typeLabel.text = [NSString stringWithFormat:@"Receive %lu byte data:", model.receiveData.length/2];
         
         self.contentLabel.text = model.receiveData;
         

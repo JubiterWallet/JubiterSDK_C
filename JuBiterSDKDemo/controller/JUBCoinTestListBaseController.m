@@ -7,7 +7,6 @@
 //  首页的基类，用户应该继承本类，去实现自己的业务逻辑
 
 #import "JUBCoinTestListBaseController.h"
-#import "JUBCoinTestDetailBaseController.h"
 
 @interface JUBCoinTestListBaseController ()
 
@@ -21,9 +20,8 @@
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-    [self initUI];
     
+    [self initUI];
 }
 
 #pragma mark - 初始化UI
@@ -31,7 +29,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.title = @"JuBiter SDK 测试";
+    self.title = @"JuBiter SDK Demo";
     
     UISegmentedControl *TransmitSegment;
     
@@ -39,7 +37,7 @@
         NSArray *array = [self getTransmitTypeArray];
         
         TransmitSegment = [[UISegmentedControl alloc] initWithItems:array];
-                
+        
         [TransmitSegment setFrame:CGRectMake(15, KStatusBarHeight + KNavigationBarHeight + 20, KScreenWidth - 2 * 15, 40)];
         
         NSString *indexStr = [[NSUserDefaults standardUserDefaults] objectForKey:selectedTransmitTypeIndexStr];
@@ -47,7 +45,7 @@
         NSLog(@"segmentAction indexStr = %@", indexStr);
         
         if (indexStr.length > 0) {
-
+            
             [TransmitSegment setSelectedSegmentIndex:[indexStr integerValue]];
             
         } else {
@@ -74,11 +72,24 @@
         [weakSelf gotoDetailAccordingCoinSeriesType:index];
         
     }];
-        
+    
     _transmissionView = view;
     
     [self.view addSubview:view];
-        
+}
+
+- (void)segmentAction:(UISegmentedControl *)seg {
+    
+    NSInteger index = [seg selectedSegmentIndex];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld", (long)index]
+                                              forKey:selectedTransmitTypeIndexStr];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self selectTransmitTypeIndex:index];
+    
+    NSLog(@"segmentAction index = %ld", (long)index);
 }
 
 - (NSArray *)getButtonModelArray {
@@ -98,33 +109,6 @@
     }
     
     return buttonModelArray;
-    
-}
-
-#pragma mark - 页面内部按钮回调方法
-- (void)segmentAction:(UISegmentedControl *)seg
-{
-    NSInteger index = [seg selectedSegmentIndex];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld", (long)index] forKey:selectedTransmitTypeIndexStr];
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [self selectTransmitTypeIndex:index];
-    
-    NSLog(@"segmentAction index = %ld", (long)index);
-
-
-}
-
-#pragma mark - 懒加载
-
-- (NSInteger)selectedTransmitTypeIndex {
-    
-    NSString *indexStr = [[NSUserDefaults standardUserDefaults] objectForKey:selectedTransmitTypeIndexStr];
-    
-    return [indexStr integerValue];
-    
 }
 
 #pragma mark - 获取界面所需要的数据，子类如果想设置数据，则可以重写此类方法
@@ -152,11 +136,10 @@
 }
 
 #pragma mark - 外部调用方法
-
 - (void)addMsgData:(NSString *)msgData {
     
     [self.transmissionView addMsgData:msgData];
-    
 }
+
 
 @end

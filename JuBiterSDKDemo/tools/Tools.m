@@ -114,15 +114,15 @@ static Tools *_instance;
 
 - (void)showPinAlertAboveVC:(UIViewController *)superVC getPinCallBackBlock:(JUBGetPinCallBackBlock)getPinCallBackBlock {
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入Pin码" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Please enter PIN" message:@"" preferredStyle:UIAlertControllerStyleAlert];
         
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"点击了Cancel");
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"CANCEL" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Cancel");
     }];
     
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        NSLog(@"点击了OK");
+        NSLog(@"ok");
         
         getPinCallBackBlock(self.pinTextField.text);
         
@@ -134,7 +134,7 @@ static Tools *_instance;
         
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         
-        textField.placeholder = @"请输入pin码";
+        textField.placeholder = @"Please enter PIN";
         
         textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation; 
         

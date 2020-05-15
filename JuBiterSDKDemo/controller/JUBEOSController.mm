@@ -116,16 +116,9 @@
     
     JUB_RV rv = JUBR_ERROR;
     
-    int change = 0;
-    JUB_UINT64 index = 0;
-//    cout << "please input change level (non-zero means 1):" << endl;
-//    cin >> change;
-//    cout << "please input index " << endl;
-//    cin >> index;
-    
     BIP44_Path path;
-    path.change = JUB_ENUM_BOOL(change);
-    path.addressIndex = index;
+    path.change = JUB_ENUM_BOOL(self.change);
+    path.addressIndex = (JUB_UINT64)self.addressIndex;
     
     char* address = nullptr;
     rv = JUB_GetAddressEOS(contextID, path, BOOL_TRUE, &address);
@@ -134,7 +127,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"address: %s.", address]];
+    [self addMsgData:[NSString stringWithFormat:@"address(%d/%d): %s.", path.change, path.addressIndex, address]];
     JUB_FreeMemory(address);
 }
 

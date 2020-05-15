@@ -45,7 +45,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.title = @"JuBiter SDK 测试";
+    self.title = @"JuBiter SDK Demo";
     
     if (self.coinTypeArray.count != 0) {
         
@@ -184,7 +184,7 @@
         
         [leftButton setTitleColor:[UIColor colorWithRed:0x00/255.0 green:0xcc/255.0 blue:0xff/255.0 alpha:1] forState:UIControlStateNormal];
         
-        [leftButton setTitle:@"取消" forState:UIControlStateNormal];
+        [leftButton setTitle:@"CANCEL" forState:UIControlStateNormal];
         
         [leftButton addTarget:self action:@selector(cancle) forControlEvents:UIControlEventTouchUpInside];
         
@@ -200,7 +200,7 @@
         
         [rightButton setTitleColor:[UIColor colorWithRed:0x00/255.0 green:0xcc/255.0 blue:0xff/255.0 alpha:1] forState:UIControlStateNormal];
         
-        [rightButton setTitle:@"确定" forState:UIControlStateNormal];
+        [rightButton setTitle:@"OK" forState:UIControlStateNormal];
         
         [rightButton addTarget:self action:@selector(ok) forControlEvents:UIControlEventTouchUpInside];
         

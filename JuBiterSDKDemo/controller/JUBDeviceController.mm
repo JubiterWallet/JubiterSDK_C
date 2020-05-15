@@ -7,6 +7,7 @@
 //
 
 #import "JUBDeviceController.h"
+#import "JUBSelectApduView.h"
 
 
 @interface JUBDeviceController ()
@@ -26,6 +27,7 @@
                                   BUTTON_TITLE_DEVICEINFO,
                                   BUTTON_TITLE_DEVICEAPPLETS,
                                   BUTTON_TITLE_DEVICECERT,
+//                                  BUTTON_TITLE_SENDONEAPDU,
                                   BUTTON_TITLE_GENERATESEED,
                                   BUTTON_TITLE_IMPORTMNEMONIC12,
                                   BUTTON_TITLE_IMPORTMNEMONIC24,
@@ -93,6 +95,27 @@
         }
         break;
     }
+    case JUB_NS_ENUM_DEV_OPT::SEND_ONE_APDU:
+    {
+//        [JUBSelectApduView showAPDUArray:@[@"1", @"2", @"3", @"4"]
+//                                 AboveVC:self
+//                 selectApduCallBackBlock:^(NSString * _Nonnull apdu) {
+//
+//            NSLog(@"选中的APDU = %@", apdu);
+//
+//            switch (self.selectedTransmitTypeIndex) {
+//            case JUB_NS_ENUM_DEV_TYPE::NFC:
+//                [self beginNFCSession];
+//                break;
+//            case JUB_NS_ENUM_DEV_TYPE::BLE:
+//                [self beginBLESession];
+//                break;
+//            default:
+//                break;
+//            }
+//        }];
+        break;
+    }
     case JUB_NS_ENUM_DEV_OPT::GENERATE_SEED:
     case JUB_NS_ENUM_DEV_OPT::IMPORT_MNEMONIC12:
     case JUB_NS_ENUM_DEV_OPT::IMPORT_MNEMONIC24:
@@ -136,6 +159,8 @@
     case JUB_NS_ENUM_DEV_OPT::DEVICE_CERT:
         [self get_device_cert_test:deviceID];
         break;
+    case JUB_NS_ENUM_DEV_OPT::SEND_ONE_APDU:
+        break;
     case JUB_NS_ENUM_DEV_OPT::GENERATE_SEED:
         [self device_gen_seed_test:deviceID];
         break;
@@ -168,7 +193,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceInfo() return 0x%lu.]", rv]];
         return;
     }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceInfo() OK]"]];
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceInfo() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"DeviceInfo.label: %@.", [NSString stringWithUTF8String:info.label]]];
     [self addMsgData:[NSString stringWithFormat:@"DeviceInfo.sn:    %@.", [NSString stringWithUTF8String:info.sn]]];
@@ -237,6 +262,22 @@
 }
 
 
+- (void)send_one_apdu_test:(JUB_UINT16)deviceID {
+    
+    JUB_RV rv = JUBR_ERROR;
+    //panmin
+//    JUB_CHAR_PTR cert;
+//    rv = JUB_GetDeviceCert(deviceID, &cert);
+//    if (JUBR_OK != rv) {
+//        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceCert() return 0x%2lx.]", rv]];
+//        return;
+//    }
+//
+//    [self addMsgData:[NSString stringWithFormat:@"Device Cert is %s.", cert]];
+//    JUB_FreeMemory(cert);
+}
+
+
 - (void)device_gen_seed_test:(JUB_UINT16)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
@@ -246,7 +287,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_Reset() return 0x%2lx.]", rv]];
         return;
     }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_Reset() OK]."]];
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_Reset() OK.]"]];
     
 //    rv = JUB_ChangePIN(deviceID,
 //                       "5555",
@@ -259,7 +300,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GenerateSeed() return 0x%2lx.]", rv]];
         return;
     }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_GenerateSeed() OK]."]];
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_GenerateSeed() OK.]"]];
 }
 
 
