@@ -57,3 +57,22 @@ xxx/JubiterSDK_C/src/._JUB_SDK_DEV.cpp:2:3933: error:
 ```bash
 dot_clean <directory>
 ```
+
+### **JUB_SDK for Production tools**
+```bash
+mkdir build & cd build
+cmake -DdevOnly=1 ..
+make
+```
+Only the following device operation related interfaces are exported:
+> JUB_ConnetDeviceHid
+> JUB_DisconnetDeviceHid
+> JUB_ListDeviceHid
+> JUB_EnumApplets
+> JUB_GetAppletVersion
+> JUB_GetDeviceCert
+> JUB_GetDeviceInfo
+> JUB_IsBootLoader
+> JUB_IsInitialize
+> JUB_SendOneApdu
+> JUB_SetTimeOut
