@@ -12,10 +12,23 @@
 #include "utility/Singleton.h"
 #include "utility/xManager.hpp"
 #include <token/interface/BaseToken.h>
+#include <token/interface/SoftwareTokenInterface.h>
 
 namespace jub {
 namespace context {
-
+#define CONTEXT_CHECK_TYPE(t)                                                   \
+do {                                                                            \
+    auto token = std::dynamic_pointer_cast<token::SoftwareToken>(_tokenPtr);    \
+    if(token != nullptr){                                                       \
+        if(token->Type() < t){                                                  \
+            return JUBR_CONTEXT_NOT_SATISFIED;                                  \
+        }                                                                       \
+    }                                                                           \
+} while (0);    
+ 
+#define CONTEXT_CHECK_TYPE_NONE       CONTEXT_CHECK_TYPE(token::JUB_SoftwareTokenType::NONE)
+#define CONTEXT_CHECK_TYPE_PUBLIC     CONTEXT_CHECK_TYPE(token::JUB_SoftwareTokenType::PUBLIC)
+#define CONTEXT_CHECK_TYPE_PRIVATE    CONTEXT_CHECK_TYPE(token::JUB_SoftwareTokenType::PRIVATE)
 
 class BaseContext {
 public:

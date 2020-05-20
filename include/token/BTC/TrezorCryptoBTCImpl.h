@@ -12,8 +12,8 @@ class TrezorCryptoBTCImpl :
 virtual public JubiterBaseBTCImpl {
 
 public:
-    TrezorCryptoBTCImpl(const std::string& xprv) :
-        TrezorCryptoToken(xprv) {};
+    TrezorCryptoBTCImpl(const std::string& XPRVorXPUB) :
+        TrezorCryptoToken(XPRVorXPUB) {};
     ~TrezorCryptoBTCImpl() {};
 
     //BTC functions
@@ -37,10 +37,9 @@ public:
                             const std::vector<JUB_BYTE>& vSigedTrans);
 
 	//for Factory
-	static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBTCImpl>(xprv); }
+	static std::shared_ptr<BTCTokenInterface> Create(const std::string& XPRVorXPUB) { return std::make_shared<TrezorCryptoBTCImpl>(XPRVorXPUB); }
 
 protected:
-    virtual JUB_RV _HdnodePrivCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint);
     virtual JUB_RV _SignTx(bool witness,
                            const std::vector<JUB_UINT64>& vInputAmount,
                            const std::vector<std::string>& vInputPath,

@@ -11,8 +11,8 @@ class TrezorCryptoETHImpl :
 virtual public JubiterBaseETHImpl {
 
 public:
-    TrezorCryptoETHImpl(const std::string& xprv) :
-        TrezorCryptoToken(xprv) {};
+    TrezorCryptoETHImpl(const std::string& XPRVorXPUB) :
+        TrezorCryptoToken(XPRVorXPUB) {};
     ~TrezorCryptoETHImpl() {};
 
     //ETH functions
