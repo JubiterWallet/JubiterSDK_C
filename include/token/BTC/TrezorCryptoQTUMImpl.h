@@ -13,8 +13,8 @@ class TrezorCryptoQTUMImpl :
 virtual public QTUMTokenInterface {
 
 public:
-    TrezorCryptoQTUMImpl(const std::string& xprv) :
-        TrezorCryptoBTCImpl(xprv) {
+    TrezorCryptoQTUMImpl(const std::string& XPRVorXPUB) :
+        TrezorCryptoBTCImpl(XPRVorXPUB) {
         _coin = TWCoinType::TWCoinTypeQtum;
     };
     ~TrezorCryptoQTUMImpl() {};
@@ -24,7 +24,7 @@ public:
 		const JUB_UINT16 unitDP,
 		const std::string& contractAddress) override;
 
-    static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoQTUMImpl>(xprv);
+    static std::shared_ptr<BTCTokenInterface> Create(const std::string& XPRVorXPUB) { return std::make_shared<TrezorCryptoQTUMImpl>(XPRVorXPUB);
     }
 }; // class TrezorCryptoQTUMImpl end
 
