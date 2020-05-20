@@ -9,13 +9,13 @@ class TrezorCryptoLTCImpl :
     public TrezorCryptoBTCImpl {
 
 public:
-    TrezorCryptoLTCImpl(const std::string& xprv) :
-        TrezorCryptoBTCImpl(xprv) {
+    TrezorCryptoLTCImpl(const std::string& XPRVorXPUB) :
+        TrezorCryptoBTCImpl(XPRVorXPUB) {
         _coin = TWCoinType::TWCoinTypeLitecoin;
     };
     ~TrezorCryptoLTCImpl() {};
 
-    static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoLTCImpl>(xprv);
+    static std::shared_ptr<BTCTokenInterface> Create(const std::string& XPRVorXPUB) { return std::make_shared<TrezorCryptoLTCImpl>(XPRVorXPUB);
     }
 }; // class TrezorCryptoLTCImpl end
 
