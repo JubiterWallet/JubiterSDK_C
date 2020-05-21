@@ -39,7 +39,7 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
 
     jub::context::ETHContext* context = new  jub::context::ETHContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
-    context->ActiveSelf();
+    JUB_VERIFY_RV(context->ActiveSelf());
 
     return JUBR_OK;
 }
