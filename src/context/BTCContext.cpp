@@ -57,6 +57,7 @@ JUB_RV BTCContext::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType) {
 
 JUB_RV BTCContext::ActiveSelf() {
 
+    JUB_CHECK_NULL(_tokenPtr);
     JUB_VERIFY_RV(_tokenPtr->SelectApplet());
     auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
     if (token) {

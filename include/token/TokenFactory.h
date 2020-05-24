@@ -110,7 +110,7 @@ public:
         }
 #endif
 //        else {
-            return nullptr;
+            return jubiterBLEFactory.Create(type, deviceID);
 //        }
     };
 }; // class xBTCTokenFactory end
