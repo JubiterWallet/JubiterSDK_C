@@ -115,11 +115,11 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
                                        const std::vector<uchar_vector>& vSignatureRaw,
                                        TW::Bitcoin::Transaction* tx,
                                        uchar_vector& signedRaw) {
+    JUB_RV rv = JUBR_OK;
 
     for (size_t index=0; index<tx->inputs.size(); ++index) {
         dynamic_cast<TW::Bitcoin::HcashTransactionInput*>(tx->inputs[index])->value = TW::Bitcoin::Amount(vInputAmount[index]);
 
-        TW::Bitcoin::Script script;
         if (!witness) {
             // P2PKH
             tx->inputs[index]->script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(vSignatureRaw[index], vInputPublicKey[index]);
@@ -133,7 +133,18 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
             tx->inputs[index]->script.bytes = scriptPubkey;
 
             tx->inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(vSignatureRaw[index], vInputPublicKey[index]);
+            if (tx->inputs[index]->scriptWitness.empty()) {
+                rv = JUBR_ARGUMENTS_BAD;
+                break;
+            }
         }
+        if (tx->inputs[index]->script.empty()) {
+            rv = JUBR_ARGUMENTS_BAD;
+            break;
+        }
+    }
+    if (JUBR_OK != rv) {
+        return rv;
     }
 
     tx->encode(witness, signedRaw);
