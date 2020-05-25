@@ -35,10 +35,15 @@ JUB_RV JubiterBaseBCHImpl::_verifyTx(const TWCoinType& coin,
     for (size_t index=0; index<tx->inputs.size(); ++index) {
         rv = JUBR_ERROR;
 
+        TW::Bitcoin::Script script = tx->inputs[index]->script;
+        if (script.empty()) {
+            rv = JUBR_ARGUMENTS_BAD;
+            break;
+        }
+
+        // P2WPKH
         TW::Data signature;
         TW::Data publicKey;
-        TW::Bitcoin::Script script = tx->inputs[index]->script;
-        // P2WPKH
         if (script.matchPayToPublicKeyHashScriptSig(signature, publicKey)) {
             if (vInputPublicKey[index].bytes != publicKey) {
                 continue;
