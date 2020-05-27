@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		67416525246ABFD600DFAC28 /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67416521246ABFD600DFAC28 /* json_writer.cpp */; };
-		67416526246ABFD600DFAC28 /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67416522246ABFD600DFAC28 /* json_reader.cpp */; };
-		67416527246ABFD600DFAC28 /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67416524246ABFD600DFAC28 /* json_value.cpp */; };
 		6741652A246BDEF000DFAC28 /* JUBHomeController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67416528246BDEEF00DFAC28 /* JUBHomeController.mm */; };
 		6741654F246D4B6000DFAC28 /* JUBAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741654B246D4B5F00DFAC28 /* JUBAlertView.m */; };
 		67416550246D4B6000DFAC28 /* JUBBLEDeviceScanListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741654C246D4B5F00DFAC28 /* JUBBLEDeviceScanListView.m */; };
@@ -21,8 +18,6 @@
 		677BDA6C2469437100A0F913 /* JUBButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 677BDA6A2469437100A0F913 /* JUBButtonModel.m */; };
 		677BDA72246A574200A0F913 /* JUBEOSController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 677BDA71246A574100A0F913 /* JUBEOSController.mm */; };
 		677BDA75246A855900A0F913 /* JUBXRPController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 677BDA73246A855900A0F913 /* JUBXRPController.mm */; };
-		67808DD424596695009041FD /* JubSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67808DD324596695009041FD /* JubSDKCore.framework */; };
-		67808DD524596695009041FD /* JubSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 67808DD324596695009041FD /* JubSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67808E17245A7737009041FD /* JUB_SDK_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67808E09245A7736009041FD /* JUB_SDK_main.cpp */; };
 		67808E39245AEEEA009041FD /* testBTC49.json in Resources */ = {isa = PBXBuildFile; fileRef = 67808E29245AEEE9009041FD /* testBTC49.json */; };
 		67808E3A245AEEEA009041FD /* testHCash.json in Resources */ = {isa = PBXBuildFile; fileRef = 67808E2A245AEEE9009041FD /* testHCash.json */; };
@@ -40,6 +35,11 @@
 		67808E46245AEEEA009041FD /* testDASH.json in Resources */ = {isa = PBXBuildFile; fileRef = 67808E36245AEEEA009041FD /* testDASH.json */; };
 		67808E47245AEEEA009041FD /* testQTUM.json in Resources */ = {isa = PBXBuildFile; fileRef = 67808E37245AEEEA009041FD /* testQTUM.json */; };
 		67808E48245AEEEA009041FD /* testBTC44.json in Resources */ = {isa = PBXBuildFile; fileRef = 67808E38245AEEEA009041FD /* testBTC44.json */; };
+		67930AD3247E658D0041DBDF /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67930AD0247E658D0041DBDF /* json_value.cpp */; };
+		67930AD4247E658D0041DBDF /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67930AD1247E658D0041DBDF /* json_writer.cpp */; };
+		67930AD5247E658D0041DBDF /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67930AD2247E658D0041DBDF /* json_reader.cpp */; };
+		67930ADA247E74730041DBDF /* JubSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67930AD9247E74730041DBDF /* JubSDKCore.framework */; };
+		67930ADB247E74730041DBDF /* JubSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 67930AD9247E74730041DBDF /* JubSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67CC31922466592100DDB9CD /* testMnemonic.json in Resources */ = {isa = PBXBuildFile; fileRef = 67CC31912466592100DDB9CD /* testMnemonic.json */; };
 		67CC31982466AB5800DDB9CD /* JUBETHController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC31962466AB5800DDB9CD /* JUBETHController.mm */; };
 		67CC319B2466AEE400DDB9CD /* JUBCoinController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC319A2466AEE400DDB9CD /* JUBCoinController.mm */; };
@@ -56,26 +56,7 @@
 		8BE2A70E235D89600015B9AB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A70D235D89600015B9AB /* AppDelegate.m */; };
 		8BE2A719235D89620015B9AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BE2A718235D89620015B9AB /* Assets.xcassets */; };
 		8BE2A71F235D89620015B9AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A71E235D89620015B9AB /* main.m */; };
-		8BE2A729235D89620015B9AB /* JuBiterSDKDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A728235D89620015B9AB /* JuBiterSDKDemoTests.m */; };
-		8BE2A734235D89620015B9AB /* JuBiterSDKDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A733235D89620015B9AB /* JuBiterSDKDemoUITests.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		8BE2A725235D89620015B9AB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8BE2A701235D89600015B9AB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8BE2A708235D89600015B9AB;
-			remoteInfo = JuBiterDemo;
-		};
-		8BE2A730235D89620015B9AB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8BE2A701235D89600015B9AB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8BE2A708235D89600015B9AB;
-			remoteInfo = JuBiterDemo;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		68EBE4F92434639600249522 /* Embed Frameworks */ = {
@@ -84,7 +65,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				67808DD524596695009041FD /* JubSDKCore.framework in Embed Frameworks */,
+				67930ADB247E74730041DBDF /* JubSDKCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,10 +73,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		67416521246ABFD600DFAC28 /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_writer.cpp; path = ../JubiterSDK_C/deps/jsoncpp/src/lib_json/json_writer.cpp; sourceTree = "<group>"; };
-		67416522246ABFD600DFAC28 /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_reader.cpp; path = ../JubiterSDK_C/deps/jsoncpp/src/lib_json/json_reader.cpp; sourceTree = "<group>"; };
-		67416523246ABFD600DFAC28 /* json_tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json_tool.h; path = ../JubiterSDK_C/deps/jsoncpp/src/lib_json/json_tool.h; sourceTree = "<group>"; };
-		67416524246ABFD600DFAC28 /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_value.cpp; path = ../JubiterSDK_C/deps/jsoncpp/src/lib_json/json_value.cpp; sourceTree = "<group>"; };
 		67416528246BDEEF00DFAC28 /* JUBHomeController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBHomeController.mm; sourceTree = "<group>"; };
 		67416529246BDEF000DFAC28 /* JUBHomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBHomeController.h; sourceTree = "<group>"; };
 		67416549246D4B5F00DFAC28 /* JUBAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBAlertView.h; sourceTree = "<group>"; };
@@ -117,7 +94,6 @@
 		677BDA71246A574100A0F913 /* JUBEOSController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBEOSController.mm; sourceTree = "<group>"; };
 		677BDA73246A855900A0F913 /* JUBXRPController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBXRPController.mm; sourceTree = "<group>"; };
 		677BDA74246A855900A0F913 /* JUBXRPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBXRPController.h; sourceTree = "<group>"; };
-		67808DD324596695009041FD /* JubSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JubSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67808E09245A7736009041FD /* JUB_SDK_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_main.cpp; path = JubSDKTest/JUB_SDK_main.cpp; sourceTree = "<group>"; };
 		67808E0E245A7736009041FD /* JUB_SDK_main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_main.h; path = JubSDKTest/JUB_SDK_main.h; sourceTree = "<group>"; };
 		67808E29245AEEE9009041FD /* testBTC49.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testBTC49.json; path = testJSONScript/testBTC49.json; sourceTree = "<group>"; };
@@ -136,6 +112,11 @@
 		67808E36245AEEEA009041FD /* testDASH.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testDASH.json; path = testJSONScript/testDASH.json; sourceTree = "<group>"; };
 		67808E37245AEEEA009041FD /* testQTUM.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testQTUM.json; path = testJSONScript/testQTUM.json; sourceTree = "<group>"; };
 		67808E38245AEEEA009041FD /* testBTC44.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testBTC44.json; path = testJSONScript/testBTC44.json; sourceTree = "<group>"; };
+		67930ACF247E658D0041DBDF /* json_tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json_tool.h; path = deps/jsoncpp/src/lib_json/json_tool.h; sourceTree = "<group>"; };
+		67930AD0247E658D0041DBDF /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_value.cpp; path = deps/jsoncpp/src/lib_json/json_value.cpp; sourceTree = "<group>"; };
+		67930AD1247E658D0041DBDF /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_writer.cpp; path = deps/jsoncpp/src/lib_json/json_writer.cpp; sourceTree = "<group>"; };
+		67930AD2247E658D0041DBDF /* json_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_reader.cpp; path = deps/jsoncpp/src/lib_json/json_reader.cpp; sourceTree = "<group>"; };
+		67930AD9247E74730041DBDF /* JubSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JubSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67CC31912466592100DDB9CD /* testMnemonic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testMnemonic.json; path = testJSONScript/testMnemonic.json; sourceTree = "<group>"; };
 		67CC31962466AB5800DDB9CD /* JUBETHController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBETHController.mm; sourceTree = "<group>"; };
 		67CC31972466AB5800DDB9CD /* JUBETHController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBETHController.h; sourceTree = "<group>"; };
@@ -166,12 +147,6 @@
 		8BE2A718235D89620015B9AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8BE2A71D235D89620015B9AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BE2A71E235D89620015B9AB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8BE2A724235D89620015B9AB /* JuBiterSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JuBiterSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BE2A728235D89620015B9AB /* JuBiterSDKDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JuBiterSDKDemoTests.m; sourceTree = "<group>"; };
-		8BE2A72A235D89620015B9AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8BE2A72F235D89620015B9AB /* JuBiterSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JuBiterSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BE2A733235D89620015B9AB /* JuBiterSDKDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JuBiterSDKDemoUITests.m; sourceTree = "<group>"; };
-		8BE2A735235D89620015B9AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BE2A741235D8A120015B9AB /* JuBiterSDKDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JuBiterSDKDemo.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,22 +155,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67808DD424596695009041FD /* JubSDKCore.framework in Frameworks */,
+				67930ADA247E74730041DBDF /* JubSDKCore.framework in Frameworks */,
 				68EBE4D72432DBED00249522 /* AVFoundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8BE2A721235D89620015B9AB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8BE2A72C235D89620015B9AB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,10 +184,10 @@
 		67808E1E245A9592009041FD /* jsoncpp */ = {
 			isa = PBXGroup;
 			children = (
-				67416522246ABFD600DFAC28 /* json_reader.cpp */,
-				67416523246ABFD600DFAC28 /* json_tool.h */,
-				67416524246ABFD600DFAC28 /* json_value.cpp */,
-				67416521246ABFD600DFAC28 /* json_writer.cpp */,
+				67930AD2247E658D0041DBDF /* json_reader.cpp */,
+				67930ACF247E658D0041DBDF /* json_tool.h */,
+				67930AD0247E658D0041DBDF /* json_value.cpp */,
+				67930AD1247E658D0041DBDF /* json_writer.cpp */,
 			);
 			name = jsoncpp;
 			sourceTree = "<group>";
@@ -259,7 +220,7 @@
 		680DDAB4242880F300622FB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				67808DD324596695009041FD /* JubSDKCore.framework */,
+				67930AD9247E74730041DBDF /* JubSDKCore.framework */,
 				680DDAB5242880F400622FB0 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
@@ -340,8 +301,6 @@
 				67808E28245AEEC5009041FD /* testJSONScript */,
 				67808DDC245A7123009041FD /* deps */,
 				8BE2A70B235D89600015B9AB /* JuBiterSDKDemo */,
-				8BE2A727235D89620015B9AB /* JuBiterSDKDemoTests */,
-				8BE2A732235D89620015B9AB /* JuBiterSDKDemoUITests */,
 				8BE2A70A235D89600015B9AB /* Products */,
 				680DDAB4242880F300622FB0 /* Frameworks */,
 			);
@@ -351,8 +310,6 @@
 			isa = PBXGroup;
 			children = (
 				8BE2A709235D89600015B9AB /* JuBiterSDKDemo.app */,
-				8BE2A724235D89620015B9AB /* JuBiterSDKDemoTests.xctest */,
-				8BE2A72F235D89620015B9AB /* JuBiterSDKDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -373,24 +330,6 @@
 				68B860F724239FEF0009F474 /* LaunchScreen.storyboard */,
 			);
 			path = JuBiterSDKDemo;
-			sourceTree = "<group>";
-		};
-		8BE2A727235D89620015B9AB /* JuBiterSDKDemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				8BE2A728235D89620015B9AB /* JuBiterSDKDemoTests.m */,
-				8BE2A72A235D89620015B9AB /* Info.plist */,
-			);
-			path = JuBiterSDKDemoTests;
-			sourceTree = "<group>";
-		};
-		8BE2A732235D89620015B9AB /* JuBiterSDKDemoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8BE2A733235D89620015B9AB /* JuBiterSDKDemoUITests.m */,
-				8BE2A735235D89620015B9AB /* Info.plist */,
-			);
-			path = JuBiterSDKDemoUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -414,42 +353,6 @@
 			productReference = 8BE2A709235D89600015B9AB /* JuBiterSDKDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8BE2A723235D89620015B9AB /* JuBiterSDKDemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8BE2A73B235D89620015B9AB /* Build configuration list for PBXNativeTarget "JuBiterSDKDemoTests" */;
-			buildPhases = (
-				8BE2A720235D89620015B9AB /* Sources */,
-				8BE2A721235D89620015B9AB /* Frameworks */,
-				8BE2A722235D89620015B9AB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8BE2A726235D89620015B9AB /* PBXTargetDependency */,
-			);
-			name = JuBiterSDKDemoTests;
-			productName = JuBiterDemoTests;
-			productReference = 8BE2A724235D89620015B9AB /* JuBiterSDKDemoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		8BE2A72E235D89620015B9AB /* JuBiterSDKDemoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8BE2A73E235D89620015B9AB /* Build configuration list for PBXNativeTarget "JuBiterSDKDemoUITests" */;
-			buildPhases = (
-				8BE2A72B235D89620015B9AB /* Sources */,
-				8BE2A72C235D89620015B9AB /* Frameworks */,
-				8BE2A72D235D89620015B9AB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8BE2A731235D89620015B9AB /* PBXTargetDependency */,
-			);
-			name = JuBiterSDKDemoUITests;
-			productName = JuBiterDemoUITests;
-			productReference = 8BE2A72F235D89620015B9AB /* JuBiterSDKDemoUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -461,14 +364,6 @@
 				TargetAttributes = {
 					8BE2A708235D89600015B9AB = {
 						CreatedOnToolsVersion = 11.1;
-					};
-					8BE2A723235D89620015B9AB = {
-						CreatedOnToolsVersion = 11.1;
-						TestTargetID = 8BE2A708235D89600015B9AB;
-					};
-					8BE2A72E235D89620015B9AB = {
-						CreatedOnToolsVersion = 11.1;
-						TestTargetID = 8BE2A708235D89600015B9AB;
 					};
 				};
 			};
@@ -486,8 +381,6 @@
 			projectRoot = "";
 			targets = (
 				8BE2A708235D89600015B9AB /* JuBiterSDKDemo */,
-				8BE2A723235D89620015B9AB /* JuBiterSDKDemoTests */,
-				8BE2A72E235D89620015B9AB /* JuBiterSDKDemoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -520,20 +413,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8BE2A722235D89620015B9AB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8BE2A72D235D89620015B9AB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -543,10 +422,10 @@
 			files = (
 				687BCEE524591E8600CD1780 /* JUBCoinTestListBaseController.m in Sources */,
 				67416551246D4B6000DFAC28 /* JUBBLEDeviceListCell.m in Sources */,
-				67416527246ABFD600DFAC28 /* json_value.cpp in Sources */,
 				677BDA6C2469437100A0F913 /* JUBButtonModel.m in Sources */,
 				6741652A246BDEF000DFAC28 /* JUBHomeController.mm in Sources */,
 				677BDA75246A855900A0F913 /* JUBXRPController.mm in Sources */,
+				67930AD4247E658D0041DBDF /* json_writer.cpp in Sources */,
 				677BDA72246A574200A0F913 /* JUBEOSController.mm in Sources */,
 				687BCEDE245866BD00CD1780 /* JUBCoinTestMainView.mm in Sources */,
 				687BCEE0245866BD00CD1780 /* FTNFCResultDataCell.m in Sources */,
@@ -555,14 +434,14 @@
 				67808E17245A7737009041FD /* JUB_SDK_main.cpp in Sources */,
 				687BCEDD245866BD00CD1780 /* JUBBTCController.mm in Sources */,
 				67416556246D4B7000DFAC28 /* JUBInputAddressView.m in Sources */,
+				67930AD5247E658D0041DBDF /* json_reader.cpp in Sources */,
 				67676B082462AB620099E2A8 /* JUBDeviceController.mm in Sources */,
 				687BCEE1245866BD00CD1780 /* FTNFCResultDataModel.m in Sources */,
 				6741654F246D4B6000DFAC28 /* JUBAlertView.m in Sources */,
 				8BE2A70E235D89600015B9AB /* AppDelegate.m in Sources */,
 				8BE2A71F235D89620015B9AB /* main.m in Sources */,
-				67416525246ABFD600DFAC28 /* json_writer.cpp in Sources */,
 				67CC319B2466AEE400DDB9CD /* JUBCoinController.mm in Sources */,
-				67416526246ABFD600DFAC28 /* json_reader.cpp in Sources */,
+				67930AD3247E658D0041DBDF /* json_value.cpp in Sources */,
 				687BCEDC245866BD00CD1780 /* JUBCoinTestDetailBaseController.m in Sources */,
 				67CC31982466AB5800DDB9CD /* JUBETHController.mm in Sources */,
 				67416557246D4B7000DFAC28 /* JUBSelectApduView.m in Sources */,
@@ -570,36 +449,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8BE2A720235D89620015B9AB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8BE2A729235D89620015B9AB /* JuBiterSDKDemoTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8BE2A72B235D89620015B9AB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8BE2A734235D89620015B9AB /* JuBiterSDKDemoUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		8BE2A726235D89620015B9AB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8BE2A708235D89600015B9AB /* JuBiterSDKDemo */;
-			targetProxy = 8BE2A725235D89620015B9AB /* PBXContainerItemProxy */;
-		};
-		8BE2A731235D89620015B9AB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8BE2A708235D89600015B9AB /* JuBiterSDKDemo */;
-			targetProxy = 8BE2A730235D89620015B9AB /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8BE2A736235D89620015B9AB /* Debug */ = {
@@ -653,7 +503,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -706,7 +556,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -736,7 +586,7 @@
 					"$(SRCROOT)/view",
 				);
 				INFOPLIST_FILE = JuBiterSDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -777,7 +627,7 @@
 					"$(SRCROOT)/view",
 				);
 				INFOPLIST_FILE = JuBiterSDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -792,78 +642,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 arm64e";
-			};
-			name = Release;
-		};
-		8BE2A73C235D89620015B9AB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = JuBiterDemoTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JuBiterDemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JuBiterSDKDemo.app/JuBiterSDKDemo";
-			};
-			name = Debug;
-		};
-		8BE2A73D235D89620015B9AB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = JuBiterDemoTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JuBiterDemoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JuBiterSDKDemo.app/JuBiterSDKDemo";
-			};
-			name = Release;
-		};
-		8BE2A73F235D89620015B9AB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = JuBiterDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JuBiterDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = JuBiterDemo;
-			};
-			name = Debug;
-		};
-		8BE2A740235D89620015B9AB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = JuBiterDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JuBiterDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = JuBiterDemo;
 			};
 			name = Release;
 		};
@@ -884,24 +662,6 @@
 			buildConfigurations = (
 				8BE2A739235D89620015B9AB /* Debug */,
 				8BE2A73A235D89620015B9AB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8BE2A73B235D89620015B9AB /* Build configuration list for PBXNativeTarget "JuBiterSDKDemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8BE2A73C235D89620015B9AB /* Debug */,
-				8BE2A73D235D89620015B9AB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8BE2A73E235D89620015B9AB /* Build configuration list for PBXNativeTarget "JuBiterSDKDemoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8BE2A73F235D89620015B9AB /* Debug */,
-				8BE2A740235D89620015B9AB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
