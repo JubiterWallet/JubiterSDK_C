@@ -30,6 +30,7 @@
 //                                  BUTTON_TITLE_SENDONEAPDU,
                                   BUTTON_TITLE_GENERATESEED,
                                   BUTTON_TITLE_IMPORTMNEMONIC12,
+                                  BUTTON_TITLE_IMPORTMNEMONIC18,
                                   BUTTON_TITLE_IMPORTMNEMONIC24,
 //                                  BUTTON_TITLE_IMPORTSEED,
 //                                  BUTTON_TITLE_EXPORTSEED,
@@ -45,6 +46,7 @@
         //默认支持全部通信类型，不传就是默认，如果传多个通信类型可以直接按照首页顶部的通信类型index传，比如说如果支持NFC和BLE，则直接传@"01"即可，同理如果只支持第一和第三种通信方式，则传@"02"
         if (   [title isEqual:BUTTON_TITLE_GENERATESEED]
             || [title isEqual:BUTTON_TITLE_IMPORTMNEMONIC12]
+            || [title isEqual:BUTTON_TITLE_IMPORTMNEMONIC18]
             || [title isEqual:BUTTON_TITLE_IMPORTMNEMONIC24]
             ) {
             model.transmitTypeOfButton = [NSString stringWithFormat:@"%li",
@@ -118,6 +120,7 @@
     }
     case JUB_NS_ENUM_DEV_OPT::GENERATE_SEED:
     case JUB_NS_ENUM_DEV_OPT::IMPORT_MNEMONIC12:
+    case JUB_NS_ENUM_DEV_OPT::IMPORT_MNEMONIC18:
     case JUB_NS_ENUM_DEV_OPT::IMPORT_MNEMONIC24:
 //    case JUB_NS_ENUM_DEV_OPT::IMPORT_SEED:
 //    case JUB_NS_ENUM_DEV_OPT::EXPORT_SEED:
@@ -320,7 +323,10 @@
                                                          ofType:@"json"];
     Json::Value root = readJSON([filePath UTF8String]);
     std::string keyword = "mnemonic12";
-    if (24 == wordNum) {
+    if (18 == wordNum) {
+        keyword = "mnemonic18";
+    }
+    else if (24 == wordNum) {
         keyword = "mnemonic24";
     }
     char *mnemonic = (char*)root[keyword.c_str()].asCString();
