@@ -12,6 +12,8 @@ public:
     JubiterBaseBCHImpl() {
         _coin = TWCoinType::TWCoinTypeBitcoinCash;
     };
+    
+    virtual JUB_RV CheckAddress(const std::string address) override;
 
 protected:
     virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address) override;

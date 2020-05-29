@@ -11,13 +11,13 @@ class TrezorCryptoBCHImpl :
 virtual public  JubiterBaseBCHImpl {
 
 public:
-    TrezorCryptoBCHImpl(const std::string& xprv) :
-        TrezorCryptoBTCImpl(xprv) {
+    TrezorCryptoBCHImpl(const std::string& XPRVorXPUB) :
+        TrezorCryptoBTCImpl(XPRVorXPUB) {
         _hashType = TWSignatureHashTypeAllFork;
     };
     ~TrezorCryptoBCHImpl() {};
 
-    static std::shared_ptr<BTCTokenInterface> Create(const std::string& xprv) { return std::make_shared<TrezorCryptoBCHImpl>(xprv);
+    static std::shared_ptr<BTCTokenInterface> Create(const std::string& XPRVorXPUB) { return std::make_shared<TrezorCryptoBCHImpl>(XPRVorXPUB);
     }
 
     virtual JUB_RV SignTX(const JUB_BYTE addrFmt,

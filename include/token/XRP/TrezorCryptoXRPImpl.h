@@ -11,8 +11,8 @@ class TrezorCryptoXRPImpl :
 virtual public JubiterBaseXRPImpl {
 
 public:
-    TrezorCryptoXRPImpl(const std::string& xprv) :
-        TrezorCryptoToken(xprv) {};
+    TrezorCryptoXRPImpl(const std::string& XPRVorXPUB) :
+        TrezorCryptoToken(XPRVorXPUB) {};
 
     ~TrezorCryptoXRPImpl() {};
 

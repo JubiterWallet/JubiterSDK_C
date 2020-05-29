@@ -12,6 +12,7 @@ namespace context {
 
 JUB_RV QTUMContext::SetQRC20Token(IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_CPTR symbol) {
 
+    CONTEXT_CHECK_TYPE_PRIVATE
     //use ETHTokenInterface may case error later. JubiterBLD has no problem.
 //    auto token = dynamic_cast<ETHTokenInterface*>(jub::TokenManager::GetInstance()->GetOne(_deviceID));
 //    JUB_CHECK_NULL(token);
@@ -61,6 +62,7 @@ void encodeInteger(JUB_UINT64 value, uchar_vector& data) {
 
 JUB_RV QTUMContext::BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]) {
 
+    CONTEXT_CHECK_TYPE_NONE
     outputs[0].type = JUB_ENUM_SCRIPT_BTC_TYPE::QRC20;
 
     uchar_vector data;

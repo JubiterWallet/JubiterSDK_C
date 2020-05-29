@@ -5,14 +5,17 @@
 #include "Ethereum/ERC20Abi.h"
 #include <TrezorCrypto/base58.h>
 #include "BinaryCoding.h"
+#include "token/TrezorCrypto/TrezorCryptoToken.h"
 #include <TrustWalletCore/TWCoinType.h>
+#include <token/interface/SoftwareTokenInterface.h>
 
 namespace jub {
 namespace context {
 
 
 JUB_RV BTCContext::GetHDNode(const BIP44_Path& path, std::string& xpub) {
-
+   
+    CONTEXT_CHECK_TYPE_PUBLIC                                                                  
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetHDNode(_transType, strPath, xpub));
 
@@ -22,6 +25,7 @@ JUB_RV BTCContext::GetHDNode(const BIP44_Path& path, std::string& xpub) {
 
 JUB_RV BTCContext::GetMainHDNode(std::string& xpub) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     JUB_VERIFY_RV(_tokenPtr->GetHDNode(_transType, _mainPath, xpub));
 
     return JUBR_OK;
@@ -30,6 +34,7 @@ JUB_RV BTCContext::GetMainHDNode(std::string& xpub) {
 
 JUB_RV BTCContext::GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetAddress(addrFmt, _transType, strPath, tag, address));
 
@@ -39,15 +44,23 @@ JUB_RV BTCContext::GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const 
 
 JUB_RV BTCContext::SetMyAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, std::string& address) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetAddress(addrFmt, _transType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
 
+JUB_RV BTCContext::CheckAddress(const std::string& address){
+    CONTEXT_CHECK_TYPE_NONE
+    JUB_VERIFY_RV(_tokenPtr->CheckAddress(address));
+    return JUBR_OK;
+}
+
 
 JUB_RV BTCContext::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType) {
 
+    CONTEXT_CHECK_TYPE_NONE
     _unitType = unitType;
     JUB_VERIFY_RV(_tokenPtr->SetUnit(_unitType));
 
@@ -72,6 +85,7 @@ JUB_RV BTCContext::ActiveSelf() {
 
 JUB_RV BTCContext::BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]) {
 
+    CONTEXT_CHECK_TYPE_NONE
     //build return0 output
     outputs[0].type = JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0;
     outputs[0].return0.amount = 0;
@@ -93,6 +107,7 @@ JUB_RV BTCContext::BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amoun
 
 JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw) {
 
+    CONTEXT_CHECK_TYPE_PRIVATE
     //deal inputs
     std::vector<JUB_UINT64> vInputAmount;
     std::vector<std::string> vInputPath;
