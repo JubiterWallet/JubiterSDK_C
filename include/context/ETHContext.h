@@ -23,7 +23,7 @@ class ETHContext :
 public:
     ETHContext(const CONTEXT_CONFIG_ETH& cfg, std::shared_ptr<token::ETHTokenInterface> tokenPtr):
         BaseContext(std::dynamic_pointer_cast<token::BaseToken>(tokenPtr)),
-        _tokenPtr(tokenPtr){
+        _tokenPtr(tokenPtr) {
         _mainPath = cfg.mainPath;
         _chainID = cfg.chainID;
         _timeout = 120 * 2;

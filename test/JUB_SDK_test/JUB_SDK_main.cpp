@@ -8,7 +8,6 @@
 
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_main.h"
-#define SW 1
 #if SW
 #include "JUB_SDK_software_test_btc.hpp"
 #include "JUB_SDK_software_test_eth.hpp"
