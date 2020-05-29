@@ -167,6 +167,7 @@ JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
 
 
 JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                               const JUB_UINT32 version,
                                                const std::vector<INPUT_BTC>& vInputs,
                                                const std::vector<OUTPUT_BTC>& vOutputs,
                                                const JUB_UINT32 lockTime,
@@ -177,7 +178,7 @@ JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& ty
         witness = true;
     }
 
-    TW::Bitcoin::Transaction tx(lockTime);
+    TW::Bitcoin::Transaction tx(version, lockTime);
     JUB_VERIFY_RV(_serializeUnsignedTx(_coin,
                                        vInputs,
                                        vOutputs,

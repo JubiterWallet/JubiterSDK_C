@@ -1,5 +1,5 @@
 {
-  "ver": "01000000",
+  "ver": 1,
   "p2sh-segwit" : true,
   "main_path" : "m/49'/0'/0'",
   "inputs": [

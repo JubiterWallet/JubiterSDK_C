@@ -9,6 +9,7 @@ namespace token {
 
 
 JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                              const JUB_UINT32 version,
                                               const std::vector<INPUT_BTC>& vInputs,
                                               const std::vector<OUTPUT_BTC>& vOutputs,
                                               const JUB_UINT32 lockTime,
@@ -21,7 +22,7 @@ JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& typ
         witness = true;
     }
 
-    TW::Bitcoin::HcashTransaction tx(lockTime);
+    TW::Bitcoin::HcashTransaction tx(version, lockTime);
     rv = _serializeUnsignedTx(_coin,
                               vInputs,
                               vOutputs,

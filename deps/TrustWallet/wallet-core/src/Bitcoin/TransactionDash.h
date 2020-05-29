@@ -21,8 +21,8 @@ namespace TW::Bitcoin {
 struct DashTransaction :
     public Transaction {
     DashTransaction() : Transaction() {};
-    DashTransaction(uint32_t lockTime, TW::Hash::Hasher hasher = TW::Hash::sha256d) :
-    Transaction(lockTime, hasher) {};
+    DashTransaction(int32_t version, uint32_t lockTime, TW::Hash::Hasher hasher = TW::Hash::sha256d) :
+    Transaction(version, lockTime, hasher) {};
     virtual ~DashTransaction() = default;
 
     /// Transaction data format version (note, this is signed)
