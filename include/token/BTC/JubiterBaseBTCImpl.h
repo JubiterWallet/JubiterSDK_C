@@ -29,7 +29,7 @@ public:
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<TW::Data>& vInputPublicKey);
     
-    virtual JUB_RV CheckAddress(const std::string address);
+    virtual JUB_RV CheckAddress(const std::string& address);
 
 protected:
     JUB_RV _serializeUnsignedTx(const uint32_t coin,
@@ -63,8 +63,8 @@ protected:
                                       uint32_t hdVersionPub=TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
                                       uint32_t hdVersionPrv=TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin));
 
-    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address);
-    virtual JUB_RV _getSegwitAddress(const TW::Data publicKey, std::string& address);
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address);
+    virtual JUB_RV _getSegwitAddress(const TW::Data& publicKey, std::string& address);
 
 protected:
     uint32_t _hashType = TWSignatureHashTypeAll;

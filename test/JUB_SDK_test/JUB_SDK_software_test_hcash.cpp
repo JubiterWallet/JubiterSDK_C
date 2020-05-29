@@ -81,14 +81,20 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     path.addressIndex = 0;
     JUB_CHAR_PTR  xpub = nullptr;
     rv = JUB_GetHDNodeHC(contextID, path, &xpub);
-    if (rv == JUBR_OK) {
+    if (rv != JUBR_OK) {
+        cout << "JUB_GetHDNodeHC return " << rv << endl;
+    }
+    else {
         cout << "JUB_GetHDNodeHC return " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressHC(contextID, path, BOOL_FALSE, &address);
-    if(rv == JUBR_OK) {
+    if (rv != JUBR_OK) {
+        cout << "JUB_GetAddressHC return " << rv << endl;
+    }
+    else {
         cout << address << endl;
         JUB_FreeMemory(address);
     }
@@ -101,8 +107,10 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
 
 void software_test_hcash() {
 
-    const char* json_file = "json/testHCash.json";
-    Json::Value root = readJSON(json_file);
+    std::string json_file = "json/";
+
+    json_file += "testHCash.json";
+    Json::Value root = readJSON(json_file.c_str());
 
     CONTEXT_CONFIG_HC cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();

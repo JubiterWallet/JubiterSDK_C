@@ -19,8 +19,8 @@ namespace context {
 #define CONTEXT_CHECK_TYPE(t)                                                   \
 do {                                                                            \
     auto token = std::dynamic_pointer_cast<token::SoftwareToken>(_tokenPtr);    \
-    if(token != nullptr){                                                       \
-        if(token->Type() < t){                                                  \
+    if(token != nullptr) {                                                      \
+        if(token->Type() < t) {                                                 \
             return JUBR_CONTEXT_NOT_SATISFIED;                                  \
         }                                                                       \
     }                                                                           \
