@@ -193,6 +193,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SignTransactionBTC
  * @in  param : contextID - context ID
+ *            : version
  *            : inputs
  *            : iCount
  *            : outputs

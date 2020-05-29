@@ -16,11 +16,11 @@
 		67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE782330C4B80059A3DB /* json_reader.cpp */; };
 		67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE792330C4B80059A3DB /* json_writer.cpp */; };
 		67A4BE7E2330C4B80059A3DB /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE7B2330C4B80059A3DB /* json_value.cpp */; };
-		67A4BE812330C5810059A3DB /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A4BE802330C5810059A3DB /* libJubSDK.a */; };
 		67A4BE842330C6440059A3DB /* JUB_SDK_test_dev.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE822330C6440059A3DB /* JUB_SDK_test_dev.cpp */; };
 		67A4BE882330C99C0059A3DB /* JUB_SDK_test_btc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE862330C99C0059A3DB /* JUB_SDK_test_btc.cpp */; };
 		67A4BE8B2330CCDF0059A3DB /* JUB_SDK_test_eth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE892330CCDF0059A3DB /* JUB_SDK_test_eth.cpp */; };
 		67A4BE902330D1A80059A3DB /* JUB_SDK_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE8F2330D1A80059A3DB /* JUB_SDK_main.cpp */; };
+		67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67B74EDC248109050066EF8E /* libJubSDK.a */; };
 		67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */; };
 		67F808C2235966D900DE9ECE /* JUB_SDK_software_test_eth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */; };
 		67F808C3235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BE235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp */; };
@@ -46,7 +46,6 @@
 		6715459523D45AC400810F16 /* JUB_SDK_test_hcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_hcash.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_hcash.cpp; sourceTree = "<group>"; };
 		6715459723D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_hcash.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_hcash.cpp; sourceTree = "<group>"; };
 		6715459823D46A6000810F16 /* JUB_SDK_software_test_hcash.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_hcash.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_hcash.hpp; sourceTree = "<group>"; };
-		675B04C7242863BC004C62D4 /* json */ = {isa = PBXFileReference; lastKnownFileType = folder; path = json; sourceTree = "<group>"; };
 		675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.cpp; sourceTree = "<group>"; };
 		675C7974238BEBFF0015C95D /* JUB_SDK_software_test_xrp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_xrp.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.hpp; sourceTree = "<group>"; };
 		6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.cpp; sourceTree = "<group>"; };
@@ -68,7 +67,6 @@
 		67A4BE792330C4B80059A3DB /* json_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_writer.cpp; path = ../../deps/jsoncpp/src/lib_json/json_writer.cpp; sourceTree = "<group>"; };
 		67A4BE7A2330C4B80059A3DB /* json_tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = json_tool.h; path = ../../deps/jsoncpp/src/lib_json/json_tool.h; sourceTree = "<group>"; };
 		67A4BE7B2330C4B80059A3DB /* json_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json_value.cpp; path = ../../deps/jsoncpp/src/lib_json/json_value.cpp; sourceTree = "<group>"; };
-		67A4BE802330C5810059A3DB /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A4BE822330C6440059A3DB /* JUB_SDK_test_dev.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_dev.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev.cpp; sourceTree = "<group>"; };
 		67A4BE832330C6440059A3DB /* JUB_SDK_test_dev.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_dev.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev.hpp; sourceTree = "<group>"; };
 		67A4BE852330C8120059A3DB /* JUB_SDK_test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_test.h; path = ../../test/JUB_SDK_test/JUB_SDK_test.h; sourceTree = "<group>"; };
@@ -78,6 +76,8 @@
 		67A4BE8A2330CCDF0059A3DB /* JUB_SDK_test_eth.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_eth.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_eth.hpp; sourceTree = "<group>"; };
 		67A4BE8F2330D1A80059A3DB /* JUB_SDK_main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_main.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_main.cpp; sourceTree = "<group>"; };
 		67A4BE912330D2D50059A3DB /* JUB_SDK_main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_main.h; path = ../../test/JUB_SDK_test/JUB_SDK_main.h; sourceTree = "<group>"; };
+		67B74EDC248109050066EF8E /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		67B74EDF24812C1D0066EF8E /* json */ = {isa = PBXFileReference; lastKnownFileType = folder; name = json; path = ../../test/json; sourceTree = "<group>"; };
 		67BED7E6237947890051E3DC /* JUB_SDK_test_eos.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_eos.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_eos.hpp; sourceTree = "<group>"; };
 		67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_eos.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_eos.cpp; sourceTree = "<group>"; };
 		67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_eth.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_eth.cpp; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67A4BE812330C5810059A3DB /* libJubSDK.a in Frameworks */,
+				67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +103,7 @@
 		67A4BE512330C3870059A3DB = {
 			isa = PBXGroup;
 			children = (
-				675B04C7242863BC004C62D4 /* json */,
+				67B74EDF24812C1D0066EF8E /* json */,
 				67A4BE642330C3BB0059A3DB /* JubSDKTest */,
 				67A4BE672330C3E50059A3DB /* deps */,
 				67A4BE5B2330C3870059A3DB /* Products */,
@@ -219,7 +219,7 @@
 		67A4BE7F2330C5810059A3DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				67A4BE802330C5810059A3DB /* libJubSDK.a */,
+				67B74EDC248109050066EF8E /* libJubSDK.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -417,6 +417,7 @@
 		67A4BE622330C3870059A3DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S47T4UESP3;
 				HEADER_SEARCH_PATHS = (
@@ -436,6 +437,7 @@
 		67A4BE632330C3870059A3DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S47T4UESP3;
 				HEADER_SEARCH_PATHS = (
