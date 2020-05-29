@@ -20,7 +20,7 @@ JUB_RV HCContext::ActiveSelf() {
 }
 
 
-JUB_RV HCContext::signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) {
+JUB_RV HCContext::signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const JUB_UINT32 version, const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) {
 
     CONTEXT_CHECK_TYPE_PRIVATE
     //deal inputs

@@ -259,6 +259,8 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
     JUB_RV rv = JUBR_ERROR;
 
     try {
+        JUB_UINT32 version = root["ver"].asInt();
+
         std::vector<INPUT_BTC> inputs;
         std::vector<OUTPUT_BTC> outputs;
         int inputNumber = root["inputs"].size();
@@ -291,7 +293,7 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
         }
 
         char* raw = nullptr;
-        rv = JUB_SignTransactionBTC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
+        rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
         cout << "JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {
@@ -335,6 +337,8 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
     JUB_RV rv = JUBR_ERROR;
 
     try {
+        JUB_UINT32 version = root["ver"].asInt();
+
         std::vector<INPUT_BTC> inputs;
         std::vector<OUTPUT_BTC> outputs;
         int inputNumber = root["inputs"].size();
@@ -376,7 +380,7 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
         outputs.emplace_back(USDT_outputs[1]);
 
         char* raw = nullptr;
-        rv = JUB_SignTransactionBTC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
+        rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
         cout << "JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {

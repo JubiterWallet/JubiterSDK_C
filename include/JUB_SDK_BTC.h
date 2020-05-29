@@ -250,6 +250,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SignTransactionBTC
  * @in  param : contextID - context ID
+ *            : version
  *            : inputs
  *            : iCount
  *            : outputs
@@ -260,6 +261,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
+                              IN JUB_UINT32 version,
                               IN INPUT_BTC inputs[], IN JUB_UINT16 iCount,
                               IN OUTPUT_BTC outputs[], IN JUB_UINT16 oCount,
                               IN JUB_UINT32 lockTime,

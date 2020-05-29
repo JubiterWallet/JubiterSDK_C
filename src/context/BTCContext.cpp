@@ -105,7 +105,7 @@ JUB_RV BTCContext::BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amoun
     return JUBR_OK;
 }
 
-JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw) {
+JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const JUB_UINT32 version, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw) {
 
     CONTEXT_CHECK_TYPE_PRIVATE
     //deal inputs
@@ -132,6 +132,7 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std:
     //build unsigned transaction
     uchar_vector unsignedTrans;
     JUB_VERIFY_RV(_tokenPtr->SerializeUnsignedTx(_transType,
+                                                 version,
                                                  vInputs,
                                                  vOutputs,
                                                  lockTime,
