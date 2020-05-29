@@ -45,6 +45,9 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -114,6 +117,9 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -149,6 +155,9 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -187,6 +196,9 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -227,6 +239,9 @@ JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -269,6 +284,9 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -333,6 +351,9 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -380,6 +401,9 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -420,6 +444,9 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -461,6 +488,9 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -506,6 +536,9 @@ JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -551,6 +584,9 @@ JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -591,6 +627,9 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
@@ -634,6 +673,9 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
+#ifdef HID_MODE
+    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+#endif
 #ifdef BLE_MODE
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)

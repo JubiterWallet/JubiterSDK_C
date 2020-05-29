@@ -44,7 +44,6 @@
     #include <TargetConditionals.h>
     #if TARGET_OS_OSX // mac osx
         #define HID_MODE
-        #define BLE_MODE
     #elif TARGET_OS_IOS // ios
         #define BLE_MODE
         #define NFC_MODE
@@ -63,7 +62,7 @@
 #define JUBR_ARGUMENTS_BAD          0x00000003UL
 #define JUBR_IMPL_NOT_SUPPORT		0x00000004UL
 #define JUBR_MEMORY_NULL_PTR		0x00000005UL
-#define JUBR_CONTEXT_NOT_SATISFIED      0x00000006UL
+#define JUBR_CONTEXT_NOT_SATISFIED  0x00000006UL
 
 #define JUBR_INVALID_MEMORY_PTR		0x00000008UL
 #define JUBR_REPEAT_MEMORY_PTR		0x00000009UL
