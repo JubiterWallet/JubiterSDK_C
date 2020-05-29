@@ -157,7 +157,7 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
 }
 
 
-JUB_RV JubiterBaseHCImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+JUB_RV JubiterBaseHCImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
 
     try {
         TW::Hash::Hasher hasherPubkey;

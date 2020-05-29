@@ -22,7 +22,7 @@ JubiterHidDevice::JubiterHidDevice(const std::string path) :
     _vid(VID),
     _handle(NULL),
     _bFirstCmd(true),
-    _path(path){
+    _path(path) {
     hid_init();
 }
 

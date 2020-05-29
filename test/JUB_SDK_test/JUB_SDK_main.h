@@ -9,6 +9,7 @@
 #ifndef JUB_SDK_main_h
 #define JUB_SDK_main_h
 
+#define SW 1
 #include <vector>
 #include <iostream>
 #include <fstream>

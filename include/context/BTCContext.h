@@ -26,7 +26,7 @@ public:
         BaseContext(std::dynamic_pointer_cast<token::BaseToken>(tokenPtr)),
         _tokenPtr(tokenPtr) {
         _mainPath = cfg.mainPath;
-        _transType = cfg.transType;
+       _transType = cfg.transType;
         _unitType = mBTC;
         _coinType = cfg.coinType;
         _timeout = 120 * 2;
