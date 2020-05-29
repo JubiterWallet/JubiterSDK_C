@@ -1,9 +1,37 @@
 cmake_minimum_required(VERSION 3.6.0)
 
 
+if(devOnly)
+
+#ADD_LIBRARY(JUB_SDK STATIC ${SRC_LIST})
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/JUB_SDK_DEV.cpp)
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/JUB_SDK_DEV_HID.cpp)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/utility SRC_LIST)
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/context/BaseContext.cpp)
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/device/JubiterHidDevice.cpp)
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/token/JubiterBladeToken.cpp)
+
+
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_SDK_DEV.h)
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_SDK_DEV_HID.h)
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/../include/device/JubiterHidDevice.hpp)
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/../include/token/interface/BaseToken.h)
+list(APPEND SRC_LIST ${CMAKE_CURRENT_SOURCE_DIR}/../include/token/JubiterBlade/JubiterBladeToken.h)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/interface)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/json/include)
+
+else()  #if(devOnly)
+
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/ SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/utility SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/context SRC_LIST)
+
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/device SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/BTC SRC_LIST)
@@ -23,16 +51,16 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ethereum SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ripple SRC_LIST)
 
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/ios)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/android)
 if(IOS)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/ios)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/nfcTransmit/ios)
-elseif(ANDROID)
+elseif(ANDROID) #if(IOS)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/android)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/nfcTransmit/android)
-endif()
+endif() #if(IOS)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/json/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include)
@@ -47,6 +75,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
 
+endif() #if(devOnly)
+
 ADD_LIBRARY(JUB_SDK STATIC ${SRC_LIST})
 
 # test endian.h
@@ -59,4 +89,6 @@ if(ENDIAN_PATH)
 elseif(SYS_ENDIAN_PATH)
     message("SYS_ENDIAN_PATH = ${SYS_ENDIAN_PATH}")
     target_compile_definitions(JUB_SDK PRIVATE HAVE_SYS_ENDIAN_H=1)
-endif()
+endif() #if(ENDIAN_PATH)
+
+#endif() #if(devOnly)

@@ -101,7 +101,7 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
     }
 
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
-    context->ActiveSelf();
+    JUB_VERIFY_RV(context->ActiveSelf());
 
     return JUBR_OK;
 }

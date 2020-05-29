@@ -11,8 +11,8 @@ class TrezorCryptoEOSImpl :
 virtual public JubiterBaseEOSImpl {
 
 public:
-    TrezorCryptoEOSImpl(const std::string& xprv) :
-        TrezorCryptoToken(xprv) {};
+    TrezorCryptoEOSImpl(const std::string& XPRVorXPUB) :
+        TrezorCryptoToken(XPRVorXPUB) {};
 
     ~TrezorCryptoEOSImpl() {};
 

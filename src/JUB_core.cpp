@@ -130,11 +130,11 @@ JUB_RV JUB_SeedToMasterPrivateKey_soft(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed
 
 
 JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
-                                 IN JUB_CHAR_CPTR masterPriInXPRV,
+                                 IN JUB_CHAR_CPTR XPRVorXPUB,
                                  OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
+    auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, XPRVorXPUB);
     JUB_CHECK_NULL(context);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     return JUBR_OK;

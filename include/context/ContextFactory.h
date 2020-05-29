@@ -27,8 +27,8 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &QTUMContext::Create);
     };
 
-    BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, std::string xprv) {
-        auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, xprv);
+    BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, std::string XPRVorXPUB) {
+        auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, XPRVorXPUB);
         return Create(cfg.coinType,cfg,token);
     }
 

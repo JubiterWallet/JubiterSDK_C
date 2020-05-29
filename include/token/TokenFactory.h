@@ -90,8 +90,8 @@ protected:
     xJubiterNFCBTCFactory   jubiterNFCFactory;
 
 public:
-    std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, std::string xprv) {
-        return trezorFactory.Create(type, xprv);
+    std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, std::string XPRVorXPUB) {
+        return trezorFactory.Create(type, XPRVorXPUB);
     };
 
     std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, JUB_UINT16 deviceID) {
