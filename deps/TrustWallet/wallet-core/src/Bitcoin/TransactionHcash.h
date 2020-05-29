@@ -26,12 +26,13 @@ struct HcashTransaction :
     HcashTransaction(TW::Hash::Hasher hasher = [](const byte* begin, const byte* end) mutable -> TW::Data {
        return TW::Hash::blake256(begin, end);
     }) : Transaction(hasher) {};
-    HcashTransaction(uint32_t lockTime,
+    HcashTransaction(int32_t version,
+                     uint32_t lockTime,
                      uint32_t expiry = 0,
                      TW::Hash::Hasher hasher = [](const byte* begin, const byte* end) mutable -> TW::Data {
                         return TW::Hash::blake256(begin, end);
                      }) : expiry(expiry),
-    Transaction(lockTime, hasher) {};
+    Transaction(version, lockTime, hasher) {};
     virtual ~HcashTransaction() = default;
 
     virtual std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index, uint32_t hashType,

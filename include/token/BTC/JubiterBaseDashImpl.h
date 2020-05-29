@@ -16,6 +16,7 @@ public:
     };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                       const JUB_UINT32 version,
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,

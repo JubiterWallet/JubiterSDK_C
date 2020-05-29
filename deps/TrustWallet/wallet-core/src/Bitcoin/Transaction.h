@@ -52,10 +52,6 @@ struct Transaction {
         : version(version), lockTime(lockTime), inputs(), outputs(), hasher(hasher) {}
 
     // JuBiter-defined
-    Transaction(uint32_t lockTime, TW::Hash::Hasher hasher = TW::Hash::sha256d)
-        : lockTime(lockTime), inputs(), outputs(), hasher(hasher) {}
-
-    // JuBiter-defined
     ~Transaction() {
         for (size_t i=0; i<inputs.size(); ++i) {
             if (inputs[i]) {

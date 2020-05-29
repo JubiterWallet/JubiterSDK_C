@@ -84,6 +84,7 @@ JUB_RV JUB_GetMainHDNodeHC(IN JUB_UINT16 contextID,
 }
 
 JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
+                             IN JUB_UINT32 version,
                              IN INPUT_HC inputs[], IN JUB_UINT16 iCount,
                              IN OUTPUT_HC outputs[], IN JUB_UINT16 oCount,
                              IN JUB_CHAR_CPTR unsignedTrans,
@@ -98,7 +99,7 @@ JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
     std::vector<OUTPUT_HC> vOutputs(outputs, outputs + oCount);
 
     std::string strRaw;
-    auto rv = context->signTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, vInputs, vOutputs, unsignedTrans, strRaw);
+    auto rv = context->signTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, version, vInputs, vOutputs, unsignedTrans, strRaw);
     if (   JUBR_OK          == rv
         || JUBR_MULTISIG_OK == rv
         ) {
