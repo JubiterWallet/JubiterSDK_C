@@ -214,7 +214,7 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
         uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
         TW::Bitcoin::Address addr(twpk, prefix);
         TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
-        if (0 == scriptCode.size()) {
+        if (scriptCode.empty()) {
             return JUBR_ARGUMENTS_BAD;
         }
 
