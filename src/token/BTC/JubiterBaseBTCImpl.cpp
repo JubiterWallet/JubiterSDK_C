@@ -63,6 +63,17 @@ JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data publicKey, std::string& ad
     return JUBR_OK;
 }
 
+JUB_RV JubiterBaseBTCImpl::CheckAddress(const std::string address){
+    //check legacy address
+    std::vector<TW::Data> prefixs;
+    prefixs.push_back({TWCoinTypeP2pkhPrefix(_coin)});
+    prefixs.push_back({TWCoinTypeP2shPrefix(_coin)});
+    JUB_RV rvLegacy = !(TW::Bitcoin::Address::isValid(address,prefixs));
+    //check segwit address
+    JUB_RV rvSegwit = !(TW::Bitcoin::SegwitAddress::isValid(address,std::string(stringForHRP(TWCoinTypeHRP(_coin)))));
+    
+    return rvLegacy&rvSegwit;
+}
 
 JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data publicKey, std::string& address) {
 
@@ -72,6 +83,9 @@ JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data publicKey, std::stri
 
         // redeemScript
         TW::Bitcoin::Script redeemScript = TW::Bitcoin::Script::buildPayToWitnessProgram(segwitAddr.witnessProgram);
+        if (redeemScript.empty()) {
+            return JUBR_ARGUMENTS_BAD;
+        }
         TW::Data hRedeemScript = TW::Hash::sha256ripemd(&redeemScript.bytes[0], &redeemScript.bytes[0]+redeemScript.bytes.size());
 
         // address
@@ -93,6 +107,7 @@ JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
                                                 const std::vector<INPUT_BTC>& vInputs,
                                                 const std::vector<OUTPUT_BTC>& vOutputs,
                                                 TW::Bitcoin::Transaction& tx) {
+    JUB_RV rv = JUBR_OK;
 
     // inputs
     for (const auto& input:vInputs) {
@@ -135,13 +150,19 @@ JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
                 break;
             }
         }
+        if (scriptPubkey.empty()) {
+            rv = JUBR_ARGUMENTS_BAD;
+        }
+        if (0 != rv) {
+            break;
+        }
         TW::Bitcoin::TransactionOutput *ptxOutput = new TW::Bitcoin::TransactionOutput();
         ptxOutput->value = TW::Bitcoin::Amount(amount);
         ptxOutput->script = scriptPubkey;
         tx.outputs.push_back(ptxOutput);
     }
 
-    return JUBR_OK;
+    return rv;
 }
 
 
@@ -181,7 +202,7 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& 
     uint8_t prefix = TWCoinTypeP2pkhPrefix(coin);
     TW::Bitcoin::Address addr(publicKey, prefix);
     TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), coin);
-    if (0 == scriptCode.size()) {
+    if (scriptCode.empty()) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -213,8 +234,14 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType& coin,
     for (size_t index=0; index<tx->inputs.size(); ++index) {
         rv = JUBR_ERROR;
 
+        TW::Bitcoin::Script script = tx->inputs[index]->script;
+        if (script.empty()) {
+            rv = JUBR_ARGUMENTS_BAD;
+            break;
+        }
+
         TW::Bitcoin::Script witnessProgram;
-        if (!witnessProgram.decode(tx->inputs[index]->script.bytes)) {
+        if (!witnessProgram.decode(script.bytes)) {
             rv = JUBR_ERROR;
             break;
         }
@@ -258,7 +285,6 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType& coin,
         else {
             TW::Data signature;
             TW::Data publicKey;
-            TW::Bitcoin::Script script = tx->inputs[index]->script;
             // P2PKH
             if (script.matchPayToPublicKeyHashScriptSig(signature, publicKey)) {
                 if (vInputPublicKey[index].bytes != publicKey) {
@@ -329,9 +355,9 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(bool witness,
                                         const std::vector<uchar_vector>& vSignatureRaw,
                                         TW::Bitcoin::Transaction* tx,
                                         uchar_vector& signedRaw) {
+    JUB_RV rv = JUBR_OK;
 
     for (size_t index=0; index<tx->inputs.size(); ++index) {
-        TW::Bitcoin::Script script;
         if (!witness) {
             // P2PKH
             tx->inputs[index]->script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(vSignatureRaw[index], vInputPublicKey[index]);
@@ -345,7 +371,19 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(bool witness,
             tx->inputs[index]->script.bytes = scriptPubkey;
 
             tx->inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(vSignatureRaw[index], vInputPublicKey[index]);
+            if (tx->inputs[index]->scriptWitness.empty()) {
+                rv = JUBR_ARGUMENTS_BAD;
+                break;
+            }
         }
+
+        if (tx->inputs[index]->script.empty()) {
+            rv = JUBR_ARGUMENTS_BAD;
+            break;
+        }
+    }
+    if (JUBR_OK != rv) {
+        return rv;
     }
 
     tx->encode(witness, signedRaw);

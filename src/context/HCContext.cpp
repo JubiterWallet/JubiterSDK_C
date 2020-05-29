@@ -2,6 +2,7 @@
 #include "context/HCContext.h"
 #include "utility/util.h"
 #include "token/interface/BTCTokenInterface.hpp"
+#include <token/interface/SoftwareTokenInterface.h>
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include <TrezorCrypto/ecdsa.h>
 #include <TrezorCrypto/secp256k1.h>
@@ -21,6 +22,7 @@ JUB_RV HCContext::ActiveSelf() {
 
 JUB_RV HCContext::signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_HC>& vInputs, const std::vector<OUTPUT_HC>& vOutputs, const std::string& unsignedTrans, std::string& raw) {
 
+    CONTEXT_CHECK_TYPE_PRIVATE
     //deal inputs
     std::vector<JUB_UINT64> vInputAmount;
     std::vector<std::string> vInputPath;

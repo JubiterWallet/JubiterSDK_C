@@ -25,6 +25,7 @@ JUB_RV ETHContext::ActiveSelf() {
 
 JUB_RV ETHContext::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetAddress(strPath, tag, address));
 
@@ -34,6 +35,7 @@ JUB_RV ETHContext::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std:
 
 JUB_RV ETHContext::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     JUB_VERIFY_RV(_tokenPtr->GetHDNode(format, _mainPath, xpub));
 
     return JUBR_OK;
@@ -42,6 +44,7 @@ JUB_RV ETHContext::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
 
 JUB_RV ETHContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetAddress(strPath, 0x02, address));
 
@@ -51,6 +54,7 @@ JUB_RV ETHContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
 
 JUB_RV ETHContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetHDNode(format, strPath, pubkey));
 
@@ -67,6 +71,7 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
                                    JUB_CHAR_CPTR input,
                                    OUT std::string& strRaw) {
 
+    CONTEXT_CHECK_TYPE_PRIVATE
     JUB_CHECK_NULL(gasPriceInWei);
     JUB_CHECK_NULL(to);
 //    JUB_CHECK_NULL(valueInWei);// it can be nullptr
@@ -134,6 +139,7 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
 
 JUB_RV ETHContext::BuildERC20Abi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
 
+    CONTEXT_CHECK_TYPE_NONE
     std::vector<JUB_BYTE> vTo = jub::ETHHexStr2CharPtr(to);
     std::vector<JUB_BYTE> vValue = jub::HexStr2CharPtr(DecStringToHexString(std::string(value)));
     uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vTo, vValue);
@@ -147,6 +153,7 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
                                     JUB_UINT16 unitDP,
                                     JUB_CHAR_CPTR pContractAddress) {
 
+    CONTEXT_CHECK_TYPE_PRIVATE
     // ETH token extension apdu
     if (0 > _appletVersion.compare(APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
         return JUBR_OK;

@@ -31,6 +31,7 @@ JUB_RV XRPContext::ActiveSelf() {
 
 JUB_RV XRPContext::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     JUB_VERIFY_RV(_tokenPtr->GetHDNode(format, _mainPath, xpub));
 
     return JUBR_OK;
@@ -39,6 +40,7 @@ JUB_RV XRPContext::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 
 JUB_RV XRPContext::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetAddress(strPath, tag, address));
 
@@ -48,6 +50,7 @@ JUB_RV XRPContext::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& addr
 
 JUB_RV XRPContext::SetMyAddress(BIP44_Path path, std::string& address) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetAddress(strPath, 0x02, address));
 
@@ -57,6 +60,7 @@ JUB_RV XRPContext::SetMyAddress(BIP44_Path path, std::string& address) {
 
 JUB_RV XRPContext::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey) {
 
+    CONTEXT_CHECK_TYPE_PUBLIC
     std::string strPath = _FullBip44Path(path);
     JUB_VERIFY_RV(_tokenPtr->GetHDNode(format, strPath, pubkey));
 
@@ -68,6 +72,7 @@ JUB_RV XRPContext::SignTransaction(BIP44_Path path,
                                    const JUB_TX_XRP& tx,
                                    std::string& signedRaw) {
 
+    CONTEXT_CHECK_TYPE_PRIVATE
     JUB_CHECK_NULL(tx.account);
     JUB_CHECK_NULL(tx.fee);
     JUB_CHECK_NULL(tx.sequence);

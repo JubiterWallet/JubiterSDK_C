@@ -96,7 +96,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
     JUB_CHECK_NULL(context);
-    context->ActiveSelf();
+    JUB_VERIFY_RV(context->ActiveSelf());
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
     return JUBR_OK;
@@ -311,6 +311,16 @@ JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
 
     JUB_VERIFY_RV(context->SetQRC20Token(contractAddress,decimal,symbol));
     JUB_VERIFY_RV(context->BuildQRC20Outputs(gasLimit, gasPrice, contractAddress,to,value,outputs));
+
+    return JUBR_OK;
+}
+
+JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID,IN JUB_CHAR_CPTR address){
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
+    JUB_CHECK_NULL(context);
+    
+    JUB_VERIFY_RV(context->CheckAddress(address));
 
     return JUBR_OK;
 }
