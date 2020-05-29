@@ -1,7 +1,7 @@
 [submodule "deps/JubiterSDK"]
 	path = deps/JubiterSDK
 	url = https://github.com/JubiterWallet/JubiterSDK_C.git
-	branch = nfc
+	branch = dev_3.0 
 [submodule "deps/jsoncpp"]
 	path = deps/jsoncpp
 	url = https://github.com/open-source-parsers/jsoncpp.git
