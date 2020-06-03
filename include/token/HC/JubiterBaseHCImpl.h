@@ -29,7 +29,7 @@ public:
                             const std::vector<TW::Data>& vInputPublicKey) override;
 
 protected:
-    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address) override;
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address) override;
 
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,

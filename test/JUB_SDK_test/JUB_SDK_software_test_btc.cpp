@@ -81,19 +81,17 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
         cout << "JUB_GetAddressBTC: " << address << endl;
         JUB_FreeMemory(address);
     }
-    
+
     rv = JUB_CheckAddressBTC(contextID,"1JpuFuiBfMzm99JzZG4rpZexxjortaH42t");
-    if(rv == JUBR_OK){cout << "check BTC address success"<<endl;}
+    if(rv == JUBR_OK) { cout << "check BTC address success"<<endl; }
     rv = JUB_CheckAddressBTC(contextID,"bc1qwmde2qhsgvzlnmju48tp4kdvqxdaaxr0vx9g27");
-    if(rv == JUBR_OK){cout << "check BTC segwit address success"<<endl;}
+    if(rv == JUBR_OK) { cout << "check BTC segwit address success"<<endl; }
     rv = JUB_CheckAddressBTC(contextID,"bitcoincash:qru79kxhzwqgyhe7t7pwft48fa73j7fl2vwuq6g24y");
-    if(rv == JUBR_OK){cout << "check BCH address success"<<endl;}
+    if(rv == JUBR_OK) { cout << "check BCH address success"<<endl; }
     rv = JUB_CheckAddressBTC(contextID,"LXczvksbLR48JBiLfmNApPL8b3QTny6M68");
-    if(rv == JUBR_OK){cout << "check LTC address success"<<endl;}
+    if(rv == JUBR_OK) { cout << "check LTC address success"<<endl; }
     rv = JUB_CheckAddressBTC(contextID,"XqCTx6CGWyxCBKHWuFYuszFFhrDAZKzvXR");
-    if(rv == JUBR_OK){cout << "check DASH address success"<<endl;}
-    
-    
+    if(rv == JUBR_OK) { cout << "check DASH address success"<<endl; }
 
     if (isQRC20) {
         rv = transactionQTUM_proc(contextID, root);
@@ -126,57 +124,57 @@ void software_test_btc() {
         int choice = 0;
         cin >> choice;
 
+        std::string json_file = "json/";
         bool isQRC20 = false;
-        const char* json_file;
         CONTEXT_CONFIG_BTC cfg;
         switch (choice) {
             case 2:
             {
                 cfg.coinType = COINLTC;
                 cfg.transType = p2pkh;
-                json_file = "json/testLTC.json";
+                json_file += "testLTC.json";
                 break;
             }
             case 5:
             {
                 cfg.coinType = COINDASH;
                 cfg.transType = p2pkh;
-                json_file = "json/testDASH.json";
+                json_file += "testDASH.json";
                 break;
             }
             case 31:
             {
                 cfg.coinType = COINBTC;
                 cfg.transType = p2pkh;
-                json_file = "json/testBTC44.json";
+                json_file += "testBTC44.json";
                 break;
             }
             case 32:
             {
                 cfg.coinType = COINBTC;
                 cfg.transType = p2sh_p2wpkh;
-                json_file = "json/testBTC49.json";
+                json_file += "testBTC49.json";
                 break;
             }
             case 39:
             {
                 cfg.coinType = COINUSDT;
                 cfg.transType = p2pkh;
-                json_file = "json/testUSDT.json";
+                json_file += "testUSDT.json";
                 break;
             }
             case 145:
             {
                 cfg.coinType = COINBCH;
                 cfg.transType = p2pkh;
-                json_file = "json/testBCH.json";
+                json_file += "testBCH.json";
                 break;
             }
             case 88:
             {
                 cfg.coinType = COINQTUM;
                 cfg.transType = p2pkh;
-                json_file = "json/testQTUM_qrc20.json";
+                json_file += "testQTUM_qrc20.json";
                 isQRC20 = true;
                 break;
             }
@@ -184,7 +182,7 @@ void software_test_btc() {
             {
                 cfg.coinType = COINQTUM;
                 cfg.transType = p2pkh;
-                json_file = "json/testQTUM.json";
+                json_file += "testQTUM.json";
                 break;
             }
             case 0:
@@ -193,7 +191,7 @@ void software_test_btc() {
                 continue;
         }
 
-        Json::Value root = readJSON(json_file);
+        Json::Value root = readJSON(json_file.c_str());
 
         cfg.mainPath = (char*)root["main_path"].asCString();
 

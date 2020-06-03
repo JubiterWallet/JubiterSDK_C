@@ -17,7 +17,7 @@ bool TWHDVersionIsPublic(enum TWHDVersion version) {
     case TWHDVersionLTUB:
     case TWHDVersionMTUB:
     case TWHDVersionDPUB:
-    case TWHDVersionDGUB:
+//    case TWHDVersionDGUB:
         return true;
 
     case TWHDVersionXPRV:
@@ -26,7 +26,7 @@ bool TWHDVersionIsPublic(enum TWHDVersion version) {
     case TWHDVersionLTPV:
     case TWHDVersionMTPV:
     case TWHDVersionDPRV:
-    case TWHDVersionDGPV:
+//    case TWHDVersionDGPV:
         return false;
 
     case TWHDVersionNone:
