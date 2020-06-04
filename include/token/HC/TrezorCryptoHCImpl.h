@@ -27,6 +27,9 @@ public:
                           const std::vector<JUB_BYTE>& vUnsigedTrans,
                           std::vector<JUB_BYTE>& vRaw) override;
 
+private:
+    virtual JUB_RV _HdnodeCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint) override;
+    virtual JUB_RV _xpub2dpub(const std::string& xpub, std::string& dpub);
 }; // class TrezorCryptoHCImpl end
 
 
