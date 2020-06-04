@@ -22,7 +22,6 @@ void get_address_test_HC(JUB_UINT16 contextID, Json::Value root) {
             cout << "JUB_GetMainHDNodeHC() return " << GetErrMsg(rv) << endl;
             return;
         }
-
         cout << "Main xpub : " << mainXpub << endl;
         JUB_FreeMemory(mainXpub);
 

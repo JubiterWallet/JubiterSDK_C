@@ -82,7 +82,7 @@ JUB_RV JubiterNFCBTCImpl::GetAddress(const JUB_BYTE addrFmt,
 
 JUB_RV JubiterNFCBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    return JUBR_OK;
 }
 
 

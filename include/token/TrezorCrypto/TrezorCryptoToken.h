@@ -8,7 +8,7 @@
 
 namespace jub {
 namespace token {
-    
+
 
 class TrezorCryptoToken :
    public SoftwareToken {
@@ -34,9 +34,9 @@ public:
 
         //xprv
         JUB_BYTE zero[33] = {0,};
-        if(0 != memcmp(hdkey.private_key, zero, 32)) {
+        if(0 != memcmp(hdkey.private_key, zero, sizeof(hdkey.private_key)/sizeof(uint8_t))) {
             hdnode_fill_public_key(&hdkey);
-            JUB_CHAR _pk[200] = { 0, };
+            JUB_CHAR _pk[200] = {0,};
             if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, xpubPrefix, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
                 _type = JUB_SoftwareTokenType::NONE;
                 return;
@@ -48,7 +48,7 @@ public:
             return;
         }
 
-        if(0 != memcmp(hdkey.public_key, zero, 33)) {
+        if(0 != memcmp(hdkey.public_key, zero, sizeof(hdkey.public_key)/sizeof(uint8_t))) {
             _MasterKey_XPUB = XPRVorXPUB;
             _type = JUB_SoftwareTokenType::PUBLIC;
             return;
@@ -63,12 +63,11 @@ public:
 
 
     virtual JUB_RV _HdnodeCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint) {
-
-        if(_type == JUB_SoftwareTokenType::PRIVATE) {
+        if(JUB_SoftwareTokenType::PRIVATE == _type) {
             return hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name, TWCoinType2HDVersionPublic(_coin),  TWCoinType2HDVersionPrivate(_coin), node, parentFingerprint);
         }
 
-        if(_type == JUB_SoftwareTokenType::PUBLIC) {
+        if(JUB_SoftwareTokenType::PUBLIC == _type) {
             return hdnode_pub_ckd(_MasterKey_XPUB, path, _curve_name, TWCoinType2HDVersionPublic(_coin),  TWCoinType2HDVersionPrivate(_coin), node, parentFingerprint);
         }
 
