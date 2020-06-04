@@ -79,19 +79,13 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
     if(rv == JUBR_OK) {
         cout << "JUB_GetAddressBTC: " << address << endl;
+        rv = JUB_CheckAddressBTC(contextID, address);
+        cout << "JUB_CheckAddressBTC() return " << GetErrMsg(rv) << endl;
         JUB_FreeMemory(address);
     }
 
-    rv = JUB_CheckAddressBTC(contextID,"1JpuFuiBfMzm99JzZG4rpZexxjortaH42t");
-    if(rv == JUBR_OK) { cout << "check BTC address success"<<endl; }
-    rv = JUB_CheckAddressBTC(contextID,"bc1qwmde2qhsgvzlnmju48tp4kdvqxdaaxr0vx9g27");
-    if(rv == JUBR_OK) { cout << "check BTC segwit address success"<<endl; }
-    rv = JUB_CheckAddressBTC(contextID,"bitcoincash:qru79kxhzwqgyhe7t7pwft48fa73j7fl2vwuq6g24y");
-    if(rv == JUBR_OK) { cout << "check BCH address success"<<endl; }
-    rv = JUB_CheckAddressBTC(contextID,"LXczvksbLR48JBiLfmNApPL8b3QTny6M68");
-    if(rv == JUBR_OK) { cout << "check LTC address success"<<endl; }
-    rv = JUB_CheckAddressBTC(contextID,"XqCTx6CGWyxCBKHWuFYuszFFhrDAZKzvXR");
-    if(rv == JUBR_OK) { cout << "check DASH address success"<<endl; }
+//    rv = JUB_CheckAddressBTC(contextID,"bc1qwmde2qhsgvzlnmju48tp4kdvqxdaaxr0vx9g27");
+//    if(rv == JUBR_OK){cout << "check BTC segwit address success"<<endl;}
 
     if (isQRC20) {
         rv = transactionQTUM_proc(contextID, root);
@@ -131,7 +125,7 @@ void software_test_btc() {
             case 2:
             {
                 cfg.coinType = COINLTC;
-                cfg.transType = p2pkh;
+                cfg.transType = p2sh_p2wpkh;
                 json_file += "testLTC.json";
                 break;
             }

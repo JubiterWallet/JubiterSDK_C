@@ -76,26 +76,30 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
         cout << "JUB_CreateContextHC_soft return " << rv << endl;
     }
 
+    JUB_CHAR_PTR mainXpub;
+    rv = JUB_GetMainHDNodeHC(contextID, &mainXpub);
+    cout << "JUB_GetMainHDNodeHC() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "Main xpub : " << mainXpub << endl;
+        JUB_FreeMemory(mainXpub);
+    }
+
     BIP44_Path path;
     path.change = BOOL_FALSE;
     path.addressIndex = 0;
     JUB_CHAR_PTR  xpub = nullptr;
     rv = JUB_GetHDNodeHC(contextID, path, &xpub);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GetHDNodeHC return " << rv << endl;
-    }
-    else {
-        cout << "JUB_GetHDNodeHC return " << xpub << endl;
+    cout << "JUB_GetHDNodeHC return " << GetErrMsg(rv) << endl;
+    if (rv == JUBR_OK) {
+        cout << "dpub: " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressHC(contextID, path, BOOL_FALSE, &address);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GetAddressHC return " << rv << endl;
-    }
-    else {
-        cout << address << endl;
+    cout << "JUB_GetAddressHC return " << GetErrMsg(rv) << endl;
+    if(rv == JUBR_OK) {
+        cout << "address: " << address << endl;
         JUB_FreeMemory(address);
     }
 
