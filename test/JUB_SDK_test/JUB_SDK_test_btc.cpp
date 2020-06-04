@@ -167,6 +167,8 @@ void show_address_test(JUB_UINT16 contextID) {
         return;
     }
     cout << "show address is : " << address << endl;
+    rv = JUB_CheckAddressBTC(contextID, address);
+    cout << "JUB_CheckAddressBTC() return " << GetErrMsg(rv) << endl;
 
     JUB_FreeMemory(address);
 }

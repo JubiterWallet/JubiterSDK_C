@@ -23,7 +23,7 @@ JUB_RV TrezorCryptoETHImpl::GetAddress(const std::string& path, const JUB_UINT16
     //tag used by hardware,this imp not use.
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(_HdnodeCkd(path,&hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
     uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
     TW::Data publicKey(vPublicKey);
@@ -36,7 +36,7 @@ JUB_RV TrezorCryptoETHImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-     JUB_VERIFY_RV(_HdnodeCkd(path,&hdkey, &parentFingerprint));
+     JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
 //    typedef enum {
 //        HEX = 0x00,
@@ -73,7 +73,7 @@ JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     std::string path(&vPath[0], &vPath[0] + vPath.size());
-    JUB_VERIFY_RV(_HdnodeCkd(path,&hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
     TW::Ethereum::Transaction tx(vNonce,
                                  vGasPrice,
