@@ -96,7 +96,7 @@ typedef enum {
 // Remove c++ features for swift framework
 //typedef struct stContextCfgBTC : stContextCfg {
 typedef struct stContextCfgBTC {
-    JUB_CHAR_PTR            mainPath;
+    JUB_CHAR_PTR             mainPath;
     JUB_ENUM_COINTYPE_BTC    coinType;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE transType;
 //
@@ -233,7 +233,7 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
  *****************************************************************************/
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID,IN JUB_CHAR_CPTR address);
+JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address);
 
 /*****************************************************************************
  * @function name : JUB_SetMyAddressBTC

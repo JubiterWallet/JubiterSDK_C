@@ -1159,13 +1159,6 @@
 			name = JubSDKCore;
 			sourceTree = "<group>";
 		};
-		6718A33B23A3371500F8A5CD /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		674F199523A1055F001702DD /* aes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1383,7 +1376,6 @@
 				67A4BC83233082750059A3DB /* JubSDK */,
 				6718A33523A3369B00F8A5CD /* JubSDKCore */,
 				67A4BC7D233082130059A3DB /* Products */,
-				6718A33B23A3371500F8A5CD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

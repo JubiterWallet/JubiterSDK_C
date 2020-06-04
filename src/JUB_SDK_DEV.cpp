@@ -378,7 +378,9 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
     // Let's go to the main security domain,
     // instead of judging the return value,
     // to get the data back
-    JUB_IsBootLoader(deviceID);
+    if (!token->IsBootLoader()) {
+        return JUBR_ERROR;
+    }
 
     std::string str_cert;
     JUB_VERIFY_RV(token->GetDeviceCert(str_cert));

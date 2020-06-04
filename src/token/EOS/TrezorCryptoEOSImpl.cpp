@@ -28,7 +28,7 @@ JUB_RV TrezorCryptoEOSImpl::GetAddress(const TW::EOS::Type& type, const std::str
     //tag used by hardware,this imp not use.
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(_HdnodeCkd(path,&hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
     uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
     TW::Data publicKey(vPublicKey);
@@ -43,7 +43,7 @@ JUB_RV TrezorCryptoEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(_HdnodeCkd(path,&hdkey, &parentFingerprint));
+    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
 //    typedef enum class JubPubFormat {
 //        HEX = 0x00,
@@ -86,7 +86,7 @@ JUB_RV TrezorCryptoEOSImpl::SignTX(const TW::EOS::Type& type,
 
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
-         JUB_VERIFY_RV(_HdnodeCkd(path,&hdkey, &parentFingerprint));
+         JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
         uchar_vector privk(hdkey.private_key, hdkey.private_key + 32);
         TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
