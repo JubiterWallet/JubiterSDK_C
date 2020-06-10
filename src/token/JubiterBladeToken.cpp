@@ -278,6 +278,9 @@ JUB_RV JubiterBladeToken::ShowVirtualPwd() {
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x6985 == ret) { //locked
+        JUB_VERIFY_RV(JUBR_PIN_LOCKED);
+    }
     JUB_VERIFY_COS_ERROR(ret);
 
     return JUBR_OK;
