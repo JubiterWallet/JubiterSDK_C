@@ -103,7 +103,7 @@ class Script {
 
     // JuBiter-defined
     /// Builds a return0 script from a script.
-    static Script buildReturn0(const Data& data);
+    static Script buildReturn0(const Data& data, const Data& check={});
 
     /// Builds a pay-to-public-key-hash (P2PKH) script appropriate for the given
     /// address.
@@ -120,7 +120,7 @@ class Script {
     void encodeZero(Data& data) const;
 
     // JuBiter-defined
-    /// Dncodes the script.
+    /// Decodes the script.
     bool decode(const Data& data);
 
     // JuBiter-defined
