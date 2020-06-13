@@ -131,7 +131,8 @@ JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
                 TW::Data return0(output.return0.dataLen);
                 std::memcpy(&return0[0], output.return0.data, output.return0.dataLen);
 
-                scriptPubkey = TW::Bitcoin::Script::buildReturn0(return0);
+                // Check if it is omni protocol
+                scriptPubkey = TW::Bitcoin::Script::buildReturn0(return0, uchar_vector("6f6d6e69"));
                 amount = output.return0.amount;
                 break;
             }

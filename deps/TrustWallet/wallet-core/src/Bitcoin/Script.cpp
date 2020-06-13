@@ -27,6 +27,8 @@
 #include <cassert>
 #include <set>
 
+#include "mSIGNA/stdutils/uchar_vector.h"
+
 using namespace TW;
 using namespace TW::Bitcoin;
 
@@ -322,8 +324,14 @@ Script Script::buildPayToScriptHashWitness(const Data& redeemScript, const std::
 
 // JuBiter-defined
 /// Builds a return0 script from a script.
-Script Script::buildReturn0(const Data& data) {
+Script Script::buildReturn0(const Data& data, const Data& check) {
     Script script;
+    // Check if
+    if (!check.empty()) {
+        if(-1 == std::string(uchar_vector(data).getHex()).find(uchar_vector(check).getHex())) {
+            return script;
+        }
+    }
     script.bytes.push_back(OP_RETURN);
     script.bytes.push_back(data.size());
     script.bytes.insert(script.bytes.end(), data.begin(), data.end());
@@ -342,7 +350,7 @@ void Script::encodeZero(Data& data) const {
 }
 
 // JuBiter-defined
-/// Dncodes the script.
+/// Decodes the script.
 bool Script::decode(const Data& data) {
 
     size_t szScript = decodeVarInt(data, _varIntSize);
