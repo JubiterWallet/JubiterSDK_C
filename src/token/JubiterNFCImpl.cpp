@@ -15,7 +15,7 @@ namespace token {
 
 #define SWITCH_TO_NFC_APP                       \
 do {				                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_NFC, 16)); \
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE)));\
 } while (0)                                     \
 
 

@@ -18,7 +18,7 @@ typedef enum class enumCoinTypeMisc {
 
 #define SWITCH_TO_XRP_APP                       \
 do {                                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, 16));\
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE)));\
 } while (0);                                    \
 
 

@@ -25,6 +25,13 @@ public:
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                             OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                             IN JUB_ULONG ulMiliSecondTimeout = 1200000) = 0;
+
+    virtual void *GetSCP11() {
+        return nullptr;
+    }
+    virtual void *GetSCP03() {
+        return nullptr;
+    }
 }; // class DeviceTypeBase end
 
 

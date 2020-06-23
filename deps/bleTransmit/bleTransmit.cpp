@@ -130,7 +130,7 @@ CK_FUNCTION_INFO(BLE_StopScan)
 #elif defined(TARGET_OS_IPHONE)
     //whl 20170327
 //    [[BLEManager sharedManager] stopScan];
-    ret = ADDPRE(BLEStopScan());;
+    ret = ADDPRE(BLEStopScan());
 #endif
     return ret;
 }

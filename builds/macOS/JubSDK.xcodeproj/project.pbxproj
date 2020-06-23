@@ -397,6 +397,26 @@
 		6746220223C31DEB0096DDA2 /* TrezorCryptoBTCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 674621FE23C31DEB0096DDA2 /* TrezorCryptoBTCImpl.cpp */; };
 		6746220423C31DF80096DDA2 /* JubiterBladeToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6746220323C31DF80096DDA2 /* JubiterBladeToken.cpp */; };
 		6746220523C31DF80096DDA2 /* JubiterBladeToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6746220323C31DF80096DDA2 /* JubiterBladeToken.cpp */; };
+		674B4A7324A1B0410053AB2F /* tlv.h in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A7224A1B0410053AB2F /* tlv.h */; };
+		674B4A7424A1B0410053AB2F /* tlv.h in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A7224A1B0410053AB2F /* tlv.h */; };
+		674B4A7624A1B04C0053AB2F /* scp03.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A7524A1B04C0053AB2F /* scp03.hpp */; };
+		674B4A7724A1B04C0053AB2F /* scp03.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A7524A1B04C0053AB2F /* scp03.hpp */; };
+		674B4A7A24A1B0570053AB2F /* scp11c.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A7824A1B0570053AB2F /* scp11c.hpp */; };
+		674B4A7B24A1B0570053AB2F /* scp11c.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A7824A1B0570053AB2F /* scp11c.hpp */; };
+		674B4A7C24A1B0570053AB2F /* scp11.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A7924A1B0570053AB2F /* scp11.hpp */; };
+		674B4A7D24A1B0570053AB2F /* scp11.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A7924A1B0570053AB2F /* scp11.hpp */; };
+		674B4A8224A1B0D70053AB2F /* tlvparse.c in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A7E24A1B0D70053AB2F /* tlvparse.c */; };
+		674B4A8324A1B0D70053AB2F /* tlvparse.c in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A7E24A1B0D70053AB2F /* tlvparse.c */; };
+		674B4A8424A1B0D70053AB2F /* scp11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A7F24A1B0D70053AB2F /* scp11.cpp */; };
+		674B4A8524A1B0D70053AB2F /* scp11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A7F24A1B0D70053AB2F /* scp11.cpp */; };
+		674B4A8624A1B0D70053AB2F /* scp03.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A8024A1B0D70053AB2F /* scp03.cpp */; };
+		674B4A8724A1B0D70053AB2F /* scp03.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A8024A1B0D70053AB2F /* scp03.cpp */; };
+		674B4A8824A1B0D70053AB2F /* scp11c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A8124A1B0D70053AB2F /* scp11c.cpp */; };
+		674B4A8924A1B0D70053AB2F /* scp11c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A8124A1B0D70053AB2F /* scp11c.cpp */; };
+		674B4A8B24A1B2F00053AB2F /* cmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A8A24A1B2F00053AB2F /* cmac.h */; };
+		674B4A8C24A1B2F00053AB2F /* cmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 674B4A8A24A1B2F00053AB2F /* cmac.h */; };
+		674B4A8E24A1B3060053AB2F /* cmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A8D24A1B3060053AB2F /* cmac.c */; };
+		674B4A8F24A1B3060053AB2F /* cmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 674B4A8D24A1B3060053AB2F /* cmac.c */; };
 		674F199C23A10574001702DD /* aescrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199623A10574001702DD /* aescrypt.c */; };
 		674F199D23A10574001702DD /* aeskey.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199723A10574001702DD /* aeskey.c */; };
 		674F199E23A10574001702DD /* aes_modes.c in Sources */ = {isa = PBXBuildFile; fileRef = 674F199823A10574001702DD /* aes_modes.c */; };
@@ -836,6 +856,16 @@
 		674621FD23C31DEB0096DDA2 /* JubiterBladeBTCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBladeBTCImpl.cpp; path = ../../src/token/BTC/JubiterBladeBTCImpl.cpp; sourceTree = "<group>"; };
 		674621FE23C31DEB0096DDA2 /* TrezorCryptoBTCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrezorCryptoBTCImpl.cpp; path = ../../src/token/BTC/TrezorCryptoBTCImpl.cpp; sourceTree = "<group>"; };
 		6746220323C31DF80096DDA2 /* JubiterBladeToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBladeToken.cpp; path = ../../src/token/JubiterBladeToken.cpp; sourceTree = "<group>"; };
+		674B4A7224A1B0410053AB2F /* tlv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tlv.h; path = ../../gpc/include/tlv.h; sourceTree = "<group>"; };
+		674B4A7524A1B04C0053AB2F /* scp03.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scp03.hpp; path = ../../gpc/include/scp03/scp03.hpp; sourceTree = "<group>"; };
+		674B4A7824A1B0570053AB2F /* scp11c.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scp11c.hpp; path = ../../gpc/include/scp11/scp11c.hpp; sourceTree = "<group>"; };
+		674B4A7924A1B0570053AB2F /* scp11.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scp11.hpp; path = ../../gpc/include/scp11/scp11.hpp; sourceTree = "<group>"; };
+		674B4A7E24A1B0D70053AB2F /* tlvparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tlvparse.c; path = ../../gpc/src/tlvparse.c; sourceTree = "<group>"; };
+		674B4A7F24A1B0D70053AB2F /* scp11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scp11.cpp; path = ../../gpc/src/scp11.cpp; sourceTree = "<group>"; };
+		674B4A8024A1B0D70053AB2F /* scp03.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scp03.cpp; path = ../../gpc/src/scp03.cpp; sourceTree = "<group>"; };
+		674B4A8124A1B0D70053AB2F /* scp11c.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scp11c.cpp; path = ../../gpc/src/scp11c.cpp; sourceTree = "<group>"; };
+		674B4A8A24A1B2F00053AB2F /* cmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmac.h; path = "../../trezor-crypto/include/TrezorCrypto/cmac.h"; sourceTree = "<group>"; };
+		674B4A8D24A1B3060053AB2F /* cmac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cmac.c; path = "../../trezor-crypto/src/cmac.c"; sourceTree = "<group>"; };
 		674F199623A10574001702DD /* aescrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = aescrypt.c; path = "../../trezor-crypto/src/aes/aescrypt.c"; sourceTree = "<group>"; };
 		674F199723A10574001702DD /* aeskey.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = aeskey.c; path = "../../trezor-crypto/src/aes/aeskey.c"; sourceTree = "<group>"; };
 		674F199823A10574001702DD /* aes_modes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = aes_modes.c; path = "../../trezor-crypto/src/aes/aes_modes.c"; sourceTree = "<group>"; };
@@ -1157,6 +1187,37 @@
 				67ECD14C23CD74C400B7D514 /* module.modulemap */,
 			);
 			name = JubSDKCore;
+			sourceTree = "<group>";
+		};
+		674B4A6F24A1AF8C0053AB2F /* gpc */ = {
+			isa = PBXGroup;
+			children = (
+				674B4A7124A1B0340053AB2F /* include */,
+				674B4A7024A1B02E0053AB2F /* src */,
+			);
+			name = gpc;
+			sourceTree = "<group>";
+		};
+		674B4A7024A1B02E0053AB2F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				674B4A8024A1B0D70053AB2F /* scp03.cpp */,
+				674B4A7F24A1B0D70053AB2F /* scp11.cpp */,
+				674B4A8124A1B0D70053AB2F /* scp11c.cpp */,
+				674B4A7E24A1B0D70053AB2F /* tlvparse.c */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		674B4A7124A1B0340053AB2F /* include */ = {
+			isa = PBXGroup;
+			children = (
+				674B4A7524A1B04C0053AB2F /* scp03.hpp */,
+				674B4A7924A1B0570053AB2F /* scp11.hpp */,
+				674B4A7824A1B0570053AB2F /* scp11c.hpp */,
+				674B4A7224A1B0410053AB2F /* tlv.h */,
+			);
+			name = include;
 			sourceTree = "<group>";
 		};
 		674F199523A1055F001702DD /* aes */ = {
@@ -1606,6 +1667,7 @@
 				67A4BE182330AF0B0059A3DB /* bigint */,
 				67A4BDFC2330ADE00059A3DB /* mSIGNA */,
 				67A4BDE62330AC7C0059A3DB /* hidapi */,
+				674B4A6F24A1AF8C0053AB2F /* gpc */,
 				67A4BD042330A09B0059A3DB /* trezor-crypto */,
 				676621C5234C30BF00AFAFA2 /* TrustWallet */,
 			);
@@ -1645,6 +1707,7 @@
 				67A4BD522330A1D00059A3DB /* blake2s.h */,
 				67A4BD532330A1D00059A3DB /* blake256.h */,
 				67A4BD542330A1D00059A3DB /* curves.h */,
+				674B4A8A24A1B2F00053AB2F /* cmac.h */,
 				67A4BD562330A1D00059A3DB /* ecdsa.h */,
 				674F19C623A10611001702DD /* ed25519-donna */,
 				674F19DC23A10639001702DD /* ed25519-donna.h */,
@@ -1717,6 +1780,7 @@
 				67A4BDC52330A9F80059A3DB /* blake256.c */,
 				67A4BDBD2330A9F80059A3DB /* cash_addr.c */,
 				67A4BDC62330A9F80059A3DB /* curves.c */,
+				674B4A8D24A1B3060053AB2F /* cmac.c */,
 				67A4BDC92330A9F90059A3DB /* ecdsa.c */,
 				674F19A523A105D3001702DD /* ed25519-donna */,
 				6713A92A23A0BD350083A34D /* groestl.c */,
@@ -1945,6 +2009,7 @@
 				67189F2923A20FFC00F8A5CD /* HDKey.hpp in Headers */,
 				67189F8223A2113E00F8A5CD /* base32.h in Headers */,
 				67189F1423A20FED00F8A5CD /* JUB_SDK_DEV_BLE.h in Headers */,
+				674B4A7424A1B0410053AB2F /* tlv.h in Headers */,
 				6715456623D1CFB200810F16 /* Script.h in Headers */,
 				67189FA523A2115100F8A5CD /* script.h in Headers */,
 				676F02FA23C8ABAF005C8032 /* JubiterBladeHCImpl.h in Headers */,
@@ -1976,6 +2041,7 @@
 				67189F8A23A2113E00F8A5CD /* curves.h in Headers */,
 				6715456A23D1CFB200810F16 /* TransactionOutput.h in Headers */,
 				676F030423C8ABC8005C8032 /* JubiterBladeEOSImpl.h in Headers */,
+				674B4A7D24A1B0570053AB2F /* scp11.hpp in Headers */,
 				676F02E323C8AB0F005C8032 /* BaseToken.h in Headers */,
 				67416539246CF64800DFAC28 /* mutex.h in Headers */,
 				67189FF723A211B000F8A5CD /* Data.h in Headers */,
@@ -2020,6 +2086,7 @@
 				6718A00E23A211BB00F8A5CD /* Address.h in Headers */,
 				672D54132480F85C00D42DE1 /* JubiterNFCBTCImpl.h in Headers */,
 				67189FCC23A2117200F8A5CD /* ed25519-hash-custom-blake2b.h in Headers */,
+				674B4A7724A1B04C0053AB2F /* scp03.hpp in Headers */,
 				67ECD13023CD71B900B7D514 /* DerivationPath.h in Headers */,
 				67189FBD23A2116D00F8A5CD /* blake2_common.h in Headers */,
 				67189FA323A2114D00F8A5CD /* base58.h in Headers */,
@@ -2036,6 +2103,7 @@
 				328D10B9240B922500AB723D /* JubiterBaseETHImpl.h in Headers */,
 				67189FEF23A211AC00F8A5CD /* Deserialization.h in Headers */,
 				67189F7223A2111700F8A5CD /* NumberlikeArray.hh in Headers */,
+				674B4A8C24A1B2F00053AB2F /* cmac.h in Headers */,
 				67189FCD23A2117200F8A5CD /* ed25519-hash-custom-keccak.h in Headers */,
 				67189F7123A2111700F8A5CD /* BigUnsignedInABase.hh in Headers */,
 				67ECD13923CD724100B7D514 /* Bech32Address.h in Headers */,
@@ -2082,6 +2150,7 @@
 				6718A00223A211B600F8A5CD /* Signer.h in Headers */,
 				67189FEC23A211AC00F8A5CD /* Address.h in Headers */,
 				67189FF423A211AC00F8A5CD /* Signer.h in Headers */,
+				674B4A7B24A1B0570053AB2F /* scp11c.hpp in Headers */,
 				67189FA723A2115100F8A5CD /* secp256k1.h in Headers */,
 				67189F3C23A2103800F8A5CD /* Singleton.h in Headers */,
 				67ECD16723CDA43F00B7D514 /* TWBase.h in Headers */,
@@ -2161,6 +2230,7 @@
 				6766220F234C31B400AFAFA2 /* Signer.h in Headers */,
 				67662225234C31DC00AFAFA2 /* PublicKey.h in Headers */,
 				6715453E23D1B94D00810F16 /* TWP2SHPrefix.h in Headers */,
+				674B4A7324A1B0410053AB2F /* tlv.h in Headers */,
 				674F19C323A105F2001702DD /* curve25519-donna-scalarmult-base.h in Headers */,
 				6715456523D1CFB200810F16 /* Script.h in Headers */,
 				67A4BCD0233084200059A3DB /* Apdu.hpp in Headers */,
@@ -2192,6 +2262,7 @@
 				675C796B238B78B00015C95D /* Transaction.h in Headers */,
 				674F19A023A10574001702DD /* aesopt.h in Headers */,
 				67A4BD232330A1560059A3DB /* hasher.h in Headers */,
+				674B4A7C24A1B0570053AB2F /* scp11.hpp in Headers */,
 				67A4BC95233082CA0059A3DB /* JubiterHidDevice.hpp in Headers */,
 				67416538246CF64800DFAC28 /* mutex.h in Headers */,
 				6715456923D1CFB200810F16 /* TransactionOutput.h in Headers */,
@@ -2236,6 +2307,7 @@
 				674F19D623A10628001702DD /* ed25519-donna-basepoint-table.h in Headers */,
 				672D54122480F85C00D42DE1 /* JubiterNFCBTCImpl.h in Headers */,
 				674621CD23C31D670096DDA2 /* EOSContext.h in Headers */,
+				674B4A7624A1B04C0053AB2F /* scp03.hpp in Headers */,
 				674621CB23C31D670096DDA2 /* BTCContext.h in Headers */,
 				676621F4234C318A00AFAFA2 /* Asset.h in Headers */,
 				676F030923C8ABD4005C8032 /* JubiterBladeBTCImpl.h in Headers */,
@@ -2252,6 +2324,7 @@
 				676621F1234C318A00AFAFA2 /* Operation.h in Headers */,
 				328D10B8240B922500AB723D /* JubiterBaseETHImpl.h in Headers */,
 				67A4BE2E2330AF200059A3DB /* BigUnsigned.hh in Headers */,
+				674B4A8B24A1B2F00053AB2F /* cmac.h in Headers */,
 				674621CF23C31D670096DDA2 /* ETHContext.h in Headers */,
 				676F02E223C8AB0F005C8032 /* BaseToken.h in Headers */,
 				67A4BE292330AF200059A3DB /* NumberlikeArray.hh in Headers */,
@@ -2298,6 +2371,7 @@
 				67A4BCCD233084200059A3DB /* Debug.hpp in Headers */,
 				674F19D323A10628001702DD /* ed25519-blake2b.h in Headers */,
 				674F19D723A10628001702DD /* ed25519-donna-portable.h in Headers */,
+				674B4A7A24A1B0570053AB2F /* scp11c.hpp in Headers */,
 				674F19C523A105F2001702DD /* ed25519-hash-custom-blake2b.h in Headers */,
 				67ECD16623CDA43F00B7D514 /* TWBase.h in Headers */,
 				6795A82323D8598500F273E0 /* QTUMTokenInterface.hpp in Headers */,
@@ -2412,12 +2486,14 @@
 				6746220523C31DF80096DDA2 /* JubiterBladeToken.cpp in Sources */,
 				6795A82123D854AF00F273E0 /* QTUMContext.cpp in Sources */,
 				6715453323D1B77A00810F16 /* TWData.cpp in Sources */,
+				674B4A8524A1B0D70053AB2F /* scp11.cpp in Sources */,
 				674621DA23C31D820096DDA2 /* XRPContext.cpp in Sources */,
 				67189FD723A2117500F8A5CD /* memzero.c in Sources */,
 				67189FB823A2116D00F8A5CD /* base58.c in Sources */,
 				677A18B023F2B80F003FA636 /* TransactionOutputHcash.cpp in Sources */,
 				67189FBF23A2116D00F8A5CD /* blake2s.c in Sources */,
 				67189FCB23A2117200F8A5CD /* ed25519-donna-impl-base.c in Sources */,
+				674B4A8F24A1B3060053AB2F /* cmac.c in Sources */,
 				674621E823C31D9D0096DDA2 /* TrezorCryptoXRPImpl.cpp in Sources */,
 				67189F4223A2103F00F8A5CD /* JUB_SDK_DEV_HID.cpp in Sources */,
 				674621F623C31DCD0096DDA2 /* TrezorCryptoHCImpl.cpp in Sources */,
@@ -2477,11 +2553,13 @@
 				67189FE423A2117F00F8A5CD /* keypair.c in Sources */,
 				6795A81E23D8549300F273E0 /* TrezorCryptoQTUMImpl.cpp in Sources */,
 				672D542A2480F8D800D42DE1 /* JubiterNFCBCHImpl.cpp in Sources */,
+				674B4A8724A1B0D70053AB2F /* scp03.cpp in Sources */,
 				67189FBA23A2116D00F8A5CD /* bip32.c in Sources */,
 				67189FD323A2117200F8A5CD /* modm-donna-32bit.c in Sources */,
 				67189F5223A2104A00F8A5CD /* JubiterHidDevice.cpp in Sources */,
 				6715459C23D5567B00810F16 /* TWHDVersion.cpp in Sources */,
 				67189FBC23A2116D00F8A5CD /* bip39.c in Sources */,
+				674B4A8924A1B0D70053AB2F /* scp11c.cpp in Sources */,
 				67189FF823A211B600F8A5CD /* Action.cpp in Sources */,
 				676B42A3240F922300EBB44D /* AddressChecksum.cpp in Sources */,
 				6715455E23D1CFB200810F16 /* OutPoint.cpp in Sources */,
@@ -2513,6 +2591,7 @@
 				67189F4523A2103F00F8A5CD /* JUB_SDK_ETH.cpp in Sources */,
 				67189F4023A2103F00F8A5CD /* JUB_SDK_COMM.cpp in Sources */,
 				67189F5023A2104A00F8A5CD /* Fido.cpp in Sources */,
+				674B4A8324A1B0D70053AB2F /* tlvparse.c in Sources */,
 				32C3E5F123EC060D00BC20EE /* TrezorCryptoBCHImpl.cpp in Sources */,
 				67189FC423A2117200F8A5CD /* curve25519-donna-32bit.c in Sources */,
 				67189FCA23A2117200F8A5CD /* ed25519-donna-basepoint-table.c in Sources */,
@@ -2576,12 +2655,14 @@
 				6795A82023D854AF00F273E0 /* QTUMContext.cpp in Sources */,
 				6715453223D1B77A00810F16 /* TWData.cpp in Sources */,
 				67A4BD6C2330A3280059A3DB /* keypair.c in Sources */,
+				674B4A8424A1B0D70053AB2F /* scp11.cpp in Sources */,
 				674621D923C31D820096DDA2 /* XRPContext.cpp in Sources */,
 				6766221E234C31DC00AFAFA2 /* Hash.cpp in Sources */,
 				677A18AF23F2B80F003FA636 /* TransactionOutputHcash.cpp in Sources */,
 				67662223234C31DC00AFAFA2 /* PrivateKey.cpp in Sources */,
 				676621F7234C318A00AFAFA2 /* Transaction.cpp in Sources */,
 				674621E723C31D9D0096DDA2 /* TrezorCryptoXRPImpl.cpp in Sources */,
+				674B4A8E24A1B3060053AB2F /* cmac.c in Sources */,
 				67A4BCDF233084740059A3DB /* JUB_SDK_DEV.cpp in Sources */,
 				674621F523C31DCD0096DDA2 /* TrezorCryptoHCImpl.cpp in Sources */,
 				677A18A723F2B80F003FA636 /* OutPointHcash.cpp in Sources */,
@@ -2641,11 +2722,13 @@
 				67A4BD922330A9220059A3DB /* scrypt.c in Sources */,
 				67A4BD952330A9220059A3DB /* sha3.c in Sources */,
 				672D54292480F8D800D42DE1 /* JubiterNFCBCHImpl.cpp in Sources */,
+				674B4A8624A1B0D70053AB2F /* scp03.cpp in Sources */,
 				6715459B23D5567B00810F16 /* TWHDVersion.cpp in Sources */,
 				67662210234C31B400AFAFA2 /* Address.cpp in Sources */,
 				674621EF23C31DBE0096DDA2 /* JubiterBladeEOSImpl.cpp in Sources */,
 				674F199F23A10574001702DD /* aestab.c in Sources */,
 				6715455D23D1CFB200810F16 /* OutPoint.cpp in Sources */,
+				674B4A8824A1B0D70053AB2F /* scp11c.cpp in Sources */,
 				676B42A2240F922300EBB44D /* AddressChecksum.cpp in Sources */,
 				675C7972238B83A40015C95D /* JUB_SDK_XRP.cpp in Sources */,
 				67A4BDCD2330A9F90059A3DB /* blake2b.c in Sources */,
@@ -2677,6 +2760,7 @@
 				67662232234D8F4C00AFAFA2 /* JUB_SDK_EOS.cpp in Sources */,
 				67A4BD732330A8D10059A3DB /* ed25519_ref10.c in Sources */,
 				32C3E5F023EC060D00BC20EE /* TrezorCryptoBCHImpl.cpp in Sources */,
+				674B4A8224A1B0D70053AB2F /* tlvparse.c in Sources */,
 				67A4BE2B2330AF200059A3DB /* BigUnsigned.cc in Sources */,
 				67A4BDCB2330A9F90059A3DB /* bignum.c in Sources */,
 				67A4BD932330A9220059A3DB /* rand.c in Sources */,
@@ -2752,15 +2836,16 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					../../include,
+					"../../trezor-crypto/include",
+					../../gpc/include,
+					../../deps/,
 					../../deps/bleTransmit,
 					../../deps/bleTransmit/ios,
-					../../deps/,
-					"../../trezor-crypto/include",
+					../../deps/json/include,
 					"../../deps/TrustWallet/wallet-core",
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
 					"../../deps/TrustWallet/wallet-core/src/EOS",
-					../../deps/json/include,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2800,15 +2885,16 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
 					../../include,
+					"../../trezor-crypto/include",
+					../../gpc/include,
+					../../deps/,
 					../../deps/bleTransmit,
 					../../deps/bleTransmit/ios,
-					../../deps/,
-					"../../trezor-crypto/include",
+					../../deps/json/include,
 					"../../deps/TrustWallet/wallet-core",
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
 					"../../deps/TrustWallet/wallet-core/src/EOS",
-					../../deps/json/include,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2959,18 +3045,18 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
+					../..,
 					../../include,
+					"../../trezor-crypto/include",
+					../../gpc/include,
+					../../deps/,
 					../../deps/bleTransmit,
 					../../deps/bleTransmit/ios,
-					../../deps/libbitcoin,
-					../../deps/,
-					"../../trezor-crypto/include",
+					../../deps/json/include,
 					"../../deps/TrustWallet/wallet-core",
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
 					"../../deps/TrustWallet/wallet-core/src/EOS",
-					../../deps/json/include,
-					../..,
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -2991,18 +3077,18 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_OS_IPHONE;
 				HEADER_SEARCH_PATHS = (
+					../..,
 					../../include,
+					"../../trezor-crypto/include",
+					../../gpc/include,
+					../../deps/,
 					../../deps/bleTransmit,
 					../../deps/bleTransmit/ios,
-					../../deps/libbitcoin,
-					../../deps/,
-					"../../trezor-crypto/include",
+					../../deps/json/include,
 					"../../deps/TrustWallet/wallet-core",
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
 					"../../deps/TrustWallet/wallet-core/src/EOS",
-					../../deps/json/include,
-					../..,
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",

@@ -29,7 +29,7 @@ JUB_RV JUB_initNFCDevice(IN NFC_DEVICE_INIT_PARAM param) {
         return JUBR_ERROR;
     }
 
-    JUB_VERIFY_RV(nfcDevice->Initialize({param.scanCallBack}));
+    JUB_VERIFY_RV(nfcDevice->Initialize(param));
 
     return JUBR_OK;
 #else

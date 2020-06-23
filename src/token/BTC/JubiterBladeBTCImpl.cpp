@@ -15,7 +15,7 @@ namespace token {
 
 #define SWITCH_TO_BTC_APP                       \
 do {				                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_BTC, 16)); \
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE)));\
 } while (0)                                     \
 
 
