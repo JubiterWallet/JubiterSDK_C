@@ -8,7 +8,7 @@ namespace token {
 
 #define SWITCH_TO_ETH_APP                       \
 do {				                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_NFC, 16)); \
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE)));\
 } while (0);                                    \
 
 
@@ -21,7 +21,7 @@ JUB_RV JubiterNFCETHImpl::SelectApplet() {
 
 JUB_RV JubiterNFCETHImpl::GetAppletVersion(std::string &version) {
 
-    uchar_vector appID(kPKIAID_NFC, 16);
+    uchar_vector appID(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE));
     JUB_VERIFY_RV(GetAppletVersionBlade(CharPtr2HexStr(appID), version));
 
     return JUBR_OK;

@@ -70,10 +70,11 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
 
 
 JubiterBladeToken::JubiterBladeToken(JUB_UINT16 deviceID)
-    :_apduBuilder(std::make_shared<JubApudBuiler>()),
+    :_apduBuilder(std::make_shared<JubApduBuiler>()),
     _deviceID(deviceID) {
 
 }
+
 
 JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
     JUB_ULONG *pulRetDataLen /*= nullptr*/,
@@ -488,7 +489,7 @@ JUB_RV JubiterBladeToken::GetAppletVersionBlade(const std::string& appID, std::s
     }
 
     JUB_UINT16 ret = 0;
-    uchar_vector FidoID(kPKIAID_FIDO, 8);
+    uchar_vector FidoID(kPKIAID_FIDO, sizeof(kPKIAID_FIDO)/sizeof(JUB_BYTE));
     if (id == FidoID) {
         //select
         APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);

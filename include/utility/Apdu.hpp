@@ -74,10 +74,86 @@ public:
     void SetData(const JUB_BYTE* pData, JUB_ULONG ulDataSize) {
         // assert(ulDataSize == lc);
         data.clear();
-        data.resize(ulDataSize);
+//        data.resize(ulDataSize);
         data.insert(data.begin(), pData, pData + ulDataSize);
     }
 }; // class APDU end
+
+
+class ResponseAPDU {
+
+public:
+    ResponseAPDU() {
+        raw.clear();
+        clear();
+    }
+    ResponseAPDU(std::vector<JUB_BYTE> raw)
+        : raw(raw) {
+        clear();
+    }
+    ResponseAPDU(JUB_BYTE_PTR ret, JUB_ULONG retLen) {
+        raw.insert(raw.end(), ret, ret+retLen);
+        clear();
+    }
+    ~ResponseAPDU() {
+        raw.clear();
+        clear();
+    }
+
+    void clear() {
+        data.clear();
+        cmac.clear();
+        SW1 = 0;
+        SW2 = 0;
+    }
+    bool empty() {
+        return (   data.empty()
+                && cmac.empty()
+        );
+    }
+
+    bool decode() {
+        if (raw.empty()) {
+            return false;
+        }
+
+        if ( CMAC_LEN  > raw.size()
+            && SW_LEN != raw.size()
+            ) {
+            return false;
+        }
+
+        clear();
+
+        // parse SW
+        int swIndex1 = (int)raw.size() - SW_LEN;
+        int swIndex2 = (int)raw.size() - 1;
+        SW1 = raw[swIndex1];
+        SW2 = raw[swIndex2];
+        if (SW_LEN == raw.size()) {
+            return true;
+        }
+
+        int cmacIndex = (int)raw.size() - SW_LEN - CMAC_LEN;
+        data.insert(data.end(), raw.begin(), raw.begin()+cmacIndex);
+        cmac.insert(cmac.end(), raw.begin()+cmacIndex, raw.begin()+swIndex1);
+
+        return true;
+    }
+
+public:
+    const int CMAC_LEN = 8;
+    const int   SW_LEN = 2;
+
+    std::vector<JUB_BYTE> data;
+    std::vector<JUB_BYTE> cmac;
+    JUB_BYTE SW1;
+    JUB_BYTE SW2;
+
+private:
+    std::vector<JUB_BYTE> raw;
+};  // class ResponseAPDU end
+
 
 } // namespace jub end
 

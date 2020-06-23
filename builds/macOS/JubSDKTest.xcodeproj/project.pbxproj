@@ -10,6 +10,7 @@
 		6715458D23D434BD00810F16 /* JUB_SDK_test_qtum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6715458B23D434BC00810F16 /* JUB_SDK_test_qtum.cpp */; };
 		6715459623D45AC400810F16 /* JUB_SDK_test_hcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6715459523D45AC400810F16 /* JUB_SDK_test_hcash.cpp */; };
 		6715459923D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6715459723D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp */; };
+		671CDC2824971594004C0772 /* JUB_SDK_test_scp11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 671CDC2724971594004C0772 /* JUB_SDK_test_scp11.cpp */; };
 		675C7975238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */; };
 		6791CE0B23968EB7000B6B16 /* JUB_SDK_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */; };
 		67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE652330C3CE0059A3DB /* JUB_SDK_test.cpp */; };
@@ -46,6 +47,10 @@
 		6715459523D45AC400810F16 /* JUB_SDK_test_hcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_hcash.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_hcash.cpp; sourceTree = "<group>"; };
 		6715459723D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_hcash.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_hcash.cpp; sourceTree = "<group>"; };
 		6715459823D46A6000810F16 /* JUB_SDK_software_test_hcash.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_hcash.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_hcash.hpp; sourceTree = "<group>"; };
+		671CDC2524971547004C0772 /* settings */ = {isa = PBXFileReference; lastKnownFileType = folder; name = settings; path = ../../test/settings; sourceTree = "<group>"; };
+		671CDC2624971594004C0772 /* JUB_SDK_test_scp11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_test_scp11.h; path = ../../test/JUB_SDK_test/JUB_SDK_test_scp11.h; sourceTree = "<group>"; };
+		671CDC2724971594004C0772 /* JUB_SDK_test_scp11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_scp11.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_scp11.cpp; sourceTree = "<group>"; };
+		674B4A9024A1C7C20053AB2F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = CMakeLists.txt; path = ../../test/CMakeLists.txt; sourceTree = "<group>"; };
 		675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.cpp; sourceTree = "<group>"; };
 		675C7974238BEBFF0015C95D /* JUB_SDK_software_test_xrp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_xrp.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.hpp; sourceTree = "<group>"; };
 		6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.cpp; sourceTree = "<group>"; };
@@ -103,11 +108,13 @@
 		67A4BE512330C3870059A3DB = {
 			isa = PBXGroup;
 			children = (
+				674B4A9024A1C7C20053AB2F /* CMakeLists.txt */,
 				67B74EDF24812C1D0066EF8E /* json */,
+				671CDC2524971547004C0772 /* settings */,
 				67A4BE642330C3BB0059A3DB /* JubSDKTest */,
 				67A4BE672330C3E50059A3DB /* deps */,
-				67A4BE5B2330C3870059A3DB /* Products */,
 				67A4BE7F2330C5810059A3DB /* Frameworks */,
+				67A4BE5B2330C3870059A3DB /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +131,8 @@
 			children = (
 				67A4BE8F2330D1A80059A3DB /* JUB_SDK_main.cpp */,
 				67A4BE912330D2D50059A3DB /* JUB_SDK_main.h */,
+				671CDC2724971594004C0772 /* JUB_SDK_test_scp11.cpp */,
+				671CDC2624971594004C0772 /* JUB_SDK_test_scp11.h */,
 				67A4BE652330C3CE0059A3DB /* JUB_SDK_test.cpp */,
 				67A4BE852330C8120059A3DB /* JUB_SDK_test.h */,
 				67A4BE822330C6440059A3DB /* JUB_SDK_test_dev.cpp */,
@@ -280,18 +289,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */,
+				671CDC2824971594004C0772 /* JUB_SDK_test_scp11.cpp in Sources */,
+				67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */,
+				67A4BE7E2330C4B80059A3DB /* json_value.cpp in Sources */,
 				67A4BE8B2330CCDF0059A3DB /* JUB_SDK_test_eth.cpp in Sources */,
 				67A4BE882330C99C0059A3DB /* JUB_SDK_test_btc.cpp in Sources */,
-				67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */,
 				6715458D23D434BD00810F16 /* JUB_SDK_test_qtum.cpp in Sources */,
 				67F808C2235966D900DE9ECE /* JUB_SDK_software_test_eth.cpp in Sources */,
 				67A4BE902330D1A80059A3DB /* JUB_SDK_main.cpp in Sources */,
 				67A4BE842330C6440059A3DB /* JUB_SDK_test_dev.cpp in Sources */,
-				67A4BE7E2330C4B80059A3DB /* json_value.cpp in Sources */,
 				67F808C4235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp in Sources */,
 				67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */,
 				6715459923D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp in Sources */,
-				67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */,
 				67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */,
 				67F808C3235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp in Sources */,
 				675C7975238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp in Sources */,
@@ -417,40 +427,56 @@
 		67A4BE622330C3870059A3DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S47T4UESP3;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
+					"../../trezor-crypto/include",
+					../../gpc/include,
+					../../include,
 					../../deps,
-					../../deps/libbitcoin,
-					../../deps/json/include,
+					../../deps/asn1c/libasn1parser,
+					../../deps/jsoncpp/include,
+					"../../deps/TrustWallet/wallet-core",
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
-					"../../deps/TrustWallet/wallet-core/src/EOS",
-					../../include,
-					../../deps/jsoncpp/include,
+					../../SCP11_Device_API/SCP11_Device_API/scp11_device,
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"'-std=c++11'",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "x86_64 i386";
 			};
 			name = Debug;
 		};
 		67A4BE632330C3870059A3DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S47T4UESP3;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
+					"../../trezor-crypto/include",
+					../../gpc/include,
+					../../include,
 					../../deps,
-					../../deps/libbitcoin,
-					../../deps/json/include,
+					../../deps/asn1c/libasn1parser,
+					../../deps/jsoncpp/include,
+					"../../deps/TrustWallet/wallet-core",
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
-					"../../deps/TrustWallet/wallet-core/src/EOS",
-					../../include,
-					../../deps/jsoncpp/include,
+					../../SCP11_Device_API/SCP11_Device_API/scp11_device,
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"'-std=c++11'",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "x86_64 i386";
 			};
 			name = Release;
 		};

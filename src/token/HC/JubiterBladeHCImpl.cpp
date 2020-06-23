@@ -12,7 +12,7 @@ constexpr JUB_BYTE PKIAID_HC[14] = {
 
 JUB_RV JubiterBladeHCImpl::SelectApplet() {
 
-	JUB_VERIFY_RV(_SelectApp(PKIAID_HC, 14));
+	JUB_VERIFY_RV(_SelectApp(PKIAID_HC, sizeof(PKIAID_HC)/sizeof(JUB_BYTE)));
     return JUBR_OK;
 }
 
