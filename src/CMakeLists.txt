@@ -51,6 +51,8 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ethereum SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ripple SRC_LIST)
 
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../gpc/src SRC_LIST)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps)
 if(IOS)
@@ -74,6 +76,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ripple)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../gpc/include)
 
 endif() #if(devOnly)
 

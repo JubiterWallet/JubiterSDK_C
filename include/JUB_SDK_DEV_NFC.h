@@ -33,6 +33,11 @@ typedef void (*NFC_ScanFuncCallBack)(
 typedef struct stNFCDeviceInitParam {
     void* param;
     NFC_ScanFuncCallBack scanCallBack;
+
+    JUB_CHAR_PTR crt;
+    JUB_CHAR_PTR sk;
+    JUB_UINT8 keyLength;
+    JUB_CHAR_PTR hostID;
 //
 //     stNFCDeviceInitParam();
 //    ~stNFCDeviceInitParam() = default;

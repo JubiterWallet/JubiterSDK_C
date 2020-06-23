@@ -17,7 +17,7 @@ namespace jub {
 namespace device {
 
 
-JubiterHidDevice::JubiterHidDevice(const std::string path) :
+JubiterHidDevice::JubiterHidDevice(const std::string& path) :
     _pid(PID),
     _vid(VID),
     _handle(NULL),

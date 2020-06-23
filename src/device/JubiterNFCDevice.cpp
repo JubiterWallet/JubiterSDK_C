@@ -112,16 +112,22 @@ JUB_RV JubiterNFCDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
 }
 
 
-unsigned int JubiterNFCDevice::Initialize(const NFC_INIT_PARAM& params) {
+unsigned int JubiterNFCDevice::Initialize(const NFC_DEVICE_INIT_PARAM& params) {
 
     // init with inner _param
     _param.scanCallBack = params.scanCallBack;
     unsigned int ret = InitializeNFC(nullptr, &_param);
     if (FT_SUCCESS == ret) {
-        outerParams = params;
+        outerParams = {params.scanCallBack};
+    }
+    else {
+        return (unsigned int)MatchErrorCode(ret);
     }
 
-    return (unsigned int)MatchErrorCode(ret);
+    return SetSCP11Param(params.crt,
+                         params.sk,
+                         params.hostID,
+                         params.keyLength);
 }
 
 
@@ -208,6 +214,35 @@ void JubiterNFCDevice::NFC_ScanFuncCallBack(unsigned int errorCode,/* 错误码 
 //    else {
 //        _handle = handle;
 //    }
+}
+
+
+unsigned int JubiterNFCDevice::SetSCP11Param(const std::string& crt,
+                                             const std::string& rk,
+                                             const std::string& hostID,
+                                             const uint8_t keyLength) {
+
+    scp11_crt oceCrt = scp11_crt(uchar_vector(crt));
+    if (!oceCrt.decode()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    uchar_vector kl;
+    kl.push_back(keyLength);
+    _scp11 = scp11c(scp11_sharedInfo(uchar_vector("1107"),
+                                     uchar_vector("3C"),
+                                     uchar_vector("88"),
+                                     kl,
+                                     uchar_vector(hostID)),
+                    oceCrt,
+                    uchar_vector(rk));
+    if (_scp11.empty()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    _scp03.resetCounter();
+
+    return JUBR_OK;
 }
 
 

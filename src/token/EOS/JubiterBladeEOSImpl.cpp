@@ -18,10 +18,10 @@ typedef enum class enumCoinTypeMisc {
 
 #define SWITCH_TO_EOS_APP                           \
 do {				                                \
-    if (JUBR_OK == _SelectApp(kPKIAID_MISC, 16)) {  \
+    if (JUBR_OK == _SelectApp(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE))) {  \
         break;                                      \
     }                                               \
-    if (JUBR_OK == _SelectApp(kPKIAID_EOS, 16)) {   \
+    if (JUBR_OK == _SelectApp(kPKIAID_EOS, sizeof(kPKIAID_EOS)/sizeof(JUB_BYTE))) {   \
         return JUBR_EOS_APP_INDEP_OK;               \
     }                                               \
 } while (0);                                        \

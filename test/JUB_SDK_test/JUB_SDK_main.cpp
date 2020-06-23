@@ -14,6 +14,7 @@
 #include "JUB_SDK_software_test_hcash.hpp"
 #include "JUB_SDK_software_test_eos.hpp"
 #include "JUB_SDK_software_test_xrp.hpp"
+#include "JUB_SDK_test_scp11.h"
 #endif
 using namespace std;
 
@@ -74,6 +75,7 @@ int main() {
         cout << "|171. software_test_hcash.           |" << endl;
         cout << "|194. software_test_eos.             |" << endl;
 #endif
+        cout << "| 99. scp_test.                      |" << endl;
         cout << "|  0. exit.                          |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
@@ -101,6 +103,10 @@ int main() {
                 software_test_eos("json/testEOS.json");
                 break;
 #endif
+            case 99:
+                scp11_test("settings/42584E46433230303532353030303031_apk.settings");
+//                scp11_test("settings/42584E46433230303532353030303032_apk.settings");
+                break;
             case 0:
                 exit(0);
             default:

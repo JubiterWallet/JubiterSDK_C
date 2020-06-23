@@ -13,6 +13,8 @@
 
 #include "device/DeviceTypeBase.hpp"
 #include "JUB_SDK_DEV.h"
+#include "scp03/scp03.hpp"
+#include "scp11/scp11c.hpp"
 
 #ifdef NFC_MODE
 #include <memory>
@@ -33,16 +35,16 @@ public:
 
 public:
     // for common device
-    virtual JUB_RV Connect();
-    virtual JUB_RV Disconnect();
+    virtual JUB_RV Connect() override;
+    virtual JUB_RV Disconnect() override;
 
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                             OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
-                            IN JUB_ULONG ulMiliSecondTimeout = 1200000);
+                            IN JUB_ULONG ulMiliSecondTimeout = 1200000) override;
 
 public:
     // for NFC device
-    virtual unsigned int Initialize(const NFC_INIT_PARAM& params);
+    virtual unsigned int Initialize(const NFC_DEVICE_INIT_PARAM& params);
     virtual unsigned int Finalize();
 
     virtual unsigned int Scan();
@@ -64,7 +66,20 @@ public:
 
     NFC_INIT_PARAM outerParams;
 
+    virtual void *GetSCP11() override {
+        return &_scp11;
+    }
+    virtual void *GetSCP03() override {
+        return &_scp03;
+    }
+
 protected:
+    // for secure channel
+    virtual unsigned int SetSCP11Param(const std::string& crt,
+                                       const std::string& rk,
+                                       const std::string& hostID,
+                                       const uint8_t keyLength);
+
     static void NFC_ScanFuncCallBack(unsigned int errorCode,/* 错误码 */
                                      const char*  uuid,     /* tag uuid */
                                      unsigned int devType   /* 设备类型 */
@@ -78,6 +93,10 @@ protected:
     NFC_INIT_PARAM _param;
     unsigned long _handle;
     bool _bConnected;
+
+private:
+    scp03  _scp03;
+    scp11c _scp11;
 }; // class JubiterNFCDevice end
 
 
