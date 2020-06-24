@@ -250,7 +250,6 @@ JUB_RV JubApduBuiler::BuildSafeApdu(const APDU *apdu, std::vector<JUB_BYTE> &vSa
     std::vector<JUB_BYTE> apduData;
     apduData.push_back(apdu->data.size());
     apduData.insert(apduData.end(), apdu->data.begin(), apdu->data.end());
-    std::cout << "BuildSafeApdu::apduData[" << apduData.size() << "]: " << uchar_vector(apduData).getHex() << std::endl;
 
     // encrypt APDU
     std::vector<JUB_BYTE> vEnc;
