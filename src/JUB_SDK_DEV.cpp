@@ -521,57 +521,6 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
 
 
 /*****************************************************************************
-* @function name : JUB_ImportSeed
-* @in  param : deviceID - device ID
-*                     : pinMix - User's PIN
-*                     : strength - JUB_ENUM_MNEMONIC_STRENGTH
-*                     : entropy - entropy
-*                     : seed - seed
-* @out param :
-* @last change :
-*****************************************************************************/
-JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
-                      IN JUB_CHAR_CPTR pinMix,
-                      IN JUB_ENUM_MNEMONIC_STRENGTH strength,
-                      IN JUB_CHAR_CPTR entropy,
-                      IN JUB_CHAR_CPTR seed) {
-
-    CREATE_THREAD_LOCK_GUARD
-    std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
-    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
-                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
-    }
-#endif
-#ifdef NFC_MODE
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
-    }
-#endif
-//    else {
-    if (!token) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    JUB_VERIFY_RV(token->SetMnemonic(pinMix,
-                                     strength,
-                                     entropy,
-                                     seed));
-
-    return JUBR_OK;
-}
-
-
-/*****************************************************************************
  * @function name : JUB_ImportMnemonic
  * @in  param : deviceID - device ID
  *          : pinMix - User's PIN

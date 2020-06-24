@@ -227,23 +227,6 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
                         IN JUB_ENUM_CURVES curve);
 
 /*****************************************************************************
- * @function name : JUB_ImportSeed
- * @in  param : deviceID - device ID
- *          : pinMix - User's PIN
- *          : strength - JUB_ENUM_MNEMONIC_STRENGTH
- *          : entropy - entropy
- *          : seed - seed
- * @out param :
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ImportSeed(IN JUB_UINT16 deviceID,
-                      IN JUB_CHAR_CPTR pinMix,
-                      IN JUB_ENUM_MNEMONIC_STRENGTH strength,
-                      IN JUB_CHAR_CPTR entropy,
-                      IN JUB_CHAR_CPTR seed);
-
-/*****************************************************************************
  * @function name : JUB_ImportMnemonic
  * @in  param : deviceID - device ID
  *          : pinMix - User's PIN
