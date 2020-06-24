@@ -117,7 +117,7 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
 }
 
 
-//JUB_RV JubiterNFCToken::_TranPack(const abcd::DataSlice &apduData, const JUB_BYTE highMark, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
+//JUB_RV JubiterNFCToken::_TranPack(const TW::Data &apduData, const JUB_BYTE highMark, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
 //
 //    if (apduData.empty()) {
 //        JUB_VERIFY_RV(JUBR_ERROR);
@@ -177,7 +177,7 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
 //
 //
 //JUB_RV JubiterNFCToken::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
-//                                      const abcd::DataSlice &apduData,
+//                                      const TW::Data &apduData,
 //                                      const JUB_BYTE highMark,
 //                                      const JUB_BYTE sigType,
 //                                      const JUB_ULONG ulSendOnceLen,
