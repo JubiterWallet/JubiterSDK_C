@@ -14,7 +14,7 @@ JUB_RV JubiterNFCEOSImpl::SelectApplet() {
 
 
 //MISC functions
-JUB_RV JubiterNFCEOSImpl::SetCoinType() {
+JUB_RV JubiterNFCEOSImpl::SetCoin() {
 
     return JUBR_OK;
 }

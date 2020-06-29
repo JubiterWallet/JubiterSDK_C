@@ -6,7 +6,6 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#include "mSIGNA/stdutils/uchar_vector.h"
 
 #include "scp03/scp03.hpp"
 #include <TrezorCrypto/aes.h>
@@ -70,11 +69,16 @@ bool scp03::icv(const unsigned char *key, const int keyLen,
         return false;
     }
 
-    uchar_vector counter;
-    counter << (uint8_t)getCounter();
-    counter.resize(AES_BLOCK_SIZE);
-    counter.reverse();
-    if (!forWrap) {
+    std::vector<unsigned char> counter;
+    if (forWrap) {
+        counter.push_back((uint8_t)getCounter());
+        counter.resize(AES_BLOCK_SIZE);
+        std::reverse(std::begin(counter), std::end(counter));
+    }
+    else {
+        counter.push_back((uint8_t)incCounter());
+        counter.resize(AES_BLOCK_SIZE);
+        std::reverse(std::begin(counter), std::end(counter));
         counter[0] = 0x80;
     }
 

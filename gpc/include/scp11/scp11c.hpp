@@ -38,8 +38,8 @@ public:
     virtual bool openSecureChannel(const std::vector<unsigned char>& response) override;
 
 protected:
-    virtual bool keyDerivation() override;
-    virtual bool checkReceipt() override;
+    virtual bool keyDerivation(const scp11_response_msg &response_msg, scp11_session_key &session_key) override;
+    virtual bool  checkReceipt(const scp11_response_msg &response_msg, const std::vector<unsigned char> &key_dek) override;
 } scp11c;
 
 

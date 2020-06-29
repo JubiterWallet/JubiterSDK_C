@@ -8,7 +8,6 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#include "mSIGNA/stdutils/uchar_vector.h"
 
 #include <TrezorCrypto/aes.h>
 #include <TrezorCrypto/cmac.h>
@@ -25,17 +24,17 @@ std::vector<unsigned char> scp11c::getMutualAuthData() {
 }
 
 
-bool scp11c::keyDerivation() {
+bool scp11c::keyDerivation(const scp11_response_msg &response_msg, scp11_session_key& session_key) {
 
     unsigned char ShSss[SHA1_DIGEST_LENGTH] = {0x00,};
-    if (!_calcShSss(receipt_key.sd_pk.value.data(),
+    if (!_calcShSss(response_msg.sd_pk.value.data(),
                     oce_rk.data(),
                     ShSss)) {
         return false;
     }
 
     unsigned char ShSes[SHA1_DIGEST_LENGTH] = {0x00,};
-    if (!_calcShSes(receipt_key.sd_pk.value.data(),
+    if (!_calcShSes(response_msg.sd_pk.value.data(),
                     e_rk.data(),
                     ShSes)) {
         return false;
@@ -64,25 +63,24 @@ bool scp11c::keyDerivation() {
     session.insert(session.begin(), outKey, outKey+outKeyLen);
     delete [] outKey; outKey = nullptr;
 
-    uchar_vector temp(session);
-
-    return sk.decode(session, scp11_session_key::KEY_LENGTH);
+    return session_key.decode(session, scp11_session_key::KEY_LENGTH);
 }
 
 
-bool scp11c::checkReceipt() {
+bool scp11c::checkReceipt(const scp11_response_msg &response_msg, const std::vector<unsigned char> &key_dek) {
 
     scp11_mutual_auth ma(&shared_info,
                          e_pk,
-                         receipt_key.sd_pk.value);
+                         response_msg.sd_pk.value);
     std::vector<unsigned char> receiptInputData = ma.encode();
 
     // check if receipt == mac
     unsigned char outmac[16] = {0x00,};
-    AES_CMAC(sk.key_dek.data(), receiptInputData.data(), (int)receiptInputData.size(),
+    std::vector<unsigned char> key(key_dek);
+    AES_CMAC(key.data(), receiptInputData.data(), (int)receiptInputData.size(),
              outmac);
 
-    return std::equal(std::begin(receipt_key.receipt.value), std::end(receipt_key.receipt.value),
+    return std::equal(std::begin(response_msg.receipt.value), std::end(response_msg.receipt.value),
     std::begin(outmac));
 }
 
@@ -94,16 +92,18 @@ bool scp11c::openSecureChannel(const std::vector<unsigned char>& response) {
         return false;
     }
 
-    setResponseMsg(response_msg);
-
-    if (!keyDerivation()) {
+    scp11_session_key session_key;
+    if (!keyDerivation(response_msg, session_key)) {
         return false;
     }
 
     // check the receipt
-    if (!checkReceipt()) {
+    if (!checkReceipt(response_msg, session_key.key_dek)) {
         return false;
     }
+
+    setSessionKey(session_key);
+    setResponseMsg(response_msg);
 
     return true;
 }

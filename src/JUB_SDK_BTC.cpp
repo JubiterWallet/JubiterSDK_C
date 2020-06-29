@@ -317,7 +317,7 @@ JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID,IN JUB_CHAR_CPTR address) {
+JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address) {
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
     JUB_CHECK_NULL(context);

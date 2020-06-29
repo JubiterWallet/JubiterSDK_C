@@ -13,7 +13,7 @@ JUB_RV JubiterNFCXRPImpl::SelectApplet() {
 
 
 //MISC functions
-JUB_RV JubiterNFCXRPImpl::SetCoinType() {
+JUB_RV JubiterNFCXRPImpl::SetCoin() {
 
     return JUBR_OK;
 }

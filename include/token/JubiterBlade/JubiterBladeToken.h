@@ -41,6 +41,7 @@ public:
     virtual JUB_RV CancelVirtualPwd() override;
     virtual bool   IsInitialize() override;
     virtual bool   IsBootLoader() override;
+    virtual JUB_RV SelectMainSecurityDomain() override;
     virtual JUB_RV GetSN(JUB_BYTE sn[24]) override;
     virtual JUB_RV GetLabel(JUB_BYTE label[32]) override;
     virtual JUB_RV GetPinRetry(JUB_BYTE& retry) override;
@@ -79,9 +80,9 @@ protected:
         return ((highMark & 0x0F) << 4);
     }
 
-    JUB_RV _SendApdu(const APDU *apdu, JUB_UINT16 &wRet,
-                     JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
-                     JUB_ULONG ulMiliSecondTimeout = 1200000);
+    virtual JUB_RV _SendApdu(const APDU *apdu, JUB_UINT16 &wRet,
+                             JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
+                             JUB_ULONG ulMiliSecondTimeout = 1200000);
 
     JUB_RV _TranPack(const TW::Data &apduData,
                      const JUB_BYTE highMark,

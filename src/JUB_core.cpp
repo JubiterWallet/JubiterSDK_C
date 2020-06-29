@@ -137,6 +137,7 @@ JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
     auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, XPRVorXPUB);
     JUB_CHECK_NULL(context);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }
 
@@ -149,6 +150,7 @@ JUB_RV JUB_CreateContextHC_soft(IN CONTEXT_CONFIG_HC cfg,
     jub::context::HCContext* context = new jub::context::HCContext(cfg, token);
     JUB_CHECK_NULL(context);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }
 
@@ -160,6 +162,7 @@ JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
     auto token = std::make_shared<jub::token::TrezorCryptoETHImpl>(std::string(masterPriInXPRV));
     jub::context::ETHContext* context = new jub::context::ETHContext(cfg, token);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }
 
@@ -172,6 +175,7 @@ JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
     jub::context::EOSContext* context = new jub::context::EOSContext(cfg, token);
     JUB_CHECK_NULL(context);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }
 
@@ -185,5 +189,6 @@ JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
     jub::context::XRPContext* context = new jub::context::XRPContext(cfg, token);
     JUB_CHECK_NULL(context);
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }

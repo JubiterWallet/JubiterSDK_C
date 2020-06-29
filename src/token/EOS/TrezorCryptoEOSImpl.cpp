@@ -17,7 +17,7 @@ JUB_RV TrezorCryptoEOSImpl::SelectApplet() {
 }
 
 
-JUB_RV TrezorCryptoEOSImpl::SetCoinType() {
+JUB_RV TrezorCryptoEOSImpl::SetCoin() {
 
     return JUBR_OK;
 }

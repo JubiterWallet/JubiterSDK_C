@@ -79,7 +79,7 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     // instead of judging the return value,
     // to get the data back
     if (!(JUB_ENUM_BOOL)token->IsBootLoader()) {
-        return JUBR_ERROR_ARGS;
+        return JUBR_ERROR;
     }
 
     JUB_BYTE sn[24] = {0,};
@@ -220,6 +220,11 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     std::string appletList;
     JUB_VERIFY_RV(token->EnumApplet(appletList));
     JUB_VERIFY_RV(_allocMem(appList, appletList));
@@ -262,6 +267,11 @@ JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_coinsList;
     JUB_VERIFY_RV(token->EnumSupportCoins(str_coinsList));
@@ -378,7 +388,7 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
     // Let's go to the main security domain,
     // instead of judging the return value,
     // to get the data back
-    if (!token->IsBootLoader()) {
+    if (!(JUB_ENUM_BOOL)token->IsBootLoader()) {
         return JUBR_ERROR;
     }
 
@@ -470,6 +480,11 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
         return JUBR_ARGUMENTS_BAD;
     }
 
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     JUB_VERIFY_RV(token->Reset());
 
     return JUBR_OK;
@@ -513,6 +528,11 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_VERIFY_RV(token->GenerateSeed(pinMix, curve));
 
@@ -559,6 +579,11 @@ JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     JUB_VERIFY_RV(token->ImportMnemonic(pinMix, mnemonic));
 
     return JUBR_OK;
@@ -601,6 +626,11 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_response;
     JUB_VERIFY_RV(token->GetMnemonic(pinMix, str_response));
@@ -647,6 +677,11 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
     }
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_VERIFY_RV(token->ChangePIN(pinMix, pinNew));
 

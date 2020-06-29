@@ -80,7 +80,7 @@ JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 }
 
 
-JUB_RV TrezorCryptoBTCImpl::SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) {
+JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
 
     return JUBR_OK;
 }

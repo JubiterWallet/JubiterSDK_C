@@ -77,7 +77,7 @@ JUB_RV BTCContext::ActiveSelf() {
         JUB_VERIFY_RV(SetTimeout(_timeout));
     }
     JUB_VERIFY_RV(_tokenPtr->SetUnit(_unitType));
-    JUB_VERIFY_RV(_tokenPtr->SetCoinType(_coinType));
+    JUB_VERIFY_RV(_tokenPtr->SetCoin(_coinType));
 
     return JUBR_OK;
 }

@@ -68,6 +68,32 @@ JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
 }
 
 
+JUB_RV JubiterNFCToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
+                                  JUB_ULONG *pulRetDataLen /*= nullptr*/,
+                                  JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
+
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
+    JUB_CHECK_NULL(device);
+
+    auto scp03Ptr = (scp03*)device->GetSCP03();
+    JUB_CHECK_NULL(scp03Ptr);
+
+    auto scp11Ptr = (scp11*)device->GetSCP11();
+    JUB_CHECK_NULL(scp11Ptr);
+
+    if (!scp11Ptr->isOpen()) {
+        return JubiterBladeToken::_SendApdu(apdu,
+                                            wRet, retData, pulRetDataLen,
+                                            ulMiliSecondTimeout);
+    }
+    else {
+        return _SendSafeApdu(apdu,
+                             wRet, retData, pulRetDataLen,
+                             ulMiliSecondTimeout);
+    }
+}
+
+
 JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
                                       JUB_ULONG *pulRetDataLen /*= nullptr*/,
                                       JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
@@ -81,14 +107,15 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
     auto scp11Ptr = (scp11*)device->GetSCP11();
     JUB_CHECK_NULL(scp11Ptr);
 
-    JUB_VERIFY_RV(scp11Ptr->initialize() ? JUBR_OK : JUBR_ERROR);
-    JUB_VERIFY_RV(PerformSecurityOperation(scp11Ptr->getOCECert()));
-    uchar_vector vResponse;
-    JUB_VERIFY_RV(MutualAuthenticate(scp11Ptr->getMutualAuthData(), vResponse));
+    if (!scp11Ptr->isOpen()) {
+        JUB_VERIFY_RV(scp11Ptr->initialize() ? JUBR_OK : JUBR_ERROR);
+        JUB_VERIFY_RV(PerformSecurityOperation(scp11Ptr->getOCECert()));
+        uchar_vector vResponse;
+        JUB_VERIFY_RV(MutualAuthenticate(scp11Ptr->getMutualAuthData(), vResponse));
 
-    JUB_VERIFY_RV(scp11Ptr->openSecureChannel(vResponse) ? JUBR_OK : JUBR_ERROR);
-
-    scp03Ptr->macChaining(scp11Ptr->getMacChain());
+        JUB_VERIFY_RV(scp11Ptr->openSecureChannel(vResponse) ? JUBR_OK : JUBR_ERROR);
+        scp03Ptr->macChaining(scp11Ptr->getMacChain());
+    }
 
     JUB_BYTE _retData[FT3KHN_READWRITE_SIZE_ONCE_NEW + 6] = { 0, };
     JUB_ULONG ulRetDataLen = FT3KHN_READWRITE_SIZE_ONCE_NEW + 6;
@@ -102,18 +129,19 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
     };
 
     std::vector<JUB_BYTE> vSendApdu;
-    if (JUBR_OK == _apduBuilder->BuildSafeApdu(apdu, vSendApdu)) {
-        if (JUBR_OK != device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
-            JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
-        }
-
-        JUB_VERIFY_RV(_apduBuilder->ParseSafeApduResp(_retData, ulRetDataLen,
-                                                      retData, pulRetDataLen,
-                                                      wRet));
-        return JUBR_OK;
+    if (JUBR_OK != _apduBuilder->BuildSafeApdu(apdu, vSendApdu)) {
+        return JUBR_TRANSMIT_DEVICE_ERROR;
     }
 
-    return JUBR_TRANSMIT_DEVICE_ERROR;
+    if (JUBR_OK != device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
+        JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
+    }
+
+    JUB_VERIFY_RV(_apduBuilder->ParseSafeApduResp(_retData, ulRetDataLen,
+                                                  retData, pulRetDataLen,
+                                                  wRet));
+    return JUBR_OK;
+
 }
 
 
@@ -261,18 +289,24 @@ JUB_RV JubiterNFCToken::CancelVirtualPwd() {
 
 bool JubiterNFCToken::IsBootLoader() {
 
-    APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
-    JUB_UINT16 ret = 0;
-    JUB_BYTE retData[1024] = { 0, };
-    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    auto rv = _SendApdu(&apdu, ret, retData, &ulRetDataLen);
-    if (  JUBR_OK == rv
-        && 0x9000 == ret
-        ) {
-        return true;
-    }
+    return (JUBR_OK == SelectMainSecurityDomain() ? true:false);
+}
 
-    return false;
+
+JUB_RV JubiterNFCToken::SelectMainSecurityDomain() {
+
+    // select main safe scope
+    APDU apdu(0x00, 0xA4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    // Clear SCP11c Session for NFC
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
+    JUB_CHECK_NULL(device);
+    device->Reset();
+
+    return JUBR_OK;
 }
 
 
@@ -284,21 +318,13 @@ JUB_RV JubiterNFCToken::GetBleVersion(JUB_BYTE bleVersion[4]) {
 
 JUB_RV JubiterNFCToken::EnumApplet(std::string& appletList) {
 
-    {
-        // select main safe scope
-        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
-        JUB_UINT16 ret = 0;
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-        JUB_VERIFY_COS_ERROR(ret);
-    }
-
     // send apdu, then decide which coin types supports.
-    APDU apdu(0x80, 0xCB, 0x80, 0x00, 0x05,
-        (const JUB_BYTE *)"\xDF\xFF\x02\x81\x06");
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8106")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     JUB_VERIFY_COS_ERROR(ret);
 
     std::vector<uint8_t> tlvData(retData, retData + ulRetDataLen);
@@ -355,7 +381,8 @@ JUB_RV JubiterNFCToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retr
         return (uint8_t)elem;
     });
 
-    APDU apdu(0x80, 0x20, 0x00, 0x00, (JUB_ULONG)pin.size(), pin.data());
+    uchar_vector apduData = tlv_buf(pin).encodeLV();
+    APDU apdu(0x80, 0x20, 0x00, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -391,21 +418,14 @@ JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &
         return (uint8_t)elem;
     });
 
-    uchar_vector apduData("DFFE");
-    apduData << uint8_t(2+1+(1+pinOld.size())+(1+pin.size()));
-    apduData << uint8_t(0x82);
-    apduData << uint8_t(0x04);
-    apduData << uint8_t((1+pinOld.size())+(1+pin.size()));
-    apduData << uint8_t(pinOld.size());
-    apduData << pinOld;
-    apduData << uint8_t(pin.size());
-    apduData << pin;
-
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector subDataLV;
+    subDataLV << tlv_buf(pinOld).encodeLV() << tlv_buf(pin).encodeLV();
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8204, subDataLV).encode()).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         return JUBR_OK;
     }
@@ -422,18 +442,11 @@ JUB_RV JubiterNFCToken::SetTimeout(const JUB_UINT16 timeout) {
 
 JUB_RV JubiterNFCToken::Reset() {
 
-    {
-        // select main safe scope
-        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
-        JUB_UINT16 ret = 0;
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-        JUB_VERIFY_COS_ERROR(ret);
-    }
-
     // reset
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, 0x05, (const JUB_BYTE *)"\xDF\xFE\x02\x82\x05");
+    uchar_vector apduData = tlv_buf(0xDFFE, uchar_vector("8205")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret));
     JUB_VERIFY_COS_ERROR(ret);
 
     return JUBR_OK;
@@ -461,19 +474,12 @@ JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
         return (uint8_t)elem;
     });
 
-    uchar_vector apduData("DFFE");
-    apduData << uint8_t(2+1+(1+pin.size()));
-    apduData << uint8_t(0x82);
-    apduData << uint8_t(0x03);
-    apduData << uint8_t(1+pin.size());
-    apduData << uint8_t(pin.size());
-    apduData << pin;
-
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8203, tlv_buf(pin).encodeLV()).encode()).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         return JUBR_OK;
     }
@@ -506,23 +512,16 @@ JUB_RV JubiterNFCToken::SetMnemonic(const std::string& pinMix,
         return (uint8_t)elem;
     });
 
-    uchar_vector apduData("DFFE");
-    apduData << uint8_t(2+1+(1+pin.size())+(1+vEntropy.size())+(1+vSeed.size()));
-    apduData << uint8_t(0x82);
-    apduData << uint8_t(0x02);
-    apduData << uint8_t((1+pin.size())+(1+vEntropy.size())+(1+vSeed.size()));
-    apduData << uint8_t(pin.size());
-    apduData << pin;
-    apduData << uint8_t(vEntropy.size());
-    apduData << vEntropy;
-    apduData << uint8_t(vSeed.size());
-    apduData << vSeed;
-
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector subDataLV;
+    subDataLV << tlv_buf(pin).encodeLV();
+    subDataLV << tlv_buf(vEntropy).encodeLV();
+    subDataLV << tlv_buf(vSeed).encodeLV();
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8202, subDataLV).encode()).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
     JUB_VERIFY_COS_ERROR(ret);
 
     return JUBR_OK;
@@ -531,14 +530,6 @@ JUB_RV JubiterNFCToken::SetMnemonic(const std::string& pinMix,
 
 JUB_RV JubiterNFCToken::GetMnemonic(const std::string& pinMix,
                                     OUT std::string& mnemonic) {
-
-    {
-        // select main safe scope
-        APDU apdu(0x00, 0xa4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
-        JUB_UINT16 ret = 0;
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-        JUB_VERIFY_COS_ERROR(ret);
-    }
 
     // send apdu.
     std::vector<uint8_t> pin;
@@ -550,19 +541,12 @@ JUB_RV JubiterNFCToken::GetMnemonic(const std::string& pinMix,
     });
 
     // send apdu.
-    uchar_vector apduData("DFFF");
-    apduData << uint8_t(2+1+(1+pin.size()));
-    apduData << uint8_t(0x82);
-    apduData << uint8_t(0x02);
-    apduData << uint8_t(1+pin.size());
-    apduData << uint8_t(pin.size());
-    apduData << pin;
-
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFF, tlv_buf(0x8202, tlv_buf(pin).encodeLV()).encode()).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         uchar_vector vMnemonic(retData, (unsigned int)ulRetDataLen);
         mnemonic = vMnemonic.getHex();
@@ -576,12 +560,16 @@ JUB_RV JubiterNFCToken::GetMnemonic(const std::string& pinMix,
 
 JUB_RV JubiterNFCToken::PerformSecurityOperation(const uchar_vector& oceCert) {
 
+    if (0 == oceCert.size()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
     uchar_vector apduData(oceCert);
-    APDU apdu(0x80, 0x2a, 0x18, 0x10, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x80, 0x2A, 0x18, 0x10, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         return JUBR_OK;
     }
@@ -596,11 +584,12 @@ JUB_RV JubiterNFCToken::MutualAuthenticate(const uchar_vector& apduData,
     if (0 == apduData.size()) {
         return JUBR_ARGUMENTS_BAD;
     }
+
     APDU apdu(0x80, 0x82, 0x18, 0x15, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         uchar_vector vReceipt(retData, retData+ulRetDataLen);
         receipt = vReceipt;
