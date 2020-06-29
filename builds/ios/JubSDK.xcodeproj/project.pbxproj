@@ -565,6 +565,9 @@
 		67742D25242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67742D23242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp */; };
 		67807E3C249CA66100817E5D /* cmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 67807E3B249CA66100817E5D /* cmac.c */; };
 		67B9C0AB23BB5F9800A17638 /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67B9C0A923BB5F9800A17638 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		67D837B224A380C7004DE1D2 /* tlv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67D837B124A380C7004DE1D2 /* tlv.hpp */; };
+		67D837B424A3818A004DE1D2 /* tlv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D837B324A38189004DE1D2 /* tlv.cpp */; };
+		67D837B524A3818A004DE1D2 /* tlv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D837B324A38189004DE1D2 /* tlv.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -978,6 +981,8 @@
 		67B9C0A823BB5F9800A17638 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = ../../builds/apple/JubSDKCore/module.modulemap; sourceTree = "<group>"; };
 		67B9C0A923BB5F9800A17638 /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../builds/apple/JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
 		67B9C0AD23BB62FB00A17638 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../builds/apple/JubSDKCore/Info.plist; sourceTree = "<group>"; };
+		67D837B124A380C7004DE1D2 /* tlv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = tlv.hpp; path = ../../gpc/include/tlv.hpp; sourceTree = "<group>"; };
+		67D837B324A38189004DE1D2 /* tlv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = tlv.cpp; path = ../../gpc/src/tlv.cpp; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1018,6 +1023,7 @@
 				325B55C3249E66E2002A0616 /* scp11.hpp */,
 				325B55C4249E66E2002A0616 /* scp11c.hpp */,
 				325B55C1249E66D2002A0616 /* tag.h */,
+				67D837B124A380C7004DE1D2 /* tlv.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -1799,6 +1805,7 @@
 				325B55D3249E73CE002A0616 /* scp03.cpp */,
 				325B55C9249E66FC002A0616 /* scp11.cpp */,
 				325B55C7249E66FC002A0616 /* scp11c.cpp */,
+				67D837B324A38189004DE1D2 /* tlv.cpp */,
 				325B55C8249E66FC002A0616 /* tlvparse.c */,
 			);
 			name = src;
@@ -1959,6 +1966,7 @@
 				673E49832429EDD700C7F469 /* TransactionInput.h in Headers */,
 				6718A35323A338DF00F8A5CD /* Address.h in Headers */,
 				6718A3C023A3394000F8A5CD /* ed25519-donna-basepoint-table.h in Headers */,
+				67D837B224A380C7004DE1D2 /* tlv.hpp in Headers */,
 				6718A3D623A3394600F8A5CD /* base58.h in Headers */,
 				6718A3DD23A3394600F8A5CD /* cash_addr.h in Headers */,
 				6746218D23C31BFB0096DDA2 /* BTCContext.h in Headers */,
@@ -2280,6 +2288,7 @@
 				673E49792429EDD700C7F469 /* TransactionOutputHcash.cpp in Sources */,
 				675B0553242869D7004C62D4 /* JubiterNFCXRPImpl.cpp in Sources */,
 				6718A37723A338FF00F8A5CD /* ed25519_ref10_fe_25_5.c in Sources */,
+				67D837B524A3818A004DE1D2 /* tlv.cpp in Sources */,
 				6718A3A323A3391C00F8A5CD /* bip32.c in Sources */,
 				6718A39423A3391100F8A5CD /* memzero.c in Sources */,
 				671E23F823CEC197001A5F81 /* CashAddress.cpp in Sources */,
@@ -2461,6 +2470,7 @@
 				670B8FC72432E7AC00E8EF5C /* comm_iOS.cpp in Sources */,
 				6713A88723A07C430083A34D /* Name.cpp in Sources */,
 				6713A8EE23A082770083A34D /* sha2.c in Sources */,
+				67D837B424A3818A004DE1D2 /* tlv.cpp in Sources */,
 				325B55CA249E66FC002A0616 /* scp11c.cpp in Sources */,
 				6746217F23C31A390096DDA2 /* TrezorCryptoHCImpl.cpp in Sources */,
 				675B053324286909004C62D4 /* JubiterNFCBTCImpl.cpp in Sources */,

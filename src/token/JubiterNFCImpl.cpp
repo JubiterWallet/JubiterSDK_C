@@ -32,11 +32,11 @@ JUB_RV JubiterNFCImpl::GetHDNode(const JUB_BYTE& type, const std::string& path, 
     uchar_vector apduData = ToTlv(0x08, vPath);
     JUB_BYTE p2 = type;
 
-    APDU apdu(0x00, 0xe6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xE6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     JUB_VERIFY_COS_ERROR(ret);
 
     xpub = (JUB_CHAR_PTR)retData;
@@ -52,11 +52,11 @@ JUB_RV JubiterNFCImpl::GetCompPubKey(const JUB_BYTE& type, const std::string& pa
     uchar_vector apduData = ToTlv(0x08, vPath);
     JUB_BYTE p2 = type;
 
-    APDU apdu(0x00, 0xf6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     JUB_VERIFY_COS_ERROR(ret);
 
     pubkey.insert(pubkey.end(), retData, retData+ulRetDataLen);
@@ -130,7 +130,7 @@ JUB_RV JubiterNFCImpl::SignOne(const JUB_UINT16 inputCount,
     //  first pack
     APDU apdu(0x00, 0xF8, 0x00, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret));
     JUB_VERIFY_COS_ERROR(ret);
     apduData.clear();
 
@@ -154,49 +154,9 @@ JUB_RV JubiterNFCImpl::SignOne(const JUB_UINT16 inputCount,
     }
     JUB_VERIFY_COS_ERROR(ret);
 
-    JUB_UINT16 totalReadLen;
-    TW::Data sigRawTx;
-    // get transactions (pack by pack)
-    if (2 != ulRetDataLen) { // total length
-        totalReadLen = ulRetDataLen;
-        TW::Data totalData;
-        totalData.insert(totalData.end(), retData, retData + ulRetDataLen);
-
-        sigRawTx.insert(sigRawTx.end(), totalData.begin(), totalData.end());
-    }
-    else {
-        totalReadLen = TW::decode16BE(retData);
-        TW::Data totalData(totalReadLen, 0x00);
-
-        constexpr JUB_UINT16 kReadOnceLen = 66;//256;
-        JUB_ULONG ulRetLen = kReadOnceLen;
-
-        apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
-        apdu.le = kReadOnceLen;
-        JUB_UINT16 times = 0;
-        for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
-            JUB_UINT16 offset = times * kReadOnceLen;
-            apdu.p1 = offset >> 8;
-            apdu.p2 = offset & 0x00ff;
-
-            JUB_VERIFY_RV(_SendApdu(&apdu, ret, totalData.data() + times * kReadOnceLen, &ulRetLen));
-            JUB_VERIFY_COS_ERROR(ret);
-        }
-
-        apdu.le = totalReadLen % kReadOnceLen;
-        if (apdu.le) {
-            JUB_UINT16 offset = times * kReadOnceLen;
-            apdu.p1 = offset >> 8;
-            apdu.p2 = offset & 0x00ff;
-
-            ulRetLen = totalReadLen - times * kReadOnceLen;
-
-            JUB_VERIFY_RV(_SendApdu(&apdu, ret, totalData.data() + times * kReadOnceLen, &ulRetLen));
-            JUB_VERIFY_COS_ERROR(ret);
-        }
-
-        sigRawTx.insert(sigRawTx.end(), totalData.begin(), totalData.end());
-    }
+    JUB_UINT16 totalReadLen = ulRetDataLen;
+    TW::Data totalData;
+    totalData.insert(totalData.end(), retData, retData + ulRetDataLen);
 
     JUB_UINT32 rsvLVLen = 66;
     if (0 != (totalReadLen%rsvLVLen)) {
@@ -205,8 +165,8 @@ JUB_RV JubiterNFCImpl::SignOne(const JUB_UINT16 inputCount,
     JUB_UINT16 times = totalReadLen / rsvLVLen;
     for (times = 0; times < (totalReadLen / rsvLVLen); times++) {
         JUB_UINT16 offset = times * rsvLVLen;
-        JUB_UINT32 rsvLen = sigRawTx[offset];
-        rsv.insert(rsv.end(), sigRawTx.data()+offset+1, sigRawTx.data()+offset+1+rsvLen);
+        JUB_UINT32 rsvLen = totalData[offset];
+        rsv.insert(rsv.end(), totalData.data()+offset+1, totalData.data()+offset+1+rsvLen);
     }
 
     return JUBR_OK;

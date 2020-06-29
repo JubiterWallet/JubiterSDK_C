@@ -25,7 +25,7 @@ JUB_RV JubiterBladeBTCImpl::SelectApplet() {
 }
 
 
-//constexpr JUB_BYTE kMainnetP2PKH = 0x00;
+constexpr JUB_BYTE kMainnetP2PKH = 0x00;
 //constexpr JUB_BYTE kMainnetP2SH = 0x01;
 //constexpr JUB_BYTE kMainnetP2WPKH = 0x02;
 //constexpr JUB_BYTE kMainnetP2WSH = 0x03;
@@ -56,7 +56,7 @@ JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
         break;
     } // switch (type) end
 
-    APDU apdu(0x00, 0xe6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xE6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -83,7 +83,7 @@ JUB_RV JubiterBladeBTCImpl::GetAddress(const JUB_BYTE addrFmt,
     switch (type) {
     case p2pkh:
     {
-        sigType = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoin);
+        sigType = kMainnetP2PKH;
         break;
     } // case p2pkh end
     case p2sh_p2wpkh:
@@ -98,7 +98,7 @@ JUB_RV JubiterBladeBTCImpl::GetAddress(const JUB_BYTE addrFmt,
     uchar_vector vPath;
     vPath << path;
     uchar_vector apduData = ToTlv(0x08, vPath);
-    APDU apdu(0x00, 0xf6, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF6, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -135,7 +135,7 @@ JUB_BYTE JubiterBladeBTCImpl::_RealAddressFormat(const JUB_ENUM_BTC_ADDRESS_FORM
 
 JUB_RV JubiterBladeBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 
-    APDU apdu(0x00, 0xfa, JUB_BYTE(unit), 0x00, 0x00);
+    APDU apdu(0x00, 0xFA, JUB_BYTE(unit), 0x00, 0x00);
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     if (0x9000 == ret) {
@@ -146,9 +146,9 @@ JUB_RV JubiterBladeBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 }
 
 
-JUB_RV JubiterBladeBTCImpl::SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) {
+JUB_RV JubiterBladeBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
 
-    APDU apdu(0x00, 0xf5, (JUB_BYTE)type, 0x00, 0x00);
+    APDU apdu(0x00, 0xF5, (JUB_BYTE)type, 0x00, 0x00);
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     if (   0x9000 == ret
@@ -184,7 +184,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
     switch (type) {
     case p2pkh:
     {
-        sigType = TWCoinTypeP2pkhPrefix(TWCoinTypeBitcoin);
+        sigType = kMainnetP2PKH;
         break;
     } // case p2pkh end
     case p2sh_p2wpkh:

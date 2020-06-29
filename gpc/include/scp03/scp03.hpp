@@ -10,8 +10,10 @@
 #define gpc_scp03_hpp
 
 #include <stdio.h>
+#include <string.h>
+#include <memory>
 #include <vector>
-
+#include <algorithm>
 
 typedef struct gpc_scp03 {
 
@@ -19,11 +21,19 @@ public:
      gpc_scp03() {}
     ~gpc_scp03() {}
 
+    void reset() {
+        resetCounter();
+        mac_chain.clear();
+    }
+
     void resetCounter() {
         gpc_scp03::counter = 1;
     }
+    int incCounter() {
+        return ++gpc_scp03::counter;
+    }
     int getCounter() {
-        return gpc_scp03::counter++;
+        return gpc_scp03::counter;
     }
     // initial Chaining Vector
     bool icv(const unsigned char *key, const int keyLen,

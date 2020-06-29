@@ -14,15 +14,14 @@ constexpr JUB_BYTE kPKIAID_NFC_DOMAIN[8] = {
     0xA0, 0x00, 0x00, 0x01, 0x51, 0x00, 0x00, 0x00
 };
 
-
 //D1560001328300424C4400006E666301
-//constexpr JUB_BYTE kPKIAID_NFC[16] = {
-//    0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x6E, 0x66, 0x63, 0x01
-//};
-//bixin: D156000132834001
-constexpr JUB_BYTE kPKIAID_NFC[8] = {
-    0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x40, 0x01
+constexpr JUB_BYTE kPKIAID_NFC[16] = {
+    0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x6E, 0x66, 0x63, 0x01
 };
+//bixin: D156000132834001
+//constexpr JUB_BYTE kPKIAID_NFC[8] = {
+//    0xD1, 0x56, 0x00, 0x01, 0x32, 0x83, 0x40, 0x01
+//};
 
 
 class JubiterNFCToken :
@@ -36,6 +35,7 @@ public:
     virtual JUB_RV CancelVirtualPwd() override;
 //    virtual bool   IsInitialize();
     virtual bool   IsBootLoader() override;
+    virtual JUB_RV SelectMainSecurityDomain() override;
     virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]) override;
 
     virtual JUB_RV EnumApplet(std::string& appletList) override;
@@ -63,6 +63,9 @@ public:
     static stAppInfos g_appInfo[];
 
 protected:
+    virtual JUB_RV _SendApdu(const APDU *apdu, JUB_UINT16 &wRet,
+                             JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
+                             JUB_ULONG ulMiliSecondTimeout = 1200000) override;
     JUB_RV _SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet,
                          JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
                          JUB_ULONG ulMiliSecondTimeout = 1200000);

@@ -35,9 +35,9 @@ JUB_RV JubiterBladeEOSImpl::SelectApplet() {
 
 
 //MISC functions
-JUB_RV JubiterBladeEOSImpl::SetCoinType() {
+JUB_RV JubiterBladeEOSImpl::SetCoin() {
 
-    APDU apdu(0x00, 0xf5, (JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINEOS, 0x00, 0x00);
+    APDU apdu(0x00, 0xF5, (JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINEOS, 0x00, 0x00);
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     if (   0x9000 == ret
@@ -78,7 +78,7 @@ JUB_RV JubiterBladeEOSImpl::GetAddress(const TW::EOS::Type& type, const std::str
         return JUBR_IMPL_NOT_SUPPORT;
     } // switch (type) end
 
-    APDU apdu(0x00, 0xf6, p1, eosType, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF6, p1, eosType, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -104,7 +104,7 @@ JUB_RV JubiterBladeEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& 
         return JUBR_ERROR_ARGS;
     }
 
-    APDU apdu(0x00, 0xe6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xE6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
