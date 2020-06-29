@@ -1,7 +1,7 @@
 #include "device/ApduBuilder.hpp"
 #include "scp03/scp03.hpp"
 #include "scp11/scp11c.hpp"
-#include "util.h"
+#include "utility/util.h"
 
 namespace jub {
 
@@ -223,9 +223,6 @@ JUB_RV JubApduBuiler::CheckCMAC(const ResponseAPDU &respApdu) {
 
     std::vector<JUB_BYTE> calMAC;
     calMAC.insert(calMAC.end(), macChain.begin(), macChain.end());    // mac_chaining
-//    calMAC.insert(calMAC.end(), resp.begin(), resp.begin()+(resp.size()-8));
-//    calMAC.push_back(0x63);
-//    calMAC.push_back(0xc7);
     calMAC.insert(calMAC.end(), respApdu.data.begin(), respApdu.data.end());
     calMAC.push_back(respApdu.SW1);
     calMAC.push_back(respApdu.SW2);
@@ -247,13 +244,9 @@ JUB_RV JubApduBuiler::CheckCMAC(const ResponseAPDU &respApdu) {
 
 JUB_RV JubApduBuiler::BuildSafeApdu(const APDU *apdu, std::vector<JUB_BYTE> &vSafeApdu) {
 
-    std::vector<JUB_BYTE> apduData;
-    apduData.push_back(apdu->data.size());
-    apduData.insert(apduData.end(), apdu->data.begin(), apdu->data.end());
-
     // encrypt APDU
     std::vector<JUB_BYTE> vEnc;
-    JUB_VERIFY_RV(PackData(vEnc, apduData));
+    JUB_VERIFY_RV(PackData(vEnc, apdu->data));
 
     APDU encApdu;
     encApdu.SetApdu(apdu->cla, apdu->ins, apdu->p1, apdu->p2, vEnc.size(), vEnc.data());
@@ -282,12 +275,14 @@ JUB_RV JubApduBuiler::ParseSafeApduResp(const JUB_BYTE_PTR respData, const JUB_U
     std::vector<JUB_BYTE> vDec;
     JUB_VERIFY_RV(UnPackData(vDec, vRecv));
 
-    if ((*pretDataLen) < vRecv.size()) {
-        return JUBR_BUFFER_TOO_SMALL;
-    }
+    if (nullptr != pretDataLen) {
+        if ((*pretDataLen) < vRecv.size()) {
+            return JUBR_BUFFER_TOO_SMALL;
+        }
 
-    *pretDataLen = vDec.size();
-    std::copy(vDec.begin(), vDec.end(), retData);
+        *pretDataLen = vDec.size();
+        std::copy(vDec.begin(), vDec.end(), retData);
+    }
 
     wRet = respApdu.SW1 * 0x100 + respApdu.SW2;
 

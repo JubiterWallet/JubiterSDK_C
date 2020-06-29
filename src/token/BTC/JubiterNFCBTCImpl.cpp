@@ -86,7 +86,7 @@ JUB_RV JubiterNFCBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 }
 
 
-JUB_RV JubiterNFCBTCImpl::SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) {
+JUB_RV JubiterNFCBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
 
     switch (type) {
     case COINBCH:

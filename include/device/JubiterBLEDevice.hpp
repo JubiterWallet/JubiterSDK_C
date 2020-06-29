@@ -24,12 +24,13 @@ public:
 
 public:
     // for common device
-    virtual JUB_RV Connect();
-    virtual JUB_RV Disconnect();
+    virtual JUB_RV Connect() override;
+    virtual JUB_RV Disconnect() override;
+    virtual void Reset() override {}
 
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                             OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
-                            IN JUB_ULONG ulMiliSecondTimeout = 1200000);
+                            IN JUB_ULONG ulMiliSecondTimeout = 1200000) override;
 
 public:
     // for ble device

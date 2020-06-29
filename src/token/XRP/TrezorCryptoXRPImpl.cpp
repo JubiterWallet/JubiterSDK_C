@@ -18,7 +18,7 @@ JUB_RV TrezorCryptoXRPImpl::SelectApplet() {
 }
 
 
-JUB_RV TrezorCryptoXRPImpl::SetCoinType() {
+JUB_RV TrezorCryptoXRPImpl::SetCoin() {
 
     return JUBR_OK;
 }

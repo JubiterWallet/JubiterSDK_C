@@ -10,82 +10,21 @@
 #define gpc_scp11_hpp
 
 #include <stdio.h>
-#include <string>
+#include <string.h>
+#include <memory>
 #include <vector>
-#include "tag.h"
 
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
+
+#include "tlv.hpp"
+#include "tag.h"
 
 
 enum GPC_TLV_KEY_USAGE {
     CERT_VERIFY = 0x82,     // Digital signature verification (CERT .KA-KLOC.ECDSA)
     CERT_AGGREEMENT = 0x80, // Key agreement (CERT .OCE.ECKA)
 };
-
-
-typedef struct gpc_tlv_buf {
-
-public:
-    gpc_tlv_buf() {
-        clear();
-    }
-    gpc_tlv_buf(const int t, const std::vector<unsigned char>& v) :
-        tag(t),
-        value(v) {}
-    gpc_tlv_buf(const std::vector<unsigned char>& v) :
-        tag(0x00),
-        value(v) {}
-    ~gpc_tlv_buf() {
-        clear();
-    }
-
-    bool operator==(const std::vector<unsigned char>& rhs) const {
-        return std::equal(value.begin(), value.end(), rhs.begin());
-    }
-    bool operator==(const gpc_tlv_buf& rhs) const {
-        if (!((*this) == rhs.value)
-            ||    tag != rhs.tag
-            ) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-    bool operator!=(const std::vector<unsigned char>& rhs) const {
-        return !((*this) == rhs);
-    }
-    bool operator!=(const gpc_tlv_buf& rhs) const {
-        return !((*this) == rhs);
-    }
-
-    gpc_tlv_buf& operator=(const gpc_tlv_buf& rhs) {
-        this->tag = rhs.tag;
-        this->value.clear();
-        this->value.insert(std::end(this->value), std::begin(rhs.value), std::end(rhs.value));
-        return *this;
-    }
-
-    void clear() {
-        tag = 0;
-        value.clear();
-    }
-    bool empty() {
-        return value.empty();
-    }
-
-    std::vector<unsigned char> encodeV();
-    size_t encodeV(std::vector<unsigned char>& v);
-    std::vector<unsigned char> encodeLV();
-    size_t encodeLV(std::vector<unsigned char>& lv);
-    std::vector<unsigned char> encode();
-    size_t encode(std::vector<unsigned char>& code);
-
-public:
-    int tag;                /**< TLV type, e.g. TLV_UTF8_STRING. */
-    std::vector<unsigned char> value;   /**< TLV data, e.g. in ASCII. */
-} tlv_buf;
 
 
 /**
@@ -341,12 +280,23 @@ public:
         clear();
     }
 
+    gpc_scp11_session_key& operator=(const gpc_scp11_session_key& rhs) {
+
+        this->key_dek = rhs.key_dek;
+        this->s_enc   = rhs.s_enc;
+        this->s_mac   = rhs.s_mac;
+        this->s_rmac  = rhs.s_rmac;
+        this->s_dek   = rhs.s_dek;
+
+        return *this;
+    }
+
     void clear() {
         key_dek.clear();
-        s_enc.clear();
-        s_mac.clear();
-        s_rmac.clear();
-        s_dek.clear();
+          s_enc.clear();
+          s_mac.clear();
+         s_rmac.clear();
+          s_dek.clear();
     }
     bool empty() {
         return (   raw.empty()
@@ -435,10 +385,8 @@ public:
     void clear() {
         oce_crt.clear();
         oce_rk.clear();
-        e_pk.clear();
-        e_rk.clear();
-        receipt_key.clear();
-        sk.clear();
+
+        reset();
     }
     bool empty() {
         return (shared_info.empty()
@@ -454,6 +402,9 @@ public:
     void setResponseMsg(const scp11_response_msg& msg) {
         receipt_key = msg;
     }
+    void setSessionKey(const scp11_session_key &session_key) {
+        sk = session_key;
+    }
     virtual std::vector<unsigned char> getOCECert() {
         return oce_crt.raw.value;
     }
@@ -461,11 +412,22 @@ public:
         return receipt_key.receipt.value;
     }
     virtual std::vector<unsigned char> getMutualAuthData() = 0;
+    virtual bool generateKeyPair(const char *curve_name,
+                                 unsigned char* e_pk, unsigned char*e_rk);
     virtual bool openSecureChannel(const std::vector<unsigned char>& response) = 0;
+    virtual bool isOpen() {
+        return !sk.empty();
+    }
+    virtual void reset() {
+        e_pk.clear();
+        e_rk.clear();
+        receipt_key.clear();
+        sk.clear();
+    }
 
 protected:
-    virtual bool keyDerivation() = 0;
-    virtual bool  checkReceipt() = 0;
+    virtual bool keyDerivation(const scp11_response_msg &response_msg, scp11_session_key &session_key) = 0;
+    virtual bool  checkReceipt(const scp11_response_msg &response_msg, const std::vector<unsigned char> &key_dek) = 0;
     bool _calcShSss(const unsigned char*pk, const unsigned char*rk,
                     unsigned char ShSss[SHA1_DIGEST_LENGTH]);
     bool _calcShSes(const unsigned char*pk, const unsigned char*rk,

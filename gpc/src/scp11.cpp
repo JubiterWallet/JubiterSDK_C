@@ -8,83 +8,11 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#include "mSIGNA/stdutils/uchar_vector.h"
-
 #include "scp11/scp11.hpp"
 #include "tlvparse.c"
 #include <TrezorCrypto/rand.h>
 #include <TrezorCrypto/aes.h>
 #include <TrezorCrypto/cmac.h>
-
-
-/// struct gpc_tlv_buf
-std::vector<unsigned char> tlv_buf::encode() {
-
-    std::vector<unsigned char> out;
-
-    if (value.empty()) {
-        return out;
-    }
-    if (tag & 0xFF00) {
-        out.push_back((tag&0xFF00)>>8);
-        out.push_back(tag&0x00FF);
-    }
-    else {
-        out.push_back(tag);
-    }
-    out.push_back(value.size());
-    out.insert(out.end(), value.begin(), value.end());
-
-    return out;
-}
-
-
-size_t tlv_buf::encode(std::vector<unsigned char>& code) {
-
-    code = encode();
-    return code.size();
-}
-
-
-std::vector<unsigned char> tlv_buf::encodeLV() {
-
-    std::vector<unsigned char> out;
-
-    if (value.empty()) {
-        return out;
-    }
-    out.push_back(value.size());
-    out.insert(out.end(), value.begin(), value.end());
-
-    return out;
-}
-
-
-size_t tlv_buf::encodeLV(std::vector<unsigned char>& lv) {
-
-    lv = encodeLV();
-    return lv.size();
-}
-
-
-std::vector<unsigned char> tlv_buf::encodeV() {
-
-    std::vector<unsigned char> out;
-
-    if (value.empty()) {
-        return out;
-    }
-    out.insert(out.end(), value.begin(), value.end());
-
-    return out;
-}
-
-
-size_t tlv_buf::encodeV(std::vector<unsigned char>& v) {
-
-    v = encodeV();
-    return v.size();
-}
 
 
 /// scp11_sharedInfo
@@ -651,13 +579,38 @@ bool scp11::initialize() {
         return false;
     }
 
+    // OCE generates ephemeral key pair(eSK.OCE.ECKA, ePK.OCE.ECKA)
     unsigned char oce_e_priv_key[SHA256_DIGEST_LENGTH] = {0x00,};
-    random_buffer(oce_e_priv_key, sizeof(oce_e_priv_key)/sizeof(unsigned char));
     unsigned char oce_e_pub_key[MAX_ADDR_RAW_SIZE] = {0x00,};
-    ecdsa_get_public_key65(curi->params, oce_e_priv_key, oce_e_pub_key);
+    if (!generateKeyPair(NIST256P1_NAME,
+                         oce_e_pub_key, oce_e_priv_key)) {
+        return false;
+    }
 
     e_rk.insert(e_rk.begin(), std::begin(oce_e_priv_key), std::end(oce_e_priv_key));
     e_pk.insert(e_pk.begin(), std::begin(oce_e_pub_key),  std::end(oce_e_pub_key));
+
+    return true;
+}
+
+
+bool scp11::generateKeyPair(const char *curve_name,
+                            unsigned char* e_pk, unsigned char*e_rk) {
+
+    if (   nullptr == e_pk
+        || nullptr == e_rk
+        ) {
+        return false;
+    }
+
+    unsigned char oce_e_priv_key[SHA256_DIGEST_LENGTH] = {0x00,};
+    random_buffer(oce_e_priv_key, sizeof(oce_e_priv_key)/sizeof(unsigned char));
+    unsigned char oce_e_pub_key[MAX_ADDR_RAW_SIZE] = {0x00,};
+    curve_info *curi = (curve_info *)get_curve_by_name(curve_name);
+    ecdsa_get_public_key65(curi->params, oce_e_priv_key, oce_e_pub_key);
+
+    memcpy(e_pk, oce_e_pub_key, MAX_ADDR_RAW_SIZE);
+    memcpy(e_rk, oce_e_priv_key, SHA256_DIGEST_LENGTH);
 
     return true;
 }

@@ -36,7 +36,7 @@ JUB_RV EOSContext::ActiveSelf() {
         JUB_VERIFY_RV(SetTimeout(_timeout));
     }
     if (!isIndep) {
-        JUB_VERIFY_RV(_tokenPtr->SetCoinType());
+        JUB_VERIFY_RV(_tokenPtr->SetCoin());
     }
 
     return JUBR_OK;

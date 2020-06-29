@@ -31,9 +31,8 @@ JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,
 
     jub::context::HCContext* context = new jub::context::HCContext(cfg, std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(token));
     JUB_CHECK_NULL(context);
-
-	*contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     JUB_VERIFY_RV(context->ActiveSelf());
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
     return JUBR_OK;
 }
@@ -45,9 +44,9 @@ JUB_RV JUB_GetMainHDNodeHC(IN JUB_UINT16 contextID,
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
     JUB_CHECK_NULL(context);
 
-    std::string strXpub;
-    JUB_VERIFY_RV(context->GetMainHDNode(strXpub));
-    JUB_VERIFY_RV(_allocMem(xpub, strXpub));
+    std::string str_xpub;
+    JUB_VERIFY_RV(context->GetMainHDNode(str_xpub));
+    JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
 
     return JUBR_OK;
 }
@@ -60,9 +59,9 @@ JUB_RV JUB_GetHDNodeHC(IN JUB_UINT16 contextID,
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
     JUB_CHECK_NULL(context);
 
-    std::string strXpub;
-    JUB_VERIFY_RV(context->GetHDNode(path, strXpub));
-    JUB_VERIFY_RV(_allocMem(xpub, strXpub));
+    std::string str_xpub;
+    JUB_VERIFY_RV(context->GetHDNode(path, str_xpub));
+    JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
 
     return JUBR_OK;
 }
@@ -76,9 +75,9 @@ JUB_RV JUB_GetAddressHC(IN JUB_UINT16 contextID,
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
     JUB_CHECK_NULL(context);
 
-    std::string strAddress;
-    JUB_VERIFY_RV(context->GetAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, bshow, strAddress));
-    JUB_VERIFY_RV(_allocMem(address, strAddress));
+    std::string str_address;
+    JUB_VERIFY_RV(context->GetAddress(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, path, bshow, str_address));
+    JUB_VERIFY_RV(_allocMem(address, str_address));
 
     return JUBR_OK;
 }

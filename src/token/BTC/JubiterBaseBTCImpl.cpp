@@ -71,7 +71,7 @@ JUB_RV JubiterBaseBTCImpl::CheckAddress(const std::string& address) {
     JUB_RV rvLegacy = !(TW::Bitcoin::Address::isValid(address,prefixs));
     //check segwit address
     JUB_RV rvSegwit = !(TW::Bitcoin::SegwitAddress::isValid(address,std::string(stringForHRP(TWCoinTypeHRP(_coin)))));
-    
+
     return rvLegacy&rvSegwit;
 }
 
