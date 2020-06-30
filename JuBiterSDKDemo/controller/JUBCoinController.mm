@@ -7,6 +7,7 @@
 //
 
 #import "JUBCoinController.h"
+#import "JUBPinAlertView.h"
 
 
 @interface JUBCoinController ()
@@ -78,8 +79,7 @@
     switch (self.optIndex) {
     case JUB_NS_ENUM_OPT::TRANSACTION:
     {
-        [[Tools defaultTools] showPinAlertAboveVC:self
-                              getPinCallBackBlock:^(NSString *pin) {
+        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
             
             self.userPIN = pin;
             
@@ -100,12 +100,12 @@
     case JUB_NS_ENUM_OPT::SET_MY_ADDRESS:
     {
         inputAddrView = [JUBInputAddressView showCallBack:^(NSInteger change, NSInteger address) {
-
+            
             NSLog(@"showCallBack change = %ld, address = %ld", (long)change, (long)address);
-
+            
             self.change = change;
             self.addressIndex = address;
-
+            
             switch (self.selectedTransmitTypeIndex) {
             case JUB_NS_ENUM_DEV_TYPE::NFC:
                 [self beginNFCSession];
@@ -142,47 +142,6 @@
                  pin:(std::string)pin {
     
     JUB_RV rv = JUBR_ERROR;
-//    while (rv) {
-//        //����pin��λ�ã�������123456789
-//        cout << "1 2 3" << endl;
-//        cout << "4 5 6" << endl;
-//        cout << "7 8 9" << endl;
-//
-//        cout << "to cancel the virtualpwd iput 'c'" << endl;
-//        rv = JUB_ShowVirtualPwd(contextID);
-//        if (   JUBR_OK               != rv
-//            && JUBR_IMPL_NOT_SUPPORT != rv
-//            ) {
-//            cout << "JUB_ShowVirtualPwd() return " << GetErrMsg(rv) << endl;
-//            break;
-//        }
-//
-//        char str[9] = {0,};
-//
-//        cin >> str;
-//        cout << str << endl;
-//
-//        if (   'c' == str[0]
-//            || 'C' == str[0]
-//            ) {
-//            cout << "cancel the VirtualPwd "<< endl;
-//            rv = JUB_CancelVirtualPwd(contextID);
-//            if (JUBR_OK != rv) {
-//                cout << "JUB_CancelVirtualPwd() return " << GetErrMsg(rv) << endl;
-//                break;
-//            }
-//            return rv;
-//        }
-//
-//        JUB_ULONG retry;
-//        rv = JUB_VerifyPIN(contextID, [selfClass.userPIN UTF8String], &retry);
-//        if (JUBR_OK != rv) {
-//            cout << "[JUB_VerifyPIN() return " << GetErrMsg(rv) << ".]" << endl;
-//            [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN() return 0x%2lx.]", rv]];
-//            break;
-//        }
-//        [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN() OK.]"]];
-//    }
     
     JUB_ULONG retry;
     rv = JUB_VerifyPIN(contextID, pin.c_str(), &retry);

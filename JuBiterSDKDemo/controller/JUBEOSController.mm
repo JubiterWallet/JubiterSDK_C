@@ -127,7 +127,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"address(%d/%d): %s.", path.change, path.addressIndex, address]];
+    [self addMsgData:[NSString stringWithFormat:@"address(%d/%llu): %s.", path.change, path.addressIndex, address]];
     JUB_FreeMemory(address);
 }
 

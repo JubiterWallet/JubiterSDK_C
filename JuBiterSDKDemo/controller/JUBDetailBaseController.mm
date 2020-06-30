@@ -98,10 +98,19 @@ inline void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
     
     g_selfClass = self.selfClass;
     g_optItem = self.optItem;
+    g_filePath = "42584E46433230303532353030303031_apk";
+//    g_filePath = "42584E46433230303532353030303032_apk";
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%s", g_filePath.c_str()]
+                                                         ofType:@"settings"];
+    Json::Value root = readJSON([filePath UTF8String]);
     
     //通讯库调用
     NFC_DEVICE_INIT_PARAM param;
     param.scanCallBack = NFCScanFuncCallBack;
+    param.crt = (char*)root["SCP11c"]["OCE"][1][0].asCString();
+    param.sk  = (char*)root["SCP11c"]["OCE"][1][2].asCString();
+    param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
+    param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
     JUB_RV rv = JUB_initNFCDevice(param);
     if (JUBR_OK != rv) {
         [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() ERROR.]"]];
@@ -115,7 +124,7 @@ inline void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
 - (void)beginBLESession {
     
     g_selfClass = self.selfClass;
-    g_optItem = self.optItem;
+    g_optItem   = self.optItem;
     
     //通讯库调用
     DEVICE_INIT_PARAM param;
@@ -125,7 +134,7 @@ inline void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
     JUB_RV rv = JUB_initDevice(param);
     if (JUBR_OK != rv) {
         [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initDevice() ERROR.]"]];
-
+        
         return;
     }
     [selfClass addMsgData:[NSString stringWithFormat:@"[JUB_initDevice() OK.]"]];

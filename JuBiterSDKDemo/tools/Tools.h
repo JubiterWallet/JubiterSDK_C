@@ -19,6 +19,4 @@ typedef void (^JUBGetPinCallBackBlock)(NSString *pin);
 
 - (UIColor *)colorWithHexString: (NSString *)color;
 
-- (void)showPinAlertAboveVC:(UIViewController *)superVC getPinCallBackBlock:(JUBGetPinCallBackBlock)getPinCallBackBlock;
-
 @end

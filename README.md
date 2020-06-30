@@ -1,16 +1,16 @@
 # JuBiter-SDK-Demo-iOS
-> Demo on iOS for JuBitSDK, supports for NFC and bluetooth devices.
+> Demo on iOS for JuBitSDK, supports for NFC and bluetooth(not finished yet) devices.
 
 > Depends on:
 > - jsoncpp([1.8.4](https://github.com/open-source-parsers/jsoncpp.git))
-> - JuBiterSDK([nfc branch](https://github.com/JubiterWallet/JubiterSDK_C.git))
+> - JuBiterSDK([dev_nfc branch](https://github.com/JubiterWallet/JubiterSDK_C.git))
 
 
 ## submodule
 ```bash
 cd deps
-git submodule add        https://github.com/open-source-parsers/jsoncpp.git jsoncpp
-git submodule add -b nfc https://github.com/JubiterWallet/JubiterSDK_C.git JubiterSDK
+git submodule add            https://github.com/open-source-parsers/jsoncpp.git jsoncpp
+git submodule add -b dev_nfc https://github.com/JubiterWallet/JubiterSDK_C.git JubiterSDK
 ```
 
 ```bash

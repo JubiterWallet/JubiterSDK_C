@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		673E880C24AC518C00578781 /* JUBPinAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 673E880A24AC518C00578781 /* JUBPinAlertView.m */; };
 		6741652A246BDEF000DFAC28 /* JUBHomeController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67416528246BDEEF00DFAC28 /* JUBHomeController.mm */; };
 		6741654F246D4B6000DFAC28 /* JUBAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741654B246D4B5F00DFAC28 /* JUBAlertView.m */; };
 		67416550246D4B6000DFAC28 /* JUBBLEDeviceScanListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741654C246D4B5F00DFAC28 /* JUBBLEDeviceScanListView.m */; };
 		67416551246D4B6000DFAC28 /* JUBBLEDeviceListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741654E246D4B6000DFAC28 /* JUBBLEDeviceListCell.m */; };
 		67416556246D4B7000DFAC28 /* JUBInputAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67416552246D4B7000DFAC28 /* JUBInputAddressView.m */; };
 		67416557246D4B7000DFAC28 /* JUBSelectApduView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67416554246D4B7000DFAC28 /* JUBSelectApduView.m */; };
+		674EB2F02497442900344AD7 /* 42584E46433230303532353030303031_apk.settings in Resources */ = {isa = PBXBuildFile; fileRef = 674EB2EE2497442900344AD7 /* 42584E46433230303532353030303031_apk.settings */; };
+		674EB2F12497442900344AD7 /* 42584E46433230303532353030303032_apk.settings in Resources */ = {isa = PBXBuildFile; fileRef = 674EB2EF2497442900344AD7 /* 42584E46433230303532353030303032_apk.settings */; };
 		67676B082462AB620099E2A8 /* JUBDeviceController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67676B062462AB620099E2A8 /* JUBDeviceController.mm */; };
 		677BDA6C2469437100A0F913 /* JUBButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 677BDA6A2469437100A0F913 /* JUBButtonModel.m */; };
 		677BDA72246A574200A0F913 /* JUBEOSController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 677BDA71246A574100A0F913 /* JUBEOSController.mm */; };
@@ -26,24 +29,24 @@
 		67CC31982466AB5800DDB9CD /* JUBETHController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC31962466AB5800DDB9CD /* JUBETHController.mm */; };
 		67CC319B2466AEE400DDB9CD /* JUBCoinController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC319A2466AEE400DDB9CD /* JUBCoinController.mm */; };
 		67CC31A12466BFEE00DDB9CD /* JUBDetailBaseController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67CC31A02466BFEE00DDB9CD /* JUBDetailBaseController.mm */; };
-		67DA5B34248102430082E0BB /* testSeed.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B32248102430082E0BB /* testSeed.json */; };
-		67DA5B33248102430082E0BB /* testMnemonic.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B31248102430082E0BB /* testMnemonic.json */; };
-		67DA5B22248101EE0082E0BB /* testBTC44.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B12248101EC0082E0BB /* testBTC44.json */; };
-		67DA5B2C248101EE0082E0BB /* testBTC49.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1C248101ED0082E0BB /* testBTC49.json */; };
-		67DA5B2E248101EE0082E0BB /* testLTC.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1E248101ED0082E0BB /* testLTC.json */; };
-		67DA5B2A248101EE0082E0BB /* testUSDT.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1A248101ED0082E0BB /* testUSDT.json */; };
-		67DA5B23248101EE0082E0BB /* testQTUM.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B13248101EC0082E0BB /* testQTUM.json */; };
-		67DA5B27248101EE0082E0BB /* testQTUM_qrc20.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B17248101ED0082E0BB /* testQTUM_qrc20.json */; };
-		67DA5B24248101EE0082E0BB /* testDASH.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B14248101EC0082E0BB /* testDASH.json */; };
-		67DA5B2F248101EE0082E0BB /* testBCH.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1F248101ED0082E0BB /* testBCH.json */; };
-		67DA5B29248101EE0082E0BB /* testHCash.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B19248101ED0082E0BB /* testHCash.json */; };
-		67DA5B28248101EE0082E0BB /* testETH.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B18248101ED0082E0BB /* testETH.json */; };
 		67DA5B21248101EE0082E0BB /* testXRP.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B11248101EC0082E0BB /* testXRP.json */; };
-		67DA5B26248101EE0082E0BB /* testEOS.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B16248101EC0082E0BB /* testEOS.json */; };
+		67DA5B22248101EE0082E0BB /* testBTC44.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B12248101EC0082E0BB /* testBTC44.json */; };
+		67DA5B23248101EE0082E0BB /* testQTUM.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B13248101EC0082E0BB /* testQTUM.json */; };
+		67DA5B24248101EE0082E0BB /* testDASH.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B14248101EC0082E0BB /* testDASH.json */; };
 		67DA5B25248101EE0082E0BB /* testEOS_buyram.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B15248101EC0082E0BB /* testEOS_buyram.json */; };
+		67DA5B26248101EE0082E0BB /* testEOS.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B16248101EC0082E0BB /* testEOS.json */; };
+		67DA5B27248101EE0082E0BB /* testQTUM_qrc20.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B17248101ED0082E0BB /* testQTUM_qrc20.json */; };
+		67DA5B28248101EE0082E0BB /* testETH.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B18248101ED0082E0BB /* testETH.json */; };
+		67DA5B29248101EE0082E0BB /* testHCash.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B19248101ED0082E0BB /* testHCash.json */; };
+		67DA5B2A248101EE0082E0BB /* testUSDT.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1A248101ED0082E0BB /* testUSDT.json */; };
 		67DA5B2B248101EE0082E0BB /* testEOS_unstake.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1B248101ED0082E0BB /* testEOS_unstake.json */; };
-		67DA5B30248101EE0082E0BB /* testEOS_sellram.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B20248101EE0082E0BB /* testEOS_sellram.json */; };
+		67DA5B2C248101EE0082E0BB /* testBTC49.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1C248101ED0082E0BB /* testBTC49.json */; };
 		67DA5B2D248101EE0082E0BB /* testEOS_stake.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1D248101ED0082E0BB /* testEOS_stake.json */; };
+		67DA5B2E248101EE0082E0BB /* testLTC.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1E248101ED0082E0BB /* testLTC.json */; };
+		67DA5B2F248101EE0082E0BB /* testBCH.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B1F248101ED0082E0BB /* testBCH.json */; };
+		67DA5B30248101EE0082E0BB /* testEOS_sellram.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B20248101EE0082E0BB /* testEOS_sellram.json */; };
+		67DA5B33248102430082E0BB /* testMnemonic.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B31248102430082E0BB /* testMnemonic.json */; };
+		67DA5B34248102430082E0BB /* testSeed.json in Resources */ = {isa = PBXBuildFile; fileRef = 67DA5B32248102430082E0BB /* testSeed.json */; };
 		687BCEDC245866BD00CD1780 /* JUBCoinTestDetailBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 687BCECA245866BC00CD1780 /* JUBCoinTestDetailBaseController.m */; };
 		687BCEDD245866BD00CD1780 /* JUBBTCController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 687BCECB245866BC00CD1780 /* JUBBTCController.mm */; };
 		687BCEDE245866BD00CD1780 /* JUBCoinTestMainView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 687BCECF245866BC00CD1780 /* JUBCoinTestMainView.mm */; };
@@ -73,6 +76,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		673E880A24AC518C00578781 /* JUBPinAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBPinAlertView.m; sourceTree = "<group>"; };
+		673E880B24AC518C00578781 /* JUBPinAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBPinAlertView.h; sourceTree = "<group>"; };
 		67416528246BDEEF00DFAC28 /* JUBHomeController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBHomeController.mm; sourceTree = "<group>"; };
 		67416529246BDEF000DFAC28 /* JUBHomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBHomeController.h; sourceTree = "<group>"; };
 		67416549246D4B5F00DFAC28 /* JUBAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBAlertView.h; sourceTree = "<group>"; };
@@ -85,6 +90,8 @@
 		67416553246D4B7000DFAC28 /* JUBInputAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBInputAddressView.h; sourceTree = "<group>"; };
 		67416554246D4B7000DFAC28 /* JUBSelectApduView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBSelectApduView.m; sourceTree = "<group>"; };
 		67416555246D4B7000DFAC28 /* JUBSelectApduView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBSelectApduView.h; sourceTree = "<group>"; };
+		674EB2EE2497442900344AD7 /* 42584E46433230303532353030303031_apk.settings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = 42584E46433230303532353030303031_apk.settings; path = settings/42584E46433230303532353030303031_apk.settings; sourceTree = "<group>"; };
+		674EB2EF2497442900344AD7 /* 42584E46433230303532353030303032_apk.settings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = 42584E46433230303532353030303032_apk.settings; path = settings/42584E46433230303532353030303032_apk.settings; sourceTree = "<group>"; };
 		67676B062462AB620099E2A8 /* JUBDeviceController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBDeviceController.mm; sourceTree = "<group>"; };
 		67676B072462AB620099E2A8 /* JUBDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBDeviceController.h; sourceTree = "<group>"; };
 		677BDA6A2469437100A0F913 /* JUBButtonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBButtonModel.m; sourceTree = "<group>"; };
@@ -106,24 +113,24 @@
 		67CC319A2466AEE400DDB9CD /* JUBCoinController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBCoinController.mm; sourceTree = "<group>"; };
 		67CC319F2466BFEE00DDB9CD /* JUBDetailBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBDetailBaseController.h; sourceTree = "<group>"; };
 		67CC31A02466BFEE00DDB9CD /* JUBDetailBaseController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBDetailBaseController.mm; sourceTree = "<group>"; };
-		67DA5B32248102430082E0BB /* testSeed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testSeed.json; path = deps/JubiterSDK/test/json/testSeed.json; sourceTree = "<group>"; };
-		67DA5B31248102430082E0BB /* testMnemonic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testMnemonic.json; path = deps/JubiterSDK/test/json/testMnemonic.json; sourceTree = "<group>"; };
-		67DA5B12248101EC0082E0BB /* testBTC44.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testBTC44.json; path = deps/JubiterSDK/test/json/testBTC44.json; sourceTree = "<group>"; };
-		67DA5B1C248101ED0082E0BB /* testBTC49.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testBTC49.json; path = deps/JubiterSDK/test/json/testBTC49.json; sourceTree = "<group>"; };
-		67DA5B1E248101ED0082E0BB /* testLTC.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testLTC.json; path = deps/JubiterSDK/test/json/testLTC.json; sourceTree = "<group>"; };
-		67DA5B1A248101ED0082E0BB /* testUSDT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testUSDT.json; path = deps/JubiterSDK/test/json/testUSDT.json; sourceTree = "<group>"; };
-		67DA5B13248101EC0082E0BB /* testQTUM.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testQTUM.json; path = deps/JubiterSDK/test/json/testQTUM.json; sourceTree = "<group>"; };
-		67DA5B17248101ED0082E0BB /* testQTUM_qrc20.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testQTUM_qrc20.json; path = deps/JubiterSDK/test/json/testQTUM_qrc20.json; sourceTree = "<group>"; };
-		67DA5B14248101EC0082E0BB /* testDASH.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testDASH.json; path = deps/JubiterSDK/test/json/testDASH.json; sourceTree = "<group>"; };
-		67DA5B1F248101ED0082E0BB /* testBCH.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testBCH.json; path = deps/JubiterSDK/test/json/testBCH.json; sourceTree = "<group>"; };
-		67DA5B19248101ED0082E0BB /* testHCash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testHCash.json; path = deps/JubiterSDK/test/json/testHCash.json; sourceTree = "<group>"; };
-		67DA5B18248101ED0082E0BB /* testETH.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testETH.json; path = deps/JubiterSDK/test/json/testETH.json; sourceTree = "<group>"; };
 		67DA5B11248101EC0082E0BB /* testXRP.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testXRP.json; path = deps/JubiterSDK/test/json/testXRP.json; sourceTree = "<group>"; };
-		67DA5B16248101EC0082E0BB /* testEOS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS.json; path = deps/JubiterSDK/test/json/testEOS.json; sourceTree = "<group>"; };
+		67DA5B12248101EC0082E0BB /* testBTC44.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testBTC44.json; path = deps/JubiterSDK/test/json/testBTC44.json; sourceTree = "<group>"; };
+		67DA5B13248101EC0082E0BB /* testQTUM.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testQTUM.json; path = deps/JubiterSDK/test/json/testQTUM.json; sourceTree = "<group>"; };
+		67DA5B14248101EC0082E0BB /* testDASH.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testDASH.json; path = deps/JubiterSDK/test/json/testDASH.json; sourceTree = "<group>"; };
 		67DA5B15248101EC0082E0BB /* testEOS_buyram.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS_buyram.json; path = deps/JubiterSDK/test/json/testEOS_buyram.json; sourceTree = "<group>"; };
-		67DA5B20248101EE0082E0BB /* testEOS_sellram.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS_sellram.json; path = deps/JubiterSDK/test/json/testEOS_sellram.json; sourceTree = "<group>"; };
-		67DA5B1D248101ED0082E0BB /* testEOS_stake.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS_stake.json; path = deps/JubiterSDK/test/json/testEOS_stake.json; sourceTree = "<group>"; };
+		67DA5B16248101EC0082E0BB /* testEOS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS.json; path = deps/JubiterSDK/test/json/testEOS.json; sourceTree = "<group>"; };
+		67DA5B17248101ED0082E0BB /* testQTUM_qrc20.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testQTUM_qrc20.json; path = deps/JubiterSDK/test/json/testQTUM_qrc20.json; sourceTree = "<group>"; };
+		67DA5B18248101ED0082E0BB /* testETH.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testETH.json; path = deps/JubiterSDK/test/json/testETH.json; sourceTree = "<group>"; };
+		67DA5B19248101ED0082E0BB /* testHCash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testHCash.json; path = deps/JubiterSDK/test/json/testHCash.json; sourceTree = "<group>"; };
+		67DA5B1A248101ED0082E0BB /* testUSDT.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testUSDT.json; path = deps/JubiterSDK/test/json/testUSDT.json; sourceTree = "<group>"; };
 		67DA5B1B248101ED0082E0BB /* testEOS_unstake.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS_unstake.json; path = deps/JubiterSDK/test/json/testEOS_unstake.json; sourceTree = "<group>"; };
+		67DA5B1C248101ED0082E0BB /* testBTC49.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testBTC49.json; path = deps/JubiterSDK/test/json/testBTC49.json; sourceTree = "<group>"; };
+		67DA5B1D248101ED0082E0BB /* testEOS_stake.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS_stake.json; path = deps/JubiterSDK/test/json/testEOS_stake.json; sourceTree = "<group>"; };
+		67DA5B1E248101ED0082E0BB /* testLTC.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testLTC.json; path = deps/JubiterSDK/test/json/testLTC.json; sourceTree = "<group>"; };
+		67DA5B1F248101ED0082E0BB /* testBCH.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testBCH.json; path = deps/JubiterSDK/test/json/testBCH.json; sourceTree = "<group>"; };
+		67DA5B20248101EE0082E0BB /* testEOS_sellram.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS_sellram.json; path = deps/JubiterSDK/test/json/testEOS_sellram.json; sourceTree = "<group>"; };
+		67DA5B31248102430082E0BB /* testMnemonic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testMnemonic.json; path = deps/JubiterSDK/test/json/testMnemonic.json; sourceTree = "<group>"; };
+		67DA5B32248102430082E0BB /* testSeed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testSeed.json; path = deps/JubiterSDK/test/json/testSeed.json; sourceTree = "<group>"; };
 		680DDAB5242880F400622FB0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		687BCEC8245866BC00CD1780 /* JUBBTCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBBTCController.h; sourceTree = "<group>"; };
 		687BCEC9245866BC00CD1780 /* JUBCoinTestDetailBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBCoinTestDetailBaseController.h; sourceTree = "<group>"; };
@@ -163,6 +170,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		674EB2ED2497440800344AD7 /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				674EB2EE2497442900344AD7 /* 42584E46433230303532353030303031_apk.settings */,
+				674EB2EF2497442900344AD7 /* 42584E46433230303532353030303032_apk.settings */,
+			);
+			name = settings;
+			sourceTree = "<group>";
+		};
 		67808DDC245A7123009041FD /* deps */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +276,8 @@
 				687BCED1245866BC00CD1780 /* FTNFCResultDataCell.m */,
 				67416549246D4B5F00DFAC28 /* JUBAlertView.h */,
 				6741654B246D4B5F00DFAC28 /* JUBAlertView.m */,
+				673E880B24AC518C00578781 /* JUBPinAlertView.h */,
+				673E880A24AC518C00578781 /* JUBPinAlertView.m */,
 				6741654D246D4B5F00DFAC28 /* JUBBLEDeviceListCell.h */,
 				6741654E246D4B6000DFAC28 /* JUBBLEDeviceListCell.m */,
 				6741654A246D4B5F00DFAC28 /* JUBBLEDeviceScanListView.h */,
@@ -299,10 +317,11 @@
 			isa = PBXGroup;
 			children = (
 				67808E28245AEEC5009041FD /* testJSONScript */,
+				674EB2ED2497440800344AD7 /* settings */,
 				67808DDC245A7123009041FD /* deps */,
 				8BE2A70B235D89600015B9AB /* JuBiterSDKDemo */,
-				8BE2A70A235D89600015B9AB /* Products */,
 				680DDAB4242880F300622FB0 /* Frameworks */,
+				8BE2A70A235D89600015B9AB /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -399,6 +418,8 @@
 				67DA5B2E248101EE0082E0BB /* testLTC.json in Resources */,
 				67DA5B24248101EE0082E0BB /* testDASH.json in Resources */,
 				67DA5B2F248101EE0082E0BB /* testBCH.json in Resources */,
+				674EB2F12497442900344AD7 /* 42584E46433230303532353030303032_apk.settings in Resources */,
+				674EB2F02497442900344AD7 /* 42584E46433230303532353030303031_apk.settings in Resources */,
 				67DA5B2A248101EE0082E0BB /* testUSDT.json in Resources */,
 				67DA5B23248101EE0082E0BB /* testQTUM.json in Resources */,
 				67DA5B27248101EE0082E0BB /* testQTUM_qrc20.json in Resources */,
@@ -427,6 +448,7 @@
 				677BDA75246A855900A0F913 /* JUBXRPController.mm in Sources */,
 				67930AD4247E658D0041DBDF /* json_writer.cpp in Sources */,
 				677BDA72246A574200A0F913 /* JUBEOSController.mm in Sources */,
+				673E880C24AC518C00578781 /* JUBPinAlertView.m in Sources */,
 				687BCEDE245866BD00CD1780 /* JUBCoinTestMainView.mm in Sources */,
 				687BCEE0245866BD00CD1780 /* FTNFCResultDataCell.m in Sources */,
 				687BCEE2245866BD00CD1780 /* Tools.m in Sources */,
@@ -580,8 +602,8 @@
 					"$(SRCROOT)/",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../JubiterSDK_C_nfc/include",
-					"$(SRCROOT)/../JubiterSDK_C_nfc/deps/jsoncpp/include",
+					"$(SRCROOT)/../JubiterSDK_C/include",
+					"$(SRCROOT)/../JubiterSDK_C/deps/jsoncpp/include",
 					"$(SRCROOT)",
 					"$(SRCROOT)/view",
 				);
@@ -593,7 +615,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../JubiterSDK_C_nfc/deps/jsoncpp/src/lib_json",
+					"$(SRCROOT)/../JubiterSDK_C/deps/jsoncpp/src/lib_json",
 					"$(SRCROOT)/",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JubSDKDemo;
@@ -621,8 +643,8 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_OS_IPHONE;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../JubiterSDK_C_nfc/include",
-					"$(SRCROOT)/../JubiterSDK_C_nfc/deps/jsoncpp/include",
+					"$(SRCROOT)/../JubiterSDK_C/include",
+					"$(SRCROOT)/../JubiterSDK_C/deps/jsoncpp/include",
 					"$(SRCROOT)",
 					"$(SRCROOT)/view",
 				);
@@ -634,7 +656,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../JubiterSDK_C_nfc/deps/jsoncpp/src/lib_json",
+					"$(SRCROOT)/../JubiterSDK_C/deps/jsoncpp/src/lib_json",
 					"$(SRCROOT)/",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JubSDKDemo;

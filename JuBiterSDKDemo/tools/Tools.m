@@ -112,38 +112,4 @@ static Tools *_instance;
     });
 }
 
-- (void)showPinAlertAboveVC:(UIViewController *)superVC getPinCallBackBlock:(JUBGetPinCallBackBlock)getPinCallBackBlock {
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Please enter PIN" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-        
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"CANCEL" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"Cancel");
-    }];
-    
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        NSLog(@"ok");
-        
-        getPinCallBackBlock(self.pinTextField.text);
-        
-    }];
-        
-    [alertController addAction:okAction];
-    
-    [alertController addAction:cancelAction];
-        
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        
-        textField.placeholder = @"Please enter PIN";
-        
-        textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation; 
-        
-        self.pinTextField = textField;
-        
-    }];
-    
-    [superVC presentViewController:alertController animated:YES completion:nil];
-    
-}
-
 @end

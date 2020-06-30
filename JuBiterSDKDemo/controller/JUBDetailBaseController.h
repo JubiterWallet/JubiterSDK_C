@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nonatomic, readwrite) long optCoinType;
 @property (nonatomic, nonatomic, readwrite) long optIndex;
 @property (   strong, nonatomic, readwrite) NSString* userPIN;
+@property (   strong, nonatomic, readwrite) NSString*  neoPIN;
 @property (   strong, nonatomic, readwrite) NSString* userPath;
 
 - (void)beginNFCSession;
@@ -48,6 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 static JUBDetailBaseController *g_selfClass;
 static NSInteger g_optItem;
-
+static std::string g_filePath;
 
 NS_ASSUME_NONNULL_END

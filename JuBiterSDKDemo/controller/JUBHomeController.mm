@@ -53,6 +53,20 @@
 
 
 #pragma mark - 页面内部按钮回调方法
+- (void)segmentAction:(UISegmentedControl *)seg {
+    
+    NSInteger index = [seg selectedSegmentIndex];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld", (long)index]
+                                              forKey:selectedTransmitTypeIndexStr];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self selectTransmitTypeIndex:index];
+    
+    NSLog(@"segmentAction index = %ld", (long)index);
+}
+
 
 - (void)selectTransmitTypeIndex:(NSInteger)index {
 

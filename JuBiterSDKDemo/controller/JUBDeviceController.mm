@@ -8,6 +8,7 @@
 
 #import "JUBDeviceController.h"
 #import "JUBSelectApduView.h"
+#import "JUBPinAlertView.h"
 
 
 @interface JUBDeviceController ()
@@ -23,17 +24,19 @@
     self.selfClass = self;
     self.optItem = JUB_NS_ENUM_MAIN::OPT_DEVICE;
     
-    NSArray *buttonTitleArray = @[BUTTON_TITLE_QUERYBATTERY,
-                                  BUTTON_TITLE_DEVICEINFO,
-                                  BUTTON_TITLE_DEVICEAPPLETS,
-                                  BUTTON_TITLE_DEVICECERT,
-//                                  BUTTON_TITLE_SENDONEAPDU,
-                                  BUTTON_TITLE_GENERATESEED,
-                                  BUTTON_TITLE_IMPORTMNEMONIC12,
-                                  BUTTON_TITLE_IMPORTMNEMONIC18,
-                                  BUTTON_TITLE_IMPORTMNEMONIC24,
-//                                  BUTTON_TITLE_IMPORTSEED,
-//                                  BUTTON_TITLE_EXPORTSEED,
+    NSArray *buttonTitleArray = @[
+//        BUTTON_TITLE_QUERYBATTERY,
+        BUTTON_TITLE_DEVICEINFO,
+        BUTTON_TITLE_DEVICEAPPLETS,
+        BUTTON_TITLE_DEVICECERT,
+        BUTTON_TITLE_DEVICE_CHANGEPIN,
+//        BUTTON_TITLE_SENDONEAPDU,
+        BUTTON_TITLE_DEVICE_RESET,
+        BUTTON_TITLE_GENERATESEED,
+        BUTTON_TITLE_IMPORTMNEMONIC12,
+        BUTTON_TITLE_IMPORTMNEMONIC18,
+        BUTTON_TITLE_IMPORTMNEMONIC24,
+        BUTTON_TITLE_EXPORTMNEMONIC,
     ];
     
     NSMutableArray *buttonModelArray = [NSMutableArray array];
@@ -52,10 +55,10 @@
             model.transmitTypeOfButton = [NSString stringWithFormat:@"%li",
                                           (long)JUB_NS_ENUM_DEV_TYPE::NFC];
         }
-        else if ([title isEqual:BUTTON_TITLE_QUERYBATTERY]) {
-            model.transmitTypeOfButton = [NSString stringWithFormat:@"%li",
-                                          (long)JUB_NS_ENUM_DEV_TYPE::BLE];
-        }
+//        else if ([title isEqual:BUTTON_TITLE_QUERYBATTERY]) {
+//            model.transmitTypeOfButton = [NSString stringWithFormat:@"%li",
+//                                          (long)JUB_NS_ENUM_DEV_TYPE::BLE];
+//        }
         else {
             model.transmitTypeOfButton = [NSString stringWithFormat:@"%li%li",
                                           (long)JUB_NS_ENUM_DEV_TYPE::NFC,
@@ -78,12 +81,13 @@
     NSLog(@"JUBDeviceController--selectedTransmitTypeIndex = %ld, Type = %ld, selectedTestActionType = %ld", (long)self.selectedTransmitTypeIndex, (long)self.selectCoinTypeIndex, (long)index);
     
     self.optIndex = index;
-
+    
     switch (self.optIndex) {
-        case JUB_NS_ENUM_DEV_OPT::QUERY_BATTERY:
+//    case JUB_NS_ENUM_DEV_OPT::QUERY_BATTERY:
     case JUB_NS_ENUM_DEV_OPT::DEVICE_INFO:
     case JUB_NS_ENUM_DEV_OPT::DEVICE_APPLETS:
     case JUB_NS_ENUM_DEV_OPT::DEVICE_CERT:
+    case JUB_NS_ENUM_DEV_OPT::DEVICE_RESET:
     {
         switch (self.selectedTransmitTypeIndex) {
         case JUB_NS_ENUM_DEV_TYPE::NFC:
@@ -97,8 +101,8 @@
         }
         break;
     }
-    case JUB_NS_ENUM_DEV_OPT::SEND_ONE_APDU:
-    {
+//    case JUB_NS_ENUM_DEV_OPT::SEND_ONE_APDU:
+//    {
 //        [JUBSelectApduView showAPDUArray:@[@"1", @"2", @"3", @"4"]
 //                                 AboveVC:self
 //                 selectApduCallBackBlock:^(NSString * _Nonnull apdu) {
@@ -116,17 +120,35 @@
 //                break;
 //            }
 //        }];
+//        break;
+//    }
+    case JUB_NS_ENUM_DEV_OPT::DEVICE_CHANGEPIN:
+    {
+        [JUBPinAlertView showChangePinAlert:^(NSString * _Nonnull oldPin,
+                                              NSString * _Nonnull newPin) {
+            
+            self.userPIN = oldPin;
+             self.neoPIN = newPin;
+            
+            switch (self.selectedTransmitTypeIndex) {
+            case JUB_NS_ENUM_DEV_TYPE::NFC:
+                [self beginNFCSession];
+                break;
+            case JUB_NS_ENUM_DEV_TYPE::BLE:
+                break;
+            default:
+                break;
+            }
+        }];
         break;
     }
     case JUB_NS_ENUM_DEV_OPT::GENERATE_SEED:
     case JUB_NS_ENUM_DEV_OPT::IMPORT_MNEMONIC12:
     case JUB_NS_ENUM_DEV_OPT::IMPORT_MNEMONIC18:
     case JUB_NS_ENUM_DEV_OPT::IMPORT_MNEMONIC24:
-//    case JUB_NS_ENUM_DEV_OPT::IMPORT_SEED:
-//    case JUB_NS_ENUM_DEV_OPT::EXPORT_SEED:
+    case JUB_NS_ENUM_DEV_OPT::EXPORT_MNEMONIC:
     {
-        [[Tools defaultTools] showPinAlertAboveVC:self
-                              getPinCallBackBlock:^(NSString *pin) {
+        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
             
             self.userPIN = pin;
             
@@ -162,7 +184,13 @@
     case JUB_NS_ENUM_DEV_OPT::DEVICE_CERT:
         [self get_device_cert_test:deviceID];
         break;
-    case JUB_NS_ENUM_DEV_OPT::SEND_ONE_APDU:
+    case JUB_NS_ENUM_DEV_OPT::DEVICE_CHANGEPIN:
+        [self change_device_pin_test:deviceID];
+        break;
+//    case JUB_NS_ENUM_DEV_OPT::SEND_ONE_APDU:
+//        break;
+    case JUB_NS_ENUM_DEV_OPT::DEVICE_RESET:
+        [self device_reset_test:deviceID];
         break;
     case JUB_NS_ENUM_DEV_OPT::GENERATE_SEED:
         [self device_gen_seed_test:deviceID];
@@ -173,12 +201,9 @@
         [self device_import_mnemonic:deviceID
                              wordNum:wordNum];
         break;
-//    case JUB_NS_ENUM_DEV_OPT::IMPORT_SEED:
-//        device_import_seed_test(deviceID);
-//        break;
-//    case JUB_NS_ENUM_DEV_OPT::EXPORT_SEED:
-//        device_export_seed_test(deviceID);
-//        break;
+    case JUB_NS_ENUM_DEV_OPT::EXPORT_MNEMONIC:
+        [self device_export_mnemonic_test:deviceID];
+        break;
     default:
         break;
     }
@@ -265,10 +290,26 @@
 }
 
 
-- (void)send_one_apdu_test:(JUB_UINT16)deviceID {
+- (void)change_device_pin_test:(JUB_UINT16)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
-    //panmin
+    
+    rv = JUB_ChangePIN(deviceID,
+                       [self.userPIN UTF8String],
+                       [self.neoPIN UTF8String]);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_ChangePIN() return 0x%2lx.]", rv]];
+        return;
+    }
+    
+    [self addMsgData:[NSString stringWithFormat:@"Device change PIN OK."]];
+}
+
+
+- (void)send_one_apdu_test:(JUB_UINT16)deviceID {
+    
+//    JUB_RV rv = JUBR_ERROR;
+//
 //    JUB_CHAR_PTR cert;
 //    rv = JUB_GetDeviceCert(deviceID, &cert);
 //    if (JUBR_OK != rv) {
@@ -281,7 +322,7 @@
 }
 
 
-- (void)device_gen_seed_test:(JUB_UINT16)deviceID {
+- (void)device_reset_test:(JUB_UINT16)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -291,10 +332,12 @@
         return;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_Reset() OK.]"]];
+}
+
+
+- (void)device_gen_seed_test:(JUB_UINT16)deviceID {
     
-//    rv = JUB_ChangePIN(deviceID,
-//                       "5555",
-//                       "5555");
+    JUB_RV rv = JUBR_ERROR;
     
     rv = JUB_GenerateSeed(deviceID,
                           [self.userPIN UTF8String],
@@ -309,15 +352,8 @@
 
 - (void)device_import_mnemonic:(JUB_UINT16)deviceID
                        wordNum:(int)wordNum {
-
+    
     JUB_RV rv = JUBR_ERROR;
-
-    rv = JUB_Reset(deviceID);
-    if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_Reset() return 0x%2lx.]", rv]];
-        return;
-    }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_Reset() OK.]"]];
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"testMnemonic"
                                                          ofType:@"json"];
@@ -342,38 +378,7 @@
 }
 
 
-- (void)device_import_seed_test:(JUB_UINT16)deviceID {
-    
-    JUB_RV rv = JUBR_ERROR;
-    
-    rv = JUB_Reset(deviceID);
-    if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_Reset() return 0x%2lx.]", rv]];
-        return;
-    }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_Reset() OK.]"]];
-    
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"testSeed"
-                                                         ofType:@"json"];
-    Json::Value root = readJSON([filePath UTF8String]);
-    JUB_ENUM_MNEMONIC_STRENGTH strength = (JUB_ENUM_MNEMONIC_STRENGTH)root["strength"].asInt();
-    char *entropy = (char*)root["entropy"].asCString();
-    char *seed = (char*)root["seed"].asCString();
-    
-    rv = JUB_ImportSeed(deviceID,
-                        [self.userPIN UTF8String],
-                        strength,
-                        entropy,
-                        seed);
-    if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_ImportSeed() return 0x%2lx.]", rv]];
-        return;
-    }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_ImportSeed() OK.]"]];
-}
-
-
-- (void)device_export_seed_test:(JUB_UINT16)deviceID {
+- (void)device_export_mnemonic_test:(JUB_UINT16)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     

@@ -125,11 +125,11 @@
     
     try {
         JUB_UINT16 contextID = 0;
-
+        
         CONTEXT_CONFIG_BTC cfg;
         cfg.mainPath = (char*)root["main_path"].asCString();
         cfg.coinType = coinType;
-
+        
         if (COINBCH == coinType) {
             cfg.transType = p2pkh;
         }
@@ -141,7 +141,7 @@
                 cfg.transType = p2pkh;
             }
         }
-
+        
         rv = JUB_CreateContextBTC(cfg, deviceID, &contextID);
         if (JUBR_OK != rv) {
             [self addMsgData:[NSString stringWithFormat:@"[JUB_CreateContextBTC() return 0x%2lx.]", rv]];
@@ -253,7 +253,7 @@
         return;
     }
     else {
-        [self addMsgData:[NSString stringWithFormat:@"input xpub(%d/%d): %s.", path.change, path.addressIndex, xpub]];
+        [self addMsgData:[NSString stringWithFormat:@"input xpub(%d/%llu): %s.", path.change, path.addressIndex, xpub]];
         
         JUB_FreeMemory(xpub);
     }
@@ -264,7 +264,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressBTC() return 0x%2lx.]", rv]];
     }
     else {
-        [self addMsgData:[NSString stringWithFormat:@"input address(%d/%d): %s.", path.change, path.addressIndex, address]];
+        [self addMsgData:[NSString stringWithFormat:@"input address(%d/%llu): %s.", path.change, path.addressIndex, address]];
         
         JUB_FreeMemory(address);
     }
@@ -527,7 +527,7 @@
     char* raw = nullptr;
     rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
     [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionBTC() return 0x%2lx.]", rv]];
-
+    
     if (JUBR_USER_CANCEL == rv) {
         [self addMsgData:[NSString stringWithFormat:@"[User cancel the transaction !]"]];
         return rv;

@@ -147,7 +147,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%d) in hex format: %s.", path.change, path.addressIndex, pubkey]];
+    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%llu) in hex format: %s.", path.change, path.addressIndex, pubkey]];
     JUB_FreeMemory(pubkey);
     
     pubkey = nullptr;
@@ -157,7 +157,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%d) in xpub format: %s.", path.change, path.addressIndex, pubkey]];
+    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%llu) in xpub format: %s.", path.change, path.addressIndex, pubkey]];
     JUB_FreeMemory(pubkey);
     
     char* address = nullptr;
@@ -167,7 +167,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"address(%d/%d): %s.", path.change, path.addressIndex, address]];
+    [self addMsgData:[NSString stringWithFormat:@"address(%d/%llu): %s.", path.change, path.addressIndex, address]];
     JUB_FreeMemory(address);
 }
 

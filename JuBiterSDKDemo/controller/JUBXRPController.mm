@@ -54,7 +54,7 @@
     
     try {
         JUB_UINT16 contextID = 0;
-
+        
         CONTEXT_CONFIG_XRP cfg;
         cfg.mainPath = (char*)root["main_path"].asCString();
         rv = JUB_CreateContextXRP(cfg, deviceID, &contextID);
@@ -115,7 +115,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%d) in hex format: %s.", path.change, path.addressIndex, pubkey]];
+    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%llu) in hex format: %s.", path.change, path.addressIndex, pubkey]];
     JUB_FreeMemory(pubkey);
     
     char* address = nullptr;
@@ -125,7 +125,7 @@
         return;
     }
     
-    [self addMsgData:[NSString stringWithFormat:@"address(%d/%d): %s.", path.change, path.addressIndex, address]];
+    [self addMsgData:[NSString stringWithFormat:@"address(%d/%llu): %s.", path.change, path.addressIndex, address]];
     JUB_FreeMemory(address);
 }
 
@@ -153,11 +153,11 @@
                           root:(Json::Value)root {
     
     JUB_RV rv = JUBR_ERROR;
-        
+    
     BIP44_Path path;
     path.change = (JUB_ENUM_BOOL)root["XRP"]["bip32_path"]["change"].asBool();
     path.addressIndex = root["XRP"]["bip32_path"]["addressIndex"].asUInt();
-
+    
     //typedef struct stPaymentXRP {
     //    JUB_ENUM_XRP_PYMT_TYPE type;
     //    JUB_CHAR_PTR invoiceID; // [Optional]
@@ -200,7 +200,7 @@
         default:
             return JUBR_ARGUMENTS_BAD;
     }
-
+    
     //typedef struct stDxrpPymt {
     //    JUB_CHAR_PTR destination;
     //    JUB_CHAR_PTR amount;
