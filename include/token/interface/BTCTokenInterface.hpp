@@ -17,7 +17,7 @@ public:
 
     virtual JUB_RV SelectApplet() = 0;
     virtual JUB_RV SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) = 0;
-    virtual JUB_RV SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) = 0;
+    virtual JUB_RV SetCoin(const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_NETTYPE& net) = 0;
     virtual JUB_RV SignTX(const JUB_BYTE addrFmt,
                           const JUB_ENUM_BTC_TRANS_TYPE& type,
                           const JUB_UINT16 inputCount,
@@ -39,9 +39,10 @@ public:
                               const JUB_UINT16 tag,
                               std::string& address) = 0;
     
-    virtual JUB_RV CheckAddress(const std::string address) = 0;
+    virtual JUB_RV CheckAddress(const std::string& address) = 0;
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                       const JUB_UINT32 version,
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,

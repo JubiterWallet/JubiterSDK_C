@@ -26,9 +26,10 @@ public:
         BaseContext(std::dynamic_pointer_cast<token::BaseToken>(tokenPtr)),
         _tokenPtr(tokenPtr) {
         _mainPath = cfg.mainPath;
-        _transType = cfg.transType;
+       _transType = cfg.transType;
         _unitType = mBTC;
         _coinType = cfg.coinType;
+         _netType = cfg.netType;
         _timeout = 120 * 2;
     };
     ~BTCContext() {};
@@ -39,7 +40,7 @@ public:
     virtual JUB_RV GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV CheckAddress(const std::string& address);
     virtual JUB_RV SetMyAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, std::string& address);
-    virtual JUB_RV SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw);
+    virtual JUB_RV SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const JUB_UINT32 version, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw);
     virtual JUB_RV SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType);
 
     virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
@@ -52,6 +53,7 @@ public:
 
 protected:
     JUB_ENUM_COINTYPE_BTC    _coinType{ COINBTC };
+    JUB_ENUM_NETTYPE          _netType{ MAIN };
     JUB_ENUM_BTC_TRANS_TYPE _transType{ p2pkh };
     JUB_ENUM_BTC_UNIT_TYPE   _unitType{ mBTC };
     std::shared_ptr<token::BTCTokenInterface> _tokenPtr;

@@ -32,9 +32,11 @@ JUB_RV EOSContext::ActiveSelf() {
         isIndep = true;
     }
     auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (token) {  JUB_VERIFY_RV(SetTimeout(_timeout)); }
+    if (token) {
+        JUB_VERIFY_RV(SetTimeout(_timeout));
+    }
     if (!isIndep) {
-        JUB_VERIFY_RV(_tokenPtr->SetCoinType());
+        JUB_VERIFY_RV(_tokenPtr->SetCoin());
     }
 
     return JUBR_OK;

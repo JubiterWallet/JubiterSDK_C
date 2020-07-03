@@ -17,7 +17,10 @@ public:
         _coin = TWCoinType::TWCoinTypeBitcoin;
     };
 
+    virtual JUB_RV SetCoin(const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_NETTYPE& net);
+
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                       const JUB_UINT32 version,
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,
@@ -28,9 +31,21 @@ public:
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<TW::Data>& vInputPublicKey);
     
-    virtual JUB_RV CheckAddress(const std::string address);
+    virtual JUB_RV CheckAddress(const std::string& address);
 
 protected:
+    uint32_t HDVersionPublic(enum TWCoinType coin, bool witness=false);
+    uint32_t HDVersionPrivate(enum TWCoinType coin, bool witness=false);
+
+    uint8_t p2pkhPrefix(const enum TWCoinType& coin);
+    uint8_t  p2shPrefix(const enum TWCoinType& coin);
+
+    std::vector<uint8_t> p2pkhPrefixData(const enum TWCoinType& coin);
+
+//    std::string ForHRP(enum TWHRP hrp);
+
+    virtual JUB_RV _setCoin(const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_NETTYPE& net);
+
     JUB_RV _serializeUnsignedTx(const uint32_t coin,
                                 const std::vector<INPUT_BTC>& vInputs,
                                 const std::vector<OUTPUT_BTC>& vOutputs,
@@ -62,8 +77,8 @@ protected:
                                       uint32_t hdVersionPub=TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
                                       uint32_t hdVersionPrv=TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin));
 
-    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address);
-    virtual JUB_RV _getSegwitAddress(const TW::Data publicKey, std::string& address);
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address);
+    virtual JUB_RV _getSegwitAddress(const TW::Data& publicKey, std::string& address);
 
 protected:
     uint32_t _hashType = TWSignatureHashTypeAll;

@@ -28,7 +28,7 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
     if (p2sh_p2wpkh == type) {
         witness = true;
     }
-    JUB_UINT32 version = TWCoinType2HDVersionPublic(_coin, witness);
+    JUB_UINT32 version = HDVersionPublic(_coin, witness);
 
     JUB_CHAR _xpub[200] = { 0, };
     if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, version, _xpub, sizeof(_xpub) / sizeof(JUB_CHAR))) {
@@ -80,7 +80,7 @@ JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 }
 
 
-JUB_RV TrezorCryptoBTCImpl::SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) {
+JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_NETTYPE& net) {
 
     return JUBR_OK;
 }
@@ -156,7 +156,8 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
 
         // script code - scriptPubKey
-        uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
+        uint8_t prefix = this->p2pkhPrefix(_coin);
+
         TW::Bitcoin::Address addr(twpk, prefix);
         TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
         if (scriptCode.empty()) {
@@ -216,8 +217,8 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
         witness = true;
     }
 
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin,  witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+    uint32_t hdVersionPub = HDVersionPublic(_coin,  witness);
+    uint32_t hdVersionPrv = HDVersionPrivate(_coin, witness);
 
     std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {

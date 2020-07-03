@@ -17,6 +17,7 @@ public:
     };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                       const JUB_UINT32 version,
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,
@@ -28,7 +29,9 @@ public:
                             const std::vector<TW::Data>& vInputPublicKey) override;
 
 protected:
-    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address) override;
+    virtual JUB_RV _setCoin(const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_NETTYPE& net) override;
+
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address) override;
 
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,

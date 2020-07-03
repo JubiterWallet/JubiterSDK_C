@@ -23,6 +23,7 @@ public:
     virtual JUB_RV CancelVirtualPwd() = 0;
     virtual bool   IsInitialize() = 0;
     virtual bool   IsBootLoader() = 0;
+    virtual JUB_RV SelectMainSecurityDomain() = 0;
     virtual JUB_RV GetSN(JUB_BYTE sn[24]) = 0;
     virtual JUB_RV GetLabel(JUB_BYTE label[32]) = 0;
     virtual JUB_RV GetPinRetry(JUB_BYTE& retry) = 0;

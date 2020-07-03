@@ -146,8 +146,34 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness=false);
 TW_EXPORT_PROPERTY
 uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness=false);
 
+
+/// P2PKH prefix for this coin type
+TW_EXPORT_PROPERTY
+uint8_t TWCoinTypeP2pkhPrefixTest(enum TWCoinType coin);
+
+/// P2SH prefix for this coin type
+TW_EXPORT_PROPERTY
+uint8_t TWCoinTypeP2shPrefixTest(enum TWCoinType coin);
+
+/// Static prefix for this coin type
+TW_EXPORT_PROPERTY
+uint8_t TWCoinTypeStaticPrefixTest(enum TWCoinType coin);
+
+// JuBiter-defined
+/// Static hd version public for this coin type
+TW_EXPORT_PROPERTY
+uint32_t TWCoinType2HDVersionPublicTest(enum TWCoinType coin, bool witness=false);
+
+// JuBiter-defined
+/// Static hd version public for this coin type
+TW_EXPORT_PROPERTY
+uint32_t TWCoinType2HDVersionPrivateTest(enum TWCoinType coin, bool witness=false);
+
+
 TW_EXTERN_C_END
 
 // JuBiter-defined
 #include <vector>
 std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin);
+
+std::vector<uint8_t> TWCoinTypeP2pkhPrefixDataTest(enum TWCoinType coin);

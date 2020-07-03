@@ -193,6 +193,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SignTransactionBTC
  * @in  param : contextID - context ID
+ *            : version
  *            : inputs
  *            : iCount
  *            : outputs
@@ -202,6 +203,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
+                              IN JUB_UINT32 version,
                               IN INPUT_BTC inputs[], IN JUB_UINT16 iCount,
                               IN OUTPUT_BTC outputs[], IN JUB_UINT16 oCount,
                               IN JUB_UINT32 lockTime,
@@ -238,7 +240,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
 	JUB_CHECK_NULL(context);
 
     std::string str_raw;
-    JUB_VERIFY_RV(context->SignTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, vInputs, vOutputs, lockTime, str_raw));
+    JUB_VERIFY_RV(context->SignTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, version, vInputs, vOutputs, lockTime, str_raw));
 
     JUB_VERIFY_RV(_allocMem(raw, str_raw));
 
@@ -315,7 +317,7 @@ JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID,IN JUB_CHAR_CPTR address){
+JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address) {
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
     JUB_CHECK_NULL(context);

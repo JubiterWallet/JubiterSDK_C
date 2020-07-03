@@ -29,7 +29,12 @@ enum TWHRP {
 
 static const char *_Nonnull HRP_BINANCE = "bnb";
 static const char *_Nonnull HRP_BITCOIN = "bc";
+static const char *_Nonnull HRP_BITCOIN_TEST = "tb";
+
 static const char *_Nonnull HRP_BITCOINCASH = "bitcoincash";
+static const char *_Nonnull HRP_BITCOINCASH_TEST = "bchtest";
+static const char *_Nonnull HRP_BITCOINCASH_REG = "bchreg";
+
 static const char *_Nonnull HRP_LITECOIN = "ltc";
 static const char *_Nonnull HRP_COSMOS = "cosmos";
 static const char *_Nonnull HRP_DIGIBYTE = "dgb";

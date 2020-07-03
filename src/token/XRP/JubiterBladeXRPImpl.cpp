@@ -18,7 +18,7 @@ typedef enum class enumCoinTypeMisc {
 
 #define SWITCH_TO_XRP_APP                       \
 do {                                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, 16));\
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE)));\
 } while (0);                                    \
 
 
@@ -30,8 +30,8 @@ JUB_RV JubiterBladeXRPImpl::SelectApplet() {
 
 
 //MISC functions
-JUB_RV JubiterBladeXRPImpl::SetCoinType() {
-    APDU apdu(0x00, 0xf5, (JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINXRP, 0x00, 0x00);
+JUB_RV JubiterBladeXRPImpl::SetCoin() {
+    APDU apdu(0x00, 0xF5, (JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINXRP, 0x00, 0x00);
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     if (   0x9000 == ret
@@ -51,7 +51,7 @@ JUB_RV JubiterBladeXRPImpl::GetAddress(const std::string& path, const JUB_UINT16
 
     uchar_vector apduData = ToTlv(0x08, vPath);
     JUB_BYTE p1 = (JUB_BYTE)tag;
-    APDU apdu(0x00, 0xf6, p1, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF6, p1, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -77,7 +77,7 @@ JUB_RV JubiterBladeXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& 
         return JUBR_ERROR_ARGS;
     }
 
-    APDU apdu(0x00, 0xe6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xE6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);

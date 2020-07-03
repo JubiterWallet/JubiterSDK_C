@@ -42,16 +42,16 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
-    /*
-     JUB_VERIFY_RV(token->getPinRetry(info.pinRetry));
-     JUB_VERIFY_RV(token->getPinMaxRetry(info.pinMaxRetry));
-     JUB_VERIFY_RV(token->getSN(sn));
-     JUB_VERIFY_RV(token->getLabel(label));*/
+/*
+    JUB_VERIFY_RV(token->getPinRetry(info.pinRetry));
+    JUB_VERIFY_RV(token->getPinMaxRetry(info.pinMaxRetry));
+    JUB_VERIFY_RV(token->getSN(sn));
+    JUB_VERIFY_RV(token->getLabel(label));*/
 
     // Let's go to the main security domain,
     // instead of judging the return value,
     // to get the data back
-    token->IsBootLoader();
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_BYTE sn[24] = {0,};
     JUB_BYTE label[32] = {0,};
@@ -77,6 +77,7 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
  * @function name : JUB_IsInitialize
  * @in  param : deviceID - device ID
@@ -90,6 +91,7 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 
     return (JUB_ENUM_BOOL)token->IsInitialize();
 }
+
 
 /*****************************************************************************
  * @function name : JUB_IsBootLoader
@@ -107,6 +109,7 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
     return (JUB_ENUM_BOOL)token->IsBootLoader();
 }
 
+
 /*****************************************************************************
  * @function name : JUB_EnumApplets
  * @in  param : deviceID - device ID
@@ -119,6 +122,11 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     std::string appletList;
     JUB_VERIFY_RV(token->EnumApplet(appletList));
     JUB_VERIFY_RV(_allocMem(appList, appletList));
@@ -126,17 +134,23 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
- * @function name : Jub_EnumSupportCoins
+ * @function name : JUB_EnumSupportCoins
  * @in  param : deviceID - device ID
  * @out param : coinsList - coin list
  * @last change :
  *****************************************************************************/
-JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID,
+JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR coinsList) {
 
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_coinsList;
     JUB_VERIFY_RV(token->EnumSupportCoins(str_coinsList));
@@ -144,6 +158,7 @@ JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID,
 
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_GetAppletVersion
@@ -165,6 +180,7 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
 
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_SetTimeOut
@@ -189,6 +205,7 @@ JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
  * @function name : JUB_GetDeviceCert
  * @in  param : deviceID - device ID
@@ -204,7 +221,7 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
     // Let's go to the main security domain,
     // instead of judging the return value,
     // to get the data back
-    token->IsBootLoader();
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_cert;
     JUB_VERIFY_RV(token->GetDeviceCert(str_cert));
@@ -212,6 +229,7 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
 
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_SendOneApdu

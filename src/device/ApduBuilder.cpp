@@ -2,7 +2,8 @@
 
 namespace jub {
 
-JUB_RV JubApudBuiler::BuildApdu(const APDU *apdu,
+
+JUB_RV JubApduBuiler::BuildApdu(const APDU *apdu,
                                 std::vector<JUB_BYTE> &vSafeApdu) {
     // copy header
     vSafeApdu.push_back((JUB_BYTE)apdu->cla);
@@ -40,15 +41,15 @@ JUB_RV JubApudBuiler::BuildApdu(const APDU *apdu,
     return JUBR_OK;
 }
 
-JUB_RV JubApudBuiler::PackData(std::vector<JUB_BYTE> &vDest,
-                               std::vector<JUB_BYTE> &vSrc) {
+JUB_RV JubApduBuiler::PackData(std::vector<JUB_BYTE> &vDest,
+                               const std::vector<JUB_BYTE> &vSrc) {
 
 	vDest = vSrc;
     return JUBR_OK;
 }
 
-JUB_RV JubApudBuiler::UnPackData(std::vector<JUB_BYTE> &vDest,
-                                 std::vector<JUB_BYTE> &vSrc) {
+JUB_RV JubApduBuiler::UnPackData(std::vector<JUB_BYTE> &vDest,
+                                 const std::vector<JUB_BYTE> &vSrc) {
 	vDest = vSrc;
     return JUBR_OK;
 }

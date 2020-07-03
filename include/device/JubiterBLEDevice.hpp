@@ -1,6 +1,7 @@
 #ifndef __JubiterBLEDevice__
 #define __JubiterBLEDevice__
 
+
 #include "device/DeviceTypeBase.hpp"
 #include "JUB_SDK_DEV.h"
 
@@ -9,11 +10,13 @@
 
 #include "bleTransmit/bleTransmit.h"
 
+
 namespace jub {
 namespace device {
 
-class JubiterBLEDevice
-    : public DeviceTypeBase {
+
+class JubiterBLEDevice :
+public DeviceTypeBase {
 
 public:
     JubiterBLEDevice();
@@ -21,12 +24,12 @@ public:
 
 public:
     // for common device
-    virtual JUB_RV Connect();
-    virtual JUB_RV Disconnect();
+    virtual JUB_RV Connect() override;
+    virtual JUB_RV Disconnect() override;
 
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                             OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
-                            IN JUB_ULONG ulMiliSecondTimeout = 1200000);
+                            IN JUB_ULONG ulMiliSecondTimeout = 1200000) override;
 
 public:
     // for ble device
@@ -76,6 +79,7 @@ protected:
     unsigned long _handle;
     bool _bConnected;
 }; // class JubiterBLEDevice end
+
 
 } // namespace device end
 } // namespace jub end

@@ -17,26 +17,48 @@ enum TWHDVersion {
     TWHDVersionNone = 0,
 
     // Bitcoin
+    // Bitcoin - mainnet
+    // m/44'/0', P2PKH or P2SH
     TWHDVersionXPUB = 0x0488b21e,
     TWHDVersionXPRV = 0x0488ade4,
+    // m/49'/0', P2WPKH in P2SH
     TWHDVersionYPUB = 0x049d7cb2,
     TWHDVersionYPRV = 0x049d7878,
+    // m/84'/0', P2WPKH
     TWHDVersionZPUB = 0x04b24746,
     TWHDVersionZPRV = 0x04b2430c,
+    // Bitcoin - testnet
+    // m/44'/1', P2PKH or P2SH
+    TWHDVersionTPUB = 0x043587cf,
+    TWHDVersionTPRV = 0x04358394,
+    // m/49'/1', P2WPKH in P2SH
+    TWHDVersionUPUB = 0x044a5262,
+    TWHDVersionUPRV = 0x044a4e28,
+    // m/84'/1', P2WPKH
+    TWHDVersionVPUB = 0x045f1cf6,
+    TWHDVersionVPRV = 0x045f18bc,
 
     // Litecoin
+    // Litecoin - mainnet
+    // m/44'/2', P2PKH or P2SH
     TWHDVersionLTUB = 0x019da462,
     TWHDVersionLTPV = 0x019d9cfe,
+    // m/49'/1', P2WPKH in P2SH
     TWHDVersionMTUB = 0x01b26ef6,
     TWHDVersionMTPV = 0x01b26792,
+    // Litecoin - testnet
+    // m/44'/1', P2PKH or P2SH
+    TWHDVersionTTUB = 0x0436f6e1,
+    TWHDVersionTTPV = 0x0436ef7d,
 
     // Decred, Hcash
-    TWHDVersionDPUB = 0x2fda926,
-    TWHDVersionDPRV = 0x2fda4e8,
+    // Decred, Hcash - mainnet
+    TWHDVersionDPUB = 0x02fda926,
+    TWHDVersionDPRV = 0x02fda4e8,
 
-    // Dogecoin
-    TWHDVersionDGUB = 0x02facafd,
-    TWHDVersionDGPV = 0x02fac398,
+//    // Dogecoin
+//    TWHDVersionDGUB = 0x02facafd,
+//    TWHDVersionDGPV = 0x02fac398,
 };
 
 TW_EXPORT_PROPERTY

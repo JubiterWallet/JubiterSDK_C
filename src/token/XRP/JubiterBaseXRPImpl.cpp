@@ -96,7 +96,7 @@ JUB_RV JubiterBaseXRPImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data&
 }
 
 
-JUB_RV JubiterBaseXRPImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+JUB_RV JubiterBaseXRPImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
 
     try {
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);

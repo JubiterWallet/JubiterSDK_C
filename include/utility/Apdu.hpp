@@ -74,7 +74,7 @@ public:
     void SetData(const JUB_BYTE* pData, JUB_ULONG ulDataSize) {
         // assert(ulDataSize == lc);
         data.clear();
-        data.resize(ulDataSize);
+//        data.resize(ulDataSize);
         data.insert(data.begin(), pData, pData + ulDataSize);
     }
 }; // class APDU end

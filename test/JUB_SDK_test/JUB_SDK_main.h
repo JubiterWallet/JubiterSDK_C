@@ -9,16 +9,17 @@
 #ifndef JUB_SDK_main_h
 #define JUB_SDK_main_h
 
+#define SW      1
+#define TESTNET 1
+
 #include <vector>
-#include <iostream>
-#include <json/json.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <iostream>
 #include <cstring>
 #include <thread>
+#include <json/json.h>
 using namespace std;
 
 std::string GetErrMsg(JUB_RV rv);

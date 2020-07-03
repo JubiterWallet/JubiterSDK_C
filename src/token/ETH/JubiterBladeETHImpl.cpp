@@ -7,7 +7,7 @@ namespace token {
 
 #define SWITCH_TO_ETH_APP                       \
 do {				                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_ETH, 16)); \
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE)));\
 } while (0);                                    \
 
 
@@ -20,7 +20,7 @@ JUB_RV JubiterBladeETHImpl::SelectApplet() {
 
 JUB_RV JubiterBladeETHImpl::GetAppletVersion(std::string &version) {
 
-    uchar_vector appID(kPKIAID_ETH, 16);
+    uchar_vector appID(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE));
     JUB_VERIFY_RV(GetAppletVersionBlade(CharPtr2HexStr(appID), version));
 
     return JUBR_OK;
@@ -31,7 +31,7 @@ JUB_RV JubiterBladeETHImpl::GetAddress(const std::string& path, const JUB_UINT16
 
     uchar_vector data(path.begin(), path.end());
 
-    APDU apdu(0x00, 0xf6, 0x00, (JUB_BYTE)tag, (JUB_ULONG)data.size(), data.data(), 0x14);
+    APDU apdu(0x00, 0xF6, 0x00, (JUB_BYTE)tag, (JUB_ULONG)data.size(), data.data(), 0x14);
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -53,13 +53,13 @@ JUB_RV JubiterBladeETHImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     uchar_vector apduData = ToTlv(0x08, vPath);
 
     //0x00 for hex, 0x01 for xpub
-    if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX != format
+    if (   (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX  != format
         && (JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB != format
         ) {
         return JUBR_ERROR_ARGS;
     }
 
-    APDU apdu(0x00, 0xe6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xE6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -172,7 +172,7 @@ JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName, const
     data << (uint8_t)address.size();
     data << address;
 
-    APDU apdu(0x00, 0xc7, 0x00, 0x00, (JUB_ULONG)data.size(), data.data());
+    APDU apdu(0x00, 0xC7, 0x00, 0x00, (JUB_ULONG)data.size(), data.data());
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     JUB_VERIFY_COS_ERROR(ret);

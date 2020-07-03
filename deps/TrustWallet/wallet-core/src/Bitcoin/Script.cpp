@@ -23,11 +23,8 @@
 
 #include <TrustWalletCore/TWBitcoinOpCodes.h>
 
-#include <algorithm>
-#include <cassert>
-#include <set>
-
-#include "mSIGNA/stdutils/uchar_vector.h"
+//#include <cassert>
+//#include <set>
 
 using namespace TW;
 using namespace TW::Bitcoin;
@@ -324,11 +321,12 @@ Script Script::buildPayToScriptHashWitness(const Data& redeemScript, const std::
 
 // JuBiter-defined
 /// Builds a return0 script from a script.
-Script Script::buildReturn0(const Data& data, const Data& check) {
+Script Script::buildReturn0(const Data& data, const Data& check, int offset) {
     Script script;
     // Check if
     if (!check.empty()) {
-        if(-1 == std::string(uchar_vector(data).getHex()).find(uchar_vector(check).getHex())) {
+        const std::vector<std::size_t> founds = find_all_indexes(data, check);
+        if (std::end(founds) == std::find(std::begin(founds), std::end(founds), offset)) {
             return script;
         }
     }
@@ -377,15 +375,21 @@ size_t Script::size() {
 Script Script::buildForAddress(const std::string& string, enum TWCoinType coin) {
     if (Address::isValid(string)) {
         auto address = Address(string);
-        auto p2pkh = TWCoinTypeP2pkhPrefix(coin);
-        auto p2sh = TWCoinTypeP2shPrefix(coin);
-        if (p2pkh == address.bytes[0]) {
+        auto  p2pkh = TWCoinTypeP2pkhPrefix(coin);
+        auto tp2pkh = TWCoinTypeP2pkhPrefixTest(coin);
+        auto  p2sh  = TWCoinTypeP2shPrefix(coin);
+        auto tp2sh  = TWCoinTypeP2shPrefixTest(coin);
+        if (    p2pkh == address.bytes[0]
+            || tp2pkh == address.bytes[0]
+            ) {
             // address starts with 1/L
             auto data = Data();
             data.reserve(Address::size - 1);
             std::copy(address.bytes.begin() + 1, address.bytes.end(), std::back_inserter(data));
             return buildPayToPublicKeyHash(data);
-        } else if (p2sh == address.bytes[0]) {
+        } else if (    p2sh == address.bytes[0]
+                   || tp2sh == address.bytes[0]
+                   ) {
             // address starts with 3/M
             auto data = Data();
             data.reserve(Address::size - 1);

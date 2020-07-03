@@ -18,7 +18,7 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     JUB_RV rv = JUBR_ERROR;
 
     JUB_CHAR_PTR mnemonic = nullptr;
-    rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
+    rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
     if(rv == JUBR_OK) {
         cout << mnemonic << endl;
     }
@@ -33,9 +33,9 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
         cout << ".";
     };
 
-    rv = JUB_GenerateSeed("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
+    rv = JUB_GenerateSeed_soft("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
     if (rv != JUBR_OK) {
-        cout << "JUB_GenerateSeed error" << endl;
+        cout << "JUB_GenerateSeed_soft error" << endl;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
@@ -45,7 +45,9 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
-    rv = JUB_SeedToMasterPrivateKey(seed, seedLen, secp256k1, &masterXprv);
+    rv = JUB_SeedToMasterPrivateKey_soft(seed, seedLen,
+                                         JUB_ENUM_CURVES::SECP256K1,
+                                         &masterXprv);
     if (rv == JUBR_OK) {
         cout << "MasterPrivateKey: " << masterXprv << endl;
     }
@@ -116,57 +118,62 @@ void software_test_btc() {
         int choice = 0;
         cin >> choice;
 
+#ifdef TESTNET
+        std::string json_file = "json_test/";
+#else
+        std::string json_file = "json/";
+#endif
+
         bool isQRC20 = false;
-        const char* json_file;
         CONTEXT_CONFIG_BTC cfg;
         switch (choice) {
             case 2:
             {
                 cfg.coinType = COINLTC;
                 cfg.transType = p2sh_p2wpkh;
-                json_file = "json/testLTC.json";
+                json_file += "testLTC.json";
                 break;
             }
             case 5:
             {
                 cfg.coinType = COINDASH;
                 cfg.transType = p2pkh;
-                json_file = "json/testDASH.json";
+                json_file += "testDASH.json";
                 break;
             }
             case 31:
             {
                 cfg.coinType = COINBTC;
                 cfg.transType = p2pkh;
-                json_file = "json/testBTC44.json";
+                json_file += "testBTC44.json";
                 break;
             }
             case 32:
             {
                 cfg.coinType = COINBTC;
                 cfg.transType = p2sh_p2wpkh;
-                json_file = "json/testBTC49.json";
+                json_file += "testBTC49.json";
                 break;
             }
             case 39:
             {
                 cfg.coinType = COINUSDT;
                 cfg.transType = p2pkh;
-                json_file = "json/testUSDT.json";
+                json_file += "testUSDT.json";
                 break;
             }
             case 145:
             {
                 cfg.coinType = COINBCH;
                 cfg.transType = p2pkh;
-                json_file = "json/testBCH.json";
+                json_file += "testBCH.json";
                 break;
             }
             case 88:
             {
                 cfg.coinType = COINQTUM;
                 cfg.transType = p2pkh;
-                json_file = "json/testQTUM_qrc20.json";
+                json_file += "testQTUM_qrc20.json";
                 isQRC20 = true;
                 break;
             }
@@ -174,7 +181,7 @@ void software_test_btc() {
             {
                 cfg.coinType = COINQTUM;
                 cfg.transType = p2pkh;
-                json_file = "json/testQTUM.json";
+                json_file += "testQTUM.json";
                 break;
             }
             case 0:
@@ -183,9 +190,10 @@ void software_test_btc() {
                 continue;
         }
 
-        Json::Value root = readJSON(json_file);
+        Json::Value root = readJSON(json_file.c_str());
 
         cfg.mainPath = (char*)root["main_path"].asCString();
+        cfg.netType = (JUB_ENUM_NETTYPE)root["net"].asUInt();
 
         software_test_btc(cfg, root, isQRC20);
     }

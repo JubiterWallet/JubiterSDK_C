@@ -11,17 +11,33 @@
 
 const char* stringForHRP(enum TWHRP hrp) {
     switch (hrp) {
-    case TWHRPBitcoin: return HRP_BITCOIN;
-    case TWHRPLitecoin: return HRP_LITECOIN;
-    case TWHRPViacoin: return HRP_VIACOIN;
+    case TWHRPBitcoin:     return HRP_BITCOIN;
+    case TWHRPLitecoin:    return HRP_LITECOIN;
+    case TWHRPViacoin:     return HRP_VIACOIN;
     case TWHRPBitcoinCash: return HRP_BITCOINCASH;
-    case TWHRPBinance: return HRP_BINANCE;
-    case TWHRPCosmos: return HRP_COSMOS;
-    case TWHRPDigiByte: return HRP_DIGIBYTE;
+    case TWHRPBinance:     return HRP_BINANCE;
+    case TWHRPCosmos:      return HRP_COSMOS;
+    case TWHRPDigiByte:    return HRP_DIGIBYTE;
     case TWHRPGroestlcoin: return HRP_GROESTLCOIN;
-    case TWHRPQtum: return HRP_QTUM;
-    case TWHRPZilliqa: return HRP_ZILLIQA;
-    default: return nullptr;
+    case TWHRPQtum:        return HRP_QTUM;
+    case TWHRPZilliqa:     return HRP_ZILLIQA;
+    default:               return "";
+    }
+}
+
+const char* stringForHRPTest(enum TWHRP hrp) {
+    switch (hrp) {
+    case TWHRPBitcoin:     return HRP_BITCOIN_TEST;
+    case TWHRPLitecoin:    return HRP_LITECOIN;
+    case TWHRPViacoin:     return HRP_VIACOIN;
+    case TWHRPBitcoinCash: return HRP_BITCOINCASH_TEST;
+    case TWHRPBinance:     return HRP_BINANCE;
+    case TWHRPCosmos:      return HRP_COSMOS;
+    case TWHRPDigiByte:    return HRP_DIGIBYTE;
+    case TWHRPGroestlcoin: return HRP_GROESTLCOIN;
+    case TWHRPQtum:        return HRP_QTUM;
+    case TWHRPZilliqa:     return HRP_ZILLIQA;
+    default:               return nullptr;
     }
 }
 

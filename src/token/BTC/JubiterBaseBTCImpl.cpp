@@ -9,6 +9,62 @@ namespace jub {
 namespace token {
 
 
+uint32_t JubiterBaseBTCImpl::HDVersionPublic(enum TWCoinType coin, bool witness) {
+
+    uint32_t version = TWCoinType2HDVersionPublic(coin, witness);
+    if (JUB_ENUM_NETTYPE::TEST == _net) {
+        version = TWCoinType2HDVersionPublicTest(coin, witness);
+    }
+
+    return version;
+}
+
+
+uint32_t JubiterBaseBTCImpl::HDVersionPrivate(enum TWCoinType coin, bool witness) {
+
+    uint32_t version = TWCoinType2HDVersionPrivate(coin, witness);
+    if (JUB_ENUM_NETTYPE::TEST == _net) {
+        version = TWCoinType2HDVersionPrivateTest(coin, witness);
+    }
+
+    return version;
+}
+
+
+uint8_t JubiterBaseBTCImpl::p2pkhPrefix(const enum TWCoinType& coin) {
+
+    uint8_t prefix = TWCoinTypeP2pkhPrefix(coin);
+    if (JUB_ENUM_NETTYPE::TEST == _net) {
+        prefix = TWCoinTypeP2pkhPrefixTest(coin);
+    }
+
+    return prefix;
+}
+
+
+uint8_t JubiterBaseBTCImpl::p2shPrefix(const enum TWCoinType& coin) {
+
+    uint8_t prefix = TWCoinTypeP2shPrefix(_coin);
+    if (JUB_ENUM_NETTYPE::TEST == _net) {
+        prefix = TWCoinTypeP2shPrefixTest(_coin);
+    }
+
+    return prefix;
+}
+
+
+std::vector<uint8_t> JubiterBaseBTCImpl::p2pkhPrefixData(const enum TWCoinType& coin) {
+
+    std::vector<uint8_t> data = TWCoinTypeP2pkhPrefixData(coin);
+    if (JUB_ENUM_NETTYPE::TEST == _net) {
+        data.clear();
+        data = TWCoinTypeP2pkhPrefixDataTest(coin);
+    }
+
+    return data;
+}
+
+
 TW::Data JubiterBaseBTCImpl::pushAll(const TW::Data& results) {
     auto data = TW::Data{};
 
@@ -50,10 +106,10 @@ JUB_RV JubiterBaseBTCImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data&
 }
 
 
-JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
 
     try {
-        TW::Bitcoin::Address addr(TW::PublicKey(publicKey, _publicKeyType), TWCoinTypeP2pkhPrefix(_coin));
+        TW::Bitcoin::Address addr(TW::PublicKey(publicKey, _publicKeyType), this->p2pkhPrefix(_coin));
         address = addr.string();
     }
     catch (...) {
@@ -63,19 +119,53 @@ JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data publicKey, std::string& ad
     return JUBR_OK;
 }
 
-JUB_RV JubiterBaseBTCImpl::CheckAddress(const std::string address){
+
+JUB_RV JubiterBaseBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_NETTYPE& net) {
+
+    return _setCoin(type, net);
+}
+
+
+JUB_RV JubiterBaseBTCImpl::_setCoin(const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_NETTYPE& net) {
+
+    switch (type) {
+    case COINBCH:
+        _coin = TWCoinType::TWCoinTypeBitcoinCash;
+        break;
+    case COINLTC:
+        _coin = TWCoinType::TWCoinTypeLitecoin;
+        break;
+    case COINDASH:
+        _coin = TWCoinType::TWCoinTypeDash;
+        break;
+    case COINQTUM:
+        _coin = TWCoinType::TWCoinTypeQtum;
+        break;
+    case COINUSDT:
+    default:
+        _coin = TWCoinType::TWCoinTypeBitcoin;
+        break;
+    }
+
+    _net = net;
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseBTCImpl::CheckAddress(const std::string& address) {
     //check legacy address
     std::vector<TW::Data> prefixs;
-    prefixs.push_back({TWCoinTypeP2pkhPrefix(_coin)});
-    prefixs.push_back({TWCoinTypeP2shPrefix(_coin)});
+    prefixs.push_back({this->p2pkhPrefix(_coin)});
+    prefixs.push_back({this->p2shPrefix(_coin)});
     JUB_RV rvLegacy = !(TW::Bitcoin::Address::isValid(address,prefixs));
     //check segwit address
     JUB_RV rvSegwit = !(TW::Bitcoin::SegwitAddress::isValid(address,std::string(stringForHRP(TWCoinTypeHRP(_coin)))));
-    
+
     return rvLegacy&rvSegwit;
 }
 
-JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data publicKey, std::string& address) {
+JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data& publicKey, std::string& address) {
 
     try {
         // keyhash
@@ -90,7 +180,7 @@ JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data publicKey, std::stri
 
         // address
         TW::Data bytes;
-        bytes.insert(bytes.end(), TWCoinTypeP2shPrefix(_coin));
+        bytes.insert(bytes.end(), this->p2shPrefix(_coin));
         bytes.insert(bytes.end(), hRedeemScript.begin(), hRedeemScript.end());
 
         address = TW::Base58::bitcoin.encodeCheck(bytes);
@@ -168,6 +258,7 @@ JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
 
 
 JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                               const JUB_UINT32 version,
                                                const std::vector<INPUT_BTC>& vInputs,
                                                const std::vector<OUTPUT_BTC>& vOutputs,
                                                const JUB_UINT32 lockTime,
@@ -178,7 +269,7 @@ JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& ty
         witness = true;
     }
 
-    TW::Bitcoin::Transaction tx(lockTime);
+    TW::Bitcoin::Transaction tx(version, lockTime);
     JUB_VERIFY_RV(_serializeUnsignedTx(_coin,
                                        vInputs,
                                        vOutputs,
@@ -200,7 +291,8 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& 
     JUB_RV rv = JUBR_OK;
 
     // script code - scriptPubKey
-    uint8_t prefix = TWCoinTypeP2pkhPrefix(coin);
+    uint8_t prefix = this->p2pkhPrefix(coin);
+
     TW::Bitcoin::Address addr(publicKey, prefix);
     TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), coin);
     if (scriptCode.empty()) {

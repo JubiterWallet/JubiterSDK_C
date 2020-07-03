@@ -103,6 +103,8 @@ JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
     JUB_RV rv = JUBR_ERROR;
 
     try {
+        JUB_UINT32 version = root["ver"].asInt();
+
         std::vector<INPUT_HC> inputs;
         std::vector<OUTPUT_HC> outputs;
         int inputNumber = root["inputs"].size();
@@ -131,7 +133,7 @@ JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
         //NSString* unsignedTx = [NSString stringWithUTF8String:(char*)root["unsigned_tx"].asCString()];
 
         char* raw = nullptr;
-        rv = JUB_SignTransactionHC(contextID, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), unsignedRaw, &raw);
+        rv = JUB_SignTransactionHC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), unsignedRaw, &raw);
         cout << "JUB_SignTransactionHC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {
@@ -166,6 +168,7 @@ void HC_test(JUB_UINT16 deviceID, const char* json_file) {
     try {
         CONTEXT_CONFIG_HC cfg;
         cfg.mainPath = (char*)root["main_path"].asCString();
+        cfg.netType = (JUB_ENUM_NETTYPE)root["net"].asUInt();
 
         rv = JUB_CreateContextHC(cfg, deviceID, &contextID);
         if (JUBR_OK != rv) {

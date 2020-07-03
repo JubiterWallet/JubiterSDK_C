@@ -92,9 +92,9 @@ void get_device_info_test() {
     JUB_FreeMemory(cert);
 
     char* coinList;
-    rv = Jub_EnumSupportCoins(deviceID, &coinList);
+    rv = JUB_EnumSupportCoins(deviceID, &coinList);
     if (JUBR_OK != rv) {
-        cout << "Jub_EnumSupportCoins() return " << GetErrMsg(rv) << endl;
+        cout << "JUB_EnumSupportCoins() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -113,7 +113,9 @@ JUB_RV verify_pin(JUB_UINT16 contextID) {
 
         cout << "to cancel the virtualpwd iput 'c'" << endl;
         rv = JUB_ShowVirtualPwd(contextID);
-        if (JUBR_OK != rv) {
+        if (   JUBR_OK               != rv
+            && JUBR_IMPL_NOT_SUPPORT != rv
+            ) {
             cout << "JUB_ShowVirtualPwd() return " << GetErrMsg(rv) << endl;
             break;
         }

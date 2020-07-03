@@ -12,6 +12,7 @@ TW_EXTERN_C_BEGIN
 /// Public key hash address prefix.
 ///
 /// - SeeAlso: https://dash-docs.github.io/en/developer-reference#address-conversion
+///         https://dashcore.readme.io/docs/core-ref-transactions-address-conversion
 TW_EXPORT_ENUM(uint8_t)
 enum TWP2PKHPrefix {
     TWP2PKHPrefixBitcoin = 0x00,
@@ -25,6 +26,13 @@ enum TWP2PKHPrefix {
     TWP2PKHPrefixZcashT = 0xB8,
     TWP2PKHPrefixZcoin = 0x52,
     TWP2PKHPrefixRavencoin = 0x3c,
+};
+
+TW_EXPORT_ENUM(uint8_t)
+enum TWP2PKHPrefixTest {
+    TWP2PKHPrefixTestBitcoin = 0x6f,
+    TWP2PKHPrefixTestDash = 0x8C,
+    TWP2PKHPrefixTestQtum = 0x78,
 };
 
 TW_EXTERN_C_END

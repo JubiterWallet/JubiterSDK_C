@@ -34,10 +34,12 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID) {
+
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
 
     jub::context::ETHContext* context = new  jub::context::ETHContext(cfg, token);
+
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     JUB_VERIFY_RV(context->ActiveSelf());
 

@@ -2,8 +2,6 @@
 #ifndef COINPASS_BIO_UTIL_HPP
 #define COINPASS_BIO_UTIL_HPP
 
-#include "JUB_SDK.h"
-
 #include <assert.h>
 #include <memory>
 #include <string>

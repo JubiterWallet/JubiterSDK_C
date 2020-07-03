@@ -80,6 +80,7 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
 
 
     jub::context::EOSContext* context = new jub::context::EOSContext(cfg, token);
+
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     JUB_VERIFY_RV(context->ActiveSelf());
 

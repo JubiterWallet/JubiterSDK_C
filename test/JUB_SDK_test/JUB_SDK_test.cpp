@@ -114,6 +114,12 @@ void main_test() {
             cout << "JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
         }
 
+#ifdef TESTNET
+        std::string json_file = "json_test/";
+#else
+        std::string json_file = "json/";
+#endif
+
         int choice = 0;
         cin >> choice;
 
@@ -122,40 +128,52 @@ void main_test() {
             get_device_info_test();
             break;
         case 2:
-            BTC_test("json/testLTC.json", COINLTC);
+            json_file += "testLTC.json";
+            BTC_test(json_file.c_str(), COINLTC);
             break;
         case 5:
-            BTC_test("json/testDASH.json", COINDASH);
+            json_file += "testDASH.json";
+            BTC_test(json_file.c_str(), COINDASH);
             break;
         case 31:
-            BTC_test("json/testBTC44.json", COINBTC);
+            json_file += "testBTC44.json";
+            BTC_test(json_file.c_str(), COINBTC);
             break;
         case 32:
-            BTC_test("json/testBTC49.json", COINBTC);
+            json_file += "testBTC49.json";
+            BTC_test(json_file.c_str(), COINBTC);
             break;
         case 39:
-            USDT_test("json/testUSDT.json");
+            json_file += "testUSDT.json";
+            USDT_test(json_file.c_str());
             break;
         case 60:
-            ETH_test("json/testETH.json");
+            json_file += "testETH.json";
+            ETH_test(json_file.c_str());
             break;
         case 144:
-            XRP_test("json/testXRP.json");
+            json_file += "testXRP.json";
+            XRP_test(json_file.c_str());
             break;
         case 145:
-            BTC_test("json/testBCH.json", COINBCH);
+            json_file += "testBCH.json";
+            BTC_test(json_file.c_str(), COINBCH);
             break;
         case 171:
-            HC_test(deviceID, "json/testHCash.json");
+            json_file += "testHCash.json";
+            HC_test(deviceID, json_file.c_str());
             break;
         case 194:
-            EOS_test("json/testEOS.json");
+            json_file += "testEOS.json";
+            EOS_test(json_file.c_str());
             break;
         case 88:
-            QTUM_test(deviceID, "json/testQTUM_qrc20.json");
+            json_file += "testQTUM_qrc20.json";
+            QTUM_test(deviceID, json_file.c_str());
             break;
         case 2301:
-            BTC_test("json/testQTUM.json", COINQTUM);
+            json_file += "testQTUM.json";
+            BTC_test(json_file.c_str(), COINQTUM);
             break;
         case 98:
             send_apdu_test();

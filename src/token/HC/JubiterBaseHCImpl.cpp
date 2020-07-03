@@ -9,6 +9,7 @@ namespace token {
 
 
 JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                              const JUB_UINT32 version,
                                               const std::vector<INPUT_BTC>& vInputs,
                                               const std::vector<OUTPUT_BTC>& vOutputs,
                                               const JUB_UINT32 lockTime,
@@ -21,7 +22,7 @@ JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& typ
         witness = true;
     }
 
-    TW::Bitcoin::HcashTransaction tx(lockTime);
+    TW::Bitcoin::HcashTransaction tx(version, lockTime);
     rv = _serializeUnsignedTx(_coin,
                               vInputs,
                               vOutputs,
@@ -156,7 +157,7 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
 }
 
 
-JUB_RV JubiterBaseHCImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+JUB_RV JubiterBaseHCImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
 
     try {
         TW::Hash::Hasher hasherPubkey;
@@ -168,12 +169,22 @@ JUB_RV JubiterBaseHCImpl::_getAddress(const TW::Data publicKey, std::string& add
         }
 
         TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
-        TW::Data bytes = twpk.hash(TWCoinTypeP2pkhPrefixData(_coin), hasherPubkey);
+        TW::Data bytes = twpk.hash(this->p2pkhPrefixData(_coin), hasherPubkey);
         address = TW::Base58::bitcoin.encodeCheck(bytes, hasherBase58);
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;
     }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseHCImpl::_setCoin(const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_NETTYPE& net) {
+
+    _coin = TWCoinType::TWCoinTypeHcash;
+
+    _net = net;
 
     return JUBR_OK;
 }

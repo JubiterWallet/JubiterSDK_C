@@ -12,9 +12,11 @@ TW_EXTERN_C_BEGIN
 /// Pay to script hash (P2SH) address prefix.
 ///
 /// - SeeAlso: https://en.bitcoin.it/wiki/List_of_address_prefixes
+///         https://dashcore.readme.io/docs/core-ref-transactions-address-conversion
 TW_EXPORT_ENUM(uint8_t)
 enum TWP2SHPrefix {
     TWP2SHPrefixBitcoin = 0x05,
+    TWP2SHPrefixBitcoinCash = 0x08,
     TWP2SHPrefixDash = 0x10,
     TWP2SHPrefixDecred = 0x1a,
     TWP2SHPrefixDogecoin = 0x16,
@@ -30,5 +32,13 @@ enum TWP2SHPrefix {
 // TWP2SHPrefixBitcoin and causes problems in Java:
 // public static P2SHPrefix createFromValue(byte value)
 static const uint8_t TWP2SHPrefixGroestlcoin = 0x05;
+
+TW_EXPORT_ENUM(uint8_t)
+enum TWP2SHPrefixTest {
+    TWP2SHPrefixTestBitcoin = 0xc4,
+    TWP2SHPrefixTestDash = 0x13,
+    TWP2SHPrefixTestLitecoin = 0x3a,
+    TWP2SHPrefixTestQtum = 0x78,
+};
 
 TW_EXTERN_C_END

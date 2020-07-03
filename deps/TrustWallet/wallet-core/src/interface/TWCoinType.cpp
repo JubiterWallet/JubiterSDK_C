@@ -5,6 +5,8 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include <TrustWalletCore/TWCoinType.h>
+#include <TrustWalletCore/TWP2PKHPrefix.h>
+#include <TrustWalletCore/TWP2SHPrefix.h>
 #include <TrustWalletCore/TWHDVersion.h>
 
 //#include "../Coin.h"
@@ -58,16 +60,16 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
-        prefix = 0x00;
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixBitcoin;
         break;
     case TWCoinTypeLitecoin:
-        prefix = 0x30;
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixLitecoin;
         break;
     case TWCoinTypeQtum:
-        prefix = 0x3a;
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixQtum;
         break;
     case TWCoinTypeDash:
-        prefix = 0x4c;
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixDash;
         break;
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
@@ -135,16 +137,18 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
 
     switch (coin) {
     case TWCoinTypeBitcoin:
-    case TWCoinTypeBitcoinCash:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
-        prefix = 0x05;
+        prefix = TWP2SHPrefix::TWP2SHPrefixBitcoin;
+        break;
+    case TWCoinTypeBitcoinCash:
+        prefix = TWP2SHPrefix::TWP2SHPrefixBitcoinCash;
         break;
     case TWCoinTypeLitecoin:
     case TWCoinTypeQtum:
-        prefix = 0x32;
+        prefix = TWP2SHPrefix::TWP2SHPrefixLitecoin;
         break;
     case TWCoinTypeDash:
-        prefix = 0x10;
+        prefix = TWP2SHPrefix::TWP2SHPrefixDash;
         break;
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
@@ -213,7 +217,6 @@ std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin) {
     switch (coin) {
     case TWCoinTypeHcash:
         prefix = {0x09, 0x7f};  //MainNetID
-//        prefix = {0x0f, 0x21};  //TestNetID
         break;
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
@@ -374,6 +377,393 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
         if (witness) {
             hdVersionPrivate = TWHDVersionYPRV;
         }
+        break;
+    case TWCoinTypeHcash:
+        hdVersionPrivate = TWHDVersionDPRV;
+        break;
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
+    case TWCoinTypeBravoCoin:
+    case TWCoinTypeCallisto:
+    case TWCoinTypeCardano:
+    case TWCoinTypeCosmos:
+    case TWCoinTypeDecred:
+    case TWCoinTypeDigiByte:
+    case TWCoinTypeDogecoin:
+    case TWCoinTypeFIO:
+    case TWCoinTypeGoChain:
+    case TWCoinTypeGroestlcoin:
+    case TWCoinTypeICON:
+    case TWCoinTypeIoTeX:
+    case TWCoinTypeKava:
+    case TWCoinTypeKin:
+    case TWCoinTypeMonacoin:
+    case TWCoinTypeNebulas:
+    case TWCoinTypeNULS:
+    case TWCoinTypeNano:
+    case TWCoinTypeNEAR:
+    case TWCoinTypeNimiq:
+    case TWCoinTypeOntology:
+    case TWCoinTypePOANetwork:
+    case TWCoinTypeSolana:
+    case TWCoinTypeStellar:
+    case TWCoinTypeTON:
+    case TWCoinTypeTezos:
+    case TWCoinTypeTheta:
+    case TWCoinTypeThunderToken:
+    case TWCoinTypeTomoChain:
+    case TWCoinTypeTron:
+    case TWCoinTypeVeChain:
+    case TWCoinTypeViacoin:
+    case TWCoinTypeWanchain:
+    case TWCoinTypeZcash:
+    case TWCoinTypeZcoin:
+    case TWCoinTypeZilliqa:
+    case TWCoinTypeZelcash:
+    case TWCoinTypeRavencoin:
+    case TWCoinTypeWaves:
+    case TWCoinTypeTerra:
+    case TWCoinTypeHarmony:
+    case TWCoinTypeAlgorand:
+    case TWCoinTypeKusama:
+    case TWCoinTypePolkadot:
+    default:
+        break;
+    }
+
+    return hdVersionPrivate;
+}
+
+
+/// P2PKH prefix for this coin type
+uint8_t TWCoinTypeP2pkhPrefixTest(enum TWCoinType coin) {
+
+    uint8_t prefix = 0x00;
+
+    switch (coin) {
+    case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinCash:
+    case TWCoinTypeLitecoin:
+        // https://en.bitcoin.it/wiki/List_of_address_prefixes
+        prefix = TWP2PKHPrefixTest::TWP2PKHPrefixTestBitcoin;
+        break;
+    case TWCoinTypeQtum:
+        prefix = TWP2PKHPrefixTest::TWP2PKHPrefixTestQtum;
+        break;
+    case TWCoinTypeDash:
+        prefix = TWP2PKHPrefixTest::TWP2PKHPrefixTestDash;
+        break;
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
+    case TWCoinTypeBravoCoin:
+    case TWCoinTypeCallisto:
+    case TWCoinTypeCardano:
+    case TWCoinTypeCosmos:
+    case TWCoinTypeDecred:
+    case TWCoinTypeDigiByte:
+    case TWCoinTypeDogecoin:
+    case TWCoinTypeEOS:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeFIO:
+    case TWCoinTypeGoChain:
+    case TWCoinTypeGroestlcoin:
+    case TWCoinTypeHcash:
+    case TWCoinTypeICON:
+    case TWCoinTypeIoTeX:
+    case TWCoinTypeKava:
+    case TWCoinTypeKin:
+    case TWCoinTypeMonacoin:
+    case TWCoinTypeNebulas:
+    case TWCoinTypeNULS:
+    case TWCoinTypeNano:
+    case TWCoinTypeNEAR:
+    case TWCoinTypeNimiq:
+    case TWCoinTypeOntology:
+    case TWCoinTypePOANetwork:
+    case TWCoinTypeXRP:
+    case TWCoinTypeSolana:
+    case TWCoinTypeStellar:
+    case TWCoinTypeTON:
+    case TWCoinTypeTezos:
+    case TWCoinTypeTheta:
+    case TWCoinTypeThunderToken:
+    case TWCoinTypeTomoChain:
+    case TWCoinTypeTron:
+    case TWCoinTypeVeChain:
+    case TWCoinTypeViacoin:
+    case TWCoinTypeWanchain:
+    case TWCoinTypeZcash:
+    case TWCoinTypeZcoin:
+    case TWCoinTypeZilliqa:
+    case TWCoinTypeZelcash:
+    case TWCoinTypeRavencoin:
+    case TWCoinTypeWaves:
+    case TWCoinTypeTerra:
+    case TWCoinTypeHarmony:
+    case TWCoinTypeAlgorand:
+    case TWCoinTypeKusama:
+    case TWCoinTypePolkadot:
+    default:
+        break;
+    }
+
+    return prefix;
+}
+
+/// P2SH prefix for this coin type
+uint8_t TWCoinTypeP2shPrefixTest(enum TWCoinType coin) {
+
+    uint8_t prefix = 0x00;
+
+    switch (coin) {
+    case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinCash:
+        // https://en.bitcoin.it/wiki/List_of_address_prefixes
+        prefix = TWP2SHPrefixTest::TWP2SHPrefixTestBitcoin;
+        break;
+    case TWCoinTypeLitecoin:
+        prefix = TWP2SHPrefixTest::TWP2SHPrefixTestLitecoin;
+        break;
+    case TWCoinTypeDash:
+        prefix = TWP2SHPrefixTest::TWP2SHPrefixTestDash;
+        break;
+    case TWCoinTypeQtum:
+        prefix = TWP2SHPrefixTest::TWP2SHPrefixTestQtum;
+        break;
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
+    case TWCoinTypeBravoCoin:
+    case TWCoinTypeCallisto:
+    case TWCoinTypeCardano:
+    case TWCoinTypeCosmos:
+    case TWCoinTypeDecred:
+    case TWCoinTypeDigiByte:
+    case TWCoinTypeDogecoin:
+    case TWCoinTypeEOS:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeFIO:
+    case TWCoinTypeGoChain:
+    case TWCoinTypeGroestlcoin:
+    case TWCoinTypeHcash:
+    case TWCoinTypeICON:
+    case TWCoinTypeIoTeX:
+    case TWCoinTypeKava:
+    case TWCoinTypeKin:
+    case TWCoinTypeMonacoin:
+    case TWCoinTypeNebulas:
+    case TWCoinTypeNULS:
+    case TWCoinTypeNano:
+    case TWCoinTypeNEAR:
+    case TWCoinTypeNimiq:
+    case TWCoinTypeOntology:
+    case TWCoinTypePOANetwork:
+    case TWCoinTypeXRP:
+    case TWCoinTypeSolana:
+    case TWCoinTypeStellar:
+    case TWCoinTypeTON:
+    case TWCoinTypeTezos:
+    case TWCoinTypeTheta:
+    case TWCoinTypeThunderToken:
+    case TWCoinTypeTomoChain:
+    case TWCoinTypeTron:
+    case TWCoinTypeVeChain:
+    case TWCoinTypeViacoin:
+    case TWCoinTypeWanchain:
+    case TWCoinTypeZcash:
+    case TWCoinTypeZcoin:
+    case TWCoinTypeZilliqa:
+    case TWCoinTypeZelcash:
+    case TWCoinTypeRavencoin:
+    case TWCoinTypeWaves:
+    case TWCoinTypeTerra:
+    case TWCoinTypeHarmony:
+    case TWCoinTypeAlgorand:
+    case TWCoinTypeKusama:
+    case TWCoinTypePolkadot:
+    default:
+        break;
+    }
+
+    return prefix;
+}
+
+
+// JuBiter-defined
+std::vector<uint8_t> TWCoinTypeP2pkhPrefixDataTest(enum TWCoinType coin) {
+    std::vector<uint8_t> prefix;
+
+    switch (coin) {
+    case TWCoinTypeHcash:
+        prefix = {0x0f, 0x21};  //TestNetID
+        break;
+    case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinCash:
+    case TWCoinTypeLitecoin:
+    case TWCoinTypeQtum:
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
+    case TWCoinTypeBravoCoin:
+    case TWCoinTypeCallisto:
+    case TWCoinTypeCardano:
+    case TWCoinTypeCosmos:
+    case TWCoinTypeDash:
+    case TWCoinTypeDecred:
+    case TWCoinTypeDigiByte:
+    case TWCoinTypeDogecoin:
+    case TWCoinTypeEOS:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeFIO:
+    case TWCoinTypeGoChain:
+    case TWCoinTypeGroestlcoin:
+    case TWCoinTypeICON:
+    case TWCoinTypeIoTeX:
+    case TWCoinTypeKava:
+    case TWCoinTypeKin:
+    case TWCoinTypeMonacoin:
+    case TWCoinTypeNebulas:
+    case TWCoinTypeNULS:
+    case TWCoinTypeNano:
+    case TWCoinTypeNEAR:
+    case TWCoinTypeNimiq:
+    case TWCoinTypeOntology:
+    case TWCoinTypePOANetwork:
+    case TWCoinTypeXRP:
+    case TWCoinTypeSolana:
+    case TWCoinTypeStellar:
+    case TWCoinTypeTON:
+    case TWCoinTypeTezos:
+    case TWCoinTypeTheta:
+    case TWCoinTypeThunderToken:
+    case TWCoinTypeTomoChain:
+    case TWCoinTypeTron:
+    case TWCoinTypeVeChain:
+    case TWCoinTypeViacoin:
+    case TWCoinTypeWanchain:
+    case TWCoinTypeZcash:
+    case TWCoinTypeZcoin:
+    case TWCoinTypeZilliqa:
+    case TWCoinTypeZelcash:
+    case TWCoinTypeRavencoin:
+    case TWCoinTypeWaves:
+    case TWCoinTypeTerra:
+    case TWCoinTypeHarmony:
+    case TWCoinTypeAlgorand:
+    case TWCoinTypeKusama:
+    case TWCoinTypePolkadot:
+    default:
+        break;
+    }
+
+    return prefix;
+}
+
+
+// JuBiter-defined
+uint32_t TWCoinType2HDVersionPublicTest(enum TWCoinType coin, bool witness) {
+    uint32_t hdVersionPublic = TWHDVersionNone;
+
+    switch (coin) {
+    case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinCash:
+    case TWCoinTypeQtum:
+    case TWCoinTypeDash:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeEOS:
+    case TWCoinTypeXRP:
+        hdVersionPublic = TWHDVersionTPUB;
+        if (witness) {
+            hdVersionPublic = TWHDVersionUPUB;
+        }
+        break;
+    case TWCoinTypeLitecoin:
+        hdVersionPublic = TWHDVersionTTUB;
+        break;
+    case TWCoinTypeHcash:
+        hdVersionPublic = TWHDVersionDPUB;
+        break;
+    case TWCoinTypeAeternity:
+    case TWCoinTypeAion:
+    case TWCoinTypeBinance:
+    case TWCoinTypeBravoCoin:
+    case TWCoinTypeCallisto:
+    case TWCoinTypeCardano:
+    case TWCoinTypeCosmos:
+    case TWCoinTypeDecred:
+    case TWCoinTypeDigiByte:
+    case TWCoinTypeDogecoin:
+    case TWCoinTypeFIO:
+    case TWCoinTypeGoChain:
+    case TWCoinTypeGroestlcoin:
+    case TWCoinTypeICON:
+    case TWCoinTypeIoTeX:
+    case TWCoinTypeKava:
+    case TWCoinTypeKin:
+    case TWCoinTypeMonacoin:
+    case TWCoinTypeNebulas:
+    case TWCoinTypeNULS:
+    case TWCoinTypeNano:
+    case TWCoinTypeNEAR:
+    case TWCoinTypeNimiq:
+    case TWCoinTypeOntology:
+    case TWCoinTypePOANetwork:
+    case TWCoinTypeSolana:
+    case TWCoinTypeStellar:
+    case TWCoinTypeTON:
+    case TWCoinTypeTezos:
+    case TWCoinTypeTheta:
+    case TWCoinTypeThunderToken:
+    case TWCoinTypeTomoChain:
+    case TWCoinTypeTron:
+    case TWCoinTypeVeChain:
+    case TWCoinTypeViacoin:
+    case TWCoinTypeWanchain:
+    case TWCoinTypeZcash:
+    case TWCoinTypeZcoin:
+    case TWCoinTypeZilliqa:
+    case TWCoinTypeZelcash:
+    case TWCoinTypeRavencoin:
+    case TWCoinTypeWaves:
+    case TWCoinTypeTerra:
+    case TWCoinTypeHarmony:
+    case TWCoinTypeAlgorand:
+    case TWCoinTypeKusama:
+    case TWCoinTypePolkadot:
+    default:
+        break;
+    }
+
+    return hdVersionPublic;
+}
+
+
+// JuBiter-defined
+uint32_t TWCoinType2HDVersionPrivateTest(enum TWCoinType coin, bool witness) {
+    uint32_t hdVersionPrivate = TWHDVersionNone;
+
+    switch (coin) {
+    case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinCash:
+    case TWCoinTypeQtum:
+    case TWCoinTypeDash:
+    case TWCoinTypeEthereum:
+    case TWCoinTypeEthereumClassic:
+    case TWCoinTypeEOS:
+    case TWCoinTypeXRP:
+        hdVersionPrivate = TWHDVersionTPRV;
+        if (witness) {
+            hdVersionPrivate = TWHDVersionUPRV;
+        }
+        break;
+    case TWCoinTypeLitecoin:
+        hdVersionPrivate = TWHDVersionTTPV;
         break;
     case TWCoinTypeHcash:
         hdVersionPrivate = TWHDVersionDPRV;

@@ -19,8 +19,8 @@ namespace context {
 #define CONTEXT_CHECK_TYPE(t)                                                   \
 do {                                                                            \
     auto token = std::dynamic_pointer_cast<token::SoftwareToken>(_tokenPtr);    \
-    if(token != nullptr){                                                       \
-        if(token->Type() < t){                                                  \
+    if(token != nullptr) {                                                      \
+        if(token->Type() < t) {                                                 \
             return JUBR_CONTEXT_NOT_SATISFIED;                                  \
         }                                                                       \
     }                                                                           \
@@ -59,10 +59,8 @@ public:
     T* GetOneSafe(JUB_UINT16 ID) {
 		BaseContext* pContext= GetOne(ID);
 		T* t = dynamic_cast<T*>(pContext); 
-		if (t != nullptr)
-		{
-			if (_last != pContext)
-			{
+		if (t != nullptr) {
+			if (_last != pContext) {
 				pContext->ActiveSelf();
 				_last = pContext;
 			}

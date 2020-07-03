@@ -53,7 +53,7 @@ JUB_RV JubiterBaseETHImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data&
 }
 
 
-JUB_RV JubiterBaseETHImpl::_getAddress(const TW::Data publicKey, std::string& address) {
+JUB_RV JubiterBaseETHImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
 
     try {
         TW::PublicKey pubkey(publicKey, _publicKeyType);

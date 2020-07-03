@@ -32,9 +32,9 @@ public:
         return Create(cfg.coinType,cfg,token);
     }
 
-    BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, JUB_UINT16 devieID) {
-        auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, devieID);
-        return Create(cfg.coinType,cfg,token);
+    BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, JUB_UINT16 deviceID) {
+        auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, deviceID);
+        return Create(cfg.coinType, cfg, token);
     }
 };
 

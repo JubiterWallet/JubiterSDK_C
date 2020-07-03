@@ -96,8 +96,9 @@ typedef enum {
 // Remove c++ features for swift framework
 //typedef struct stContextCfgBTC : stContextCfg {
 typedef struct stContextCfgBTC {
-    JUB_CHAR_PTR            mainPath;
+    JUB_CHAR_PTR             mainPath;
     JUB_ENUM_COINTYPE_BTC    coinType;// = { JUB_ENUM_COINTYPE_BTC::COINBTC };
+    JUB_ENUM_NETTYPE          netType;
     JUB_ENUM_BTC_TRANS_TYPE transType;
 //
 //    stContextCfgBTC();
@@ -233,7 +234,7 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
  *****************************************************************************/
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID,IN JUB_CHAR_CPTR address);
+JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address);
 
 /*****************************************************************************
  * @function name : JUB_SetMyAddressBTC
@@ -250,6 +251,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SignTransactionBTC
  * @in  param : contextID - context ID
+ *            : version
  *            : inputs
  *            : iCount
  *            : outputs
@@ -260,6 +262,7 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
+                              IN JUB_UINT32 version,
                               IN INPUT_BTC inputs[], IN JUB_UINT16 iCount,
                               IN OUTPUT_BTC outputs[], IN JUB_UINT16 oCount,
                               IN JUB_UINT32 lockTime,

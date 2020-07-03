@@ -60,7 +60,7 @@
 #define JUBR_ARGUMENTS_BAD          0x00000003UL
 #define JUBR_IMPL_NOT_SUPPORT		0x00000004UL
 #define JUBR_MEMORY_NULL_PTR		0x00000005UL
-#define JUBR_CONTEXT_NOT_SATISFIED      0x00000006UL
+#define JUBR_CONTEXT_NOT_SATISFIED  0x00000006UL
 
 #define JUBR_INVALID_MEMORY_PTR		0x00000008UL
 #define JUBR_REPEAT_MEMORY_PTR		0x00000009UL
@@ -154,9 +154,19 @@ typedef JUB_ULONG JUB_RV;
 extern "C" {
 #endif // #ifdef __cplusplus
 
+typedef enum {
+    MAIN = 0,
+    TEST = 1,
+    REG,
+    DEV,
+    PREF,
+    PREFIX,
+} JUB_ENUM_NETTYPE;
+
 // Remove c++ features for swift framework
 typedef struct stContextCfg {
     JUB_CHAR_PTR            mainPath;
+    JUB_ENUM_NETTYPE         netType;
 //
 //     stContextCfg();
 //    virtual ~stContextCfg() {}

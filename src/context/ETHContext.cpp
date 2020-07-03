@@ -14,7 +14,9 @@ JUB_RV ETHContext::ActiveSelf() {
     JUB_VERIFY_RV(_tokenPtr->SelectApplet());
     JUB_VERIFY_RV(_tokenPtr->GetAppletVersion(_appletVersion));
     auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (token) {  JUB_VERIFY_RV(SetTimeout(_timeout)); }
+    if (token) {
+        JUB_VERIFY_RV(SetTimeout(_timeout));
+    }
 
     //ETH don`t set unit
     return JUBR_OK;
@@ -88,7 +90,7 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
 
     std::vector<JUB_BYTE> vInput;
     if (nullptr != input
-        && 0 != strlen(input)
+        &&    0 != strlen(input)
         ) {
         vInput = jub::ETHHexStr2CharPtr(input);
         if (0 == vInput.size()) {
@@ -106,7 +108,9 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
     vChainID.push_back(_chainID);
 
     bool bERC20 = false;
-    if (0 == memcmp(uchar_vector(vInput).getHex().c_str(), ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))) { // erc20 function sign
+    if (0 == memcmp(uchar_vector(vInput).getHex().c_str(),
+                    ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))
+        ) { // erc20 function sign
         bERC20 = true;
     }
 
