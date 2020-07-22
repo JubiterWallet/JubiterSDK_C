@@ -55,10 +55,10 @@ public:
 }; // class xTrezorCryptoBTCFactory end
 
 
-class xJubiterBladeBTCFactory :
+class xJuBiterBladeBTCFactory :
     public xFactory<std::shared_ptr<BTCTokenInterface>, JUB_ENUM_COINTYPE_BTC, CreateJubiterBladeBTCFn> {
 public:
-    xJubiterBladeBTCFactory() {
+    xJuBiterBladeBTCFactory() {
         Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &JubiterBladeBTCImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &JubiterBladeBCHImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &JubiterBladeLTCImpl::Create);
@@ -66,13 +66,13 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterBladeDashImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterBladeQTUMImpl::Create);
     };
-}; // class xJubiterBladeBTCFactory end
+}; // class xJuBiterBladeBTCFactory end
 
 
-class xJubiterNFCBTCFactory :
+class xJuBiterNFCBTCFactory :
     public xFactory<std::shared_ptr<BTCTokenInterface>, JUB_ENUM_COINTYPE_BTC, CreateJubiterBladeBTCFn> {
 public:
-    xJubiterNFCBTCFactory() {
+    xJuBiterNFCBTCFactory() {
         Register(JUB_ENUM_COINTYPE_BTC::COINBTC, &JubiterNFCBTCImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINBCH, &JubiterNFCBCHImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINLTC, &JubiterNFCLTCImpl::Create);
@@ -80,14 +80,14 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterNFCDashImpl::Create);
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterNFCQTUMImpl::Create);
     };
-}; // class xJubiterNFCBTCFactory end
+}; // class xJuBiterNFCBTCFactory end
 
 
 class xBTCTokenFactory {
 protected:
     xTrezorCryptoBTCFactory     trezorFactory;
-    xJubiterBladeBTCFactory jubiterBLEFactory;
-    xJubiterNFCBTCFactory   jubiterNFCFactory;
+    xJuBiterBladeBTCFactory jubiterBLDFactory;
+    xJuBiterNFCBTCFactory   jubiterNFCFactory;
 
 public:
     std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, std::string XPRVorXPUB) {
@@ -96,13 +96,13 @@ public:
 
     std::shared_ptr<BTCTokenInterface> CreateToken(JUB_ENUM_COINTYPE_BTC type, JUB_UINT16 deviceID) {
 #ifdef HID_MODE
-        return jubiterBLEFactory.Create(type, deviceID);
+        return jubiterBLDFactory.Create(type, deviceID);
 #endif
 #ifdef BLE_MODE
         if (dynamic_cast<jub::device::JubiterBLEDevice*>
             (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
             ) {
-            return jubiterBLEFactory.Create(type, deviceID);
+            return jubiterBLDFactory.Create(type, deviceID);
         }
 #endif
 #ifdef NFC_MODE

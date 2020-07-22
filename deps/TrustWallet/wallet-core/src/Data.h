@@ -7,8 +7,9 @@
 #pragma once
 
 #include <cstdint>
-#include <vector>
 #include <string>
+#include <vector>
+#include <algorithm>
 
 namespace TW {
 
@@ -27,6 +28,15 @@ inline void append(Data& data, const Data& suffix) {
 template <typename T>
 inline bool has_prefix(const Data& data, T& prefix) {
     return std::equal(prefix.begin(), prefix.end(), data.begin(), data.begin() + std::min(data.size(), prefix.size()));
+}
+
+// JuBiter-defined
+inline std::vector<std::size_t> find_all_indexes(const Data& haystack, const Data& needle) {
+    std::vector<std::size_t> indexes{};
+    auto it{haystack.begin()};
+    while ((it = std::search(it, haystack.end(), needle.begin(), needle.end())) != haystack.end())
+        indexes.push_back(std::distance(haystack.begin(), it++));
+    return indexes;
 }
 
 } // namespace TW

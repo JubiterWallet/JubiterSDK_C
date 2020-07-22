@@ -32,7 +32,7 @@
 
 JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
@@ -46,15 +46,15 @@ JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
     );
 
     return JUBR_OK;
-#else
+#else   // #if defined(BLE_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef BLE_MODE
+#endif  // #if defined(BLE_MODE) end
 }
 
 
 JUB_RV JUB_enumDevices(void) {
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
@@ -64,15 +64,15 @@ JUB_RV JUB_enumDevices(void) {
     JUB_VERIFY_RV(bleDevice->Scan());
 
     return JUBR_OK;
-#else
+#else   // #if defined(BLE_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef BLE_MODE
+#endif  // #if defined(BLE_MODE) end
 }
 
 
 JUB_RV JUB_stopEnumDevices(void) {
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
@@ -82,9 +82,9 @@ JUB_RV JUB_stopEnumDevices(void) {
     JUB_VERIFY_RV(bleDevice->StopScan());
 
     return JUBR_OK;
-#else
+#else   // #if defined(BLE_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef BLE_MODE
+#endif  // #if defined(BLE_MODE) end
 }
 
 
@@ -93,7 +93,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
                          JUB_UINT16* pDeviceID,
                          JUB_UINT32 timeout) {
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
@@ -111,15 +111,15 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
     jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, bleDevice);
 
     return rv;
-#else
+#else   // #if defined(BLE_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef BLE_MODE
+#endif  // #if defined(BLE_MODE) end
 }
 
 
 JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
@@ -129,15 +129,15 @@ JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
     JUB_VERIFY_RV(bleDevice->CancelConnect(bBLEUUID));
 
     return JUBR_OK;
-#else
+#else   // #if defined(BLE_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef BLE_MODE
+#endif  // #if defined(BLE_MODE) end
 }
 
 
 JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
@@ -149,15 +149,15 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
     JUB_VERIFY_RV(bleDevice->Disconnect(*devHandle));
 
     return JUBR_OK;
-#else
+#else   // #if defined(BLE_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef BLE_MODE
+#endif  // #if defined(BLE_MODE) end
 }
 
 
 JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
     if (!bleDevice) {
@@ -172,10 +172,10 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
     JUB_VERIFY_RV(bleDevice->IsConnect(*devHandle));
 
     return JUBR_OK;
-#else
+#else   // #if defined(BLE_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef BLE_MODE
-}//#endif // #if defined(ANDROID) || defined(TARGET_OS_IPHONE)
+#endif  // #if defined(BLE_MODE) end
+}
 
 
 /*****************************************************************************
@@ -187,14 +187,14 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
 JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID,
                         OUT JUB_BYTE_PTR percent) {
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     JUB_VERIFY_RV(token->QueryBattery(*percent));
 
     return JUBR_OK;
-#else
+#else   // #if defined(BLE_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif
+#endif  // #if defined(BLE_MODE) end
 }
