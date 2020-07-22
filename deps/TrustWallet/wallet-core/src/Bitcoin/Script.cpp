@@ -23,9 +23,8 @@
 
 #include <TrustWalletCore/TWBitcoinOpCodes.h>
 
-#include <algorithm>
-#include <cassert>
-#include <set>
+//#include <cassert>
+//#include <set>
 
 using namespace TW;
 using namespace TW::Bitcoin;
@@ -322,8 +321,15 @@ Script Script::buildPayToScriptHashWitness(const Data& redeemScript, const std::
 
 // JuBiter-defined
 /// Builds a return0 script from a script.
-Script Script::buildReturn0(const Data& data) {
+Script Script::buildReturn0(const Data& data, const Data& check, int offset) {
     Script script;
+    // Check if
+    if (!check.empty()) {
+        const std::vector<std::size_t> founds = find_all_indexes(data, check);
+        if (std::end(founds) == std::find(std::begin(founds), std::end(founds), offset)) {
+            return script;
+        }
+    }
     script.bytes.push_back(OP_RETURN);
     script.bytes.push_back(data.size());
     script.bytes.insert(script.bytes.end(), data.begin(), data.end());
@@ -342,7 +348,7 @@ void Script::encodeZero(Data& data) const {
 }
 
 // JuBiter-defined
-/// Dncodes the script.
+/// Decodes the script.
 bool Script::decode(const Data& data) {
 
     size_t szScript = decodeVarInt(data, _varIntSize);

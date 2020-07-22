@@ -581,7 +581,7 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
 
 JUB_RV JubiterBladeToken::GetDeviceCert(std::string& cert) {
 
-    uchar_vector apduData("A60483021518");
+    uchar_vector apduData = tlv_buf(0xA6, tlv_buf(0x83, uchar_vector("1518")).encode()).encode();
     APDU apdu(0x80, 0xCA, 0xBF, 0x21, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
