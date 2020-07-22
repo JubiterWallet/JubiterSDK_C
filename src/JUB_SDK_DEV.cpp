@@ -45,25 +45,25 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
+#if defined(HID_MODE)
     token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
+#endif  // #if defined(HID_MODE) end
+#if defined(BLE_MODE)
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-#endif
-#ifdef NFC_MODE
+#endif  // #if defined(BLE_MODE) end
+#if defined(NFC_MODE)
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-#endif
+#endif  // #if defined(NFC_MODE) end
 //    else {
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -78,9 +78,7 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     // Let's go to the main security domain,
     // instead of judging the return value,
     // to get the data back
-    if (!(JUB_ENUM_BOOL)token->IsBootLoader()) {
-        return JUBR_ERROR;
-    }
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_BYTE sn[24] = {0,};
     JUB_BYTE label[32] = {0,};
@@ -117,25 +115,25 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
+#if defined(HID_MODE)
     token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
+#endif  // #if defined(HID_MODE) end
+#if defined(BLE_MODE)
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-#endif
-#ifdef NFC_MODE
+#endif  // #if defined(BLE_MODE) end
+#if defined(NFC_MODE)
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-#endif
+#endif  // #if defined(NFC_MODE) end
 //    else {
     if (!token) {
         return JUB_ENUM_BOOL::BOOL_FALSE;
@@ -155,25 +153,25 @@ JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
+#if defined(HID_MODE)
     token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
+#endif  // #if defined(HID_MODE) end
+#if defined(BLE_MODE)
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-#endif
-#ifdef NFC_MODE
+#endif  // #if defined(BLE_MODE) end
+#if defined(NFC_MODE)
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-#endif
+#endif  // #if defined(NFC_MODE) end
 //    else {
     if (!token) {
         return JUB_ENUM_BOOL::BOOL_FALSE;
@@ -196,25 +194,25 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
+#if defined(HID_MODE)
     token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
+#endif  // #if defined(HID_MODE) end
+#if defined(BLE_MODE)
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-#endif
-#ifdef NFC_MODE
+#endif  // #if defined(BLE_MODE) end
+#if defined(NFC_MODE)
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-#endif
+#endif  // #if defined(NFC_MODE) end
 //    else {
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -244,25 +242,25 @@ JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
+#if defined(HID_MODE)
     token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
+#endif  // #if defined(HID_MODE) end
+#if defined(BLE_MODE)
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-#endif
-#ifdef NFC_MODE
+#endif  // #if defined(BLE_MODE) end
+#if defined(NFC_MODE)
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-#endif
+#endif  // #if defined(NFC_MODE) end
 //    else {
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -294,25 +292,25 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
+#if defined(HID_MODE)
     token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
+#endif  // #if defined(HID_MODE) end
+#if defined(BLE_MODE)
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-#endif
-#ifdef NFC_MODE
+#endif  // #if defined(BLE_MODE) end
+#if defined(NFC_MODE)
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-#endif
+#endif  // #if defined(NFC_MODE) end
 //    else {
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -361,25 +359,25 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
+#if defined(HID_MODE)
     token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
+#endif  // #if defined(HID_MODE) end
+#if defined(BLE_MODE)
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-#endif
-#ifdef NFC_MODE
+#endif  // #if defined(BLE_MODE) end
+#if defined(NFC_MODE)
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-#endif
+#endif  // #if defined(NFC_MODE) end
 //    else {
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -388,9 +386,7 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
     // Let's go to the main security domain,
     // instead of judging the return value,
     // to get the data back
-    if (!(JUB_ENUM_BOOL)token->IsBootLoader()) {
-        return JUBR_ERROR;
-    }
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_cert;
     JUB_VERIFY_RV(token->GetDeviceCert(str_cert));
@@ -413,25 +409,25 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
 
     CREATE_THREAD_LOCK_GUARD
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
+#if defined(HID_MODE)
     token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
+#endif  // #if defined(HID_MODE) end
+#if defined(BLE_MODE)
     if (dynamic_cast<jub::device::JubiterBLEDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
                          std::make_shared<jub::token::JubiterBladeToken>(deviceID));
     }
-#endif
-#ifdef NFC_MODE
+#endif  // #if defined(BLE_MODE) end
+#if defined(NFC_MODE)
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(
         jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
         )) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
-#endif
+#endif  // #if defined(NFC_MODE) end
 //    else {
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -440,250 +436,6 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
     std::string str_response;
     JUB_VERIFY_RV(token->SendOneApdu(apdu, str_response));
     JUB_VERIFY_RV(_allocMem(response, str_response));
-
-    return JUBR_OK;
-}
-
-
-/*****************************************************************************
-* @function name : JUB_Reset
-* @in  param : deviceID - device ID
-*                     : curve - curve
-* @out param :
-* @last change : default User's PIN is '5555'.
-*****************************************************************************/
-JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
-
-    CREATE_THREAD_LOCK_GUARD
-    std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
-    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
-                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
-    }
-#endif
-#ifdef NFC_MODE
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
-    }
-#endif
-//    else {
-    if (!token) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
-
-    JUB_VERIFY_RV(token->Reset());
-
-    return JUBR_OK;
-}
-
-
-/*****************************************************************************
- * @function name : JUB_GenerateSeed
- * @in  param : deviceID - device ID
- *          : pinMix - User's PIN
- *          : curve - curve
- * @out param :
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
-                        IN JUB_CHAR_CPTR pinMix,
-                        IN JUB_ENUM_CURVES curve) {
-
-    CREATE_THREAD_LOCK_GUARD
-    std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
-    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
-                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
-    }
-#endif
-#ifdef NFC_MODE
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
-    }
-#endif
-//    else {
-    if (!token) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
-
-    JUB_VERIFY_RV(token->GenerateSeed(pinMix, curve));
-
-    return JUBR_OK;
-}
-
-
-/*****************************************************************************
- * @function name : JUB_ImportMnemonic
- * @in  param : deviceID - device ID
- *          : pinMix - User's PIN
- *          : mnemonic - mnemonic
- * @out param :
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
-                          IN JUB_CHAR_CPTR pinMix,
-                          IN JUB_CHAR_CPTR mnemonic) {
-
-    CREATE_THREAD_LOCK_GUARD
-    std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
-    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
-                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
-    }
-#endif
-#ifdef NFC_MODE
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
-    }
-#endif
-//    else {
-    if (!token) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
-
-    JUB_VERIFY_RV(token->ImportMnemonic(pinMix, mnemonic));
-
-    return JUBR_OK;
-}
-
-
-/*****************************************************************************
- * @function name : JUB_ExportMnemonic
- * @in  param : deviceID - device ID
- *          : pinMix - User's PIN
- * @out param : mnemonic - mnemonic
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
-                          IN JUB_CHAR_CPTR pinMix,
-                          OUT JUB_CHAR_PTR_PTR mnemonic) {
-
-    CREATE_THREAD_LOCK_GUARD
-    std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
-    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
-                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
-    }
-#endif
-#ifdef NFC_MODE
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
-    }
-#endif
-//    else {
-    if (!token) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
-
-    std::string str_response;
-    JUB_VERIFY_RV(token->GetMnemonic(pinMix, str_response));
-    JUB_VERIFY_RV(_allocMem(mnemonic, str_response));
-
-    return JUBR_OK;
-}
-
-/*****************************************************************************
-* @function name : JUB_VerifyPIN
-* @in  param : deviceID - device ID
-*                     : pinMix - old PIN
-*                     : pinNew - new PIN
-* @out param :
-* @last change :
-*****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
-                     IN JUB_CHAR_CPTR pinMix,
-                     IN JUB_CHAR_CPTR pinNew) {
-
-    CREATE_THREAD_LOCK_GUARD
-    std::shared_ptr<jub::token::HardwareTokenInterface> token;
-#ifdef HID_MODE
-    token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-#endif
-#ifdef BLE_MODE
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterBladeToken>(
-                         std::make_shared<jub::token::JubiterBladeToken>(deviceID));
-    }
-#endif
-#ifdef NFC_MODE
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
-    }
-#endif
-//    else {
-    if (!token) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
-
-    JUB_VERIFY_RV(token->ChangePIN(pinMix, pinNew));
 
     return JUBR_OK;
 }

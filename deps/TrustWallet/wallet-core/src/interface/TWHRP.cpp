@@ -21,7 +21,7 @@ const char* stringForHRP(enum TWHRP hrp) {
     case TWHRPGroestlcoin: return HRP_GROESTLCOIN;
     case TWHRPQtum: return HRP_QTUM;
     case TWHRPZilliqa: return HRP_ZILLIQA;
-    default: return nullptr;
+    default: return "";
     }
 }
 

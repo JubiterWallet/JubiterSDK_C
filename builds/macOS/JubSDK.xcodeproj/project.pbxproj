@@ -3052,7 +3052,6 @@
 				DEVELOPMENT_TEAM = S47T4UESP3;
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					TARGET_OS_IPHONE,
 					"DEBUG=1",
 					"$(inherited)",
 				);
