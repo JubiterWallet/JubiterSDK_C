@@ -210,7 +210,7 @@ JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     else {
-        cout << "raw : " << raw << endl;
+        cout << "raw[" << strlen(raw) << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
 
