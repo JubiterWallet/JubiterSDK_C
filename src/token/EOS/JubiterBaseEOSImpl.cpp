@@ -167,6 +167,7 @@ nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action)
             std::string(action.delegate.from), std::string(action.delegate.receiver),
             TW::Bravo::Asset::fromString(std::string(action.delegate.netQty)),
             TW::Bravo::Asset::fromString(std::string(action.delegate.cpuQty)),
+            action.delegate.transfer,
             bStake);
         return delegateAction.serialize();
     }
