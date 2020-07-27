@@ -218,6 +218,7 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
             action.delegate.receiver = (char*)(*it)[sType]["receiver"].asCString();
             action.delegate.netQty   = (char*)(*it)[sType]["stake_net_quantity"].asCString();
             action.delegate.cpuQty   = (char*)(*it)[sType]["stake_cpu_quantity"].asCString();
+            action.delegate.transfer = (*it)[sType]["transfer"].asBool();
             action.delegate.bStake = true;
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
@@ -225,6 +226,7 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
             action.delegate.receiver = (char*)(*it)[sType]["receiver"].asCString();
             action.delegate.netQty   = (char*)(*it)[sType]["unstake_net_quantity"].asCString();
             action.delegate.cpuQty   = (char*)(*it)[sType]["unstake_cpu_quantity"].asCString();
+            action.delegate.transfer = (*it)[sType]["transfer"].asBool();
             action.delegate.bStake = false;
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
@@ -298,7 +300,7 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     else {
-        cout << "raw : " << raw << endl;
+        cout << "raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
 

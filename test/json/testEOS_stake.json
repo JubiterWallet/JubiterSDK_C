@@ -14,7 +14,8 @@
                 "from" : "ftsafetest55",
                 "receiver" : "ftsafetest55",
                 "stake_cpu_quantity" : "0.7000 EOS",
-                "stake_net_quantity" : "0.3000 EOS"
+                "stake_net_quantity" : "0.3000 EOS",
+                "transfer" : false
             }
         }],
         "bip32_path" : {

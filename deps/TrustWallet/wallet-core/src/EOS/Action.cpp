@@ -302,6 +302,7 @@ DelegateAction::DelegateAction(const std::string& currency,
                                const std::string& receiver,
                                const Bravo::Asset& netQty,
                                const Bravo::Asset& cpuQty,
+                               const bool transferable,
                                bool bStake) {
     account = Name(currency);
 //    name = Name("delegatebw");
@@ -309,10 +310,9 @@ DelegateAction::DelegateAction(const std::string& currency,
     name = Name(actName);
     authorization.push_back(PermissionLevel(Name(from), Name("active")));
 
-    transfer = 0x00;
     setData(from, receiver,
             netQty, cpuQty,
-            transfer);
+            transferable ? 0x01:0x00);
 
     _bStake = bStake;
 }
@@ -320,7 +320,7 @@ DelegateAction::DelegateAction(const std::string& currency,
 // JuBiter-defined
 void DelegateAction::setData(const std::string& from, const std::string& receiver,
                              const Bravo::Asset& netQty, const Bravo::Asset& cpuQty,
-                             uint8_t transfer) {
+                             const uint8_t transfer) {
     if (netQty.amount <= 0) {
         throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
     }
@@ -338,7 +338,7 @@ void DelegateAction::setData(const std::string& from, const std::string& receive
     this->receiver.serialize(data);
     this->netQty.serialize(data);
     this->cpuQty.serialize(data);
-    data.push_back(transfer);
+    data.push_back(this->transfer);
 }
 
 // JuBiter-defined
