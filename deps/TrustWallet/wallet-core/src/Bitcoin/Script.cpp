@@ -23,11 +23,8 @@
 
 #include <TrustWalletCore/TWBitcoinOpCodes.h>
 
-#include <algorithm>
-#include <cassert>
-#include <set>
-
-#include "mSIGNA/stdutils/uchar_vector.h"
+//#include <cassert>
+//#include <set>
 
 using namespace TW;
 using namespace TW::Bitcoin;
@@ -324,11 +321,12 @@ Script Script::buildPayToScriptHashWitness(const Data& redeemScript, const std::
 
 // JuBiter-defined
 /// Builds a return0 script from a script.
-Script Script::buildReturn0(const Data& data, const Data& check) {
+Script Script::buildReturn0(const Data& data, const Data& check, int offset) {
     Script script;
     // Check if
     if (!check.empty()) {
-        if(-1 == std::string(uchar_vector(data).getHex()).find(uchar_vector(check).getHex())) {
+        const std::vector<std::size_t> founds = find_all_indexes(data, check);
+        if (std::end(founds) == std::find(std::begin(founds), std::end(founds), offset)) {
             return script;
         }
     }

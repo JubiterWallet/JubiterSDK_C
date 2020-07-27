@@ -106,8 +106,8 @@
 				67B27530241626B8007F22D5 /* json */,
 				67A4BE642330C3BB0059A3DB /* JubSDKTest */,
 				67A4BE672330C3E50059A3DB /* deps */,
-				67A4BE5B2330C3870059A3DB /* Products */,
 				67A4BE7F2330C5810059A3DB /* Frameworks */,
+				67A4BE5B2330C3870059A3DB /* Products */,
 			);
 			sourceTree = "<group>";
 		};
