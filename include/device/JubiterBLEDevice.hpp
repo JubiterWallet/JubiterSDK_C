@@ -4,7 +4,7 @@
 #include "device/DeviceTypeBase.hpp"
 #include "JUB_SDK_DEV.h"
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
 #include <memory>
 
 #include "bleTransmit/bleTransmit.h"
@@ -80,5 +80,5 @@ protected:
 } // namespace device end
 } // namespace jub end
 
-#endif  // USE_BLE_DEVICE
+#endif  // #if defined(BLE_MODE) end
 #endif  // __JubiterBLEDevice__

@@ -150,6 +150,10 @@ void main_test() {
             break;
         case 194:
             EOS_test("json/testEOS.json");
+//            EOS_test("json/testEOS_buyram.json");
+//            EOS_test("json/testEOS_sellram.json");
+//            EOS_test("json/testEOS_stake.json");
+//            EOS_test("json/testEOS_unstake.json");
             break;
         case 88:
             QTUM_test(deviceID, "json/testQTUM_qrc20.json");

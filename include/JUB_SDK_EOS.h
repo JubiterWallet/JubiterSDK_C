@@ -47,6 +47,7 @@ typedef struct stDelegateAction {
     JUB_CHAR_PTR receiver;
     JUB_CHAR_PTR netQty; // stake_net_quantity/unstake_net_quantity
     JUB_CHAR_PTR cpuQty; // stake_cpu_quantity/unstake_cpu_quantity
+    bool transfer;       // With this flag passed in, the EOS you delegate to the receiver can be unstaked and refunded to them, not you.
     bool bStake;
 //
 //     stDelegateAction();
@@ -83,7 +84,7 @@ typedef struct stActionEOS {
     union {
         JUB_ACTION_TRANSFER transfer;
         JUB_ACTION_DELEGATE delegate;
-        JUB_ACTION_BUYRAM buyRam;
+        JUB_ACTION_BUYRAM   buyRam;
         JUB_ACTION_SELLRAM sellRam;
     };
 //

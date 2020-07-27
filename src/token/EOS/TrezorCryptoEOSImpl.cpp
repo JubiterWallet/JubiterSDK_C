@@ -86,7 +86,7 @@ JUB_RV TrezorCryptoEOSImpl::SignTX(const TW::EOS::Type& type,
 
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
-         JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
+        JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
         uchar_vector privk(hdkey.private_key, hdkey.private_key + 32);
         TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));

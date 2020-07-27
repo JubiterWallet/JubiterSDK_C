@@ -14,7 +14,8 @@
                 "from" : "gq4demjrhege",
                 "receiver" : "gq4demjrhege",
                 "unstake_net_quantity" : "70080.2476 EOS",
-                "unstake_cpu_quantity" : "70071.5415 EOS"
+                "unstake_cpu_quantity" : "70071.5415 EOS",
+                "transfer" : false,
             }
         }],
         "bip32_path" : {

@@ -103,7 +103,7 @@ public:
 class DelegateAction: public Action {
 public:
     DelegateAction(const std::string& currency, const std::string& actName,
-                   const std::string& from, const std::string& receiver, const Bravo::Asset& netQty, const Bravo::Asset& cpuQty, bool bStake = false);
+                   const std::string& from, const std::string& receiver, const Bravo::Asset& netQty, const Bravo::Asset& cpuQty, const bool transferable, bool bStake = false);
     DelegateAction(bool bStake = false) {
         transfer = 0x00;
         _bStake = bStake;
@@ -117,7 +117,7 @@ public:
 private:
     void setData(const std::string& from, const std::string& receiver,
                  const Bravo::Asset& netQty, const Bravo::Asset& cpuQty,
-                 uint8_t transfer);
+                 const uint8_t transfer);
     bool _bStake;
 
 public:

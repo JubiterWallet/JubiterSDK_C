@@ -9,7 +9,7 @@
 #ifndef JUB_SDK_DEV_h
 #define JUB_SDK_DEV_h
 
-#include "JUB_SDK.h"
+#include "JUB_SDK_COMM.h"
 
 #define JUBR_INIT_DEVICE_LIB_ERROR  0x00000060UL
 #define JUBR_CONNECT_DEVICE_ERROR   0x00000061UL
