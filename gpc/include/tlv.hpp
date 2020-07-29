@@ -77,6 +77,9 @@ public:
     std::vector<unsigned char> encode();
     size_t encode(std::vector<unsigned char>& code);
 
+    static size_t decodeLV(const std::vector<unsigned char>& lv, std::vector<unsigned char>& v);
+    static size_t decodeTV(const int tag, const std::vector<unsigned char>& tv, std::vector<unsigned char>& v);
+
 public:
     int tag;                /**< TLV type, e.g. TLV_UTF8_STRING. */
     std::vector<unsigned char> value;   /**< TLV data, e.g. in ASCII. */

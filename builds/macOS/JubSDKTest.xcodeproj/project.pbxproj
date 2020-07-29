@@ -12,6 +12,7 @@
 		6715459923D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6715459723D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp */; };
 		671CDC2824971594004C0772 /* JUB_SDK_test_scp11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 671CDC2724971594004C0772 /* JUB_SDK_test_scp11.cpp */; };
 		675C7975238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */; };
+		67742FCF24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67742FCE24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp */; };
 		6791CE0B23968EB7000B6B16 /* JUB_SDK_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */; };
 		67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE652330C3CE0059A3DB /* JUB_SDK_test.cpp */; };
 		67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE782330C4B80059A3DB /* json_reader.cpp */; };
@@ -53,6 +54,8 @@
 		674B4A9024A1C7C20053AB2F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = CMakeLists.txt; path = ../../test/CMakeLists.txt; sourceTree = "<group>"; };
 		675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.cpp; sourceTree = "<group>"; };
 		675C7974238BEBFF0015C95D /* JUB_SDK_software_test_xrp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_xrp.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.hpp; sourceTree = "<group>"; };
+		67742FCD24D15B7A00A37903 /* JUB_SDK_test_dev_bio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_dev_bio.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_bio.hpp; sourceTree = "<group>"; };
+		67742FCE24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_dev_bio.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_bio.cpp; sourceTree = "<group>"; };
 		6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.cpp; sourceTree = "<group>"; };
 		6791CE0A23968EB7000B6B16 /* JUB_SDK_test_xrp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_xrp.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.hpp; sourceTree = "<group>"; };
 		67A4BE5A2330C3870059A3DB /* JubSDKTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = JubSDKTest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +140,8 @@
 				67A4BE852330C8120059A3DB /* JUB_SDK_test.h */,
 				67A4BE822330C6440059A3DB /* JUB_SDK_test_dev.cpp */,
 				67A4BE832330C6440059A3DB /* JUB_SDK_test_dev.hpp */,
+				67742FCE24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp */,
+				67742FCD24D15B7A00A37903 /* JUB_SDK_test_dev_bio.hpp */,
 				67A4BE862330C99C0059A3DB /* JUB_SDK_test_btc.cpp */,
 				67A4BE872330C99C0059A3DB /* JUB_SDK_test_btc.hpp */,
 				6715458B23D434BC00810F16 /* JUB_SDK_test_qtum.cpp */,
@@ -302,6 +307,7 @@
 				67F808C4235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp in Sources */,
 				67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */,
 				6715459923D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp in Sources */,
+				67742FCF24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp in Sources */,
 				67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */,
 				67F808C3235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp in Sources */,
 				675C7975238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp in Sources */,

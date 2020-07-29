@@ -9,15 +9,16 @@ namespace token {
 class JubiterNFCDashImpl :
         public JubiterNFCBTCImpl,
 virtual public JubiterBaseDashImpl {
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterNFCDashImpl>(deviceID);
+    }
 
 public:
     JubiterNFCDashImpl(JUB_UINT16 deviceID) :
-        JubiterNFCBTCImpl(deviceID) {};
-    ~JubiterNFCDashImpl() {};
-
-    static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterNFCDashImpl>(deviceID);
-    }
+        JubiterNFCBTCImpl(deviceID) {}
+    ~JubiterNFCDashImpl() {}
 }; // class JubiterNFCDashImpl end
 
 

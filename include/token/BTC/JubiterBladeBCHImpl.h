@@ -9,17 +9,18 @@ namespace token {
 class JubiterBladeBCHImpl :
         public JubiterBladeBTCImpl,
 virtual public JubiterBaseBCHImpl {
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeBCHImpl>(deviceID);
+    }
 
 public:
     JubiterBladeBCHImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
-        _hashType = TWSignatureHashTypeAllFork;
-	};
-    ~JubiterBladeBCHImpl() {};
-
-    static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterBladeBCHImpl>(deviceID);
-    }
+            _hashType = TWSignatureHashTypeAllFork;
+	}
+    ~JubiterBladeBCHImpl() {}
 }; // class JubiterBladeBCHImpl end
 
 

@@ -11,17 +11,18 @@ namespace token {
 class JubiterNFCBCHImpl :
         public JubiterNFCBTCImpl,
 virtual public JubiterBaseBCHImpl {
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterNFCBCHImpl>(deviceID);
+    }
 
 public:
     JubiterNFCBCHImpl(JUB_UINT16 deviceID) :
         JubiterNFCBTCImpl(deviceID) {
-        _hashType = TWSignatureHashTypeAllFork;
-	};
-    ~JubiterNFCBCHImpl() {};
-
-    static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterNFCBCHImpl>(deviceID);
-    }
+            _hashType = TWSignatureHashTypeAllFork;
+	}
+    ~JubiterNFCBCHImpl() {}
 
 protected:
     virtual JUB_RV _SignTx(bool witness,

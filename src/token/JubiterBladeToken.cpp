@@ -1,12 +1,14 @@
 #include <token/JubiterBlade/JubiterBladeToken.h>
+
 #include <token/BTC/JubiterBladeBTCImpl.h>
 #include <token/ETH/JubiterBladeETHImpl.h>
 #include <token/EOS/JubiterBladeEOSImpl.h>
+#include <token/ErrorHandler.h>
+
 #include <device/DeviceTypeBase.hpp>
 #include <device/JubiterHidDevice.hpp>
-#include <token/JubiterNFC/JubiterNFCToken.h>
+
 #include <utility/util.h>
-#include <token/ErrorHandler.h>
 #include <TrezorCrypto/bip39.h>
 #include "tlv.hpp"
 
@@ -665,7 +667,7 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
     return JUBR_ERROR;
 }
 
-
+/// NFC
 JUB_RV JubiterBladeToken::Reset() {
 
     return JUBR_IMPL_NOT_SUPPORT;
@@ -699,7 +701,7 @@ JUB_RV JubiterBladeToken::ImportMnemonic(const std::string& pinMix,
         break;
     default:
         return JUBR_ARGUMENTS_BAD;
-    }
+    }   // switch (words.size()) end
 
     uint8_t entropy[32+1] = {0x0,};
     int seed_len = mnemonic_to_entropy(mnemonic.c_str(), entropy);
@@ -728,6 +730,37 @@ JUB_RV JubiterBladeToken::SetMnemonic(const std::string& pinMix,
 
 JUB_RV JubiterBladeToken::GetMnemonic(const std::string& pinMix,
                                       OUT std::string& mnemonic) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+/// BIO
+JUB_RV JubiterBladeToken::VerifyFingerprint(OUT JUB_ULONG &retry) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
+                                            OUT JUB_BYTE_PTR fgptID) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::EnumFingerprint(std::string& fgptList) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::EraseFingerprint() {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::DeleteFingerprint(JUB_BYTE fgptID)  {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }

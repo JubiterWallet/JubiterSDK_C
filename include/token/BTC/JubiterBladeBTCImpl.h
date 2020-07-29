@@ -16,11 +16,15 @@ constexpr JUB_BYTE kPKIAID_BTC[16] = {
 class JubiterBladeBTCImpl :
         public JubiterBladeToken,
 virtual public JubiterBaseBTCImpl {
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeBTCImpl>(deviceID);
+    }
 
 public:
     JubiterBladeBTCImpl(JUB_UINT16 deviceID) :
-    JubiterBladeToken(deviceID) {};
-
+        JubiterBladeToken(deviceID) {}
     virtual ~JubiterBladeBTCImpl() = default;
 
     //BTC functions
@@ -42,9 +46,6 @@ public:
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<std::string>& vInputPath,
                             const std::vector<JUB_BYTE>& vSigedTrans) override;
-
-	//for Factory
-	static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) { return std::make_shared<JubiterBladeBTCImpl>(deviceID); }
 
 protected:
     //BTC functions

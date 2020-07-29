@@ -6,13 +6,12 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#include <stdio.h>
 #include "JUB_SDK_DEV_NFC.h"
-//#include "DeviceTypeBase.hpp"
 
 #include "utility/util.h"
 #include "utility/mutex.h"
 
+#include "product/ProductFactory.h"
 #include "device/JubiterNFCDevice.hpp"
 #include <token/JubiterNFC/JubiterNFCToken.h>
 #ifdef __ANDROID__
@@ -25,17 +24,19 @@ JUB_RV JUB_initNFCDevice(IN NFC_DEVICE_INIT_PARAM param) {
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto nfcDevice = Singleton<jub::device::JubiterNFCDevice>::GetInstance();
-    if (!nfcDevice) {
-        return JUBR_ERROR;
+    auto nfcDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::NFC);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV(nfcDevice->Initialize(param));
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->Initialize(param));
 
     return JUBR_OK;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef NFC_MODE
+#endif  // #if defined(NFC_MODE) end
 }
 
 
@@ -44,13 +45,15 @@ JUB_RV JUB_connectNFCDevice(JUB_BYTE_PTR bUUID,     /**< nfc device UUID */
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto nfcDevice = Singleton<jub::device::JubiterNFCDevice>::GetInstance();
-    if (!nfcDevice) {
-        return JUBR_ERROR;
+    auto nfcDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_DEVICE::NFCARD);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
     JUB_ULONG * pdevHandle = new JUB_ULONG;
-    JUB_RV rv = nfcDevice->Connect(bUUID, pdevHandle);
+    JUB_RV rv = (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->Connect(bUUID, pdevHandle);
 //    LOG_INF("JUB_connectNFCDevice rv: %lu", *pdevHandle);
     JUB_VERIFY_RV(rv);
 
@@ -60,9 +63,9 @@ JUB_RV JUB_connectNFCDevice(JUB_BYTE_PTR bUUID,     /**< nfc device UUID */
     jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, nfcDevice);
 
     return rv;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef NFC_MODE
+#endif  // #if defined(NFC_MODE) end
 }
 
 
@@ -70,19 +73,21 @@ JUB_RV JUB_disconnectNFCDevice(JUB_UINT16 deviceID) {
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto nfcDevice = Singleton<jub::device::JubiterNFCDevice>::GetInstance();
-    if (!nfcDevice) {
-        return JUBR_ERROR;
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
     JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(devHandle);
-    JUB_VERIFY_RV(nfcDevice->Disconnect(*devHandle));
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->Disconnect(*devHandle));
 
     return JUBR_OK;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef NFC_MODE
+#endif  // #if defined(NFC_MODE) end
 }
 
 
@@ -90,21 +95,24 @@ JUB_RV JUB_isDeviceNFCConnect(JUB_UINT16 deviceID) {
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto nfcDevice = Singleton<jub::device::JubiterNFCDevice>::GetInstance();
-    if (!nfcDevice) {
-        return JUBR_ERROR;
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
+
     JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
     if (NULL == devHandle) {
         return JUBR_CONNECT_DEVICE_ERROR;
     }
 
-    JUB_VERIFY_RV(nfcDevice->IsConnect(*devHandle));
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->IsConnect(*devHandle));
 
     return JUBR_OK;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif // #ifdef NFC_MODE
+#endif  // #if defined(NFC_MODE) end
 }
 
 
@@ -119,10 +127,15 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
@@ -138,9 +151,9 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
     JUB_VERIFY_RV(token->Reset());
 
     return JUBR_OK;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif
+#endif  // #if defined(NFC_MODE) end
 }
 
 
@@ -158,11 +171,15 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
-    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
@@ -178,9 +195,9 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->GenerateSeed(pinMix, curve));
 
     return JUBR_OK;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif
+#endif  // #if defined(NFC_MODE) end
 }
 
 
@@ -199,10 +216,15 @@ JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
@@ -218,9 +240,9 @@ JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->ImportMnemonic(pinMix, mnemonic));
 
     return JUBR_OK;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif
+#endif  // #if defined(NFC_MODE) end
 }
 
 
@@ -237,10 +259,15 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
@@ -258,9 +285,9 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(_allocMem(mnemonic, str_response));
 
     return JUBR_OK;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif
+#endif  // #if defined(NFC_MODE) end
 }
 
 /*****************************************************************************
@@ -278,10 +305,15 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>(
-        jub::device::DeviceManager::GetInstance()->GetOne(deviceID)
-        )) {
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
         token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
                          std::make_shared<jub::token::JubiterNFCToken>(deviceID));
     }
@@ -297,7 +329,7 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->ChangePIN(pinMix, pinNew));
 
     return JUBR_OK;
-#else
+#else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif
+#endif  // #if defined(NFC_MODE) end
 }

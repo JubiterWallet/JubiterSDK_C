@@ -49,7 +49,7 @@ void EOS_test(const char* json_file) {
         cout << "| 2. transaction_test.               |" << endl;
         cout << "| 3. set_my_address_test.            |" << endl;
         cout << "| 4. set_timeout_test.               |" << endl;
-        cout << "| 0. return.                         |" << endl;
+        cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -57,24 +57,24 @@ void EOS_test(const char* json_file) {
         cin >> choice;
 
         switch (choice) {
-            case 1:
-                get_address_pubkey_EOS(contextID);
-                break;
-            case 2:
-                transaction_test_EOS(contextID, root);
-                break;
-            case 3:
-                set_my_address_test_EOS(contextID);
-                break;
-            case 4:
-                set_timeout_test(contextID);
-                break;
-            case 0:
-                main_test();
-            default:
-                continue;
-        }
-    }
+        case 1:
+            get_address_pubkey_EOS(contextID);
+            break;
+        case 2:
+            transaction_test_EOS(contextID, root);
+            break;
+        case 3:
+            set_my_address_test_EOS(contextID);
+            break;
+        case 4:
+            set_timeout_test(contextID);
+            break;
+        case 9:
+            main_test();
+        default:
+            continue;
+        }   // switch (choice) end
+    }   // while (true) end
 }
 
 void set_my_address_test_EOS(JUB_UINT16 contextID) {
@@ -241,9 +241,9 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
         case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
         default:
             return JUBR_ARGUMENTS_BAD;
-        }
+        }   // switch (action.type) end
         actions.push_back(action);
-    }
+    }   // for (Json::Value::iterator it ... end
     size_t actionCnt = actions.size();
     JUB_ACTION_EOS_PTR pActions = new JUB_ACTION_EOS[actionCnt*sizeof(JUB_ACTION_EOS)+1];
     memset(pActions, 0x00, actionCnt*sizeof(JUB_ACTION_EOS)+1);

@@ -12,11 +12,15 @@ namespace token {
 class JubiterNFCBTCImpl :
         public JubiterNFCImpl,
 virtual public JubiterBaseBTCImpl {
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterNFCBTCImpl>(deviceID);
+    }
 
 public:
     JubiterNFCBTCImpl(JUB_UINT16 deviceID) :
-    JubiterNFCImpl(deviceID) {};
-
+        JubiterNFCImpl(deviceID) {}
     virtual ~JubiterNFCBTCImpl() = default;
 
     virtual JUB_RV SelectApplet() override;
@@ -39,9 +43,6 @@ public:
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<std::string>& vInputPath,
                             const std::vector<JUB_BYTE>& vSigedTrans) override;
-
-	//for Factory
-	static std::shared_ptr<BTCTokenInterface> Create(JUB_UINT16 deviceID) { return std::make_shared<JubiterNFCBTCImpl>(deviceID); }
 
 protected:
     virtual JUB_RV _SignTx(bool witness,

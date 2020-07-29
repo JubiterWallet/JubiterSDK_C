@@ -14,8 +14,8 @@ typedef enum {
 class SoftwareToken :
 virtual public BaseToken {
 public:
-    virtual ~SoftwareToken() {};
-    virtual JUB_SoftwareTokenType Type() { return _type; };
+    virtual ~SoftwareToken() {}
+    virtual JUB_SoftwareTokenType Type() { return _type; }
 protected:
     JUB_SoftwareTokenType _type { NONE };
 }; // class SoftwareToken end

@@ -49,7 +49,7 @@ void XRP_test(const char* json_file) {
         cout << "| 2. transaction_test.               |" << endl;
         cout << "| 3. set_my_address_test.            |" << endl;
         cout << "| 4. set_timeout_test.               |" << endl;
-        cout << "| 0. return.                         |" << endl;
+        cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -57,24 +57,24 @@ void XRP_test(const char* json_file) {
         cin >> choice;
 
         switch (choice) {
-            case 1:
-                get_address_pubkey_XRP(contextID);
-                break;
-            case 2:
-                transaction_test_XRP(contextID, root);
-                break;
-            case 3:
-                set_my_address_test_XRP(contextID);
-                break;
-            case 4:
-                set_timeout_test(contextID);
-                break;
-            case 0:
-                main_test();
-            default:
-                continue;
-        }
-    }
+        case 1:
+            get_address_pubkey_XRP(contextID);
+            break;
+        case 2:
+            transaction_test_XRP(contextID, root);
+            break;
+        case 3:
+            set_my_address_test_XRP(contextID);
+            break;
+        case 4:
+            set_timeout_test(contextID);
+            break;
+        case 9:
+            main_test();
+        default:
+            continue;
+        }   // switch (choice) end
+    }   // while (true) end
 }
 
 void set_my_address_test_XRP(JUB_UINT16 contextID) {
@@ -202,18 +202,18 @@ JUB_RV transaction_proc_XRP(JUB_UINT16 contextID, Json::Value root) {
     xrp.memo.data   = (char*)root["XRP"]["memo"]["data"].asCString();
     xrp.memo.format = (char*)root["XRP"]["memo"]["format"].asCString();
     switch (xrp.type) {
-        case JUB_ENUM_XRP_TX_TYPE::PYMT:
-        {
-            xrp.account  = (char*)root["XRP"]["account"].asCString();
-            xrp.fee      = (char*)root["XRP"]["fee"].asCString();
-            xrp.flags    = (char*)root["XRP"]["flags"].asCString();
-            xrp.sequence = (char*)root["XRP"]["sequence"].asCString();
-            xrp.lastLedgerSequence = (char*)root["XRP"]["lastLedgerSequence"].asCString();
-            break;
-        }
-        default:
-            return JUBR_ARGUMENTS_BAD;
+    case JUB_ENUM_XRP_TX_TYPE::PYMT:
+    {
+        xrp.account  = (char*)root["XRP"]["account"].asCString();
+        xrp.fee      = (char*)root["XRP"]["fee"].asCString();
+        xrp.flags    = (char*)root["XRP"]["flags"].asCString();
+        xrp.sequence = (char*)root["XRP"]["sequence"].asCString();
+        xrp.lastLedgerSequence = (char*)root["XRP"]["lastLedgerSequence"].asCString();
+        break;
     }
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }   // switch (xrp.type) end
 
     //typedef struct stDxrpPymt {
     //    JUB_CHAR_PTR destination;
@@ -223,16 +223,16 @@ JUB_RV transaction_proc_XRP(JUB_UINT16 contextID, Json::Value root) {
     const char* sType = std::to_string((unsigned int)xrp.type).c_str();
     xrp.pymt.type = (JUB_ENUM_XRP_PYMT_TYPE)root["XRP"][sType]["type"].asUInt();
     switch (xrp.pymt.type) {
-        case JUB_ENUM_XRP_PYMT_TYPE::DXRP:
-        {
-            xrp.pymt.destination    = (char*)root["XRP"][sType]["destination"].asCString();
-            xrp.pymt.amount.value   = (char*)root["XRP"][sType]["amount"]["value"].asCString();
-            xrp.pymt.destinationTag = (char*)root["XRP"][sType]["destinationTag"].asCString();
-            break;
-        }
-        default:
-            return JUBR_ARGUMENTS_BAD;
+    case JUB_ENUM_XRP_PYMT_TYPE::DXRP:
+    {
+        xrp.pymt.destination    = (char*)root["XRP"][sType]["destination"].asCString();
+        xrp.pymt.amount.value   = (char*)root["XRP"][sType]["amount"]["value"].asCString();
+        xrp.pymt.destinationTag = (char*)root["XRP"][sType]["destinationTag"].asCString();
+        break;
     }
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }   // switch (xrp.pymt.type) end
     char* raw = nullptr;
     rv = JUB_SignTransactionXRP(contextID,
                                 path,

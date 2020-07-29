@@ -9,16 +9,18 @@ namespace token {
 class TrezorCryptoBCHImpl :
         public TrezorCryptoBTCImpl,
 virtual public  JubiterBaseBCHImpl {
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
+        return std::make_shared<TrezorCryptoBCHImpl>(XPRVorXPUB);
+    }
 
 public:
     TrezorCryptoBCHImpl(const std::string& XPRVorXPUB) :
         TrezorCryptoBTCImpl(XPRVorXPUB) {
-        _hashType = TWSignatureHashTypeAllFork;
-    };
-    ~TrezorCryptoBCHImpl() {};
-
-    static std::shared_ptr<BTCTokenInterface> Create(const std::string& XPRVorXPUB) { return std::make_shared<TrezorCryptoBCHImpl>(XPRVorXPUB);
+            _hashType = TWSignatureHashTypeAllFork;
     }
+    ~TrezorCryptoBCHImpl() {}
 
     virtual JUB_RV SignTX(const JUB_BYTE addrFmt,
                           const JUB_ENUM_BTC_TRANS_TYPE& type,

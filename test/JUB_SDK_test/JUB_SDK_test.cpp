@@ -7,6 +7,7 @@
 
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
+#include "JUB_SDK_test_dev_bio.hpp"
 #include "JUB_SDK_test_btc.hpp"
 #include "JUB_SDK_test_hcash.hpp"
 #include "JUB_SDK_test_qtum.hpp"
@@ -91,6 +92,7 @@ void main_test() {
         cout << "-------------------------------------------" << endl;
         cout << "|********** Jubiter Wallet Test **********|" << endl;
         cout << "|   1. get_device_info_test               |" << endl;
+        cout << "|  11.     device_fgpt_test               |" << endl;
         cout << "|   2. LTC_test.                          |" << endl;
         cout << "|   5.DASH_test.                          |" << endl;
         cout << "|  31. BTC_test.                          |" << endl;
@@ -109,10 +111,10 @@ void main_test() {
         cout << "-------------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
-        rv = JUB_DisconnetDeviceHid(deviceID);
-        if (JUBR_OK != rv) {
-            cout << "JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        }
+//        rv = JUB_DisconnetDeviceHid(deviceID);
+//        if (JUBR_OK != rv) {
+//            cout << "JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
+//        }
 
         std::string json_file = "json/";
 
@@ -122,6 +124,9 @@ void main_test() {
         switch (choice) {
         case 1:
             get_device_info_test();
+            break;
+        case 11:
+            device_fgpt_test(deviceID);
             break;
         case 2:
             json_file += "testLTC.json";
@@ -181,8 +186,8 @@ void main_test() {
             exit(0);
         default:
             continue;
-        }
-    }
+        }   // switch (choice) end
+    }   // while (true) end
 }
 
 void monitor_test() {

@@ -99,6 +99,8 @@ std::vector<unsigned char> ETHHexStr2CharPtr(std::string str);
 TW::Data ToTlv(uint8_t tag, const TW::Data &data);
 std::vector<TW::Data> ParseTlv(const TW::Data &data);
 TW::Data Tollv(const std::string& strData);
+
+void decToBinary(uint8_t n, std::vector<uint8_t> &v);
 } // namespace jub
 
 #endif

@@ -9,8 +9,10 @@
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
 #include "../../include/JUB_SDK_DEV_HID.h"
+#include "../../include/JUB_SDK_DEV_BIO.h"
 
 #include "JUB_SDK_main.h"
+
 
 vector<string> split(const string &str, char delim, bool bSkipEmpty/* = true*/) {
 
@@ -27,6 +29,7 @@ vector<string> split(const string &str, char delim, bool bSkipEmpty/* = true*/) 
 
     return elems;
 }
+
 
 void get_device_info_test() {
 
@@ -102,6 +105,7 @@ void get_device_info_test() {
     JUB_FreeMemory(coinList);
 }
 
+
 JUB_RV verify_pin(JUB_UINT16 contextID) {
 
     JUB_RV rv = JUBR_ERROR;
@@ -143,6 +147,26 @@ JUB_RV verify_pin(JUB_UINT16 contextID) {
             cout << "JUB_VerifyPIN() return " << GetErrMsg(rv) << endl;
             break;
         }
+    }
+
+    return rv;
+}
+
+
+JUB_RV verify_fgpt(JUB_UINT16 contextID) {
+
+    JUB_RV rv = JUBR_ERROR;
+    cout << endl;
+    cout << "  -  " << endl;
+    cout << "- - -" << endl;
+    cout << "- - -" << endl;
+    cout << "  -  " << endl;
+
+    cout << "to cancel the fgpt iput 'c'" << endl;
+    JUB_ULONG retry;
+    rv = JUB_VerifyFingerprint(contextID, &retry);
+    if (JUBR_OK != rv) {
+        cout << "JUB_VerifyFingerprint() return " << GetErrMsg(rv) << endl;
     }
 
     return rv;

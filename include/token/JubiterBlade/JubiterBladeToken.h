@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <token/interface/HardwareTokenInterface.hpp>
+#include <token/JubiterBlade/JubiterBladeToken.h>
 #include <device/ApduBuilder.hpp>
 
 namespace jub {
@@ -60,6 +61,7 @@ public:
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
+    // NFC
     virtual JUB_RV Reset() override;
     virtual JUB_RV GenerateSeed(const std::string& pinMix,
                                 const JUB_ENUM_CURVES& curve) override;
@@ -72,6 +74,14 @@ public:
                                const std::string& seed) override;
     virtual JUB_RV GetMnemonic(const std::string& pinMix,
                                OUT std::string& mnemonic) override;
+
+    // BIO
+    virtual JUB_RV VerifyFingerprint(OUT JUB_ULONG &retry) override;
+    virtual JUB_RV EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
+                                     OUT JUB_BYTE_PTR fgptID) override;
+    virtual JUB_RV EnumFingerprint(std::string& fgptList) override;
+    virtual JUB_RV EraseFingerprint() override;
+    virtual JUB_RV DeleteFingerprint(JUB_BYTE fgptID) override;
 
     static stAppInfos g_appInfo[];
 

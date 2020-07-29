@@ -13,9 +13,9 @@ virtual public JubiterBaseHCImpl {
 public:
     TrezorCryptoHCImpl(const std::string& xprv) :
         TrezorCryptoBTCImpl(xprv) {
-        _hashType = SigHashAll;
-    };
-    ~TrezorCryptoHCImpl() {};
+            _hashType = SigHashAll;
+    }
+    ~TrezorCryptoHCImpl() {}
 
     virtual JUB_RV SignTX(const JUB_BYTE addrFmt,
                           const JUB_ENUM_BTC_TRANS_TYPE& type,

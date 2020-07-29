@@ -1,6 +1,7 @@
 #ifndef __TokenInterface__
 #define __TokenInterface__
-#include "JUB_SDK.h"
+
+#include "JUB_SDK_DEV.h"
 
 #include <string>
 #include <vector>
@@ -42,6 +43,7 @@ public:
     virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
 
+    // NFC
     virtual JUB_RV Reset() = 0;
     virtual JUB_RV GenerateSeed(const std::string& pinMix,
                                 const JUB_ENUM_CURVES& curve) = 0;
@@ -55,6 +57,13 @@ public:
     virtual JUB_RV GetMnemonic(const std::string& pinMix,
                                OUT std::string& mnemonic) = 0;
 
+    // BIO
+    virtual JUB_RV VerifyFingerprint(OUT JUB_ULONG &retry) = 0;
+    virtual JUB_RV EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
+                                     OUT JUB_BYTE_PTR fgptID) = 0;
+    virtual JUB_RV EnumFingerprint(std::string& fgptList) = 0;
+    virtual JUB_RV EraseFingerprint() = 0;
+    virtual JUB_RV DeleteFingerprint(JUB_BYTE fgptID) = 0;
 }; // class HardwareTokenInterface end
 
 

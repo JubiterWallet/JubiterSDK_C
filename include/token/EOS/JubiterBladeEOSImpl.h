@@ -17,9 +17,8 @@ virtual public JubiterBaseEOSImpl {
 
 public:
     JubiterBladeEOSImpl(JUB_UINT16 deviceID) :
-        JubiterBladeToken(deviceID) {};
-
-    ~JubiterBladeEOSImpl() {};
+        JubiterBladeToken(deviceID) {}
+    ~JubiterBladeEOSImpl() {}
 
 
     //EOS functions

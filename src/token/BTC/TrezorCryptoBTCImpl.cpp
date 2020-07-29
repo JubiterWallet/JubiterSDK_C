@@ -68,7 +68,7 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
 //    case p2sh_p2wsh_multisig:
     default:
         rv = JUBR_ARGUMENTS_BAD;
-    }
+    }   // switch (type) end
 
     return rv;
 }

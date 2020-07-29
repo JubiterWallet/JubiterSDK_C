@@ -11,6 +11,7 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
+#include "product/ProductFactory.h"
 #include "device/JubiterBLEDevice.hpp"
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #ifdef __ANDROID__
@@ -34,15 +35,18 @@ JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (!bleDevice) {
-        return JUBR_ERROR;
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV(bleDevice->Initialize({param.param,
-                                         param.callBack,
-                                         param.scanCallBack,
-                                         param.discCallBack})
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Initialize({
+        param.param,
+        param.callBack,
+        param.scanCallBack,
+        param.discCallBack})
     );
 
     return JUBR_OK;
@@ -56,12 +60,14 @@ JUB_RV JUB_enumDevices(void) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (!bleDevice) {
-        return JUBR_ERROR;
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV(bleDevice->Scan());
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Scan());
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
@@ -74,12 +80,14 @@ JUB_RV JUB_stopEnumDevices(void) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (!bleDevice) {
-        return JUBR_ERROR;
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV(bleDevice->StopScan());
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->StopScan());
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
@@ -88,20 +96,23 @@ JUB_RV JUB_stopEnumDevices(void) {
 }
 
 
-JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,
+JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,
+                         JUB_BYTE_PTR bBLEUUID,
                          JUB_UINT32 connectType,
                          JUB_UINT16* pDeviceID,
                          JUB_UINT32 timeout) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (!bleDevice) {
-        return JUBR_ERROR;
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE, std::string((char*)devName));
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
     JUB_ULONG * pdevHandle = new JUB_ULONG;
-    JUB_RV rv = bleDevice->Connect(bBLEUUID, connectType, pdevHandle, timeout);
+    JUB_RV rv = (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Connect(bBLEUUID, connectType, pdevHandle, timeout);
 //    LOG_INF("JUB_connectDevice rv: %lu", *pdevHandle);
     JUB_VERIFY_RV(rv);
 
@@ -121,12 +132,14 @@ JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (!bleDevice) {
-        return JUBR_ERROR;
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV(bleDevice->CancelConnect(bBLEUUID));
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->CancelConnect(bBLEUUID));
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
@@ -139,14 +152,16 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (!bleDevice) {
-        return JUBR_ERROR;
+    auto bleDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
     JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(devHandle);
-    JUB_VERIFY_RV(bleDevice->Disconnect(*devHandle));
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Disconnect(*devHandle));
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
@@ -159,9 +174,11 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (!bleDevice) {
-        return JUBR_ERROR;
+    auto bleDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
     }
 
     JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
@@ -169,7 +186,7 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
         return JUBR_CONNECT_DEVICE_ERROR;
     }
 
-    JUB_VERIFY_RV(bleDevice->IsConnect(*devHandle));
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->IsConnect(*devHandle));
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)

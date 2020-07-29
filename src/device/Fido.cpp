@@ -108,14 +108,14 @@ int Fido::RecvCallBack(unsigned long devHandle,
     fido.mRecvMsg.insert(fido.mRecvMsg.end(), data, data + dataLen);
     auto status = fido.checkResponse();
     switch (status) {
-        case ResponseStatus::empty:
-        case ResponseStatus::receiving:
-            break;
-        case ResponseStatus::done:
-        case ResponseStatus::invalid:
-            // notification have error
-            fido.stopReceiving();
-            break;
+    case ResponseStatus::empty:
+    case ResponseStatus::receiving:
+        break;
+    case ResponseStatus::done:
+    case ResponseStatus::invalid:
+        // notification have error
+        fido.stopReceiving();
+        break;
     } // switch (status) end
 
     return 0;

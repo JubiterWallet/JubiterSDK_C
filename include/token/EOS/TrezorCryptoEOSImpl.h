@@ -12,9 +12,8 @@ virtual public JubiterBaseEOSImpl {
 
 public:
     TrezorCryptoEOSImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoToken(XPRVorXPUB) {};
-
-    ~TrezorCryptoEOSImpl() {};
+        TrezorCryptoToken(XPRVorXPUB) {}
+    ~TrezorCryptoEOSImpl() {}
 
     //EOS functions
     virtual JUB_RV SelectApplet() override;

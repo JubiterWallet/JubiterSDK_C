@@ -457,13 +457,13 @@ JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
                                      const JUB_ENUM_CURVES& curve) {
 
     switch (curve) {
-        case JUB_ENUM_CURVES::SECP256K1:
-            break;
-        case JUB_ENUM_CURVES::NIST256P1:
-        case JUB_ENUM_CURVES::ED25519:
-        default:
-            return JUBR_ARGUMENTS_BAD;
-    }
+    case JUB_ENUM_CURVES::SECP256K1:
+        break;
+    case JUB_ENUM_CURVES::NIST256P1:
+    case JUB_ENUM_CURVES::ED25519:
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }   // switch (curve) end
 
     // send apdu.
     std::vector<uint8_t> pin;
