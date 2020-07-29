@@ -207,13 +207,13 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
                 memoOffset += actionOffset;
                 memoLength = txAction.memoLength();
                 break;
-            }
+            }   // case JUB_ENUM_EOS_ACTION_TYPE::XFER end
             case JUB_ENUM_EOS_ACTION_TYPE::DELE:
             case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
             case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
             default:
                 break;
-            }
+            }   // switch ((JUB_ENUM_EOS_ACTION_TYPE)action.getType()) end
 
             // data offset
             uchar_vector vOffset;

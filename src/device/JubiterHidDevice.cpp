@@ -1,6 +1,6 @@
 #include "JUB_SDK.h"
 
-#ifdef HID_MODE
+#if defined(HID_MODE)
 
 #ifdef _WIN32
 #include <windows.h>
@@ -17,8 +17,9 @@ namespace jub {
 namespace device {
 
 
-JubiterHidDevice::JubiterHidDevice(const std::string& path) :
-    _pid(PID),
+JubiterHidDevice::JubiterHidDevice(const std::string& path,
+                                   const unsigned short productID) :
+    _pid(productID),
     _vid(VID),
     _handle(NULL),
     _bFirstCmd(true),
@@ -30,11 +31,11 @@ JubiterHidDevice::~JubiterHidDevice() {
     hid_exit();
 }
 
-std::vector<std::string> JubiterHidDevice::EnumDevice() {
+std::vector<std::string> JubiterHidDevice::EnumDevice(unsigned short productID, unsigned short vendorID) {
 
     std::vector<std::string> vTokenList;
 
-    auto hidDev = hid_enumerate(VID, PID);
+    auto hidDev = hid_enumerate(vendorID, productID);
     auto hidDevHead = hidDev;
     while (hidDev) {
         vTokenList.push_back(hidDev->path);
@@ -312,4 +313,4 @@ int JubiterHidDevice::_Read(unsigned char* data, size_t length) {
 }  // namespace device end
 }  // namespace jub end
 
-#endif //HID_MODE
+#endif  // #if defined(HID_MODE) end

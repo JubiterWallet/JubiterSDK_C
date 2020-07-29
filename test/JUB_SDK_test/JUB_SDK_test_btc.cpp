@@ -68,7 +68,7 @@ void BTC_test(const char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
         cout << "| 3. transaction_test.               |" << endl;
         cout << "| 4. set_my_address_test.            |" << endl;
         cout << "| 5. set_timeout_test.               |" << endl;
-        cout << "| 0. return.                         |" << endl;
+        cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -76,27 +76,27 @@ void BTC_test(const char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
         cin >> choice;
 
         switch (choice) {
-            case 1:
-                get_address_test(contextID, root);
-                break;
-            case 2:
-                show_address_test(contextID);
-                break;
-            case 3:
-                transaction_test(contextID, root);
-                break;
-            case 4:
-                set_my_address_test_BTC(contextID);
-                break;
-            case 5:
-                set_timeout_test(contextID);
-                break;
-            case 0:
-                main_test();
-            default:
-                continue;
-        }
-    }
+        case 1:
+            get_address_test(contextID, root);
+            break;
+        case 2:
+            show_address_test(contextID);
+            break;
+        case 3:
+            transaction_test(contextID, root);
+            break;
+        case 4:
+            set_my_address_test_BTC(contextID);
+            break;
+        case 5:
+            set_timeout_test(contextID);
+            break;
+        case 9:
+            main_test();
+        default:
+            continue;
+        }   // switch (choice) end
+    }   // while (true) end
 }
 
 void get_address_test(JUB_UINT16 contextID, Json::Value root) {
@@ -137,7 +137,7 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root) {
             }
             cout << "input " << i << " address : " << address << endl;
             JUB_FreeMemory(address);
-        }
+        }   // for (int i = 0; i < inputNumber; i++) end
         if (JUBR_OK != rv) {
             return;
         }
@@ -220,22 +220,23 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
     cin >> choice;
 
     switch (choice) {
-        case 1:
-            unit = BTC;
-            break;
-        case 2:
-            unit = cBTC;
-            break;
-        case 3:
-            unit = mBTC;
-            break;
-        case 4:
-            unit = uBTC;
-            break;
-        case 5:
-            unit = Satoshi;
-            break;
-    }
+    case 2:
+        unit = cBTC;
+        break;
+    case 3:
+        unit = mBTC;
+        break;
+    case 4:
+        unit = uBTC;
+        break;
+    case 5:
+        unit = Satoshi;
+        break;
+    case 1:
+    default:
+        unit = BTC;
+        break;
+    }   // switch (choice) end
 
     rv = JUB_SetUnitBTC(contextID, unit);
     if (   JUBR_OK               != rv
@@ -245,7 +246,21 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
         return;
     }
 
-    rv = verify_pin(contextID);
+    cout << "Please chose the way of verify PIN:" << endl;
+    cout << "1: PIN" << endl;
+    cout << "2: Fingerprint" << endl;
+    choice = 0;
+    cin >> choice;
+
+    switch (choice) {
+    case 2:
+        rv = verify_fgpt(contextID);
+        break;
+    case 1:
+    default:
+        rv = verify_pin(contextID);
+        break;
+    }   // switch (choice) end
     if (JUBR_OK != rv) {
         return;
     }
@@ -452,7 +467,7 @@ void USDT_test(const char* json_file) {
         cout << "| 3. transaction_test.               |" << endl;
         cout << "| 4. set_my_address_test.            |" << endl;
         cout << "| 5. set_timeout_test.               |" << endl;
-        cout << "| 0. return.                         |" << endl;
+        cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -460,25 +475,25 @@ void USDT_test(const char* json_file) {
         cin >> choice;
 
         switch (choice) {
-            case 1:
-                get_address_test(contextID, root);
-                break;
-            case 2:
-                show_address_test(contextID);
-                break;
-            case 3:
-                transactionUSDT_test(contextID, root);
-                break;
-            case 4:
-                set_my_address_test_BTC(contextID);
-                break;
-            case 5:
-                set_timeout_test(contextID);
-                break;
-            case 0:
-                main_test();
-            default:
-                continue;
-        }
-    }
+        case 1:
+            get_address_test(contextID, root);
+            break;
+        case 2:
+            show_address_test(contextID);
+            break;
+        case 3:
+            transactionUSDT_test(contextID, root);
+            break;
+        case 4:
+            set_my_address_test_BTC(contextID);
+            break;
+        case 5:
+            set_timeout_test(contextID);
+            break;
+        case 9:
+            main_test();
+        default:
+            continue;
+        }   // switch (choice) end
+    }   // while (true) end
 }

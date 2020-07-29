@@ -11,6 +11,7 @@
 
 #include "utility/Singleton.h"
 #include "utility/xManager.hpp"
+
 #include <token/interface/BaseToken.h>
 #include <token/interface/SoftwareTokenInterface.h>
 
@@ -32,14 +33,15 @@ do {                                                                            
 
 class BaseContext {
 public:
-    BaseContext(std::shared_ptr<token::BaseToken> tokenPtr) :_tokenPtr(tokenPtr) {};
-    virtual ~BaseContext() {};
+    BaseContext(std::shared_ptr<token::BaseToken> tokenPtr) :_tokenPtr(tokenPtr) {}
+    virtual ~BaseContext() {}
 
     virtual JUB_RV ShowVirtualPwd();
     virtual JUB_RV CancelVirtualPwd();
     virtual JUB_RV VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry);
     virtual JUB_RV ActiveSelf() = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout);
+    virtual JUB_RV VerifyFingerprint(OUT JUB_ULONG &retry);
 
 protected:
     std::string _mainPath;

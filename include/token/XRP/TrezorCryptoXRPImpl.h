@@ -12,9 +12,8 @@ virtual public JubiterBaseXRPImpl {
 
 public:
     TrezorCryptoXRPImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoToken(XPRVorXPUB) {};
-
-    ~TrezorCryptoXRPImpl() {};
+        TrezorCryptoToken(XPRVorXPUB) {}
+    ~TrezorCryptoXRPImpl() {}
 
     //XRP functions
     virtual JUB_RV SelectApplet() override;

@@ -19,7 +19,7 @@
 #include "utility/xManager.hpp"
 
 #include "context/BaseContext.h"
-#include <token/interface/XRPTokenInterface.hpp>
+#include "token/interface/BaseToken.h"
 
 
 namespace jub {
@@ -29,13 +29,12 @@ namespace context {
 class XRPContext :
     public BaseContext {
 public:
-    XRPContext(CONTEXT_CONFIG_XRP cfg, std::shared_ptr<token::XRPTokenInterface> tokenPtr) :
-    BaseContext(std::dynamic_pointer_cast<token::BaseToken>(tokenPtr)),
-    _tokenPtr(tokenPtr) {
-        _mainPath = cfg.mainPath;
-        _timeout = 120 * 2;
-    };
-    ~XRPContext() {};
+    XRPContext(CONTEXT_CONFIG_XRP cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
+        BaseContext(tokenPtr) {
+            _mainPath = cfg.mainPath;
+            _timeout = 120 * 2;
+    }
+    ~XRPContext() {}
 
     virtual JUB_RV GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address);
     virtual JUB_RV SetMyAddress(BIP44_Path path, std::string& address);
@@ -47,9 +46,6 @@ public:
                                    std::string& signedRaw);
 
     virtual JUB_RV ActiveSelf() override;
-
-private:
-    std::shared_ptr<token::XRPTokenInterface> _tokenPtr;
 }; // class XRPContext end
 
 

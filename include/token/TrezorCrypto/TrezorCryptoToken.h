@@ -2,9 +2,9 @@
 #include <string>
 #include <token/interface/SoftwareTokenInterface.h>
 #include <TrezorCrypto/bip32.h>
-#include <JUB_SDK_COMM.h>
 #include <string.h>
 #include <HDKey/HDKey.hpp>
+
 
 namespace jub {
 namespace token {
@@ -57,9 +57,8 @@ public:
         _type = JUB_SoftwareTokenType::NONE;
 
         return;
-    };
-
-    ~TrezorCryptoToken() {};
+    }
+    ~TrezorCryptoToken() {}
 
 
     virtual JUB_RV _HdnodeCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint) {

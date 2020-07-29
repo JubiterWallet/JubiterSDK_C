@@ -1,23 +1,25 @@
+#include "context/BTCContext.h"
+#include "token/JubiterBlade/JubiterBladeToken.h"
+#include "token/JubiterBIO/JubiterBIOToken.h"
+#include "token/interface/BTCTokenInterface.hpp"
 #include "utility/util.h"
 
-#include "context/BTCContext.h"
-#include <token/interface/HardwareTokenInterface.hpp>
-#include "Ethereum/ERC20Abi.h"
-#include <TrezorCrypto/base58.h>
-#include "BinaryCoding.h"
-#include "token/TrezorCrypto/TrezorCryptoToken.h"
-#include <TrustWalletCore/TWCoinType.h>
-#include <token/interface/SoftwareTokenInterface.h>
 
 namespace jub {
 namespace context {
 
 
 JUB_RV BTCContext::GetHDNode(const BIP44_Path& path, std::string& xpub) {
-   
-    CONTEXT_CHECK_TYPE_PUBLIC                                                                  
+
+    CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetHDNode(_transType, strPath, xpub));
+    JUB_VERIFY_RV(token->GetHDNode(_transType, strPath, xpub));
 
     return JUBR_OK;
 }
@@ -26,7 +28,13 @@ JUB_RV BTCContext::GetHDNode(const BIP44_Path& path, std::string& xpub) {
 JUB_RV BTCContext::GetMainHDNode(std::string& xpub) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
-    JUB_VERIFY_RV(_tokenPtr->GetHDNode(_transType, _mainPath, xpub));
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->GetHDNode(_transType, _mainPath, xpub));
 
     return JUBR_OK;
 }
@@ -35,8 +43,14 @@ JUB_RV BTCContext::GetMainHDNode(std::string& xpub) {
 JUB_RV BTCContext::GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetAddress(addrFmt, _transType, strPath, tag, address));
+    JUB_VERIFY_RV(token->GetAddress(addrFmt, _transType, strPath, tag, address));
 
     return JUBR_OK;
 }
@@ -45,15 +59,28 @@ JUB_RV BTCContext::GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const 
 JUB_RV BTCContext::SetMyAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const BIP44_Path& path, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetAddress(addrFmt, _transType, strPath, 0x02, address));
+    JUB_VERIFY_RV(token->GetAddress(addrFmt, _transType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
 
 JUB_RV BTCContext::CheckAddress(const std::string& address) {
+
     CONTEXT_CHECK_TYPE_NONE
-    JUB_VERIFY_RV(_tokenPtr->CheckAddress(address));
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->CheckAddress(address));
     return JUBR_OK;
 }
 
@@ -61,8 +88,14 @@ JUB_RV BTCContext::CheckAddress(const std::string& address) {
 JUB_RV BTCContext::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType) {
 
     CONTEXT_CHECK_TYPE_NONE
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     _unitType = unitType;
-    JUB_VERIFY_RV(_tokenPtr->SetUnit(_unitType));
+    JUB_VERIFY_RV(token->SetUnit(_unitType));
 
     return JUBR_OK;
 }
@@ -71,13 +104,20 @@ JUB_RV BTCContext::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unitType) {
 JUB_RV BTCContext::ActiveSelf() {
 
     JUB_CHECK_NULL(_tokenPtr);
-    JUB_VERIFY_RV(_tokenPtr->SelectApplet());
-    auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (token) {
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->SelectApplet());
+    if ( std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
+        || std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)
+        ) {
         JUB_VERIFY_RV(SetTimeout(_timeout));
     }
-    JUB_VERIFY_RV(_tokenPtr->SetUnit(_unitType));
-    JUB_VERIFY_RV(_tokenPtr->SetCoin(_coinType));
+    JUB_VERIFY_RV(token->SetUnit(_unitType));
+    JUB_VERIFY_RV(token->SetCoin(_coinType));
 
     return JUBR_OK;
 }
@@ -108,6 +148,12 @@ JUB_RV BTCContext::BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amoun
 JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const JUB_UINT32 version, const std::vector<INPUT_BTC>& vInputs, const std::vector<OUTPUT_BTC>& vOutputs, const JUB_UINT32 lockTime, std::string& raw) {
 
     CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     //deal inputs
     std::vector<JUB_UINT64> vInputAmount;
     std::vector<std::string> vInputPath;
@@ -131,28 +177,28 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const JUB_
 
     //build unsigned transaction
     uchar_vector unsignedTrans;
-    JUB_VERIFY_RV(_tokenPtr->SerializeUnsignedTx(_transType,
-                                                 version,
-                                                 vInputs,
-                                                 vOutputs,
-                                                 lockTime,
-                                                 unsignedTrans));
+    JUB_VERIFY_RV(token->SerializeUnsignedTx(_transType,
+                                             version,
+                                             vInputs,
+                                             vOutputs,
+                                             lockTime,
+                                             unsignedTrans));
 
     uchar_vector vRaw;
-    JUB_VERIFY_RV(_tokenPtr->SignTX(addrFmt,
-                                    _transType,
-                                    (JUB_UINT16)vInputs.size(),
-                                    vInputAmount,
-                                    vInputPath,
-                                    vChangeIndex,
-                                    vChangePath,
-                                    unsignedTrans,
-                                    vRaw));
+    JUB_VERIFY_RV(token->SignTX(addrFmt,
+                                _transType,
+                                (JUB_UINT16)vInputs.size(),
+                                vInputAmount,
+                                vInputPath,
+                                vChangeIndex,
+                                vChangePath,
+                                unsignedTrans,
+                                vRaw));
 
-    JUB_VERIFY_RV(_tokenPtr->VerifyTX(_transType,
-                                      vInputAmount,
-                                      vInputPath,
-                                      vRaw));
+    JUB_VERIFY_RV(token->VerifyTX(_transType,
+                                  vInputAmount,
+                                  vInputPath,
+                                  vRaw));
 
     raw = vRaw.getHex();
 

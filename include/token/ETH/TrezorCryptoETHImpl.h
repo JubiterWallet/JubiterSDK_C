@@ -12,8 +12,8 @@ virtual public JubiterBaseETHImpl {
 
 public:
     TrezorCryptoETHImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoToken(XPRVorXPUB) {};
-    ~TrezorCryptoETHImpl() {};
+        TrezorCryptoToken(XPRVorXPUB) {}
+    ~TrezorCryptoETHImpl() {}
 
     //ETH functions
     virtual JUB_RV SelectApplet();

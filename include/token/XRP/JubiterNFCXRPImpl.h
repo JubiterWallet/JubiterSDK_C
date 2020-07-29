@@ -14,9 +14,8 @@ virtual public JubiterBaseXRPImpl {
 
 public:
     JubiterNFCXRPImpl(JUB_UINT16 deviceID) :
-    JubiterNFCImpl(deviceID) {};
-
-    ~JubiterNFCXRPImpl() {};
+        JubiterNFCImpl(deviceID) {}
+    ~JubiterNFCXRPImpl() {}
 
     //XRP functions
     virtual JUB_RV SelectApplet() override;

@@ -4,12 +4,21 @@
 > - HyperPay
 ---
 ### Differences from the main branch include:
-+ Supports NFC(`#define NFC_MODE`), added functions as below, see 'JUB_SDK_DEV.h':
++ Supports NFC(`#define NFC_MODE`), added functions as below, see 'JUB_SDK_DEV_NFC.h':
   + JUB_Reset()
   + JUB_GenerateSeed()
   + JUB_ImportMnemonic()
   + JUB_ExportMnemonic()
   + JUB_ChangePIN()
+
++ Supports BIO(`#define BLE_MODE`), added functions as below, see 'JUB_SDK_DEV_BIO.h':
+  + JUB_EnrollFingerprint()
+  + JUB_EnumFingerprint()
+  + JUB_EraseFingerprint()
+  + JUB_DeleteFingerprint()
+
++ Add "devName" param, see 'JUB_SDK_DEV_BLE.h':
+  + JUB_connectDevice()
 
 + Add "version" param, see 'JUB_SDK_BTC.h':
   + JUB_SignTransactionBTC()
@@ -98,4 +107,3 @@ Only the following device operation related interfaces are exported:
 > JUB_IsInitialize
 > JUB_SendOneApdu
 > JUB_SetTimeOut
-

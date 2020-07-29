@@ -55,19 +55,23 @@ JUB_RV JubiterBaseXRPImpl::SerializePreimage(const JUB_TX_XRP& tx,
             TW::Data raw = xrp.getPreImage();
             preimageRaw = uchar_vector(raw);
             break;
-        }
+        }   // case JUB_ENUM_XRP_PYMT_TYPE::DXRP end
         case JUB_ENUM_XRP_PYMT_TYPE::NS_ITEM_PYMT_TYPE:
         default:
+        {
             rv = JUBR_ARGUMENTS_BAD;
             break;
-        }
+        }   // case JUB_ENUM_XRP_PYMT_TYPE::NS_ITEM_PYMT_TYPE end
+        }   // switch (tx.pymt.type) end
         break;
-    }
+    }   // case JUB_ENUM_XRP_TX_TYPE::PYMT end
     case JUB_ENUM_XRP_TX_TYPE::NS_ITEM_TX_TYPE:
     default:
+    {
         rv = JUBR_ARGUMENTS_BAD;
         break;
-    }
+    }   // case JUB_ENUM_XRP_TX_TYPE::NS_ITEM_TX_TYPE end
+    }   // switch (tx.type) end
 
     return rv;
 }

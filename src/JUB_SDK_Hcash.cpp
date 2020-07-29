@@ -1,4 +1,3 @@
-#include <JUB_SDK_Hcash.h>
 #include <utility/util.h>
 #include "utility/mutex.h"
 

@@ -16,7 +16,7 @@
 #include "scp03/scp03.hpp"
 #include "scp11/scp11c.hpp"
 
-#ifdef NFC_MODE
+#if defined(NFC_MODE)
 #include <memory>
 
 #include "nfcTransmit/comm.h"
@@ -28,9 +28,27 @@ namespace device {
 
 class JubiterNFCDevice :
 public DeviceTypeBase {
+public:
+    //for Factory
+    static std::shared_ptr<JubiterNFCDevice> Create() {
+        return std::make_shared<JubiterNFCDevice>();
+    }
+    static DeviceTypeBase* Create(const device::JUB_ENUM_DEVICE& type,
+                                  std::shared_ptr<device::DeviceTypeBase> devicePtr) {
+
+        switch (type) {
+        case device::JUB_ENUM_DEVICE::NFCARD:
+//            return new JubiterNFCDevice();
+            return Singleton<JubiterNFCDevice>::GetInstance();
+        default:
+            break;
+        }   // switch (type) end
+
+        return nullptr;
+    }
 
 public:
-     JubiterNFCDevice();
+    JubiterNFCDevice();
     ~JubiterNFCDevice();
 
 public:
@@ -90,8 +108,6 @@ protected:
     );
     JUB_RV MatchErrorCode(int error);
 
-    //static std::shared_ptr<jub::JubiterNFCDevice> getThis();
-
 protected:
     /* data */
     NFC_INIT_PARAM _param;
@@ -107,5 +123,5 @@ private:
 } // namespace device end
 } // namespace jub end
 
-#endif // NFC_MODE
+#endif // #if defined(NFC_MODE) end
 #endif /* JubiterNFCDevice_hpp */

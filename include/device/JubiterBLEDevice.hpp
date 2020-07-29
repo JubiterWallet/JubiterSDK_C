@@ -3,12 +3,15 @@
 
 
 #include "device/DeviceTypeBase.hpp"
-#include "JUB_SDK_DEV.h"
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
 #include <memory>
 
 #include "bleTransmit/bleTransmit.h"
+
+
+#define PREFIX_BLD "JuBiter"
+#define PREFIX_BIO "JuBio"
 
 
 namespace jub {
@@ -17,7 +20,6 @@ namespace device {
 
 class JubiterBLEDevice :
 public DeviceTypeBase {
-
 public:
     JubiterBLEDevice();
     ~JubiterBLEDevice();
@@ -69,8 +71,6 @@ protected:
 
     JUB_RV MatchErrorCode(int error);
 
-    //static std::shared_ptr<jub::JubiterBLEDevice> getThis();
-
     // check ble version, and set ble library reconnect flag
     void ExtraSetting();
 
@@ -82,8 +82,70 @@ protected:
 }; // class JubiterBLEDevice end
 
 
+class JubiterBLEBLDDevice :
+public JubiterBLEDevice {
+public:
+    //for Factory
+    static std::shared_ptr<JubiterBLEDevice> Create(const std::string& name) {
+        if (0 != name.find(PREFIX_BLD)) {
+            return std::make_shared<JubiterBLEBLDDevice>();
+        }
+
+        return nullptr;
+    }
+    static DeviceTypeBase* Create(const device::JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
+
+        switch (type) {
+        case device::JUB_ENUM_DEVICE::BLD:
+//            return new JubiterBLEBLDDevice();
+            return Singleton<JubiterBLEBLDDevice>::GetInstance();
+        default:
+            break;
+        }   // switch (type) end
+
+        return nullptr;
+    }
+
+public:
+    JubiterBLEBLDDevice() :
+        JubiterBLEDevice() {}
+    ~JubiterBLEBLDDevice() {}
+};  // class JubiterBLEBLDDevice end
+
+
+class JubiterBLEBIODevice :
+public JubiterBLEDevice {
+public:
+    //for Factory
+    static std::shared_ptr<JubiterBLEDevice> Create(const std::string& name) {
+        if (0 != name.find(PREFIX_BIO)) {
+            return std::make_shared<JubiterBLEBIODevice>();
+        }
+
+        return nullptr;
+    }
+    static DeviceTypeBase* Create(const device::JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
+
+        switch (type) {
+        case device::JUB_ENUM_DEVICE::BIO:
+//            return new JubiterBLEBIODevice();
+            return Singleton<JubiterBLEBIODevice>::GetInstance();
+        default:
+            break;
+        }   // switch (type) end
+
+        return nullptr;
+    }
+
+public:
+    JubiterBLEBIODevice() :
+        JubiterBLEDevice() {}
+    ~JubiterBLEBIODevice() {}
+};  // class JubiterBIOBLDDevice end
+
+
 } // namespace device end
 } // namespace jub end
 
-#endif  // USE_BLE_DEVICE
+#endif  // #if defined(BLE_MODE) end
 #endif  // __JubiterBLEDevice__

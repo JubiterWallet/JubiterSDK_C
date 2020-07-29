@@ -6,14 +6,16 @@
 //  Copyright © 2019 JuBiter. All rights reserved.
 //
 
-#include "utility/util.h"
 
 #include "context/EOSContext.h"
+#include "token/JubiterBlade/JubiterBladeToken.h"
+#include "token/JubiterBIO/JubiterBIOToken.h"
 #include "token/interface/EOSTokenInterface.hpp"
-#include <token/interface/HardwareTokenInterface.hpp>
 #include "EOS/Signer.h"
 #include "EOS/Transaction.h"
 #include "EOS/PackedTransaction.h"
+#include "utility/util.h"
+
 
 namespace jub {
 namespace context {
@@ -21,7 +23,12 @@ namespace context {
 
 JUB_RV EOSContext::ActiveSelf() {
 
-    JUB_RV rv = _tokenPtr->SelectApplet();
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_RV rv = token->SelectApplet();
     if (JUBR_EOS_APP_INDEP_OK != rv
         &&            JUBR_OK != rv
         ) {
@@ -31,12 +38,14 @@ JUB_RV EOSContext::ActiveSelf() {
     if (JUBR_EOS_APP_INDEP_OK == rv) {
         isIndep = true;
     }
-    auto token = std::dynamic_pointer_cast<token::HardwareTokenInterface>(_tokenPtr);
-    if (token) {
+
+    if ( std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
+        || std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)
+        ) {
         JUB_VERIFY_RV(SetTimeout(_timeout));
     }
     if (!isIndep) {
-        JUB_VERIFY_RV(_tokenPtr->SetCoin());
+        JUB_VERIFY_RV(token->SetCoin());
     }
 
     return JUBR_OK;
@@ -46,7 +55,13 @@ JUB_RV EOSContext::ActiveSelf() {
 JUB_RV EOSContext::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
-    JUB_VERIFY_RV(_tokenPtr->GetHDNode(format, _mainPath, xpub));
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->GetHDNode(format, _mainPath, xpub));
 
     return JUBR_OK;
 }
@@ -55,8 +70,14 @@ JUB_RV EOSContext::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
 JUB_RV EOSContext::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetAddress(_eosType, strPath, tag, address));
+    JUB_VERIFY_RV(token->GetAddress(_eosType, strPath, tag, address));
 
     return JUBR_OK;
 }
@@ -65,8 +86,14 @@ JUB_RV EOSContext::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std:
 JUB_RV EOSContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetAddress(_eosType, strPath, 0x02, address));
+    JUB_VERIFY_RV(token->GetAddress(_eosType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
@@ -75,8 +102,14 @@ JUB_RV EOSContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
 JUB_RV EOSContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetHDNode(format, strPath, pubkey));
+    JUB_VERIFY_RV(token->GetHDNode(format, strPath, pubkey));
 
     return JUBR_OK;
 }
@@ -85,8 +118,14 @@ JUB_RV EOSContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std:
 JUB_RV EOSContext::GetAddress(const BIP48_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip48Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetAddress(_eosType, strPath, tag, address));
+    JUB_VERIFY_RV(token->GetAddress(_eosType, strPath, tag, address));
 
     return JUBR_OK;
 }
@@ -95,8 +134,14 @@ JUB_RV EOSContext::GetAddress(const BIP48_Path& path, const JUB_UINT16 tag, std:
 JUB_RV EOSContext::SetMyAddress(const BIP48_Path& path, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip48Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetAddress(_eosType, strPath, 0x02, address));
+    JUB_VERIFY_RV(token->GetAddress(_eosType, strPath, 0x02, address));
 
     return JUBR_OK;
 }
@@ -105,8 +150,14 @@ JUB_RV EOSContext::SetMyAddress(const BIP48_Path& path, std::string& address) {
 JUB_RV EOSContext::GetHDNode(const JUB_BYTE format, const BIP48_Path& path, std::string& pubkey) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     std::string strPath = _FullBip48Path(path);
-    JUB_VERIFY_RV(_tokenPtr->GetHDNode(format, strPath, pubkey));
+    JUB_VERIFY_RV(token->GetHDNode(format, strPath, pubkey));
 
     return JUBR_OK;
 }
@@ -120,6 +171,11 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
                                    JUB_CHAR_CPTR actionsInJSON,
                                    std::string& rawInJSON) {
     CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
 
     JUB_CHECK_NULL(expiration);
     JUB_CHECK_NULL(referenceBlockId);
@@ -143,20 +199,20 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
 
     bool bWithType = true;
     uchar_vector vRaw;
-    JUB_VERIFY_RV(_tokenPtr->SerializePreimage(expiration,
-                                               referenceBlockId,
-                                               referenceBlockTime,
-                                               actionsInJSON,
-                                               vRaw,
-                                               bWithType));
+    JUB_VERIFY_RV(token->SerializePreimage(expiration,
+                                           referenceBlockId,
+                                           referenceBlockTime,
+                                           actionsInJSON,
+                                           vRaw,
+                                           bWithType));
 
     std::vector<uchar_vector> vSignatureRaw;
-    JUB_VERIFY_RV(_tokenPtr->SignTX(_eosType,
-                                    vPath,
-                                    vChainIds,
-                                    vRaw,
-                                    vSignatureRaw,
-                                    bWithType));
+    JUB_VERIFY_RV(token->SignTX(_eosType,
+                                vPath,
+                                vChainIds,
+                                vRaw,
+                                vSignatureRaw,
+                                bWithType));
 
     // finish transaction
     try {
@@ -169,7 +225,7 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
 
             //verify
             std::string pubkey;
-            JUB_VERIFY_RV(_tokenPtr->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
+            JUB_VERIFY_RV(token->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
             TW::EOS::Signer signer{ vChainIds };
             if (!signer.verify(TW::PublicKey(TW::Data(uchar_vector(pubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1),
                                _eosType,
@@ -198,6 +254,12 @@ JUB_RV EOSContext::SignTransaction(const BIP48_Path& path,
                                    std::string& rawInJSON) {
 
     CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     JUB_CHECK_NULL(expiration);
     JUB_CHECK_NULL(referenceBlockId);
     JUB_CHECK_NULL(referenceBlockTime);
@@ -220,20 +282,20 @@ JUB_RV EOSContext::SignTransaction(const BIP48_Path& path,
 
     bool bWithType = true;
     uchar_vector vRaw;
-    JUB_VERIFY_RV(_tokenPtr->SerializePreimage(expiration,
-                                               referenceBlockId,
-                                               referenceBlockTime,
-                                               actionsInJSON,
-                                               vRaw,
-                                               bWithType));
+    JUB_VERIFY_RV(token->SerializePreimage(expiration,
+                                           referenceBlockId,
+                                           referenceBlockTime,
+                                           actionsInJSON,
+                                           vRaw,
+                                           bWithType));
 
     std::vector<uchar_vector> vSignatureRaw;
-    JUB_VERIFY_RV(_tokenPtr->SignTX(_eosType,
-                                    vPath,
-                                    vChinIds,
-                                    vRaw,
-                                    vSignatureRaw,
-                                    bWithType));
+    JUB_VERIFY_RV(token->SignTX(_eosType,
+                                vPath,
+                                vChinIds,
+                                vRaw,
+                                vSignatureRaw,
+                                bWithType));
 
     // finish transaction
     try {
@@ -257,15 +319,21 @@ JUB_RV EOSContext::SignTransaction(const BIP48_Path& path,
 
 
 JUB_RV EOSContext::BuildAction(const JUB_ACTION_EOS_PTR actions,
-    const JUB_UINT16 actionCount,
-    std::string& actionsInJSON) {
+                               const JUB_UINT16 actionCount,
+                               std::string& actionsInJSON) {
+
     CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
 
     JUB_CHECK_NULL(actions);
 
     try {
-        JUB_VERIFY_RV(_tokenPtr->SerializeActions(actions, actionCount,
-                                                  actionsInJSON));
+        JUB_VERIFY_RV(token->SerializeActions(actions, actionCount,
+                                              actionsInJSON));
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;

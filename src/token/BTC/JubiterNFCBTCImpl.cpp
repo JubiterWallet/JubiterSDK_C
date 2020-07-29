@@ -62,19 +62,19 @@ JUB_RV JubiterNFCBTCImpl::GetAddress(const JUB_BYTE addrFmt,
     {
         rv = _getAddress(publicKey, address);
         break;
-    }
+    }   // case p2pkh end
     case p2sh_p2wpkh:
     {
         rv = _getSegwitAddress(publicKey, address);
         break;
-    }
+    }   // case p2sh_p2wpkh end
 //    case p2wpkh:
 //    case p2sh_multisig:
 //    case p2wsh_multisig:
 //    case p2sh_p2wsh_multisig:
     default:
         rv = JUBR_ARGUMENTS_BAD;
-    }
+    }   // switch (type) end
 
     return rv;
 }
@@ -105,7 +105,8 @@ JUB_RV JubiterNFCBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
     default:
         _coin = TWCoinType::TWCoinTypeBitcoin;
         break;
-    }
+    }   // switch (type) end
+
     return JUBR_OK;
 }
 

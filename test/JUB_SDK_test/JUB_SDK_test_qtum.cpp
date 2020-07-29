@@ -140,7 +140,7 @@ void QTUM_test(JUB_UINT16 deviceID, const char* json_file) {
         cout << "| 3. transaction_test.               |" << endl;
         cout << "| 4. set_my_address_test.            |" << endl;
         cout << "| 5. set_timeout_test.               |" << endl;
-        cout << "| 0. return.                         |" << endl;
+        cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -148,25 +148,25 @@ void QTUM_test(JUB_UINT16 deviceID, const char* json_file) {
         cin >> choice;
 
         switch (choice) {
-            case 1:
-                get_address_test(contextID, root);
-                break;
-            case 2:
-                show_address_test(contextID);
-                break;
-            case 3:
-                transactionQTUM_test(contextID, root);
-                break;
-            case 4:
-                set_my_address_test_BTC(contextID);
-                break;
-            case 5:
-                set_timeout_test(contextID);
-                break;
-            case 0:
-                main_test();
-            default:
-                continue;
-        }
-    }
+        case 1:
+            get_address_test(contextID, root);
+            break;
+        case 2:
+            show_address_test(contextID);
+            break;
+        case 3:
+            transactionQTUM_test(contextID, root);
+            break;
+        case 4:
+            set_my_address_test_BTC(contextID);
+            break;
+        case 5:
+            set_timeout_test(contextID);
+            break;
+        case 9:
+            main_test();
+        default:
+            continue;
+        }   // switch (choice) end
+    }   // while (true) end
 }

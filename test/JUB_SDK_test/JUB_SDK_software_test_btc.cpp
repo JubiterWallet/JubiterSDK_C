@@ -122,73 +122,73 @@ void software_test_btc() {
         bool isQRC20 = false;
         CONTEXT_CONFIG_BTC cfg;
         switch (choice) {
-            case 2:
-            {
-                cfg.coinType = COINLTC;
-                cfg.transType = p2sh_p2wpkh;
-                json_file += "testLTC.json";
-                break;
-            }
-            case 5:
-            {
-                cfg.coinType = COINDASH;
-                cfg.transType = p2pkh;
-                json_file += "testDASH.json";
-                break;
-            }
-            case 31:
-            {
-                cfg.coinType = COINBTC;
-                cfg.transType = p2pkh;
-                json_file += "testBTC44.json";
-                break;
-            }
-            case 32:
-            {
-                cfg.coinType = COINBTC;
-                cfg.transType = p2sh_p2wpkh;
-                json_file += "testBTC49.json";
-                break;
-            }
-            case 39:
-            {
-                cfg.coinType = COINUSDT;
-                cfg.transType = p2pkh;
-                json_file += "testUSDT.json";
-                break;
-            }
-            case 145:
-            {
-                cfg.coinType = COINBCH;
-                cfg.transType = p2pkh;
-                json_file += "testBCH.json";
-                break;
-            }
-            case 88:
-            {
-                cfg.coinType = COINQTUM;
-                cfg.transType = p2pkh;
-                json_file += "testQTUM_qrc20.json";
-                isQRC20 = true;
-                break;
-            }
-            case 2301:
-            {
-                cfg.coinType = COINQTUM;
-                cfg.transType = p2pkh;
-                json_file += "testQTUM.json";
-                break;
-            }
-            case 0:
-                exit(0);
-            default:
-                continue;
+        case 2:
+        {
+            cfg.coinType = COINLTC;
+            cfg.transType = p2sh_p2wpkh;
+            json_file += "testLTC.json";
+            break;
         }
+        case 5:
+        {
+            cfg.coinType = COINDASH;
+            cfg.transType = p2pkh;
+            json_file += "testDASH.json";
+            break;
+        }
+        case 31:
+        {
+            cfg.coinType = COINBTC;
+            cfg.transType = p2pkh;
+            json_file += "testBTC44.json";
+            break;
+        }
+        case 32:
+        {
+            cfg.coinType = COINBTC;
+            cfg.transType = p2sh_p2wpkh;
+            json_file += "testBTC49.json";
+            break;
+        }
+        case 39:
+        {
+            cfg.coinType = COINUSDT;
+            cfg.transType = p2pkh;
+            json_file += "testUSDT.json";
+            break;
+        }
+        case 145:
+        {
+            cfg.coinType = COINBCH;
+            cfg.transType = p2pkh;
+            json_file += "testBCH.json";
+            break;
+        }
+        case 88:
+        {
+            cfg.coinType = COINQTUM;
+            cfg.transType = p2pkh;
+            json_file += "testQTUM_qrc20.json";
+            isQRC20 = true;
+            break;
+        }
+        case 2301:
+        {
+            cfg.coinType = COINQTUM;
+            cfg.transType = p2pkh;
+            json_file += "testQTUM.json";
+            break;
+        }
+        case 0:
+            exit(0);
+        default:
+            continue;
+        }   // switch (choice) end
 
         Json::Value root = readJSON(json_file.c_str());
 
         cfg.mainPath = (char*)root["main_path"].asCString();
 
         software_test_btc(cfg, root, isQRC20);
-    }
+    }   // while (true) end
 }

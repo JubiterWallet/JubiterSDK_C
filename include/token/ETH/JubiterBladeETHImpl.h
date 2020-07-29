@@ -15,9 +15,8 @@ virtual public JubiterBaseETHImpl {
 
 public:
     JubiterBladeETHImpl(JUB_UINT16 deviceID) :
-        JubiterBladeToken(deviceID) {};
-
-    ~JubiterBladeETHImpl() {};
+        JubiterBladeToken(deviceID) {}
+    ~JubiterBladeETHImpl() {}
 
     //ETH functions
     virtual JUB_RV SelectApplet();
