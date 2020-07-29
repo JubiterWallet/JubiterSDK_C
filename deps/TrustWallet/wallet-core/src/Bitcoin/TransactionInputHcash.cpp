@@ -18,7 +18,7 @@ void HcashTransactionInput::encode(Data& data) const {
 // JuBiter-defined
 void HcashTransactionInput::encodeWitness(Data& data) const {
     if (0 == scriptWitness.size()) {
-        return ;
+        return;
     }
 
     Data witnesses;

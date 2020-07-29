@@ -232,7 +232,7 @@ JUB_BYTE JubiterNFCImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::H
     case HASHER_SHA3_KECCAK:
     default:
         break;
-    }
+    }   // switch (hasherType) end
 
     return halfHasherType;
 }

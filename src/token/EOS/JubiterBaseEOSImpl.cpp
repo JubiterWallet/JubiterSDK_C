@@ -84,7 +84,7 @@ JUB_RV JubiterBaseEOSImpl::SerializePreimage(const std::string& expiration,
                 action.deserialize(jsonActions[i]);
                 tx.actions.push_back(action);
                 break;
-            }
+            }   // case JUB_ENUM_EOS_ACTION_TYPE::XFER end
             case JUB_ENUM_EOS_ACTION_TYPE::DELE:
             case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
             {
@@ -97,7 +97,8 @@ JUB_RV JubiterBaseEOSImpl::SerializePreimage(const std::string& expiration,
                 action.deserialize(jsonActions[i]);
                 tx.actions.push_back(action);
                 break;
-            }
+            }   // case JUB_ENUM_EOS_ACTION_TYPE::DELE
+                // case JUB_ENUM_EOS_ACTION_TYPE::UNDELE end
             case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
             {
                 TW::EOS::BuyRamAction action;
@@ -105,7 +106,7 @@ JUB_RV JubiterBaseEOSImpl::SerializePreimage(const std::string& expiration,
                 action.deserialize(jsonActions[i]);
                 tx.actions.push_back(action);
                 break;
-            }
+            }   // case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM end
             case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM:
             {
                 TW::EOS::SellRamAction action;
@@ -113,19 +114,21 @@ JUB_RV JubiterBaseEOSImpl::SerializePreimage(const std::string& expiration,
                 action.deserialize(jsonActions[i]);
                 tx.actions.push_back(action);
                 break;
-            }
+            }   // case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM end
             // Remove c++ features for swift framework
 //            case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_ACTION_TYPE:
             case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
             // Remove c++ features for swift framework end
             default:
+            {
                 rv = JUBR_ARGUMENTS_BAD;
                 break;
-            }
+            }   // case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE end
+            }   // switch (type) end
             if (JUBR_OK != rv) {
                 break;
-            }
-        }
+            }   // switch (type) end
+        }   // for (size_t i=0; i<jsonActions.size(); ++i) end
         if (JUBR_OK != rv) {
             return rv;
         }
@@ -153,7 +156,7 @@ nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action)
             TW::Bravo::Asset::fromString(std::string(action.transfer.asset)),
             std::string(action.transfer.memo));
         return transferAction.serialize();
-    }
+    }   // case JUB_ENUM_EOS_ACTION_TYPE::XFER end
     case JUB_ENUM_EOS_ACTION_TYPE::DELE:
     case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
     {
@@ -170,7 +173,8 @@ nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action)
             action.delegate.transfer,
             bStake);
         return delegateAction.serialize();
-    }
+    }   // case JUB_ENUM_EOS_ACTION_TYPE::DELE
+        // case JUB_ENUM_EOS_ACTION_TYPE::UNDELE end
     case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
     {
         TW::EOS::BuyRamAction buyRamAction =
@@ -179,7 +183,7 @@ nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action)
             std::string(action.buyRam.payer), std::string(action.buyRam.receiver),
             TW::Bravo::Asset::fromString(std::string(action.buyRam.quant)));
         return buyRamAction.serialize();
-    }
+    }   // case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM end
     case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM:
     {
         TW::EOS::SellRamAction sellRamAction =
@@ -189,10 +193,10 @@ nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action)
             stringToBigInteger(action.sellRam.bytes).toUnsignedLong()
         );
         return sellRamAction.serialize();
-    }
+    }   // case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM end
     default:
         return nlohmann::json::object();
-    }
+    }   // switch (action.type) end
 
     return nlohmann::json::object();
 }

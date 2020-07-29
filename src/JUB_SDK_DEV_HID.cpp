@@ -11,8 +11,10 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
-
+#include "product/ProductFactory.h"
 #include "device/JubiterHidDevice.hpp"
+
+
 /*****************************************************************************
  * @function name : JUB_ListDeviceHid
  * @in  param :
@@ -23,43 +25,63 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
 #if defined(HID_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto path_list = jub::device::JubiterHidDevice::EnumDevice();
+    std::vector<unsigned short> pid_list = jub::device::xHidDeviceFactory::EnumPID();
+
+    for (auto pid : pid_list) {
+
+    auto path_list = jub::device::JubiterHidDevice::EnumDevice(pid);
     //std::cout <<"** "<< path_list.size() << std::endl;
 
-    //deal removed key
+    // deal with removed key
     auto vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
     for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
         auto device = dynamic_cast<jub::device::JubiterHidDevice*>(jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
-        if (device) {
-           if (std::end(path_list) == std::find(std::begin(path_list), std::end(path_list), device->getPath())) {
-            //removed key
-			 jub::device::DeviceManager::GetInstance()->ClearOne(vDeviceIDs[i]);
-            }
+        if (!device) {
+            continue;
         }
-    }
 
-    //deal inserted key
-    auto isInManager = [](std::string path)-> bool {
+        if (std::end(path_list) == std::find(std::begin(path_list), std::end(path_list), device->getPath())
+            && jub::device::xHidDeviceFactory::CheckTypeid(pid, device)
+            ) {
+            //removed key
+            jub::device::DeviceManager::GetInstance()->ClearOne(vDeviceIDs[i]);
+        }
+    }   // deal with removed key end
+
+    // deal with inserted key
+    auto isInManager = [](const std::string& path, const unsigned short pid) -> bool {
         auto vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
         for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
             auto device = dynamic_cast<jub::device::JubiterHidDevice*>(jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
+            if (!device) {
+                continue;
+            }
+
             if (   device
                 && path == device->getPath()
+                && jub::device::xHidDeviceFactory::CheckTypeid(pid, device)
                 ) {
                 return true;
             }
         }
 
         return false;
-    };
+    };  // deal with inserted key end
 
+    // add new key
     for (auto path : path_list) {
-        if (!isInManager(path)) {
-            //new inserted key
-			jub::device::JubiterHidDevice* token = new jub::device::JubiterHidDevice(path);
-			jub::device::DeviceManager::GetInstance()->AddOne(token);
+        if (isInManager(path, pid)) {
+            continue;
         }
-    }
+
+        //new inserted key
+        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(pid, path);
+        if (!device) {
+            continue;
+        }
+        jub::device::DeviceManager::GetInstance()->AddOne(device);
+    }   // // add new key end
+    }   // for (auto pid : pid_list) end
 
     auto _vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
     for (JUB_UINT16 i = 0 ; i < std::min((size_t)MAX_DEVICE, _vDeviceIDs.size()); i++) {

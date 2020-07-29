@@ -51,7 +51,8 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_stopEnumDevices(void);
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_connectDevice(JUB_BYTE_PTR bBLEUUID,  /**< ble device UUID */
+JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,   /**< ble device name */
+                         JUB_BYTE_PTR bBLEUUID,  /**< ble device UUID */
                          JUB_UINT32 connectType, /**< ble device connect type */
                          JUB_UINT16* pDeviceID,  /**< output ble device connect handle */
                          JUB_UINT32 timeout);

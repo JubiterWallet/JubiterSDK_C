@@ -13,9 +13,8 @@ virtual public JubiterBaseEOSImpl {
 
 public:
     JubiterNFCEOSImpl(JUB_UINT16 deviceID) :
-    JubiterNFCImpl(deviceID) {};
-
-    ~JubiterNFCEOSImpl() {};
+        JubiterNFCImpl(deviceID) {}
+    ~JubiterNFCEOSImpl() {}
 
     //EOS functions
     virtual JUB_RV SelectApplet() override;

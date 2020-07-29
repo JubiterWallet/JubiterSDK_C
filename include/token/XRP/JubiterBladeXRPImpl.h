@@ -13,9 +13,8 @@ virtual public JubiterBaseXRPImpl {
 
 public:
     JubiterBladeXRPImpl(JUB_UINT16 deviceID) :
-        JubiterBladeToken(deviceID) {};
-
-    ~JubiterBladeXRPImpl() {};
+        JubiterBladeToken(deviceID) {}
+    ~JubiterBladeXRPImpl() {}
 
     //XRP functions
     virtual JUB_RV SelectApplet() override;

@@ -11,7 +11,7 @@
 #include "utility/xManager.hpp"
 
 #include "context/BaseContext.h"
-#include <token/interface/ETHTokenInterface.hpp>
+#include "token/interface/BaseToken.h"
 
 
 namespace jub {
@@ -21,15 +21,14 @@ namespace context {
 class ETHContext :
     public BaseContext {
 public:
-    ETHContext(const CONTEXT_CONFIG_ETH& cfg, std::shared_ptr<token::ETHTokenInterface> tokenPtr):
-        BaseContext(std::dynamic_pointer_cast<token::BaseToken>(tokenPtr)),
-        _tokenPtr(tokenPtr) {
-        _mainPath = cfg.mainPath;
-        _chainID = cfg.chainID;
-        _timeout = 120 * 2;
-        _appletVersion = "";
-    };
-    ~ETHContext() {};
+    ETHContext(const CONTEXT_CONFIG_ETH& cfg, std::shared_ptr<token::BaseToken> tokenPtr):
+        BaseContext(tokenPtr) {
+            _mainPath = cfg.mainPath;
+            _chainID = cfg.chainID;
+            _timeout = 120 * 2;
+            _appletVersion = "";
+    }
+    ~ETHContext() {}
 
     virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
@@ -53,7 +52,6 @@ public:
 
 private:
     int _chainID;
-    std::shared_ptr<token::ETHTokenInterface> _tokenPtr;
 }; // class ETHContext end
 
 

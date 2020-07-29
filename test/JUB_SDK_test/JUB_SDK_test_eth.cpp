@@ -50,7 +50,7 @@ void ETH_test(const char* json_file) {
         cout << "| 3. transaction_ERC20_test.         |" << endl;
         cout << "| 4. set_my_address_test.            |" << endl;
         cout << "| 5. set_timeout_test.               |" << endl;
-        cout << "| 0. return.                         |" << endl;
+        cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -58,27 +58,27 @@ void ETH_test(const char* json_file) {
         cin >> choice;
 
         switch (choice) {
-            case 1:
-                get_address_pubkey_ETH(contextID);
-                break;
-            case 2:
-                transaction_test_ETH(contextID, root);
-                break;
-            case 3:
-                transaction_test_ERC20_ETH(contextID, root);
-                break;
-            case 4:
-                set_my_address_test_ETH(contextID);
-                break;
-            case 5:
-                set_timeout_test(contextID);
-                break;
-            case 0:
-                main_test();
-            default:
-                continue;
-        }
-    }
+        case 1:
+            get_address_pubkey_ETH(contextID);
+            break;
+        case 2:
+            transaction_test_ETH(contextID, root);
+            break;
+        case 3:
+            transaction_test_ERC20_ETH(contextID, root);
+            break;
+        case 4:
+            set_my_address_test_ETH(contextID);
+            break;
+        case 5:
+            set_timeout_test(contextID);
+            break;
+        case 9:
+            main_test();
+        default:
+            continue;
+        }   // switch (choice) end
+    }   // while (true) end
 }
 
 void set_my_address_test_ETH(JUB_UINT16 contextID) {

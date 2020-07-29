@@ -6,12 +6,14 @@
 #include "JUB_SDK_DEV.h"
 #if defined(BLE_MODE)
 #include "JUB_SDK_DEV_BLE.h"
+#include "JUB_SDK_DEV_BIO.h"
 #endif // #if defined(BLE_MODE) end
 #if defined(NFC_MODE)
 #include "JUB_SDK_DEV_NFC.h"
 #endif // #if defined(NFC_MODE) end
 #if defined(HID_MODE)
 #include "JUB_SDK_DEV_HID.h"
+#include "JUB_SDK_DEV_BIO.h"
 #endif // #if defined(HID_MODE) end
 #include "JUB_SDK_BTC.h"
 #include "JUB_SDK_Hcash.h"

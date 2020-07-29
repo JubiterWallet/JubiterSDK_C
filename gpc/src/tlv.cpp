@@ -15,7 +15,9 @@ std::vector<unsigned char> tlv_buf::encode() {
 
     std::vector<unsigned char> out;
 
-    if (value.empty()) {
+    if (   0 == tag
+        && value.empty()
+        ) {
         return out;
     }
     if (tag&0xFF00) {
@@ -77,4 +79,40 @@ size_t tlv_buf::encodeV(std::vector<unsigned char>& v) {
 
     v = encodeV();
     return v.size();
+}
+
+
+size_t tlv_buf::decodeLV(const std::vector<unsigned char>& lv, std::vector<unsigned char>& v) {
+
+    if (lv.size() != (lv[0]+1)) {
+        return 0;
+    }
+
+    v.insert(v.end(), lv.begin()+1, lv.end());
+
+    return v.size();
+}
+
+
+size_t tlv_buf::decodeTV(const int tag, const std::vector<unsigned char>& tv,
+                         std::vector<unsigned char>& v) {
+
+    std::vector<unsigned char> vTag;
+
+    if (tag&0xFF00) {
+        vTag.push_back((tag&0xFF00)>>8);
+        vTag.push_back( tag&0x00FF);
+    }
+    else {
+        vTag.push_back(tag);
+    }
+
+    if (!std::equal(tv.begin(), tv.begin()+vTag.size(), std::begin(vTag))) {
+        return 0;
+    }
+
+    v.clear();
+    v.insert(v.end(), tv.begin()+vTag.size(), tv.end());
+
+    return (tv.size()-vTag.size());
 }

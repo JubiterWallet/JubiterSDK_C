@@ -21,7 +21,7 @@ TW::Data JubiterBaseBTCImpl::pushAll(const TW::Data& results) {
         break;
     default:
         break;
-    }
+    }   // switch (_hashType) end
 
     return data;
 }
@@ -126,31 +126,31 @@ JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
         TW::Bitcoin::Script scriptPubkey;
         JUB_UINT64 amount = 0;
         switch (output.type) {
-            case JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0:
-            {
-                TW::Data return0(output.return0.dataLen);
-                std::memcpy(&return0[0], output.return0.data, output.return0.dataLen);
+        case JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0:
+        {
+            TW::Data return0(output.return0.dataLen);
+            std::memcpy(&return0[0], output.return0.data, output.return0.dataLen);
 
-                // Check if it is omni protocol
-                scriptPubkey = TW::Bitcoin::Script::buildReturn0(return0, uchar_vector("6f6d6e69"));
-                amount = output.return0.amount;
-                break;
-            }
-            case JUB_ENUM_SCRIPT_BTC_TYPE::QRC20:
-            {
-                TW::Data qrc20(output.qrc20.dataLen);
-                std::memcpy(&qrc20[0], output.qrc20.data, output.qrc20.dataLen);
+            // Check if it is omni protocol
+            scriptPubkey = TW::Bitcoin::Script::buildReturn0(return0, uchar_vector("6f6d6e69"));
+            amount = output.return0.amount;
+            break;
+        }   // case JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0 end
+        case JUB_ENUM_SCRIPT_BTC_TYPE::QRC20:
+        {
+            TW::Data qrc20(output.qrc20.dataLen);
+            std::memcpy(&qrc20[0], output.qrc20.data, output.qrc20.dataLen);
 
-                scriptPubkey = TW::Bitcoin::Script(qrc20.begin(), qrc20.end());
-                break;
-            }
-            default:
-            {
-                scriptPubkey = TW::Bitcoin::Script::buildForAddress(std::string(output.stdOutput.address), (TWCoinType)coin);
-                amount = output.stdOutput.amount;
-                break;
-            }
-        }
+            scriptPubkey = TW::Bitcoin::Script(qrc20.begin(), qrc20.end());
+            break;
+        }   // case JUB_ENUM_SCRIPT_BTC_TYPE::QRC20 end
+        default:
+        {
+            scriptPubkey = TW::Bitcoin::Script::buildForAddress(std::string(output.stdOutput.address), (TWCoinType)coin);
+            amount = output.stdOutput.amount;
+            break;
+        }   // default
+        }   // switch (output.type) end
         if (scriptPubkey.empty()) {
             rv = JUBR_ARGUMENTS_BAD;
         }
@@ -161,7 +161,7 @@ JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
         ptxOutput->value = TW::Bitcoin::Amount(amount);
         ptxOutput->script = scriptPubkey;
         tx.outputs.push_back(ptxOutput);
-    }
+    }   // for (const auto& output:vOutputs) end
 
     return rv;
 }

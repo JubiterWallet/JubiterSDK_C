@@ -10,11 +10,16 @@ namespace token {
 class TrezorCryptoBTCImpl :
         public TrezorCryptoToken,
 virtual public JubiterBaseBTCImpl {
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
+        return std::make_shared<TrezorCryptoBTCImpl>(XPRVorXPUB);
+    }
 
 public:
     TrezorCryptoBTCImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoToken(XPRVorXPUB) {};
-    ~TrezorCryptoBTCImpl() {};
+        TrezorCryptoToken(XPRVorXPUB) {}
+    ~TrezorCryptoBTCImpl() {}
 
     //BTC functions
     virtual JUB_RV SelectApplet() override;
@@ -35,9 +40,6 @@ public:
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<std::string>& vInputPath,
                             const std::vector<JUB_BYTE>& vSigedTrans) override;
-
-	//for Factory
-	static std::shared_ptr<BTCTokenInterface> Create(const std::string& XPRVorXPUB) { return std::make_shared<TrezorCryptoBTCImpl>(XPRVorXPUB); }
 
 protected:
     virtual JUB_RV _SignTx(bool witness,

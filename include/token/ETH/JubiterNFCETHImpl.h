@@ -15,9 +15,8 @@ virtual public JubiterBaseETHImpl {
 
 public:
     JubiterNFCETHImpl(JUB_UINT16 deviceID) :
-        JubiterNFCImpl(deviceID) {};
-
-    ~JubiterNFCETHImpl() {};
+        JubiterNFCImpl(deviceID) {}
+    ~JubiterNFCETHImpl() {}
 
     //ETH functions
     virtual JUB_RV SelectApplet();

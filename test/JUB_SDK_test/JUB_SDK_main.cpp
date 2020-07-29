@@ -22,18 +22,18 @@ std::string GetErrMsg(JUB_RV rv) {
 
     std::string errMsg;
     switch (rv) {
-        case JUBR_OK:                   { errMsg = "JUBR_OK"; break; }
-        case JUBR_ERROR:                { errMsg = "JUBR_ERROR"; break; }
-        case JUBR_HOST_MEMORY:          { errMsg = "JUBR_HOST_MEMORY"; break; }
-        case JUBR_ARGUMENTS_BAD:        { errMsg = "JUBR_ARGUMENTS_BAD"; break; }
-        case JUBR_IMPL_NOT_SUPPORT:     { errMsg = "JUBR_IMPL_NOT_SUPPORT"; break; }
-        case JUBR_MEMORY_NULL_PTR:      { errMsg = "JUBR_MEMORY_NULL_PTR"; break; }
-        case JUBR_INVALID_MEMORY_PTR:   { errMsg = "JUBR_INVALID_MEMORY_PTR"; break; }
-        case JUBR_REPEAT_MEMORY_PTR:    { errMsg = "JUBR_REPEAT_MEMORY_PTR"; break; }
-        case JUBR_BUFFER_TOO_SMALL:     { errMsg = "JUBR_BUFFER_TOO_SMALL"; break; }
+    case JUBR_OK:                   { errMsg = "JUBR_OK"; break; }
+    case JUBR_ERROR:                { errMsg = "JUBR_ERROR"; break; }
+    case JUBR_HOST_MEMORY:          { errMsg = "JUBR_HOST_MEMORY"; break; }
+    case JUBR_ARGUMENTS_BAD:        { errMsg = "JUBR_ARGUMENTS_BAD"; break; }
+    case JUBR_IMPL_NOT_SUPPORT:     { errMsg = "JUBR_IMPL_NOT_SUPPORT"; break; }
+    case JUBR_MEMORY_NULL_PTR:      { errMsg = "JUBR_MEMORY_NULL_PTR"; break; }
+    case JUBR_INVALID_MEMORY_PTR:   { errMsg = "JUBR_INVALID_MEMORY_PTR"; break; }
+    case JUBR_REPEAT_MEMORY_PTR:    { errMsg = "JUBR_REPEAT_MEMORY_PTR"; break; }
+    case JUBR_BUFFER_TOO_SMALL:     { errMsg = "JUBR_BUFFER_TOO_SMALL"; break; }
 
-        default:                        { errMsg = "UNKNOWN ERROR."; break; }
-    }
+    default:                        { errMsg = "UNKNOWN ERROR."; break; }
+    }   // switch (rv) end
 
     return errMsg;
 }
@@ -83,36 +83,36 @@ int main() {
         int choice = 0;
         cin >> choice;
         switch (choice) {
-            case 1:
-                main_test();
-                break;
+        case 1:
+            main_test();
+            break;
 #if SW
-            case 2:
-                software_test_btc();
-                break;
-            case 60:
-                software_test_eth("json/testETH.json");
-                break;
-            case 144:
-                software_test_xrp("json/testXRP.json");
-                break;
-            case 171:
-                software_test_hcash();
-                break;
-            case 194:
-                software_test_eos("json/testEOS.json");
-                break;
+        case 2:
+            software_test_btc();
+            break;
+        case 60:
+            software_test_eth("json/testETH.json");
+            break;
+        case 144:
+            software_test_xrp("json/testXRP.json");
+            break;
+        case 171:
+            software_test_hcash();
+            break;
+        case 194:
+            software_test_eos("json/testEOS.json");
+            break;
 #endif
-            case 99:
-                scp11_test("settings/42584E46433230303532353030303031_apk.settings");
-//                scp11_test("settings/42584E46433230303532353030303032_apk.settings");
-                break;
-            case 0:
-                exit(0);
-            default:
-                continue;
-        }
-    }
+        case 99:
+            scp11_test("settings/42584E46433230303532353030303031_apk.settings");
+//            scp11_test("settings/42584E46433230303532353030303032_apk.settings");
+            break;
+        case 0:
+            exit(0);
+        default:
+            continue;
+        }   // switch (choice) end
+    }   // while(true) end
 
     return 0;
 }

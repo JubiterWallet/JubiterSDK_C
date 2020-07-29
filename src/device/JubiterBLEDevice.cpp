@@ -1,12 +1,13 @@
 #include "device/DeviceIOLogHelper.hpp"
 
-#ifdef BLE_MODE
+#if defined(BLE_MODE)
 #include <unistd.h>
 #include <sys/time.h>
 
 #include "utility/util.h"
 #include "utility/Singleton.h"
 #include "bleTransmit/bleTransmit.h"
+#include "product/ProductFactory.h"
 #include "device/JubiterBLEDevice.hpp"
 #include "device/Fido.h"
 
@@ -264,10 +265,15 @@ int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
 
     // analyse data here...
 
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (bleDevice) {
-        Fido::RecvCallBack(devHandle, data, uiDataLen);
+//    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return IFD_NO_DEVICE;
     }
+
+    Fido::RecvCallBack(devHandle, data, uiDataLen);
 
     return IFD_SUCCESS;
 }
@@ -280,11 +286,16 @@ void JubiterBLEDevice::BLE_ScanCallBack(unsigned char* devName,
 //        return;
 //    }
 
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (bleDevice) {
-        if (bleDevice->outerParams.scanCallBack) {
-            bleDevice->outerParams.scanCallBack(devName, uuid, type);
-        }
+//    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return;
+    }
+
+    if ((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->outerParams.scanCallBack) {
+        (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->outerParams.scanCallBack(devName, uuid, type);
     }
 
     return;
@@ -296,14 +307,19 @@ void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
 //        return;
 //    }
 
-    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    if (bleDevice) {
-        bleDevice->SetHandle(0);
-        bleDevice->SetConnectStatuteFalse();
-        Fido::instance().stopReceiving();
-        if (bleDevice->outerParams.discCallBack) {
-            bleDevice->outerParams.discCallBack(uuid);
-        }
+//    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    if (   !bleDevice
+        || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
+        ) {
+        return;
+    }
+
+    (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->SetHandle(0);
+    (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->SetConnectStatuteFalse();
+    Fido::instance().stopReceiving();
+    if ((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->outerParams.discCallBack) {
+        (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->outerParams.discCallBack(uuid);
     }
 
     return;
@@ -364,4 +380,4 @@ void JubiterBLEDevice::ExtraSetting() {
 } // namespace device end
 } // namespace jub end
 
-#endif // USE_BLE_DEVICE
+#endif // #if defined(BLE_MODE) end

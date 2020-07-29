@@ -8,7 +8,7 @@
 #include "JUB_SDK_COMM.h"
 
 
-#ifdef NFC_MODE
+#if defined(NFC_MODE)
 #include "utility/util.h"
 #include "utility/Singleton.h"
 #include "device/JubiterNFCDevice.hpp"
@@ -250,4 +250,4 @@ unsigned int JubiterNFCDevice::SetSCP11Param(const std::string& crt,
 } // namespace jub end
 
 
-#endif // NFC_MODE end
+#endif  // #if defined(NFC_MODE) end

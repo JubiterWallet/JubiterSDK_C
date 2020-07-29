@@ -1,10 +1,10 @@
 #include <context/BTCContext.h>
+#include <token/interface/QTUMTokenInterface.hpp>
 #include "Ethereum/ERC20Abi.h"
 #include <TrezorCrypto/base58.h>
-#include <token/interface/QTUMTokenInterface.hpp>
-#include <context/BTCContext.h>
-#include "utility/util.h"
 #include <Bitcoin/Address.h>
+#include "utility/util.h"
+
 
 namespace jub {
 namespace context {

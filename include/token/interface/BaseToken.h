@@ -8,7 +8,7 @@ namespace token {
 
 class BaseToken {
 public:
-    virtual ~BaseToken() {};
+    virtual ~BaseToken() {}
 
 protected:
     TWCoinType _coin;

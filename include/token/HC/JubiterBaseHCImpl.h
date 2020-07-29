@@ -12,8 +12,8 @@ virtual public JubiterBaseBTCImpl {
 public:
     JubiterBaseHCImpl() :
         JubiterBaseBTCImpl() {
-        _coin = TWCoinType::TWCoinTypeHcash;
-        _curve_name = (char*)SECP256K1_HCASH_NAME;
+            _coin = TWCoinType::TWCoinTypeHcash;
+            _curve_name = (char*)SECP256K1_HCASH_NAME;
     };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,

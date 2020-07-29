@@ -13,9 +13,9 @@ virtual public JubiterBaseHCImpl {
 public:
     JubiterBladeHCImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
-        _hashType = SigHashAll;
-    };
-    ~JubiterBladeHCImpl() {};
+            _hashType = SigHashAll;
+    }
+    ~JubiterBladeHCImpl() {}
 
     //HC functions
     virtual JUB_RV SelectApplet() override;

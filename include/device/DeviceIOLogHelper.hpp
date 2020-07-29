@@ -36,7 +36,7 @@ public:
     }
     ~DeviceIOLogHelper() {
         if (nullptr == _pulRetDataLen) {
-            return ;
+            return;
         }
 
         JUB_UINT16 wRet = _retData[*_pulRetDataLen - 2] * 0x100 + _retData[*_pulRetDataLen - 1];
