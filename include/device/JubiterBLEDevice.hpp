@@ -42,12 +42,13 @@ public:
     virtual unsigned int Scan();
     virtual unsigned int StopScan();
 
-    virtual unsigned int Connect(unsigned char* bBLEUUID,   /**< ble device UUID */
+    virtual unsigned int Connect(unsigned char* devName,    /**< ble device name>*/
+                                 unsigned char* bBLEUUID,   /**< ble device UUID */
                                  unsigned int connectType,  /**< ble device connect type */
                                  unsigned long* pdevHandle, /**< output ble device connect handle */
                                  unsigned int timeout);
 
-    virtual unsigned int CancelConnect(unsigned char* bBLEUUID);
+    virtual unsigned int CancelConnect(unsigned char* devName, unsigned char* bBLEUUID);
 
     virtual unsigned int Disconnect(unsigned long handle);
     virtual unsigned int IsConnect(unsigned long handle);

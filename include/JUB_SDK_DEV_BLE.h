@@ -58,7 +58,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,   /**< ble device name */
                          JUB_UINT32 timeout);
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID);
+JUB_RV JUB_cancelConnect(JUB_BYTE_PTR devName, JUB_BYTE_PTR bBLEUUID);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID);

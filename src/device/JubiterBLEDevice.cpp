@@ -189,12 +189,18 @@ unsigned int JubiterBLEDevice::StopScan() {
 }
 
 
-unsigned int JubiterBLEDevice::Connect(unsigned char* bBLEUUID,
+unsigned int JubiterBLEDevice::Connect(unsigned char* devName,
+                                       unsigned char* bBLEUUID,
                                        unsigned int connectType,
                                        unsigned long* pdevHandle,
                                        unsigned int timeout) {
 
-    unsigned int ret = FT_BLE_ConnDev(bBLEUUID, connectType, pdevHandle, timeout);
+    std::string uuid = reinterpret_cast<char*>(bBLEUUID);
+#if defined(__APPLE__)
+    uuid = reinterpret_cast<char*>(devName);
+#endif // #if defined(__APPLE__)
+
+    unsigned int ret = FT_BLE_ConnDev((unsigned char*)uuid.c_str(), connectType, pdevHandle, timeout);
     if (IFD_SUCCESS == ret) {
         _handle = *pdevHandle;
         _bConnected = true;
@@ -205,9 +211,15 @@ unsigned int JubiterBLEDevice::Connect(unsigned char* bBLEUUID,
 }
 
 
-unsigned int JubiterBLEDevice::CancelConnect(unsigned char* bBLEUUID) {
+unsigned int JubiterBLEDevice::CancelConnect(unsigned char* devName,
+                                             unsigned char* bBLEUUID) {
 
-    unsigned int ret = FT_BLE_CancelConnDev(bBLEUUID);
+    std::string uuid = reinterpret_cast<char*>(bBLEUUID);
+#if defined(__APPLE__)
+    uuid = reinterpret_cast<char*>(devName);
+#endif // #if defined(__APPLE__)
+
+    unsigned int ret = FT_BLE_CancelConnDev((unsigned char*)uuid.c_str());
     _handle = 0;
     _bConnected = false;
 
