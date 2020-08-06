@@ -613,6 +613,8 @@
 		677A18AE23F2B80F003FA636 /* OutPointHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 677A189F23F2B80F003FA636 /* OutPointHcash.h */; };
 		677A18AF23F2B80F003FA636 /* TransactionOutputHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 677A18A023F2B80F003FA636 /* TransactionOutputHcash.cpp */; };
 		677A18B023F2B80F003FA636 /* TransactionOutputHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 677A18A023F2B80F003FA636 /* TransactionOutputHcash.cpp */; };
+		677DF30D24DBDBF7001920A9 /* tlvparse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 677DF30C24DBDBF7001920A9 /* tlvparse.hpp */; };
+		677DF30E24DBDBF7001920A9 /* tlvparse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 677DF30C24DBDBF7001920A9 /* tlvparse.hpp */; };
 		6795A81423D84EB600F273E0 /* TWCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = 6795A81323D84EB600F273E0 /* TWCurve.h */; };
 		6795A81523D84EB600F273E0 /* TWCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = 6795A81323D84EB600F273E0 /* TWCurve.h */; };
 		6795A81723D84F1400F273E0 /* TWCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6795A81623D84F1400F273E0 /* TWCurve.cpp */; };
@@ -1031,6 +1033,7 @@
 		677A189E23F2B80F003FA636 /* TransactionInputHcash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionInputHcash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionInputHcash.h"; sourceTree = "<group>"; };
 		677A189F23F2B80F003FA636 /* OutPointHcash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutPointHcash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/OutPointHcash.h"; sourceTree = "<group>"; };
 		677A18A023F2B80F003FA636 /* TransactionOutputHcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionOutputHcash.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionOutputHcash.cpp"; sourceTree = "<group>"; };
+		677DF30C24DBDBF7001920A9 /* tlvparse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tlvparse.hpp; path = ../../gpc/include/tlvparse.hpp; sourceTree = "<group>"; };
 		6795A81323D84EB600F273E0 /* TWCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWCurve.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWCurve.h"; sourceTree = "<group>"; };
 		6795A81623D84F1400F273E0 /* TWCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TWCurve.cpp; path = "../../deps/TrustWallet/wallet-core/src/interface/TWCurve.cpp"; sourceTree = "<group>"; };
 		6795A81923D8549300F273E0 /* JubiterBladeQTUMImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBladeQTUMImpl.cpp; path = ../../src/token/BTC/JubiterBladeQTUMImpl.cpp; sourceTree = "<group>"; };
@@ -1236,11 +1239,11 @@
 		674B4A7024A1B02E0053AB2F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				673E880724AC3D0200578781 /* tlv.cpp */,
-				674B4A7E24A1B0D70053AB2F /* tlvparse.c */,
 				674B4A8024A1B0D70053AB2F /* scp03.cpp */,
 				674B4A7F24A1B0D70053AB2F /* scp11.cpp */,
 				674B4A8124A1B0D70053AB2F /* scp11c.cpp */,
+				673E880724AC3D0200578781 /* tlv.cpp */,
+				674B4A7E24A1B0D70053AB2F /* tlvparse.c */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -1248,11 +1251,12 @@
 		674B4A7124A1B0340053AB2F /* include */ = {
 			isa = PBXGroup;
 			children = (
-				673E880224AC3CF400578781 /* tag.h */,
-				673E880124AC3CF300578781 /* tlv.hpp */,
 				674B4A7524A1B04C0053AB2F /* scp03.hpp */,
 				674B4A7924A1B0570053AB2F /* scp11.hpp */,
 				674B4A7824A1B0570053AB2F /* scp11c.hpp */,
+				673E880224AC3CF400578781 /* tag.h */,
+				673E880124AC3CF300578781 /* tlv.hpp */,
+				677DF30C24DBDBF7001920A9 /* tlvparse.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -2163,6 +2167,7 @@
 				673E880424AC3CF400578781 /* tlv.hpp in Headers */,
 				67189FB623A2116900F8A5CD /* aestab.h in Headers */,
 				67189F9423A2114200F8A5CD /* ed25519-sha3.h in Headers */,
+				677DF30E24DBDBF7001920A9 /* tlvparse.hpp in Headers */,
 				6718A00623A211B600F8A5CD /* Hash.h in Headers */,
 				67189F6F23A2111700F8A5CD /* BigUnsigned.hh in Headers */,
 				6718A00E23A211BB00F8A5CD /* Address.h in Headers */,
@@ -2390,6 +2395,7 @@
 				675C7969238B78B00015C95D /* BinaryCoding.h in Headers */,
 				674F19D123A10628001702DD /* ed25519-donna-32bit-tables.h in Headers */,
 				673E880324AC3CF400578781 /* tlv.hpp in Headers */,
+				677DF30D24DBDBF7001920A9 /* tlvparse.hpp in Headers */,
 				67A4BD372330A1720059A3DB /* sha3.h in Headers */,
 				67ECD13823CD724100B7D514 /* Bech32Address.h in Headers */,
 				67A4BDEA2330AD090059A3DB /* hidapi.h in Headers */,

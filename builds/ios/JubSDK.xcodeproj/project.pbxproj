@@ -571,6 +571,7 @@
 		677B329A24C85EF500D4EAFB /* JUB_SDK_DEV_BIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 677B329824C85EF500D4EAFB /* JUB_SDK_DEV_BIO.cpp */; };
 		677B329F24C85F1A00D4EAFB /* JubiterBIOToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 677B329C24C85F1A00D4EAFB /* JubiterBIOToken.cpp */; };
 		677B32A024C85F1A00D4EAFB /* JubiterBIOToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 677B329C24C85F1A00D4EAFB /* JubiterBIOToken.cpp */; };
+		677DF30B24DBDB48001920A9 /* tlvparse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 677DF30A24DBDB48001920A9 /* tlvparse.hpp */; };
 		67807E3C249CA66100817E5D /* cmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 67807E3B249CA66100817E5D /* cmac.c */; };
 		67B9C0AB23BB5F9800A17638 /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67B9C0A923BB5F9800A17638 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		67D837B224A380C7004DE1D2 /* tlv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67D837B124A380C7004DE1D2 /* tlv.hpp */; };
@@ -992,6 +993,7 @@
 		677B329524C85EA500D4EAFB /* JubiterBIOToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBIOToken.h; path = ../../include/token/JubiterBIO/JubiterBIOToken.h; sourceTree = "<group>"; };
 		677B329824C85EF500D4EAFB /* JUB_SDK_DEV_BIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV_BIO.cpp; path = ../../src/JUB_SDK_DEV_BIO.cpp; sourceTree = "<group>"; };
 		677B329C24C85F1A00D4EAFB /* JubiterBIOToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOToken.cpp; path = ../../src/token/JubiterBIOToken.cpp; sourceTree = "<group>"; };
+		677DF30A24DBDB48001920A9 /* tlvparse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tlvparse.hpp; path = ../../gpc/include/tlvparse.hpp; sourceTree = "<group>"; };
 		67807E3B249CA66100817E5D /* cmac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cmac.c; path = "../../trezor-crypto/src/cmac.c"; sourceTree = "<group>"; };
 		67B9C0A823BB5F9800A17638 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = ../../builds/apple/JubSDKCore/module.modulemap; sourceTree = "<group>"; };
 		67B9C0A923BB5F9800A17638 /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../builds/apple/JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
@@ -1040,6 +1042,7 @@
 				325B55C4249E66E2002A0616 /* scp11c.hpp */,
 				325B55C1249E66D2002A0616 /* tag.h */,
 				67D837B124A380C7004DE1D2 /* tlv.hpp */,
+				677DF30A24DBDB48001920A9 /* tlvparse.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -1951,6 +1954,7 @@
 				674621B223C31C9C0096DDA2 /* TrezorCryptoEOSImpl.h in Headers */,
 				6718A02823A213F200F8A5CD /* JUB_SDK_EOS.h in Headers */,
 				6718A42123A339F300F8A5CD /* Apdu.hpp in Headers */,
+				677DF30B24DBDB48001920A9 /* tlvparse.hpp in Headers */,
 				6718A42223A339F300F8A5CD /* Debug.hpp in Headers */,
 				675B058E24286BB7004C62D4 /* mutex.h in Headers */,
 				6718A42323A339F300F8A5CD /* Singleton.h in Headers */,

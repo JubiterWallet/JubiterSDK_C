@@ -302,7 +302,7 @@ bool scp11_crt::decode(const std::vector<unsigned char>& data) {
     case GPC_TLV_SCP11CRT_EFFEDATE:
     case GPC_TLV_SCP11CRT_EXPEDATE:
     case GPC_TLV_SCP11CRT_SIGNATURE:
-    case GPC_TLV_SCP11CRT_RESTR_C:
+    case GPC_TLV_SCP11CRT_BF_RESTR:
     {
         skip = 3;
         break;

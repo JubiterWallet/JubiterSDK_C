@@ -108,13 +108,34 @@ int gpc_tlv_get_tag( unsigned char **p,
         }
         break;
     }
-    case GPC_TLV_SCP11CRT_RESTR:
+    case GPC_TLV_SCP11CRT_BF:
     {
         length = (*(*p+2));
-        _tag = (GPC_TLV_SCP11CRT_RESTR <<8) + subTag;
+        _tag = (GPC_TLV_SCP11CRT_BF <<8) + subTag;
         switch (subTag) {
-        case (GPC_TLV_SCP11CRT_RESTR_C & 0x00FF):  // 'BF20' - Restrictions under SCP11c
+        case (GPC_TLV_SCP11CRT_BF_RESTR & 0x00FF):  // 'BF20' - Restrictions under SCP11c
         {
+            *tag = _tag;
+            break;
+        }
+        case (GPC_TLV_SCP11CRT_BF_ENTITY & 0x00FF): // 'BF21' - SCP11 certificate store
+        {
+            switch (length) {
+            case 0x82:
+            {
+                length  = (*(*p+3)) << 8;
+                length |= (*(*p+4)) & 0xFF;
+                break;
+            }
+            case 0x81:
+            {
+                length = (*(*p+3));
+                break;
+            }
+            default:
+                return( GPC_SCP11_ERR_TLV_OUT_OF_DATA );
+            }
+
             *tag = _tag;
             break;
         }
