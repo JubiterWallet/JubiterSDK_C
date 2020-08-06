@@ -207,12 +207,20 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 #pragma mark - 刷新tableview的方法
 
 - (void)addBLEDeviceArray:(NSString *)deviceName {
-        
+    
     [self.BLEDeviceArray addObject:deviceName];
     
     [self reloadTableView];
-    
 }
+
+
+- (void)cleanBLEDeviceArray {
+    
+    [self.BLEDeviceArray removeAllObjects];
+    
+    [self reloadTableView];
+}
+
 
 - (void)reloadTableView {
     

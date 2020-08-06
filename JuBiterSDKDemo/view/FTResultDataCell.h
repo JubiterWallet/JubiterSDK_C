@@ -1,5 +1,5 @@
 //
-//  FTNFCResultDataCell.h
+//  FTResultDataCell.h
 //  JuBiterDemo
 //
 //  Created by 张川 on 2020/3/20.
@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FTNFCResultDataModel.h"
+#import "FTResultDataModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FTNFCResultDataCell : UITableViewCell
+@interface FTResultDataCell : UITableViewCell
 
-@property (nonatomic, strong) FTNFCResultDataModel *model;
+@property (nonatomic, strong) FTResultDataModel *model;
 
 @end
 

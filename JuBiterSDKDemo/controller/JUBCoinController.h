@@ -35,8 +35,9 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_OPT) {
 @property (nonatomic, nonatomic, readwrite) long change;
 @property (nonatomic, nonatomic, readwrite) long addressIndex;
 
-- (JUB_RV)verify_pin:(JUB_UINT16)contextID
-                 pin:(std::string)pin;
+
+- (JUB_RV)show_virtualKeyboard:(JUB_UINT16)contextID;
+- (JUB_RV)verify_pin:(JUB_UINT16)contextID;
 @end
 
 

@@ -17,6 +17,7 @@ typedef void (^JUBSelectBLEDeviceCallBackBlock)(NSString *deviceName);
 + (JUBBLEDeviceScanListView *)showCallBack:(JUBSelectBLEDeviceCallBackBlock)getSelectBLEDeviceCallBackBlock;
 
 - (void)addBLEDeviceArray:(NSString *)deviceName;
+- (void)cleanBLEDeviceArray;
 
 @end
 

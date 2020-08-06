@@ -1,5 +1,5 @@
 //
-//  FTNFCController.m
+//  JUBCoinTestMainView.m
 //  JuBiterSDKDemo
 //
 //  Created by 张川 on 2020/3/20.
@@ -9,7 +9,7 @@
 #import "JUBCoinTestMainView.h"
 #import <CoreNFC/CoreNFC.h>
 #import "FTConstant.h"
-#import "FTNFCResultDataCell.h"
+#import "FTResultDataCell.h"
 #import <AVFoundation/AVFoundation.h>
 #import "Tools.h"
 
@@ -22,7 +22,7 @@ API_AVAILABLE(ios(13.0))
 
 @property (nonatomic, weak) UITableView *msgTableView;
 
-@property (nonatomic, strong) NSMutableArray<FTNFCResultDataModel *> *msgData;
+@property (nonatomic, strong) NSMutableArray<FTResultDataModel *> *msgData;
 
 @end
 
@@ -227,7 +227,7 @@ API_AVAILABLE(ios(13.0))
 - (CGFloat)tableView:(UITableView *)tableView
 heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    FTNFCResultDataModel *model = _msgData[indexPath.row];
+    FTResultDataModel *model = _msgData[indexPath.row];
     
     UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth - 2 * 15, 20)];
             
@@ -259,13 +259,13 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    FTNFCResultDataCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    FTResultDataCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
     if (cell == nil) {
-        cell = [[FTNFCResultDataCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        cell = [[FTResultDataCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
     }
     
-    FTNFCResultDataModel *model = _msgData[indexPath.row];
+    FTResultDataModel *model = _msgData[indexPath.row];
     
     cell.model = model;
     
@@ -275,7 +275,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)addMsgData:(NSString *)msgData {
 //    NSLog(@"%@", msgData);
         
-    FTNFCResultDataModel *model = [[FTNFCResultDataModel alloc] init];
+    FTResultDataModel *model = [[FTResultDataModel alloc] init];
         
     model.receiveData = msgData;
         

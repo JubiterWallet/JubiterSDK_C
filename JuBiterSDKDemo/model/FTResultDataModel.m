@@ -1,14 +1,14 @@
 //
-//  FTNFCResultDataModel.m
+//  FTResultDataModel.m
 //  JuBiterSDKDemo
 //
 //  Created by ID on 2020/3/20.
 //  Copyright © 2020 飞天诚信科技股份有限公司. All rights reserved.
 //
 
-#import "FTNFCResultDataModel.h"
+#import "FTResultDataModel.h"
 
-@implementation FTNFCResultDataModel
+@implementation FTResultDataModel
 
 - (instancetype)init
 {

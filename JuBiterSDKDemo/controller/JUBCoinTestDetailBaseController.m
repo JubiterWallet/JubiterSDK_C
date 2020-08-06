@@ -3,7 +3,7 @@
 //  JuBiterSDKDemo
 //
 //  Created by 张川 on 2020/4/28.
-//  Copyright © 2020 Jubiter. All rights reserved.
+//  Copyright © 2020 JuBiter. All rights reserved.
 //  此类为测试详情页面的基础类，不可在里面实现业务逻辑，用户应该继承自该类之后在自己的类里面实现具体的业务逻辑
 
 #import "JUBCoinTestDetailBaseController.h"
@@ -27,18 +27,24 @@
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
     
     [self initData];
     
     [self initUI];
-    
 }
+
 
 - (void)initData {
     
     _selectCoinTypeIndex = 0;
-    
 }
+
 
 #pragma mark - 初始化UI
 - (void)initUI {
@@ -50,7 +56,6 @@
     if (self.coinTypeArray.count != 0) {
         
         [self.view addSubview:self.selectedIconTypeButton];
-        
     }
     
     __weak JUBCoinTestDetailBaseController *weakSelf = self;
@@ -64,24 +69,60 @@
         NSLog(@"coinSeriesType = %ld", (long)index);
         
         [weakSelf selectedTestActionTypeIndex:index];
-        
     }];
-        
+    
     _transmissionView = view;
     
     [self.view addSubview:view];
-        
 }
+
 
 - (void)selectedTestActionTypeIndex:(NSInteger)index {
     
 }
 
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self setNAVRightBtn];
+}
+
+
+- (void)setNAVRightBtn {
+    
+    if (self.navRightButtonTitle.length == 0) {
+        return;
+    }
+    
+    UIButton *navRightBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    
+    [navRightBtn setTitle:self.navRightButtonTitle forState:UIControlStateNormal];
+    
+    navRightBtn.hidden = NO;
+    
+    [navRightBtn setTitleColor:[[Tools defaultTools] colorWithHexString:@"#00ccff"] forState:UIControlStateNormal];
+    
+    [navRightBtn addTarget:self action:@selector(navRightButtonCallBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:navRightBtn];
+    
+    rightItem.imageInsets = UIEdgeInsetsMake(0, -15,0, 0);//设置向左偏移
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
+}
+
+
+//导航栏右边按钮点击回调，重写该方法可以接管点击按钮的响应
+- (void)navRightButtonCallBack {
+    NSLog(@"navRightButtonCallBack");
+}
+
+
 #pragma mark -- 懒加载
 - (UIPickerView *)pickerView {
-        
+    
     if (_pickerView == nil) {
-                
+        
         UIPickerView *pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, KScreenHeight - 200 - (iphoneX ? 30 : 0), self.view.frame.size.width, 200)];
         
         _pickerView = pickerView;
@@ -95,17 +136,16 @@
         pickerView.layer.borderWidth = 1;
         
         pickerView.layer.borderColor = [UIColor grayColor].CGColor;
-        
     } else {
         
         _pickerView.frame = CGRectMake(0, KScreenHeight - 200 - (iphoneX ? 30 : 0), self.view.frame.size.width, 200);
-        
     }
     
     [self.view addSubview:self.topBar];
     
     return _pickerView;
 }
+
 
 - (UIButton *)selectedIconTypeButton {
     
@@ -120,7 +160,7 @@
         _selectedIconTypeButton = selectedIconTypeButton;
                 
         [selectedIconTypeButton addTarget:self action:@selector(showPickerView) forControlEvents:UIControlEventTouchUpInside];
-                
+        
         [selectedIconTypeButton setTitle:_coinTypeArray[_selectCoinTypeIndex] forState:UIControlStateNormal];
         
         [selectedIconTypeButton setTitleColor:[UIColor colorWithRed:0x00/255.0 green:0xcc/255.0 blue:0xff/255.0 alpha:1] forState:UIControlStateNormal];
@@ -134,26 +174,25 @@
         selectedIconTypeButton.layer.borderColor = [UIColor colorWithRed:0x00/255.0 green:0xcc/255.0 blue:0xff/255.0 alpha:1].CGColor;
         
         selectedIconTypeButton.layer.borderWidth = 1;
-        
     }
     
     return _selectedIconTypeButton;
-    
 }
+
 
 - (void)showPickerView {
     
     [self.view addSubview:self.pickerView];
-    
 }
+
 
 - (NSInteger)selectedTransmitTypeIndex {
     
     NSString *indexStr = [[NSUserDefaults standardUserDefaults] objectForKey:selectedTransmitTypeIndexStr];
     
     return [indexStr integerValue];
-    
 }
+
 
 #pragma mark - 响应方法
 - (UIView *)topBar {
@@ -163,7 +202,7 @@
     CGFloat buttonHeight = 45;
     
     if (_topBar == nil) {
-                
+        
         UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight - buttonHeight - CGRectGetHeight(_pickerView.frame) - (iphoneX ? 30 : 0) , KScreenWidth, buttonHeight)];
         
         topBar.backgroundColor = [UIColor whiteColor];
@@ -209,24 +248,22 @@
         rightButton.layer.masksToBounds = YES;
         
         [topBar addSubview:rightButton];
-        
     } else {
         
         _topBar.frame = CGRectMake(0, KScreenHeight - buttonHeight - CGRectGetHeight(_pickerView.frame) - (iphoneX ? 30 : 0) , KScreenWidth, buttonHeight);
-        
     }
     
     return _topBar;
-    
 }
+
 
 - (void)cancle {
     
     NSLog(@"cancle");
     
     [self hidenPickerView];
-    
 }
+
 
 - (void)hidenPickerView {
     
@@ -246,35 +283,39 @@
     
 }
 
+
 - (void)ok {
     
     NSLog(@"ok");
     
     NSLog(@"self.selectCoinTypeIndex = %ld", (long)self.selectCoinTypeIndex);
-        
+    
     [self hidenPickerView];
     
     [self.selectedIconTypeButton setTitle:self.coinTypeArray[self.selectCoinTypeIndex] forState:UIControlStateNormal];
     
     [self selectCoinType];
-    
 }
+
 
 - (void)selectCoinType {
     
     NSLog(@"JUBCoinTestDetailBaseController--selectCoinTypeIndex");
-    
 }
+
 
 #pragma mark ------- dateSource&&Delegate --------
 
 ////设置列数
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    
     return 1;
 }
 
+
 //设置指定列包含的项数
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    
     return self.coinTypeArray.count;
 }
 
@@ -282,22 +323,21 @@
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     
     return self.coinTypeArray[row];
-
 }
+
 
 //用户进行选择
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-        
-    _selectCoinTypeIndex = row;
     
+    _selectCoinTypeIndex = row;
 }
+
 
 #pragma mark - 外部调用方法
 
 - (void)addMsgData:(NSString *)msgData {
     
     [self.transmissionView addMsgData:msgData];
-    
 }
 
 @end

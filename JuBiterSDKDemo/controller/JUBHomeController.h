@@ -7,17 +7,15 @@
 //
 
 #import "JUBCoinTestListBaseController.h"
+#import "JUBBLEDeviceScanListView.h"
+#import "JUBBLEDisconnectView.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 
 #define BUTTON_TITLE_NFC    @"NFC"
-#define BUTTON_TITLE_BLE    @"蓝牙"
-
-typedef NS_ENUM(NSInteger, JUB_NS_ENUM_DEV_TYPE) {
-    NFC,
-    BLE
-};
+#define BUTTON_TITLE_BLE    @"BLE"
 
 
 #define BUTTON_TITLE_DEVICE     @"DEVICE"
@@ -25,6 +23,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_DEV_TYPE) {
 #define BUTTON_TITLE_ETH        @"ETH"
 #define BUTTON_TITLE_EOS        @"EOS"
 #define BUTTON_TITLE_XRP        @"XRP"
+
 
 typedef NS_ENUM(NSInteger, JUB_NS_ENUM_MAIN) {
     OPT_DEVICE,

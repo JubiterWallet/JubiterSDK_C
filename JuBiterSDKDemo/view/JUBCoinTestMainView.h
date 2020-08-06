@@ -3,12 +3,12 @@
 //  JuBiterSDKDemo
 //
 //  Created by 张川 on 2020/4/8.
-//  Copyright © 2020 Jubiter. All rights reserved.
+//  Copyright © 2020 JuBiter. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "JUBButtonModel.h"
-#import "FTNFCResultDataModel.h"
+#import "FTResultDataModel.h"
 
 typedef void (^JUBCoinTestMainViewCallBackBlock)(NSInteger index);
 

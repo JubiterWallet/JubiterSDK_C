@@ -3,14 +3,14 @@
 
 > Depends on:
 > - jsoncpp([1.8.4](https://github.com/open-source-parsers/jsoncpp.git))
-> - JuBiterSDK([dev_nfc branch](https://github.com/JubiterWallet/JubiterSDK_C.git))
+> - JuBiterSDK([dev_3.0 branch](https://github.com/JubiterWallet/JubiterSDK_C.git))
 
 
 ## submodule
 ```bash
 cd deps
 git submodule add            https://github.com/open-source-parsers/jsoncpp.git jsoncpp
-git submodule add -b dev_nfc https://github.com/JubiterWallet/JubiterSDK_C.git JubiterSDK
+git submodule add -b dev_3.0 https://github.com/JubiterWallet/JubiterSDK_C.git JubiterSDK
 ```
 
 ```bash

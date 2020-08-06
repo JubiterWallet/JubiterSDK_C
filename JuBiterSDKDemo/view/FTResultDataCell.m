@@ -1,15 +1,15 @@
 //
-//  FTNFCResultDataCell.m
+//  FTResultDataCell.m
 //  JuBiterSDKDemo
 //
 //  Created by 张川 on 2020/3/20.
 //  Copyright © 2020 飞天诚信科技股份有限公司. All rights reserved.
 //
 
-#import "FTNFCResultDataCell.h"
+#import "FTResultDataCell.h"
 #import "FTConstant.h"
 
-@interface FTNFCResultDataCell ()
+@interface FTResultDataCell ()
 
 @property (nonatomic, weak) UILabel *timeLabel;
 @property (nonatomic, weak) UILabel *typeLabel;
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation FTNFCResultDataCell
+@implementation FTResultDataCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -59,7 +59,7 @@
     return self;
 }
 
-- (void)setModel:(FTNFCResultDataModel *)model {
+- (void)setModel:(FTResultDataModel *)model {
     
     self.timeLabel.text = model.time;
     

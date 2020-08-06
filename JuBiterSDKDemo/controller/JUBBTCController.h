@@ -22,6 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 #define JSON_FILE_HCASH      "testHCash"
 
 
+#define BUTTON_TITLE_UNIT_BTC       @"    BTC"
+#define BUTTON_TITLE_UNIT_cBTC      @"   cBTC"
+#define BUTTON_TITLE_UNIT_mBTC      @"   mBTC"
+#define BUTTON_TITLE_UNIT_uBTC      @"   uBTC"
+#define BUTTON_TITLE_UNIT_Satoshi   @"Satoshi"
+
+
+#define BUTTON_TITLE_SETUNIT        @"Set Unit"
 #define BUTTON_TITLE_BTCP2PKH       @"BTC_P2PKH"
 #define BUTTON_TITLE_BTCP2WPKH      @"BTC_P2WPKH"
 #define BUTTON_TITLE_LTC            @"LTC"

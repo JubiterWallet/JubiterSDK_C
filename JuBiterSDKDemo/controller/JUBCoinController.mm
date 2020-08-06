@@ -6,8 +6,10 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#import "JUBCoinController.h"
 #import "JUBPinAlertView.h"
+#import "JUBSharedData.h"
+
+#import "JUBCoinController.h"
 
 
 @interface JUBCoinController ()
@@ -20,11 +22,15 @@
 
 - (void)viewDidLoad {
     
-    NSArray *buttonTitleArray = @[BUTTON_TITLE_TRANSACTION,
-                                  BUTTON_TITLE_GETADDRESS,
-                                  BUTTON_TITLE_SHOWADDRESS,
-                                  BUTTON_TITLE_SETMYADDRESS,
-                                  BUTTON_TITLE_SETTIMEOUT,
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    NSArray *buttonTitleArray = @[
+        BUTTON_TITLE_TRANSACTION,
+        BUTTON_TITLE_GETADDRESS,
+        BUTTON_TITLE_SHOWADDRESS,
+        BUTTON_TITLE_SETMYADDRESS,
+        BUTTON_TITLE_SETTIMEOUT,
     ];
     
     NSMutableArray *buttonModelArray = [NSMutableArray array];
@@ -40,23 +46,32 @@
             || [title isEqual:BUTTON_TITLE_SETTIMEOUT]
             ) {
             model.transmitTypeOfButton = [NSString stringWithFormat:@"%li",
-                                          (long)JUB_NS_ENUM_DEV_TYPE::BLE];
+                                          (long)JUB_NS_ENUM_DEV_TYPE::SEG_BLE];
         }
         else {
             model.transmitTypeOfButton = [NSString stringWithFormat:@"%li%li",
-                                          (long)JUB_NS_ENUM_DEV_TYPE::NFC,
-                                          (long)JUB_NS_ENUM_DEV_TYPE::BLE];
+                                          (long)JUB_NS_ENUM_DEV_TYPE::SEG_NFC,
+                                          (long)JUB_NS_ENUM_DEV_TYPE::SEG_BLE];
         }
         
         [buttonModelArray addObject:model];
     }
     
     self.buttonArray = buttonModelArray;
+        
+    [[JUBSharedData sharedInstance] setCurrContextID:0];
     
-//    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+- (void)dealloc {
     
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    JUB_UINT16 contextID = [[[JUBSharedData sharedInstance] currContextID] intValue];
+    if (!contextID) {
+        JUB_ClearContext(contextID);
+    }
+    
+    [[JUBSharedData sharedInstance] setCurrContextID:0];
 }
 
 
@@ -79,20 +94,27 @@
     switch (self.optIndex) {
     case JUB_NS_ENUM_OPT::TRANSACTION:
     {
-        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-            
-            self.userPIN = pin;
-            
-            switch (self.selectedTransmitTypeIndex) {
-            case JUB_NS_ENUM_DEV_TYPE::NFC:
+        switch (self.selectedTransmitTypeIndex) {
+        case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
+        {
+            [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
+                JUBSharedData *data = [JUBSharedData sharedInstance];
+                [data setUserPin:pin];
+                [data setVerifyMode:JUB_NS_ENUM_VERIFY_MODE::PIN];
                 [self beginNFCSession];
-                break;
-            case JUB_NS_ENUM_DEV_TYPE::BLE:
-                break;
-            default:
-                break;
-            }
-        }];
+            }];
+            break;
+        }
+        case JUB_NS_ENUM_DEV_TYPE::SEG_BLE:
+        {
+            JUBSharedData *data = [JUBSharedData sharedInstance];
+            [data setVerifyMode:JUB_NS_ENUM_VERIFY_MODE::VKPIN];
+            [self beginBLESession];
+            break;
+        }
+        default:
+            break;
+        }   // switch (self.selectedTransmitTypeIndex) end
         break;
     }
     case JUB_NS_ENUM_OPT::GET_ADDRESS:
@@ -107,14 +129,19 @@
             self.addressIndex = address;
             
             switch (self.selectedTransmitTypeIndex) {
-            case JUB_NS_ENUM_DEV_TYPE::NFC:
+            case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
+            {
                 [self beginNFCSession];
                 break;
-            case JUB_NS_ENUM_DEV_TYPE::BLE:
-                break;
-            default:
+            }
+            case JUB_NS_ENUM_DEV_TYPE::SEG_BLE:
+            {
+                [self beginBLESession];
                 break;
             }
+            default:
+                break;
+            }   // switch (self.selectedTransmitTypeIndex) end
         }];
         inputAddrView.addressHeader = @"m/purpose'/coin_type'/account'";
         break;
@@ -122,29 +149,47 @@
     case JUB_NS_ENUM_OPT::SET_TIMEOUT:
     {
         switch (self.selectedTransmitTypeIndex) {
-        case JUB_NS_ENUM_DEV_TYPE::NFC:
-            break;
-        case JUB_NS_ENUM_DEV_TYPE::BLE:
-            break;
-        default:
+        case JUB_NS_ENUM_DEV_TYPE::SEG_BLE:
+        {
             break;
         }
+        case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
+        default:
+            break;
+        }   // switch (self.selectedTransmitTypeIndex) end
         break;
     }
     default:
         break;
-    }
+    }   // switch (self.optIndex) end
 }
 
 
 #pragma mark - 业务
-- (JUB_RV)verify_pin:(JUB_UINT16)contextID
-                 pin:(std::string)pin {
+
+
+- (JUB_RV)show_virtualKeyboard:(JUB_UINT16)contextID {
     
     JUB_RV rv = JUBR_ERROR;
     
-    JUB_ULONG retry;
-    rv = JUB_VerifyPIN(contextID, pin.c_str(), &retry);
+    rv = JUB_ShowVirtualPwd(contextID);
+    if (   JUBR_OK               != rv
+        && JUBR_IMPL_NOT_SUPPORT != rv
+        ) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_ShowVirtualPwd() return 0x%2lx.]", rv]];
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_ShowVirtualPwd() OK.]"]];
+    
+    return rv;
+}
+
+
+- (JUB_RV)verify_pin:(JUB_UINT16)contextID {
+    
+    JUB_RV rv = JUBR_ERROR;
+    
+    JUB_ULONG retry = 0;
+    rv = JUB_VerifyPIN(contextID, [[[JUBSharedData sharedInstance] userPin] UTF8String], &retry);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN() return 0x%2lx.]", rv]];
     }

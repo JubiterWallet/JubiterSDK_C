@@ -2,8 +2,8 @@
 //  JUB_SDK_main.h
 //  JubSDKTest
 //
-//  Created by ft on 2019/9/17.
-//  Copyright © 2019 ft. All rights reserved.
+//  Created by panmin on 2019/9/17.
+//  Copyright © 2019 JuBiter. All rights reserved.
 //
 
 #ifndef JUB_SDK_main_h

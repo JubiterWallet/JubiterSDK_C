@@ -1,9 +1,9 @@
 //
 //  JUBPinAlertView.m
-//  nfcTagTest
+//  JuBiterSDKDemo
 //
-//  Created by ID on 2020/6/30.
-//  Copyright © 2020 pengshanshan. All rights reserved.
+//  Created by zhangchuan on 2020/6/30.
+//  Copyright © 2020 JuBiter. All rights reserved.
 //
 
 #define inputPinTextFieldTag 100
@@ -16,8 +16,8 @@
 @interface JUBPinAlertView()<UITextFieldDelegate>
 @property (nonatomic, weak) UIAlertAction *okAction;
 @property (nonatomic, weak) UITextField *inputPinTextField;
-@property (nonatomic, weak) UITextField *oldPinTextField;;
-@property (nonatomic, weak) UITextField *n1wPinTextField;;
+@property (nonatomic, weak) UITextField *oldPinTextField;
+@property (nonatomic, weak) UITextField *n1wPinTextField;
 @end
 
 
@@ -27,13 +27,23 @@
 #pragma mark - 输入pin码
 + (void)showInputPinAlert:(JUBInputPinCallBack)inputPinCallBack {
     
-    [[[JUBPinAlertView alloc] init] showInputPinAlert:inputPinCallBack];
+    [[[JUBPinAlertView alloc] init] showInputPinAlert:inputPinCallBack
+                                 fingerprintsCallBack:nil];
 }
 
 
-- (void)showInputPinAlert:(JUBInputPinCallBack)inputPinCallBack {
++ (void)showInputPinAlert:(JUBInputPinCallBack)inputPinCallBack
+     fingerprintsCallBack:(JUBFingerprintsCallBack)fingerprintsCallBack {
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Verify PIN"
+    [[[JUBPinAlertView alloc] init] showInputPinAlert:inputPinCallBack
+                                 fingerprintsCallBack:fingerprintsCallBack];
+}
+
+
+- (void)showInputPinAlert:(JUBInputPinCallBack)inputPinCallBack
+     fingerprintsCallBack:(JUBFingerprintsCallBack)fingerprintsCallBack {
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Please enter PIN"
                                                                              message:@""
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
@@ -45,8 +55,12 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
                                                        style:UIAlertActionStyleDefault
                                                      handler:^(UIAlertAction * _Nonnull action) {
-        
-        inputPinCallBack(self.inputPinTextField.text);
+        // Solve the problem that the log cannot be updated in time because the operation is stuck in the main thread
+//        inputPinCallBack(self.inputPinTextField.text);
+        NSString *inputPin = self.inputPinTextField.text;
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            inputPinCallBack(inputPin);
+        });
     }];
     
     self.okAction = okAction;
@@ -56,6 +70,17 @@
     [alertController addAction:okAction];
     
     [alertController addAction:cancelAction];
+    
+    if (fingerprintsCallBack) {
+        
+        UIAlertAction *fingerprintsAction = [UIAlertAction actionWithTitle:@"Switch to fingerprint"
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * _Nonnull action) {
+            fingerprintsCallBack();
+        }];
+        
+        [alertController addAction:fingerprintsAction];
+    }
     
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         
@@ -99,7 +124,6 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
                                                        style:UIAlertActionStyleDefault
                                                      handler:^(UIAlertAction * _Nonnull action) {
-        
         changePinCallBack(self.oldPinTextField.text, self.n1wPinTextField.text);
     }];
     
@@ -114,7 +138,7 @@
         textField.placeholder = @"Please enter old PIN";
         
         textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-                
+        
         [textField addTarget:self
                       action:@selector(changedOldPinTextField:)
             forControlEvents:UIControlEventEditingChanged];
@@ -148,7 +172,8 @@
     
     if (textField.text.length > 0) {
         self.okAction.enabled = YES;
-    } else {
+    }
+    else {
         self.okAction.enabled = NO;
     }
 }
@@ -157,21 +182,24 @@
 - (void)changedOldPinTextField:(UITextField *)textField {
     
     if (self.n1wPinTextField.text.length > 0
-        &&         textField.text.length > 0
+//        &&         textField.text.length > 0
         ) {
         self.okAction.enabled = YES;
-    } else {
+    }
+    else {
         self.okAction.enabled = NO;
     }
 }
 
 
 - (void)changedN1wPinTextField:(UITextField *)textField {
-    if (self.oldPinTextField.text.length > 0
-        &&         textField.text.length > 0
+
+    if (textField.text.length > 0
+//        && self.oldPinTextField.text.length > 0
         ) {
         self.okAction.enabled = YES;
-    } else {
+    }
+    else {
         self.okAction.enabled = NO;
     }
 }
@@ -192,19 +220,23 @@
             }
         }
     }
+    
     //取当前展示的控制器
     result = window.rootViewController;
     while (result.presentedViewController) {
         result = result.presentedViewController;
     }
+    
     //如果为UITabBarController：取选中控制器
     if ([result isKindOfClass:[UITabBarController class]]) {
         result = [(UITabBarController *)result selectedViewController];
     }
+    
     //如果为UINavigationController：取可视控制器
     if ([result isKindOfClass:[UINavigationController class]]) {
         result = [(UINavigationController *)result visibleViewController];
     }
+    
     return result;
 }
 

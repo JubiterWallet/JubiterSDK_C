@@ -3,7 +3,7 @@
 //  JuBiterSDKDemo
 //
 //  Created by 张川 on 2020/4/28.
-//  Copyright © 2020 Jubiter. All rights reserved.
+//  Copyright © 2020 JuBiter. All rights reserved.
 //  首页的基类，用户应该继承本类，去实现自己的业务逻辑
 
 #import <UIKit/UIKit.h>
@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface JUBCoinTestListBaseController : UIViewController
 
 @property (nonatomic, assign) NSInteger selectedTransmitTypeIndex;
+
+@property (nonatomic, assign) BOOL showBLEButton;
 
 - (void)addMsgData:(NSString *)msgData;
 

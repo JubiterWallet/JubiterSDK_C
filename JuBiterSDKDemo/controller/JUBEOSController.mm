@@ -6,6 +6,9 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
+#import "JUBPinAlertView.h"
+#import "JUBSharedData.h"
+
 #import "JUBEOSController.h"
 
 
@@ -19,7 +22,9 @@
 
 - (void)viewDidLoad {
     
-    self.selfClass = self;
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
     self.optItem = JUB_NS_ENUM_MAIN::OPT_EOS;
     
     self.coinTypeArray = @[BUTTON_TITLE_EOS,
@@ -28,9 +33,6 @@
                            BUTTON_TITLE_EOSSTAKE,
                            BUTTON_TITLE_EOSUNSTAKE,
     ];
-    
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 
@@ -40,28 +42,38 @@
     const char* json_file = "";
     switch (self.optCoinType) {
     case JUB_NS_ENUM_EOS_OPT::COIN_EOS:
+    {
         json_file = JSON_FILE_EOS;
         break;
+    }
     case JUB_NS_ENUM_EOS_OPT::COIN_EOS_BUYRAM:
+    {
         json_file = JSON_FILE_EOS_BUYRAM;
         break;
+    }
     case JUB_NS_ENUM_EOS_OPT::COIN_EOS_SELLRAM:
+    {
         json_file = JSON_FILE_EOS_SELLRAM;
         break;
+    }
     case JUB_NS_ENUM_EOS_OPT::COIN_EOS_STAKE:
+    {
         json_file = JSON_FILE_EOS_STAKE;
         break;
+    }
     case JUB_NS_ENUM_EOS_OPT::COIN_EOS_UNSTAKE:
+    {
         json_file = JSON_FILE_EOS_UNSTAKE;
         break;
+    }
     default:
         break;
-    }
+    }   // switch (self.optCoinType) end
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%s", json_file]
                                                          ofType:@"json"];
     Json::Value root = readJSON([filePath UTF8String]);
-
+    
     [self EOS_test:deviceID
               root:root
             choice:(int)self.optIndex];
@@ -74,7 +86,7 @@
           choice:(int)choice {
     
     JUB_RV rv = JUBR_ERROR;
-
+    
     try {
         JUB_UINT16 contextID = 0;
 
@@ -85,13 +97,18 @@
             [self addMsgData:[NSString stringWithFormat:@"[JUB_CreateContextEOS() return 0x%2lx.]", rv]];
             return;
         }
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_CreateContextEOS() OK.]"]];
         
         switch (choice) {
         case JUB_NS_ENUM_OPT::GET_ADDRESS:
+        {
             [self get_address_pubkey_EOS:contextID];
             break;
+        }
         case JUB_NS_ENUM_OPT::SHOW_ADDRESS:
+        {
             break;
+        }
         case JUB_NS_ENUM_OPT::TRANSACTION:
         {
             [self transaction_test_EOS:contextID
@@ -99,11 +116,13 @@
             break;
         }
         case JUB_NS_ENUM_OPT::SET_MY_ADDRESS:
+        {
 //            [self set_my_address_test_EOS:contextID];
             break;
+        }
         default:
             break;
-        }
+        }   // switch (choice) end
     }
     catch (...) {
         error_exit("[Error format json file.]\n");
@@ -126,6 +145,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressEOS() return 0x%2lx.]", rv]];
         return;
     }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressEOS() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"address(%d/%llu): %s.", path.change, path.addressIndex, address]];
     JUB_FreeMemory(address);
@@ -137,17 +157,49 @@
     
     JUB_RV rv = JUBR_ERROR;
     
-    rv = [self verify_pin:contextID
-                      pin:[self.userPIN UTF8String]];
-    if (JUBR_OK != rv) {
-        return;
+    JUBSharedData *data = [JUBSharedData sharedInstance];
+    switch (data.verifyMode) {
+    case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
+    {
+        rv = [self show_virtualKeyboard:contextID];
+        if (JUBR_OK != rv) {
+            return;
+        }
+        
+        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
+            JUBSharedData *data = [JUBSharedData sharedInstance];
+            [data setUserPin:pin];
+            
+            JUB_RV rv = [self verify_pin:contextID];
+            if (JUBR_OK != rv) {
+                return;
+            }
+            
+            rv = [self transaction_proc_EOS:contextID
+                                       root:root];
+            if (JUBR_OK != rv) {
+                return;
+            }
+        }];
+        break;
     }
-    
-    rv = [self transaction_proc_EOS:contextID
-                               root:root];
-    if (JUBR_OK != rv) {
-        return;
+    case JUB_NS_ENUM_VERIFY_MODE::PIN:
+    {
+        rv = [self verify_pin:contextID];
+        if (JUBR_OK != rv) {
+            return;
+        }
+        
+        rv = [self transaction_proc_EOS:contextID
+                                   root:root];
+        if (JUBR_OK != rv) {
+            return;
+        }
+        break;
     }
+    default:
+        break;
+    }   // switch (data.verifyMode) end
 }
 
 
@@ -176,38 +228,48 @@
         const char* sType = std::to_string((unsigned int)action.type).c_str();
         switch (action.type) {
         case JUB_ENUM_EOS_ACTION_TYPE::XFER:
+        {
             action.transfer.from  = (char*)(*it)[sType]["from"].asCString();
             action.transfer.to    = (char*)(*it)[sType]["to"].asCString();
             action.transfer.asset = (char*)(*it)[sType]["asset"].asCString();
             action.transfer.memo  = (char*)(*it)[sType]["memo"].asCString();
             break;
+        }
         case JUB_ENUM_EOS_ACTION_TYPE::DELE:
+        {
             action.delegate.from     = (char*)(*it)[sType]["from"].asCString();
             action.delegate.receiver = (char*)(*it)[sType]["receiver"].asCString();
             action.delegate.netQty   = (char*)(*it)[sType]["stake_net_quantity"].asCString();
             action.delegate.cpuQty   = (char*)(*it)[sType]["stake_cpu_quantity"].asCString();
             action.delegate.bStake = true;
             break;
+        }
         case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
+        {
             action.delegate.from     = (char*)(*it)[sType]["from"].asCString();
             action.delegate.receiver = (char*)(*it)[sType]["receiver"].asCString();
             action.delegate.netQty   = (char*)(*it)[sType]["unstake_net_quantity"].asCString();
             action.delegate.cpuQty   = (char*)(*it)[sType]["unstake_cpu_quantity"].asCString();
             action.delegate.bStake = false;
             break;
+        }
         case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
+        {
             action.buyRam.payer    = (char*)(*it)[sType]["payer"].asCString();
             action.buyRam.quant    = (char*)(*it)[sType]["quant"].asCString();
             action.buyRam.receiver = (char*)(*it)[sType]["receiver"].asCString();
             break;
+        }
         case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM:
+        {
             action.sellRam.account = (char*)(*it)[sType]["account"].asCString();
             action.sellRam.bytes   = (char*)(*it)[sType]["bytes"].asCString();
             break;
+        }
         case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
         default:
             return JUBR_ARGUMENTS_BAD;
-        }
+        }   // switch (action.type) end
         actions.push_back(action);
     }
     size_t actionCnt = actions.size();
@@ -228,6 +290,8 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildActionEOS() return 0x%2lx.]", rv]];
         return rv;
     }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildActionEOS() OK.]"]];
+    
     if (actionsInJSON) {
         [self addMsgData:[NSString stringWithFormat:@"action in JSON: %s.", actionsInJSON]];
     }
@@ -269,6 +333,8 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionEOS() return 0x%2lx.]", rv]];
         return rv;
     }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionEOS() OK.]"]];
+    
     if (raw) {
         [self addMsgData:[NSString stringWithFormat:@"tx raw in JSON: %s.", raw]];
         

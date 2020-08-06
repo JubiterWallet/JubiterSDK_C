@@ -1,5 +1,5 @@
 //
-//  FTNFCResultDataModel.h
+//  FTResultDataModel.h
 //  JuBiterSDKDemo
 //
 //  Created by ID on 2020/3/20.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FTNFCResultDataModel : NSObject
+@interface FTResultDataModel : NSObject
 
 @property (nonatomic, copy) NSString *time;
 

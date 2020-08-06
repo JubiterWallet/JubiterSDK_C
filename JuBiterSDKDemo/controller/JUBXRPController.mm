@@ -6,6 +6,9 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
+#import "JUBPinAlertView.h"
+#import "JUBSharedData.h"
+
 #import "JUBXRPController.h"
 
 
@@ -19,14 +22,13 @@
 
 - (void)viewDidLoad {
     
-    self.selfClass = self;
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
     self.optItem = JUB_NS_ENUM_MAIN::OPT_XRP;
     
     self.coinTypeArray = @[BUTTON_TITLE_XRP
     ];
-    
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 
@@ -66,10 +68,14 @@
         
         switch (choice) {
         case JUB_NS_ENUM_OPT::GET_ADDRESS:
+        {
             [self get_address_pubkey_XRP:contextID];
             break;
+        }
         case JUB_NS_ENUM_OPT::SHOW_ADDRESS:
+        {
             break;
+        }
         case JUB_NS_ENUM_OPT::TRANSACTION:
         {
             [self transaction_test_XRP:contextID
@@ -77,11 +83,13 @@
             break;
         }
         case JUB_NS_ENUM_OPT::SET_MY_ADDRESS:
+        {
 //            [self set_my_address_test_XRP:contextID];
             break;
+        }
         default:
             break;
-        }
+        }   // switch (choice) end
     }
     catch (...) {
         error_exit("[Error format json file.]\n");
@@ -100,6 +108,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GetMainHDNodeXRP() return 0x%2lx.]", rv]];
         return;
     }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_GetMainHDNodeXRP() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"MainXpub in hex format: %s.", pubkey]];
     JUB_FreeMemory(pubkey);
@@ -114,6 +123,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeXRP() return 0x%2lx.]", rv]];
         return;
     }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeXRP() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%llu) in hex format: %s.", path.change, path.addressIndex, pubkey]];
     JUB_FreeMemory(pubkey);
@@ -124,6 +134,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressXRP() return 0x%2lx.]", rv]];
         return;
     }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressXRP() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"address(%d/%llu): %s.", path.change, path.addressIndex, address]];
     JUB_FreeMemory(address);
@@ -135,17 +146,49 @@
     
     JUB_RV rv = JUBR_ERROR;
     
-    rv = [self verify_pin:contextID
-                      pin:[self.userPIN UTF8String]];
-    if (JUBR_OK != rv) {
-        return;
+    JUBSharedData *data = [JUBSharedData sharedInstance];
+    switch (data.verifyMode) {
+    case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
+    {
+        rv = [self show_virtualKeyboard:contextID];
+        if (JUBR_OK != rv) {
+            return;
+        }
+        
+        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
+            JUBSharedData *data = [JUBSharedData sharedInstance];
+            [data setUserPin:pin];
+            
+            JUB_RV rv = [self verify_pin:contextID];
+            if (JUBR_OK != rv) {
+                return;
+            }
+            
+            rv = [self transaction_proc_XRP:contextID
+                                       root:root];
+            if (JUBR_OK != rv) {
+                return;
+            }
+        }];
+        break;
     }
-    
-    rv = [self transaction_proc_XRP:contextID
-                               root:root];
-    if (JUBR_OK != rv) {
-        return;
+    case JUB_NS_ENUM_VERIFY_MODE::PIN:
+    {
+        rv = [self verify_pin:contextID];
+        if (JUBR_OK != rv) {
+            return;
+        }
+        
+        rv = [self transaction_proc_XRP:contextID
+                                   root:root];
+        if (JUBR_OK != rv) {
+            return;
+        }
+        break;
     }
+    default:
+        break;
+    }   // switch (data.verifyMode) end
 }
 
 
@@ -188,18 +231,18 @@
     xrp.memo.data   = (char*)root["XRP"]["memo"]["data"].asCString();
     xrp.memo.format = (char*)root["XRP"]["memo"]["format"].asCString();
     switch (xrp.type) {
-        case JUB_ENUM_XRP_TX_TYPE::PYMT:
-        {
-            xrp.account  = (char*)root["XRP"]["account"].asCString();
-            xrp.fee      = (char*)root["XRP"]["fee"].asCString();
-            xrp.flags    = (char*)root["XRP"]["flags"].asCString();
-            xrp.sequence = (char*)root["XRP"]["sequence"].asCString();
-            xrp.lastLedgerSequence = (char*)root["XRP"]["lastLedgerSequence"].asCString();
-            break;
-        }
-        default:
-            return JUBR_ARGUMENTS_BAD;
+    case JUB_ENUM_XRP_TX_TYPE::PYMT:
+    {
+        xrp.account  = (char*)root["XRP"]["account"].asCString();
+        xrp.fee      = (char*)root["XRP"]["fee"].asCString();
+        xrp.flags    = (char*)root["XRP"]["flags"].asCString();
+        xrp.sequence = (char*)root["XRP"]["sequence"].asCString();
+        xrp.lastLedgerSequence = (char*)root["XRP"]["lastLedgerSequence"].asCString();
+        break;
     }
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }   // switch (xrp.type) end
     
     //typedef struct stDxrpPymt {
     //    JUB_CHAR_PTR destination;
@@ -209,16 +252,16 @@
     const char* sType = std::to_string((unsigned int)xrp.type).c_str();
     xrp.pymt.type = (JUB_ENUM_XRP_PYMT_TYPE)root["XRP"][sType]["type"].asUInt();
     switch (xrp.pymt.type) {
-        case JUB_ENUM_XRP_PYMT_TYPE::DXRP:
-        {
-            xrp.pymt.destination    = (char*)root["XRP"][sType]["destination"].asCString();
-            xrp.pymt.amount.value   = (char*)root["XRP"][sType]["amount"]["value"].asCString();
-            xrp.pymt.destinationTag = (char*)root["XRP"][sType]["destinationTag"].asCString();
-            break;
-        }
-        default:
-            return JUBR_ARGUMENTS_BAD;
+    case JUB_ENUM_XRP_PYMT_TYPE::DXRP:
+    {
+        xrp.pymt.destination    = (char*)root["XRP"][sType]["destination"].asCString();
+        xrp.pymt.amount.value   = (char*)root["XRP"][sType]["amount"]["value"].asCString();
+        xrp.pymt.destinationTag = (char*)root["XRP"][sType]["destinationTag"].asCString();
+        break;
     }
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }   // switch (xrp.pymt.type) end
     char* raw = nullptr;
     rv = JUB_SignTransactionXRP(contextID,
                                 path,
@@ -228,6 +271,7 @@
         [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionXRP() return 0x%2lx.]", rv]];
         return rv;
     }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionXRP() OK.]"]];
     
     if (raw) {
         size_t txLen = strlen(raw)/2;
