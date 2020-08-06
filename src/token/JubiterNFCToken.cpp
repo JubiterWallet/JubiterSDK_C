@@ -419,7 +419,7 @@ JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &
     });
 
     uchar_vector subDataLV;
-    subDataLV << tlv_buf(pinOld).encodeLV() << tlv_buf(pin).encodeLV();
+    subDataLV << tlv_buf(pinOld).encodeTBAV() << tlv_buf(pin).encodeTBAV();
     uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8204, subDataLV).encode()).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
