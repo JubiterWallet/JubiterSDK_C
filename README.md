@@ -19,6 +19,7 @@
 
 + Add "devName" param, see 'JUB_SDK_DEV_BLE.h':
   + JUB_connectDevice()
+  + JUB_cancelConnect()
 
 + Add "version" param, see 'JUB_SDK_BTC.h':
   + JUB_SignTransactionBTC()

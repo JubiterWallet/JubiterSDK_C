@@ -112,7 +112,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,
     }
 
     JUB_ULONG * pdevHandle = new JUB_ULONG;
-    JUB_RV rv = (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Connect(bBLEUUID, connectType, pdevHandle, timeout);
+    JUB_RV rv = (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Connect(devName, bBLEUUID, connectType, pdevHandle, timeout);
 //    LOG_INF("JUB_connectDevice rv: %lu", *pdevHandle);
     JUB_VERIFY_RV(rv);
 
@@ -128,7 +128,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,
 }
 
 
-JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
+JUB_RV JUB_cancelConnect(JUB_BYTE_PTR devName, JUB_BYTE_PTR bBLEUUID) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
@@ -139,7 +139,7 @@ JUB_RV JUB_cancelConnect(JUB_BYTE_PTR bBLEUUID) {
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->CancelConnect(bBLEUUID));
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->CancelConnect(devName, bBLEUUID));
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
