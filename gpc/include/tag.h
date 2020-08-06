@@ -57,8 +57,9 @@
 #define GPC_TLV_SCP11CRT_EFFEDATE       0x5F25
 #define GPC_TLV_SCP11CRT_SIGNATURE      0x5F37
 
-#define GPC_TLV_SCP11CRT_RESTR          0xBF
-#define GPC_TLV_SCP11CRT_RESTR_C        0xBF20
+#define GPC_TLV_SCP11CRT_BF             0xBF
+#define GPC_TLV_SCP11CRT_BF_RESTR       0xBF20
+#define GPC_TLV_SCP11CRT_BF_ENTITY      0xBF21
 
 #define GPC_TLV_PK_Q                    0xB0
 #define GPC_TLV_PK_PARAM                0xF0
