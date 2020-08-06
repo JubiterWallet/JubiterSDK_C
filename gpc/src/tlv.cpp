@@ -41,6 +41,23 @@ size_t tlv_buf::encode(std::vector<unsigned char>& code) {
 }
 
 
+// push_back '00' if value is empty.
+std::vector<unsigned char> tlv_buf::encodeTBAV() {
+
+    std::vector<unsigned char> out;
+
+    if (value.empty()) {
+        out.push_back(value.size());
+        return out;
+    }
+    out.push_back(value.size());
+    out.insert(out.end(), value.begin(), value.end());
+
+    return out;
+}
+
+
+// push_back nothing if value is empty.
 std::vector<unsigned char> tlv_buf::encodeLV() {
 
     std::vector<unsigned char> out;
