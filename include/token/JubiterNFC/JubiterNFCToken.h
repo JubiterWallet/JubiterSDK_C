@@ -1,6 +1,7 @@
 #pragma once
-#include <token/JubiterBlade/JubiterBladeToken.h>
 #include <memory>
+
+#include <token/JubiterBlade/JubiterBladeToken.h>
 #include <device/ApduBuilder.hpp>
 #include "utility/util.h"
 

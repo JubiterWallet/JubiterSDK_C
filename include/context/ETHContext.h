@@ -21,6 +21,12 @@ namespace context {
 class ETHContext :
     public BaseContext {
 public:
+    //for Factory
+    static ETHContext* Create(const CONTEXT_CONFIG_ETH& cfg,
+                              std::shared_ptr<token::BaseToken> tokenPtr) {
+        return new ETHContext(cfg, tokenPtr);
+    }
+
     ETHContext(const CONTEXT_CONFIG_ETH& cfg, std::shared_ptr<token::BaseToken> tokenPtr):
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;

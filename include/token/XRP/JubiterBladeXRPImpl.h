@@ -1,7 +1,9 @@
 #pragma once
+#include <memory>
 
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #include <token/XRP/JubiterBaseXRPImpl.h>
+
 
 namespace jub {
 namespace token {
@@ -12,6 +14,11 @@ class JubiterBladeXRPImpl :
 virtual public JubiterBaseXRPImpl {
 
 public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeXRPImpl>(deviceID);
+    }
+
     JubiterBladeXRPImpl(JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     ~JubiterBladeXRPImpl() {}

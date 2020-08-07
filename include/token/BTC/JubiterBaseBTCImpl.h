@@ -6,6 +6,7 @@
 #include "Bitcoin/Transaction.h"
 #include <Hash.h>
 
+
 namespace jub {
 namespace token {
 

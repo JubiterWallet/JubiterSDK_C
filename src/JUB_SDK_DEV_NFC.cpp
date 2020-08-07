@@ -24,7 +24,7 @@ JUB_RV JUB_initNFCDevice(IN NFC_DEVICE_INIT_PARAM param) {
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto nfcDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::NFC);
+    auto nfcDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::NFC);
     if (   !nfcDevice
         || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
         ) {
@@ -45,7 +45,7 @@ JUB_RV JUB_connectNFCDevice(JUB_BYTE_PTR bUUID,     /**< nfc device UUID */
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto nfcDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_DEVICE::NFCARD);
+    auto nfcDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_DEVICE::LITE);
     if (   !nfcDevice
         || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
         ) {

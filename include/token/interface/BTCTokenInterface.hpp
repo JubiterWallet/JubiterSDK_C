@@ -6,6 +6,7 @@
 #include <token/interface/BaseToken.h>
 #include <utility/util.h>
 
+
 namespace jub {
 namespace token {
 

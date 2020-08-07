@@ -1,6 +1,9 @@
 #pragma once
+#include <memory>
+
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #include <token/ETH/JubiterBaseETHImpl.h>
+
 
 namespace jub {
 namespace token {
@@ -14,6 +17,11 @@ class JubiterBladeETHImpl :
 virtual public JubiterBaseETHImpl {
 
 public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeETHImpl>(deviceID);
+    }
+
     JubiterBladeETHImpl(JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     ~JubiterBladeETHImpl() {}

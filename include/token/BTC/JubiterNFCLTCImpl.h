@@ -1,5 +1,8 @@
 #pragma once
+#include <memory>
+
 #include "token/BTC/JubiterNFCBTCImpl.h"
+
 
 namespace jub {
 namespace token {

@@ -1,8 +1,10 @@
 #pragma once
 #include <memory>
+
 #include <token/interface/HardwareTokenInterface.hpp>
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #include <device/ApduBuilder.hpp>
+
 
 namespace jub {
 namespace token {
@@ -29,6 +31,14 @@ typedef struct _stAppInfos_ {
     std::string coinName;
     std::string minimumAppletVersion;
 } stAppInfos;
+
+
+typedef enum class enumCoinTypeMisc {
+    COIN = 0x00,
+    COINEOS = 0x01,
+    COINXRP = 0x02,
+    Default = COIN
+} JUB_ENUM_COINTYPE_MISC;
 
 
 class JubiterBladeToken :
@@ -76,6 +86,13 @@ public:
                                OUT std::string& mnemonic) override;
 
     // BIO
+    virtual JUB_RV UIShowMain() override;
+
+    virtual JUB_RV IdentityVerify(IN JUB_BYTE mode, OUT JUB_ULONG &retry) override;
+    virtual JUB_RV IdentityVerifyPIN(IN JUB_BYTE mode, IN const std::string &pinMix, OUT JUB_ULONG &retry) override;
+    virtual JUB_RV IdentityNineGrids(IN bool bShow) override;
+
+    virtual JUB_RV VerifyFgptForIntl(OUT JUB_ULONG &retry) override;
     virtual JUB_RV VerifyFingerprint(OUT JUB_ULONG &retry) override;
     virtual JUB_RV EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
                                      OUT JUB_BYTE_PTR fgptID) override;

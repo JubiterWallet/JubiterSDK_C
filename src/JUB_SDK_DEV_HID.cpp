@@ -12,7 +12,6 @@
 #include "utility/mutex.h"
 
 #include "product/ProductFactory.h"
-#include "device/JubiterHidDevice.hpp"
 
 
 /*****************************************************************************
@@ -35,7 +34,8 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
     // deal with removed key
     auto vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
     for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
-        auto device = dynamic_cast<jub::device::JubiterHidDevice*>(jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
+        auto device = dynamic_cast<jub::device::JubiterHidDevice*>(
+                                   jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
         if (!device) {
             continue;
         }
@@ -52,7 +52,8 @@ JUB_RV JUB_ListDeviceHid(OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
     auto isInManager = [](const std::string& path, const unsigned short pid) -> bool {
         auto vDeviceIDs = jub::device::DeviceManager::GetInstance()->GetHandleList();
         for (JUB_UINT16 i = 0; i < vDeviceIDs.size(); i++) {
-            auto device = dynamic_cast<jub::device::JubiterHidDevice*>(jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
+            auto device = dynamic_cast<jub::device::JubiterHidDevice*>(
+                                       jub::device::DeviceManager::GetInstance()->GetOne(vDeviceIDs[i]));
             if (!device) {
                 continue;
             }
