@@ -16,6 +16,66 @@ extern "C" {
 #endif // #ifdef __cplusplus
 
 
+typedef enum {
+    VIA_DEVICE = 0x01,  // reserved
+    VIA_9GRIDS = 0x02,
+    VIA_APDU = 0x03,    // reserved
+    VIA_FPGT = 0x04,    // reserved
+} JUB_ENUM_IDENTITY_VERIFY_MODE;
+
+
+/*****************************************************************************
+ * @function name : JUB_IdentityVerify
+ * @in  param : deviceID - device ID
+ *           mode - the mode for verify identity, the following values are valid:
+ *                   - JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_DEVICE
+ *                   - JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_FPGT
+ * @out param : retry - if OK, retry is meaningless value
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_IdentityVerify(IN JUB_UINT16 deviceID,
+                          IN JUB_ENUM_IDENTITY_VERIFY_MODE mode,
+                          OUT JUB_ULONG_PTR pretry);
+
+
+/*****************************************************************************
+ * @function name : JUB_IdentityVerifyPIN
+ * @in  param : deviceID - device ID
+ *           mode - the mode for verify identity, the following values are valid:
+ *                   - JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_9GRIDS
+ *                   - JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_APDU
+ *           pinMix: user's PIN
+ * @out param : retry - if OK, retry is meaningless value
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IdentityVerifyPIN(IN JUB_UINT16 deviceID,
+                             IN JUB_ENUM_IDENTITY_VERIFY_MODE mode,
+                             IN JUB_CHAR_CPTR pinMix,
+                             OUT JUB_ULONG_PTR pretry);
+
+
+/*****************************************************************************
+ * @function name : JUB_IdentityShowNineGrids
+ * @in  param : deviceID - device ID
+ *           mode - the mode for verify identity
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IdentityShowNineGrids(IN JUB_UINT16 deviceID);
+
+
+/*****************************************************************************
+ * @function name : JUB_IdentityCancelNineGrids
+ * @in  param : deviceID - device ID
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IdentityCancelNineGrids(IN JUB_UINT16 deviceID);
+
+
 /*****************************************************************************
  * @function name : JUB_EnrollFingerprint
  * @in  param : deviceID - device ID
@@ -67,6 +127,17 @@ JUB_RV JUB_DeleteFingerprint(IN JUB_UINT16 deviceID,
 
 
 /*****************************************************************************
+ * @function name : JUB_VerifyFgptForIntl
+ * @in  param : deviceID - device ID
+ * @out param : retry
+ * @last change : The main security domain testing command.
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_VerifyFgptForIntl(IN JUB_UINT16 deviceID,
+                             OUT JUB_ULONG_PTR pretry);
+
+
+/*****************************************************************************
  * @function name : JUB_VerifyFingerprint
  * @in  param : contextID - context ID
  * @out param : retry
@@ -80,4 +151,4 @@ JUB_RV JUB_VerifyFingerprint(IN JUB_UINT16 contextID,
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus
-#endif /* JUB_SDK_DEV_BLE_h */
+#endif /* JUB_SDK_DEV_BIO_h */

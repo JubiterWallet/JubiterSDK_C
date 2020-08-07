@@ -1,6 +1,9 @@
 #pragma once
+#include <memory>
+
 #include <token/BTC/JubiterBladeBTCImpl.h>
 #include <token/HC/JubiterBaseHCImpl.h>
+
 
 namespace jub {
 namespace token {
@@ -11,6 +14,11 @@ class JubiterBladeHCImpl :
 virtual public JubiterBaseHCImpl {
 
 public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeHCImpl>(deviceID);
+    }
+
     JubiterBladeHCImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
             _hashType = SigHashAll;

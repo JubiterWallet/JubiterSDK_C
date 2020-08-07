@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/interface/QTUMTokenInterface.hpp>

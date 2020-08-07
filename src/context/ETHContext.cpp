@@ -19,7 +19,7 @@ JUB_RV ETHContext::ActiveSelf() {
 
     JUB_VERIFY_RV(token->SelectApplet());
     JUB_VERIFY_RV(token->GetAppletVersion(_appletVersion));
-    if ( std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
+    if (   std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
         || std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)
         ) {
         JUB_VERIFY_RV(SetTimeout(_timeout));

@@ -2,6 +2,7 @@
 #include <TrezorCrypto/curves.h>
 #include <TrustWalletCore/TWCoinType.h>
 
+
 namespace jub {
 namespace token {
 

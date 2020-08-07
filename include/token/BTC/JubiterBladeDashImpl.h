@@ -1,7 +1,9 @@
 #pragma once
+#include <memory>
 
 #include <token/BTC/JubiterBladeBTCImpl.h>
 #include <token/BTC/JubiterBaseDashImpl.h>
+
 
 namespace jub {
 namespace token {

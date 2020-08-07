@@ -12,6 +12,11 @@ class JubiterNFCEOSImpl :
 virtual public JubiterBaseEOSImpl {
 
 public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterNFCEOSImpl>(deviceID);
+    }
+
     JubiterNFCEOSImpl(JUB_UINT16 deviceID) :
         JubiterNFCImpl(deviceID) {}
     ~JubiterNFCEOSImpl() {}

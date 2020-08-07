@@ -2,6 +2,7 @@
 #include <token/interface/XRPTokenInterface.hpp>
 #include <TrustWalletCore/TWCoinType.h>
 
+
 namespace jub {
 namespace token {
 

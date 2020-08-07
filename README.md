@@ -11,11 +11,21 @@
   + JUB_ExportMnemonic()
   + JUB_ChangePIN()
 
-+ Supports BIO(`#define BLE_MODE`), added functions as below, see 'JUB_SDK_DEV_BIO.h':
-  + JUB_EnrollFingerprint()
-  + JUB_EnumFingerprint()
-  + JUB_EraseFingerprint()
-  + JUB_DeleteFingerprint()
++ Supports BIO(`#define BLE_MODE || #define HID_MODE`), added functions as below, see 'JUB_SDK_DEV_BIO.h':
+  + Authentication for operating fingerprint:
+    + JUB_IdentityVerify()
+    + JUB_IdentityVerifyPIN()
+    + JUB_IdentityShowNineGrids()
+    + JUB_IdentityCancelNineGrids()
+  + Operating fingerprint:
+    + JUB_EnrollFingerprint()
+    + JUB_EnumFingerprint()
+    + JUB_EraseFingerprint()
+    + JUB_DeleteFingerprint()
+    + JUB_VerifyFingerprint()
+
++ Supports multiple types of HID & bluetooth & NFC devices, added functions as below, see 'JUB_SDK_DEV.h':
+  + JUB_GetDeviceType()
 
 + Add "devName" param, see 'JUB_SDK_DEV_BLE.h':
   + JUB_connectDevice()

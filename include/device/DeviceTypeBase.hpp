@@ -15,26 +15,6 @@ namespace jub {
 namespace device {
 
 
-// Remove c++ features for swift framework
-typedef enum {
-    HID = 0x00,
-    BLE = 0x01,
-    NFC = 0x02,
-    COMMODE_NS_ITEM
-} JUB_ENUM_COMMODE;
-// Remove c++ features for swift framework end
-
-
-// Remove c++ features for swift framework
-typedef enum {
-    BLD = 0x00,
-    BIO,
-    NFCARD,
-    DEVICE_NS_ITEM
-} JUB_ENUM_DEVICE;
-// Remove c++ features for swift framework end
-
-
 class DeviceTypeBase {
 
 public:

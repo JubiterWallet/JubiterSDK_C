@@ -12,7 +12,6 @@
 #include <stdio.h>
 
 #include "device/DeviceTypeBase.hpp"
-#include "JUB_SDK_DEV.h"
 #include "scp03/scp03.hpp"
 #include "scp11/scp11c.hpp"
 
@@ -33,11 +32,11 @@ public:
     static std::shared_ptr<JubiterNFCDevice> Create() {
         return std::make_shared<JubiterNFCDevice>();
     }
-    static DeviceTypeBase* Create(const device::JUB_ENUM_DEVICE& type,
+    static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type,
                                   std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
-        case device::JUB_ENUM_DEVICE::NFCARD:
+        case JUB_ENUM_DEVICE::LITE:
 //            return new JubiterNFCDevice();
             return Singleton<JubiterNFCDevice>::GetInstance();
         default:

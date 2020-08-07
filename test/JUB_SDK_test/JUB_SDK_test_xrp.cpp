@@ -239,10 +239,10 @@ JUB_RV transaction_proc_XRP(JUB_UINT16 contextID, Json::Value root) {
                                 xrp,
                                 &raw);
     if (JUBR_OK != rv) {
-        cout << "JUB_SignTransactionXRP return " << rv << endl;
+        cout << "JUB_SignTransactionXRP() return " << rv << endl;
         return rv;
     }
-    cout << "JUB_SignTransactionXRP return " << raw << endl;
+    cout << "JUB_SignTransactionXRP() return " << raw << endl;
     JUB_FreeMemory(raw);
 
     return JUBR_OK;

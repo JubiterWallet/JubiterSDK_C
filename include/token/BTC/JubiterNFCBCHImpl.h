@@ -1,8 +1,11 @@
 #pragma once
+#include <memory>
+
 #include <token/JubiterNFC/JubiterNFCToken.h>
 #include <token/JubiterNFC/JubiterNFCImpl.h>
 #include <token/BTC/JubiterNFCBTCImpl.h>
 #include <token/BTC/JubiterBaseBCHImpl.h>
+
 
 namespace jub {
 namespace token {

@@ -12,11 +12,12 @@
 #include "utility/mutex.h"
 
 #include "product/ProductFactory.h"
-#include "device/JubiterBLEDevice.hpp"
-#include <token/JubiterBlade/JubiterBladeToken.h>
+
+
 #ifdef __ANDROID__
 #include "utils/logUtils.h"
 #endif
+
 
 /// ble device APIs //////////////////////////////////////////
 // only works in ble (android and ios)
@@ -35,7 +36,7 @@ JUB_RV JUB_initDevice(IN DEVICE_INIT_PARAM param) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::BLE);
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {
@@ -60,7 +61,7 @@ JUB_RV JUB_enumDevices(void) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::BLE);
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {
@@ -80,7 +81,7 @@ JUB_RV JUB_stopEnumDevices(void) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::BLE);
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {
@@ -104,7 +105,7 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE, std::string((char*)devName));
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::BLE, std::string((char*)devName));
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {
@@ -132,7 +133,7 @@ JUB_RV JUB_cancelConnect(JUB_BYTE_PTR devName, JUB_BYTE_PTR bBLEUUID) {
 
 #if defined(BLE_MODE)
     CREATE_THREAD_LOCK_GUARD
-    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::BLE);
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {

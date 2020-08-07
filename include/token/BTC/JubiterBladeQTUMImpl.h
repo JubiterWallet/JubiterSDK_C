@@ -1,6 +1,9 @@
 #pragma once
+#include <memory>
+
 #include <token/BTC/JubiterBladeBTCImpl.h>
 #include <token/interface/QTUMTokenInterface.hpp>
+
 
 namespace jub {
 namespace token {

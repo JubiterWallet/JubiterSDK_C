@@ -5,8 +5,6 @@
 #include "device/DeviceTypeBase.hpp"
 
 #if defined(BLE_MODE)
-#include <memory>
-
 #include "bleTransmit/bleTransmit.h"
 
 
@@ -94,10 +92,10 @@ public:
 
         return nullptr;
     }
-    static DeviceTypeBase* Create(const device::JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
+    static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
-        case device::JUB_ENUM_DEVICE::BLD:
+        case JUB_ENUM_DEVICE::BLADE:
 //            return new JubiterBLEBLDDevice();
             return Singleton<JubiterBLEBLDDevice>::GetInstance();
         default:
@@ -125,10 +123,10 @@ public:
 
         return nullptr;
     }
-    static DeviceTypeBase* Create(const device::JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
+    static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
-        case device::JUB_ENUM_DEVICE::BIO:
+        case JUB_ENUM_DEVICE::BIO:
 //            return new JubiterBLEBIODevice();
             return Singleton<JubiterBLEBIODevice>::GetInstance();
         default:

@@ -11,10 +11,8 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
-#include "context/BTCContext.h"
-#include "token/BTC/JubiterBladeBTCImpl.h"
+#include <context/BTCContextFactory.h>
 
-#include <context/ContextFactory.h>
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -96,6 +94,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
     JUB_CHECK_NULL(context);
+
     JUB_VERIFY_RV(context->ActiveSelf());
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 

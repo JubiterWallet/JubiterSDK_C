@@ -111,6 +111,39 @@ typedef enum {
     ED25519
 } JUB_ENUM_CURVES;
 
+// Remove c++ features for swift framework
+typedef enum {
+    HID = 0x00,
+    BLE = 0x01,
+    NFC = 0x02,
+    COMMODE_NS_ITEM
+} JUB_ENUM_COMMODE;
+typedef JUB_ENUM_COMMODE* JUB_ENUM_COMMODE_PTR;
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+typedef enum {
+    BLADE = 0x00,
+    BIO,
+    LITE,
+    DEVICE_NS_ITEM
+} JUB_ENUM_DEVICE;
+typedef JUB_ENUM_DEVICE* JUB_ENUM_DEVICE_PTR;
+// Remove c++ features for swift framework end
+
+
+/*****************************************************************************
+ * @function name : JUB_GetDeviceType
+ * @in  param : deviceID - device ID
+ * @out param : commode - device communication mode
+ *           : deviceClass - device class
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetDeviceType(IN JUB_UINT16 deviceID,
+                         OUT JUB_ENUM_COMMODE_PTR commode, OUT JUB_ENUM_DEVICE_PTR deviceClass);
+
+
 /*****************************************************************************
  * @function name : JUB_GetDeviceInfo
  * @in  param : deviceID - device ID

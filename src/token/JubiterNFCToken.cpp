@@ -342,7 +342,7 @@ JUB_RV JubiterNFCToken::EnumApplet(std::string& appletList) {
 
 JUB_RV JubiterNFCToken::GetAppletVersionBlade(const std::string& appID, std::string& version) {
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    return JUBR_OK;
 }
 
 

@@ -67,13 +67,13 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
                                          JUB_ENUM_CURVES::SECP256K1,
                                          &masterXprv);
     if (rv == JUBR_OK) {
-        cout << masterXprv << endl;
+        cout << "JUB_SeedToMasterPrivateKey_soft() return " << masterXprv << endl;
     }
 
     JUB_UINT16 contextID;
     rv = JUB_CreateContextHC_soft(cfg, masterXprv, &contextID);
     if (rv != JUBR_OK) {
-        cout << "JUB_CreateContextHC_soft return " << rv << endl;
+        cout << "JUB_CreateContextHC_soft() return " << rv << endl;
     }
 
     JUB_CHAR_PTR mainXpub;
@@ -89,7 +89,7 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     path.addressIndex = 0;
     JUB_CHAR_PTR  xpub = nullptr;
     rv = JUB_GetHDNodeHC(contextID, path, &xpub);
-    cout << "JUB_GetHDNodeHC return " << GetErrMsg(rv) << endl;
+    cout << "JUB_GetHDNodeHC() return " << GetErrMsg(rv) << endl;
     if (rv == JUBR_OK) {
         cout << "dpub: " << xpub << endl;
         JUB_FreeMemory(xpub);
@@ -97,7 +97,7 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressHC(contextID, path, BOOL_FALSE, &address);
-    cout << "JUB_GetAddressHC return " << GetErrMsg(rv) << endl;
+    cout << "JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
     if(rv == JUBR_OK) {
         cout << "address: " << address << endl;
         JUB_FreeMemory(address);

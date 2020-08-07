@@ -736,6 +736,36 @@ JUB_RV JubiterBladeToken::GetMnemonic(const std::string& pinMix,
 
 
 /// BIO
+JUB_RV JubiterBladeToken::UIShowMain() {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::IdentityVerify(IN JUB_BYTE mode, OUT JUB_ULONG &retry) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::IdentityVerifyPIN(IN JUB_BYTE mode, IN const std::string &pinMix, OUT JUB_ULONG &retry) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::IdentityNineGrids(IN bool bShow) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::VerifyFgptForIntl(OUT JUB_ULONG &retry) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 JUB_RV JubiterBladeToken::VerifyFingerprint(OUT JUB_ULONG &retry) {
 
     return JUBR_IMPL_NOT_SUPPORT;

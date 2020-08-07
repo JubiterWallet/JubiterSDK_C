@@ -11,13 +11,8 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
-#include <device/JubiterHidDevice.hpp>
-#include <device/JubiterBLEDevice.hpp>
-#include <device/JubiterNFCDevice.hpp>
+#include <context/ETHContextFactory.h>
 
-#include "context/ETHContext.h"
-#include "token/ETH/JubiterBladeETHImpl.h"
-#include "token/ETH/JubiterNFCETHImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -40,37 +35,11 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    jub::context::ETHContext* context = nullptr;
-#if defined(HID_MODE)
-    if (dynamic_cast<jub::device::JubiterHidDevice*>
-        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-        ) {
-        auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
-        context = new jub::context::ETHContext(cfg, token);
-    }
-#endif  // #if defined(HID_MODE) end
-#if defined(BLE_MODE)
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>
-        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-        ) {
-        auto token = std::make_shared<jub::token::JubiterBladeETHImpl>(deviceID);
-        context = new jub::context::ETHContext(cfg, token);
-    }
-#endif  // #if defined(BLE_MODE) end
-#if defined(NFC_MODE)
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>
-            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-            ) {
-        auto token = std::make_shared<jub::token::JubiterNFCETHImpl>(deviceID);
-        context = new jub::context::ETHContext(cfg, token);
-    }
-#endif  // #if defined(NFC_MODE) end
-    if (nullptr == context) {
-        return JUBR_ARGUMENTS_BAD;
-    }
+    auto context = jub::context::ETHseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    JUB_CHECK_NULL(context);
 
-    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     JUB_VERIFY_RV(context->ActiveSelf());
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
     return JUBR_OK;
 }

@@ -11,13 +11,8 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
-#include <device/JubiterHidDevice.hpp>
-#include <device/JubiterBLEDevice.hpp>
-#include <device/JubiterNFCDevice.hpp>
+#include <context/XRPContextFactory.h>
 
-#include "context/XRPContext.h"
-#include "token/XRP/JubiterBladeXRPImpl.h"
-#include "token/XRP/JubiterNFCXRPImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -131,37 +126,11 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    jub::context::XRPContext* context = nullptr;
-#if defined(HID_MODE)
-    if (dynamic_cast<jub::device::JubiterHidDevice*>
-        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-        ) {
-        auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
-        context = new jub::context::XRPContext(cfg, token);
-    }
-#endif  // #if defined(HID_MODE) end
-#if defined(BLE_MODE)
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>
-        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-        ) {
-        auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
-        context = new jub::context::XRPContext(cfg, token);
-    }
-#endif  // #if defined(BLE_MODE) end
-#if defined(NFC_MODE)
-    if (dynamic_cast<jub::device::JubiterNFCDevice*>
-            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-            ) {
-        auto token = std::make_shared<jub::token::JubiterNFCXRPImpl>(deviceID);
-        context = new jub::context::XRPContext(cfg, token);
-    }
-#endif  // #if defined(NFC_MODE) end
-    if (nullptr == context) {
-        return JUBR_ARGUMENTS_BAD;
-    }
+    auto context = jub::context::XRPseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    JUB_CHECK_NULL(context);
 
+    JUB_VERIFY_RV(context->ActiveSelf());
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
-	JUB_VERIFY_RV(context->ActiveSelf());
 
     return JUBR_OK;
 }

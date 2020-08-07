@@ -79,6 +79,23 @@ size_t tlv_buf::encodeLV(std::vector<unsigned char>& lv) {
 }
 
 
+// only for value=0
+std::vector<unsigned char> tlv_buf::encodeT() {
+
+    std::vector<unsigned char> out;
+
+    if (tag&0xFF00) {
+        out.push_back((tag&0xFF00)>>8);
+        out.push_back( tag&0x00FF);
+    }
+    else {
+        out.push_back(tag);
+    }
+
+    return out;
+}
+
+
 std::vector<unsigned char> tlv_buf::encodeV() {
 
     std::vector<unsigned char> out;
