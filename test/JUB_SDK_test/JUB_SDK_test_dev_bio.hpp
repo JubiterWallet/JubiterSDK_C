@@ -17,6 +17,8 @@
 
 using namespace std;
 
+JUB_RV verify_identity_via_9grids(JUB_UINT16 deviceID);
+JUB_RV verify_identity_via_apdu(JUB_UINT16 deviceID);
 void device_fgpt_enroll_test(JUB_UINT16 deviceID, int fgptIndex);
 void device_fgpt_test(JUB_UINT16 deviceID);
 

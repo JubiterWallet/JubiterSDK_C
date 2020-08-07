@@ -22,7 +22,7 @@ JUB_RV HCContext::ActiveSelf() {
 
     JUB_VERIFY_RV(token->SelectApplet());
 
-    if ( std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
+    if (   std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
         || std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)
         ) {
         BTCContext::SetTimeout(_timeout);

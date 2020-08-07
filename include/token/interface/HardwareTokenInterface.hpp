@@ -1,8 +1,6 @@
 #ifndef __TokenInterface__
 #define __TokenInterface__
 
-#include "JUB_SDK_DEV.h"
-
 #include <string>
 #include <vector>
 
@@ -11,6 +9,7 @@
 #include "utility/xManager.hpp"
 
 #include <token/interface/BaseToken.h>
+
 
 namespace jub {
 namespace token {
@@ -58,6 +57,13 @@ public:
                                OUT std::string& mnemonic) = 0;
 
     // BIO
+    virtual JUB_RV UIShowMain() = 0;
+
+    virtual JUB_RV IdentityVerify(IN JUB_BYTE mode, OUT JUB_ULONG &retry) = 0;
+    virtual JUB_RV IdentityVerifyPIN(IN JUB_BYTE mode, IN const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
+    virtual JUB_RV IdentityNineGrids(IN bool bShow) = 0;
+
+    virtual JUB_RV VerifyFgptForIntl(OUT JUB_ULONG &retry) = 0;  // Test command, not public
     virtual JUB_RV VerifyFingerprint(OUT JUB_ULONG &retry) = 0;
     virtual JUB_RV EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
                                      OUT JUB_BYTE_PTR fgptID) = 0;

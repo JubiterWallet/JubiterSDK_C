@@ -1,6 +1,6 @@
 #pragma once
 #include <token/JubiterNFC/JubiterNFCToken.h>
-#include <memory>
+
 
 namespace jub {
 namespace token {

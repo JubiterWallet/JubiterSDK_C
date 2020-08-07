@@ -1,6 +1,9 @@
 #pragma once
+#include <memory>
+
 #include <token/TrezorCrypto/TrezorCryptoToken.h>
 #include <token/EOS/JubiterBaseEOSImpl.h>
+
 
 namespace jub {
 namespace token {
@@ -11,6 +14,11 @@ class TrezorCryptoEOSImpl :
 virtual public JubiterBaseEOSImpl {
 
 public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
+        return std::make_shared<TrezorCryptoEOSImpl>(XPRVorXPUB);
+    }
+
     TrezorCryptoEOSImpl(const std::string& XPRVorXPUB) :
         TrezorCryptoToken(XPRVorXPUB) {}
     ~TrezorCryptoEOSImpl() {}

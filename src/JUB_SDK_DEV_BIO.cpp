@@ -12,14 +12,128 @@
 #include "utility/mutex.h"
 
 #include "context/BaseContext.h"
-
-#include "device/JubiterBLEDevice.hpp"
 #include <token/JubiterBIO/JubiterBIOToken.h>
+
+
 #ifdef __ANDROID__
 #include "utils/logUtils.h"
 #endif
 
+
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
+
+
+/*****************************************************************************
+ * @function name : JUB_IdentityVerify
+ * @in  param : deviceID - device ID
+ *           mode - the mode for verify identity, the following values are valid:
+ *                   - JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_DEVICE
+ *                   - JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_FPGT
+ * @out param : retry - if OK, retry is meaningless value
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IdentityVerify(IN JUB_UINT16 deviceID,
+                          IN JUB_ENUM_IDENTITY_VERIFY_MODE mode,
+                          OUT JUB_ULONG_PTR pretry) {
+
+#if defined(BLE_MODE) || defined(HID_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
+    JUB_CHECK_NULL(token);
+    
+    JUB_ULONG retry = 0;
+    JUB_RV rv = token->IdentityVerify(mode, retry);
+    
+    *pretry = retry;
+    
+    return rv;
+#else   // #if defined(BLE_MODE) || defined(HID_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(BLE_MODE) || defined(HID_MODE) end
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_IdentityVerifyPIN
+ * @in  param : deviceID - device ID
+ *           mode - the mode for verify identity, the following values are valid:
+ *                   - JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_9GRIDS
+ *                   - JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_APDU
+ *           pinMix: user's PIN
+ * @out param : retry - if OK, retry is meaningless value
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IdentityVerifyPIN(IN JUB_UINT16 deviceID,
+                             IN JUB_ENUM_IDENTITY_VERIFY_MODE mode,
+                             IN JUB_CHAR_CPTR pinMix,
+                             OUT JUB_ULONG_PTR pretry) {
+
+#if defined(BLE_MODE) || defined(HID_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
+    JUB_CHECK_NULL(token);
+
+    JUB_ULONG retry = 0;
+    JUB_RV rv = token->IdentityVerifyPIN(mode, pinMix, retry);
+
+    *pretry = retry;
+
+    return rv;
+#else   // #if defined(BLE_MODE) || defined(HID_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(BLE_MODE) || defined(HID_MODE) end
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_IdentityShowNineGrids
+ * @in  param : deviceID - device ID
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IdentityShowNineGrids(IN JUB_UINT16 deviceID) {
+
+#if defined(BLE_MODE) || defined(HID_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
+    JUB_CHECK_NULL(token);
+
+    JUB_VERIFY_RV(token->IdentityNineGrids(true));
+
+    return JUBR_OK;
+#else   // #if defined(BLE_MODE) || defined(HID_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(BLE_MODE) || defined(HID_MODE) end
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_IdentityCancelNineGrids
+ * @in  param : deviceID - device ID
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IdentityCancelNineGrids(IN JUB_UINT16 deviceID) {
+
+#if defined(BLE_MODE) || defined(HID_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
+    JUB_CHECK_NULL(token);
+
+    JUB_VERIFY_RV(token->IdentityNineGrids(false));
+
+    JUB_VERIFY_RV(token->UIShowMain());
+
+    return JUBR_OK;
+#else   // #if defined(BLE_MODE) || defined(HID_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(BLE_MODE) || defined(HID_MODE) end
+}
+
 
 /*****************************************************************************
  * @function name : JUB_EnrollFingerprint
@@ -121,6 +235,33 @@ JUB_RV JUB_DeleteFingerprint(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->DeleteFingerprint(fgptID));
 
     return JUBR_OK;
+#else   // #if defined(BLE_MODE) || defined(HID_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(BLE_MODE) || defined(HID_MODE) end
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_VerifyFgptForIntl
+ * @in  param : deviceID - device ID
+ * @out param : retry
+ * @last change : The main security domain testing command.
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_VerifyFgptForIntl(IN JUB_UINT16 deviceID,
+                             OUT JUB_ULONG_PTR pretry) {
+
+#if defined(BLE_MODE) || defined(HID_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
+    JUB_CHECK_NULL(token);
+
+    JUB_ULONG retry = 0;
+    JUB_RV rv = token->VerifyFgptForIntl(retry);
+
+    *pretry = retry;
+
+    return rv;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
 #endif  // #if defined(BLE_MODE) || defined(HID_MODE) end

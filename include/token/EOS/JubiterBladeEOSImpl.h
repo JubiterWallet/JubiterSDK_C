@@ -1,6 +1,9 @@
 #pragma once
+#include <memory>
+
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #include <token/EOS/JubiterBaseEOSImpl.h>
+
 
 namespace jub {
 namespace token {
@@ -16,6 +19,11 @@ class JubiterBladeEOSImpl :
 virtual public JubiterBaseEOSImpl {
 
 public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeEOSImpl>(deviceID);
+    }
+
     JubiterBladeEOSImpl(JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     ~JubiterBladeEOSImpl() {}

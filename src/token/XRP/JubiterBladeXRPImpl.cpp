@@ -4,16 +4,9 @@
 #include "Ripple/Transaction.h"
 #include <token/ErrorHandler.h>
 
+
 namespace jub {
 namespace token {
-
-
-typedef enum class enumCoinTypeMisc {
-    COIN = 0x00,
-    COINEOS = 0x01,
-    COINXRP = 0x02,
-    Default = COIN
-} JUB_ENUM_COINTYPE_MISC;
 
 
 #define SWITCH_TO_XRP_APP                       \

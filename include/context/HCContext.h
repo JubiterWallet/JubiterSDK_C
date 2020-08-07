@@ -27,6 +27,12 @@ class HCContext :
     public HCContextBase {
 
 public:
+    //for Factory
+    static HCContext* Create(const CONTEXT_CONFIG_HC& cfg,
+                             std::shared_ptr<token::BaseToken> tokenPtr) {
+        return new HCContext(cfg, tokenPtr);
+    }
+
     HCContext(CONTEXT_CONFIG_HC cfg,
               std::shared_ptr<token::BaseToken> tokenPtr):
     BTCContext(CONTEXT_CONFIG_BTC{cfg.mainPath, COINBTC, p2pkh}, tokenPtr) {

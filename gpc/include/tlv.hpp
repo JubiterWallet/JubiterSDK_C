@@ -76,6 +76,8 @@ public:
     std::vector<unsigned char> encodeTBAV();
     // push_back nothing if value is empty.
     std::vector<unsigned char> encodeLV();
+    // only for value=0
+    std::vector<unsigned char> encodeT();
     size_t encodeLV(std::vector<unsigned char>& lv);
     std::vector<unsigned char> encode();
     size_t encode(std::vector<unsigned char>& code);

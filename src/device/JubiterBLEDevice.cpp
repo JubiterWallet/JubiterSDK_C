@@ -10,6 +10,8 @@
 #include "product/ProductFactory.h"
 #include "device/JubiterBLEDevice.hpp"
 #include "device/Fido.h"
+#include "utility/Debug.hpp"
+
 
 #ifdef __ANDROID__
 #include "bleTransmit/android/BTManager.h"
@@ -101,7 +103,7 @@ JUB_RV JubiterBLEDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
                                   OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                                   IN JUB_ULONG ulMiliSecondTimeout) {
 
-    if (   0 == _handle
+    if (             0 == _handle
         || !FT_BLE_IsConn(_handle)
         ) {
         return JUBR_NOT_CONNECT_DEVICE;
@@ -118,6 +120,7 @@ JUB_RV JubiterBLEDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
     unsigned int uiSendLen = (unsigned int)sizeof(sendMsg) / sizeof(unsigned char);
     // 封装fido协议
     fido.wrapFidoApdu(CMD_MSG, const_cast<unsigned char *>(sendData), (unsigned int)ulSendLen, sendMsg, &uiSendLen);
+    DEBUG_LOG("FIDO send data: %s\n", jub::ByteArray2String(sendMsg, uiSendLen).c_str());
 
     int ret = FT_BLE_SendAPDU(_handle, const_cast<unsigned char *>(sendMsg), uiSendLen);
     if (0 != ret) {
@@ -278,7 +281,7 @@ int JubiterBLEDevice::BLE_ReadCallBack(unsigned long devHandle,
     // analyse data here...
 
 //    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::BLE);
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {
@@ -299,7 +302,7 @@ void JubiterBLEDevice::BLE_ScanCallBack(unsigned char* devName,
 //    }
 
 //    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::BLE);
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {
@@ -320,7 +323,7 @@ void JubiterBLEDevice::BLE_DiscCallBack(unsigned char* uuid) {
 //    }
 
 //    auto bleDevice = Singleton<jub::device::JubiterBLEDevice>::GetInstance();
-    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(jub::device::JUB_ENUM_COMMODE::BLE);
+    auto bleDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::BLE);
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {

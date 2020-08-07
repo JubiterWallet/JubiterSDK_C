@@ -10,6 +10,7 @@
 // ETH token extension apdu
 #define APPLET_VERSION_SUPPORT_EXT_TOKEN "01040109"
 
+
 namespace jub {
 namespace token {
 

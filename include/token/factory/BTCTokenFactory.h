@@ -1,8 +1,11 @@
 #pragma once
 //only for BTC series coins now, maybe for all coins later
+#include <string>
+#include <memory>
 
 #include <utility/xFactory.hpp>
 #include <utility/Singleton.h>
+
 #include <device/JubiterHidDevice.hpp>
 #include <device/JubiterBLEDevice.hpp>
 #include <device/JubiterNFCDevice.hpp>
@@ -16,7 +19,7 @@
 #include <token/BTC/JubiterBladeDashImpl.h>
 #include <token/BTC/JubiterBladeQTUMImpl.h>
 
-#include <token/BTC/JubiterBIOImpl.h>
+#include <token/BTC/JubiterBIOBTCImpl.h>
 
 #include <token/BTC/JubiterNFCBTCImpl.h>
 #include <token/BTC/JubiterNFCBCHImpl.h>
@@ -32,8 +35,6 @@
 #include <token/BTC/TrezorCryptoDashImpl.h>
 #include <token/BTC/TrezorCryptoQTUMImpl.h>
 
-#include <string>
-#include <memory>
 
 namespace jub {
 namespace token {
@@ -121,28 +122,33 @@ public:
 
     std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const JUB_UINT16 deviceID) {
 #if defined(HID_MODE)
-        if (dynamic_cast<jub::device::JubiterHidBLDDevice*>
-        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        if (dynamic_cast<jub::device::JubiterHidBLDDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
         ) {
             return jubiterBLDFactory.Create(type, deviceID);
         }
-        else if (dynamic_cast<jub::device::JubiterHidBIODevice*>
-        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        else if (dynamic_cast<jub::device::JubiterHidBIODevice*>(
+                              jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
         ) {
             return jubiterBIOFactory.Create(type, deviceID);
         }
 #endif  // #if defined(HID_MODE) end
 #if defined(BLE_MODE)
-        if (dynamic_cast<jub::device::JubiterBLEDevice*>
-            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-            ) {
+        if (dynamic_cast<jub::device::JubiterBLEBLDDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
             return jubiterBLDFactory.Create(type, deviceID);
+        }
+        else if (dynamic_cast<jub::device::JubiterBLEBIODevice*>(
+                              jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterBIOFactory.Create(type, deviceID);
         }
 #endif  // #if defined(BLE_MODE) end
 #if defined(NFC_MODE)
-        if (dynamic_cast<jub::device::JubiterNFCDevice*>
-            (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-            ) {
+        if (dynamic_cast<jub::device::JubiterNFCDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
             return jubiterNFCFactory.Create(type, deviceID);
         }
 #endif  // #if defined(NFC_MODE) end

@@ -1,17 +1,16 @@
 #ifndef __JubiterHidDevice__
 #define __JubiterHidDevice__
 
-#include "JUB_SDK_DEV.h"
+#include "device/DeviceTypeBase.hpp"
 
 #if defined(HID_MODE)
-
 #include <vector>
-
 #include "hidapi/hidapi/hidapi.h"
-#include "device/DeviceTypeBase.hpp"
+
 
 namespace jub {
 namespace device {
+
 
 #define VID 0x096e
 #define PID_BLD 0x0891
@@ -66,12 +65,12 @@ public:
         return std::make_shared<JubiterHidBLDDevice>(path);
     }
 
-    static DeviceTypeBase* Create(const device::JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
+    static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
-        case device::JUB_ENUM_DEVICE::BLD:
+        case JUB_ENUM_DEVICE::BLADE:
             return new JubiterHidBLDDevice(std::dynamic_pointer_cast<device::JubiterHidBLDDevice>(devicePtr)->getPath());
-        case device::JUB_ENUM_DEVICE::BIO:
+        case JUB_ENUM_DEVICE::BIO:
         default:
             break;
         }   // switch (type) end
@@ -105,16 +104,16 @@ public:
     static std::shared_ptr<JubiterHidDevice> Create(const std::string& path) {
         return std::make_shared<JubiterHidBIODevice>(path);
     }
-    static DeviceTypeBase* Create(const device::JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
+    static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         if (nullptr == devicePtr) {
             return nullptr;
         }
 
         switch (type) {
-        case device::JUB_ENUM_DEVICE::BIO:
+        case JUB_ENUM_DEVICE::BIO:
             return new JubiterHidBIODevice(std::dynamic_pointer_cast<device::JubiterHidBIODevice>(devicePtr)->getPath());
-        case device::JUB_ENUM_DEVICE::BLD:
+        case JUB_ENUM_DEVICE::BLADE:
         default:
             break;
         }   // switch (type) end

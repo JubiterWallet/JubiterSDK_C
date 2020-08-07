@@ -1,13 +1,8 @@
 #include <utility/util.h>
 #include "utility/mutex.h"
 
-#include <device/JubiterHidDevice.hpp>
-#include <device/JubiterBLEDevice.hpp>
+#include <context/HCContextFactory.h>
 
-#include <token/HC/JubiterBladeHCImpl.h>
-
-#include <context/HCContext.h>
-#include <string>
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -30,26 +25,8 @@ JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,
                            OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    jub::context::HCContext* context = nullptr;
-#if defined(HID_MODE)
-    if (dynamic_cast<jub::device::JubiterHidDevice*>
-        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-        ) {
-        auto token = std::make_shared<jub::token::JubiterBladeHCImpl>(deviceID);
-        context = new jub::context::HCContext(cfg, token);
-    }
-#endif  // #if defined(HID_MODE) end
-#if defined(BLE_MODE)
-    if (dynamic_cast<jub::device::JubiterBLEDevice*>
-        (jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
-        ) {
-        auto token = std::make_shared<jub::token::JubiterBladeHCImpl>(deviceID);
-        context = new jub::context::HCContext(cfg, token);
-    }
-#endif  // #if defined(HID_MODE) end
-    if (nullptr == context) {
-        return JUBR_ARGUMENTS_BAD;
-    }
+    auto context = jub::context::HCseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->ActiveSelf());
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
@@ -112,6 +89,7 @@ JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
     JUB_CHECK_NULL(context);
+
     JUB_CHECK_NULL(unsignedTrans);
 
     std::vector<INPUT_HC> vInputs(inputs, inputs + iCount);

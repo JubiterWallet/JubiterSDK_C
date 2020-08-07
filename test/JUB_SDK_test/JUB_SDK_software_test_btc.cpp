@@ -25,7 +25,7 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
 
     rv = JUB_CheckMnemonic(mnemonic);
     if(rv != JUBR_OK) {
-        cout << "JUB_CheckMnemonic return" << rv << endl;
+        cout << "JUB_CheckMnemonic() return" << rv << endl;
     }
     JUB_BYTE seed[64] = {0,};
     JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
@@ -35,7 +35,7 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
 
     rv = JUB_GenerateSeed_soft("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
     if (rv != JUBR_OK) {
-        cout << "JUB_GenerateSeed_soft error" << endl;
+        cout << "JUB_GenerateSeed_soft() error" << endl;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
@@ -49,19 +49,19 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
                                          JUB_ENUM_CURVES::SECP256K1,
                                          &masterXprv);
     if (rv == JUBR_OK) {
-        cout << "MasterPrivateKey: " << masterXprv << endl;
+        cout << "JUB_SeedToMasterPrivateKey_soft() return " << masterXprv << endl;
     }
 
     JUB_UINT16 contextID;
     rv = JUB_CreateContextBTC_soft(cfg, masterXprv, &contextID);
     if (rv != JUBR_OK) {
-        cout << "JUB_CreateContextBTC_soft return " << rv << endl;
+        cout << "JUB_CreateContextBTC_soft() return " << rv << endl;
     }
 
     JUB_CHAR_PTR mainXpub;
     rv = JUB_GetMainHDNodeBTC(contextID, &mainXpub);
     if (rv == JUBR_OK) {
-        cout << "JUB_GetMainHDNodeBTC: " << mainXpub << endl;
+        cout << "JUB_GetMainHDNodeBTC() return " << mainXpub << endl;
         JUB_FreeMemory(mainXpub);
     }
 
@@ -71,14 +71,14 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     JUB_CHAR_PTR  xpub = nullptr;
     rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
     if (rv == JUBR_OK) {
-        cout << "JUB_GetHDNodeBTC: " << xpub << endl;
+        cout << "JUB_GetHDNodeBTC() return " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
     if(rv == JUBR_OK) {
-        cout << "JUB_GetAddressBTC: " << address << endl;
+        cout << "JUB_GetAddressBTC() return " << address << endl;
         rv = JUB_CheckAddressBTC(contextID, address);
         cout << "JUB_CheckAddressBTC() return " << GetErrMsg(rv) << endl;
         JUB_FreeMemory(address);

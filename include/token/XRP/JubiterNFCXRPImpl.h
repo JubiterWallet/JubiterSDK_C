@@ -13,6 +13,11 @@ class JubiterNFCXRPImpl :
 virtual public JubiterBaseXRPImpl {
 
 public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterNFCXRPImpl>(deviceID);
+    }
+
     JubiterNFCXRPImpl(JUB_UINT16 deviceID) :
         JubiterNFCImpl(deviceID) {}
     ~JubiterNFCXRPImpl() {}
