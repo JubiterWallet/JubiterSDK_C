@@ -25,8 +25,8 @@ static JUBSharedData *_sharedDataInstance;
         _verifyMode = VERIFY_MODE_ITEM;
         _deviceType = SEG_NFC;
         _coinUnit = ns;
-        _currDeviceID = nil;
-        _currContextID = nil;
+        _currDeviceID = 0;
+        _currContextID = 0;
     }
     
     return self;

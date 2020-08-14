@@ -198,7 +198,7 @@
 
 
 #pragma mark - 通讯库寻卡回调
-- (void)DeviceOpt:(JUB_UINT16)deviceID {
+- (void)DeviceOpt:(NSUInteger)deviceID {
     
     int wordNum = 24;
     switch (self.optIndex) {
@@ -263,7 +263,7 @@
 
 
 #pragma mark - 业务
-- (void)query_device_battery:(JUB_UINT16)deviceID {
+- (void)query_device_battery:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -279,7 +279,7 @@
 }
 
 
-- (void)get_device_info_test:(JUB_UINT16)deviceID {
+- (void)get_device_info_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -300,7 +300,7 @@
 }
 
 
-- (void)get_device_applet_test:(JUB_UINT16)deviceID {
+- (void)get_device_applet_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -348,7 +348,7 @@
 }
 
 
-- (void)get_device_cert_test:(JUB_UINT16)deviceID {
+- (void)get_device_cert_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -365,7 +365,7 @@
 }
 
 
-- (void)change_device_pin_test:(JUB_UINT16)deviceID {
+- (void)change_device_pin_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -381,7 +381,7 @@
 }
 
 
-- (void)send_one_apdu_test:(JUB_UINT16)deviceID {
+- (void)send_one_apdu_test:(NSUInteger)deviceID {
     
 //    JUB_RV rv = JUBR_ERROR;
 //
@@ -397,7 +397,7 @@
 }
 
 
-- (void)device_reset_test:(JUB_UINT16)deviceID {
+- (void)device_reset_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -410,7 +410,7 @@
 }
 
 
-- (void)device_gen_seed_test:(JUB_UINT16)deviceID {
+- (void)device_gen_seed_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -425,7 +425,7 @@
 }
 
 
-- (void)device_import_mnemonic:(JUB_UINT16)deviceID
+- (void)device_import_mnemonic:(NSUInteger)deviceID
                        wordNum:(int)wordNum {
     
     JUB_RV rv = JUBR_ERROR;
@@ -453,7 +453,7 @@
 }
 
 
-- (void)device_export_mnemonic_test:(JUB_UINT16)deviceID {
+- (void)device_export_mnemonic_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     

@@ -155,7 +155,7 @@
         
         CGFloat buttonHeight = 50;
         
-        UIButton *selectedIconTypeButton = [[UIButton alloc] initWithFrame:CGRectMake(15, KStatusBarHeight + KNavigationBarHeight + 20, buttonWidth, buttonHeight)];
+        UIButton *selectedIconTypeButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 20, buttonWidth, buttonHeight)];
         
         _selectedIconTypeButton = selectedIconTypeButton;
                 

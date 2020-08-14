@@ -25,6 +25,11 @@ typedef enum : NSUInteger {
 } JUB_NS_ENUM_VERIFY_MODE;
 
 
+#define BUTTON_TITLE_USE_VK     @"Use virtual keyboard"
+#define BUTTON_TITLE_USE_FGPT   @"Use fingerprint"
+#define BUTTON_TITLE_USE_PIN    @"Use PIN"
+
+
 @interface JUBSharedData : NSObject
 
 @property (nonatomic, assign) NSInteger optItem;
@@ -36,8 +41,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) JUB_ENUM_BTC_UNIT_TYPE coinUnit;
 
 //@property (nonatomic, weak) UIViewController* selfClass;
-@property (nonatomic, strong) NSNumber* currDeviceID;
-@property (nonatomic, strong) NSNumber* currContextID;
+@property (nonatomic, assign) NSUInteger currDeviceID;
+@property (nonatomic, assign) NSUInteger currContextID;
 
 + (JUBSharedData *) sharedInstance;
 

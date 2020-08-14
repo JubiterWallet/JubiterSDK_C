@@ -27,6 +27,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
     [self initData];
 
     [self initUI];
@@ -46,6 +52,8 @@
 #pragma mark - 初始化UI
 - (void)initUI {
     
+    self.navigationController.navigationBar.translucent = NO;
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.title = @"JuBiter SDK Demo";
@@ -59,7 +67,7 @@
         
         TransmitSegment = [[UISegmentedControl alloc] initWithItems:array];
         
-        [TransmitSegment setFrame:CGRectMake(15, KStatusBarHeight + KNavigationBarHeight + 20, KScreenWidth - 2 * 15, 40)];
+        [TransmitSegment setFrame:CGRectMake(15, 20, KScreenWidth - 2 * 15, 40)];
         
         NSString *indexStr = [[NSUserDefaults standardUserDefaults] objectForKey:selectedTransmitTypeIndexStr];
         
@@ -81,7 +89,7 @@
     
     __weak JUBCoinTestListBaseController *weakSelf = self;
     
-    JUBCoinTestMainView *view = [JUBCoinTestMainView coinTestMainViewWithFrame:CGRectMake(0, CGRectGetMaxY(TransmitSegment.frame), KScreenWidth, KScreenHeight - CGRectGetMaxY(TransmitSegment.frame)) buttonArray:[self getButtonModelArray]];
+    JUBCoinTestMainView *view = [JUBCoinTestMainView coinTestMainViewWithFrame:CGRectMake(0, CGRectGetMaxY(TransmitSegment.frame), KScreenWidth, CGRectGetHeight(self.view.frame) - CGRectGetMaxY(TransmitSegment.frame)) buttonArray:[self getButtonModelArray]];
     
     [view setTransmissionViewCallBackBlock:^(NSInteger index) {
         NSLog(@"coinSeriesType = %ld", (long)index);

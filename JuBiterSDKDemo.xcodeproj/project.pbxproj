@@ -22,6 +22,11 @@
 		674EB2F12497442900344AD7 /* 42584E46433230303532353030303032_apk.settings in Resources */ = {isa = PBXBuildFile; fileRef = 674EB2EF2497442900344AD7 /* 42584E46433230303532353030303032_apk.settings */; };
 		67676B082462AB620099E2A8 /* JUBDeviceController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67676B062462AB620099E2A8 /* JUBDeviceController.mm */; };
 		676E97A624E51A110011D818 /* JUBListAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 676E97A524E51A110011D818 /* JUBListAlert.m */; };
+		676E97AC24E538D10011D818 /* JUBFingerManagerBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 676E97AB24E538D10011D818 /* JUBFingerManagerBaseController.m */; };
+		676E97AF24E538EE0011D818 /* JUBFgptMgrController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 676E97AE24E538EE0011D818 /* JUBFgptMgrController.mm */; };
+		676E97B424E538FE0011D818 /* JUBFingerEntryAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 676E97B124E538FE0011D818 /* JUBFingerEntryAlert.m */; };
+		676E97B524E538FE0011D818 /* JUBFingerManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 676E97B224E538FE0011D818 /* JUBFingerManagerCell.m */; };
+		676E97B824E539120011D818 /* JUBWarningAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 676E97B624E539120011D818 /* JUBWarningAlert.m */; };
 		6774047824E4EF9300F358ED /* testLTC.json in Resources */ = {isa = PBXBuildFile; fileRef = 6774046624E4EF9100F358ED /* testLTC.json */; };
 		6774047924E4EF9300F358ED /* testEOS.json in Resources */ = {isa = PBXBuildFile; fileRef = 6774046724E4EF9200F358ED /* testEOS.json */; };
 		6774047A24E4EF9300F358ED /* testQTUM.json in Resources */ = {isa = PBXBuildFile; fileRef = 6774046824E4EF9200F358ED /* testQTUM.json */; };
@@ -109,6 +114,16 @@
 		67676B072462AB620099E2A8 /* JUBDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBDeviceController.h; sourceTree = "<group>"; };
 		676E97A424E51A110011D818 /* JUBListAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBListAlert.h; sourceTree = "<group>"; };
 		676E97A524E51A110011D818 /* JUBListAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBListAlert.m; sourceTree = "<group>"; };
+		676E97AA24E538D00011D818 /* JUBFingerManagerBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBFingerManagerBaseController.h; sourceTree = "<group>"; };
+		676E97AB24E538D10011D818 /* JUBFingerManagerBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBFingerManagerBaseController.m; sourceTree = "<group>"; };
+		676E97AD24E538EE0011D818 /* JUBFgptMgrController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBFgptMgrController.h; sourceTree = "<group>"; };
+		676E97AE24E538EE0011D818 /* JUBFgptMgrController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBFgptMgrController.mm; sourceTree = "<group>"; };
+		676E97B024E538FE0011D818 /* JUBFingerManagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBFingerManagerCell.h; sourceTree = "<group>"; };
+		676E97B124E538FE0011D818 /* JUBFingerEntryAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBFingerEntryAlert.m; sourceTree = "<group>"; };
+		676E97B224E538FE0011D818 /* JUBFingerManagerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBFingerManagerCell.m; sourceTree = "<group>"; };
+		676E97B324E538FE0011D818 /* JUBFingerEntryAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBFingerEntryAlert.h; sourceTree = "<group>"; };
+		676E97B624E539120011D818 /* JUBWarningAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JUBWarningAlert.m; sourceTree = "<group>"; };
+		676E97B724E539120011D818 /* JUBWarningAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBWarningAlert.h; sourceTree = "<group>"; };
 		6774046624E4EF9100F358ED /* testLTC.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testLTC.json; path = testJSONScript/testLTC.json; sourceTree = "<group>"; };
 		6774046724E4EF9200F358ED /* testEOS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testEOS.json; path = testJSONScript/testEOS.json; sourceTree = "<group>"; };
 		6774046824E4EF9200F358ED /* testQTUM.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testQTUM.json; path = testJSONScript/testQTUM.json; sourceTree = "<group>"; };
@@ -278,6 +293,8 @@
 		687BCEC6245866BC00CD1780 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				676E97AA24E538D00011D818 /* JUBFingerManagerBaseController.h */,
+				676E97AB24E538D10011D818 /* JUBFingerManagerBaseController.m */,
 				687BCEE324591E8600CD1780 /* JUBCoinTestListBaseController.h */,
 				687BCEE424591E8600CD1780 /* JUBCoinTestListBaseController.m */,
 				687BCEC9245866BC00CD1780 /* JUBCoinTestDetailBaseController.h */,
@@ -288,6 +305,8 @@
 				67416528246BDEEF00DFAC28 /* JUBHomeController.mm */,
 				67CC319F2466BFEE00DDB9CD /* JUBDetailBaseController.h */,
 				67CC31A02466BFEE00DDB9CD /* JUBDetailBaseController.mm */,
+				676E97AD24E538EE0011D818 /* JUBFgptMgrController.h */,
+				676E97AE24E538EE0011D818 /* JUBFgptMgrController.mm */,
 				67676B072462AB620099E2A8 /* JUBDeviceController.h */,
 				67676B062462AB620099E2A8 /* JUBDeviceController.mm */,
 				67CC31992466AEE400DDB9CD /* JUBCoinController.h */,
@@ -307,6 +326,8 @@
 		687BCECD245866BC00CD1780 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				676E97B724E539120011D818 /* JUBWarningAlert.h */,
+				676E97B624E539120011D818 /* JUBWarningAlert.m */,
 				676E97A424E51A110011D818 /* JUBListAlert.h */,
 				676E97A524E51A110011D818 /* JUBListAlert.m */,
 				687BCED3245866BC00CD1780 /* FTResultDataCell.h */,
@@ -327,6 +348,10 @@
 				67416552246D4B7000DFAC28 /* JUBInputAddressView.m */,
 				67416555246D4B7000DFAC28 /* JUBSelectApduView.h */,
 				67416554246D4B7000DFAC28 /* JUBSelectApduView.m */,
+				676E97B324E538FE0011D818 /* JUBFingerEntryAlert.h */,
+				676E97B124E538FE0011D818 /* JUBFingerEntryAlert.m */,
+				676E97B024E538FE0011D818 /* JUBFingerManagerCell.h */,
+				676E97B224E538FE0011D818 /* JUBFingerManagerCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -485,20 +510,25 @@
 				67416551246D4B6000DFAC28 /* JUBBLEDeviceListCell.m in Sources */,
 				677BDA6C2469437100A0F913 /* JUBButtonModel.m in Sources */,
 				6741652A246BDEF000DFAC28 /* JUBHomeController.mm in Sources */,
+				676E97AC24E538D10011D818 /* JUBFingerManagerBaseController.m in Sources */,
 				677BDA75246A855900A0F913 /* JUBXRPController.mm in Sources */,
+				676E97B424E538FE0011D818 /* JUBFingerEntryAlert.m in Sources */,
 				67930AD4247E658D0041DBDF /* json_writer.cpp in Sources */,
 				677D34DA24BC2F3500391857 /* JUBNotification.m in Sources */,
 				677BDA72246A574200A0F913 /* JUBEOSController.mm in Sources */,
 				673E880C24AC518C00578781 /* JUBPinAlertView.m in Sources */,
 				687BCEDE245866BD00CD1780 /* JUBCoinTestMainView.mm in Sources */,
 				676E97A624E51A110011D818 /* JUBListAlert.m in Sources */,
+				676E97B824E539120011D818 /* JUBWarningAlert.m in Sources */,
 				67256A3324E1113400FC5BA5 /* JUBBLEDisconnectView.m in Sources */,
 				687BCEE0245866BD00CD1780 /* FTResultDataCell.m in Sources */,
 				687BCEE2245866BD00CD1780 /* Tools.m in Sources */,
 				67416550246D4B6000DFAC28 /* JUBBLEDeviceScanListView.m in Sources */,
+				676E97AF24E538EE0011D818 /* JUBFgptMgrController.mm in Sources */,
 				677D34D424BC2EAD00391857 /* JUBScanDeviceInfo.m in Sources */,
 				67808E17245A7737009041FD /* JUB_SDK_main.cpp in Sources */,
 				687BCEDD245866BD00CD1780 /* JUBBTCController.mm in Sources */,
+				676E97B524E538FE0011D818 /* JUBFingerManagerCell.m in Sources */,
 				67416556246D4B7000DFAC28 /* JUBInputAddressView.m in Sources */,
 				67930AD5247E658D0041DBDF /* json_reader.cpp in Sources */,
 				67676B082462AB620099E2A8 /* JUBDeviceController.mm in Sources */,
@@ -663,6 +693,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/",
 				);
+				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JubSDKDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -703,6 +734,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/",
 				);
+				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JubSDKDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

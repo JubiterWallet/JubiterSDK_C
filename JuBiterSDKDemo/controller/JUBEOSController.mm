@@ -7,6 +7,7 @@
 //
 
 #import "JUBPinAlertView.h"
+#import "JUBListAlert.h"
 #import "JUBSharedData.h"
 
 #import "JUBEOSController.h"
@@ -37,7 +38,7 @@
 
 
 #pragma mark - 通讯库寻卡回调
-- (void)CoinEOSOpt:(JUB_UINT16)deviceID {
+- (void)CoinEOSOpt:(NSUInteger)deviceID {
     
     const char* json_file = "";
     switch (self.optCoinType) {
@@ -81,7 +82,7 @@
 
 
 #pragma mark - EOS applet
-- (void)EOS_test:(JUB_UINT16)deviceID
+- (void)EOS_test:(NSUInteger)deviceID
             root:(Json::Value)root
           choice:(int)choice {
     
@@ -111,8 +112,8 @@
         }
         case JUB_NS_ENUM_OPT::TRANSACTION:
         {
-            [self transaction_test_EOS:contextID
-                                  root:root];
+            [self transaction_test:contextID
+                              root:root];
             break;
         }
         case JUB_NS_ENUM_OPT::SET_MY_ADDRESS:
@@ -131,7 +132,7 @@
 }
 
 
-- (void)get_address_pubkey_EOS:(JUB_UINT16)contextID {
+- (void)get_address_pubkey_EOS:(NSUInteger)contextID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -152,59 +153,136 @@
 }
 
 
-- (void)transaction_test_EOS:(JUB_UINT16)contextID
-                        root:(Json::Value)root {
+- (void)transaction_test:(NSUInteger)contextID
+                    root:(Json::Value)root {
     
-    JUB_RV rv = JUBR_ERROR;
+    __block JUB_RV rv = JUBR_ERROR;
     
-    JUBSharedData *data = [JUBSharedData sharedInstance];
-    switch (data.verifyMode) {
-    case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    switch ([sharedData deviceType]) {
+    case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
     {
-        rv = [self show_virtualKeyboard:contextID];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        
-        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-            JUBSharedData *data = [JUBSharedData sharedInstance];
-            [data setUserPin:pin];
-            
-            JUB_RV rv = [self verify_pin:contextID];
+        switch ([sharedData verifyMode]) {
+        case JUB_NS_ENUM_VERIFY_MODE::PIN:
+        {
+            rv = [self verify_pin:contextID];
             if (JUBR_OK != rv) {
                 return;
             }
             
-            rv = [self transaction_proc_EOS:contextID
-                                       root:root];
+            rv = [self transactionEOS_proc:contextID
+                                      root:root];
             if (JUBR_OK != rv) {
                 return;
             }
-        }];
+            break;
+        }   // case JUB_NS_ENUM_VERIFY_MODE::PIN end
+        case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
+        case JUB_NS_ENUM_VERIFY_MODE::FGPT:
+        default:
+            break;
+        }   // switch ([sharedData verifyMode]) end
         break;
-    }
-    case JUB_NS_ENUM_VERIFY_MODE::PIN:
+    }   // case JUB_NS_ENUM_DEV_TYPE::SEG_NFC end
+    case JUB_NS_ENUM_DEV_TYPE::SEG_BLE:
     {
-        rv = [self verify_pin:contextID];
+        __block BOOL isDone = NO;
+        switch ([sharedData verifyMode]) {
+        case JUB_NS_ENUM_VERIFY_MODE::FGPT:
+        {
+            JUBListAlert *listAlert = [JUBListAlert showCallBack:^(NSString *_Nonnull selectedItem) {
+                NSLog(@"Verify PIN mode selected: %@", selectedItem);
+                if ([selectedItem isEqual:BUTTON_TITLE_USE_VK]) {
+                    rv = [self show_virtualKeyboard:contextID];
+                    if (JUBR_OK != rv) {
+                        isDone = YES;
+                        return;
+                    }
+                    
+                    [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
+                        JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+                        [sharedData setUserPin:pin];
+                        
+                        rv = [self verify_pin:contextID];
+                        if (JUBR_OK != rv) {
+                            isDone = YES;
+                            return;
+                        }
+                        
+                        isDone = YES;
+                    }];
+                }   // if ([selectedItem isEqual:BUTTON_TITLE_USE_VK]) end
+                else if ([selectedItem isEqual:BUTTON_TITLE_USE_FGPT]) {
+                    rv = [self verify_fgpt:contextID];
+                    if (JUBR_OK != rv) {
+                        isDone = YES;
+                        return;
+                    }
+                    
+                    isDone = YES;
+                }   // if ([selectedItem isEqual:BUTTON_TITLE_USE_FGPT]) end
+            }];
+            
+            listAlert.title = @"Please select Verify PIN mode:";
+            [listAlert addItems:@[
+                BUTTON_TITLE_USE_VK,
+                BUTTON_TITLE_USE_FGPT
+            ]];
+            break;
+        }   // case JUB_NS_ENUM_VERIFY_MODE::FGPT end
+        case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
+        {
+            rv = [self show_virtualKeyboard:contextID];
+            if (JUBR_OK != rv) {
+                isDone = YES;
+                break;
+            }
+            
+            [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
+                [sharedData setUserPin:pin];
+                
+                rv = [self verify_pin:contextID];
+                if (JUBR_OK != rv) {
+                    isDone = YES;
+                    return;
+                }
+                
+                isDone = YES;
+            }];
+            
+            break;
+        }   // case JUB_NS_ENUM_VERIFY_MODE::VKPIN end
+        case JUB_NS_ENUM_VERIFY_MODE::PIN:
+        default:
+            rv = JUBR_ARGUMENTS_BAD;
+            isDone = YES;
+            break;
+        }   // switch (data.verifyMode) end
+        
+        while (!isDone) {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                     beforeDate:[NSDate distantFuture]];
+        }
+        
         if (JUBR_OK != rv) {
             return;
         }
         
-        rv = [self transaction_proc_EOS:contextID
-                                   root:root];
+        rv = [self transactionEOS_proc:contextID
+                                  root:root];
         if (JUBR_OK != rv) {
             return;
         }
         break;
-    }
+    }   // case JUB_NS_ENUM_DEV_TYPE::SEG_BLE end
     default:
         break;
-    }   // switch (data.verifyMode) end
+    }   // switch ([sharedData deviceType]) end
 }
 
 
-- (JUB_RV)transaction_proc_EOS:(JUB_UINT16)contextID
-                          root:(Json::Value)root {
+- (NSUInteger)transactionEOS_proc:(NSUInteger)contextID
+                             root:(Json::Value)root {
     
     JUB_RV rv = JUBR_ERROR;
     

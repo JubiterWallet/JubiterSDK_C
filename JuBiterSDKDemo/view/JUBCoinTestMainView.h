@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JUBCoinTestMainView : UIView
 
-+ (JUBCoinTestMainView *)coinTestMainViewWithFrame:(CGRect)frame buttonArray:(NSArray<JUBButtonModel *> *)btnArray;
++ (JUBCoinTestMainView *)coinTestMainViewWithFrame:(CGRect)frame buttonArray:(nullable NSArray<JUBButtonModel *> *)btnArray;
 
 - (void)addMsgData:(NSString *)msgData;
 

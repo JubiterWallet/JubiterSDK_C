@@ -23,16 +23,17 @@
 
 + (JUBAlertView *)showMsg:(NSString *)msg {
     
-    JUBAlertView *alertView = [JUBAlertView creatSelf];
+    __block JUBAlertView *alertView;
+    
+    alertView = [JUBAlertView creatSelf];
     
     alertView.msg = msg;
-                
+    
     UIView *whiteMainView = [alertView addMainView];
     
     [alertView addSubviewAboveSuperView:whiteMainView];
     
     return alertView;
-    
 }
 
 
@@ -46,7 +47,6 @@
     });
     
     return alertView;
-    
 }
 
 
@@ -57,10 +57,10 @@
     alertView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
     
     [[UIApplication sharedApplication].keyWindow addSubview:alertView];
-        
-    return alertView;
     
+    return alertView;
 }
+
 
 - (UIView *)addMainView {
     
@@ -77,7 +77,6 @@
     [self addSubview:mainView];
     
     return mainView;
-    
 }
 
 
@@ -111,7 +110,10 @@
 
 - (void)dismiss {
     
-    [self removeFromSuperview];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self removeFromSuperview];
+    });
 }
 
 @end

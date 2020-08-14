@@ -1,13 +1,14 @@
 //
 //  Tools.h
-//  STDDemo
+//  JuBiterSDKDemo
 //
 //  Created by Jermy on 2017/7/8.
-//  Copyright © 2017年 FEITIAN. All rights reserved.
+//  Copyright © 2020年 FEITIAN. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "JUBButtonModel.h"
 
 typedef void (^JUBGetPinCallBackBlock)(NSString *pin);
 
@@ -18,5 +19,7 @@ typedef void (^JUBGetPinCallBackBlock)(NSString *pin);
 + (void)showToast:(NSString *)tip time:(NSInteger)delay;
 
 - (UIColor *)colorWithHexString: (NSString *)color;
+
++ (UIViewController *)getCurrentVC;
 
 @end

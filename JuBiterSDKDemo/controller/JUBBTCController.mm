@@ -12,6 +12,8 @@
 
 #import "JUBBTCController.h"
 
+#import "JUBAlertView.h"
+
 
 @interface JUBBTCController ()
 
@@ -86,54 +88,54 @@
 
 
 #pragma mark - 通讯库寻卡回调
-- (void)CoinBTCOpt:(JUB_UINT16)deviceID {
+- (void)CoinBTCOpt:(NSUInteger)deviceID {
     
     const char* json_file = "";
     JUB_ENUM_COINTYPE_BTC coinType = JUB_ENUM_COINTYPE_BTC::COINBTC;
-    switch ((JUB_NS_ENUM_BTC_COINTYPE)self.optCoinType) {
-    case JUB_NS_ENUM_BTC_COINTYPE::COIN_BTC_P2PKH:
+    switch ((JUB_NS_ENUM_BTC_COIN)self.optCoinType) {
+    case JUB_NS_ENUM_BTC_COIN::BTN_BTC_P2PKH:
     {
         json_file = JSON_FILE_BTC_44;
         coinType = COINBTC;
         break;
     }
-    case JUB_NS_ENUM_BTC_COINTYPE::COIN_BTC_P2WPKH:
+    case JUB_NS_ENUM_BTC_COIN::BTN_BTC_P2WPKH:
     {
         json_file = JSON_FILE_BTC_49;
         coinType = COINBTC;
         break;
     }
-    case JUB_NS_ENUM_BTC_COINTYPE::COIN_LTC:
+    case JUB_NS_ENUM_BTC_COIN::BTN_LTC:
     {
         json_file = JSON_FILE_LTC;
         coinType = COINLTC;
         break;
     }
-    case JUB_NS_ENUM_BTC_COINTYPE::COIN_DASH:
+    case JUB_NS_ENUM_BTC_COIN::BTN_DASH:
     {
         json_file = JSON_FILE_DASH;
         coinType = COINDASH;
         break;
     }
-    case JUB_NS_ENUM_BTC_COINTYPE::COIN_BCH:
+    case JUB_NS_ENUM_BTC_COIN::BTN_BCH:
     {
         json_file = JSON_FILE_BCH;
         coinType = COINBCH;
         break;
     }
-    case JUB_NS_ENUM_BTC_COINTYPE::COIN_QTUM:
+    case JUB_NS_ENUM_BTC_COIN::BTN_QTUM:
     {
         json_file = JSON_FILE_QTUM;
         coinType = COINQTUM;
         break;
     }
-    case JUB_NS_ENUM_BTC_COINTYPE::COIN_QTUM_QRC20:
+    case JUB_NS_ENUM_BTC_COIN::BTN_QTUM_QRC20:
     {
         json_file = JSON_FILE_QTUM_QRC20;
         coinType = COINQTUM;
         break;
     }
-    case JUB_NS_ENUM_BTC_COINTYPE::COIN_USDT:
+    case JUB_NS_ENUM_BTC_COIN::BTN_USDT:
     {
         json_file = JSON_FILE_BTC_USDT;
         coinType = COINUSDT;
@@ -149,7 +151,7 @@
     Json::Value root = readJSON([filePath UTF8String]);
     
     switch (self.optCoinType) {
-//    case JUB_NS_ENUM_BTC_COINTYPE::COIN_HCASH:
+//    case JUB_NS_ENUM_BTC_COIN::BTN_HCASH:
 //    {
 //        HC_test(deviceID, root, (int)self.optIndex);
 //        break;
@@ -167,7 +169,7 @@
 
 
 #pragma mark - BTC applet
-- (void)BTC_test:(JUB_UINT16)deviceID
+- (void)BTC_test:(NSUInteger)deviceID
             root:(Json::Value)root
           choice:(int)choice
         coinType:(JUB_ENUM_COINTYPE_BTC)coinType {
@@ -175,7 +177,7 @@
     JUB_RV rv = JUBR_ERROR;
     
     try {
-        JUB_UINT16 contextID = [[[JUBSharedData sharedInstance] currContextID] intValue];
+        JUB_UINT16 contextID = [[JUBSharedData sharedInstance] currContextID];
         if (0 == contextID) {
             
             CONTEXT_CONFIG_BTC cfg;
@@ -236,7 +238,7 @@
 }
 
 
-- (void)BTCSingleStepOpt:(JUB_UINT16)contextID
+- (void)BTCSingleStepOpt:(NSUInteger)contextID
                     root:(Json::Value)root
                   choice:(int)choice {
     
@@ -264,7 +266,7 @@
 }
 
 
-- (void)BTCCombStepOpt:(JUB_UINT16)contextID
+- (void)BTCCombStepOpt:(NSUInteger)contextID
                   root:(Json::Value)root
                 choice:(int)choice {
     
@@ -276,26 +278,9 @@
     }
     case JUB_NS_ENUM_OPT::TRANSACTION:
     {
-        switch((JUB_NS_ENUM_BTC_COINTYPE)self.optCoinType) {
-        case JUB_NS_ENUM_BTC_COINTYPE::COIN_QTUM_QRC20:
-        {
-            [self transactionQTUM_test:contextID
-                                  root:root];
-            break;
-        }
-        case JUB_NS_ENUM_BTC_COINTYPE::COIN_USDT:
-        {
-            [self transactionUSDT_test:contextID
-                                  root:root];
-            break;
-        }
-        default:
-        {
-            [self transaction_test:contextID
-                              root:root];
-            break;
-        }
-        }
+
+        [self transaction_test:contextID
+                          root:root];
         break;
     }
     case JUB_NS_ENUM_OPT::GET_ADDRESS:
@@ -307,7 +292,7 @@
 }
 
 
-- (void)get_address_test:(JUB_UINT16)contextID
+- (void)get_address_test:(NSUInteger)contextID
                     root:(Json::Value)root {
     
     JUB_RV rv = JUBR_ERROR;
@@ -354,7 +339,7 @@
 }
 
 
-- (void)show_address_test:(JUB_UINT16)contextID {
+- (void)show_address_test:(NSUInteger)contextID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -374,18 +359,18 @@
 }
 
 
-- (void)set_my_address_test_BTC:(JUB_UINT16)contextID {
+- (void)set_my_address_test_BTC:(NSUInteger)contextID {
     
-    JUB_RV rv = [self show_virtualKeyboard:contextID];
+    __block JUB_RV rv = [self show_virtualKeyboard:contextID];
     if (JUBR_OK != rv) {
         return;
     }
     
     [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-        JUBSharedData *data = [JUBSharedData sharedInstance];
-        [data setUserPin:pin];
+        JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+        [sharedData setUserPin:pin];
         
-        JUB_RV rv = [self verify_pin:contextID];
+        rv = [self verify_pin:contextID];
         if (JUBR_OK != rv) {
             return;
         }
@@ -398,7 +383,7 @@
 }
 
 
-- (JUB_RV)set_my_address_proc:(JUB_UINT16)contextID {
+- (NSUInteger)set_my_address_proc:(NSUInteger)contextID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -421,7 +406,7 @@
 }
 
 
-- (JUB_RV)set_unit_test:(JUB_UINT16)contextID {
+- (NSUInteger)set_unit_test:(NSUInteger)contextID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -443,64 +428,197 @@
 }
 
 
-- (void)transaction_test:(JUB_UINT16)contextID
+- (void)transaction_test:(NSUInteger)contextID
                     root:(Json::Value)root {
     
-    JUB_RV rv = JUBR_ERROR;
+    __block JUB_RV rv = JUBR_ERROR;
     
-    JUBSharedData *data = [JUBSharedData sharedInstance];
-    switch (data.verifyMode) {
-    case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    switch ([sharedData deviceType]) {
+    case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
     {
-        rv = [self show_virtualKeyboard:contextID];
+        switch ([sharedData verifyMode]) {
+        case JUB_NS_ENUM_VERIFY_MODE::PIN:
+        {
+            rv = [self verify_pin:contextID];
+            if (JUBR_OK != rv) {
+                return;
+            }
+            
+            rv = [self tx_proc:contextID
+                          root:root];
+            if (JUBR_OK != rv) {
+                return;
+            }
+            break;
+        }   // case JUB_NS_ENUM_VERIFY_MODE::PIN end
+        case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
+        case JUB_NS_ENUM_VERIFY_MODE::FGPT:
+        default:
+            break;
+        }   // switch ([sharedData verifyMode]) end
+        break;
+    }   // case JUB_NS_ENUM_DEV_TYPE::SEG_NFC end
+    case JUB_NS_ENUM_DEV_TYPE::SEG_BLE:
+    {
+        __block BOOL isDone = NO;
+        switch ([sharedData verifyMode]) {
+        case JUB_NS_ENUM_VERIFY_MODE::FGPT:
+        {
+            JUBListAlert *listAlert = [JUBListAlert showCallBack:^(NSString *_Nonnull selectedItem) {
+                NSLog(@"Verify PIN mode selected: %@", selectedItem);
+                if ([selectedItem isEqual:BUTTON_TITLE_USE_VK]) {
+                    rv = [self show_virtualKeyboard:contextID];
+                    if (JUBR_OK != rv) {
+                        isDone = YES;
+                        return;
+                    }
+                    
+                    [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
+                        JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+                        [sharedData setUserPin:pin];
+                        
+                        rv = [self verify_pin:contextID];
+                        if (JUBR_OK != rv) {
+                            isDone = YES;
+                            return;
+                        }
+                        
+                        rv = [self set_unit_test:contextID];
+                        if (JUBR_OK != rv) {
+                            isDone = YES;
+                            return;
+                        }
+                        
+                        isDone = YES;
+                    }];
+                }   // if ([selectedItem isEqual:BUTTON_TITLE_USE_VK]) end
+                else if ([selectedItem isEqual:BUTTON_TITLE_USE_FGPT]) {
+                    rv = [self verify_fgpt:contextID];
+                    if (JUBR_OK != rv) {
+                        isDone = YES;
+                        return;
+                    }
+                    
+                    rv = [self set_unit_test:contextID];
+                    if (JUBR_OK != rv) {
+                        isDone = YES;
+                        return;
+                    }
+                    
+                    isDone = YES;
+                }   // if ([selectedItem isEqual:BUTTON_TITLE_USE_FGPT]) end
+            }];
+            
+            listAlert.title = @"Please select Verify PIN mode:";
+            [listAlert addItems:@[
+                BUTTON_TITLE_USE_VK,
+                BUTTON_TITLE_USE_FGPT
+            ]];
+            break;
+        }   // case JUB_NS_ENUM_VERIFY_MODE::FGPT end
+        case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
+        {
+            rv = [self show_virtualKeyboard:contextID];
+            if (JUBR_OK != rv) {
+                isDone = YES;
+                break;
+            }
+            
+            [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
+                [sharedData setUserPin:pin];
+                
+                rv = [self verify_pin:contextID];
+                if (JUBR_OK != rv) {
+                    isDone = YES;
+                    return;
+                }
+                
+                rv = [self set_unit_test:contextID];
+                if (JUBR_OK != rv) {
+                    isDone = YES;
+                    return;
+                }
+                
+                isDone = YES;
+            }];
+            break;
+        }   // case JUB_NS_ENUM_VERIFY_MODE::VKPIN end
+        case JUB_NS_ENUM_VERIFY_MODE::PIN:
+        default:
+            rv = JUBR_ARGUMENTS_BAD;
+            isDone = YES;
+            break;
+        }   // switch (data.verifyMode) end
+        
+        while (!isDone) {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                     beforeDate:[NSDate distantFuture]];
+        }
+        
         if (JUBR_OK != rv) {
             return;
         }
         
-        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-            JUBSharedData *data = [JUBSharedData sharedInstance];
-            [data setUserPin:pin];
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-            JUB_RV rv = [self verify_pin:contextID];
-            if (JUBR_OK != rv) {
-                return;
-            }
+            __block JUBAlertView *alertView;
             
-            rv = [self set_unit_test:contextID];
-            if (JUBR_OK != rv) {
-                return;
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                alertView = [JUBAlertView showMsg:@"Transaction in progress..."];
+            });
             
-            rv = [self transaction_proc:contextID
-                                   root:root];
-            if (JUBR_OK != rv) {
-                return;
-            }
-        }];
+            rv = [self tx_proc:contextID
+                          root:root];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [alertView dismiss];
+            });
+        });
         break;
-    }
-    case JUB_NS_ENUM_VERIFY_MODE::PIN:
-    {
-        rv = [self verify_pin:contextID];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        
-        rv = [self transaction_proc:contextID
-                               root:root];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        break;
-    }
+    }   // case JUB_NS_ENUM_DEV_TYPE::SEG_BLE end
     default:
         break;
-    }   // switch (data.verifyMode) end
+    }   // switch ([sharedData deviceType]) end
 }
 
 
-- (JUB_RV)transaction_proc:(JUB_UINT16)contextID
-                      root:(Json::Value)root {
+- (NSUInteger)tx_proc:(NSUInteger)contextID
+                 root:(Json::Value)root {
+    
+    JUB_RV rv = JUBR_ERROR;
+    
+    switch((JUB_NS_ENUM_BTC_COIN)self.optCoinType) {
+    case JUB_NS_ENUM_BTC_COIN::BTN_BTC_P2PKH:
+    case JUB_NS_ENUM_BTC_COIN::BTN_BTC_P2WPKH:
+    case JUB_NS_ENUM_BTC_COIN::BTN_LTC:
+    case JUB_NS_ENUM_BTC_COIN::BTN_DASH:
+    case JUB_NS_ENUM_BTC_COIN::BTN_QTUM:
+        rv = [self transaction_proc:contextID
+                               root:root];
+        break;
+    case JUB_NS_ENUM_BTC_COIN::BTN_QTUM_QRC20:
+        rv = [self transactionQTUM_proc:contextID
+                                   root:root];
+        break;
+    case JUB_NS_ENUM_BTC_COIN::BTN_USDT:
+        rv = [self transactionUSDT_proc:contextID
+                                   root:root];
+        break;
+//    case JUB_NS_ENUM_BTC_COIN::BTN_HCASH:
+//        rv = [self transactionHC_proc:contextID
+//                                 root:root];
+//        break;
+    default:
+        break;
+    }
+    
+    return rv;
+}
+
+
+- (NSUInteger)transaction_proc:(NSUInteger)contextID
+                          root:(Json::Value)root {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -566,59 +684,8 @@
 }
 
 
-- (void)transactionQTUM_test:(JUB_UINT16)contextID
-                        root:(Json::Value)root {
-    
-    JUB_RV rv = JUBR_ERROR;
-    
-    JUBSharedData *data = [JUBSharedData sharedInstance];
-    switch (data.verifyMode) {
-    case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
-    {
-        rv = [self show_virtualKeyboard:contextID];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        
-        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-            JUBSharedData *data = [JUBSharedData sharedInstance];
-            [data setUserPin:pin];
-            
-            JUB_RV rv = [self verify_pin:contextID];
-            if (JUBR_OK != rv) {
-                return;
-            }
-            
-            rv = [self transactionQTUM_proc:contextID
-                                       root:root];
-            if (JUBR_OK != rv) {
-                return;
-            }
-        }];
-        break;
-    }
-    case JUB_NS_ENUM_VERIFY_MODE::PIN:
-    {
-        rv = [self verify_pin:contextID];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        
-        rv = [self transactionQTUM_proc:contextID
-                                   root:root];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        break;
-    }
-    default:
-        break;
-    }   // switch (data.verifyMode) end
-}
-
-
-- (JUB_RV)transactionQTUM_proc:(JUB_UINT16)contextID
-                          root:(Json::Value)root {
+- (NSUInteger)transactionQTUM_proc:(NSUInteger)contextID
+                              root:(Json::Value)root {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -699,59 +766,8 @@
 }
 
 
-- (void)transactionUSDT_test:(JUB_UINT16)contextID
-                        root:(Json::Value)root {
-    
-    JUB_RV rv = JUBR_ERROR;
-    
-    JUBSharedData *data = [JUBSharedData sharedInstance];
-    switch (data.verifyMode) {
-    case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
-    {
-        rv = [self show_virtualKeyboard:contextID];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        
-        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-            JUBSharedData *data = [JUBSharedData sharedInstance];
-            [data setUserPin:pin];
-            
-            JUB_RV rv = [self verify_pin:contextID];
-            if (JUBR_OK != rv) {
-                return;
-            }
-            
-            rv = [self transactionUSDT_proc:contextID
-                                       root:root];
-            if (JUBR_OK != rv) {
-                return;
-            }
-        }];
-        break;
-    }
-    case JUB_NS_ENUM_VERIFY_MODE::PIN:
-    {
-        rv = [self verify_pin:contextID];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        
-        rv = [self transactionUSDT_proc:contextID
-                                   root:root];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        break;
-    }
-    default:
-        break;
-    }   // switch (data.verifyMode) end
-}
-
-
-- (JUB_RV)transactionUSDT_proc:(JUB_UINT16)contextID
-                          root:(Json::Value)root {
+- (NSUInteger)transactionUSDT_proc:(NSUInteger)contextID
+                              root:(Json::Value)root {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -825,7 +841,7 @@
 
 
 //#pragma mark - Hcash applet
-//void HC_test(JUB_UINT16 deviceID, Json::Value root, int choice) {
+//void HC_test(NSUInteger deviceID, Json::Value root, int choice) {
 //
 //    JUB_RV rv = JUBR_ERROR;
 //
@@ -877,7 +893,7 @@
 //}
 //
 //
-//void get_address_test_HC(JUB_UINT16 contextID, Json::Value root) {
+//void get_address_test_HC(NSUInteger contextID, Json::Value root) {
 //
 //    JUB_CHAR_PTR mainXpub;
 //    JUB_RV rv = JUB_GetMainHDNodeHC(contextID, &mainXpub);
@@ -926,7 +942,7 @@
 //}
 //
 //
-//void show_address_test_HC(JUB_UINT16 contextID) {
+//void show_address_test_HC(NSUInteger contextID) {
 //
 //    BIP44_Path path;
 //    path.change = (self.change ? JUB_ENUM_BOOL::BOOL_TRUE:JUB_ENUM_BOOL::BOOL_FALSE);
@@ -944,57 +960,7 @@
 //}
 //
 //
-//void transactionHC_test(JUB_UINT16 contextID, Json::Value root) {
-//
-//    JUB_RV rv = JUBR_ERROR;
-//
-//    JUBSharedData *data = [JUBSharedData sharedInstance];
-//    switch (data.verifyMode) {
-//    case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
-//    {
-//        rv = [self show_virtualKeyboard:contextID];
-//        if (JUBR_OK != rv) {
-//            return;
-//        }
-//
-//        [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-//            JUBSharedData *data = [JUBSharedData sharedInstance];
-//            [data setUserPin:pin];
-//
-//            JUB_RV rv = [self verify_pin:contextID];
-//            if (JUBR_OK != rv) {
-//                return;
-//            }
-//
-//            rv = [self transactionHC_proc:contextID
-//                                     root:root];
-//            if (JUBR_OK != rv) {
-//                return;
-//            }
-//        }];
-//        break;
-//    }
-//    case JUB_NS_ENUM_VERIFY_MODE::PIN:
-//    {
-//        rv = [self verify_pin:contextID];
-//        if (JUBR_OK != rv) {
-//            return;
-//        }
-//
-//        rv = [self transactionHC_proc:contextID
-//                                 root:root];
-//        if (JUBR_OK != rv) {
-//            return;
-//        }
-//        break;
-//    }
-//    default:
-//        break;
-//    }   // switch (data.verifyMode) end
-//}
-//
-//
-//JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
+//NSUInteger transactionHC_proc(NSUInteger contextID, Json::Value root) {
 //
 //    JUB_RV rv = JUBR_ERROR;
 //

@@ -50,6 +50,9 @@
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                            style:UIAlertActionStyleCancel
                                                          handler:^(UIAlertAction * _Nonnull action) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            inputPinCallBack(NULL);
+        });
     }];
     
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"

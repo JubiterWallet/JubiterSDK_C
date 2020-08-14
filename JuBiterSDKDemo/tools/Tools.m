@@ -1,9 +1,9 @@
 //
 //  Tools.m
-//  STDDemo
+//  JuBiterSDKDemo
 //
 //  Created by Jermy on 2017/7/8.
-//  Copyright © 2017年 FEITIAN. All rights reserved.
+//  Copyright © 2020年 FEITIAN. All rights reserved.
 //
 
 #import "Tools.h"
@@ -110,6 +110,69 @@ static Tools *_instance;
     dispatch_after(popTime, dispatch_get_main_queue(), ^() {
         [backgroundView removeFromSuperview];
     });
+}
+
+- (void)showPinAlertAboveVC:(UIViewController *)superVC getPinCallBackBlock:(JUBGetPinCallBackBlock)getPinCallBackBlock {
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入Pin码" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"点击了Cancel");
+    }];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        NSLog(@"点击了OK");
+        
+        getPinCallBackBlock(self.pinTextField.text);
+        
+    }];
+        
+    [alertController addAction:okAction];
+    
+    [alertController addAction:cancelAction];
+        
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        
+        textField.placeholder = @"请输入pin码";
+        
+        textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation; 
+        
+        self.pinTextField = textField;
+        
+    }];
+    
+    [superVC presentViewController:alertController animated:YES completion:nil];
+    
+}
+
++ (UIViewController *)getCurrentVC {
+    UIViewController *result = nil;
+
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for (UIWindow *temp in windows) {
+            if (temp.windowLevel == UIWindowLevelNormal) {
+                window = temp;
+                break;
+            }
+        }
+    }
+    //取当前展示的控制器
+    result = window.rootViewController;
+    while (result.presentedViewController) {
+        result = result.presentedViewController;
+    }
+    //如果为UITabBarController：取选中控制器
+    if ([result isKindOfClass:[UITabBarController class]]) {
+        result = [(UITabBarController *)result selectedViewController];
+    }
+    //如果为UINavigationController：取可视控制器
+    if ([result isKindOfClass:[UINavigationController class]]) {
+        result = [(UINavigationController *)result visibleViewController];
+    }
+    return result;
 }
 
 @end
