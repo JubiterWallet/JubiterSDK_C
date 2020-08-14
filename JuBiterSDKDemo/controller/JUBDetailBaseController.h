@@ -37,27 +37,27 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid);
 
 
 #pragma mark - 操作菜单 通讯库寻卡回调
-- (void)MenuOption:(JUB_UINT16)deviceID;
+- (void)MenuOption:(NSUInteger)deviceID;
 
 
 #pragma mark - Device 通讯库寻卡回调
-- (void)DeviceOpt:(JUB_UINT16)deviceID;
+- (void)DeviceOpt:(NSUInteger)deviceID;
 
 
 #pragma mark - BTC 通讯库寻卡回调
-- (void)CoinBTCOpt:(JUB_UINT16)deviceID;
+- (void)CoinBTCOpt:(NSUInteger)deviceID;
 
 
 #pragma mark - ETH 通讯库寻卡回调
-- (void)CoinETHOpt:(JUB_UINT16)deviceID;
+- (void)CoinETHOpt:(NSUInteger)deviceID;
 
 
 #pragma mark - EOS 通讯库寻卡回调
-- (void)CoinEOSOpt:(JUB_UINT16)deviceID;
+- (void)CoinEOSOpt:(NSUInteger)deviceID;
 
 
 #pragma mark - XRP 通讯库寻卡回调
-- (void)CoinXRPOpt:(JUB_UINT16)deviceID;
+- (void)CoinXRPOpt:(NSUInteger)deviceID;
 
 
 @end

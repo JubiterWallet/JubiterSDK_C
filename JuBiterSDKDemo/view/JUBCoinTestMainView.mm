@@ -28,7 +28,7 @@ API_AVAILABLE(ios(13.0))
 
 @implementation JUBCoinTestMainView
 
-+ (JUBCoinTestMainView *)coinTestMainViewWithFrame:(CGRect)frame buttonArray:(NSArray<JUBButtonModel *> *)btnArray {
++ (JUBCoinTestMainView *)coinTestMainViewWithFrame:(CGRect)frame buttonArray:(nullable NSArray<JUBButtonModel *> *)btnArray {
     
     buttonArray = btnArray;
     
@@ -160,13 +160,25 @@ API_AVAILABLE(ios(13.0))
 //初始化界面下部的返回结果UI
 - (void)initResultDataUI {
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame)/2, KScreenWidth, 1)];
+    UIView *line;
+    
+    if (buttonArray.count > 0) {
+        line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame)/2, KScreenWidth, 1)];
+    } else {
+        line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 1)];
+    }
     
     line.backgroundColor = [[Tools defaultTools] colorWithHexString: @"#008792"];
     
     [self addSubview:line];
     
-    UITableView *msgTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), KScreenWidth, CGRectGetHeight(self.frame)/2) style:UITableViewStylePlain];
+    UITableView *msgTableView;
+    
+    if (buttonArray.count > 0) {
+        msgTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), KScreenWidth, CGRectGetHeight(self.frame)/2) style:UITableViewStylePlain];
+    } else {
+        msgTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), KScreenWidth, CGRectGetHeight(self.frame)) style:UITableViewStylePlain];
+    }
     
     msgTableView.showsVerticalScrollIndicator = NO;
     

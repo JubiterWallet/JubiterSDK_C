@@ -16,6 +16,7 @@
 #import "JUBNotification.h"
 
 #import "JUBDeviceController.h"
+#import "JUBFgptMgrController.h"
 #import "JUBBTCController.h"
 #import "JUBETHController.h"
 #import "JUBEOSController.h"
@@ -82,7 +83,6 @@
     self.scanDeviceDict = [[NSMutableDictionary alloc] init];
     self.connDeviceDict = [[NSMutableDictionary alloc] init];
     
-    [[JUBSharedData sharedInstance] setCurrDeviceID:[NSNumber numberWithInt:0]];
     [[JUBSharedData sharedInstance] setDeviceType:defaultDeviceType];
 }
 
@@ -101,7 +101,7 @@
 - (void)updateBLEDeviceList {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-//        [self.BLEDeviceScanListView cleanBLEDeviceArray];
+        [self.BLEDeviceScanListView cleanBLEDeviceArray];
         
         if (         self->scanDeviceDict
             && 0 == [self->scanDeviceDict count]
@@ -204,8 +204,7 @@
         param.discCallBack = BLEDiscFuncCallBack;
         JUB_RV rv = JUB_initDevice(param);
         if (JUBR_OK != rv) {
-            [self addMsgData:[NSString stringWithFormat:@"[JUB_initDevice() ERROR.]"]];
-            
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_initDevice() return 0x%lx.]", rv]];
             return;
         }
         
@@ -249,8 +248,9 @@
 
 - (NSArray *)getTransmitTypeArray {
     
-    return @[BUTTON_TITLE_NFC,
-             BUTTON_TITLE_BLE
+    return @[
+        BUTTON_TITLE_NFC,
+        BUTTON_TITLE_BLE
     ];
 }
 
@@ -258,11 +258,13 @@
 //设置首页列表内容
 - (NSArray *)getButtonTitleArray {
     
-    NSArray *buttonTapSelectorNameArray = @[BUTTON_TITLE_DEVICE,
-                                            BUTTON_TITLE_BTC,
-                                            BUTTON_TITLE_ETH,
-                                            BUTTON_TITLE_EOS,
-                                            BUTTON_TITLE_XRP
+    NSArray *buttonTapSelectorNameArray = @[
+        BUTTON_TITLE_FGPT,
+        BUTTON_TITLE_DEVICE,
+        BUTTON_TITLE_BTC,
+        BUTTON_TITLE_ETH,
+        BUTTON_TITLE_EOS,
+        BUTTON_TITLE_XRP,
     ];
     
 //    self.buttonTapSelectorNameArray = buttonTapSelectorNameArray;
@@ -272,10 +274,15 @@
 
 
 //首页按钮点击响应事件
-- (void)gotoDetailAccordingCoinSeriesType:(NSInteger)coinSeriesType {
+- (void)gotoDetailAccordingCoinSeriesType:(NSInteger)optType {
     
-    if (  nil ==  [[JUBSharedData sharedInstance] currDeviceID]
-        || (0 == [[[JUBSharedData sharedInstance] currDeviceID] intValue])
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
+    if (JUB_NS_ENUM_DEV_TYPE::SEG_BLE == [sharedData deviceType]
+        &&                          0 == [sharedData currDeviceID]
         ) {
         NSString *connDevAlertString = @"Please connect the device first...";
         JUBAlertView *alertView = [JUBAlertView showMsg:connDevAlertString];
@@ -290,8 +297,14 @@
         return;
     }
     
-    JUBDetailBaseController *vc;
-    switch (coinSeriesType) {
+    JUBFingerManagerBaseController *fgpt = nil;
+    JUBDetailBaseController *vc = nil;
+    switch (optType) {
+    case JUB_NS_ENUM_MAIN::OPT_FGPT:
+    {
+        fgpt = [[JUBFgptMgrController alloc] init];
+        break;
+    }
     case JUB_NS_ENUM_MAIN::OPT_DEVICE:
     {
         vc = [[JUBDeviceController alloc] init];
@@ -319,10 +332,16 @@
     }
     default:
         return;
-    }   // switch (coinSeriesType) end
+    }   // switch (optType) end
     
-    [self.navigationController pushViewController:vc
-                                         animated:YES];
+    if (vc) {
+        [self.navigationController pushViewController:vc
+                                             animated:YES];
+    }
+    else if (fgpt) {
+        [self.navigationController pushViewController:fgpt
+                                             animated:YES];
+    }
 }
 
 
@@ -330,9 +349,13 @@
     
     NSLog(@"scanBLEButtonClicked");
     
-    if (JUBR_OK != JUB_enumDevices()) {
+    __block
+    JUB_RV rv = JUBR_ERROR;
+    
+    rv = JUB_enumDevices();
+    if (JUBR_OK != rv) {
         
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_enumDevices() ERROR.]"]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_enumDevices() return 0x%lx.]", rv]];
         return;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_enumDevices() OK.]"]];
@@ -351,7 +374,8 @@
 //                [alertView dismiss];
 //            });
             
-            __block JUBAlertView *alertView;
+            __block
+            JUBAlertView *alertView;
             dispatch_async(dispatch_get_main_queue(), ^{
                 alertView = [JUBAlertView showMsg:@"Connecting BLE device..."];
             });
@@ -359,12 +383,12 @@
             dispatch_async(dispatch_get_global_queue(0, 0), ^ {
                 
                 JUB_UINT16 deviceID = 0;
-                JUB_RV rv = JUB_connectDevice((JUB_BYTE_PTR)[deviceInfo.name UTF8String],
-                                              (JUB_BYTE_PTR)[deviceInfo.uuid UTF8String],
-                                              (JUB_UINT32)deviceInfo.type,
-                                              &deviceID, 30000);
+                rv = JUB_connectDevice((JUB_BYTE_PTR)[deviceInfo.name UTF8String],
+                                       (JUB_BYTE_PTR)[deviceInfo.uuid UTF8String],
+                                       (JUB_UINT32)deviceInfo.type,
+                                       &deviceID, 30000);
                 if (JUBR_OK != rv) {
-                    [self addMsgData:[NSString stringWithFormat:@"[JUB_connectDevice() ERROR.]"]];
+                    [self addMsgData:[NSString stringWithFormat:@"[JUB_connectDevice() return 0x%lx.]", rv]];
                     return;
                 }
                 [self addMsgData:[NSString stringWithFormat:@"[JUB_connectDevice() OK.]"]];
@@ -372,7 +396,7 @@
                 [self.connDeviceDict setObject:deviceInfo
                                         forKey:[NSNumber numberWithInt:deviceID]];
                 
-                [[JUBSharedData sharedInstance] setCurrDeviceID:[NSNumber numberWithInt:deviceID]];
+                [[JUBSharedData sharedInstance] setCurrDeviceID:deviceID];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [alertView dismiss];
@@ -384,7 +408,7 @@
 //    scanDeviceTimer = [NSTimer scheduledTimerWithTimeInterval:10
 //                                                      repeats:YES
 //                                                        block:^(NSTimer * _Nonnull timer) {
-//        JUB_RV rv = JUB_enumDevices();
+//        rv = JUB_enumDevices();
 //        if (JUBR_OK != rv) {
 //
 //            [self addMsgData:[NSString stringWithFormat:@"[JUB_enumDevices() ERROR.]"]];
@@ -400,11 +424,14 @@
     
     NSLog(@"disConnectBLEButtonClicked");
     
+    __block
+    NSNumber* disconnDeviceID = nil;
+    
     JUBBLEDisconnectView *bleDisconnectView = [JUBBLEDisconnectView showCallBack:^(NSString * _Nonnull deviceName) {
         NSLog(@"deviceName = %@", deviceName);
         
-        NSNumber* deviceID = [self searchConnDeviceInfo:deviceName];
-        if (deviceID) {
+        disconnDeviceID = [self searchConnDeviceInfo:deviceName];
+        if (disconnDeviceID) {
 //            JUBAlertView *alertView = [JUBAlertView showMsg:@"Disconnecting BLE device..."];
 //
 //            //蓝牙连接成功之后将alertView隐藏掉，延时可以去掉，需要隐藏的时候直接隐藏即可
@@ -415,18 +442,20 @@
 //                [alertView dismiss];
 //            });
             
-            __block JUBAlertView *alertView;
+            __block
+            JUBAlertView *alertView;
             dispatch_async(dispatch_get_main_queue(), ^{
                 alertView = [JUBAlertView showMsg:@"Disconnecting BLE device..."];
             });
             
-            JUB_RV rv = JUB_disconnectDevice([deviceID intValue]);
+            JUB_RV rv = JUB_disconnectDevice([disconnDeviceID intValue]);
             if (JUBR_OK != rv) {
-                
-                [self addMsgData:[NSString stringWithFormat:@"[JUB_disconnectDevice() ERROR.]"]];
-                return;
+                [self addMsgData:[NSString stringWithFormat:@"[JUB_disconnectDevice() return 0x%lx.]", rv]];
             }
-            [self addMsgData:[NSString stringWithFormat:@"[JUB_disconnectDevice() OK.]"]];
+            else {
+                [self addMsgData:[NSString stringWithFormat:@"[JUB_disconnectDevice() OK.]"]];
+                [self.connDeviceDict removeObjectForKey:disconnDeviceID];
+            }
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [alertView dismiss];

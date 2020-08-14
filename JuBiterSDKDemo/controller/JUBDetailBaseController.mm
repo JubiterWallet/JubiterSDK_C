@@ -17,12 +17,15 @@ inline void NFCScanFuncCallBack(unsigned int errorCode,
                                 const char* uuid,
                                 unsigned int devType) {
     
-//    JUBSharedData *data = [JUBSharedData sharedInstance];
+//    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+//    if (nil == sharedData) {
+//        return;
+//    }
+//
 //    JUBDetailBaseController *selfClass = (JUBDetailBaseController*)data.selfClass;
     
     if (JUBR_OK != errorCode) {
         [cSelf addMsgData:[NSString stringWithFormat:@"[NFCScanFuncCallBackDev() return 0x%iu.]", errorCode]];
-        
         return;
     }
     [cSelf addMsgData:[NSString stringWithFormat:@"[NFCScanFuncCallBackDev() OK.]"]];
@@ -65,7 +68,7 @@ int BLEReadFuncCallBack(JUB_ULONG devHandle, JUB_BYTE_PTR data, JUB_UINT32 dataL
 
 void BLEScanFuncCallBack(JUB_BYTE_PTR devName, JUB_BYTE_PTR uuid, JUB_UINT32 type) {
     
-    NSLog(@"Scan: [%s:%s:%ul]", devName, uuid, type);
+    NSLog(@"Scan: [%s:%s:0x%u]", devName, uuid, type);
     
     JUBScanDeviceInfo* deviceInfo = [[JUBScanDeviceInfo alloc] init];
     deviceInfo.name = [NSString stringWithCString:(char*)devName
@@ -119,9 +122,13 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
 
 - (void)beginNFCSession {
     
-    JUBSharedData *data = [JUBSharedData sharedInstance];
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
 //    [data setSelfClass:self.selfClass];
-    data.optItem = self.optItem;
+    [sharedData setOptItem:self.optItem];
     
     std::string fileName = "42584E46433230303532353030303031_apk";
 //    std::string fileName = "42584E46433230303532353030303032_apk";
@@ -139,7 +146,6 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
     JUB_RV rv = JUB_initNFCDevice(param);
     if (JUBR_OK != rv) {
         [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() ERROR.]"]];
-        
         return;
     }
     [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() OK.]"]];
@@ -148,21 +154,29 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
 
 - (void)beginBLESession {
     
-    JUBSharedData *data = [JUBSharedData sharedInstance];
-//    [data setSelfClass:self.selfClass];
-    data.optItem = self.optItem;
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
     
-    [self MenuOption:[[data currDeviceID] intValue]];
+//    [data setSelfClass:self.selfClass];
+    [sharedData setOptItem:self.optItem];
+    
+    [self MenuOption:[sharedData currDeviceID]];
 }
 
 
 #pragma mark - 操作菜单 通讯库寻卡回调
-- (void)MenuOption:(JUB_UINT16)deviceID {
+- (void)MenuOption:(NSUInteger)deviceID {
     
-    JUBSharedData *data = [JUBSharedData sharedInstance];
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
 //    JUBDetailBaseController *selfClass = (JUBDetailBaseController*)data.selfClass;
     
-    switch (data.optItem) {
+    switch ([sharedData optItem]) {
     case JUB_NS_ENUM_MAIN::OPT_DEVICE:
     {
         [self DeviceOpt:deviceID];
@@ -195,31 +209,31 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
 
 
 #pragma mark - Device 通讯库寻卡回调
-- (void)DeviceOpt:(JUB_UINT16)deviceID {
+- (void)DeviceOpt:(NSUInteger)deviceID {
     
 }
 
 
 #pragma mark - BTC 通讯库寻卡回调
-- (void)CoinBTCOpt:(JUB_UINT16)deviceID {
+- (void)CoinBTCOpt:(NSUInteger)deviceID {
     
 }
 
 
 #pragma mark - ETH 通讯库寻卡回调
-- (void)CoinETHOpt:(JUB_UINT16)deviceID {
+- (void)CoinETHOpt:(NSUInteger)deviceID {
     
 }
 
 
 #pragma mark - EOS 通讯库寻卡回调
-- (void)CoinEOSOpt:(JUB_UINT16)deviceID {
+- (void)CoinEOSOpt:(NSUInteger)deviceID {
     
 }
 
 
 #pragma mark - XRP 通讯库寻卡回调
-- (void)CoinXRPOpt:(JUB_UINT16)deviceID {
+- (void)CoinXRPOpt:(NSUInteger)deviceID {
     
 }
 

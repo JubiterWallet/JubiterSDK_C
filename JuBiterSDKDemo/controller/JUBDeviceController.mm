@@ -85,6 +85,11 @@
     
     NSLog(@"JUBDeviceController--selectedTransmitTypeIndex = %ld, Type = %ld, selectedTestActionType = %ld", (long)self.selectedTransmitTypeIndex, (long)self.selectCoinTypeIndex, (long)index);
     
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
     self.optIndex = index;
     
     switch (self.optIndex) {
@@ -152,8 +157,14 @@
     {
         [JUBPinAlertView showChangePinAlert:^(NSString * _Nonnull oldPin,
                                               NSString * _Nonnull newPin) {
-            [[JUBSharedData sharedInstance] setUserPin:oldPin];
-            [[JUBSharedData sharedInstance] setNeoPin:newPin];
+            if (   nil == oldPin
+                || nil == newPin
+                ) {
+//                rv = JUBR_USER_CANCEL;
+                return;
+            }
+            [sharedData setUserPin:oldPin];
+            [sharedData setNeoPin:newPin];
             
             switch (self.selectedTransmitTypeIndex) {
             case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
@@ -175,8 +186,11 @@
     case JUB_NS_ENUM_DEV_OPT::EXPORT_MNEMONIC:
     {
         [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-            
-            [[JUBSharedData sharedInstance] setUserPin:pin];
+            if (nil == pin) {
+//                rv = JUBR_USER_CANCEL;
+                return;
+            }
+            [sharedData setUserPin:pin];
             
             switch (self.selectedTransmitTypeIndex) {
             case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
@@ -198,7 +212,7 @@
 
 
 #pragma mark - 通讯库寻卡回调
-- (void)DeviceOpt:(JUB_UINT16)deviceID {
+- (void)DeviceOpt:(NSUInteger)deviceID {
     
     int wordNum = 24;
     switch (self.optIndex) {
@@ -263,7 +277,7 @@
 
 
 #pragma mark - 业务
-- (void)query_device_battery:(JUB_UINT16)deviceID {
+- (void)query_device_battery:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -279,7 +293,7 @@
 }
 
 
-- (void)get_device_info_test:(JUB_UINT16)deviceID {
+- (void)get_device_info_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -300,7 +314,7 @@
 }
 
 
-- (void)get_device_applet_test:(JUB_UINT16)deviceID {
+- (void)get_device_applet_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -313,7 +327,12 @@
     [self addMsgData:[NSString stringWithFormat:@"[JUB_EnumApplets() OK.]"]];
     
     std::string appletList = appList;
-    JUB_FreeMemory(appList);
+    rv = JUB_FreeMemory(appList);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return 0x%2lx.]", rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"Applets are %@.", [NSString stringWithUTF8String:appletList.c_str()]]];
     
@@ -342,13 +361,18 @@
     [self addMsgData:[NSString stringWithFormat:@"[JUB_EnumSupportCoins() OK.]"]];
     
     std::string coinSupportList = coinList;
-    JUB_FreeMemory(coinList);
+    rv = JUB_FreeMemory(coinList);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return 0x%2lx.]", rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"Support coins are %@.", [NSString stringWithUTF8String:coinSupportList.c_str()]]];
 }
 
 
-- (void)get_device_cert_test:(JUB_UINT16)deviceID {
+- (void)get_device_cert_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -361,17 +385,27 @@
     [self addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceCert() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"Device Cert is %s.", cert]];
-    JUB_FreeMemory(cert);
+    rv = JUB_FreeMemory(cert);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return 0x%2lx.]", rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
 }
 
 
-- (void)change_device_pin_test:(JUB_UINT16)deviceID {
+- (void)change_device_pin_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
     rv = JUB_ChangePIN(deviceID,
-                       [[[JUBSharedData sharedInstance] userPin] UTF8String],
-                       [[[JUBSharedData sharedInstance]  neoPin] UTF8String]);
+                       [[sharedData userPin] UTF8String],
+                       [[sharedData  neoPin] UTF8String]);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_ChangePIN() return 0x%2lx.]", rv]];
         return;
@@ -381,7 +415,7 @@
 }
 
 
-- (void)send_one_apdu_test:(JUB_UINT16)deviceID {
+- (void)send_one_apdu_test:(NSUInteger)deviceID {
     
 //    JUB_RV rv = JUBR_ERROR;
 //
@@ -393,11 +427,16 @@
 //    }
 //
 //    [self addMsgData:[NSString stringWithFormat:@"Device Cert is %s.", cert]];
-//    JUB_FreeMemory(cert);
+//    rv = JUB_FreeMemory(cert);
+//    if (JUBR_OK != rv) {
+//        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return 0x%2lx.]", rv]];
+//        return;
+//    }
+//    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
 }
 
 
-- (void)device_reset_test:(JUB_UINT16)deviceID {
+- (void)device_reset_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -410,12 +449,17 @@
 }
 
 
-- (void)device_gen_seed_test:(JUB_UINT16)deviceID {
+- (void)device_gen_seed_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
     rv = JUB_GenerateSeed(deviceID,
-                          [[[JUBSharedData sharedInstance] userPin] UTF8String],
+                          [[sharedData userPin] UTF8String],
                           JUB_ENUM_CURVES::SECP256K1);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GenerateSeed() return 0x%2lx.]", rv]];
@@ -425,10 +469,15 @@
 }
 
 
-- (void)device_import_mnemonic:(JUB_UINT16)deviceID
+- (void)device_import_mnemonic:(NSUInteger)deviceID
                        wordNum:(int)wordNum {
     
     JUB_RV rv = JUBR_ERROR;
+    
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"testMnemonic"
                                                          ofType:@"json"];
@@ -443,7 +492,7 @@
     char *mnemonic = (char*)root[keyword.c_str()].asCString();
     
     rv = JUB_ImportMnemonic(deviceID,
-                            [[[JUBSharedData sharedInstance] userPin] UTF8String],
+                            [[sharedData userPin] UTF8String],
                             mnemonic);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_ImportMnemonic() return 0x%2lx.]", rv]];
@@ -453,13 +502,18 @@
 }
 
 
-- (void)device_export_mnemonic_test:(JUB_UINT16)deviceID {
+- (void)device_export_mnemonic_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
     
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
     JUB_CHAR_PTR mnemonic;
     rv = JUB_ExportMnemonic(deviceID,
-                            [[[JUBSharedData sharedInstance] userPin] UTF8String],
+                            [[sharedData userPin] UTF8String],
                             &mnemonic);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_ExportMnemonic() return 0x%2lx.]", rv]];
@@ -468,7 +522,12 @@
     [self addMsgData:[NSString stringWithFormat:@"[JUB_ExportMnemonic() OK.]"]];
     
     [self addMsgData:[NSString stringWithFormat:@"Device seed is %s.", mnemonic]];
-    JUB_FreeMemory(mnemonic);
+    rv = JUB_FreeMemory(mnemonic);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return 0x%2lx.]", rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
 }
 
 

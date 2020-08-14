@@ -58,20 +58,32 @@
     }
     
     self.buttonArray = buttonModelArray;
-        
-    [[JUBSharedData sharedInstance] setCurrContextID:0];
     
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    [sharedData setCurrMainPath:nil];
+    [sharedData setCurrCoinType:-1];
+    [sharedData setCurrContextID:0];
 }
 
 
 - (void)dealloc {
     
-    JUB_UINT16 contextID = [[[JUBSharedData sharedInstance] currContextID] intValue];
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
+    JUB_UINT16 contextID = [sharedData currContextID];
     if (!contextID) {
         JUB_ClearContext(contextID);
     }
     
-    [[JUBSharedData sharedInstance] setCurrContextID:0];
+    [sharedData setCurrMainPath:nil];
+    [sharedData setCurrCoinType:-1];
+    [sharedData setCurrContextID:0];
 }
 
 
@@ -89,6 +101,12 @@
     
     NSLog(@"JUBCoinController--selectedTransmitTypeIndex = %ld, CoinType = %ld, selectedTestActionType = %ld", (long)self.selectedTransmitTypeIndex, (long)self.selectCoinTypeIndex, (long)index);
     
+    __block
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
     self.optIndex = index;
     
     switch (self.optIndex) {
@@ -98,17 +116,37 @@
         case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
         {
             [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-                JUBSharedData *data = [JUBSharedData sharedInstance];
-                [data setUserPin:pin];
-                [data setVerifyMode:JUB_NS_ENUM_VERIFY_MODE::PIN];
+                if (nil == pin) {
+                    [self addMsgData:[NSString stringWithFormat:@"[User CANCELED"]];
+//                    rv = JUBR_USER_CANCEL;
+                    return;
+                }
+                [sharedData setUserPin:pin];
+                [sharedData setVerifyMode:JUB_NS_ENUM_VERIFY_MODE::PIN];
                 [self beginNFCSession];
             }];
             break;
         }
         case JUB_NS_ENUM_DEV_TYPE::SEG_BLE:
         {
-            JUBSharedData *data = [JUBSharedData sharedInstance];
-            [data setVerifyMode:JUB_NS_ENUM_VERIFY_MODE::VKPIN];
+            JUB_ENUM_COMMODE comMode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
+            JUB_ENUM_DEVICE deviceClass = JUB_ENUM_DEVICE::DEVICE_NS_ITEM;
+            JUB_RV rv = JUB_GetDeviceType([sharedData currDeviceID], &comMode, &deviceClass);
+            if (JUBR_OK != rv) {
+                [self addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceType() return 0x%2lx.]", rv]];
+                return;
+            }
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceType() OK.]"]];
+            
+            switch (deviceClass) {
+            case JUB_ENUM_DEVICE::BIO:
+                [sharedData setVerifyMode:JUB_NS_ENUM_VERIFY_MODE::FGPT];
+                break;
+            case JUB_ENUM_DEVICE::BLADE:
+            default:
+                [sharedData setVerifyMode:JUB_NS_ENUM_VERIFY_MODE::VKPIN];
+                break;
+            }
             [self beginBLESession];
             break;
         }
@@ -166,9 +204,7 @@
 
 
 #pragma mark - 业务
-
-
-- (JUB_RV)show_virtualKeyboard:(JUB_UINT16)contextID {
+- (NSUInteger)show_virtualKeyboard:(NSUInteger)contextID {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -177,6 +213,7 @@
         && JUBR_IMPL_NOT_SUPPORT != rv
         ) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_ShowVirtualPwd() return 0x%2lx.]", rv]];
+        return rv;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_ShowVirtualPwd() OK.]"]];
     
@@ -184,16 +221,55 @@
 }
 
 
-- (JUB_RV)verify_pin:(JUB_UINT16)contextID {
+- (NSUInteger)cancel_virtualKeyboard:(NSUInteger)contextID {
+    
+    JUB_RV rv = JUBR_ERROR;
+    
+    rv = JUB_CancelVirtualPwd(contextID);
+    if (   JUBR_OK               != rv
+        && JUBR_IMPL_NOT_SUPPORT != rv
+        ) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_CancelVirtualPwd() return 0x%2lx.]", rv]];
+        return rv;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_CancelVirtualPwd() OK.]"]];
+    
+    return rv;
+}
+
+
+- (NSUInteger)verify_pin:(NSUInteger)contextID {
+    
+    JUB_RV rv = JUBR_ERROR;
+    
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return rv;
+    }
+    
+    JUB_ULONG retry = 0;
+    rv = JUB_VerifyPIN(contextID, [[sharedData userPin] UTF8String], &retry);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN(%lu) return 0x%2lx.]", retry, rv]];
+        return rv;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN() OK.]"]];
+    
+    return rv;
+}
+
+
+- (NSUInteger)verify_fgpt:(NSUInteger)contextID {
     
     JUB_RV rv = JUBR_ERROR;
     
     JUB_ULONG retry = 0;
-    rv = JUB_VerifyPIN(contextID, [[[JUBSharedData sharedInstance] userPin] UTF8String], &retry);
+    rv = JUB_VerifyFingerprint(contextID, &retry);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyFingerprint(%lu) return 0x%2lx.]", retry, rv]];
+        return rv;
     }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyPIN() OK.]"]];
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_VerifyFingerprint() OK.]"]];
     
     return rv;
 }
