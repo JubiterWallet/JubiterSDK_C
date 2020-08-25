@@ -8,10 +8,12 @@
 
 #import "JUBCoinController.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 
 #define JSON_FILE_EOS           "testEOS"
+#define JSON_FILE_EOS_TOKEN     "testEOS_token"
 #define JSON_FILE_EOS_BUYRAM    "testEOS_buyram"
 #define JSON_FILE_EOS_SELLRAM   "testEOS_sellram"
 #define JSON_FILE_EOS_STAKE     "testEOS_stake"
@@ -19,19 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #define BUTTON_TITLE_EOS            @"EOS"
+#define BUTTON_TITLE_EOSTOKEN       @"EOS_TOKEN"
 #define BUTTON_TITLE_EOSBUYRAM      @"EOS_BUY_RAM"
 #define BUTTON_TITLE_EOSSELLRAM     @"EOS_SELL_RAM"
 #define BUTTON_TITLE_EOSSTAKE       @"EOS_STAKE"
 #define BUTTON_TITLE_EOSUNSTAKE     @"EOS_UNSTAKE"
-
-
-typedef NS_ENUM(NSInteger, JUB_NS_ENUM_EOS_OPT) {
-    COIN_EOS,
-    COIN_EOS_BUYRAM,
-    COIN_EOS_SELLRAM,
-    COIN_EOS_STAKE,
-    COIN_EOS_UNSTAKE
-};
 
 
 @interface JUBEOSController : JUBCoinController

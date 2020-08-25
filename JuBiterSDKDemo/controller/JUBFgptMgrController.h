@@ -6,9 +6,6 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "JUBFingerManagerBaseController.h"
-
 #import "JubSDKCore/JUB_SDK.h"
 #include "JUB_SDK_main.h"
 
@@ -28,12 +25,23 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_FGPT_OPT) {
 };
 
 
+#define BUTTON_TITLE_VIA_DEV    @"via device"
+#define BUTTON_TITLE_VIA_9GRIDS @"via 9 Grids"
+#define BUTTON_TITLE_VIA_APDU   @"via APDU"
+#define BUTTON_TITLE_VIA_FGPT   @"via fingerprint"
+
+
 typedef struct FgptEnrollInfo {
-    NSUInteger modalityID;   // Modality ID.
-    NSUInteger nextIndex;    // The number of times of current fingerprint modality.
-    NSUInteger times;        // Total number of times that need to enroll for current fingerprint modality.
-    JUB_RV rv;
+   NSUInteger modalityID;   // Modality ID.
+   NSUInteger nextIndex;    // The number of times of current fingerprint modality.
+   NSUInteger times;        // Total number of times that need to enroll for current fingerprint modality.
 } stFgptEnrollInfo;
+
+
+typedef struct FgptEnrollResult {
+    FgptEnrollInfo enrollInfo;
+    NSUInteger rv;
+} stFgptEnrollResult;
 
 
 @interface JUBFgptMgrController : JUBFingerManagerBaseController

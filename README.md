@@ -9,6 +9,7 @@
 ## submodule
 ```bash
 cd deps
+git submodule add            https://github.com/JubiterWallet/JuBiterSDKDemoUI-iOS.git JuBiterSDKDemoUI
 git submodule add            https://github.com/open-source-parsers/jsoncpp.git jsoncpp
 git submodule add -b dev_3.0 https://github.com/JubiterWallet/JubiterSDK_C.git JubiterSDK
 ```

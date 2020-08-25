@@ -6,12 +6,10 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#import "JUBPinAlertView.h"
-#import "JUBListAlert.h"
 #import "JUBSharedData.h"
 
 #import "JUBETHController.h"
-
+#import "JUBETHAmount.h"
 
 @interface JUBETHController ()
 
@@ -21,44 +19,50 @@
 @implementation JUBETHController
 
 
-- (void)viewDidLoad {
+- (void) viewDidLoad {
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.title = @"ETH options";
+    
     self.optItem = JUB_NS_ENUM_MAIN::OPT_ETH;
+}
+
+
+- (NSArray*) subMenu {
     
-    self.coinTypeArray = @[BUTTON_TITLE_ETH,
-                           BUTTON_TITLE_ETH_ERC20,
-//                           BUTTON_TITLE_ETC
+    return @[
+        BUTTON_TITLE_ETH,
+        BUTTON_TITLE_ETH_ERC20,
+//        BUTTON_TITLE_ETC
     ];
-    
 }
 
 
 #pragma mark - 通讯库寻卡回调
-- (void)CoinETHOpt:(NSUInteger)deviceID {
+- (void) CoinETHOpt:(NSUInteger)deviceID {
     
     const char* json_file = "";
-    switch (self.optCoinType) {
-    case JUB_NS_ENUM_ETH_COINTYPE::COIN_ETH:
+    switch (self.selectedMenuIndex) {
+    case JUB_NS_ENUM_ETH_COIN::BTN_ETH:
     {
         json_file = JSON_FILE_ETH;
         break;
     }
-    case JUB_NS_ENUM_ETH_COINTYPE::COIN_ETH_ERC20:
+    case JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC20:
     {
         json_file = JSON_FILE_ETH;
         break;
     }
-    case JUB_NS_ENUM_ETH_COINTYPE::COIN_ECH:
+    case JUB_NS_ENUM_ETH_COIN::BTN_ETC:
     {
-        json_file = JSON_FILE_ECH;
+        json_file = JSON_FILE_ETC;
         break;
     }
     default:
         break;
-    }   // switch (self.optCoinType) end
+    }   // switch (self.selectedMenuIndex) end
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%s", json_file]
                                                          ofType:@"json"];
@@ -71,49 +75,47 @@
 
 
 #pragma mark - ETH applet
-- (void)ETH_test:(NSUInteger)deviceID
-            root:(Json::Value)root
-          choice:(int)choice {
+- (void) ETH_test:(NSUInteger)deviceID
+             root:(Json::Value)root
+           choice:(int)choice {
     
     JUB_RV rv = JUBR_ERROR;
     
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
     try {
-        JUB_UINT16 contextID = 0;
+        JUB_UINT16 contextID = [sharedData currContextID];
+        if (0 != contextID) {
+            [sharedData setCurrMainPath:nil];
+            [sharedData setCurrCoinType:-1];
+            rv = JUB_ClearContext(contextID);
+            if (JUBR_OK != rv) {
+                [self addMsgData:[NSString stringWithFormat:@"[JUB_ClearContext() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            }
+            else {
+                [self addMsgData:[NSString stringWithFormat:@"[JUB_ClearContext() OK.]"]];
+            }
+            [sharedData setCurrContextID:0];
+        }
         
         CONTEXT_CONFIG_ETH cfg;
         cfg.mainPath = (char*)root["main_path"].asCString();
         cfg.chainID = root["chainID"].asInt();
         rv = JUB_CreateContextETH(cfg, deviceID, &contextID);
         if (JUBR_OK != rv) {
-            [self addMsgData:[NSString stringWithFormat:@"[JUB_CreateContextETH() return 0x%2lx.]", rv]];
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_CreateContextETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
             return;
         }
         [self addMsgData:[NSString stringWithFormat:@"[JUB_CreateContextETH() OK.]"]];
+        [sharedData setCurrMainPath:[NSString stringWithFormat:@"%s", cfg.mainPath]];
+        [sharedData setCurrContextID:contextID];
         
-        switch (choice) {
-        case JUB_NS_ENUM_OPT::GET_ADDRESS:
-        {
-            [self get_address_pubkey_ETH:contextID];
-            break;
-        }
-        case JUB_NS_ENUM_OPT::SHOW_ADDRESS:
-        {
-            break;
-        }
-        case JUB_NS_ENUM_OPT::TRANSACTION:
-        {
-            [self transaction_test:contextID
-                              root:root];
-            break;
-        }
-        case JUB_NS_ENUM_OPT::SET_MY_ADDRESS:
-        {
-//            [self set_my_address_test_ETH:contextID];
-            break;
-        }
-        default:
-            break;
-        }   // switch (choice) end
+        [self CoinOpt:contextID
+                 root:root
+               choice:choice];
     }
     catch (...) {
         error_exit("[Error format json file.]\n");
@@ -122,219 +124,237 @@
 }
 
 
-- (void)get_address_pubkey_ETH:(NSUInteger)contextID {
+- (void) get_address_pubkey:(NSUInteger)contextID {
+    
+    JUB_RV rv = JUBR_ERROR;
+    
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
     
     char* pubkey = nullptr;
-    JUB_RV rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
+    rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetMainHDNodeETH() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetMainHDNodeETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_GetMainHDNodeETH() OK.]"]];
     
-    [self addMsgData:[NSString stringWithFormat:@"MainXpub in hex format: %s.", pubkey]];
-    JUB_FreeMemory(pubkey);
+    [self addMsgData:[NSString stringWithFormat:@"MainXpub(%@) in hex format: %s.", [sharedData currMainPath], pubkey]];
+    rv = JUB_FreeMemory(pubkey);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     
     pubkey = nullptr;
     rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &pubkey);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetMainHDNodeETH() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetMainHDNodeETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_GetMainHDNodeETH() OK.]"]];
     
-    [self addMsgData:[NSString stringWithFormat:@"MainXpub in xpub format: %s.", pubkey]];
-    JUB_FreeMemory(pubkey);
+    [self addMsgData:[NSString stringWithFormat:@"MainXpub(%@) in xpub format: %s.", [sharedData currMainPath], pubkey]];
+    rv = JUB_FreeMemory(pubkey);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     
     BIP44_Path path;
-    path.change = JUB_ENUM_BOOL(self.change);
-    path.addressIndex = (JUB_UINT64)self.addressIndex;
+    path.change       = [sharedData currPath].change;
+    path.addressIndex = [sharedData currPath].addressIndex;
     
     pubkey = nullptr;
     rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pubkey);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeETH() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeETH() OK.]"]];
     
-    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%llu) in hex format: %s.", path.change, path.addressIndex, pubkey]];
-    JUB_FreeMemory(pubkey);
+    [self addMsgData:[NSString stringWithFormat:@"pubkey(%@/%d/%llu) in hex format: %s.", [sharedData currMainPath], path.change, path.addressIndex, pubkey]];
+    rv = JUB_FreeMemory(pubkey);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     
     pubkey = nullptr;
     rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &pubkey);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeETH() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_GetHDNodeETH() OK.]"]];
     
-    [self addMsgData:[NSString stringWithFormat:@"pubkey(%d/%llu) in xpub format: %s.", path.change, path.addressIndex, pubkey]];
-    JUB_FreeMemory(pubkey);
+    [self addMsgData:[NSString stringWithFormat:@"pubkey(%@/%d/%llu) in xpub format: %s.", [sharedData currMainPath], path.change, path.addressIndex, pubkey]];
+    rv = JUB_FreeMemory(pubkey);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     
     char* address = nullptr;
-    rv = JUB_GetAddressETH(contextID, path, BOOL_TRUE, &address);
+    rv = JUB_GetAddressETH(contextID, path, BOOL_FALSE, &address);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressETH() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressETH() OK.]"]];
     
-    [self addMsgData:[NSString stringWithFormat:@"address(%d/%llu): %s.", path.change, path.addressIndex, address]];
-    JUB_FreeMemory(address);
+    [self addMsgData:[NSString stringWithFormat:@"address(%@/%d/%llu): %s.", [sharedData currMainPath], path.change, path.addressIndex, address]];
+    rv = JUB_FreeMemory(address);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
 }
 
 
-- (void)transaction_test:(NSUInteger)contextID
-                    root:(Json::Value)root {
-    
-    __block JUB_RV rv = JUBR_ERROR;
-    
-    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
-    switch ([sharedData deviceType]) {
-    case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
-    {
-        switch ([sharedData verifyMode]) {
-        case JUB_NS_ENUM_VERIFY_MODE::PIN:
-        {
-            rv = [self verify_pin:contextID];
-            if (JUBR_OK != rv) {
-                return;
-            }
-            
-            rv = [self tx_proc:contextID
-                          root:root];
-            if (JUBR_OK != rv) {
-                return;
-            }
-            break;
-        }   // case JUB_NS_ENUM_VERIFY_MODE::PIN end
-        case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
-        case JUB_NS_ENUM_VERIFY_MODE::FGPT:
-        default:
-            break;
-        }   // switch ([sharedData verifyMode]) end
-        break;
-    }   // case JUB_NS_ENUM_DEV_TYPE::SEG_NFC end
-    case JUB_NS_ENUM_DEV_TYPE::SEG_BLE:
-    {
-        __block BOOL isDone = NO;
-        switch ([sharedData verifyMode]) {
-        case JUB_NS_ENUM_VERIFY_MODE::FGPT:
-        {
-            JUBListAlert *listAlert = [JUBListAlert showCallBack:^(NSString *_Nonnull selectedItem) {
-                NSLog(@"Verify PIN mode selected: %@", selectedItem);
-                if ([selectedItem isEqual:BUTTON_TITLE_USE_VK]) {
-                    rv = [self show_virtualKeyboard:contextID];
-                    if (JUBR_OK != rv) {
-                        isDone = YES;
-                        return;
-                    }
-                    
-                    [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-                        JUBSharedData *sharedData = [JUBSharedData sharedInstance];
-                        [sharedData setUserPin:pin];
-                        
-                        rv = [self verify_pin:contextID];
-                        if (JUBR_OK != rv) {
-                            isDone = YES;
-                            return;
-                        }
-                        
-                        isDone = YES;
-                    }];
-                }   // if ([selectedItem isEqual:BUTTON_TITLE_USE_VK]) end
-                else if ([selectedItem isEqual:BUTTON_TITLE_USE_FGPT]) {
-                    rv = [self verify_fgpt:contextID];
-                    if (JUBR_OK != rv) {
-                        isDone = YES;
-                        return;
-                    }
-                    
-                    isDone = YES;
-                }   // if ([selectedItem isEqual:BUTTON_TITLE_USE_FGPT]) end
-            }];
-            
-            listAlert.title = @"Please select Verify PIN mode:";
-            [listAlert addItems:@[
-                BUTTON_TITLE_USE_VK,
-                BUTTON_TITLE_USE_FGPT
-            ]];
-            break;
-        }   // case JUB_NS_ENUM_VERIFY_MODE::FGPT end
-        case JUB_NS_ENUM_VERIFY_MODE::VKPIN:
-        {
-            rv = [self show_virtualKeyboard:contextID];
-            if (JUBR_OK != rv) {
-                isDone = YES;
-                break;
-            }
-            
-            [JUBPinAlertView showInputPinAlert:^(NSString * _Nonnull pin) {
-                [sharedData setUserPin:pin];
-                
-                rv = [self verify_pin:contextID];
-                if (JUBR_OK != rv) {
-                    isDone = YES;
-                    return;
-                }
-                
-                isDone = YES;
-            }];
-            
-            break;
-        }   // case JUB_NS_ENUM_VERIFY_MODE::VKPIN end
-        case JUB_NS_ENUM_VERIFY_MODE::PIN:
-        default:
-            rv = JUBR_ARGUMENTS_BAD;
-            isDone = YES;
-            break;
-        }   // switch (data.verifyMode) end
-        
-        while (!isDone) {
-            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                     beforeDate:[NSDate distantFuture]];
-        }
-        
-        if (JUBR_OK != rv) {
-            return;
-        }
-        
-        rv = [self tx_proc:contextID
-                      root:root];
-        if (JUBR_OK != rv) {
-            return;
-        }
-        break;
-    }   // case JUB_NS_ENUM_DEV_TYPE::SEG_BLE end
-    default:
-        break;
-    }   // switch ([sharedData deviceType]) end
-}
-
-
-- (NSUInteger)tx_proc:(NSUInteger)contextID
-                 root:(Json::Value)root {
+- (void) show_address_test:(NSUInteger)contextID {
     
     JUB_RV rv = JUBR_ERROR;
     
-    switch(self.optCoinType) {
-    case JUB_NS_ENUM_ETH_COINTYPE::COIN_ETH_ERC20:
-        rv = [self transactionETHERC20_proc:contextID
-                                       root:root];
-        break;
-    default:
-        rv = [self transactionETH_proc:contextID
-                                  root:root];
-        break;
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
     }
+    
+    BIP44_Path path;
+    path.change       = [sharedData currPath].change;
+    path.addressIndex = [sharedData currPath].addressIndex;
+    
+    JUB_CHAR_PTR address;
+    rv = JUB_GetAddressETH(contextID, path, BOOL_TRUE, &address);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAddressETH() OK.]"]];
+    [self addMsgData:[NSString stringWithFormat:@"Show address(%@/%d/%llu) is: %s.", [sharedData currMainPath], path.change, path.addressIndex, address]];
+    
+    rv = JUB_FreeMemory(address);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ 0x%2lx.]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
+}
+
+
+- (NSUInteger) set_my_address_proc:(NSUInteger)contextID {
+    
+    JUB_RV rv = JUBR_ERROR;
+    
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return rv;
+    }
+    
+    BIP44_Path path;
+    path.change       = [sharedData currPath].change;
+    path.addressIndex = [sharedData currPath].addressIndex;
+    
+    JUB_CHAR_PTR address = nullptr;
+    rv = JUB_SetMyAddressETH(contextID, path, &address);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_SetMyAddressETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return rv;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_SetMyAddressETH() OK.]"]];
+    
+    [self addMsgData:[NSString stringWithFormat:@"set my address is: %s.", address]];
+    rv = JUB_FreeMemory(address);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return rv;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     
     return rv;
 }
 
 
-- (NSUInteger)transactionETH_proc:(NSUInteger)contextID
-                             root:(Json::Value)root {
+- (NSString*) inputAmount {
+    
+    __block
+    NSString *amount;
+    
+    __block
+    BOOL isDone = NO;
+    JUBCustomInputAlert *customInputAlert = [JUBCustomInputAlert showCallBack:^(
+        NSString * _Nonnull content,
+        JUBDissAlertCallBack _Nonnull dissAlertCallBack,
+        JUBSetErrorCallBack  _Nonnull setErrorCallBack
+    ) {
+        NSLog(@"content = %@", content);
+        if (nil == content) {
+            isDone = YES;
+            dissAlertCallBack();
+        }
+        else if (        [content isEqual:@""]
+                 || [JUBETHAmount isValid:content]
+                 ) {
+            //隐藏弹框
+            amount = content;
+            isDone = YES;
+            dissAlertCallBack();
+        }
+        else {
+            setErrorCallBack([JUBETHAmount formatRules]);
+            isDone = NO;
+        }
+    } keyboardType:UIKeyboardTypeDecimalPad];
+    customInputAlert.title = [JUBETHAmount title:(JUB_NS_ENUM_ETH_COIN)self.selectedMenuIndex];
+    customInputAlert.message = [JUBETHAmount message];
+    customInputAlert.textFieldPlaceholder = [JUBETHAmount formatRules];
+    customInputAlert.limitLength = [JUBETHAmount limitLength];
+    
+    while (!isDone) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate distantFuture]];
+    }
+    
+    // Convert to the smallest unit
+    return [JUBETHAmount convertToProperFormat:amount
+                                           opt:(JUB_NS_ENUM_ETH_COIN)self.selectedMenuIndex];
+}
+
+
+- (NSUInteger) tx_proc:(NSUInteger)contextID
+                amount:(NSString*)amount
+                  root:(Json::Value)root {
+    
+    JUB_RV rv = JUBR_ERROR;
+    
+    switch(self.selectedMenuIndex) {
+    case JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC20:
+        rv = [self transactionERC20_proc:contextID
+                                  amount:amount
+                                    root:root];
+        break;
+    default:
+        rv = [self transaction_proc:contextID
+                             amount:amount
+                               root:root];
+        break;
+    }   // switch(self.selectedMenuIndex) end
+    
+    return rv;
+}
+
+
+- (NSUInteger) transaction_proc:(NSUInteger)contextID
+                         amount:(NSString*)amount
+                           root:(Json::Value)root {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -347,13 +367,20 @@
     uint32_t gasLimit = root["ETH"]["gasLimit"].asUInt();//.asDouble();
     char* gasPriceInWei = (char*)root["ETH"]["gasPriceInWei"].asCString();
     char* valueInWei = (char*)root["ETH"]["valueInWei"].asCString();
+    if (NSComparisonResult::NSOrderedSame != [amount compare:@""]) {
+        valueInWei = (char*)[amount UTF8String];
+    }
     char* to = (char*)root["ETH"]["to"].asCString();
     char* data = (char*)root["ETH"]["data"].asCString();
     
     char* raw = nullptr;
-    rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
+    rv = JUB_SignTransactionETH(contextID,
+                                path,
+                                nonce, gasLimit, gasPriceInWei,
+                                to, valueInWei, data,
+                                &raw);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionETH() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionETH() OK.]"]];
@@ -362,7 +389,12 @@
         size_t txLen = strlen(raw)/2;
         [self addMsgData:[NSString stringWithFormat:@"tx raw[%lu]: %s.", txLen, raw]];
         
-        JUB_FreeMemory(raw);
+        rv = JUB_FreeMemory(raw);
+        if (JUBR_OK != rv) {
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            return rv;
+        }
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     }
     
     return rv;
@@ -370,8 +402,9 @@
 
 
 //ERC-20 Test
-- (NSUInteger)transactionETHERC20_proc:(NSUInteger)contextID
-                                  root:(Json::Value)root {
+- (NSUInteger) transactionERC20_proc:(NSUInteger)contextID
+                              amount:(NSString*)amount
+                                root:(Json::Value)root {
     
     JUB_RV rv = JUBR_ERROR;
     
@@ -381,13 +414,16 @@
     char* to = (char*)root["ERC20"]["contract_address"].asCString();
     char* token_to = (char*)root["ERC20"]["token_to"].asCString();
     char* token_value = (char*)root["ERC20"]["token_value"].asCString();
+    if (NSComparisonResult::NSOrderedSame != [amount compare:@""]) {
+        token_value = (char*)[amount UTF8String];
+    }
     
     char* abi = nullptr;
     rv = JUB_BuildERC20AbiETH(contextID,
                               tokenName, unitDP, contractAddress,
                               token_to, token_value, &abi);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC20AbiETH() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC20AbiETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC20AbiETH() OK.]"]];
@@ -395,7 +431,6 @@
     if (abi) {
         size_t abiLen = strlen(abi)/2;
         [self addMsgData:[NSString stringWithFormat:@"erc20 raw[%lu]: %s.", abiLen, abi]];
-        
     }
     
     BIP44_Path path;
@@ -406,19 +441,33 @@
     char* gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
     char* valueInWei = nullptr; //"" and "0" ara also OK
     char* raw = nullptr;
-    rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
-    JUB_FreeMemory(abi);
+    rv = JUB_SignTransactionETH(contextID,
+                                path,
+                                nonce, gasLimit, gasPriceInWei,
+                                to, valueInWei, abi,
+                                &raw);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionETH() return 0x%2lx.]", rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return rv;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionETH() OK.]"]];
     
+    rv = JUB_FreeMemory(abi);
     if (raw) {
         size_t txLen = strlen(raw)/2;
         [self addMsgData:[NSString stringWithFormat:@"tx raw[%lu]: %s.", txLen, raw]];
         
-        JUB_FreeMemory(raw);
+        rv = JUB_FreeMemory(raw);
+        if (JUBR_OK != rv) {
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            return rv;
+        }
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
     }
     
     return rv;

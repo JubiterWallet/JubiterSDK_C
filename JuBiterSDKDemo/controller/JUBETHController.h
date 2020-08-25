@@ -8,23 +8,17 @@
 
 #import "JUBCoinController.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 
 #define JSON_FILE_ETH       "testETH"
-#define JSON_FILE_ECH       "testECH"
+#define JSON_FILE_ETC       "testETC"
 
 
 #define BUTTON_TITLE_ETH            @"ETH"
 #define BUTTON_TITLE_ETH_ERC20      @"ETH_ERC20"
 #define BUTTON_TITLE_ETC            @"ETC"
-
-
-typedef NS_ENUM(NSInteger, JUB_NS_ENUM_ETH_COINTYPE) {
-    COIN_ETH,
-    COIN_ETH_ERC20,
-    COIN_ECH
-};
 
 
 @interface JUBETHController : JUBCoinController

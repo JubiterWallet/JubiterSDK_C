@@ -7,6 +7,7 @@
 //
 
 #import "JUBCoinController.h"
+#import "JUBAmount.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,13 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 #define JSON_FILE_HCASH      "testHCash"
 
 
-#define BUTTON_TITLE_UNIT_BTC       @"    BTC"
-#define BUTTON_TITLE_UNIT_cBTC      @"   cBTC"
-#define BUTTON_TITLE_UNIT_mBTC      @"   mBTC"
-#define BUTTON_TITLE_UNIT_uBTC      @"   uBTC"
-#define BUTTON_TITLE_UNIT_Satoshi   @"Satoshi"
-
-
 #define BUTTON_TITLE_SETUNIT        @"Set Unit"
 #define BUTTON_TITLE_BTCP2PKH       @"BTC_P2PKH"
 #define BUTTON_TITLE_BTCP2WPKH      @"BTC_P2WPKH"
@@ -39,19 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 #define BUTTON_TITLE_QTUM_QRC20     @"QTUM_QRC20"
 #define BUTTON_TITLE_USDT           @"USDT"
 #define BUTTON_TITLE_HCASH          @"HCASH"
-
-
-typedef NS_ENUM(NSInteger, JUB_NS_ENUM_BTC_COIN) {
-    BTN_BTC_P2PKH,
-    BTN_BTC_P2WPKH,
-    BTN_LTC,
-    BTN_DASH,
-    BTN_BCH,
-    BTN_QTUM,
-    BTN_QTUM_QRC20,
-    BTN_USDT,
-    BTN_HCASH
-};
 
 
 @interface JUBBTCController : JUBCoinController

@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "JUBHomeController.h"
+#import "JUBHomePageController.h"
 
 @interface AppDelegate ()
 
@@ -23,10 +23,11 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     
-    //直接调用iOS原生通信接口
-    JUBHomeController *mainVC = [[JUBHomeController alloc] init];
+    JUBHomePageController *mainVC = [[JUBHomePageController alloc] init];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mainVC];
+    
+    nav.navigationBar.translucent = NO;
     
     self.window.rootViewController = nav;
     

@@ -5,6 +5,9 @@
       location = "group:../JubiterSDK_C/builds/ios/JubSDK.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:../JuBiterSDKDemoUI-iOS/JuBiterSDKUI.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:JuBiterSDKDemo.xcodeproj">
    </FileRef>
 </Workspace>

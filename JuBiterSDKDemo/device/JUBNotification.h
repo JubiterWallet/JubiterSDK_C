@@ -8,7 +8,6 @@
 
 #ifndef Notification_h
 #define Notification_h
-#import <UIKit/UIKit.h>
 
 extern NSString* const NOTIF_DEVICE_ARRVL;
 extern NSString* const NOTIF_DEVICE_SCAN;
