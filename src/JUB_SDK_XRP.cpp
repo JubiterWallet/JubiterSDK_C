@@ -228,13 +228,13 @@ JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
-* @function name : JUB_SignTransactionXRP
-* @in  param : contextID - context ID
-*                     : path
-*                     : tx - JUB_TX_XRP
-* @out param : raw
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_SignTransactionXRP
+ * @in  param : contextID - context ID
+ *          : path
+ *          : tx - JUB_TX_XRP
+ * @out param : raw
+ * @last change :
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionXRP(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,
