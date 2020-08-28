@@ -192,12 +192,23 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
  *          : actionCount - the count of action array
  * @out param : actionsInJSON
  * @last change :
-*****************************************************************************/
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
                           IN JUB_ACTION_EOS_PTR actions,
                           IN JUB_UINT16 actionCount,
                           OUT JUB_CHAR_PTR_PTR actionsInJSON);
+
+
+/*****************************************************************************
+ * @function name : JUB_CalculateMemoHash
+ * @in  param : memo - memo
+ * @out param : memoHash - memo hash
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_CalculateMemoHash(IN JUB_CHAR_CPTR memo,
+                             OUT JUB_CHAR_PTR_PTR memoHash);
+
 
 #ifdef __cplusplus
 }

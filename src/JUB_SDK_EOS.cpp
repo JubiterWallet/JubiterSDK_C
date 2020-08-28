@@ -15,6 +15,11 @@
 #include "context/EOSContext.h"
 #include "token/EOS/JubiterBladeEOSImpl.h"
 
+#include "TrustWallet/wallet-core/src/Bravo/Serialization.h"
+#include "TrustWallet/wallet-core/src/Bravo/Deserialization.h"
+#include <TrezorCrypto/hasher.h>
+
+
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
 // Remove c++ features for swift framework
@@ -223,13 +228,13 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
-* @function name : JUB_BuildActionEOS
-* @in  param : contextID - context ID
-*                     : actions - action array
-*                     : actionCount - the count of action array
-* @out param : actionsInJSON
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_BuildActionEOS
+ * @in  param : contextID - context ID
+ *                     : actions - action array
+ *                     : actionCount - the count of action array
+ * @out param : actionsInJSON
+ * @last change :
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
                           IN JUB_ACTION_EOS_PTR actions,
@@ -245,6 +250,40 @@ JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
                                        actionCount,
                                        str_actions));
     JUB_VERIFY_RV(_allocMem(actionsInJSON, str_actions));
+
+    return JUBR_OK;
+}
+
+/*****************************************************************************
+ * @function name : JUB_CalculateMemoHash
+ * @in  param : memo - memo
+ * @out param : memoHash - memo hash
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_CalculateMemoHash(IN JUB_CHAR_CPTR memo,
+                             OUT JUB_CHAR_PTR_PTR memoHash) {
+
+    CREATE_THREAD_LOCK_GUARD
+    std::string strMemo = std::string(memo);
+    TW::Data encode;
+    TW::Bravo::encodeString(strMemo, encode);
+
+    int varIntByteSize = 0;
+    std::string s;
+    TW::Bravo::decodeString(encode, s, varIntByteSize);
+    if (0 != s.compare(strMemo)) {
+        return JUBR_HOST_MEMORY;
+    }
+
+    TW::Data toHash(encode.begin()+varIntByteSize, encode.end());
+
+    const auto begin = reinterpret_cast<const uint8_t*>(toHash.data());
+    TW::Hash::Hasher hasher;
+    TW::Data hash = TW::Hash::sha256(begin, begin+toHash.size());
+
+    uchar_vector memoh = uchar_vector(hash.begin(), hash.begin()+4);
+    std::string str_memoHash = memoh.getHex();
+    JUB_VERIFY_RV(_allocMem(memoHash, str_memoHash));
 
     return JUBR_OK;
 }

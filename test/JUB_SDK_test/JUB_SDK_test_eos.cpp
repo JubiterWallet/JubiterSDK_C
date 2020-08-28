@@ -212,6 +212,15 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
             action.transfer.to    = (char*)(*it)[sType]["to"].asCString();
             action.transfer.asset = (char*)(*it)[sType]["asset"].asCString();
             action.transfer.memo  = (char*)(*it)[sType]["memo"].asCString();
+
+            JUB_CHAR_PTR memoHash;
+            rv = JUB_CalculateMemoHash(action.transfer.memo, &memoHash);
+            if (JUBR_OK != rv) {
+                cout << "JUB_CalculateMemoHash() return " << GetErrMsg(rv) << endl;
+            }
+            else {
+                cout << "memoHash: " << memoHash << std::endl;
+            }
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::DELE:
             action.delegate.from     = (char*)(*it)[sType]["from"].asCString();
@@ -262,6 +271,7 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
         cout << "JUB_BuildActionEOS() return " << GetErrMsg(rv) << endl;
         return rv;
     }
+    std::cout << "JUB_BuildActionEOS return " << actionsInJSON << std::endl;
     char* chainID    = (char*)root["EOS"]["chainID"].asCString();
     char* expiration = (char*)root["EOS"]["expiration"].asCString();
     char* referenceBlockId = (char*)root["EOS"]["referenceBlockId"].asCString();
