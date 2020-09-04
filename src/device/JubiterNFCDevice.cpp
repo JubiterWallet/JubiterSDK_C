@@ -42,7 +42,7 @@ JubiterNFCDevice::~JubiterNFCDevice() {
 }
 
 
-JUB_RV JubiterNFCDevice::MatchErrorCode(int error) {
+JUB_RV JubiterNFCDevice::MatchErrorCode(unsigned long error) {
 
 #ifdef __ANDROID__
     switch (error) {
@@ -62,7 +62,7 @@ JUB_RV JubiterNFCDevice::MatchErrorCode(int error) {
         return JUBR_TRANSMIT_DEVICE_ERROR;
     } // switch (error) end
 #else
-    switch ((unsigned long)error) {
+    switch (error) {
     case FT_SUCCESS:
         return JUBR_OK;
     case FT_TAG_CONNECTION_LOST:
@@ -116,7 +116,7 @@ unsigned int JubiterNFCDevice::Initialize(const NFC_DEVICE_INIT_PARAM& params) {
 
     // init with inner _param
     _param.scanCallBack = params.scanCallBack;
-    unsigned int ret = InitializeNFC(nullptr, &_param);
+    unsigned long ret = InitializeNFC(nullptr, &_param);
     if (FT_SUCCESS == ret) {
         outerParams = {params.scanCallBack};
     }
@@ -152,7 +152,7 @@ unsigned int JubiterNFCDevice::StopScan() {
 unsigned int JubiterNFCDevice::Connect(unsigned char* bUUID,      /**< nfc device UUID */
                                        unsigned long* pdevHandle  /**< output ble device connect handle */) {
 
-    unsigned int ret = FTConnectNFC((const char*)bUUID, pdevHandle);
+    unsigned long ret = FTConnectNFC((const char*)bUUID, pdevHandle);
     if (FT_SUCCESS == ret) {
         _handle = *pdevHandle;
         _bConnected = true;
