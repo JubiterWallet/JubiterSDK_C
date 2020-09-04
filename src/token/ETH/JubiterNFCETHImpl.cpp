@@ -124,7 +124,7 @@ JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
                                      tx.r, tx.s, tx.v));
 //            if (!signer.verify(TW::PublicKey(publicKey, TWPublicKeyType::TWPublicKeyTypeSECP256k1),
 //                               tx)) {
-//                return JUBR_ERROR;
+//                return JUBR_VERIFY_SIGN_FAILED;
 //            }
         }
 
