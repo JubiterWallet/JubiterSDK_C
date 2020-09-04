@@ -101,7 +101,7 @@ JUB_RV XRPContext::SignTransaction(BIP44_Path path,
         TW::PublicKey verifyPubk(tx.pub_key, TWPublicKeyTypeSECP256k1);
         TW::Ripple::Signer verifySigner;
         if (!verifySigner.verify(verifyPubk, tx)) {
-            return JUBR_ERROR;
+            return JUBR_VERIFY_SIGN_FAILED;
         }
 
         signedRaw = vTx.getHex();

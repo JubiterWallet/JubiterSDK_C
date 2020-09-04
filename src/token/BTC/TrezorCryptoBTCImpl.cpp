@@ -177,7 +177,7 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         TW::Data sign = twprvk.signAsDER(digest, curveName2TWCurve(_curve_name));
         TW::Data signature = pushAll(sign);
         if (!twpk.verifyAsDER(signature, digest)) {
-            rv = JUBR_ERROR;
+            rv = JUBR_VERIFY_SIGN_FAILED;
             break;
         }
         else {
