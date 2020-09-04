@@ -230,7 +230,7 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
             if (!signer.verify(TW::PublicKey(TW::Data(uchar_vector(pubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1),
                                _eosType,
                                tx)) {
-                return JUBR_ERROR;
+                return JUBR_VERIFY_SIGN_FAILED;
             }
         }
 

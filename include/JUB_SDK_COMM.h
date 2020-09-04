@@ -71,6 +71,7 @@
 #define JUBR_MULTISIG_OK            0x0000000BUL
 
 #define JUBR_QRC20_WRONG_FORMAT		0x0000000CUL
+#define JUBR_VERIFY_SIGN_FAILED     0x0000000DUL
 
 /* === Library typedef: === */
 #ifndef IN
