@@ -43,7 +43,7 @@ JubiterBLEDevice::~JubiterBLEDevice() {
 }
 
 
-JUB_RV JubiterBLEDevice::MatchErrorCode(int error) {
+JUB_RV JubiterBLEDevice::MatchErrorCode(unsigned long error) {
 
 #ifdef __ANDROID__
     switch (error) {
@@ -61,7 +61,7 @@ JUB_RV JubiterBLEDevice::MatchErrorCode(int error) {
         return JUBR_TRANSMIT_DEVICE_ERROR;
     } // switch (error) end
 #else
-    switch ((unsigned long)error) {
+    switch (error) {
     case CKR_OK:
         return JUBR_OK;
     case CKR_BLE_BOND_FAIL:
@@ -164,7 +164,7 @@ unsigned int JubiterBLEDevice::Initialize(const BLE_INIT_PARAM& params) {
 
     // init with inner _param
     _param.param = params.param;
-    unsigned int ret = FT_BLE_Initialize(_param);
+    unsigned long ret = FT_BLE_Initialize(_param);
     if (IFD_SUCCESS == ret) {
         outerParams = params;
     }
@@ -203,7 +203,7 @@ unsigned int JubiterBLEDevice::Connect(unsigned char* devName,
     uuid = reinterpret_cast<char*>(devName);
 #endif // #if defined(__APPLE__)
 
-    unsigned int ret = FT_BLE_ConnDev((unsigned char*)uuid.c_str(), connectType, pdevHandle, timeout);
+    unsigned long ret = FT_BLE_ConnDev((unsigned char*)uuid.c_str(), connectType, pdevHandle, timeout);
     if (IFD_SUCCESS == ret) {
         _handle = *pdevHandle;
         _bConnected = true;
@@ -222,7 +222,7 @@ unsigned int JubiterBLEDevice::CancelConnect(unsigned char* devName,
     uuid = reinterpret_cast<char*>(devName);
 #endif // #if defined(__APPLE__)
 
-    unsigned int ret = FT_BLE_CancelConnDev((unsigned char*)uuid.c_str());
+    unsigned long ret = FT_BLE_CancelConnDev((unsigned char*)uuid.c_str());
     _handle = 0;
     _bConnected = false;
 
@@ -232,7 +232,7 @@ unsigned int JubiterBLEDevice::CancelConnect(unsigned char* devName,
 
 unsigned int JubiterBLEDevice::Disconnect(unsigned long handle) {
 
-    unsigned int ret = FT_BLE_DisConn(handle);
+    unsigned long ret = FT_BLE_DisConn(handle);
     if (IFD_SUCCESS == ret) {
         _handle = 0;
         _bConnected = false;
