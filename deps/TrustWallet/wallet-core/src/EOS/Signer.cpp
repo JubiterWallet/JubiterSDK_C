@@ -45,6 +45,11 @@ bool Signer::verify(const PublicKey& publicKey, Type type, const Transaction& tr
         return false;
     }
 
+    TW::Data uncompressed(PublicKey::secp256k1ExtendedSize);
+    if (1 != ecdsa_uncompress_pubkey(&secp256k1, &publicKey.bytes[0], &uncompressed[0])) {
+        return false;
+    }
+
     // values for Legacy and ModernK1
     TWCurve curve = TWCurveSECP256k1;
     auto canonicalChecker = is_canonical;
@@ -58,7 +63,7 @@ bool Signer::verify(const PublicKey& publicKey, Type type, const Transaction& tr
         type = Type::ModernK1;
     }
 
-    bool bSuccess = false;
+    bool bSuccess = true;
     for (const auto& signature:transaction.signatures) {
         Data rs(signature.data.size()-1, 0x00);
         std::copy(std::begin(signature.data)+1, std::end(signature.data), std::begin(rs));
@@ -72,8 +77,18 @@ bool Signer::verify(const PublicKey& publicKey, Type type, const Transaction& tr
             break;
         }
 
-        bSuccess = publicKey.verify(rs, hash(transaction));
-        if (!bSuccess) {
+//        bSuccess = publicKey.verify(rs, hash(transaction));
+//        if (!bSuccess) {
+//            break;
+//        }
+        TW::Data recoverPk(PublicKey::secp256k1ExtendedSize);
+        TW::Data hashTx = hash(transaction);
+        if (0 != ecdsa_recover_pub_from_sig(&secp256k1, &recoverPk[0], &rs[0], &hashTx[0], by)) {
+            bSuccess = false;
+            break;
+        }
+        if (recoverPk != uncompressed) {
+            bSuccess = false;
             break;
         }
     }
