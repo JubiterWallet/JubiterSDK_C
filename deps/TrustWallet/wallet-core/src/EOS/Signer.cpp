@@ -65,30 +65,8 @@ bool Signer::verify(const PublicKey& publicKey, Type type, const Transaction& tr
 
     bool bSuccess = true;
     for (const auto& signature:transaction.signatures) {
-        Data rs(signature.data.size()-1, 0x00);
-        std::copy(std::begin(signature.data)+1, std::end(signature.data), std::begin(rs));
-
-        // check if the signature is acceptable or retry
-        uint8_t by = 0;
-        uint8_t sig[64] = {0x00,};
-        std::copy(std::begin(rs), std::end(rs), std::begin(sig));
-        if (canonicalChecker && !canonicalChecker(by, sig)) {
-            bSuccess = false;
-            break;
-        }
-
-//        bSuccess = publicKey.verify(rs, hash(transaction));
-//        if (!bSuccess) {
-//            break;
-//        }
-        TW::Data recoverPk(PublicKey::secp256k1ExtendedSize);
-        TW::Data hashTx = hash(transaction);
-        if (0 != ecdsa_recover_pub_from_sig(&secp256k1, &recoverPk[0], &rs[0], &hashTx[0], by)) {
-            bSuccess = false;
-            break;
-        }
-        if (recoverPk != uncompressed) {
-            bSuccess = false;
+        bSuccess = publicKey.verify(signature.data, hash(transaction), canonicalChecker);
+        if (!bSuccess) {
             break;
         }
     }
