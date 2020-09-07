@@ -21,7 +21,8 @@ JUB_RV JubiterBaseETHImpl::VerifyTx(const std::vector<JUB_BYTE>& vChainID,
     }
 
     TW::Ethereum::Signer signer(vChainID);
-    if (!signer.verify(TW::PublicKey(publicKey, _publicKeyType),
+    if (!signer.verify(vChainID,
+                       TW::PublicKey(publicKey, _publicKeyType),
                        tx)) {
         return JUBR_VERIFY_SIGN_FAILED;
     }
