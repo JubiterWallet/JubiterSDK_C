@@ -141,7 +141,6 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
                                                   retData, pulRetDataLen,
                                                   wRet));
     return JUBR_OK;
-
 }
 
 
@@ -310,6 +309,21 @@ JUB_RV JubiterNFCToken::SelectMainSecurityDomain() {
 }
 
 
+JUB_RV JubiterNFCToken::GetPinRetry(JUB_BYTE& retry) {
+
+    // When pinMaxRetry == retry, and JUBR_PIN_LOCKED == rv
+    // it means the NFC card is already be reset.
+    JUB_RV rv = JubiterBladeToken::GetPinRetry(retry);
+    if (   0x6982 == rv
+        || 0x6985 == rv
+        ) {
+        JUB_VERIFY_RV(JUBR_PIN_LOCKED);
+    }
+
+    return rv;
+}
+
+
 JUB_RV JubiterNFCToken::GetBleVersion(JUB_BYTE bleVersion[4]) {
 
     return JUBR_OK;
@@ -426,11 +440,19 @@ JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
-    if (0x9000 == ret) {
-        return JUBR_OK;
+    if (   0x6982 == ret
+        || 0x6985 == ret
+        ) {
+        JUB_VERIFY_RV(JUBR_PIN_LOCKED);
     }
+    if (   0x9B01 == ret
+        || 0x6A80 == ret
+        ) {// the length or value of PIN is incorrect or verified failed
+        JUB_VERIFY_RV(JUBR_DEVICE_PIN_ERROR);
+    }
+    JUB_VERIFY_COS_ERROR(ret);
 
-    return JUBR_ERROR;
+    return JUBR_OK;
 }
 
 
