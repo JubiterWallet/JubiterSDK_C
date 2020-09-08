@@ -37,6 +37,7 @@ public:
 //    virtual bool   IsInitialize();
     virtual bool   IsBootLoader() override;
     virtual JUB_RV SelectMainSecurityDomain() override;
+    virtual JUB_RV GetPinRetry(JUB_BYTE& retry) override;
     virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]) override;
 
     virtual JUB_RV EnumApplet(std::string& appletList) override;

@@ -266,6 +266,11 @@ JUB_RV JubApduBuiler::ParseSafeApduResp(const JUB_BYTE_PTR respData, const JUB_U
         return JUBR_ARGUMENTS_BAD;
     }
 
+    wRet = respApdu.SW1 * 0x100 + respApdu.SW2;
+    if (0x9000 != wRet) {
+        return JUBR_OK;
+    }
+
     // check cmac
     JUB_VERIFY_RV(CheckCMAC(respApdu));
 
@@ -283,8 +288,6 @@ JUB_RV JubApduBuiler::ParseSafeApduResp(const JUB_BYTE_PTR respData, const JUB_U
         *pretDataLen = vDec.size();
         std::copy(vDec.begin(), vDec.end(), retData);
     }
-
-    wRet = respApdu.SW1 * 0x100 + respApdu.SW2;
 
     return JUBR_OK;
 }
