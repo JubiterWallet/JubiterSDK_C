@@ -295,13 +295,14 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 * @in  param : deviceID - device ID
 *                     : pinMix - old PIN
 *                     : pinNew - new PIN
-* @out param :
+* @out param : retry
 * @last change :
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
                      IN JUB_CHAR_CPTR pinMix,
-                     IN JUB_CHAR_CPTR pinNew) {
+                     IN JUB_CHAR_CPTR pinNew,
+                     OUT JUB_ULONG_PTR pretry) {
 
 #if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
@@ -326,7 +327,13 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
     // to get the data back
     JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
-    JUB_VERIFY_RV(token->ChangePIN(pinMix, pinNew));
+    JUB_RV rv = token->ChangePIN(pinMix, pinNew);
+
+    JUB_BYTE retry = 0;
+    JUB_VERIFY_RV(token->GetPinRetry(retry));
+    *pretry = retry;
+
+    JUB_VERIFY_RV(rv);
 
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)

@@ -103,13 +103,14 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 * @in  param : deviceID - device ID
 *                     : pinMix - old PIN
 *                     : pinNew - new PIN
-* @out param :
+* @out param : retry
 * @last change :
 *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
                      IN JUB_CHAR_CPTR pinMix,
-                     IN JUB_CHAR_CPTR pinNew);
+                     IN JUB_CHAR_CPTR pinNew,
+                     OUT JUB_ULONG_PTR pretry);
 
 #ifdef __cplusplus
 }
