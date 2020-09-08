@@ -647,7 +647,7 @@ JUB_RV JubiterBladeToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &re
 }
 
 
-JUB_RV JubiterBladeToken::ChangePIN(const std::string &pinMix, const std::string &pinNew) {
+JUB_RV JubiterBladeToken::ChangePIN(const std::string &pinMix, const std::string &pinNew, OUT JUB_ULONG &retry) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
