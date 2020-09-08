@@ -87,6 +87,64 @@ bool PublicKey::verify(const Data& signature, const Data& message) const {
     }
 }
 
+// JuBiter-defined
+bool PublicKey::verify(const Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64])) const {
+
+    // graphene adds 31 to the recovery id
+    uint8_t by = signature[0];
+    by -= 31;
+
+    // check if the signature is acceptable or retry
+    uint8_t sig[64] = {0x00,};
+    std::copy(std::begin(signature)+1, std::end(signature), std::begin(sig));
+    if (canonicalChecker && !canonicalChecker(by, sig)) {
+        return false;
+    }
+
+    return verify(Data(uchar_vector(sig, sizeof(sig)/sizeof(uint8_t))), message, by);
+}
+
+// JuBiter-defined
+bool PublicKey::verify(const Data& signature, const Data& message, const int recid) const {
+
+    switch (type) {
+    case TWPublicKeyTypeSECP256k1:
+    case TWPublicKeyTypeSECP256k1Extended:
+    {
+        TW::Data recoverPk(PublicKey::secp256k1ExtendedSize);
+        if (0 != ecdsa_recover_pub_from_sig(&secp256k1, recoverPk.data(), signature.data(), message.data(), recid)) {
+            return false;
+        }
+
+        TW::Data uncompressed(PublicKey::secp256k1ExtendedSize);
+        if (1 != ecdsa_uncompress_pubkey(&secp256k1, bytes.data(), uncompressed.data())) {
+            return false;
+        }
+
+        return (recoverPk == uncompressed);
+    }
+    case TWPublicKeyTypeNIST256p1:
+    case TWPublicKeyTypeNIST256p1Extended:
+    {
+        TW::Data recoverPk(PublicKey::secp256k1ExtendedSize);
+        if (0 != ecdsa_recover_pub_from_sig(&nist256p1, recoverPk.data(), signature.data(), message.data(), recid)) {
+            return false;
+        }
+
+        TW::Data uncompressed(PublicKey::secp256k1ExtendedSize);
+        if (1 != ecdsa_uncompress_pubkey(&nist256p1, bytes.data(), uncompressed.data())) {
+            return false;
+        }
+
+        return (recoverPk == uncompressed);
+    }
+    case TWPublicKeyTypeED25519:
+        return ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeED25519Blake2b:
+        return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    }
+}
+
 bool PublicKey::verifySchnorr(const Data& signature, const Data& message) const {
     switch (type) {
     case TWPublicKeyTypeSECP256k1:
