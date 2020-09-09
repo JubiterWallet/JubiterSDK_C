@@ -321,10 +321,12 @@ DelegateAction::DelegateAction(const std::string& currency,
 void DelegateAction::setData(const std::string& from, const std::string& receiver,
                              const Bravo::Asset& netQty, const Bravo::Asset& cpuQty,
                              const uint8_t transfer) {
-    if (netQty.amount <= 0) {
-        throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
-    }
-    if (cpuQty.amount <= 0) {
+    if ((   0 == netQty.amount
+         && 0 == cpuQty.amount)
+        || (0 >=(netQty.amount+cpuQty.amount))
+        ||  0 >  netQty.amount
+        ||  0 >  cpuQty.amount
+        ) {
         throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
     }
 

@@ -39,7 +39,7 @@ public:
     virtual JUB_RV QueryBattery(JUB_BYTE &percent) = 0;
 
     virtual JUB_RV VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
-    virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) = 0;
+    virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew, OUT JUB_ULONG &retry) = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
 
     // NFC

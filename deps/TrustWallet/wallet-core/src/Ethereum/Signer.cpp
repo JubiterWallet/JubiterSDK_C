@@ -102,6 +102,24 @@ bool Signer::verify(const PublicKey& publicKey, Transaction& transaction) const 
     return publicKey.verify(signature, this->hash(transaction));
 }
 
+// JuBiter-defined
+bool Signer::verify(const Data chainID, const PublicKey& publicKey, Transaction& transaction) const noexcept {
+    Data signature;
+    std::copy(transaction.r.begin(), transaction.r.end(), std::back_inserter(signature));
+    std::copy(transaction.s.begin(), transaction.s.end(), std::back_inserter(signature));
+    std::copy(transaction.v.begin(), transaction.v.end(), std::back_inserter(signature));
+
+    int v = signature[signature.size()-1];
+    if (0 != chainID.size()) {
+        v -= (35 + chainID[0] + chainID[0]);
+    }
+    else {
+        v += 27;
+    }
+
+    return publicKey.verify(signature, this->hash(transaction), v);
+}
+
 Data Signer::hash(const Transaction& transaction) const noexcept {
     auto encoded = Data();
     append(encoded, RLP::encode(transaction.nonce));

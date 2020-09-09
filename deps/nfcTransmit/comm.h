@@ -71,7 +71,7 @@ bool IsConnectedNFC(unsigned long ulHandle);
 */
 int TransmitNFC(unsigned long ulHandle,
                 unsigned char* sendBuf, unsigned int sendLen,
-                unsigned char * recvBuf, unsigned int* recvLen,
+                unsigned char* recvBuf, unsigned int* recvLen,
                 int timeoutSec);
 
 

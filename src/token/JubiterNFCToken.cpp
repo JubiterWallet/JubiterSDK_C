@@ -141,7 +141,6 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
                                                   retData, pulRetDataLen,
                                                   wRet));
     return JUBR_OK;
-
 }
 
 
@@ -400,7 +399,7 @@ JUB_RV JubiterNFCToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retr
 }
 
 
-JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &pinNew) {
+JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &pinNew, OUT JUB_ULONG &retry) {
 
     std::vector<uint8_t> pinOld;
     std::transform(pinMix.begin(),
@@ -426,11 +425,16 @@ JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
-    if (0x9000 == ret) {
-        return JUBR_OK;
+    if (0x6985 == ret) { //locked
+        JUB_VERIFY_RV(JUBR_PIN_LOCKED);
     }
+    if (0x63C0 == (ret & 0xfff0)) {
+        retry = (ret & 0xf);
+        JUB_VERIFY_RV(JUBR_DEVICE_PIN_ERROR);
+    }
+    JUB_VERIFY_COS_ERROR(ret);
 
-    return JUBR_ERROR;
+    return JUBR_OK;
 }
 
 
