@@ -8,7 +8,7 @@
 
 #include "comm.h"
 
-#ifndef ANDROID_API_LEVEL_H
+//#ifndef __ANDROID__
 
 #include <string.h>
 #include "ios/FTNFCTransmission.h"
@@ -55,4 +55,4 @@ int TransmitNFC(unsigned long ulHandle,
 }
 
 
-#endif
+//#endif
