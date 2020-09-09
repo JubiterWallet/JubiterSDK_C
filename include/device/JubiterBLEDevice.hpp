@@ -68,7 +68,7 @@ protected:
 
     static void BLE_DiscCallBack(unsigned char* uuid);
 
-    JUB_RV MatchErrorCode(int error);
+    JUB_RV MatchErrorCode(unsigned long error);
 
     // check ble version, and set ble library reconnect flag
     void ExtraSetting();
