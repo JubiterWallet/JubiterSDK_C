@@ -40,6 +40,8 @@ class Signer {
 
     // JuBiter-defined
     bool verify(const PublicKey& publicKey, Transaction& transaction) const noexcept;
+    // JuBiter-defined
+    bool verify(const Data chainID, const PublicKey& publicKey, Transaction& transaction) const noexcept;
 
   public:
     /// Signs a hash with the given private key for the given chain identifier.

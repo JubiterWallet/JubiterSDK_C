@@ -105,7 +105,7 @@ protected:
                                      const char*  uuid,     /* tag uuid */
                                      unsigned int devType   /* 设备类型 */
     );
-    JUB_RV MatchErrorCode(int error);
+    JUB_RV MatchErrorCode(unsigned long error);
 
 protected:
     /* data */
