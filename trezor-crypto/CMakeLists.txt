@@ -28,6 +28,7 @@ add_library(TrezorCrypto STATIC
     src/nist256p1.c
     src/groestl.c
     src/schnorr.c
+    src/cmac.c
 )
 
 target_compile_options(TrezorCrypto
