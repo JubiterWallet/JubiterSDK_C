@@ -29,6 +29,9 @@ public:
     // JuBiter-defined
     /// Verifies the given signature.
     bool verify(const PublicKey& publicKey, Type type, const Transaction& transaction) const noexcept;
+    // JuBiter-defined
+    /// Recovers the given signature.
+    bool recover(PublicKey& publicKey, Type type, Transaction& transaction) noexcept;
 
     /// Computes the transaction hash.
     Data hash(const Transaction& transaction) const noexcept;

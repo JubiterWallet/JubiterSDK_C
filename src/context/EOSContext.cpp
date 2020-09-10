@@ -224,12 +224,14 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
             tx.signatures.push_back(signature);
 
             //verify
-            std::string pubkey;
-            JUB_VERIFY_RV(token->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
+            std::string strPubkey;
+            JUB_VERIFY_RV(token->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, strPubkey));
             TW::EOS::Signer signer{ vChainIds };
-            if (!signer.verify(TW::PublicKey(TW::Data(uchar_vector(pubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1),
-                               _eosType,
-                               tx)) {
+            TW::PublicKey pubkey = TW::PublicKey(TW::Data(uchar_vector(strPubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
+            if (!signer.recover(pubkey, _eosType, tx)) {
+                return JUBR_VERIFY_SIGN_FAILED;
+            }
+            if (!signer.verify( pubkey, _eosType, tx)) {
                 return JUBR_VERIFY_SIGN_FAILED;
             }
         }
