@@ -1059,6 +1059,47 @@ int ecdsa_recover_pub_from_sig(const ecdsa_curve *curve, uint8_t *pub_key, const
 	return 0;
 }
 
+// JuBiter-defined
+// check recover id, if it's wrong, recover it.
+// returns 0 if recover succeeded
+int ecdsa_recover_sig(const ecdsa_curve *curve, const uint8_t *pub_key, const uint8_t *sig, const uint8_t *digest, int *recid)
+{
+    uint8_t findBy = 0;
+    bool bRecover = false;
+    for (int index=0; index<4; ++index) {
+        uint8_t recover[MAX_ADDR_RAW_SIZE] = {0x00,};
+        if (0 != ecdsa_recover_pub_from_sig(curve, recover, sig, digest, index)) {
+            continue;
+        }
+
+        for (int i=0; i<MAX_ADDR_RAW_SIZE; ++i) {
+            if (recover[i] == pub_key[i]) {
+                if (i == (MAX_ADDR_RAW_SIZE-1)) {
+                    bRecover = true;
+                }
+                else {
+                    continue;
+                }
+            }
+            else {
+                bRecover = false;
+                break;
+            }
+        }
+        if (bRecover) {
+            findBy = index;
+            break;
+        }
+    }
+    if (!bRecover) {
+        return -1;
+    }
+
+    *recid = findBy;
+
+    return 0;
+}
+
 // returns 0 if verification succeeded
 int ecdsa_verify_digest(const ecdsa_curve *curve, const uint8_t *pub_key, const uint8_t *sig, const uint8_t *digest)
 {
