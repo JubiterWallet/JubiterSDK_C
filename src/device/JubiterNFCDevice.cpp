@@ -105,7 +105,7 @@ JUB_RV JubiterNFCDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
         return JUBR_NOT_CONNECT_DEVICE;
     }
 
-    return FTTransmitNFC(_handle,
+    return TransmitNFC(_handle,
                          (JUB_BYTE_PTR)sendData, (JUB_UINT32)ulSendLen,
                          retData, (JUB_UINT32_PTR)pulRetDataLen,
                          (int)ulMiliSecondTimeout);
@@ -152,7 +152,7 @@ unsigned int JubiterNFCDevice::StopScan() {
 unsigned int JubiterNFCDevice::Connect(unsigned char* bUUID,      /**< nfc device UUID */
                                        unsigned long* pdevHandle  /**< output ble device connect handle */) {
 
-    unsigned long ret = FTConnectNFC((const char*)bUUID, pdevHandle);
+    unsigned int ret = ConnectNFC((const char*)bUUID, pdevHandle);
     if (FT_SUCCESS == ret) {
         _handle = *pdevHandle;
         _bConnected = true;
@@ -170,14 +170,14 @@ unsigned int JubiterNFCDevice::CancelConnect(unsigned char* bBLEUUID) {
 
 unsigned int JubiterNFCDevice::Disconnect(unsigned long handle) {
 
-    return FTDisconnectNFC(handle);
+    return DisconnectNFC(handle);
 }
 
 
 unsigned int JubiterNFCDevice::IsConnect(unsigned long handle) {
 
     if (   0 == handle
-        || !FTIsConnectedNFC(handle)
+        || !IsConnectedNFC(handle)
         ) {
         return JUBR_NOT_CONNECT_DEVICE;
     }
