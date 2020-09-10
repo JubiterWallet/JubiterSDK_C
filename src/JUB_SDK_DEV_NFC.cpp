@@ -327,7 +327,13 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
     // to get the data back
     JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
-    JUB_VERIFY_RV(token->ChangePIN(pinMix, pinNew, *pretry));
+    JUB_RV rv = token->ChangePIN(pinMix, pinNew);
+
+    JUB_BYTE retry = 0;
+    JUB_VERIFY_RV(token->GetPinRetry(retry));
+    *pretry = retry;
+
+    JUB_VERIFY_RV(rv);
 
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)

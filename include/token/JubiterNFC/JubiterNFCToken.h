@@ -37,6 +37,7 @@ public:
 //    virtual bool   IsInitialize();
     virtual bool   IsBootLoader() override;
     virtual JUB_RV SelectMainSecurityDomain() override;
+    virtual JUB_RV GetPinRetry(JUB_BYTE& retry) override;
     virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]) override;
 
     virtual JUB_RV EnumApplet(std::string& appletList) override;
@@ -46,7 +47,7 @@ public:
 //    virtual JUB_RV SendOneApdu(const std::string& apdu, std::string& response);
 
     virtual JUB_RV VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) override;
-    virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew, OUT JUB_ULONG &retry) override;
+    virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) override;
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
