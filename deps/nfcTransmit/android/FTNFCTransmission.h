@@ -9,6 +9,8 @@
 #ifndef __FTNFCTransmission__
 #define __FTNFCTransmission__
 
+#ifdef __ANDROID__
+
 #include <jni.h>
 
 //java虚拟机
@@ -86,5 +88,7 @@ int FTTransmitNFC(unsigned long ulHandle, unsigned char* sendBuf,unsigned int se
  *  @return 错误码
 */
 unsigned int  FTFinalizedNFC(void);
+
+#endif
 
 #endif /* defined(__FTNFCTransmission__) */
