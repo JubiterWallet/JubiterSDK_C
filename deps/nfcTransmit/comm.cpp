@@ -7,13 +7,14 @@
 //
 
 #include "comm.h"
-
-//#ifndef __ANDROID__
-
 #include <string.h>
+
+#ifdef __ANDROID__
+#include <nfcTransmit/android/FTNFCTransmission.h>
+#else
 #include "ios/FTNFCTransmission.h"
 #include "ios/FTMacro.h"
-
+#endif
 
 unsigned int InitializeNFC(void* param, NFC_INIT_PARAM* initPara) {
 
@@ -54,5 +55,3 @@ int TransmitNFC(unsigned long ulHandle,
                          timeoutSec);
 }
 
-
-//#endif
