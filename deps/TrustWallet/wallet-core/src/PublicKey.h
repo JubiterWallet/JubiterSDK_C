@@ -122,6 +122,10 @@ class PublicKey {
     // JuBiter-defined
     /// Verifies a signature for the provided message, include recover id.
     bool verify(const Data& signature, const Data& message, const int recid) const;
+    // JuBiter-defined
+    /// Recover the recover id of a signature for the provided message.
+    bool recover(Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64]));
+    bool recover(const Data& signature, const Data& message, int *recid);
 
     /// Verifies a schnorr signature for the provided message.
     bool verifySchnorr(const Data& signature, const Data& message) const;
