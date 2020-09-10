@@ -74,6 +74,47 @@ bool Signer::verify(const PublicKey& publicKey, Type type, const Transaction& tr
     return bSuccess;
 }
 
+// JuBiter-defined
+/// Recovers the given signature.
+bool Signer::recover(PublicKey& publicKey, Type type, Transaction& transaction) noexcept {
+
+    if (!transaction.isValid()) {
+        return false;
+    }
+
+    TW::Data uncompressed(PublicKey::secp256k1ExtendedSize);
+    if (1 != ecdsa_uncompress_pubkey(&secp256k1, &publicKey.bytes[0], &uncompressed[0])) {
+        return false;
+    }
+
+    // values for Legacy and ModernK1
+    TWCurve curve = TWCurveSECP256k1;
+    auto canonicalChecker = is_canonical;
+
+    //  Values for ModernR1
+    if (type == Type::ModernR1) {
+        curve = TWCurveNIST256p1;
+        canonicalChecker = nullptr;
+    }
+    else if (type == Type::Legacy) {
+        type = Type::ModernK1;
+    }
+
+    bool bSuccess = true;
+    for (int i=0; i<transaction.signatures.size(); ++i) {
+        TW::Data recoverSign = transaction.signatures[i].data;
+
+        bSuccess = publicKey.recover(recoverSign, hash(transaction), canonicalChecker);
+        if (!bSuccess) {
+            break;
+        }
+
+        transaction.signatures[i].data = recoverSign;
+    }
+
+    return bSuccess;
+}
+
 TW::Data Signer::hash(const Transaction& transaction) const noexcept {
     Data hashInput(chainID);
     transaction.serialize(hashInput);

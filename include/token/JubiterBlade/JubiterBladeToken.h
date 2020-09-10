@@ -67,7 +67,7 @@ public:
     virtual JUB_RV SendOneApdu(const std::string& apdu, std::string& response) override;
 
     virtual JUB_RV VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) override;
-    virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew, OUT JUB_ULONG &retry) override;
+    virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) override;
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
