@@ -8,6 +8,7 @@
 
 #include "TransactionInput.h"
 #include "OutPointHcash.h"
+#include "Amount.h"
 
 namespace TW::Bitcoin {
 

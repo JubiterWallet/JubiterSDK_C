@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -84,7 +84,7 @@ Signer::sign(const Data& chainID, const PrivateKey& privateKey, const Data& hash
 //    return protoOutput;
 //}
 //
-void Signer::sign(const PrivateKey& privateKey, Transaction& transaction) const noexcept {
+void Signer::sign(const PrivateKey &privateKey, Transaction &transaction) const noexcept {
     auto hash = this->hash(transaction);
     auto tuple = Signer::sign(chainID, privateKey, hash);
 
@@ -120,7 +120,7 @@ bool Signer::verify(const Data chainID, const PublicKey& publicKey, Transaction&
     return publicKey.verify(signature, this->hash(transaction), v);
 }
 
-Data Signer::hash(const Transaction& transaction) const noexcept {
+Data Signer::hash(const Transaction &transaction) const noexcept {
     auto encoded = Data();
     append(encoded, RLP::encode(transaction.nonce));
     append(encoded, RLP::encode(transaction.gasPrice));

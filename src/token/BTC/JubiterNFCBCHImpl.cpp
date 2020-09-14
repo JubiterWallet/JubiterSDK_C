@@ -79,7 +79,7 @@ JUB_RV JubiterNFCBCHImpl::_SignTx(bool witness,
         TW::Data preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);
 
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
-        TW::Data halfDigest = halfHasher(begin, begin+preImage.size());
+        TW::Data halfDigest = halfHasher(begin, preImage.size());
         vPreImageHash.push_back(halfDigest);
 
         vInputPublicKey.push_back(publicKey);

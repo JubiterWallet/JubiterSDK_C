@@ -1,7 +1,7 @@
 #pragma once
 #include <token/interface/BTCTokenInterface.hpp>
 #include <TrezorCrypto/bip32.h>
-#include <TrustWalletCore/TWBitcoin.h>
+#include <TrustWalletCore/TWBitcoinSigHashType.h>
 #include "Bitcoin/Address.h"
 #include "Bitcoin/Transaction.h"
 #include <Hash.h>
@@ -68,7 +68,7 @@ protected:
     virtual JUB_RV _getSegwitAddress(const TW::Data& publicKey, std::string& address);
 
 protected:
-    uint32_t _hashType = TWSignatureHashTypeAll;
+    uint32_t _hashType = TWBitcoinSigHashTypeAll;
 }; // class JubiterBaseBTCImpl end
 
 

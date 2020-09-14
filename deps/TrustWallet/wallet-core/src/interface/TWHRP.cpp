@@ -70,7 +70,6 @@ TWHRP TWCoinTypeHRP(enum TWCoinType coin) {
     case TWCoinTypeBitcoinCash:
         hrp = TWHRP::TWHRPBitcoinCash;
         break;
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
         break;

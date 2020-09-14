@@ -8,20 +8,19 @@
 #include "../BinaryCoding.h"
 #include "../Hash.h"
 
-#include <TrustWalletCore/TWBitcoin.h>
-
 #include <cassert>
 
+using namespace TW;
 using namespace TW::Bitcoin;
 
 // JuBiter-defined
-void DashTransaction::encodeVersion(std::vector<uint8_t>& data) const {
+void DashTransaction::encodeVersion(Data& data) const {
     encode16LE(version, data);
     encode16LE(type, data);
 }
 
 // JuBiter-defined
-void DashTransaction::decodeVersion(const std::vector<uint8_t>& data, int& index) {
+void DashTransaction::decodeVersion(const Data& data, int& index) {
     version = decode16LE(&data[index]);
     index += (sizeof(version)/sizeof(uint8_t));
     type = decode32LE(&data[index]);

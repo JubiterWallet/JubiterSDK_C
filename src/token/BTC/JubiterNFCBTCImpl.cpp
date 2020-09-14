@@ -228,7 +228,7 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
         }
 
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
-        TW::Data halfDigest = halfHasher(begin, begin+preImage.size());
+        TW::Data halfDigest = halfHasher(begin, preImage.size());
 
         vPreImageHash.push_back(halfDigest);
 

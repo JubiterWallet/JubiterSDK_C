@@ -21,7 +21,7 @@ public:
 public:
     TrezorCryptoBCHImpl(const std::string& XPRVorXPUB) :
         TrezorCryptoBTCImpl(XPRVorXPUB) {
-            _hashType = TWSignatureHashTypeAllFork;
+            _hashType = TWBitcoinSigHashTypeForkBCH;
     }
     ~TrezorCryptoBCHImpl() {}
 

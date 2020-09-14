@@ -12,8 +12,8 @@
 #include "utility/mutex.h"
 
 #include <context/EOSContextFactory.h>
-#include "TrustWallet/wallet-core/src/Bravo/Serialization.h"
-#include "TrustWallet/wallet-core/src/Bravo/Deserialization.h"
+#include "TrustWallet/wallet-core/src/EOS/Serialization.h"
+#include "TrustWallet/wallet-core/src/EOS/Deserialization.h"
 #include <TrezorCrypto/hasher.h>
 
 
@@ -262,11 +262,11 @@ JUB_RV JUB_CalculateMemoHash(IN JUB_CHAR_CPTR memo,
     CREATE_THREAD_LOCK_GUARD
     std::string strMemo = std::string(memo);
     TW::Data encode;
-    TW::Bravo::encodeString(strMemo, encode);
+    TW::EOS::encodeString(strMemo, encode);
 
     int varIntByteSize = 0;
     std::string s;
-    TW::Bravo::decodeString(encode, s, varIntByteSize);
+    TW::EOS::decodeString(encode, s, varIntByteSize);
     if (0 != s.compare(strMemo)) {
         return JUBR_HOST_MEMORY;
     }
@@ -275,7 +275,7 @@ JUB_RV JUB_CalculateMemoHash(IN JUB_CHAR_CPTR memo,
 
     const auto begin = reinterpret_cast<const uint8_t*>(toHash.data());
     TW::Hash::Hasher hasher;
-    TW::Data hash = TW::Hash::sha256(begin, begin+toHash.size());
+    TW::Data hash = TW::Hash::sha256(begin, toHash.size());
 
     uchar_vector memoh = uchar_vector(hash.begin(), hash.begin()+4);
     std::string str_memoHash = memoh.getHex();
