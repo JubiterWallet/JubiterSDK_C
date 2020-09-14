@@ -153,7 +153,7 @@ nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action)
         TW::EOS::TransferAction(
             std::string(action.currency), std::string(action.name),
             std::string(action.transfer.from), std::string(action.transfer.to),
-            TW::Bravo::Asset::fromString(std::string(action.transfer.asset)),
+            TW::EOS::Asset::fromString(std::string(action.transfer.asset)),
             std::string(action.transfer.memo));
         return transferAction.serialize();
     }   // case JUB_ENUM_EOS_ACTION_TYPE::XFER end
@@ -168,8 +168,8 @@ nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action)
         TW::EOS::DelegateAction(
             std::string(action.currency), std::string(action.name),
             std::string(action.delegate.from), std::string(action.delegate.receiver),
-            TW::Bravo::Asset::fromString(std::string(action.delegate.netQty)),
-            TW::Bravo::Asset::fromString(std::string(action.delegate.cpuQty)),
+            TW::EOS::Asset::fromString(std::string(action.delegate.netQty)),
+            TW::EOS::Asset::fromString(std::string(action.delegate.cpuQty)),
             action.delegate.transfer,
             bStake);
         return delegateAction.serialize();
@@ -181,7 +181,7 @@ nlohmann::json JubiterBaseEOSImpl::SerializeAction(const JUB_ACTION_EOS& action)
         TW::EOS::BuyRamAction(
             std::string(action.currency), std::string(action.name),
             std::string(action.buyRam.payer), std::string(action.buyRam.receiver),
-            TW::Bravo::Asset::fromString(std::string(action.buyRam.quant)));
+            TW::EOS::Asset::fromString(std::string(action.buyRam.quant)));
         return buyRamAction.serialize();
     }   // case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM end
     case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM:

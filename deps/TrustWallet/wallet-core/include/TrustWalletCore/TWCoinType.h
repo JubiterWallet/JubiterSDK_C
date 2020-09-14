@@ -6,14 +6,14 @@
 
 #pragma once
 
-#include "TWBase.h"
-//#include "TWBlockchain.h"
-#include "TWCurve.h"
-#include "TWHDVersion.h"
-#include "TWHRP.h"
-#include "TWPrivateKey.h"
-//#include "TWPurpose.h"
-#include "TWString.h"
+#include <TrustWalletCore/TWBase.h>
+//#include <TrustWalletCore/TWBlockchain.h>
+#include <TrustWalletCore/TWCurve.h>
+#include <TrustWalletCore/TWHDVersion.h>
+#include <TrustWalletCore/TWHRP.h>
+#include <TrustWalletCore/TWPrivateKey.h>
+//#include <TrustWalletCore/TWPurpose.h>
+#include <TrustWalletCore/TWString.h>
 
 TW_EXTERN_C_BEGIN
 
@@ -27,9 +27,9 @@ enum TWCoinType {
     TWCoinTypeBinance = 714,
     TWCoinTypeBitcoin = 0,
     TWCoinTypeBitcoinCash = 145,
-    TWCoinTypeBravoCoin = 282,
+    TWCoinTypeBitcoinGold = 156,
     TWCoinTypeCallisto = 820,
-    TWCoinTypeCardano = 1815,
+    TWCoinTypeCardano = 1815, // Note: Cardano Shelley testnet uses purpose 1852 (not 44) 1852/1815
     TWCoinTypeCosmos = 118,
     TWCoinTypeDash = 5,
     TWCoinTypeDecred = 42,
@@ -63,6 +63,7 @@ enum TWCoinType {
     TWCoinTypeTezos = 1729,
     TWCoinTypeTheta = 500,
     TWCoinTypeThunderToken = 1001,
+    TWCoinTypeNEO = 888,
     TWCoinTypeTomoChain = 889,
     TWCoinTypeTron = 195,
     TWCoinTypeVeChain = 818,
@@ -79,6 +80,11 @@ enum TWCoinType {
     TWCoinTypeAlgorand = 283,
     TWCoinTypeKusama = 434,
     TWCoinTypePolkadot = 354,
+    TWCoinTypeFilecoin = 461,
+    TWCoinTypeElrond = 508,
+    TWCoinTypeBandChain = 494,
+    TWCoinTypeSmartChainLegacy = 10000714,
+    TWCoinTypeSmartChain = 20000714,
 };
 
 ///// Returns the blockchain for a coin type.

@@ -193,9 +193,7 @@ JUB_BYTE JubiterNFCImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::H
     case HASHER_SHA2D:
         halfHasherType = (JUB_BYTE)HASHER_SHA2;
     case HASHER_SHA2:
-        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
-           return TW::Hash::sha256(begin, end);
-        };
+        halfHasher = static_cast<TW::Hash::HasherSimpleType>(TW::Hash::sha256);
         break;
     case HASHER_SHA2_RIPEMD:
 //        halfHasherType = HASHER_SHA2_RIPEMD;
@@ -203,16 +201,12 @@ JUB_BYTE JubiterNFCImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::H
         break;
     case HASHER_SHA3:
 //        halfHasherType = HASHER_SHA3;
-        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
-           return TW::Hash::sha512(begin, end);
-        };
+        halfHasher = static_cast<TW::Hash::HasherSimpleType>(TW::Hash::sha512);
         break;
     case HASHER_BLAKED:
         halfHasherType = HASHER_BLAKE;
     case HASHER_BLAKE:
-        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
-           return TW::Hash::blake256(begin, end);
-        };
+        halfHasher = static_cast<TW::Hash::HasherSimpleType>(TW::Hash::blake256);
         break;
     case HASHER_BLAKE_RIPEMD:
 //        halfHasherType = HASHER_BLAKE_RIPEMD;
@@ -220,9 +214,7 @@ JUB_BYTE JubiterNFCImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::H
         break;
     case HASHER_GROESTLD_TRUNC:
 //        halfHasherType = HASHER_GROESTLD_TRUNC;
-        halfHasher = [](const TW::byte* begin, const TW::byte* end) mutable -> TW::Data {
-           return TW::Hash::groestl512(begin, end);
-        };
+        halfHasher = static_cast<TW::Hash::HasherSimpleType>(TW::Hash::groestl512);
         break;
     case HASHER_BLAKE2B:
 //        halfHasherType = HASHER_BLAKE2B;
