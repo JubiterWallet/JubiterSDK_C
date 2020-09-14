@@ -12,7 +12,6 @@
 #include "TransactionOutput.h"
 #include "../Hash.h"
 
-#include <TrustWalletCore/TWBitcoin.h>
 #include <vector>
 
 namespace TW::Bitcoin {
@@ -32,9 +31,9 @@ struct DashTransaction :
     int16_t type = 0;
 
     // JuBiter-defined
-    void encodeVersion(std::vector<uint8_t>& data) const override;
+    void encodeVersion(Data& data) const override;
     // JuBiter-defined
-    void decodeVersion(const std::vector<uint8_t>& data, int& index) override;
+    void decodeVersion(const Data& data, int& index) override;
 }; // struct DashTransaction end
 
 } // namespace TW::Bitcoin

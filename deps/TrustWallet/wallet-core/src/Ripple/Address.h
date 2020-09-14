@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -21,8 +21,7 @@ public:
     /// Number of bytes in an address.
     static const size_t size = 21;
 
-    /// Address data consisting of a prefix byte followed by the public key
-    /// hash.
+    /// Address data consisting of a prefix byte followed by the public key hash.
     std::array<byte, size> bytes;
 
     /// Determines whether a collection of bytes makes a valid Ripple address.
@@ -31,7 +30,7 @@ public:
         return data.size() == size;
     }
 
-    /// Determines whether a string makes a valid  address.
+    /// Determines whether a string makes a valid address.
     static bool isValid(const std::string& string);
 
     /// Initializes a Ripple address with a string representation.
@@ -56,8 +55,3 @@ inline bool operator==(const Address& lhs, const Address& rhs) {
 }
 
 } // namespace TW::Ripple
-
-/// Wrapper for C interface.
-struct TWRippleAddress {
-    TW::Ripple::Address impl;
-};

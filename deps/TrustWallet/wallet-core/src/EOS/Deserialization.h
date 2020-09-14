@@ -18,7 +18,7 @@
 #include <string>
 #include "mSIGNA/stdutils/uchar_vector.h"
 
-namespace TW::Bravo {
+namespace TW::EOS {
 inline void decodeVarInt64(const Data& os, uint64_t& x, int& varIntByteSize) {
     x = 0;
     varIntByteSize = 0;
@@ -75,4 +75,4 @@ inline void decodePointerCollection(const json& array, Collection& collection) {
 //
 //    return array;
 }
-} // namespace TW::Bravo end
+} // namespace TW::EOS end

@@ -28,7 +28,7 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
-uint32_t random32() {
+uint32_t __attribute__((weak)) random32() {
     int randomData = open("/dev/urandom", O_RDONLY);
     if (randomData < 0) {
         return 0;
@@ -44,7 +44,7 @@ uint32_t random32() {
     return result;
 }
 
-void random_buffer(uint8_t *buf, size_t len) {
+void __attribute__((weak)) random_buffer(uint8_t *buf, size_t len) {
     int randomData = open("/dev/urandom", O_RDONLY);
     read(randomData, buf, len);
     close(randomData);
