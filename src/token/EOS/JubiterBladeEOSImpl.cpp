@@ -158,7 +158,7 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
 
         // maxNetUsageWords
         uchar_vector vMaxNetUsageWords;
-        TW::Bravo::encodeVarInt32(tx.maxNetUsageWords, vMaxNetUsageWords);
+        TW::EOS::encodeVarInt32(tx.maxNetUsageWords, vMaxNetUsageWords);
         uchar_vector maxNetUsageWordsLV;
         maxNetUsageWordsLV << (JUB_BYTE)vMaxNetUsageWords.size();
         maxNetUsageWordsLV << vMaxNetUsageWords;
@@ -166,7 +166,7 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
 
         // delaySeconds
         uchar_vector vDelaySeconds;
-        TW::Bravo::encodeVarInt32(tx.delaySeconds, vDelaySeconds);
+        TW::EOS::encodeVarInt32(tx.delaySeconds, vDelaySeconds);
         uchar_vector delaySecondsLV;
         delaySecondsLV << (JUB_BYTE)vDelaySeconds.size();
         delaySecondsLV << vDelaySeconds;
@@ -174,7 +174,7 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
 
         // contextFreeActions
         uchar_vector vContextFreeActions;
-        TW::Bravo::encodeCollection(tx.contextFreeActions, vContextFreeActions);
+        encodeCollection(tx.contextFreeActions, vContextFreeActions);
         uchar_vector contextFreeActionsTLV;
         contextFreeActionsTLV << ToTlv(0x01, vContextFreeActions);
         total += contextFreeActionsTLV.size();
@@ -235,14 +235,14 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
 
         // actions
         uchar_vector vActions;
-        TW::Bravo::encodeCollection(tx.actions, vActions);
+        encodeCollection(tx.actions, vActions);
         uchar_vector actionsTLV;
         actionsTLV << ToTlv(0x03, vActions);
         total += actionsTLV.size();
 
         // transactionExtensions
         uchar_vector vTransactionExtensions;
-        TW::Bravo::encodeCollection(tx.transactionExtensions, vTransactionExtensions);
+        encodeCollection(tx.transactionExtensions, vTransactionExtensions);
         uchar_vector transactionExtensionsTLV;
         transactionExtensionsTLV << ToTlv(0x04, vTransactionExtensions);
         total += transactionExtensionsTLV.size();

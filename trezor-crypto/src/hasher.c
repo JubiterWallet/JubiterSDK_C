@@ -92,10 +92,10 @@ void hasher_Update(Hasher *hasher, const uint8_t *data, size_t length) {
 	case HASHER_BLAKE2B_PERSONAL:
 		blake2b_Update(&hasher->ctx.blake2b, data, length);
 		break;
-    case HASHER_SHA2_KECCAK:
-    case HASHER_SHA3_KECCAK:
-        keccak_Update(&hasher->ctx.sha3, data, length);
-        break;
+	case HASHER_SHA2_KECCAK:
+	case HASHER_SHA3_KECCAK:
+		keccak_Update(&hasher->ctx.sha3, data, length);
+		break;
 	}
 }
 
@@ -136,10 +136,10 @@ void hasher_Final(Hasher *hasher, uint8_t hash[HASHER_DIGEST_LENGTH]) {
 	case HASHER_BLAKE2B_PERSONAL:
 		blake2b_Final(&hasher->ctx.blake2b, hash, 32);
 		break;
-    case HASHER_SHA2_KECCAK:
-    case HASHER_SHA3_KECCAK:
-        keccak_Final(&hasher->ctx.sha3, hash);
-        break;
+	case HASHER_SHA2_KECCAK:
+	case HASHER_SHA3_KECCAK:
+		keccak_Final(&hasher->ctx.sha3, hash);
+		break;
 	}
 }
 

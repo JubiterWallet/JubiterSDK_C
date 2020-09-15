@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -74,7 +74,6 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
@@ -153,7 +152,6 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
@@ -225,7 +223,6 @@ std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin) {
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
@@ -307,7 +304,6 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
@@ -384,7 +380,6 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:

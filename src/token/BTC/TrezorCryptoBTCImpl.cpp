@@ -173,7 +173,7 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         }
 
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
-        TW::Data digest = tx.hasher(begin, begin+preImage.size());
+        TW::Data digest = tx.hasher(begin, preImage.size());
         TW::Data sign = twprvk.signAsDER(digest, curveName2TWCurve(_curve_name));
         TW::Data signature = pushAll(sign);
         if (!twpk.verifyAsDER(signature, digest)) {

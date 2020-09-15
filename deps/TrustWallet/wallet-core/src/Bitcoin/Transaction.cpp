@@ -6,18 +6,20 @@
 
 #include "SegwitAddress.h"
 #include "Transaction.h"
+#include "SigHashType.h"
 #include "../BinaryCoding.h"
 #include "../Hash.h"
 
-#include <TrustWalletCore/TWBitcoin.h>
+#include "SignatureVersion.h"
 
 #include <cassert>
 
+using namespace TW;
 using namespace TW::Bitcoin;
 
 // JuBiter-defined
-std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t index,
-                                              uint32_t hashType) const {
+Data Transaction::getPreImage(const Script& scriptCode, size_t index,
+                              uint32_t hashType) const {
     assert(index < inputs.size());
 
     auto data = std::vector<uint8_t>{};
@@ -56,17 +58,17 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
     return data;
 }
 
-std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t index,
-                                              uint32_t hashType, uint64_t amount) const {
+Data Transaction::getPreImage(const Script& scriptCode, size_t index,
+                              uint32_t hashType, uint64_t amount) const {
     assert(index < inputs.size());
 
-    auto data = std::vector<uint8_t>{};
+    Data data;
 
     // Version
     encode32LE(version, data);
 
     // Input prevouts (none/all, depending on flags)
-    if ((hashType & TWSignatureHashTypeAnyoneCanPay) == 0) {
+    if ((hashType & TWBitcoinSigHashTypeAnyoneCanPay) == 0) {
         auto hashPrevouts = getPrevoutHash();
         std::copy(std::begin(hashPrevouts), std::end(hashPrevouts), std::back_inserter(data));
     } else {
@@ -74,8 +76,8 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
     }
 
     // Input nSequence (none/all, depending on flags)
-    if ((hashType & TWSignatureHashTypeAnyoneCanPay) == 0 &&
-        !TWSignatureHashTypeIsSingle(hashType) && !TWSignatureHashTypeIsNone(hashType)) {
+    if ((hashType & TWBitcoinSigHashTypeAnyoneCanPay) == 0 &&
+        !hashTypeIsSingle((enum TWBitcoinSigHashType)hashType) && !hashTypeIsNone((enum TWBitcoinSigHashType)hashType)) {
         auto hashSequence = getSequenceHash();
         std::copy(std::begin(hashSequence), std::end(hashSequence), std::back_inserter(data));
     } else {
@@ -92,11 +94,11 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
     encode32LE(inputs[index]->sequence, data);
 
     // Outputs (none/one/all, depending on flags)
-    if (!TWSignatureHashTypeIsSingle(hashType) && !TWSignatureHashTypeIsNone(hashType)) {
+    if (!hashTypeIsSingle((enum TWBitcoinSigHashType)hashType) && !hashTypeIsNone((enum TWBitcoinSigHashType)hashType)) {
         auto hashOutputs = getOutputsHash();
         copy(begin(hashOutputs), end(hashOutputs), back_inserter(data));
-    } else if (TWSignatureHashTypeIsSingle(hashType) && index < outputs.size()) {
-        auto outputData = std::vector<uint8_t>{};
+    } else if (hashTypeIsSingle((enum TWBitcoinSigHashType)hashType) && index < outputs.size()) {
+        Data outputData;
         outputs[index]->encode(outputData);
         auto hashOutputs = TW::Hash::hash(hasher, outputData);
         copy(begin(hashOutputs), end(hashOutputs), back_inserter(data));
@@ -113,8 +115,8 @@ std::vector<uint8_t> Transaction::getPreImage(const Script& scriptCode, size_t i
     return data;
 }
 
-std::vector<uint8_t> Transaction::getPrevoutHash() const {
-    auto data = std::vector<uint8_t>{};
+Data Transaction::getPrevoutHash() const {
+    Data data;
     for (auto& input : inputs) {
         auto& outpoint = reinterpret_cast<const TW::Bitcoin::OutPoint&>(input->previousOutput);
         outpoint.encode(data);
@@ -123,8 +125,8 @@ std::vector<uint8_t> Transaction::getPrevoutHash() const {
     return hash;
 }
 
-std::vector<uint8_t> Transaction::getSequenceHash() const {
-    auto data = std::vector<uint8_t>{};
+Data Transaction::getSequenceHash() const {
+    Data data;
     for (auto& input : inputs) {
         encode32LE(input->sequence, data);
     }
@@ -132,8 +134,8 @@ std::vector<uint8_t> Transaction::getSequenceHash() const {
     return hash;
 }
 
-std::vector<uint8_t> Transaction::getOutputsHash() const {
-    auto data = std::vector<uint8_t>{};
+Data Transaction::getOutputsHash() const {
+    Data data;
     for (auto& output : outputs) {
         output->encode(data);
     }
@@ -142,17 +144,17 @@ std::vector<uint8_t> Transaction::getOutputsHash() const {
 }
 
 // JuBiter-defined
-void Transaction::encodeVersion(std::vector<uint8_t>& data) const {
+void Transaction::encodeVersion(Data& data) const {
     encode32LE(version, data);
 }
 
 // JuBiter-defined
-void Transaction::decodeVersion(const std::vector<uint8_t>& data, int& index) {
+void Transaction::decodeVersion(const Data& data, int& index) {
     version = decode32LE(&data[0]);
     index += (sizeof(uint32_t)/sizeof(uint8_t));
 }
 
-void Transaction::encode(bool witness, std::vector<uint8_t>& data) const {
+void Transaction::encode(bool witness, Data& data) const {
     // JuBiter-modified
     encodeVersion(data);
 
@@ -187,12 +189,12 @@ void Transaction::encode(bool witness, std::vector<uint8_t>& data) const {
         }
     }
 
-    encode32LE(lockTime, data);
+    encode32LE(lockTime, data); // nLockTime
 }
 
 // JuBiter-defined
 /// Decodes the provided buffer into the transaction.
-bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
+bool Transaction::decode(bool witness, const Data& data) {
 
     bool bSuccess = true;
 
@@ -283,9 +285,9 @@ bool Transaction::decode(bool witness, const std::vector<uint8_t>& data) {
     return !empty();
 }
 
-std::vector<uint8_t> Transaction::getSignatureHash(const Script& scriptCode, size_t index,
-                                                   uint32_t hashType, uint64_t amount,
-                                                   TWBitcoinSignatureVersion version) const {
+Data Transaction::getSignatureHash(const Script& scriptCode, size_t index,
+                                   uint32_t hashType, uint64_t amount,
+                                   enum SignatureVersion version) const {
     switch (version) {
     case BASE:
         return getSignatureHashBase(scriptCode, index, hashType);
@@ -295,32 +297,32 @@ std::vector<uint8_t> Transaction::getSignatureHash(const Script& scriptCode, siz
 }
 
 /// Generates the signature hash for Witness version 0 scripts.
-std::vector<uint8_t> Transaction::getSignatureHashWitnessV0(const Script& scriptCode, size_t index,
-                                                            uint32_t hashType,
-                                                            uint64_t amount) const {
+Data Transaction::getSignatureHashWitnessV0(const Script& scriptCode, size_t index,
+                                            uint32_t hashType,
+                                            uint64_t amount) const {
     auto preimage = getPreImage(scriptCode, index, hashType, amount);
     auto hash = TW::Hash::hash(hasher, preimage);
     return hash;
 }
 
 /// Generates the signature hash for for scripts other than witness scripts.
-std::vector<uint8_t> Transaction::getSignatureHashBase(const Script& scriptCode, size_t index,
-                                                       uint32_t hashType) const {
+Data Transaction::getSignatureHashBase(const Script& scriptCode, size_t index,
+                                       uint32_t hashType) const {
     assert(index < inputs.size());
 
-    auto data = std::vector<uint8_t>{};
+    Data data;
 
     encode32LE(version, data);
 
     auto serializedInputCount =
-        (hashType & TWSignatureHashTypeAnyoneCanPay) != 0 ? 1 : inputs.size();
+        (hashType & TWBitcoinSigHashTypeAnyoneCanPay) != 0 ? 1 : inputs.size();
     encodeVarInt(serializedInputCount, data);
     for (auto subindex = 0; subindex < serializedInputCount; subindex += 1) {
         serializeInput(subindex, scriptCode, index, hashType, data);
     }
 
-    auto hashNone = (hashType & 0x1f) == TWSignatureHashTypeNone;
-    auto hashSingle = (hashType & 0x1f) == TWSignatureHashTypeSingle;
+    auto hashNone   = hashTypeIsNone(  (enum TWBitcoinSigHashType)hashType);
+    auto hashSingle = hashTypeIsSingle((enum TWBitcoinSigHashType)hashType);
     auto serializedOutputCount = hashNone ? 0 : (hashSingle ? index + 1 : outputs.size());
     encodeVarInt(serializedOutputCount, data);
     for (auto subindex = 0; subindex < serializedOutputCount; subindex += 1) {
@@ -343,10 +345,10 @@ std::vector<uint8_t> Transaction::getSignatureHashBase(const Script& scriptCode,
 }
 
 void Transaction::serializeInput(size_t subindex, const Script& scriptCode, size_t index,
-                                 uint32_t hashType, std::vector<uint8_t>& data) const {
+                                 uint32_t hashType, Data& data) const {
     // In case of SIGHASH_ANYONECANPAY, only the input being signed is
     // serialized
-    if ((hashType & TWSignatureHashTypeAnyoneCanPay) != 0) {
+    if ((hashType & TWBitcoinSigHashTypeAnyoneCanPay) != 0) {
         subindex = index;
     }
 
@@ -360,8 +362,8 @@ void Transaction::serializeInput(size_t subindex, const Script& scriptCode, size
     }
 
     // Serialize the nSequence
-    auto hashNone = (hashType & 0x1f) == TWSignatureHashTypeNone;
-    auto hashSingle = (hashType & 0x1f) == TWSignatureHashTypeSingle;
+    auto hashNone   = hashTypeIsNone(  (enum TWBitcoinSigHashType)hashType);
+    auto hashSingle = hashTypeIsSingle((enum TWBitcoinSigHashType)hashType);
     if (subindex != index && (hashSingle || hashNone)) {
         encode32LE(0, data);
     } else {

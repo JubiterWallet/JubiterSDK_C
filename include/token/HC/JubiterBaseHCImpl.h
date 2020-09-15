@@ -2,7 +2,7 @@
 #include <token/interface/BTCTokenInterface.hpp>
 #include <token/BTC/JubiterBaseBTCImpl.h>
 #include "Bitcoin/TransactionHcash.h"
-#include <TrustWalletCore/TWHcash.h>
+#include <TrustWalletCore/TWHcashSigHashType.h>
 
 namespace jub {
 namespace token {
