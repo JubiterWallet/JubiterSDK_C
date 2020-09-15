@@ -30,6 +30,7 @@ namespace device {
 JubiterNFCDevice::JubiterNFCDevice() :
     _param {
             nullptr,
+            nullptr,
             NFC_ScanFuncCallBack
     },
     _handle(0),
@@ -117,10 +118,11 @@ unsigned int JubiterNFCDevice::Initialize(const NFC_DEVICE_INIT_PARAM& params) {
 
     // init with inner _param
     _param.scanCallBack = params.scanCallBack;
-    _param.context = params.param;
+    _param.jvm = params.jvm;
+    _param.context = params.context;
     unsigned long ret = InitializeNFC(_param);
     if (FT_SUCCESS == ret) {
-        outerParams = {params.param, params.scanCallBack};
+        outerParams = {params.jvm, params.context, params.scanCallBack};
     }
     else {
         return (unsigned int)MatchErrorCode(ret);
