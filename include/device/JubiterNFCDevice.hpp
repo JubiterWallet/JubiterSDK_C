@@ -61,7 +61,7 @@ public:
 
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                             OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
-                            IN JUB_ULONG ulMiliSecondTimeout = 1200000) override;
+                            IN JUB_ULONG ulMilliSecondTimeout = 1200000) override;
 
 public:
     // for NFC device

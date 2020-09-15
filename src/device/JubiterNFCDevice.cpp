@@ -97,7 +97,7 @@ JUB_RV JubiterNFCDevice::Disconnect() {
 
 JUB_RV JubiterNFCDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                                   OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
-                                  IN JUB_ULONG ulMiliSecondTimeout) {
+                                  IN JUB_ULONG ulMilliSecondTimeout) {
 
     if (   0 == _handle
         || !FTIsConnectedNFC(_handle)
@@ -108,7 +108,7 @@ JUB_RV JubiterNFCDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
     return TransmitNFC(_handle,
                          (JUB_BYTE_PTR)sendData, (JUB_UINT32)ulSendLen,
                          retData, (JUB_UINT32_PTR)pulRetDataLen,
-                         (int)ulMiliSecondTimeout);
+                         (int)ulMilliSecondTimeout);
 }
 
 
@@ -116,7 +116,7 @@ unsigned int JubiterNFCDevice::Initialize(const NFC_DEVICE_INIT_PARAM& params) {
 
     // init with inner _param
     _param.scanCallBack = params.scanCallBack;
-    unsigned long ret = InitializeNFC(nullptr, &_param);
+    unsigned long ret = InitializeNFC(_param);
     if (FT_SUCCESS == ret) {
         outerParams = {params.scanCallBack};
     }
