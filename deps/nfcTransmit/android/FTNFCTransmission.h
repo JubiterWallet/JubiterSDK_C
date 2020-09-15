@@ -9,15 +9,12 @@
 #ifndef __FTNFCTransmission__
 #define __FTNFCTransmission__
 
-#ifdef __ANDROID__
-
 #include <jni.h>
 
 //java虚拟机
 extern JavaVM *g_vm;
 //初始化参数
-extern jobject jInitPara;
-
+extern jobject jActivity;
 //通讯库对外设备类型
 #define DEV_TYPE_NFC                4   /**< NFC设备 */
 
@@ -88,7 +85,5 @@ int FTTransmitNFC(unsigned long ulHandle, unsigned char* sendBuf,unsigned int se
  *  @return 错误码
 */
 unsigned int  FTFinalizedNFC(void);
-
-#endif
 
 #endif /* defined(__FTNFCTransmission__) */

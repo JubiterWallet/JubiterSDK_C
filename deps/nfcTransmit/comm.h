@@ -28,7 +28,7 @@ typedef struct {
  *
  *  @return 错误码
 */
-unsigned int InitializeNFC(void* param, NFC_INIT_PARAM* initPara);
+unsigned int InitializeNFC(NFC_INIT_PARAM& initPara);
 
 
 /**
