@@ -15,8 +15,6 @@
 
 //java虚拟机
 extern JavaVM *g_vm;
-//初始化参数
-extern jobject jInitPara;
 
 //通讯库对外设备类型
 #define DEV_TYPE_NFC                4   /**< NFC设备 */
@@ -28,6 +26,7 @@ typedef void (*NFC_AUX_ScanFuncCallBack)(
 );
 
 typedef struct {
+    void* activity;
     NFC_AUX_ScanFuncCallBack     scanFuncCallBack;        /* scan callback */
 }__attribute__ ((packed)) NFC_AUX_INIT_PARAM;
 

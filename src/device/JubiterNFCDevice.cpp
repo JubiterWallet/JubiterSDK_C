@@ -116,7 +116,7 @@ unsigned int JubiterNFCDevice::Initialize(const NFC_DEVICE_INIT_PARAM& params) {
 
     // init with inner _param
     _param.scanCallBack = params.scanCallBack;
-    unsigned long ret = InitializeNFC(nullptr, &_param);
+    unsigned long ret = InitializeNFC(params.param, &_param);
     if (FT_SUCCESS == ret) {
         outerParams = {params.scanCallBack};
     }
