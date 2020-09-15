@@ -19,6 +19,7 @@ typedef void (*NFC_ScanFuncCallBack)(
 );
 
 typedef struct {
+    void* context;                                /* android activity */
     NFC_ScanFuncCallBack     scanCallBack;        /* scan callback */
 }__attribute__ ((packed)) NFC_INIT_PARAM;
 
@@ -28,7 +29,7 @@ typedef struct {
  *
  *  @return 错误码
 */
-unsigned int InitializeNFC(void* param, NFC_INIT_PARAM& initPara);
+unsigned int InitializeNFC(const NFC_INIT_PARAM& initParam);
 
 
 /**
