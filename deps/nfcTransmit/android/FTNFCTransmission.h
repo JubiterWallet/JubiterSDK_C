@@ -15,14 +15,14 @@
 #define DEV_TYPE_NFC                4   /**< NFC设备 */
 
 typedef void (*NFC_AUX_ScanFuncCallBack)(
-    unsigned int errorCode,  /* 错误码 */
-    const char* uuid,        /* NFC:     device uuid; */
-    unsigned int devType  /* device type */
+        unsigned int errorCode,  /* 错误码 */
+        const char *uuid,        /* NFC:     device uuid; */
+        unsigned int devType  /* device type */
 );
 
 typedef struct {
-    void* activity;
-    NFC_AUX_ScanFuncCallBack     scanFuncCallBack;        /* scan callback */
+    void *activity;
+    NFC_AUX_ScanFuncCallBack scanFuncCallBack;        /* scan callback */
 }__attribute__ ((packed)) NFC_AUX_INIT_PARAM;
 
 /**
@@ -30,14 +30,14 @@ typedef struct {
  *
  *  @return 通讯库版本字符串(年.月.日.版本号)
  */
-const char* getLibVersion(void);
+const char *getLibVersion(void);
 
 /**
  *  模块初始化函数
  *
  *  @return 错误码
 */
-unsigned int FTInitializeNFC(NFC_AUX_INIT_PARAM* initPara);
+unsigned int FTInitializeNFC(NFC_AUX_INIT_PARAM *initParam);
 
 /**
  *  NFC连接函数
@@ -46,7 +46,7 @@ unsigned int FTInitializeNFC(NFC_AUX_INIT_PARAM* initPara);
  *  @pragma pulHandle 设备句柄
  *  @return 错误码
 */
-unsigned int FTConnectNFC(const char* pcuuid, unsigned long* pulHandle);
+unsigned int FTConnectNFC(const char *pcuuid, unsigned long *pulHandle);
 
 /**
  *  NFC断开连接函数
@@ -74,13 +74,20 @@ bool FTIsConnectedNFC(unsigned long ulHandle);
  *  @pragma recvLen     接收数据长度
  *  @return 错误码
 */
-int FTTransmitNFC(unsigned long ulHandle, unsigned char* sendBuf,unsigned int sendLen,unsigned char * recvBuf,unsigned int* recvLen,int timeoutSec);
+int FTTransmitNFC(
+        unsigned long ulHandle,
+        unsigned char *sendBuf,
+        unsigned int sendLen,
+        unsigned char *recvBuf,
+        unsigned int *recvLen,
+        int timeoutSec
+);
 
 /**
  *  模块使用结束函数
  *
  *  @return 错误码
 */
-unsigned int  FTFinalizedNFC(void);
+unsigned int FTFinalizedNFC(void);
 
 #endif /* defined(__FTNFCTransmission__) */
