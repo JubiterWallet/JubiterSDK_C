@@ -16,12 +16,14 @@
 #include "ios/FTMacro.h"
 #endif
 
-unsigned int InitializeNFC(NFC_INIT_PARAM& initPara) {
+unsigned int InitializeNFC(void* param, NFC_INIT_PARAM& initPara) {
 
     NFC_AUX_INIT_PARAM paramTmp;
     memset(&paramTmp, 0, sizeof(paramTmp));
     paramTmp.scanFuncCallBack = initPara.scanCallBack;
-
+#ifdef __ANDROID__
+    paramTmp.activity = param;
+#endif
     return FTInitializeNFC(&paramTmp);
 }
 

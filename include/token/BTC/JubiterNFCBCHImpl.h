@@ -23,7 +23,7 @@ public:
 public:
     JubiterNFCBCHImpl(JUB_UINT16 deviceID) :
         JubiterNFCBTCImpl(deviceID) {
-            _hashType = TWSignatureHashTypeAllFork;
+            _hashType = TWBitcoinSigHashTypeForkBCH;
 	}
     ~JubiterNFCBCHImpl() {}
 

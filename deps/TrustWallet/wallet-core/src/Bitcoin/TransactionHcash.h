@@ -12,7 +12,6 @@
 #include "TransactionOutputHcash.h"
 #include "../Hash.h"
 
-#include <TrustWalletCore/TWBitcoin.h>
 #include <vector>
 
 namespace TW::Bitcoin {
@@ -23,33 +22,29 @@ struct HcashTransaction :
 
     uint32_t expiry = 0;
 
-    HcashTransaction(TW::Hash::Hasher hasher = [](const byte* begin, const byte* end) mutable -> TW::Data {
-       return TW::Hash::blake256(begin, end);
-    }) : Transaction(hasher) {};
+    HcashTransaction(Hash::Hasher hasher = static_cast<Hash::HasherSimpleType>(Hash::blake256)) : Transaction(hasher) {}
     HcashTransaction(int32_t version,
                      uint32_t lockTime,
                      uint32_t expiry = 0,
-                     TW::Hash::Hasher hasher = [](const byte* begin, const byte* end) mutable -> TW::Data {
-                        return TW::Hash::blake256(begin, end);
-                     }) : expiry(expiry),
-    Transaction(version, lockTime, hasher) {};
+                     Hash::Hasher hasher = static_cast<Hash::HasherSimpleType>(Hash::blake256)) : expiry(expiry),
+    Transaction(version, lockTime, hasher) {}
     virtual ~HcashTransaction() = default;
 
-    virtual std::vector<uint8_t> getPreImage(const Script& scriptCode, size_t index, uint32_t hashType,
+    virtual Data getPreImage(const Script& scriptCode, size_t index, uint32_t hashType,
                                   uint64_t amount) const override;
-    std::vector<uint8_t> txSerializeNoWitness() const;
-    std::vector<uint8_t> txSerializeOnlyWitness(const Script& signScript, size_t index) const;
-    std::vector<uint8_t> txSerializeWitnessSigning(const Script& pkScript, size_t index) const;
-    std::vector<uint8_t> txSerializeWitnessValueSigning(const Script& pkScript, size_t index) const;
-    std::vector<uint8_t> getTxSerializeNoWitnessHash() const;
-    std::vector<uint8_t> getTxSerializeWitnessSigningHash(const Script& pkScript, size_t index) const;
-    std::vector<uint8_t> getTxSerializeWitnessValueSigningHash(const Script& pkScript, size_t index) const;
+    Data txSerializeNoWitness() const;
+    Data txSerializeOnlyWitness(const Script& signScript, size_t index) const;
+    Data txSerializeWitnessSigning(const Script& pkScript, size_t index) const;
+    Data txSerializeWitnessValueSigning(const Script& pkScript, size_t index) const;
+    Data getTxSerializeNoWitnessHash() const;
+    Data getTxSerializeWitnessSigningHash(const Script& pkScript, size_t index) const;
+    Data getTxSerializeWitnessValueSigningHash(const Script& pkScript, size_t index) const;
 
     /// Encodes the transaction into the provided buffer.
-    virtual void encode(bool witness, std::vector<uint8_t>& data) const override;
+    virtual void encode(bool witness, Data& data) const override;
 
     /// Decodes the provided buffer into the transaction.
-    virtual bool decode(bool witness, const std::vector<uint8_t>& data) override;
+    virtual bool decode(bool witness, const Data& data) override;
 
 }; // struct HcashTransaction end
 

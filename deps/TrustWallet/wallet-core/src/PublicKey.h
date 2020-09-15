@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -11,10 +11,8 @@
 
 #include <TrustWalletCore/TWPublicKeyType.h>
 
-#include <array>
 #include <cassert>
 #include <stdexcept>
-#include <vector>
 
 namespace TW {
 
@@ -32,7 +30,7 @@ class PublicKey {
     /// The public key bytes.
     Data bytes;
 
-    /// The of public key.
+    /// The type of the public key.
     ///
     /// This has information about the elliptic curve and other parameters
     /// used when generating the public key.
@@ -40,63 +38,12 @@ class PublicKey {
 
     /// Determines if a collection of bytes makes a valid public key of the
     /// given type.
-    template <typename T>
-    static bool isValid(const T& data, enum TWPublicKeyType type) {
-        const auto size = std::end(data) - std::begin(data);
-        if (size == 0) {
-            return false;
-        }
-        switch (type) {
-        case TWPublicKeyTypeED25519:
-            return size == ed25519Size || (size == ed25519Size + 1 && data[0] == 0x01);
-        case TWPublicKeyTypeED25519Blake2b:
-            return size == ed25519Size;
-        case TWPublicKeyTypeSECP256k1:
-        case TWPublicKeyTypeNIST256p1:
-            return size == secp256k1Size && (data[0] == 0x02 || data[0] == 0x03);
-        case TWPublicKeyTypeSECP256k1Extended:
-        case TWPublicKeyTypeNIST256p1Extended:
-            return size == secp256k1ExtendedSize && data[0] == 0x04;
-        default:
-            return false;
-        }
-    }
+    static bool isValid(const Data& data, enum TWPublicKeyType type);
 
     /// Initializes a public key with a collection of bytes.
     ///
     /// @throws std::invalid_argument if the data is not a valid public key.
-    template <typename T>
-    explicit PublicKey(const T& data, enum TWPublicKeyType type) : type(type) {
-        if (!isValid(data, type)) {
-            throw std::invalid_argument("Invalid public key data");
-        }
-        switch (type) {
-        case TWPublicKeyTypeSECP256k1:
-        case TWPublicKeyTypeNIST256p1:
-        case TWPublicKeyTypeSECP256k1Extended:
-        case TWPublicKeyTypeNIST256p1Extended:
-            bytes.reserve(data.size());
-            std::copy(std::begin(data), std::end(data), std::back_inserter(bytes));
-            break;
-
-        case TWPublicKeyTypeED25519:
-            bytes.reserve(ed25519Size);
-            if (data.size() == ed25519Size + 1) {
-                std::copy(std::begin(data) + 1, std::end(data), std::back_inserter(bytes));
-            } else {
-                std::copy(std::begin(data), std::end(data), std::back_inserter(bytes));
-            }
-            break;
-        case TWPublicKeyTypeED25519Blake2b:
-            bytes.reserve(ed25519Size);
-            if (data.size() == ed25519Size + 1) {
-                std::copy(std::begin(data) + 1, std::end(data), std::back_inserter(bytes));
-            } else {
-                std::copy(std::begin(data), std::end(data), std::back_inserter(bytes));
-            }
-            break;
-        }
-    }
+    explicit PublicKey(const Data& data, enum TWPublicKeyType type);
 
     /// Determines if this is a compressed public key.
     bool isCompressed() const {
@@ -122,10 +69,6 @@ class PublicKey {
     // JuBiter-defined
     /// Verifies a signature for the provided message, include recover id.
     bool verify(const Data& signature, const Data& message, const int recid) const;
-    // JuBiter-defined
-    /// Recover the recover id of a signature for the provided message.
-    bool recover(Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64]));
-    bool recover(const Data& signature, const Data& message, int *recid);
 
     /// Verifies a schnorr signature for the provided message.
     bool verifySchnorr(const Data& signature, const Data& message) const;
@@ -135,6 +78,13 @@ class PublicKey {
     /// The public key hash is computed by applying the hasher to the public key
     /// bytes and then prepending the prefix.
     Data hash(const Data& prefix, Hash::Hasher hasher = Hash::sha256ripemd, bool skipTypeByte = false) const;
+
+    // JuBiter-defined
+    /// Recover the recover id of a signature for the provided message.
+    bool recover(Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64]));
+    bool recover(const Data& signature, const Data& message, int *recid);
+    /// Recover public key from signature (SECP256k1Extended)
+    static PublicKey recover(const Data& signature, const Data& message);
 };
 
 inline bool operator==(const PublicKey& lhs, const PublicKey& rhs) {

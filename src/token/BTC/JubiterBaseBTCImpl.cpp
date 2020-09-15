@@ -15,8 +15,8 @@ TW::Data JubiterBaseBTCImpl::pushAll(const TW::Data& results) {
     data.insert(data.end(), results.begin(), results.begin()+results.size());
 
     switch (_hashType) {
-    case TWSignatureHashTypeAll:
-    case TWSignatureHashTypeAllFork:
+    case TWBitcoinSigHashTypeAll:
+    case TWBitcoinSigHashTypeForkBCH:
         data.push_back(_hashType);
         break;
     default:
@@ -86,7 +86,7 @@ JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data& publicKey, std::str
         if (redeemScript.empty()) {
             return JUBR_ARGUMENTS_BAD;
         }
-        TW::Data hRedeemScript = TW::Hash::sha256ripemd(&redeemScript.bytes[0], &redeemScript.bytes[0]+redeemScript.bytes.size());
+        TW::Data hRedeemScript = TW::Hash::sha256ripemd(&redeemScript.bytes[0], redeemScript.bytes.size());
 
         // address
         TW::Data bytes;
@@ -216,7 +216,7 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& 
         preImage = tx.getPreImage(scriptCode, index, hashType, amount);
     }
     const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
-    TW::Data digest = tx.hasher(begin, begin+preImage.size());
+    TW::Data digest = tx.hasher(begin, preImage.size());
     if (!publicKey.verifyAsDER(signature, digest)) {
         rv = JUBR_ERROR;
     }

@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -6,11 +6,11 @@
 
 #pragma once
 
+#include "Prefixes.h"
+#include "Transaction.h"
 #include "../Data.h"
 #include "../Hash.h"
 #include "../PrivateKey.h"
-#include "Prefixes.h"
-#include "Transaction.h"
 
 #include <stdexcept>
 
@@ -36,7 +36,7 @@ public:
     /// Computes the transaction hash.
     Data hash(const Transaction& transaction) const noexcept;
 
-    static int is_canonical(uint8_t by, uint8_t sig[64]);
+    static int isCanonical(uint8_t by, uint8_t sig[64]);
 };
 
 } // namespace TW::EOS
