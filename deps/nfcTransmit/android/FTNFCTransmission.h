@@ -9,8 +9,6 @@
 #ifndef __FTNFCTransmission__
 #define __FTNFCTransmission__
 
-#include <jni.h>
-
 //通讯库对外设备类型
 #define DEV_TYPE_NFC                4   /**< NFC设备 */
 
@@ -21,6 +19,7 @@ typedef void (*NFC_AUX_ScanFuncCallBack)(
 );
 
 typedef struct {
+    void* jvm;
     void* activity;
     NFC_AUX_ScanFuncCallBack     scanFuncCallBack;        /* scan callback */
 }__attribute__ ((packed)) NFC_AUX_INIT_PARAM;
