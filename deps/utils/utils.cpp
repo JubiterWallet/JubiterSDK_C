@@ -90,6 +90,10 @@ void scanCallback(JUB_BYTE_PTR devname, JUB_BYTE_PTR uuid, JUB_ULONG devType) {
     env->DeleteLocalRef(clazz);
 }
 
+void nfcScanCallback(JUB_UINT32 errorCode, JUB_BYTE_PTR uuid, JUB_UINT32 devType) {
+    LOG_ERR("nfcOnTagDescovered errorCode: %ld  uuid: %s  devType: %ld", errorCode,uuid, devType);
+}
+
 void disconnectCallback(JUB_BYTE_PTR devname) {
     LOG_ERR("disconnectCallback name: %s", devname);
 
@@ -134,4 +138,17 @@ JUB_RV jobjectToInitParam(JNIEnv *env, JUB_VOID_PTR javaVM, DEVICE_INIT_PARAM *p
 
     return JUBR_OK;
 }
+
+
+JUB_RV jobjectToNFCInitParam(JNIEnv *env, JUB_VOID_PTR activity, NFC_DEVICE_INIT_PARAM *param) {
+
+    CHECK_NULL(env, JUBR_ARGUMENTS_BAD)
+    CHECK_NULL(activity, JUBR_ARGUMENTS_BAD)
+
+    param->param = activity;
+    param->scanCallBack = reinterpret_cast<NFC_ScanFuncCallBack >(nfcScanCallback);
+
+    return JUBR_OK;
+}
+
 
