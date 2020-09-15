@@ -23,7 +23,8 @@ typedef void (*NFC_ScanFuncCallBack)(
 
 // Remove c++ features for swift framework
 typedef struct stNFCDeviceInitParam {
-    void* param;
+    void* jvm;
+    void* context;
     NFC_ScanFuncCallBack scanCallBack;
 
     JUB_CHAR_PTR crt;

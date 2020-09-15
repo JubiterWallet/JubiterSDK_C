@@ -22,6 +22,7 @@ unsigned int InitializeNFC(const NFC_INIT_PARAM& initParam) {
     memset(&paramTmp, 0, sizeof(paramTmp));
     paramTmp.scanFuncCallBack = initParam.scanCallBack;
 #ifdef __ANDROID__
+    paramTmp.jvm = initParam.jvm;
     paramTmp.activity = initParam.context;
 #endif
     return FTInitializeNFC(&paramTmp);
