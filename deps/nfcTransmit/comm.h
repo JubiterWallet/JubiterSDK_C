@@ -19,6 +19,7 @@ typedef void (*NFC_ScanFuncCallBack)(
 );
 
 typedef struct {
+    void* jvm;                                    /* android vm */
     void* context;                                /* android activity */
     NFC_ScanFuncCallBack     scanCallBack;        /* scan callback */
 }__attribute__ ((packed)) NFC_INIT_PARAM;
