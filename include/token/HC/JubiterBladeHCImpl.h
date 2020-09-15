@@ -21,7 +21,7 @@ public:
 
     JubiterBladeHCImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
-            _hashType = SigHashAll;
+            _hashType = TWHcashSigHashAll;
     }
     ~JubiterBladeHCImpl() {}
 

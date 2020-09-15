@@ -6,17 +6,13 @@
 
 #pragma once
 
-#include "Address.h"
-#include <string>
-
-namespace TW::Ethereum {
-
-/// Checksum types for Ethereum-based blockchains.
-enum ChecksumType {
-    eip55 = 0,
-    wanchain = 1,
+namespace TW::Bitcoin {
+enum SignatureVersion {
+    BASE,
+    WITNESS_V0
 };
-
-std::string checksumed(const Address& address, enum ChecksumType type);
-
-} // namespace TW::Ethereum
+} // TW::Bitcoin namespace
+//enum TWBitcoinSignatureVersion {
+//    BASE,
+//    WITNESS_V0
+//};

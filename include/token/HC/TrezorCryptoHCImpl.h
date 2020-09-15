@@ -21,7 +21,7 @@ public:
 
     TrezorCryptoHCImpl(const std::string& xprv) :
         TrezorCryptoBTCImpl(xprv) {
-            _hashType = SigHashAll;
+            _hashType = TWHcashSigHashAll;
     }
     ~TrezorCryptoHCImpl() {}
 

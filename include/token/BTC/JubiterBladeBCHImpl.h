@@ -21,7 +21,7 @@ public:
 public:
     JubiterBladeBCHImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
-            _hashType = TWSignatureHashTypeAllFork;
+            _hashType = TWBitcoinSigHashTypeForkBCH;
 	}
     ~JubiterBladeBCHImpl() {}
 }; // class JubiterBladeBCHImpl end

@@ -94,7 +94,7 @@ JUB_RV JubiterNFCXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
 
         const auto begin = reinterpret_cast<const uint8_t*>(vUnsignedRaw.data());
-        TW::Data halfDigest = halfHasher(begin, begin+vUnsignedRaw.size());
+        TW::Data halfDigest = halfHasher(begin, vUnsignedRaw.size());
         TW::Data half;
         half.insert(half.begin(), halfDigest.begin(), halfDigest.begin()+32);
 

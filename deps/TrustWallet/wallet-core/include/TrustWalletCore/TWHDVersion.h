@@ -1,11 +1,12 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
 #pragma once
-#include "TWBase.h"
+
+#include <TrustWalletCore/TWBase.h>
 
 TW_EXTERN_C_BEGIN
 
@@ -42,9 +43,9 @@ enum TWHDVersion {
     TWHDVersionDPUB = 0x02fda926,
     TWHDVersionDPRV = 0x02fda4e8,
 
-//    // Dogecoin
-//    TWHDVersionDGUB = 0x02facafd,
-//    TWHDVersionDGPV = 0x02fac398,
+    // Dogecoin
+    TWHDVersionDGUB = 0x02facafd,
+    TWHDVersionDGPV = 0x02fac398,
 };
 
 TW_EXPORT_PROPERTY

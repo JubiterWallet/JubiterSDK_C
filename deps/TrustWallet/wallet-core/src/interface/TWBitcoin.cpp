@@ -1,15 +1,16 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include <TrustWalletCore/TWBitcoin.h>
+#include <TrustWalletCore/TWBitcoinSigHashType.h>
+#include "../Bitcoin/SigHashType.h"
 
-bool TWSignatureHashTypeIsSingle(uint32_t type) {
-    return (type & 0x1f) == TWSignatureHashTypeSingle;
+bool TWBitcoinSigHashTypeIsSingle(enum TWBitcoinSigHashType type) {
+    return TW::Bitcoin::hashTypeIsSingle(type);
 }
 
-bool TWSignatureHashTypeIsNone(uint32_t type) {
-    return (type & 0x1f) == TWSignatureHashTypeNone;
+bool TWBitcoinSigHashTypeIsNone(enum TWBitcoinSigHashType type) {
+    return TW::Bitcoin::hashTypeIsNone(type);
 }

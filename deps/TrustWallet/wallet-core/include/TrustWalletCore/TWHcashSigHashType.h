@@ -11,12 +11,16 @@
 TW_EXTERN_C_BEGIN
 
 // JuBiter-defined
-enum TWHcashSerializeType {
-    TWHcashSerializeFull = 0x00,
-    TWHcashSerializeNoWitness = 0x01,
-    TWHcashSerializeOnlyWitness = 0x02,
-    TWHcashSerializeWitnessSigning = 0x03,
-    TWHcashSerializeWitnessValueSigning = 0x04
+enum TWHcashSigHashType {
+    TWHcashSigHashOld = 0x00,
+    TWHcashSigHashAll = 0x01,
+    TWHcashSigHashNone =  0x02,
+    TWHcashSigHashAllValue = 0x04,
+    TWHcashSigHashAnyOneCanPay = 0x80
 };
+
+// JuBiter-defined
+TW_EXPORT_METHOD
+bool TWHcashSigHashTypeIsAll(enum TWHcashSigHashType type);
 
 TW_EXTERN_C_END
