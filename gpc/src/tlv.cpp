@@ -141,7 +141,10 @@ size_t tlv_buf::decodeTV(const int tag, const std::vector<unsigned char>& tv,
         vTag.push_back(tag);
     }
 
-    if (!std::equal(tv.begin(), tv.begin()+vTag.size(), std::begin(vTag))) {
+    // using c++11 instead of c++14
+//    if (!std::equal(tv.begin(), tv.begin()+vTag.size(), std::begin(vTag))) {
+    std::vector<unsigned char> vTv(tv.begin(), tv.begin()+vTag.size());
+    if (vTv != vTag) {
         return 0;
     }
 

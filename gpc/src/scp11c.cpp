@@ -80,8 +80,11 @@ bool scp11c::checkReceipt(const scp11_response_msg &response_msg, const std::vec
     AES_CMAC(key.data(), receiptInputData.data(), (int)receiptInputData.size(),
              outmac);
 
-    return std::equal(std::begin(response_msg.receipt.value), std::end(response_msg.receipt.value),
-    std::begin(outmac));
+    // using c++11 instead of c++14
+//    return std::equal(std::begin(response_msg.receipt.value), std::end(response_msg.receipt.value),
+//    std::begin(outmac));
+    std::vector<unsigned char> vOutmac(outmac, outmac + sizeof(outmac)/sizeof(unsigned char));
+    return (response_msg.receipt.value == vOutmac);
 }
 
 
