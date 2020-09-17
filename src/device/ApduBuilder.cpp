@@ -238,7 +238,10 @@ JUB_RV JubApduBuiler::CheckCMAC(const ResponseAPDU &respApdu) {
     macChain.clear();
     macChain.insert(macChain.end(), respApdu.cmac.begin(), respApdu.cmac.end());
 
-    return (std::equal(std::begin(outmac), std::begin(outmac)+respApdu.CMAC_LEN, std::begin(macChain)) ? JUBR_OK : JUBR_ERROR);
+    // using c++11 instead of c++14
+//    return (std::equal(std::begin(outmac), std::begin(outmac)+respApdu.CMAC_LEN, std::begin(macChain)) ? JUBR_OK : JUBR_ERROR);
+    std::vector<unsigned char> vCmac(outmac, outmac + respApdu.CMAC_LEN);
+    return (macChain == vCmac ? JUBR_OK : JUBR_ERROR);
 }
 
 

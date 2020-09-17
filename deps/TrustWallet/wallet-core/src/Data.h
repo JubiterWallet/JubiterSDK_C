@@ -42,7 +42,11 @@ Data subData(const Data& data, size_t index, size_t length);
 /// Determines if a byte array has a specific prefix.
 template <typename T>
 inline bool has_prefix(const Data& data, T& prefix) {
-    return std::equal(prefix.begin(), prefix.end(), data.begin(), data.begin() + std::min(data.size(), prefix.size()));
+    // using c++11 instead of c++14
+//    return std::equal(prefix.begin(), prefix.end(), data.begin(), data.begin() + std::min(data.size(), prefix.size()));
+//    Data vPrefix(data.begin() + std::min(data.size(), prefix.size()));
+    Data vData(data.begin(), data.begin() + std::min(data.size(), prefix.size()));
+    return (prefix == vData);
 }
 
 // JuBiter-defined

@@ -125,8 +125,10 @@ inline bool operator==(const DerivationPathIndex& lhs, const DerivationPathIndex
 }
 
 inline bool operator==(const DerivationPath& lhs, const DerivationPath& rhs) {
-    return std::equal(lhs.indices.begin(), lhs.indices.end(), rhs.indices.begin(),
-                      rhs.indices.end());
+    // using c++11 instead of c++14
+//    return std::equal(lhs.indices.begin(), lhs.indices.end(), rhs.indices.begin(),
+//                      rhs.indices.end());
+    return (lhs.indices == rhs.indices);
 }
 
 } // namespace TW

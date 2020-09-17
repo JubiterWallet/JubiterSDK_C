@@ -36,7 +36,7 @@ public:
     }
 
     bool operator==(const std::vector<unsigned char>& rhs) const {
-        return std::equal(value.begin(), value.end(), rhs.begin());
+        return (value == rhs);
     }
     bool operator==(const gpc_tlv_buf& rhs) const {
         if (!((*this) == rhs.value)
