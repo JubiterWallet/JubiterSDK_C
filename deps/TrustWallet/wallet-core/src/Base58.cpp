@@ -67,7 +67,11 @@ Data Base58::decodeCheck(const char* begin, const char* end, Hash::Hasher hasher
 
     // re-calculate the checksum, ensure it matches the included 4-byte checksum
     auto hash = hasher(result.data(), result.size() - 4);
-    if (!std::equal(hash.begin(), hash.begin() + 4, result.end() - 4)) {
+    // using c++11 instead of c++14
+//    if (!std::equal(hash.begin(), hash.begin() + 4, result.end() - 4)) {
+    std::vector<unsigned char> vHash(hash.begin(), hash.begin() + 4);
+    std::vector<unsigned char> vRest(result.end() - 4, result.end());
+    if (vHash != vRest) {
         return {};
     }
 

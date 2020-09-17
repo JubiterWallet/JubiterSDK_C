@@ -33,7 +33,9 @@ static constexpr size_t maxDataSize = 104;
 bool CashAddress::isValid(const std::string& string) {
     std::string cashHRP = HRP_BITCOINCASH;
     auto withPrefix = string;
-    if (!std::equal(cashHRP.begin(), cashHRP.end(), string.begin())) {
+    // using c++11 instead of c++14
+//    if (!std::equal(cashHRP.begin(), cashHRP.end(), string.begin())) {
+    if (!(0 == string.compare(0, cashHRP.size(), cashHRP))) {
         withPrefix = cashHRP + ":" + string;
     }
 
@@ -52,7 +54,9 @@ bool CashAddress::isValid(const std::string& string) {
 CashAddress::CashAddress(const std::string& string) {
     std::string cashHRP = HRP_BITCOINCASH;
     auto withPrefix = string;
-    if (!std::equal(cashHRP.begin(), cashHRP.end(), string.begin())) {
+    // using c++11 instead of c++14
+//    if (!std::equal(cashHRP.begin(), cashHRP.end(), string.begin())) {
+    if (!(0 == string.compare(0, cashHRP.size(), cashHRP))) {
         withPrefix = cashHRP + ":" + string;
     }
 
