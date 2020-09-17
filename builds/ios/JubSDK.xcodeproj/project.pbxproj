@@ -584,6 +584,7 @@
 		67E0DF5F250F6D6C00D42EF0 /* TWP2PKHPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF4E250F6D6B00D42EF0 /* TWP2PKHPrefix.h */; };
 		67E0DF60250F6D6C00D42EF0 /* TWHDVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF4F250F6D6B00D42EF0 /* TWHDVersion.h */; };
 		67E0DF61250F6D6C00D42EF0 /* TWPublicKeyType.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF50250F6D6B00D42EF0 /* TWPublicKeyType.h */; };
+		67EB5BF72513763500501E9A /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EB5BF62513763500501E9A /* CoreNFC.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		67FA32CA24CAE76F00023DF9 /* DeviceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32C924CAE76E00023DF9 /* DeviceFactory.h */; };
 /* End PBXBuildFile section */
 
@@ -1018,6 +1019,7 @@
 		67E0DF4E250F6D6B00D42EF0 /* TWP2PKHPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWP2PKHPrefix.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWP2PKHPrefix.h"; sourceTree = "<group>"; };
 		67E0DF4F250F6D6B00D42EF0 /* TWHDVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWHDVersion.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWHDVersion.h"; sourceTree = "<group>"; };
 		67E0DF50250F6D6B00D42EF0 /* TWPublicKeyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWPublicKeyType.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWPublicKeyType.h"; sourceTree = "<group>"; };
+		67EB5BF62513763500501E9A /* CoreNFC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreNFC.framework; path = System/Library/Frameworks/CoreNFC.framework; sourceTree = SDKROOT; };
 		67FA32C924CAE76E00023DF9 /* DeviceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceFactory.h; path = ../../include/device/DeviceFactory.h; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1027,6 +1029,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67EB5BF72513763500501E9A /* CoreNFC.framework in Frameworks */,
 				6773C76723BA2E3E00DEF9F0 /* libJubSDK.a in Frameworks */,
 				670B8FCB2432ED2500E8EF5C /* libFTNFCTransmission.a in Frameworks */,
 				6773C76623BA2E3600DEF9F0 /* libFTTransmission.a in Frameworks */,
@@ -1657,6 +1660,7 @@
 		6718A13723A216AD00F8A5CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				67EB5BF62513763500501E9A /* CoreNFC.framework */,
 				670B8FCA2432ED2500E8EF5C /* libFTNFCTransmission.a */,
 				6718A13823A216AD00F8A5CD /* libFTTransmission.a */,
 			);
