@@ -10,10 +10,11 @@
 #include <string.h>
 
 #ifdef __ANDROID__
-#include <nfcTransmit/android/FTNFCTransmission.h>
+#include "android/FTMacro.h"
+#include "android/FTNFCTransmission.h"
 #else
-#include "ios/FTNFCTransmission.h"
 #include "ios/FTMacro.h"
+#include "ios/FTNFCTransmission.h"
 #endif
 
 unsigned int InitializeNFC(const NFC_INIT_PARAM& initParam) {

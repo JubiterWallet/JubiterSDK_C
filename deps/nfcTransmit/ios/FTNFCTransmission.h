@@ -9,7 +9,6 @@
 #ifndef __FTNFCTransmission__
 #define __FTNFCTransmission__
 
-#ifdef __APPLE__
 
 //通讯库对外设备类型
 #define DEV_TYPE_NFC                4   /**< NFC设备 */
@@ -78,6 +77,5 @@ unsigned int FTTransmitNFC(unsigned long ulHandle,
                            unsigned char* recvBuf, unsigned int* recvLen,
                            int timeoutSec);
 
-#endif /* __APPLE__ */
 
 #endif /* defined(__FTNFCTransmission__) */
