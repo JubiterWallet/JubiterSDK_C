@@ -331,8 +331,8 @@ void decToBinary(uint8_t n, std::vector<uint8_t> &v) {
         i++;
     }
 
-    // printing binary array in reverse order
-    for (int8_t j = i - 1; j >= 0; j--) {
+    // printing binary array in order
+    for (int8_t j=0; j<i; ++j) {
         v.push_back(binaryNum[j]);
     }
 }
