@@ -3,6 +3,7 @@
 #include <device/JubiterHidDevice.hpp>
 #include <utility/util.h>
 #include <token/ErrorHandler.h>
+#include <TrezorCrypto/bip39.h>
 #include "scp03/scp03.hpp"
 #include "scp11/scp11c.hpp"
 
@@ -510,10 +511,48 @@ JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterNFCToken::SetMnemonic(const std::string& pinMix,
-                                    const JUB_ENUM_MNEMONIC_STRENGTH& strength,
-                                    const std::string& entropy,
-                                    const std::string& seed) {
+JUB_RV JubiterNFCToken::ImportMnemonic(const std::string& pinMix,
+                                       const std::string& mnemonic) {
+
+    std::vector<std::string> words = Split(mnemonic, " ");
+    JUB_ENUM_MNEMONIC_STRENGTH strength;
+    int entropy_len = 0;
+    switch (words.size()) {
+    case 12:
+    case 15:
+    case 18:
+        strength = JUB_ENUM_MNEMONIC_STRENGTH::STRENGTH192;
+        entropy_len = 0x18;
+        break;
+    case 21:
+    case 24:
+        strength = JUB_ENUM_MNEMONIC_STRENGTH::STRENGTH256;
+        entropy_len = 0x20;
+        break;
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }   // switch (words.size()) end
+
+    uint8_t entropy[32+1] = {0x0,};
+    int seed_len = mnemonic_to_entropy(mnemonic.c_str(), entropy);
+    if (0 == seed_len) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+    uint8_t seed[512 / 8] = {0x0,};
+    const char* passphrase = "";//"Bitcoin seed";
+    mnemonic_to_seed(mnemonic.c_str(), passphrase, seed, 0);
+
+    return _SetMnemonic(pinMix,
+                        strength,
+                        uchar_vector(entropy, entropy+entropy_len).getHex(),
+                        uchar_vector(seed, seed+(512 / 8)).getHex());
+}
+
+
+JUB_RV JubiterNFCToken::_SetMnemonic(const std::string& pinMix,
+                                     const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                                     const std::string& entropy,
+                                     const std::string& seed) {
 
     std::vector<uint8_t> vEntropy = HexStr2CharPtr(entropy);
     if ((size_t)strength/8 != vEntropy.size()) {
@@ -550,8 +589,41 @@ JUB_RV JubiterNFCToken::SetMnemonic(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterNFCToken::GetMnemonic(const std::string& pinMix,
-                                    OUT std::string& mnemonic) {
+JUB_RV JubiterNFCToken::ExportMnemonic(const std::string& pinMix,
+                                       OUT std::string& mnemonic) {
+
+    std::string entropy;
+    JUB_VERIFY_RV(_GetEntropy(pinMix, entropy));
+
+    // remove '00'
+    uchar_vector vEntropy(entropy);
+    for (size_t i=vEntropy.size()-1; i>0; --i) {
+        if (0x00 == vEntropy[i]) {
+            vEntropy.pop_back();
+        }
+        else {
+            break;
+        }
+    }
+
+    if (vEntropy.size() % 4) {
+        do {
+            vEntropy.pop_back();
+        } while (0 == (vEntropy.size() % 4));
+    }
+
+    char vMnemonic[512] = {0x00,};
+    if(!mnemonic_from_data(&vEntropy[0], vEntropy.size(), vMnemonic)) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+    mnemonic = vMnemonic;
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterNFCToken::_GetEntropy(const std::string& pinMix,
+                                    OUT std::string& entropy) {
 
     // send apdu.
     std::vector<uint8_t> pin;
@@ -570,8 +642,8 @@ JUB_RV JubiterNFCToken::GetMnemonic(const std::string& pinMix,
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
-        uchar_vector vMnemonic(retData, (unsigned int)ulRetDataLen);
-        mnemonic = vMnemonic.getHex();
+        uchar_vector vEntropy(retData, (unsigned int)ulRetDataLen);
+        entropy = vEntropy.getHex();
 
         return JUBR_OK;
     }

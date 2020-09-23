@@ -55,17 +55,21 @@ public:
     virtual JUB_RV GenerateSeed(const std::string& pinMix,
                                 const JUB_ENUM_CURVES& curve) override;
 
-    virtual JUB_RV SetMnemonic(const std::string& pinMix,
-                               const JUB_ENUM_MNEMONIC_STRENGTH& strength,
-                               const std::string& entropy,
-                               const std::string& seed) override;
-    virtual JUB_RV GetMnemonic(const std::string& pinMix,
-                               OUT std::string& mnemonic) override;
+    virtual JUB_RV ImportMnemonic(const std::string& pinMix,
+                                  const std::string& mnemonic) override;
+    virtual JUB_RV ExportMnemonic(const std::string& pinMix,
+                                  OUT std::string& mnemonic) override;
     virtual bool   HasRootKey() override;
 
     static stAppInfos g_appInfo[];
 
 protected:
+    virtual JUB_RV _SetMnemonic(const std::string& pinMix,
+                                const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                                const std::string& entropy,
+                                const std::string& seed);
+    virtual JUB_RV _GetEntropy(const std::string& pinMix,
+                               std::string& entropy);
     virtual JUB_RV _SendApdu(const APDU *apdu, JUB_UINT16 &wRet,
                              JUB_BYTE *retData = nullptr, JUB_ULONG *pulRetDataLen = nullptr,
                              JUB_ULONG ulMiliSecondTimeout = 1200000) override;
