@@ -735,6 +735,12 @@ JUB_RV JubiterBladeToken::GetMnemonic(const std::string& pinMix,
 }
 
 
+bool JubiterBladeToken::HasRootKey() {
+
+    return false;
+}
+
+
 /// BIO
 JUB_RV JubiterBladeToken::UIShowMain() {
 

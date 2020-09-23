@@ -100,6 +100,15 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
                           OUT JUB_CHAR_PTR_PTR mnemonic);
 
 /*****************************************************************************
+ * @function name : JUB_HasRootKey
+ * @in  param : deviceID - device ID
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_ENUM_BOOL JUB_HasRootKey(IN JUB_UINT16 deviceID);
+
+/*****************************************************************************
 * @function name : JUB_VerifyPIN
 * @in  param : deviceID - device ID
 *                     : pinMix - old PIN
