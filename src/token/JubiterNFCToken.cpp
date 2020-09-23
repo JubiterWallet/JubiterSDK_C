@@ -580,6 +580,31 @@ JUB_RV JubiterNFCToken::GetMnemonic(const std::string& pinMix,
 }
 
 
+bool JubiterNFCToken::HasRootKey() {
+
+    // send apdu
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8105")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x9000 != ret
+        ||   1 != ulRetDataLen
+        ) {
+        return false;
+    }
+
+    //        ‘5A’ – root key has been generated
+    // Other value – root key has not been generated
+    if (0x5A != retData[0]) {
+        return false;
+    }
+
+    return true;
+}
+
+
 JUB_RV JubiterNFCToken::PerformSecurityOperation(const uchar_vector& oceCert) {
 
     if (0 == oceCert.size()) {

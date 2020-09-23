@@ -55,6 +55,7 @@ public:
                                const std::string& seed) = 0;
     virtual JUB_RV GetMnemonic(const std::string& pinMix,
                                OUT std::string& mnemonic) = 0;
+    virtual bool   HasRootKey() = 0;
 
     // BIO
     virtual JUB_RV UIShowMain() = 0;
