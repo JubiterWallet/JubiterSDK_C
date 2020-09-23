@@ -291,6 +291,29 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 }
 
 /*****************************************************************************
+ * @function name : JUB_HasRootKey
+ * @in  param : deviceID - device ID
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_ENUM_BOOL JUB_HasRootKey(IN JUB_UINT16 deviceID) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (!device) {
+        return JUB_ENUM_BOOL::BOOL_FALSE;
+    }
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUB_ENUM_BOOL::BOOL_FALSE;
+    }
+
+    return (JUB_ENUM_BOOL)token->HasRootKey();
+}
+
+/*****************************************************************************
 * @function name : JUB_VerifyPIN
 * @in  param : deviceID - device ID
 *                     : pinMix - old PIN
