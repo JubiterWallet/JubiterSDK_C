@@ -10,7 +10,7 @@
 #include <cstring>
 #include <ctype.h>
 
-#ifdef ANDROID_API_LEVEL_H
+#ifdef __ANDROID__
 
 #include <jni.h>
 #include <android/log.h>
@@ -39,7 +39,7 @@ void LogBinary(const char* msg, const unsigned char *pBuf, unsigned long ulSize)
 
 #if defined(DEBUG)
 
-#ifdef ANDROID_API_LEVEL_H
+#ifdef __ANDROID__
 
 #define TAG "JuBiter"
 #define PRINTV(...) { __android_log_print(ANDROID_LOG_VERBOSE, TAG, __VA_ARGS__); }
@@ -54,7 +54,7 @@ void LogBinary(const char* msg, const unsigned char *pBuf, unsigned long ulSize)
 #define PRINTW(...) printf(__VA_ARGS__);
 #define PRINTI(...) printf(__VA_ARGS__);
 
-#endif  /* ANDROID_API_LEVEL_H */
+#endif  /* __ANDROID__ */
 
 
 #define LOG_ERR(...) {                                                                    \
