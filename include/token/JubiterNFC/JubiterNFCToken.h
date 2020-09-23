@@ -61,6 +61,7 @@ public:
                                const std::string& seed) override;
     virtual JUB_RV GetMnemonic(const std::string& pinMix,
                                OUT std::string& mnemonic) override;
+    virtual bool   HasRootKey() override;
 
     static stAppInfos g_appInfo[];
 

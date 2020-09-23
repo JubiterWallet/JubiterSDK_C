@@ -84,6 +84,7 @@ public:
                                const std::string& seed) override;
     virtual JUB_RV GetMnemonic(const std::string& pinMix,
                                OUT std::string& mnemonic) override;
+    virtual bool   HasRootKey() override;
 
     // BIO
     virtual JUB_RV UIShowMain() override;
