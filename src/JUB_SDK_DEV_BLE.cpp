@@ -109,16 +109,19 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,
     if (   !bleDevice
         || !jub::device::xBLEDeviceFactory::CheckTypeid(bleDevice)
         ) {
+        LOG_ERR("JUB_connectDevice 参数错误");
         return JUBR_ARGUMENTS_BAD;
     }
+    LOG_ERR("JUB_connectDevice 参数正常");
 
     JUB_ULONG * pdevHandle = new JUB_ULONG;
     JUB_RV rv = (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Connect(devName, bBLEUUID, connectType, pdevHandle, timeout);
-//    LOG_INF("JUB_connectDevice rv: %lu", *pdevHandle);
+    LOG_ERR("JUB_connectDevice handle: %lu", *pdevHandle);
+    LOG_ERR("JUB_connectDevice 1 rv: %lu", rv);
     JUB_VERIFY_RV(rv);
 
     *pDeviceID = device_map::GetInstance()->AddOne(pdevHandle);
-//    LOG_INF("JUB_connectDevice rv: %hu", *pDeviceID);
+    LOG_ERR("JUB_connectDevice deviceID: %hu", *pDeviceID);
 
     jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, bleDevice);
 
