@@ -281,7 +281,7 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_response;
-    JUB_VERIFY_RV(token->GetMnemonic(pinMix, str_response));
+    JUB_VERIFY_RV(token->ExportMnemonic(pinMix, str_response));
     JUB_VERIFY_RV(_allocMem(mnemonic, str_response));
 
     return JUBR_OK;
