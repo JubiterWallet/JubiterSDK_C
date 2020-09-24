@@ -352,6 +352,9 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
 
     JUB_RV rv = token->ChangePIN(pinMix, pinNew);
 
+    // COS need to repair at some point in the future.
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     JUB_BYTE retry = 0;
     JUB_VERIFY_RV(token->GetPinRetry(retry));
     *pretry = retry;
