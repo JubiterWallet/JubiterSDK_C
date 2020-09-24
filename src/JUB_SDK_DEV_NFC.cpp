@@ -239,6 +239,9 @@ JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
 
     JUB_VERIFY_RV(token->ImportMnemonic(pinMix, mnemonic));
 
+    // close SCP11c Secure channel.
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -283,6 +286,9 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
     std::string str_response;
     JUB_VERIFY_RV(token->ExportMnemonic(pinMix, str_response));
     JUB_VERIFY_RV(_allocMem(mnemonic, str_response));
+
+    // close SCP11c Secure channel.
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
@@ -352,7 +358,7 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
 
     JUB_RV rv = token->ChangePIN(pinMix, pinNew);
 
-    // COS need to repair at some point in the future.
+    // close SCP11c Secure channel.
     JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_BYTE retry = 0;
