@@ -8,6 +8,8 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
+#include "Debug.hpp"
+#include "mSIGNA/stdutils/uchar_vector.h"
 
 #include <TrezorCrypto/aes.h>
 #include <TrezorCrypto/cmac.h>
@@ -63,6 +65,8 @@ bool scp11c::keyDerivation(const scp11_response_msg &response_msg, scp11_session
     session.insert(session.begin(), outKey, outKey+outKeyLen);
     delete [] outKey; outKey = nullptr;
 
+    jub::JUB_DebugLog("scp11c::keyDerivation::session[%d]: %s\n", session.size(), uchar_vector(session).getHex().c_str());
+
     return session_key.decode(session, scp11_session_key::KEY_LENGTH);
 }
 
@@ -73,12 +77,17 @@ bool scp11c::checkReceipt(const scp11_response_msg &response_msg, const std::vec
                          e_pk,
                          response_msg.sd_pk.value);
     std::vector<unsigned char> receiptInputData = ma.encode();
+    jub::JUB_DebugLog("scp11c::checkReceipt::receiptInputData[%d]: %s\n", receiptInputData.size(), uchar_vector(receiptInputData).getHex().c_str());
 
     // check if receipt == mac
     unsigned char outmac[16] = {0x00,};
+    int outmacLen = sizeof(outmac)/sizeof(unsigned char);
     std::vector<unsigned char> key(key_dek);
     AES_CMAC(key.data(), receiptInputData.data(), (int)receiptInputData.size(),
              outmac);
+
+    jub::JUB_DebugLog("scp11c::checkReceipt::receipt[%d]: %s\n", response_msg.receipt.value.size(), uchar_vector(response_msg.receipt.value).getHex().c_str());
+    jub::JUB_DebugLog("scp11c::checkReceipt::outmac[%d]:  %s\n", outmacLen, uchar_vector(outmac, outmacLen).getHex().c_str());
 
     // using c++11 instead of c++14
 //    return std::equal(std::begin(response_msg.receipt.value), std::end(response_msg.receipt.value),
