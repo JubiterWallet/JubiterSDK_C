@@ -114,11 +114,9 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,
 
     JUB_ULONG * pdevHandle = new JUB_ULONG;
     JUB_RV rv = (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Connect(devName, bBLEUUID, connectType, pdevHandle, timeout);
-//    LOG_INF("JUB_connectDevice rv: %lu", *pdevHandle);
     JUB_VERIFY_RV(rv);
 
     *pDeviceID = device_map::GetInstance()->AddOne(pdevHandle);
-//    LOG_INF("JUB_connectDevice rv: %hu", *pDeviceID);
 
     jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, bleDevice);
 
