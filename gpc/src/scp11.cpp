@@ -8,6 +8,9 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
+#include "Debug.hpp"
+#include "mSIGNA/stdutils/uchar_vector.h"
+
 #include "scp11/scp11.hpp"
 #include "tlvparse.c"
 #include <TrezorCrypto/rand.h>
@@ -432,6 +435,7 @@ bool scp11_session_key::decode(const std::vector<unsigned char>& data,
             key_dek.resize(key_length);
             std::copy(std::begin(data)+i*key_length, std::begin(data)+(i+1)*key_length,
                       std::begin(key_dek));
+            jub::JUB_DebugLog("scp11_session_key::decode::key_dek[%d]: %s\n", key_dek.size(), uchar_vector(key_dek).getHex().c_str());
             break;
         }
         case ENUM_SCP11_SESSION::S_ENC:
@@ -439,6 +443,7 @@ bool scp11_session_key::decode(const std::vector<unsigned char>& data,
             s_enc.resize(key_length);
             std::copy(std::begin(data)+i*key_length, std::begin(data)+(i+1)*key_length,
                       std::begin(s_enc));
+            jub::JUB_DebugLog("scp11_session_key::decode::s_enc[%d]:   %s\n", s_enc.size(), uchar_vector(s_enc).getHex().c_str());
             break;
         }
         case ENUM_SCP11_SESSION::S_MAC:
@@ -446,6 +451,7 @@ bool scp11_session_key::decode(const std::vector<unsigned char>& data,
             s_mac.resize(key_length);
             std::copy(std::begin(data)+i*key_length, std::begin(data)+(i+1)*key_length,
                       std::begin(s_mac));
+            jub::JUB_DebugLog("scp11_session_key::decode::s_mac[%d]:   %s\n", s_mac.size(), uchar_vector(s_mac).getHex().c_str());
             break;
         }
         case ENUM_SCP11_SESSION::S_RMAC:
@@ -453,6 +459,7 @@ bool scp11_session_key::decode(const std::vector<unsigned char>& data,
             s_rmac.resize(key_length);
             std::copy(std::begin(data)+i*key_length, std::begin(data)+(i+1)*key_length,
                       std::begin(s_rmac));
+            jub::JUB_DebugLog("scp11_session_key::decode::s_rmac[%d]:  %s\n", s_rmac.size(), uchar_vector(s_rmac).getHex().c_str());
             break;
         }
         case ENUM_SCP11_SESSION::S_DEK:
@@ -460,6 +467,7 @@ bool scp11_session_key::decode(const std::vector<unsigned char>& data,
             s_dek.resize(key_length);
             std::copy(std::begin(data)+i*key_length, std::begin(data)+(i+1)*key_length,
                       std::begin(s_dek));
+            jub::JUB_DebugLog("scp11_session_key::decode::s_dek[%d]:   %s\n", s_dek.size(), uchar_vector(s_dek).getHex().c_str());
             break;
         }
         default:
@@ -637,6 +645,8 @@ bool scp11::_calcShSss(const unsigned char*pk, const unsigned char*rk,
     sha1_Update(&sha1, session_key + 1, SHA256_DIGEST_LENGTH);
     sha1_Final(&sha1, ShSss);
 
+    jub::JUB_DebugLog("scp11::_calcShSss::ShSss[%d]: %s\n", SHA256_DIGEST_LENGTH, uchar_vector(ShSss, SHA256_DIGEST_LENGTH).getHex().c_str());
+
     return true;
 }
 
@@ -661,6 +671,8 @@ bool scp11::_calcShSes(const unsigned char*pk, const unsigned char*rk,
     sha1_Init(&sha1);
     sha1_Update(&sha1, session_key + 1, SHA256_DIGEST_LENGTH);
     sha1_Final(&sha1, ShSes);
+
+    jub::JUB_DebugLog("scp11::_calcShSes::ShSes[%d]: %s\n", SHA1_DIGEST_LENGTH, uchar_vector(ShSes, SHA1_DIGEST_LENGTH).getHex().c_str());
 
     return true;
 }

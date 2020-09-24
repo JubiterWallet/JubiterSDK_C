@@ -6,7 +6,6 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-
 #include "scp03/scp03.hpp"
 #include <TrezorCrypto/aes.h>
 #include <TrezorCrypto/cmac.h>
@@ -65,6 +64,7 @@ bool scp03::icv(const unsigned char *key, const int keyLen,
                 unsigned char *icv, int* icvLen, bool forWrap) {
 
     aes_encrypt_ctx encCtx;
+    jub::JUB_DebugLog("scp03::icv::key            [%d]: %s\n", keyLen, uchar_vector(key, keyLen).getHex().c_str());
     if (EXIT_SUCCESS != aes_encrypt_key(key, keyLen, &encCtx)) {
         return false;
     }
@@ -81,6 +81,7 @@ bool scp03::icv(const unsigned char *key, const int keyLen,
         std::reverse(std::begin(counter), std::end(counter));
         counter[0] = 0x80;
     }
+    jub::JUB_DebugLog("scp03::encrypt::counter blk[%d]: %s\n", counter.size(), uchar_vector(counter).getHex().c_str());
 
     memset(const_Zero, 0x00, sizeof(const_Zero)/sizeof(unsigned char));
     if (EXIT_SUCCESS != aes_cbc_encrypt(counter.data(), icv,
@@ -88,6 +89,7 @@ bool scp03::icv(const unsigned char *key, const int keyLen,
                                         &encCtx)) {
         return false;
     }
+    jub::JUB_DebugLog("scp03::icv::icv            [%d]: %s\n", AES_BLOCK_SIZE, uchar_vector(icv, AES_BLOCK_SIZE).getHex().c_str());
 
     return true;
 }
@@ -130,12 +132,17 @@ bool scp03::encrypt(const unsigned char *key, const int keyLen,
         return false;
     }
 
+    jub::JUB_DebugLog("scp03::encrypt::        cmd[%d]: %s\n", cmdLen, uchar_vector(cmd, cmdLen).getHex().c_str());
+    jub::JUB_DebugLog("scp03::encrypt::pading  cmd[%d]: %s\n", paddingLen, uchar_vector(padding, paddingLen).getHex().c_str());
+
     if (EXIT_SUCCESS != aes_cbc_encrypt(padding, enc,
                                         paddingLen, (unsigned char*)icv,
                                         &ctx)) {
         delete [] padding; padding = nullptr;
         return false;
     }
+
+    jub::JUB_DebugLog("scp03::encrypt::enc     cmd[%d]: %s\n", paddingLen, uchar_vector(enc, paddingLen).getHex().c_str());
 
     delete [] padding; padding = nullptr;
 
@@ -170,6 +177,9 @@ bool scp03::decrypt(const unsigned char *key, const int keyLen,
         return false;
     }
 
+    jub::JUB_DebugLog("scp03::decrypt::enc apdu   [%d]: %s\n", encLen, uchar_vector(enc, encLen).getHex().c_str());
+    jub::JUB_DebugLog("scp03::decrypt::padding    [%d]: %s\n", encLen, uchar_vector(padding, paddingLen).getHex().c_str());
+
     // unpading
     int decLen = *pdecLen;
     if (!unpad80(padding, paddingLen,
@@ -177,6 +187,8 @@ bool scp03::decrypt(const unsigned char *key, const int keyLen,
         delete [] padding; padding = nullptr;
         return false;
     }
+
+    jub::JUB_DebugLog("scp03::decrypt::unpadd     [%d]: %s\n", decLen, uchar_vector(dec, decLen).getHex().c_str());
 
     delete [] padding; padding = nullptr;
 
@@ -189,6 +201,8 @@ bool scp03::decrypt(const unsigned char *key, const int keyLen,
 bool scp03::cmac(const unsigned char *key, const int keyLen,
                  const unsigned char *data, const int dataLen,
                  unsigned char *mac, int* macLen) {
+    jub::JUB_DebugLog("scp11::cmac::key  [%d]: %s\n", keyLen, uchar_vector(key,   keyLen).getHex().c_str());
+    jub::JUB_DebugLog("scp11::cmac::data [%d]: %s\n", dataLen, uchar_vector(data, dataLen).getHex().c_str());
 
     int outmacLen = keyLen;
     if (nullptr == mac) {
@@ -202,6 +216,7 @@ bool scp03::cmac(const unsigned char *key, const int keyLen,
              outmac);
     if ((*macLen) <= outmacLen) {
         memcpy(mac, outmac, *macLen);
+    jub::JUB_DebugLog("scp11::cmac::mac  [%d]: %s\n", (*macLen), uchar_vector(mac, (*macLen)).getHex().c_str());
     }
     delete [] outmac; outmac = nullptr;
 
@@ -213,4 +228,5 @@ void scp03::macChaining(const std::vector<unsigned char>& chain) {
 
     mac_chain.clear();
     mac_chain.insert(mac_chain.end(), chain.begin(), chain.end());
+    jub::JUB_DebugLog("scp03::macChaining[%d]: %s\n", mac_chain.size(), uchar_vector(mac_chain).getHex().c_str());
 }
