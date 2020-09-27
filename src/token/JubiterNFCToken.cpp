@@ -606,10 +606,8 @@ JUB_RV JubiterNFCToken::ExportMnemonic(const std::string& pinMix,
         }
     }
 
-    if (vEntropy.size() % 4) {
-        do {
-            vEntropy.pop_back();
-        } while (0 == (vEntropy.size() % 4));
+    while (0 != (vEntropy.size() % 4)) {
+        vEntropy.pop_back();
     }
 
     char vMnemonic[512] = {0x00,};

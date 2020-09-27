@@ -10,7 +10,7 @@
 #define gpc_scp03_hpp
 
 #include "mSIGNA/stdutils/uchar_vector.h"
-#include "Debug.hpp"
+#include <utility/Debug.hpp>
 
 #include <stdio.h>
 #include <string.h>
@@ -35,11 +35,11 @@ public:
     int incCounter() {
 //        return ++gpc_scp03::counter;
         int counter = (++gpc_scp03::counter);
-        jub::JUB_DebugLog("scp03::incCounter: %d\n", counter);
+        DEBUG_LOG("scp03::incCounter: %d\n", counter);
         return counter;
     }
     int getCounter() {
-        jub::JUB_DebugLog("scp03::getCounter: %d\n", gpc_scp03::counter);
+        DEBUG_LOG("scp03::getCounter: %d\n", gpc_scp03::counter);
         return gpc_scp03::counter;
     }
     // initial Chaining Vector
@@ -60,7 +60,7 @@ public:
 
     void macChaining(const std::vector<unsigned char>& chain);
     virtual std::vector<unsigned char> getMacChain() {
-        jub::JUB_DebugLog("scp03::getMacChain[%d]: %s\n", mac_chain.size(), uchar_vector(mac_chain).getHex().c_str());
+        DEBUG_LOG("scp03::getMacChain[%d]: %s\n", mac_chain.size(), uchar_vector(mac_chain).getHex().c_str());
         return mac_chain;
     }
 
