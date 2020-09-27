@@ -26,7 +26,10 @@ public:
     /* functions */
     virtual JUB_RV Connect() = 0;
     virtual JUB_RV Disconnect() = 0;
-    virtual void Reset() = 0;
+    virtual bool IsOpenSecureChannel() {
+        return false;
+    }
+    virtual void Reset() {}
 
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                             OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,

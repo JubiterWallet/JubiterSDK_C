@@ -15,6 +15,7 @@ namespace token {
 
 #define SWITCH_TO_NFC_APP                       \
 do {				                            \
+    JUB_VERIFY_RV(SelectMainSecurityDomain());  \
     JUB_VERIFY_RV(_SelectApp(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE)));\
 } while (0)                                     \
 
@@ -36,7 +37,12 @@ JUB_RV JubiterNFCImpl::GetHDNode(const JUB_BYTE& type, const std::string& path, 
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
     JUB_VERIFY_COS_ERROR(ret);
 
     xpub = (JUB_CHAR_PTR)retData;
@@ -56,7 +62,12 @@ JUB_RV JubiterNFCImpl::GetCompPubKey(const JUB_BYTE& type, const std::string& pa
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
     JUB_VERIFY_COS_ERROR(ret);
 
     pubkey.insert(pubkey.end(), retData, retData+ulRetDataLen);

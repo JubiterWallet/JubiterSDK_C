@@ -54,6 +54,9 @@ public:
     // for common device
     virtual JUB_RV Connect() override;
     virtual JUB_RV Disconnect() override;
+    virtual bool IsOpenSecureChannel() override {
+        return _scp11.isOpen();
+    }
     virtual void Reset() override {
         _scp03.reset();
         _scp11.reset();
