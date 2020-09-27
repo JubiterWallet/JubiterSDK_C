@@ -37,8 +37,12 @@ public:
 //    virtual bool   IsInitialize();
     virtual bool   IsBootLoader() override;
     virtual JUB_RV SelectMainSecurityDomain() override;
+    virtual JUB_RV GetSN(JUB_BYTE sn[24]) override;
+    virtual JUB_RV GetLabel(JUB_BYTE label[32]) override;
     virtual JUB_RV GetPinRetry(JUB_BYTE& retry) override;
+    virtual JUB_RV GetPinMaxRetry(JUB_BYTE& maxRetry) override;
     virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]) override;
+    virtual JUB_RV GetFwVersion(JUB_BYTE fwVersion[4]) override;
 
     virtual JUB_RV EnumApplet(std::string& appletList) override;
     virtual JUB_RV GetAppletVersionBlade(const std::string& appID, std::string& version) override;
@@ -64,6 +68,8 @@ public:
     static stAppInfos g_appInfo[];
 
 protected:
+    virtual bool _isOpenSecureChannel();
+
     virtual JUB_RV _SetMnemonic(const std::string& pinMix,
                                 const JUB_ENUM_MNEMONIC_STRENGTH& strength,
                                 const std::string& entropy,

@@ -310,24 +310,128 @@ JUB_RV JubiterNFCToken::SelectMainSecurityDomain() {
 }
 
 
-JUB_RV JubiterNFCToken::GetPinRetry(JUB_BYTE& retry) {
+JUB_RV JubiterNFCToken::GetSN(JUB_BYTE sn[24]) {
 
-    // When pinMaxRetry == retry, and JUBR_PIN_LOCKED == rv
-    // it means the NFC card is already be reset.
-    JUB_RV rv = JubiterBladeToken::GetPinRetry(retry);
-    if (   0x6982 == rv
-        || 0x6985 == rv
-        ) {
-        JUB_VERIFY_RV(JUBR_PIN_LOCKED);
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8101")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    if (0x9000 == ret) {
+        memset(sn, 0x00, 24);
+        memcpy(sn, retData, 24);
+
+        return JUBR_OK;
     }
 
-    return rv;
+    return JUBR_ERROR;
+}
+
+
+JUB_RV JubiterNFCToken::GetLabel(JUB_BYTE label[32]) {
+
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8104")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    if (0x9000 == ret) {
+        memset(label, 0x00, 32);
+        memcpy(label, retData, 32);
+
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
+}
+
+
+JUB_RV JubiterNFCToken::GetPinRetry(JUB_BYTE& retry) {
+
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8102")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    if (0x9000 == ret) {
+        retry = retData[0];
+
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
+}
+
+
+JUB_RV JubiterNFCToken::GetPinMaxRetry(JUB_BYTE& maxRetry) {
+
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8103")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    if (0x9000 == ret) {
+        maxRetry = retData[0];
+
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
 }
 
 
 JUB_RV JubiterNFCToken::GetBleVersion(JUB_BYTE bleVersion[4]) {
 
     return JUBR_OK;
+}
+
+
+JUB_RV JubiterNFCToken::GetFwVersion(JUB_BYTE fwVersion[4]) {
+
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8003")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    if (0x9000 == ret) {
+        uchar_vector version(retData, retData + ulRetDataLen);
+        memset(fwVersion, 0x00, 4);
+        memcpy(fwVersion, version.getHex().c_str(), 4);
+
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
 }
 
 
@@ -339,7 +443,12 @@ JUB_RV JubiterNFCToken::EnumApplet(std::string& appletList) {
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
     JUB_VERIFY_COS_ERROR(ret);
 
     std::vector<uint8_t> tlvData(retData, retData + ulRetDataLen);
@@ -549,6 +658,15 @@ JUB_RV JubiterNFCToken::ImportMnemonic(const std::string& pinMix,
 }
 
 
+bool JubiterNFCToken::_isOpenSecureChannel() {
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
+    if (!device) {
+        return false;
+    }
+    return device->IsOpenSecureChannel();
+}
+
+
 JUB_RV JubiterNFCToken::_SetMnemonic(const std::string& pinMix,
                                      const JUB_ENUM_MNEMONIC_STRENGTH& strength,
                                      const std::string& entropy,
@@ -658,7 +776,12 @@ bool JubiterNFCToken::HasRootKey() {
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
     if (0x9000 != ret
         ||   1 != ulRetDataLen
         ) {
