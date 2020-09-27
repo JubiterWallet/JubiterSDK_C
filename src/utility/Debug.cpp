@@ -62,7 +62,7 @@ std::string ByteArray2String(const uint8_t* buf, uint32_t len, uint8_t type/* = 
 	return str;
 }
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 void JUB_DebugLog(android_LogPriority logPriority, const char *format, ...)
 #else
 void JUB_DebugLog(const char *format, ...)
@@ -103,7 +103,7 @@ void JUB_DebugLog(const char *format, ...)
 	if ('\n' != out.back())
 		out.append(1, '\n');
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 	__android_log_print(ANDROID_LOG_DEBUG, "JUB", "%s", out.c_str());
 #else
 	fprintf(stderr, "%s", out.c_str());
@@ -124,7 +124,7 @@ void JUB_DebugLog(const char *format, ...)
 #endif
 }
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 void JUB_DebugLog(android_LogPriority logPriority, const std::string &log) {
 	JUB_DebugLog(logPriority, "%s", log.c_str());
 }
