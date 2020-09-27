@@ -4,7 +4,7 @@
 
 #include <string>
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 #include <android/log.h>
 #endif
 
@@ -26,7 +26,7 @@ namespace jub {
     }                               \
 }
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 void JUB_DebugLog(android_LogPriority logPriority, const char *format, ...);
 void JUB_DebugLog(android_LogPriority logPriority, const std::string &log);
 #else
@@ -35,7 +35,7 @@ void JUB_DebugLog(const std::string &log);
 #endif
 
 #if defined(DEBUG) || defined(_DEBUG)
-    #ifdef ANDROID
+    #ifdef __ANDROID__
         #define DEBUG_LOG(...) jub::JUB_DebugLog(ANDROID_LOG_DEBUG, __VA_ARGS__)
         #define DEBUG_ERR(...) jub::JUB_DebugLog(ANDROID_LOG_ERROR, __VA_ARGS__)
     #else
