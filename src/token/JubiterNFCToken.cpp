@@ -606,7 +606,7 @@ JUB_RV JubiterNFCToken::ExportMnemonic(const std::string& pinMix,
         }
     }
 
-    while (0 != (vEntropy.size() % 4)) {
+    while (vEntropy.size() % 4) {
         vEntropy.pop_back();
     }
 
