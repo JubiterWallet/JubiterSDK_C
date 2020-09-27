@@ -143,10 +143,10 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
         return JUBR_ARGUMENTS_BAD;
     }
 
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+//    // Let's go to the main security domain,
+//    // instead of judging the return value,
+//    // to get the data back
+//    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_VERIFY_RV(token->Reset());
 
@@ -187,10 +187,10 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+//    // Let's go to the main security domain,
+//    // instead of judging the return value,
+//    // to get the data back
+//    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_VERIFY_RV(token->GenerateSeed(pinMix, curve));
 
@@ -232,15 +232,12 @@ JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+//    // Let's go to the main security domain,
+//    // instead of judging the return value,
+//    // to get the data back
+//    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_VERIFY_RV(token->ImportMnemonic(pinMix, mnemonic));
-
-    // close SCP11c Secure channel.
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
@@ -278,17 +275,14 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+//    // Let's go to the main security domain,
+//    // instead of judging the return value,
+//    // to get the data back
+//    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_response;
     JUB_VERIFY_RV(token->ExportMnemonic(pinMix, str_response));
     JUB_VERIFY_RV(_allocMem(mnemonic, str_response));
-
-    // close SCP11c Secure channel.
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
@@ -351,15 +345,12 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+//    // Let's go to the main security domain,
+//    // instead of judging the return value,
+//    // to get the data back
+//    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_RV rv = token->ChangePIN(pinMix, pinNew);
-
-    // close SCP11c Secure channel.
-    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_BYTE retry = 0;
     JUB_VERIFY_RV(token->GetPinRetry(retry));
