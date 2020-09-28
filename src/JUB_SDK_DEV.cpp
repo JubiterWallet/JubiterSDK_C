@@ -100,6 +100,9 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     memcpy(info->bleVersion, bleVersion, sizeof(bleVersion)/sizeof(JUB_BYTE));
     memcpy(info->firmwareVersion, fwVersion, sizeof(fwVersion)/sizeof(JUB_BYTE));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 }
 
@@ -122,6 +125,9 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
     if (!token) {
         return JUB_ENUM_BOOL::BOOL_FALSE;
     }
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return (JUB_ENUM_BOOL)token->IsInitialize();
 }
@@ -179,6 +185,9 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->EnumApplet(appletList));
     JUB_VERIFY_RV(_allocMem(appList, appletList));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 }
 
@@ -210,6 +219,9 @@ JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->EnumSupportCoins(str_coinsList));
     JUB_VERIFY_RV(_allocMem(coinsList, str_coinsList));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 }
 
@@ -237,6 +249,9 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
     std::string str_version;
     JUB_VERIFY_RV(token->GetAppletVersion(appID,str_version));
     JUB_VERIFY_RV(_allocMem(version, str_version));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 }
@@ -269,6 +284,9 @@ JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->GetDeviceCert(str_cert));
     JUB_VERIFY_RV(_allocMem(cert, str_cert));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 }
 
@@ -296,6 +314,9 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
     std::string str_response;
     JUB_VERIFY_RV(token->SendOneApdu(apdu, str_response));
     JUB_VERIFY_RV(_allocMem(response, str_response));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 }
