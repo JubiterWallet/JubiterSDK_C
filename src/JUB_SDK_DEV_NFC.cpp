@@ -143,10 +143,10 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
         return JUBR_ARGUMENTS_BAD;
     }
 
-//    // Let's go to the main security domain,
-//    // instead of judging the return value,
-//    // to get the data back
-//    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_VERIFY_RV(token->Reset());
 

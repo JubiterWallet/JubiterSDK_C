@@ -2,6 +2,7 @@
 #include "context/HCContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
+#include "token/JubiterNFC/JubiterNFCToken.h"
 #include "token/interface/BTCTokenInterface.hpp"
 #include "utility/util.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
@@ -26,6 +27,11 @@ JUB_RV HCContext::ActiveSelf() {
         || std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)
         ) {
         BTCContext::SetTimeout(_timeout);
+    }
+
+    // For NFC devices, the session is cleaned up so that the ActiveSelf() function can be started at every session level operation.
+    if (std::dynamic_pointer_cast<token::JubiterNFCToken>(_tokenPtr)) {
+        jub::context::ContextManager::GetInstance()->ClearLast();
     }
 
     return JUBR_OK;
