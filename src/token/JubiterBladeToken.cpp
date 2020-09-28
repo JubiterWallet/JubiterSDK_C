@@ -253,7 +253,7 @@ JUB_RV JubiterBladeToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     JUB_VERIFY_COS_ERROR(ret);
 
     uchar_vector vVersion(&retData[4], retData[3]);
