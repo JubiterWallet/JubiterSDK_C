@@ -22,7 +22,7 @@ JUB_RV JubiterNFCETHImpl::SelectApplet() {
 JUB_RV JubiterNFCETHImpl::GetAppletVersion(std::string &version) {
 
     uchar_vector appID(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE));
-    JUB_VERIFY_RV(GetAppletVersionBlade(CharPtr2HexStr(appID), version));
+    JUB_VERIFY_RV(JubiterBladeToken::GetAppletVersion(CharPtr2HexStr(appID), version));
 
     return JUBR_OK;
 }

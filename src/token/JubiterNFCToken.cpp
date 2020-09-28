@@ -464,12 +464,6 @@ JUB_RV JubiterNFCToken::EnumApplet(std::string& appletList) {
 }
 
 
-JUB_RV JubiterNFCToken::GetAppletVersionBlade(const std::string& appID, std::string& version) {
-
-    return JUBR_OK;
-}
-
-
 JUB_RV JubiterNFCToken::EnumSupportCoins(std::string& coinList) {
 
     std::string appletList;

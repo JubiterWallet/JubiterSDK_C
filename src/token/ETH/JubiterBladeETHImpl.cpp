@@ -21,7 +21,7 @@ JUB_RV JubiterBladeETHImpl::SelectApplet() {
 JUB_RV JubiterBladeETHImpl::GetAppletVersion(std::string &version) {
 
     uchar_vector appID(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE));
-    JUB_VERIFY_RV(GetAppletVersionBlade(CharPtr2HexStr(appID), version));
+    JUB_VERIFY_RV(JubiterBladeToken::GetAppletVersion(CharPtr2HexStr(appID), version));
 
     return JUBR_OK;
 }
