@@ -497,7 +497,7 @@ JUB_RV JubiterBladeToken::EnumApplet(std::string& appletList) {
 }
 
 
-JUB_RV JubiterBladeToken::GetAppletVersionBlade(const std::string& appID, std::string& version) {
+JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, std::string& version) {
 
     uchar_vector id(appID);
     if (0 == appID.length()) {
@@ -557,7 +557,7 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
     auto vAppList = Split(appletList, " ");
     for (auto appID : vAppList) {
         std::string version;
-        rv = GetAppletVersionBlade(appID, version);
+        rv = GetAppletVersion(appID, version);
         if (JUBR_OK != rv) {
             continue;
         }

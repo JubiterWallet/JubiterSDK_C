@@ -11,6 +11,7 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
+#include "context/BaseContext.h"
 #include "product/ProductFactory.h"
 #include "device/JubiterNFCDevice.hpp"
 #include <token/JubiterNFC/JubiterNFCToken.h>
@@ -84,6 +85,9 @@ JUB_RV JUB_disconnectNFCDevice(JUB_UINT16 deviceID) {
     JUB_CHECK_NULL(devHandle);
     JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->Disconnect(*devHandle));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -150,6 +154,9 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
 
     JUB_VERIFY_RV(token->Reset());
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -193,6 +200,9 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
 //    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_VERIFY_RV(token->GenerateSeed(pinMix, curve));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
@@ -239,6 +249,9 @@ JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
 
     JUB_VERIFY_RV(token->ImportMnemonic(pinMix, mnemonic));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -284,6 +297,9 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->ExportMnemonic(pinMix, str_response));
     JUB_VERIFY_RV(_allocMem(mnemonic, str_response));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -309,6 +325,9 @@ JUB_ENUM_BOOL JUB_HasRootKey(IN JUB_UINT16 deviceID) {
     if (!token) {
         return JUB_ENUM_BOOL::BOOL_FALSE;
     }
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return (JUB_ENUM_BOOL)token->HasRootKey();
 }
@@ -355,6 +374,9 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
     JUB_BYTE retry = 0;
     JUB_VERIFY_RV(token->GetPinRetry(retry));
     *pretry = retry;
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     JUB_VERIFY_RV(rv);
 
