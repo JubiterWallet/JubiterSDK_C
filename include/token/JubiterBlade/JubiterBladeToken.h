@@ -61,7 +61,7 @@ public:
     virtual JUB_RV GetFwVersion(JUB_BYTE fwVersion[4]) override;
 
     virtual JUB_RV EnumApplet(std::string& appletList) override ;
-    virtual JUB_RV GetAppletVersionBlade(const std::string& appID, std::string& version) override;
+    virtual JUB_RV GetAppletVersion(const std::string& appID, std::string& version) override;
     virtual JUB_RV EnumSupportCoins(std::string& coinList) override;
     virtual JUB_RV GetDeviceCert(std::string& cert) override;
     virtual JUB_RV SendOneApdu(const std::string& apdu, std::string& response) override;
