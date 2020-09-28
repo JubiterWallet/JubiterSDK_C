@@ -68,6 +68,9 @@ public:
     static stAppInfos g_appInfo[];
 
 protected:
+    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
+                              JUB_BYTE length) override;
+
     virtual bool _isOpenSecureChannel();
 
     virtual JUB_RV _SetMnemonic(const std::string& pinMix,

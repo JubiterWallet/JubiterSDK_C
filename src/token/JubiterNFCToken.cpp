@@ -69,6 +69,19 @@ JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
 }
 
 
+JUB_RV JubiterNFCToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
+
+    JUB_VERIFY_RV(JubiterBladeToken::_SelectApp(PKIAID, length));
+
+    // Clear SCP11c Session for NFC
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
+    JUB_CHECK_NULL(device);
+    device->Reset();
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterNFCToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
                                   JUB_ULONG *pulRetDataLen /*= nullptr*/,
                                   JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
