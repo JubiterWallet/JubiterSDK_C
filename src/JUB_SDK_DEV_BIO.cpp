@@ -41,12 +41,15 @@ JUB_RV JUB_IdentityVerify(IN JUB_UINT16 deviceID,
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
-    
+
     JUB_ULONG retry = 0;
     JUB_RV rv = token->IdentityVerify(mode, retry);
-    
+
     *pretry = retry;
-    
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return rv;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -80,6 +83,9 @@ JUB_RV JUB_IdentityVerifyPIN(IN JUB_UINT16 deviceID,
 
     *pretry = retry;
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return rv;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -102,6 +108,9 @@ JUB_RV JUB_IdentityShowNineGrids(IN JUB_UINT16 deviceID) {
     JUB_CHECK_NULL(token);
 
     JUB_VERIFY_RV(token->IdentityNineGrids(true));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
@@ -127,6 +136,9 @@ JUB_RV JUB_IdentityCancelNineGrids(IN JUB_UINT16 deviceID) {
     JUB_VERIFY_RV(token->IdentityNineGrids(false));
 
     JUB_VERIFY_RV(token->UIShowMain());
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
@@ -159,6 +171,9 @@ JUB_RV JUB_EnrollFingerprint(IN JUB_UINT16 deviceID,
     JUB_VERIFY_RV(token->EnrollFingerprint(fgptIndex, ptimes,
                                            fgptID));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -186,6 +201,9 @@ JUB_RV JUB_EnumFingerprint(IN JUB_UINT16 deviceID,
 
     JUB_VERIFY_RV(_allocMem(fgptList, str_fgpt_list));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -208,6 +226,9 @@ JUB_RV JUB_EraseFingerprint(IN JUB_UINT16 deviceID) {
     JUB_CHECK_NULL(token);
 
     JUB_VERIFY_RV(token->EraseFingerprint());
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
@@ -233,6 +254,9 @@ JUB_RV JUB_DeleteFingerprint(IN JUB_UINT16 deviceID,
     JUB_CHECK_NULL(token);
 
     JUB_VERIFY_RV(token->DeleteFingerprint(fgptID));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
@@ -261,6 +285,9 @@ JUB_RV JUB_VerifyFgptForIntl(IN JUB_UINT16 deviceID,
 
     *pretry = retry;
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return rv;
 #else   // #if defined(BLE_MODE) || defined(HID_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
@@ -282,6 +309,9 @@ JUB_RV JUB_VerifyFingerprint(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->VerifyFingerprint(*pretry));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 }

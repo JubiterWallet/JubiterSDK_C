@@ -11,8 +11,8 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
+#include <context/BaseContext.h>
 #include "product/ProductFactory.h"
-
 
 #ifdef __ANDROID__
 #include "utils/logUtils.h"
@@ -208,6 +208,9 @@ JUB_RV JUB_QueryBattery(IN JUB_UINT16 deviceID,
     auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
 
     JUB_VERIFY_RV(token->QueryBattery(*percent));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
