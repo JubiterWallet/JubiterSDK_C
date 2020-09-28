@@ -31,7 +31,7 @@ public:
     virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]) = 0;
     virtual JUB_RV GetFwVersion(JUB_BYTE fwVersion[4]) = 0;
     virtual JUB_RV EnumApplet(std::string& appletList) = 0;
-    virtual JUB_RV GetAppletVersionBlade(const std::string& appID, std::string& version) = 0;
+    virtual JUB_RV GetAppletVersion(const std::string& appID, std::string& version) = 0;
     virtual JUB_RV EnumSupportCoins(std::string& coinList) = 0;
     virtual JUB_RV GetDeviceCert(std::string& cert) = 0;
     virtual JUB_RV SendOneApdu(const std::string& apdu, std::string& response) = 0;

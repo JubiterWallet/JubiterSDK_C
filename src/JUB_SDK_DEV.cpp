@@ -235,7 +235,7 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
     }
 
     std::string str_version;
-    JUB_VERIFY_RV(token->GetAppletVersionBlade(appID,str_version));
+    JUB_VERIFY_RV(token->GetAppletVersion(appID,str_version));
     JUB_VERIFY_RV(_allocMem(version, str_version));
 
     return JUBR_OK;
