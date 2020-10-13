@@ -1,0 +1,42 @@
+//0a = 0000 1010 -> 00001 010 ->  1, 2
+//22 = 0010 0010 -> 00100 010 ->  4, 2
+//40 = 0100 0000 -> 01000 000 ->  8, 0
+//5a = 0101 1010 -> 01011 010 -> 11, 2
+//70 = 0111 0000 -> 01110 000 -> 14, 0
+
+
+//08 = 0000 1000 -> 00001 000 ->  1, 0
+//12 = 0001 0010 -> 00010 010 ->  2, 2
+//0a = 0000 1010 -> 00001 010 ->  1, 2
+//18 = 0001 1000 -> 00011 000 ->  3, 0
+
+
+//server(131)
+//0a0212a222084612a8bc0f1840f340a8fb9cafd22e5a65080112610a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412300a1541e4d98d1c7122a48e4adb5954b34af2661f3d52281215417477951026491cfda5920233b818eb3ced770eb4180170cbc799afd22e
+//0a 02 12a2             (raw.ref_block_bytes)
+//22 08 4612a8bc0f1840f3 (raw.ref_block_hash)
+//40 a8fb9cafd22e        (raw.expiration)
+//5a 65                  (repeated raw.Contract length = 101)
+//      08 01               (Contract.type length = 2)
+//      12 61               (Contract.parameter)
+//             0a 2d            (Contract.parameter.typeUrl length = 47)
+//        747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e7472616374
+//             12 30            (Contract.parameter.TransferContract length =50)
+//                   0a 15 41e4d98d1c7122a48e4adb5954b34af2661f3d5228 (Contract.parameter.TransferContract.owner_address)
+//                   12 15 417477951026491cfda5920233b818eb3ced770eb4 (Contract.parameter.TransferContract.to_address)
+//                   18 01 (Contract.parameter.TransferContract.amount)
+//70 cbc799afd22e        (raw.timestamp)
+
+//(124)
+//0a0212a222084612a8bc 0f1840f340a8fb9cafd2
+//2e5a65080112610a2d74 7970652e676f6f676c65
+//617069732e636f6d2f70 726f746f636f6c2e5472
+//616e73666572436f6e74
+//726163741230         - 76
+//0a15                 - 78
+//41e4d98d1c7122a48e4a db5954b34af2661f3d5228
+//1215                 - 101
+//417477951026491cfda5 920233b818eb3ced770eb4
+//18                   - 123
+//01
+//70cbc799afd22e

@@ -16,7 +16,7 @@ namespace TW::Ripple {
 class Address {
 public:
     // JuBiter-defined
-    Address() {};
+    Address() {}
 
     /// Number of bytes in an address.
     static const size_t size = 21;

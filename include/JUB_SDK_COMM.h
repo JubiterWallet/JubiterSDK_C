@@ -130,6 +130,7 @@ typedef unsigned short JUB_UINT16;
 typedef unsigned long long JUB_UINT64;
 
 /* signed uint64 */
+typedef signed int JUB_INT32;
 typedef signed long long JUB_INT64;
 
 #define JUB_PTR *

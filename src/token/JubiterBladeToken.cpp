@@ -91,7 +91,6 @@ JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE
 
     std::vector<JUB_BYTE> vSendApdu;
     if (JUBR_OK == _apduBuilder->BuildApdu(apdu, vSendApdu)) {
-        std::cout << "[pm] sendApdu: " << uchar_vector(vSendApdu).getHex() << std::endl;
         if (JUBR_OK != device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
             JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }

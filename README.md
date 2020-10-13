@@ -1,3 +1,15 @@
+### Tron dev branch
+### Differences from the dev_3.0 branch include:
++ Supports Tron, added functions as below, see 'JUB_SDK_TRX.h':
+ + JUB_CreateContextTRX()
+ + JUB_GetAddressTRX()
+ + JUB_GetHDNodeTRX()
+ + JUB_GetMainHDNodeTRX()
+ + JUB_SetMyAddressTRX()
+ + JUB_SignTransactionTRX()
+ + JUB_PackContractTRX()
+---
+---
 ### NFC dev branch
 > Our customers:
 > - Bixin

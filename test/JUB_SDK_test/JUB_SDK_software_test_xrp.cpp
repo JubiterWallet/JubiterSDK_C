@@ -12,21 +12,6 @@
 
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "JUB_SDK_main.h"
-//#include "HexCoding.h"
-//#include "PublicKey.h"
-//#include "PrivateKey.h"
-//
-//#include "EOS/Address.h"
-//#include "EOS/Action.h"
-//#include "EOS/Signer.h"
-//#include "EOS/Transaction.h"
-//#include "EOS/PackedTransaction.h"
-//
-//#include "Bravo/Address.h"
-//#include "Bravo/Transaction.h"
-//#include "Bravo/Operation.h"
-//#include "Bravo/Serialization.h"
-//#include "Bravo/Deserialization.h"
 
 #include "Base58.h"
 
@@ -36,9 +21,8 @@ void software_test_xrp(const char* json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
-/*    JUB_ENUM_EOS_PUB_FORMAT format = JUB_ENUM_EOS_PUB_FORMAT::EOS;
-    JUB_CHAR_PTR mnemonic = nullptr;
-    JUB_RV rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
+/*    JUB_CHAR_PTR mnemonic = nullptr;
+    rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
     if(rv == JUBR_OK) {
         cout << mnemonic << endl;
     }

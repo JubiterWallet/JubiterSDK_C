@@ -112,26 +112,26 @@ JUB_RV JubiterBladeXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         pathTLV << ToTlv(0x08, pathLV);
         total += pathTLV.size();
 
-        //txAssistTLV                           - tag = 0x02
+        //txAssistTLV                       - tag = 0x02
         //txType
-        //txAssistBodyTLV                       - tag = 0x01
-        //    pymtType
-        //    dxrpTLV                           - tag = 0x05
+        //txAssistBodyTLV                   - tag = 0x01
+        //    pymtTypeType
+        //    transferTLV                       - dxrp.tag = 0x05
         //        amountIndex
         //        feeIndex
-        //        signingPubKeyTLV              - tag = 0x03
+        //        signingPubKeyTLV                  -  signingPubKey.tag = 0x03
         //           signingPubKeyIndex
         //           signingPubKeyLength
-        //        destinationTLV                - tag = 0x04
+        //        destinationTLV                    -    destination.tag = 0x04
         //           destinationIndex
         //           destinationLength
-        //        destinationTagTLV             - tag = 0x07
+        //        destinationTagTLV                 - destinationTag.tag = 0x07
         //           destinationTagIndex
         //           destinationTagLength
-        //        memoTLV                       - tag = 0x08
+        //        memoTLV                           -           memo.tag = 0x08
         //           memoIndex
         //           memoLength
-        //NETWORK_PREFIX TLV                    - tag = 0x06
+        //NETWORK_PREFIX TLV                - tag = 0x06
         //signingPubKeyTLV
         uchar_vector vSigningPubKey;
         vSigningPubKey << tx.getSignPubkeyIndex();

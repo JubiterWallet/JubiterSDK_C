@@ -38,7 +38,7 @@ public:
     Data signature;
 
     // JuBiter-defined
-    Transaction() {};
+    Transaction() {}
     Transaction(int64_t amount, int64_t fee,
                 int64_t flags,
                 int32_t sequence, int32_t last_ledger_sequence,
@@ -52,7 +52,8 @@ public:
         , account(account)
         , destination(destination)
         , destination_tag(destination_tag)
-        , memo(memo) {}
+        , memo(memo)
+    {}
 
 public:
     // JuBiter-defined
