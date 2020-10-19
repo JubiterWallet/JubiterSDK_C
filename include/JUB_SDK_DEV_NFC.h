@@ -37,6 +37,14 @@ typedef struct stNFCDeviceInitParam {
 } NFC_DEVICE_INIT_PARAM;
 // Remove c++ features for swift framework end
 
+typedef enum {
+    HAS_PIN      = 0x00,    // User's PIN has been setted
+    RESETTED     = 0x02,    // NFC has been resetted
+    HAS_ROOT_KEY = 0x5A     // root key has been generated
+} JUB_ENUM_NFC_ROOT_KEY_STATUS;
+typedef JUB_ENUM_NFC_ROOT_KEY_STATUS JUB_PTR JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR;
+
+
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_initNFCDevice(IN NFC_DEVICE_INIT_PARAM param);
 
@@ -100,13 +108,16 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
                           OUT JUB_CHAR_PTR_PTR mnemonic);
 
 /*****************************************************************************
- * @function name : JUB_HasRootKey
+ * @function name : JUB_GetRootKeyStatus
  * @in  param : deviceID - device ID
- * @out param :
+ * @out param : status - 00 - User's PIN has been setted
+ *                 02 - NFC has been resetted
+ *                 5A - root key has been generated
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_ENUM_BOOL JUB_HasRootKey(IN JUB_UINT16 deviceID);
+JUB_RV JUB_GetRootKeyStatus(IN JUB_UINT16 deviceID,
+                            OUT JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status);
 
 /*****************************************************************************
 * @function name : JUB_VerifyPIN
