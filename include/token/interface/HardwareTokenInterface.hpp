@@ -51,7 +51,7 @@ public:
                                   const std::string& mnemonic) = 0;
     virtual JUB_RV ExportMnemonic(const std::string& pinMix,
                                   OUT std::string& mnemonic) = 0;
-    virtual bool   HasRootKey() = 0;
+    virtual JUB_RV GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) = 0;
 
     // BIO
     virtual JUB_RV UIShowMain() = 0;

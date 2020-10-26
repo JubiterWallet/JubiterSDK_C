@@ -71,20 +71,20 @@ JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
 
 JUB_RV JubiterNFCToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
 
-    JUB_VERIFY_RV(JubiterBladeToken::_SelectApp(PKIAID, length));
-
     // Clear SCP11c Session for NFC
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(device);
     device->Reset();
+
+    JUB_VERIFY_RV(JubiterBladeToken::_SelectApp(PKIAID, length));
 
     return JUBR_OK;
 }
 
 
 JUB_RV JubiterNFCToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
-                                  JUB_ULONG *pulRetDataLen /*= nullptr*/,
-                                  JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
+                              JUB_ULONG *pulRetDataLen /*= nullptr*/,
+                              JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
 
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(device);
@@ -775,7 +775,7 @@ JUB_RV JubiterNFCToken::_GetEntropy(const std::string& pinMix,
 }
 
 
-bool JubiterNFCToken::HasRootKey() {
+JUB_RV JubiterNFCToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
 
     // send apdu
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8105")).encode();
@@ -792,16 +792,19 @@ bool JubiterNFCToken::HasRootKey() {
     if (0x9000 != ret
         ||   1 != ulRetDataLen
         ) {
-        return false;
+        return JUBR_ERROR;
     }
 
-    //        ‘5A’ – root key has been generated
-    // Other value – root key has not been generated
-    if (0x5A != retData[0]) {
-        return false;
+    if (   JUB_ENUM_NFC_ROOT_KEY_STATUS::HAS_PIN      != retData[0]
+        && JUB_ENUM_NFC_ROOT_KEY_STATUS::RESETTED     != retData[0]
+        && JUB_ENUM_NFC_ROOT_KEY_STATUS::HAS_ROOT_KEY != retData[0]
+        ) {
+        return JUBR_ERROR;
     }
 
-    return true;
+    *status = (JUB_ENUM_NFC_ROOT_KEY_STATUS)retData[0];
+
+    return JUBR_OK;
 }
 
 
