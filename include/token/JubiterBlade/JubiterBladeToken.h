@@ -81,7 +81,7 @@ public:
                                   const std::string& mnemonic) override;
     virtual JUB_RV ExportMnemonic(const std::string& pinMix,
                                   OUT std::string& mnemonic) override;
-    virtual bool   HasRootKey() override;
+    virtual JUB_RV GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) override;
 
     // BIO
     virtual JUB_RV UIShowMain() override;

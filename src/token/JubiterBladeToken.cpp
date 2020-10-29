@@ -694,9 +694,9 @@ JUB_RV JubiterBladeToken::ExportMnemonic(const std::string& pinMix,
 }
 
 
-bool JubiterBladeToken::HasRootKey() {
+JUB_RV JubiterBladeToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
 
-    return false;
+    return JUBR_IMPL_NOT_SUPPORT;
 }
 
 

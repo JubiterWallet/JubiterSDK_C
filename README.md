@@ -21,7 +21,7 @@
   + JUB_GenerateSeed()
   + JUB_ImportMnemonic()
   + JUB_ExportMnemonic()
-  + JUB_HasRootKey()
+  + JUB_GetRootKeyStatus()
   + JUB_ChangePIN()
 
 + Supports BIO(`#define BLE_MODE || #define HID_MODE`), added functions as below, see 'JUB_SDK_DEV_BIO.h':

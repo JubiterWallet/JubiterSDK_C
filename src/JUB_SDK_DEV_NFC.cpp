@@ -120,6 +120,31 @@ JUB_RV JUB_isDeviceNFCConnect(JUB_UINT16 deviceID) {
 }
 
 
+JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg) {
+
+#if defined(NFC_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
+    if (NULL == devHandle) {
+        return JUBR_CONNECT_DEVICE_ERROR;
+    }
+
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->SetAlertMessage(*devHandle, (unsigned char*)msg));
+
+    return JUBR_OK;
+#else   // #if defined(NFC_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(NFC_MODE) end
+}
+
+
 /*****************************************************************************
 * @function name : JUB_Reset
 * @in  param : deviceID - device ID
@@ -307,29 +332,38 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 }
 
 /*****************************************************************************
- * @function name : JUB_HasRootKey
+ * @function name : JUB_GetRootKeyStatus
  * @in  param : deviceID - device ID
- * @out param :
+ * @out param : status - 00 - User's PIN has been setted
+ *                 02 - NFC has been resetted
+ *                 5A - root key has been generated
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_ENUM_BOOL JUB_HasRootKey(IN JUB_UINT16 deviceID) {
+JUB_RV JUB_GetRootKeyStatus(IN JUB_UINT16 deviceID,
+                            OUT JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
 
+#if defined(NFC_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
     if (!device) {
-        return JUB_ENUM_BOOL::BOOL_FALSE;
+        return JUBR_ARGUMENTS_BAD;
     }
 
     std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
     if (!token) {
-        return JUB_ENUM_BOOL::BOOL_FALSE;
+        return JUBR_ARGUMENTS_BAD;
     }
+
+    JUB_VERIFY_RV(token->GetRootKeyStatus(status));
 
     // Clean up the session for device in order to force calling ActiveSelf().
     jub::context::ContextManager::GetInstance()->ClearLast();
 
-    return (JUB_ENUM_BOOL)token->HasRootKey();
+    return JUBR_OK;
+#else   // #if defined(NFC_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(NFC_MODE) end
 }
 
 /*****************************************************************************
