@@ -192,7 +192,7 @@ unsigned int JubiterNFCDevice::IsConnect(unsigned long handle) {
 
 unsigned int JubiterNFCDevice::SetAlertMessage(unsigned long handle, unsigned char* data) {
 
-    SetHandle(handle);
+//    SetHandle(handle);
 
     return SetAlertMessageNFC((char*)data);
 }
