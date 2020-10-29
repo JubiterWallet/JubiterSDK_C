@@ -254,6 +254,12 @@ unsigned int JubiterBLEDevice::IsConnect(unsigned long handle) {
 }
 
 
+unsigned int JubiterBLEDevice::SetAlertMessage(unsigned long handle, unsigned char* data) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 unsigned long JubiterBLEDevice::GetHandle() {
 
     return _handle;

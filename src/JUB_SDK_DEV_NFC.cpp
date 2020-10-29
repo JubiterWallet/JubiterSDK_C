@@ -120,6 +120,31 @@ JUB_RV JUB_isDeviceNFCConnect(JUB_UINT16 deviceID) {
 }
 
 
+JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg) {
+
+#if defined(NFC_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
+    if (NULL == devHandle) {
+        return JUBR_CONNECT_DEVICE_ERROR;
+    }
+
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->SetAlertMessage(*devHandle, (unsigned char*)msg));
+
+    return JUBR_OK;
+#else   // #if defined(NFC_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(NFC_MODE) end
+}
+
+
 /*****************************************************************************
 * @function name : JUB_Reset
 * @in  param : deviceID - device ID
