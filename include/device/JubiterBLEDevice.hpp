@@ -49,6 +49,7 @@ public:
 
     virtual unsigned int Disconnect(unsigned long handle);
     virtual unsigned int IsConnect(unsigned long handle);
+    virtual unsigned int SetAlertMessage(unsigned long handle, unsigned char* data);
 
     virtual unsigned long GetHandle();
     virtual void SetHandle(unsigned long handle);

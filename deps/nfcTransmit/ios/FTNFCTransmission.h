@@ -9,7 +9,6 @@
 #ifndef __FTNFCTransmission__
 #define __FTNFCTransmission__
 
-
 //通讯库对外设备类型
 #define DEV_TYPE_NFC                4   /**< NFC设备 */
 
@@ -65,17 +64,21 @@ bool FTIsConnectedNFC(unsigned long ulHandle);
 /**
  *  NFC收发数据函数
  *
- *  @pragma  ulHandle 设备句柄
+ *  @pragma  ulHandle  设备句柄
  *  @pragma sendBuf    发送数据缓冲区
  *  @pragma sendLen    发送数据长度
  *  @pragma recvBuf      接收数据缓冲区
  *  @pragma recvLen     接收数据长度
  *  @return 错误码
 */
-unsigned int FTTransmitNFC(unsigned long ulHandle,
-                           unsigned char* sendBuf, unsigned int sendLen,
-                           unsigned char* recvBuf, unsigned int* recvLen,
-                           int timeoutSec);
+unsigned int FTTransmitNFC(unsigned long ulHandle, unsigned char* sendBuf,unsigned int sendLen,unsigned char * recvBuf,unsigned int* recvLen,int timeoutSec);
 
+/**
+ *  设置会话提示信息
+ *
+ *  @pragma  msg  提示信息内容
+ *  @return 错误码
+*/
+unsigned int FTSetAlertMessageNFC(char *msg);
 
 #endif /* defined(__FTNFCTransmission__) */

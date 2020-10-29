@@ -59,6 +59,9 @@ JUB_RV JUB_disconnectNFCDevice(JUB_UINT16 deviceID);
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_isDeviceNFCConnect(JUB_UINT16 deviceID);
 
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg);
+
 /*****************************************************************************
 * @function name : JUB_Reset
 * @in  param : deviceID - device ID
