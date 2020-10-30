@@ -59,3 +59,14 @@ int TransmitNFC(unsigned long ulHandle,
                          timeoutSec);
 }
 
+/**
+ *  设置会话提示信息
+ *
+ *  @pragma  msg  提示信息内容
+ *  @return 错误码
+*/
+unsigned int SetAlertMessageNFC(char *msg) {
+
+    return FTSetAlertMessageNFC(msg);
+}
+
