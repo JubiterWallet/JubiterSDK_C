@@ -134,3 +134,47 @@ Data Signer::hash(const Transaction &transaction) const noexcept {
     append(encoded, RLP::encode(Data{0}));
     return Hash::keccak256(RLP::encodeList(encoded));
 }
+
+// JuBiter-defined
+void Signer::sign(const PrivateKey &privateKey, const Data& bytestring, Data& signature) const noexcept {
+    auto hash = this->hash(bytestring);
+    auto tuple = Signer::sign(chainID, privateKey, hash);
+
+    signature.clear();
+    // r
+    std::copy(std::get<0>(tuple).begin(), std::get<0>(tuple).end(), std::back_inserter(signature));
+    // s
+    std::copy(std::get<1>(tuple).begin(), std::get<1>(tuple).end(), std::back_inserter(signature));
+    // v
+    std::copy(std::get<2>(tuple).begin(), std::get<2>(tuple).end(), std::back_inserter(signature));
+}
+
+// JuBiter-defined
+bool Signer::verify(const Data chainID, const PublicKey& publicKey, const Data& bytestring, const Data& signature) const noexcept {
+
+    int v = signature[signature.size()-1];
+    if (0 != chainID.size()) {
+        v -= (35 + chainID[0] + chainID[0]);
+    }
+    else {
+        v += 27;
+    }
+
+    return publicKey.verify(signature, this->hash(bytestring), v);
+}
+
+// JuBiter-defined
+/// Computes the bytestring hash.
+Data Signer::hash(const Data &bytestring) const noexcept {
+    auto encoded = Data();
+
+    // encode(b : 𝔹⁸ⁿ) = "\x19Ethereum Signed Message:\n" ‖ len(b) ‖ b where len(b) is the ascii-decimal encoding of the number of bytes in b.
+    std::string pr = "Ethereum Signed Message:\n";
+
+    encoded.push_back(0x19);
+    std::copy(pr.begin(), pr.end(), std::back_inserter(encoded));
+    encoded.push_back(bytestring.size());
+    std::copy(bytestring.begin(), bytestring.end(), std::back_inserter(encoded));
+
+    return Hash::keccak256(encoded);
+}

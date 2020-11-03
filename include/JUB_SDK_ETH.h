@@ -117,6 +117,20 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
                               OUT JUB_CHAR_PTR_PTR raw);
 
 /*****************************************************************************
+ * @function name : JUB_SignBytestringETH
+ * @in  param : contextID - context ID
+ *          : path
+ *          : data - typed structured data
+ * @out param : raw
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignBytestringETH(IN JUB_UINT16 contextID,
+                             IN BIP44_Path path,
+                             IN JUB_CHAR_CPTR data,
+                             OUT JUB_CHAR_PTR_PTR raw);
+
+/*****************************************************************************
  * @function name : JUB_BuildERC20AbiETH
  * @in  param : contextID - context ID
  *          : tokenName - ETH token name

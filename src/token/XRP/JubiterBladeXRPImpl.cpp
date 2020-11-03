@@ -42,7 +42,7 @@ JUB_RV JubiterBladeXRPImpl::GetAddress(const std::string& path, const JUB_UINT16
     uchar_vector vPath;
     vPath << path;
 
-    uchar_vector apduData = ToTlv(0x08, vPath);
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
     JUB_BYTE p1 = (JUB_BYTE)tag;
     APDU apdu(0x00, 0xF6, p1, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
@@ -62,7 +62,7 @@ JUB_RV JubiterBladeXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     //path = "m/44'/144'/0'";
     uchar_vector vPath;
     vPath << path;
-    uchar_vector apduData = ToTlv(0x08, vPath);
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
 
     //0x00 for hex
     if (JUB_ENUM_PUB_FORMAT::HEX != format
@@ -109,7 +109,7 @@ JUB_RV JubiterBladeXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         pathLV << (JUB_BYTE)(vPath.size());
         pathLV << vPath;
         uchar_vector pathTLV;
-        pathTLV << ToTlv(0x08, pathLV);
+        pathTLV << ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, pathLV);
         total += pathTLV.size();
 
         //txAssistTLV                           - tag = 0x02
@@ -231,7 +231,7 @@ JUB_RV JubiterBladeXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         //  sign transactions
         JUB_BYTE retData[2048] = { 0, };
         JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-        apdu.SetApdu(0x00, 0x2A, 0x00, 0x00, 0);
+        apdu.SetApdu(0x00, JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A, 0x00, 0x00, 0);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         if (0x6f09 == ret) {
             return JUBR_USER_CANCEL;
