@@ -146,6 +146,52 @@ JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg) {
 
 
 /*****************************************************************************
+ * @function name : JUB_SetLabel
+ * @in  param : deviceID - device ID
+ *          : label - label
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetLabel(IN JUB_UINT16 deviceID,
+                    IN JUB_CHAR_CPTR label) {
+
+#if defined(NFC_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto nfcDevice = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token;
+    if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
+        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
+                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+    }
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+//    // Let's go to the main security domain,
+//    // instead of judging the return value,
+//    // to get the data back
+//    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
+    JUB_VERIFY_RV(token->Reset());
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
+    return JUBR_OK;
+#else   // #if defined(NFC_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(NFC_MODE) end
+}
+
+
+/*****************************************************************************
 * @function name : JUB_Reset
 * @in  param : deviceID - device ID
 *                     : curve - curve

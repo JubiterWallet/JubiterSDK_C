@@ -33,6 +33,12 @@ public:
                            const JUB_BYTE& hashType,
                            const TW::Data& preImageHash,
                            TW::Data& rsv);
+    virtual JUB_RV SignBytestring(const JUB_UINT16 inputCount,
+                                  const std::vector<std::string>& vInputPath,
+                                  const JUB_BYTE& signType,
+                                  const JUB_BYTE& hashType,
+                                  const std::vector<TW::Data>& vPreImageHash,
+                                  std::vector<TW::Data>& vRSV);
 
 protected:
     JUB_BYTE _getSignType(const char *curve_name);

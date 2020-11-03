@@ -50,6 +50,10 @@ public:
                                    JUB_CHAR_CPTR input,
                                    OUT std::string& raw);
 
+    virtual JUB_RV SignBytestring(const BIP44_Path& path,
+                                  const JUB_CHAR_CPTR data,
+                                  OUT std::string& signature);
+
     virtual JUB_RV BuildERC20Abi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi);
     virtual JUB_RV SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
                                     JUB_UINT16 unitDP,

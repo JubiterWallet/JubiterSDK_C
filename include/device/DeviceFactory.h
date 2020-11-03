@@ -15,7 +15,9 @@
 
 #include <device/JubiterHidDevice.hpp>
 #include <device/JubiterBLEDevice.hpp>
+#if defined(NFC_MODE)
 #include <device/JubiterNFCDevice.hpp>
+#endif // #if defined(NFC_MODE) end
 
 
 namespace jub {
