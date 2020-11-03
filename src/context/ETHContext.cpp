@@ -215,5 +215,47 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
 }
 
 
+JUB_RV ETHContext::SignBytestring(const BIP44_Path& path,
+                                  JUB_CHAR_CPTR data,
+                                  OUT std::string& strSignature) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::ETHTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_CHECK_NULL(data);
+
+    std::vector<JUB_BYTE> vTypeData = jub::HexStr2CharPtr(data);
+    if (0 >= vTypeData.size()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::string strPath = _FullBip44Path(path);
+    std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
+
+    std::vector<JUB_BYTE> vChainID;
+    vChainID.push_back(_chainID);
+
+    uchar_vector vSignature;
+    JUB_VERIFY_RV(token->SignBytestring(vTypeData,
+                                        vPath,
+                                        vChainID,
+                                        vSignature));
+
+    //verify
+    JUB_VERIFY_RV(token->VerifyBytestring(vChainID,
+                                          strPath,
+                                          vTypeData,
+                                          vSignature));
+
+    strSignature = std::string(ETH_PRDFIX) + vSignature.getHex();
+
+    return JUBR_OK;
+}
+
+
 } // namespace context end
 } // namespace jub end

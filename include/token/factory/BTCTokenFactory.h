@@ -8,7 +8,9 @@
 
 #include <device/JubiterHidDevice.hpp>
 #include <device/JubiterBLEDevice.hpp>
+#if defined(NFC_MODE)
 #include <device/JubiterNFCDevice.hpp>
+#endif // #if defined(NFC_MODE) end
 
 #include <token/interface/BTCTokenInterface.hpp>
 
@@ -21,12 +23,14 @@
 
 #include <token/BTC/JubiterBIOBTCImpl.h>
 
+#if defined(NFC_MODE)
 #include <token/BTC/JubiterNFCBTCImpl.h>
 #include <token/BTC/JubiterNFCBCHImpl.h>
 #include <token/BTC/JubiterNFCLTCImpl.h>
 #include <token/BTC/JubiterNFCUSDTImpl.h>
 #include <token/BTC/JubiterNFCDashImpl.h>
 #include <token/BTC/JubiterNFCQTUMImpl.h>
+#endif // #if defined(NFC_MODE) end
 
 #include <token/BTC/TrezorCryptoBTCImpl.h>
 #include <token/BTC/TrezorCryptoBCHImpl.h>
@@ -92,6 +96,7 @@ public:
 }; // class xJuBiterBIOBTCFactory end
 
 
+#if defined(NFC_MODE)
 class xJuBiterNFCBTCFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 JUB_ENUM_COINTYPE_BTC,
@@ -106,6 +111,7 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterNFCQTUMImpl::Create);
     }
 }; // class xJuBiterNFCBTCFactory end
+#endif // #if defined(NFC_MODE) end
 
 
 class xBTCTokenFactory {
@@ -113,7 +119,9 @@ protected:
     xTrezorCryptoBTCFactory     trezorFactory;
     xJuBiterBladeBTCFactory jubiterBLDFactory;
     xJuBiterBIOBTCFactory   jubiterBIOFactory;
+#if defined(NFC_MODE)
     xJuBiterNFCBTCFactory   jubiterNFCFactory;
+#endif // #if defined(NFC_MODE) end
 
 public:
     std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const std::string& XPRVorXPUB) {
