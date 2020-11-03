@@ -72,6 +72,7 @@ public:
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
     // NFC
+    virtual JUB_RV SetLabel(const std::string& label) override;
     virtual JUB_RV Reset() override;
     virtual JUB_RV GenerateSeed(const std::string& pinMix,
                                 const JUB_ENUM_CURVES& curve) override;
