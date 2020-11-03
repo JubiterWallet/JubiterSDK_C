@@ -333,6 +333,9 @@ bool JubiterBladeToken::IsBootLoader() {
         ) {
         return true;
     }
+    else if (0x9000 == ret) {
+        return true;
+    }
 
     return false;
 }
@@ -665,6 +668,7 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
 
     return JUBR_ERROR;
 }
+
 
 /// NFC
 JUB_RV JubiterBladeToken::Reset() {

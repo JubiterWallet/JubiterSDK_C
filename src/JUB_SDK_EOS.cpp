@@ -90,8 +90,8 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
 /*****************************************************************************
  * @function name : JUB_GetAddressEOS
  * @in  param : contextID - context ID
- *            : path
- *            : bShow
+ *          : path
+ *          : bShow
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -115,7 +115,7 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SetMyAddressEOS
  * @in  param : contextID - context ID
- *            : path
+ *          : path
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -226,8 +226,8 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_BuildActionEOS
  * @in  param : contextID - context ID
- *                     : actions - action array
- *                     : actionCount - the count of action array
+ *          : actions - action array
+ *          : actionCount - the count of action array
  * @out param : actionsInJSON
  * @last change :
  *****************************************************************************/
