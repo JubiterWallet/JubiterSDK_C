@@ -333,6 +333,9 @@ bool JubiterBladeToken::IsBootLoader() {
         ) {
         return true;
     }
+    else if (0x9000 == ret) {
+        return true;
+    }
 
     return false;
 }
@@ -666,38 +669,57 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
     return JUBR_ERROR;
 }
 
+
+#if defined(NFC_MODE)
 /// NFC
+JUB_RV JubiterBladeToken::SetLabel(const std::string& label) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+#endif // #if defined(NFC_MODE) end
+
+
+#if defined(NFC_MODE)
 JUB_RV JubiterBladeToken::Reset() {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
+#endif // #if defined(NFC_MODE) end
 
 
+#if defined(NFC_MODE)
 JUB_RV JubiterBladeToken::GenerateSeed(const std::string& pinMix,
                                        const JUB_ENUM_CURVES& curve) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
+#endif // #if defined(NFC_MODE) end
 
 
+#if defined(NFC_MODE)
 JUB_RV JubiterBladeToken::ImportMnemonic(const std::string& pinMix,
                                          const std::string& mnemonic) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
+#endif // #if defined(NFC_MODE) end
 
 
+#if defined(NFC_MODE)
 JUB_RV JubiterBladeToken::ExportMnemonic(const std::string& pinMix,
                                          OUT std::string& mnemonic) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
+#endif // #if defined(NFC_MODE) end
 
 
+#if defined(NFC_MODE)
 JUB_RV JubiterBladeToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
+#endif // #if defined(NFC_MODE) end
 
 
 /// BIO
