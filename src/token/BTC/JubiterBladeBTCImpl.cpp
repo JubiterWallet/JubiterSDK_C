@@ -39,7 +39,7 @@ JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
 
     uchar_vector vPath;
     vPath << path;
-    uchar_vector apduData = ToTlv(0x08, vPath);
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
     JUB_BYTE p2 = 0x00;
     switch (type) {
     case p2pkh:
@@ -97,7 +97,7 @@ JUB_RV JubiterBladeBTCImpl::GetAddress(const JUB_BYTE addrFmt,
 
     uchar_vector vPath;
     vPath << path;
-    uchar_vector apduData = ToTlv(0x08, vPath);
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
     APDU apdu(0x00, 0xF6, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
@@ -256,7 +256,7 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
     //  sign transactions
     JUB_BYTE retData[2] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    apdu.SetApdu(0x00, 0x2A, 0x00, sigType, 0);
+    apdu.SetApdu(0x00, JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A, 0x00, sigType, 0);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x6f09 == ret) {
         return JUBR_USER_CANCEL;

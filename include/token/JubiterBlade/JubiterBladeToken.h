@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <sys/types.h>
 
 #include <token/interface/HardwareTokenInterface.hpp>
 #include <token/JubiterBlade/JubiterBladeToken.h>
@@ -44,6 +45,18 @@ typedef enum class enumCoinTypeMisc {
 class JubiterBladeToken :
     public HardwareTokenInterface {
 public:
+    enum JUB_ENUM_APDU_CMD : uint8_t {
+                INS_SIGN_TX_2A = 0x2a,
+             INS_SIGN_ERC20_C8 = 0xc8,
+             INS_SIGN_CONTR_C9 = 0xc9,
+        INS_SIGN_CONTR_HASH_CA = 0xca,
+               INS_SIGN_MSG_CB = 0xcb,
+    };
+    enum JUB_ENUM_APDU_DATA : uint8_t {
+        TAG_TX_HASH_07 = 0x07,
+           TAG_PATH_08 = 0x08,
+    };
+public:
     JubiterBladeToken(JUB_UINT16 deviceID);
     virtual ~JubiterBladeToken() = default;
     //common token functions
@@ -71,6 +84,7 @@ public:
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
+#if defined(NFC_MODE)
     // NFC
     virtual JUB_RV SetLabel(const std::string& label) override;
     virtual JUB_RV Reset() override;
@@ -82,6 +96,7 @@ public:
     virtual JUB_RV ExportMnemonic(const std::string& pinMix,
                                   OUT std::string& mnemonic) override;
     virtual JUB_RV GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) override;
+#endif // #if defined(NFC_MODE) end
 
     // BIO
     virtual JUB_RV UIShowMain() override;

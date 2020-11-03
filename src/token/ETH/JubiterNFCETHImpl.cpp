@@ -158,5 +158,60 @@ JUB_RV JubiterNFCETHImpl::SetERC20ETHToken(const std::string& tokenName, const J
 }
 
 
+JUB_RV JubiterNFCETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+                                         const std::vector<JUB_BYTE>& vPath,
+                                         const std::vector<JUB_BYTE>& vChainID,
+                                         std::vector<JUB_BYTE>& vSignature) {
+
+    try {
+        TW::Ethereum::Signer signer(vChainID);
+        TW::Data half = signer.hash(vTypedData);
+
+        std::string path(vPath.begin(), vPath.end());
+        std::vector<std::string> vInputPath;
+        vInputPath.push_back(path);
+
+        TW::Data publicKey;
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+
+        TW::Hash::Hasher halfHasher;
+        JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
+
+        std::vector<TW::Data> vPreImageHash;
+        vPreImageHash.push_back(half);
+
+        std::vector<TW::Data> vRSV;
+        JUB_VERIFY_RV(JubiterNFCImpl::SignBytestring(vInputPath.size(),
+                                                     vInputPath,
+                                                     _getSignType(_curve_name),
+                                                     halfHasherType,
+                                                     vPreImageHash,
+                                                     vRSV));
+        std::copy(std::begin(vRSV[0]), std::end(vRSV[0]), std::begin(vSignature));
+    }
+    catch (...) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterNFCETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
+                                           const std::string& path,
+                                           const std::vector<JUB_BYTE>& vTypedData,
+                                           const std::vector<JUB_BYTE>& vSignature) {
+
+    TW::Data publicKey;
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, publicKey));
+
+    // verify signature
+    return JubiterBaseETHImpl::VerifyBytestring(vChainID,
+                                                vTypedData,
+                                                vSignature,
+                                                publicKey);
+}
+
+
 } // namespace token end
 } // namespace jub end

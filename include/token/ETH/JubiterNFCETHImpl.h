@@ -45,6 +45,15 @@ public:
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
 
+    virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+                                  const std::vector<JUB_BYTE>& vPath,
+                                  const std::vector<JUB_BYTE>& vChainID,
+                                  std::vector<JUB_BYTE>& vSignature);
+    virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
+                                    const std::string& path,
+                                    const std::vector<JUB_BYTE>& vTypedData,
+                                    const std::vector<JUB_BYTE>& vSignature);
+
 protected:
     virtual JUB_RV _encodeRSV(const std::vector<JUB_BYTE>& vRSV,
                               const std::vector<JUB_BYTE>& vChainID,
