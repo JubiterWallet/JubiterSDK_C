@@ -371,6 +371,38 @@ JUB_RV JubiterNFCToken::GetLabel(JUB_BYTE label[32]) {
 }
 
 
+JUB_RV JubiterNFCToken::SetLabel(const std::string& label) {
+
+    std::vector<uint8_t> vLabel;
+    std::transform(label.begin(),
+                   label.end(),
+                   std::back_inserter(vLabel),
+                   [](const char elem) {
+        return (uint8_t)elem;
+    });
+
+    uchar_vector subDataLV;
+    subDataLV << tlv_buf(vLabel).encodeTBAV();
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8104, subDataLV).encode()).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    if (0x9000 == ret) {
+
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
+}
+
+
 JUB_RV JubiterNFCToken::GetPinRetry(JUB_BYTE& retry) {
 
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8102")).encode();
