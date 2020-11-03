@@ -152,6 +152,7 @@ JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg) {
  * @out param :
  * @last change :
  *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetLabel(IN JUB_UINT16 deviceID,
                     IN JUB_CHAR_CPTR label) {
 
@@ -191,12 +192,12 @@ JUB_RV JUB_SetLabel(IN JUB_UINT16 deviceID,
 
 
 /*****************************************************************************
- * @function name : JUB_Reset
- * @in  param : deviceID - device ID
- *          : curve - curve
- * @out param :
- * @last change : default User's PIN is '5555'.
- *****************************************************************************/
+* @function name : JUB_Reset
+* @in  param : deviceID - device ID
+*                     : curve - curve
+* @out param :
+* @last change : default User's PIN is '5555'.
+*****************************************************************************/
 JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
 
 #if defined(NFC_MODE)
@@ -412,13 +413,13 @@ JUB_RV JUB_GetRootKeyStatus(IN JUB_UINT16 deviceID,
 }
 
 /*****************************************************************************
- * @function name : JUB_VerifyPIN
- * @in  param : deviceID - device ID
- *          : pinMix - old PIN
- *          : pinNew - new PIN
- * @out param : retry
- * @last change :
- *****************************************************************************/
+* @function name : JUB_VerifyPIN
+* @in  param : deviceID - device ID
+*                     : pinMix - old PIN
+*                     : pinNew - new PIN
+* @out param : retry
+* @last change :
+*****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
                      IN JUB_CHAR_CPTR pinMix,

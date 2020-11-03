@@ -43,6 +43,7 @@ public:
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
 
     // NFC
+    virtual JUB_RV SetLabel(const std::string& label) = 0;
     virtual JUB_RV Reset() = 0;
     virtual JUB_RV GenerateSeed(const std::string& pinMix,
                                 const JUB_ENUM_CURVES& curve) = 0;

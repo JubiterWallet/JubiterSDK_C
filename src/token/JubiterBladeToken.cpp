@@ -671,6 +671,12 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
 
 
 /// NFC
+JUB_RV JubiterBladeToken::SetLabel(const std::string& label) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 JUB_RV JubiterBladeToken::Reset() {
 
     return JUBR_IMPL_NOT_SUPPORT;
