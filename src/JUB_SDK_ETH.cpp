@@ -26,7 +26,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 /*****************************************************************************
  * @function name : JUB_CreateContextETH
  * @in  param : cfg
- *            : deviceID - device ID
+ *          : deviceID - device ID
  * @out param : contextID
  * @last change :
  *****************************************************************************/
@@ -47,8 +47,8 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
 /*****************************************************************************
  * @function name : JUB_GetAddressETH
  * @in  param : contextID - context ID
- *            : path
- *            : bShow
+ *          : path
+ *          : bShow
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -71,7 +71,7 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SetMyAddressETH
  * @in  param : contextID - context ID
- *            : path
+ *          : path
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -93,9 +93,9 @@ JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeETH
  * @in  param : contextID - context ID
- *            : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
- *                   JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
- *            : path
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
+ *                 JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
+ *          : path
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
@@ -118,8 +118,8 @@ JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeETH
  * @in  param : contextID - context ID
- *            : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
- *                   JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
+ *                 JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
  * @out param : xpub
  * @last change :
  *****************************************************************************/
@@ -141,13 +141,13 @@ JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SignTransactionETH
  * @in  param : contextID - context ID
- *            : path
- *            : nonce - nonce
- *            : gasLimit - gas limit
- *            : gasPriceInWei - gas price in wei
- *            : to
- *            : valueInWei - value in wei
- *            : input
+ *          : path
+ *          : nonce - nonce
+ *          : gasLimit - gas limit
+ *          : gasPriceInWei - gas price in wei
+ *          : to
+ *          : valueInWei - value in wei
+ *          : input
  * @out param : raw
  * @last change :
  *****************************************************************************/
@@ -187,11 +187,11 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_BuildERC20AbiETH
  * @in  param : contextID - context ID
- *            : tokenName - ETH token name
- *            : unitDP - unit decimal place
- *            : contractAddress - contract address
- *            : tokenTo - token to
- *            : tokenValue - value for token transaction
+ *          : tokenName - ETH token name
+ *          : unitDP - unit decimal place
+ *          : contractAddress - contract address
+ *          : tokenTo - token to
+ *          : tokenValue - value for token transaction
  * @out param : abi
  * @last change :
  *****************************************************************************/

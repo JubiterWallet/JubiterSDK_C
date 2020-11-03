@@ -97,7 +97,7 @@ typedef JUB_ACTION_EOS* JUB_ACTION_EOS_PTR;
 /*****************************************************************************
  * @function name : JUB_CreateContextEOS
  * @in  param : cfg
- *            : deviceID - device ID
+ *          : deviceID - device ID
  * @out param : contextID
  * @last change :
  *****************************************************************************/
