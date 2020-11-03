@@ -295,13 +295,13 @@ JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : BuildQRC20Outputs
  * @in  param : contextID - context ID
- *            : contractAddress - contract address for QRC20 token
- *            : decimal         - decimal for QRC20 token
- *            : symbol          - symbol for QRC20 token
- *            : gasLimit - gas limit
- *            : gasPrice - gas price
- *            : to    - to address for transfer
- *            : value - amount for transfer
+ *          : contractAddress - contract address for QRC20 token
+ *          : decimal  - decimal for QRC20 token
+ *          : symbol  - symbol for QRC20 token
+ *          : gasLimit - gas limit
+ *          : gasPrice - gas price
+ *          : to  - to address for transfer
+ *          : value - amount for transfer
  * @out param : outputs
  * @last change : build the QRC20 outputs
  *****************************************************************************/

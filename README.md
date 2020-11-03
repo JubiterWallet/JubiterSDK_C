@@ -11,6 +11,7 @@
   + JUB_ExportMnemonic()
   + JUB_GetRootKeyStatus()
   + JUB_ChangePIN()
+  + JUB_SetLabel()
 
 + Supports BIO(`#define BLE_MODE || #define HID_MODE`), added functions as below, see 'JUB_SDK_DEV_BIO.h':
   + Authentication for operating fingerprint:

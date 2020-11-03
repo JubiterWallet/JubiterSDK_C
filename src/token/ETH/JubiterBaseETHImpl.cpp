@@ -31,6 +31,23 @@ JUB_RV JubiterBaseETHImpl::VerifyTx(const std::vector<JUB_BYTE>& vChainID,
 }
 
 
+JUB_RV JubiterBaseETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
+                                            const uchar_vector& vTypedData,
+                                            const uchar_vector& vSignature,
+                                            const TW::Data& publicKey) {
+
+    TW::Ethereum::Signer signer(vChainID);
+    if (!signer.verify(vChainID,
+                       TW::PublicKey(publicKey, _publicKeyType),
+                       vTypedData,
+                       vSignature)) {
+        return JUBR_VERIFY_SIGN_FAILED;
+    }
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterBaseETHImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
                                               uint32_t hdVersionPub, uint32_t hdVersionPrv) {
 
