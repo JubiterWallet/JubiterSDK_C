@@ -373,13 +373,12 @@ JUB_RV JubiterNFCToken::GetLabel(JUB_BYTE label[32]) {
 
 JUB_RV JubiterNFCToken::SetLabel(const std::string& label) {
 
-    std::vector<uint8_t> vLabel;
-    std::transform(label.begin(),
-                   label.end(),
-                   std::back_inserter(vLabel),
-                   [](const char elem) {
-        return (uint8_t)elem;
-    });
+    if (0x20 < label.length()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::vector<uint8_t> vLabel(0x20);
+    std::copy(label.begin(), label.end(), vLabel.begin());
 
     uchar_vector subDataLV;
     subDataLV << tlv_buf(vLabel).encodeTBAV();
