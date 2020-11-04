@@ -46,10 +46,11 @@ void ETH_test(const char* json_file) {
         cout << "--------------------------------------" << endl;
         cout << "|******* Jubiter Wallet ETH  ********|" << endl;
         cout << "| 1. show_address_pubkey_test.       |" << endl;
-        cout << "| 2. transaction_test.               |" << endl;
-        cout << "| 3. transaction_ERC20_test.         |" << endl;
-        cout << "| 4. set_my_address_test.            |" << endl;
-        cout << "| 5. set_timeout_test.               |" << endl;
+        cout << "| 2.         transaction_test.       |" << endl;
+        cout << "| 3.   transaction_ERC20_test.       |" << endl;
+        cout << "| 4.          bytestring_test.       |" << endl;
+        cout << "| 5.      set_my_address_test.       |" << endl;
+        cout << "| 6.         set_timeout_test.       |" << endl;
         cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
@@ -68,9 +69,12 @@ void ETH_test(const char* json_file) {
             transaction_test_ERC20_ETH(contextID, root);
             break;
         case 4:
-            set_my_address_test_ETH(contextID);
+            bytestring_test_ETH(contextID, root);
             break;
         case 5:
+            set_my_address_test_ETH(contextID);
+            break;
+        case 6:
             set_timeout_test(contextID);
             break;
         case 9:
@@ -267,6 +271,47 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     }
     else {
         cout << raw << endl;
+        JUB_FreeMemory(raw);
+    }
+
+    return rv;
+}
+
+
+//bytestring Test
+void bytestring_test_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = bytestring_proc_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+
+JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
+
+    //ETH Test
+    char* data = (char*)root["Bytestring"]["data"].asCString();
+
+    char* raw = nullptr;
+    rv = JUB_SignBytestringETH(contextID, path, data, &raw);
+    if (JUBR_OK != rv) {
+        cout << "JUB_SignBytestringETH() return " << GetErrMsg(rv) << endl;
+        return rv;
+    }
+    else {
+        cout << "raw[" << strlen(raw) << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
 
