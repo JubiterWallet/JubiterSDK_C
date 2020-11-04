@@ -380,9 +380,7 @@ JUB_RV JubiterNFCToken::SetLabel(const std::string& label) {
     std::vector<uint8_t> vLabel(0x20);
     std::copy(label.begin(), label.end(), vLabel.begin());
 
-    uchar_vector subDataLV;
-    subDataLV << tlv_buf(vLabel).encodeTBAV();
-    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8104, subDataLV).encode()).encode();
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8104, vLabel).encode()).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
