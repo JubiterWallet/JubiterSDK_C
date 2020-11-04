@@ -66,7 +66,10 @@ int TransmitNFC(unsigned long ulHandle,
  *  @return 错误码
 */
 unsigned int SetAlertMessageNFC(char *msg) {
-
+#ifdef __ANDROID__
+    return 0;
+#else
     return FTSetAlertMessageNFC(msg);
+#endif
 }
 
