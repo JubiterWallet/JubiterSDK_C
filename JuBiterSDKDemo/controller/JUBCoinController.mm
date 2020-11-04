@@ -28,6 +28,7 @@
     
     NSArray *buttonTitleArray = @[
         BUTTON_TITLE_TRANSACTION,
+        BUTTON_TITLE_MESSAGE,
         BUTTON_TITLE_GETADDRESS,
         BUTTON_TITLE_SHOWADDRESS,
         BUTTON_TITLE_SETMYADDRESS,
@@ -104,16 +105,19 @@
     
     switch (self.optIndex) {
     case JUB_NS_ENUM_OPT::TRANSACTION:
+    case JUB_NS_ENUM_OPT::MESSAGE:
     {
-        NSString *amount = [self inputAmount];
-        if (nil == amount) {
-            [self addMsgData:[NSString stringWithFormat:@"Input transaction amount CANCELED."]];
-            break;
+        if (JUB_NS_ENUM_OPT::TRANSACTION == self.optIndex) {
+            NSString *amount = [self inputAmount];
+            if (nil == amount) {
+                [self addMsgData:[NSString stringWithFormat:@"Input transaction amount CANCELED."]];
+                break;
+            }
+            else if (NSComparisonResult::NSOrderedSame == [amount compare:@""]) {
+                [self addMsgData:[NSString stringWithFormat:@"The transaction amount using default values."]];
+            }
+            [sharedData setAmount:amount];
         }
-        else if (NSComparisonResult::NSOrderedSame == [amount compare:@""]) {
-            [self addMsgData:[NSString stringWithFormat:@"The transaction amount using default values."]];
-        }
-        [sharedData setAmount:amount];
         
         switch (self.selectedTransmitTypeIndex) {
         case JUB_NS_ENUM_DEV_TYPE::SEG_NFC:
@@ -237,6 +241,16 @@
         [self transaction_test:contextID
                         amount:[[JUBSharedData sharedInstance] amount]
                           root:root];
+        break;
+    }
+    case JUB_NS_ENUM_OPT::MESSAGE:
+    {
+        if (JUBR_OK != [self verify_user:contextID]) {
+            break;
+        }
+        
+        [self message_test:contextID
+                      root:root];
         break;
     }
     default:
@@ -545,6 +559,21 @@
 - (NSUInteger) tx_proc:(NSUInteger)contextID
                 amount:(NSString*)amount
                   root:(Json::Value)root {
+    
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+- (void) message_test:(NSUInteger)contextID
+                 root:(Json::Value)root {
+    
+    [self message_proc:contextID
+                  root:root];
+}
+
+
+- (NSUInteger) message_proc:(NSUInteger)contextID
+                       root:(Json::Value)root {
     
     return JUBR_IMPL_NOT_SUPPORT;
 }

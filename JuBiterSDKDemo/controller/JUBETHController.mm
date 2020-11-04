@@ -46,10 +46,6 @@
     const char* json_file = "";
     switch (self.selectedMenuIndex) {
     case JUB_NS_ENUM_ETH_COIN::BTN_ETH:
-    {
-        json_file = JSON_FILE_ETH;
-        break;
-    }
     case JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC20:
     {
         json_file = JSON_FILE_ETH;
@@ -458,6 +454,53 @@
     [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionETH() OK.]"]];
     
     rv = JUB_FreeMemory(abi);
+    if (raw) {
+        size_t txLen = strlen(raw)/2;
+        [self addMsgData:[NSString stringWithFormat:@"tx raw[%lu]: %s.", txLen, raw]];
+        
+        rv = JUB_FreeMemory(raw);
+        if (JUBR_OK != rv) {
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            return rv;
+        }
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
+    }
+    
+    return rv;
+}
+
+
+- (NSUInteger) message_proc:(NSUInteger)contextID
+                       root:(Json::Value)root {
+    
+    return [self bytestring_proc:contextID
+                            root:root];
+}
+
+
+- (NSUInteger) bytestring_proc:(NSUInteger)contextID
+                          root:(Json::Value)root {
+    
+    JUB_RV rv = JUBR_ERROR;
+    
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["Bytestring"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["Bytestring"]["bip32_path"]["addressIndex"].asUInt();
+    
+    //ETH Test
+    char* data = (char*)root["Bytestring"]["data"].asCString();
+    
+    char* raw = nullptr;
+    rv = JUB_SignBytestringETH(contextID,
+                               path,
+                               data,
+                               &raw);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_SignBytestringETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return rv;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_SignBytestringETH() OK.]"]];
+    
     if (raw) {
         size_t txLen = strlen(raw)/2;
         [self addMsgData:[NSString stringWithFormat:@"tx raw[%lu]: %s.", txLen, raw]];

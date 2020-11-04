@@ -26,5 +26,12 @@
           "change" : false,
           "addressIndex" : 0
       }
+  },
+  "Bytestring" : {
+      "data" : "",
+      "bip32_path":{
+        "change" :false,
+        "addressIndex":0
+      }
   }
 }

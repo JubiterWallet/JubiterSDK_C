@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #define BUTTON_TITLE_TRANSACTION    @"TRANSACTION"
+#define BUTTON_TITLE_MESSAGE        @"MESSAGE"
 #define BUTTON_TITLE_GETADDRESS     @"   GET_ADDRESS"
 #define BUTTON_TITLE_SHOWADDRESS    @"  SHOW_ADDRESS"
 #define BUTTON_TITLE_SETMYADDRESS   @"SET_MY_ADDRESS"
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 typedef NS_ENUM(NSInteger, JUB_NS_ENUM_OPT) {
-     TRANSACTION,
+    TRANSACTION,
+    MESSAGE,
        GET_ADDRESS,
       SHOW_ADDRESS,
     SET_MY_ADDRESS,
@@ -42,6 +44,11 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_OPT) {
 - (void) set_my_address_test:(NSUInteger)contextID;
 - (NSUInteger) set_unit_test:(NSUInteger)contextID;
 - (NSUInteger) set_time_out_test:(NSUInteger)contextID;
+
+- (void) message_test:(NSUInteger)contextID
+                 root:(Json::Value)root;
+- (NSUInteger) message_proc:(NSUInteger)contextID
+                       root:(Json::Value)root;
 
 - (NSString*) inputAmount;
 - (NSUInteger) verify_user:(NSUInteger)contextID;
