@@ -179,7 +179,7 @@ JUB_RV JUB_SetLabel(IN JUB_UINT16 deviceID,
 //    // to get the data back
 //    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
-    JUB_VERIFY_RV(token->Reset());
+    JUB_VERIFY_RV(token->SetLabel(label));
 
     // Clean up the session for device in order to force calling ActiveSelf().
     jub::context::ContextManager::GetInstance()->ClearLast();
