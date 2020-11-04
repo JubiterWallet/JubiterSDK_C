@@ -10,6 +10,7 @@
 #include "context/EOSContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
+#include "token/JubiterNFC/JubiterNFCToken.h"
 #include "token/interface/EOSTokenInterface.hpp"
 #include "EOS/Signer.h"
 #include "EOS/Transaction.h"
@@ -46,6 +47,11 @@ JUB_RV EOSContext::ActiveSelf() {
     }
     if (!isIndep) {
         JUB_VERIFY_RV(token->SetCoin());
+    }
+
+    // For NFC devices, the session is cleaned up so that the ActiveSelf() function can be started at every session level operation.
+    if (std::dynamic_pointer_cast<token::JubiterNFCToken>(_tokenPtr)) {
+        jub::context::ContextManager::GetInstance()->ClearLast();
     }
 
     return JUBR_OK;
