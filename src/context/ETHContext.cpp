@@ -1,6 +1,9 @@
 #include "context/ETHContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
+#if defined(NFC_MODE)
+#include "token/JubiterNFC/JubiterNFCToken.h"
+#endif // #if defined(NFC_MODE) end
 #include "token/interface/ETHTokenInterface.hpp"
 #include "Ethereum/ERC20Abi.h"
 #include "utility/util.h"
@@ -24,6 +27,13 @@ JUB_RV ETHContext::ActiveSelf() {
         ) {
         JUB_VERIFY_RV(SetTimeout(_timeout));
     }
+
+#if defined(NFC_MODE)
+    // For NFC devices, the session is cleaned up so that the ActiveSelf() function can be started at every session level operation.
+    if (std::dynamic_pointer_cast<token::JubiterNFCToken>(_tokenPtr)) {
+        jub::context::ContextManager::GetInstance()->ClearLast();
+    }
+#endif // #if defined(NFC_MODE) end
 
     //ETH don`t set unit
     return JUBR_OK;
@@ -210,6 +220,48 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
     JUB_VERIFY_RV(token->SetERC20ETHToken(tokenName,
                                           unitDP,
                                           contractAddress));
+
+    return JUBR_OK;
+}
+
+
+JUB_RV ETHContext::SignBytestring(const BIP44_Path& path,
+                                  JUB_CHAR_CPTR data,
+                                  OUT std::string& strSignature) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::ETHTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_CHECK_NULL(data);
+
+    std::vector<JUB_BYTE> vTypeData = jub::HexStr2CharPtr(data);
+    if (0 >= vTypeData.size()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::string strPath = _FullBip44Path(path);
+    std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
+
+    std::vector<JUB_BYTE> vChainID;
+    vChainID.push_back(_chainID);
+
+    uchar_vector vSignature;
+    JUB_VERIFY_RV(token->SignBytestring(vTypeData,
+                                        vPath,
+                                        vChainID,
+                                        vSignature));
+
+    //verify
+    JUB_VERIFY_RV(token->VerifyBytestring(vChainID,
+                                          strPath,
+                                          vTypeData,
+                                          vSignature));
+
+    strSignature = std::string(ETH_PRDFIX) + vSignature.getHex();
 
     return JUBR_OK;
 }

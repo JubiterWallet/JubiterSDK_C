@@ -46,6 +46,11 @@ stAppInfos JubiterNFCToken::g_appInfo[] = {
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "DASH",
+        "0000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "USDT",
         "0000000"
     },
@@ -83,8 +88,8 @@ JUB_RV JubiterNFCToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
 
 
 JUB_RV JubiterNFCToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
-                                  JUB_ULONG *pulRetDataLen /*= nullptr*/,
-                                  JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
+                              JUB_ULONG *pulRetDataLen /*= nullptr*/,
+                              JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
 
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(device);
@@ -363,6 +368,35 @@ JUB_RV JubiterNFCToken::GetLabel(JUB_BYTE label[32]) {
     if (0x9000 == ret) {
         memset(label, 0x00, 32);
         memcpy(label, retData, 32);
+
+        return JUBR_OK;
+    }
+
+    return JUBR_ERROR;
+}
+
+
+JUB_RV JubiterNFCToken::SetLabel(const std::string& label) {
+
+    if (0x20 < label.length()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::vector<uint8_t> vLabel(0x20);
+    std::copy(label.begin(), label.end(), vLabel.begin());
+
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8104, vLabel).encode()).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    if (_isOpenSecureChannel()) {
+        JUB_VERIFY_RV(_SendSafeApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    else {
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    }
+    if (0x9000 == ret) {
 
         return JUBR_OK;
     }

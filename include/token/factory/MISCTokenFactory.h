@@ -8,7 +8,9 @@
 
 #include <device/JubiterHidDevice.hpp>
 #include <device/JubiterBLEDevice.hpp>
+#if defined(NFC_MODE)
 #include <device/JubiterNFCDevice.hpp>
+#endif // #if defined(NFC_MODE) end
 
 #include <token/interface/BTCTokenInterface.hpp>
 #include <token/interface/ETHTokenInterface.hpp>
@@ -34,10 +36,12 @@
 #include <token/XRP/TrezorCryptoXRPImpl.h>
 #include <token/TRX/TrezorCryptoTRXImpl.h>
 
+#if defined(NFC_MODE)
 #include <token/ETH/JubiterNFCETHImpl.h>
 #include <token/EOS/JubiterNFCEOSImpl.h>
 #include <token/XRP/JubiterNFCXRPImpl.h>
 #include <token/TRX/JubiterNFCTRXImpl.h>
+#endif // #if defined(NFC_MODE) end
 
 #include <TrustWalletCore/TWCoinType.h>
 
@@ -98,6 +102,7 @@ public:
 }; // class xJuBiterBIOMISCFactory end
 
 
+#if defined(NFC_MODE)
 class xJuBiterNFCMISCFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 TWCoinType,
@@ -111,6 +116,7 @@ public:
         Register(TWCoinType::TWCoinTypeTron,            &JubiterNFCTRXImpl::Create);
     }
 }; // class xJuBiterNFCMISCFactory end
+#endif // #if defined(NFC_MODE) end
 
 
 class xMISCTokenFactory {
@@ -118,7 +124,9 @@ protected:
     xTrezorCryptoMISCFactory     trezorFactory;
     xJuBiterBladeMISCFactory jubiterBLDFactory;
     xJuBiterBIOMISCFactory   jubiterBIOFactory;
+#if defined(NFC_MODE)
     xJuBiterNFCMISCFactory   jubiterNFCFactory;
+#endif // #if defined(NFC_MODE) end
 
 public:
     std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const std::string& XPRVorXPUB) {

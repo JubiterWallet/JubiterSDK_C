@@ -15,7 +15,7 @@
 
 using namespace TW::EOS;
 
-static const int64_t Precision = 1000;
+static const int64_t Precision = 10000;
 static const uint8_t MaxDecimals = 18;
 
 Asset::Asset(int64_t amount, uint8_t decimals, const std::string& symbol) {

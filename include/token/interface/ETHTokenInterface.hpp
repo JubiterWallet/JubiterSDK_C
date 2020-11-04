@@ -38,6 +38,15 @@ public:
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress) = 0;
+
+    virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+                                  const std::vector<JUB_BYTE>& vPath,
+                                  const std::vector<JUB_BYTE>& vChainID,
+                                  std::vector<JUB_BYTE>& signatureRaw) = 0;
+    virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
+                                    const std::string& path,
+                                    const std::vector<JUB_BYTE>& vTypedData,
+                                    const std::vector<JUB_BYTE>& vSignature) = 0;
 }; // class ETHTokenInterface end
 
 

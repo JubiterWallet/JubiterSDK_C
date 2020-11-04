@@ -63,23 +63,34 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg);
 
 /*****************************************************************************
-* @function name : JUB_Reset
-* @in  param : deviceID - device ID
-*                     : curve - curve
-* @out param :
-* @last change : default User's PIN is '5555'.
-*****************************************************************************/
+ * @function name : JUB_SetLabel
+ * @in  param : deviceID - device ID
+ *          : label - label
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetLabel(IN JUB_UINT16 deviceID,
+                    IN JUB_CHAR_CPTR label);
+
+/*****************************************************************************
+ * @function name : JUB_Reset
+ * @in  param : deviceID - device ID
+ *          : curve - curve
+ * @out param :
+ * @last change : default NO User's PIN.
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_Reset(IN JUB_UINT16 deviceID);
 
 /*****************************************************************************
-* @function name : JUB_GenerateSeed
-* @in  param : deviceID - device ID
-*                     : pinMix - User's PIN
-*                     : curve - curve
-* @out param :
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_GenerateSeed
+ * @in  param : deviceID - device ID
+ *          : pinMix - User's PIN
+ *          : curve - curve
+ * @out param :
+ * @last change :
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
                         IN JUB_CHAR_CPTR pinMix,
@@ -123,13 +134,13 @@ JUB_RV JUB_GetRootKeyStatus(IN JUB_UINT16 deviceID,
                             OUT JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status);
 
 /*****************************************************************************
-* @function name : JUB_VerifyPIN
-* @in  param : deviceID - device ID
-*                     : pinMix - old PIN
-*                     : pinNew - new PIN
-* @out param : retry
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_VerifyPIN
+ * @in  param : deviceID - device ID
+ *          : pinMix - old PIN
+ *          : pinNew - new PIN
+ * @out param : retry
+ * @last change :
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
                      IN JUB_CHAR_CPTR pinMix,

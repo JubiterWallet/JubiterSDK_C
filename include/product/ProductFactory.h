@@ -19,7 +19,9 @@
 
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #include <token/JubiterBIO/JubiterBIOToken.h>
+#if defined(NFC_MODE)
 #include <token/JubiterNFC/JubiterNFCToken.h>
+#endif // #if defined(NFC_MODE) end
 
 namespace jub {
 namespace product {
@@ -155,6 +157,7 @@ public:
             }
             break;
         }
+#if defined(NFC_MODE)
         case JUB_ENUM_COMMODE::NFC:
         {
             switch (deviceClass) {
@@ -166,6 +169,7 @@ public:
             }
             break;
         }
+#endif  // #if defined(NFC_MODE) end
         default:
             break;
         }
