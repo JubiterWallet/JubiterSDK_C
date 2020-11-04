@@ -46,6 +46,11 @@ stAppInfos JubiterNFCToken::g_appInfo[] = {
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "DASH",
+        "0000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "USDT",
         "0000000"
     },
