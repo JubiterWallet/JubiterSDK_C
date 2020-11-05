@@ -173,7 +173,8 @@ Data Signer::hash(const Data &bytestring) const noexcept {
 
     encoded.push_back(0x19);
     std::copy(pr.begin(), pr.end(), std::back_inserter(encoded));
-    encoded.push_back(bytestring.size());
+    auto sz = std::to_string(bytestring.size());
+    std::copy(sz.begin(), sz.end(), std::back_inserter(encoded));
     std::copy(bytestring.begin(), bytestring.end(), std::back_inserter(encoded));
 
     return Hash::keccak256(encoded);
