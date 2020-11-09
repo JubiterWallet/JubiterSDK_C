@@ -282,7 +282,7 @@
         }
         
         if (   [selectedItem isEqual:BUTTON_TITLE_VIA_DEV]
-            || [selectedItem isEqual:BUTTON_TITLE_VIA_FGPT]
+//            || [selectedItem isEqual:BUTTON_TITLE_VIA_FGPT]
             ) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 
@@ -299,16 +299,16 @@
                         [alertView dismiss];
                     }
                 }   // if ([selectedItem isEqual:BUTTON_TITLE_VIA_DEV]) end
-                else if ([selectedItem isEqual:BUTTON_TITLE_VIA_FGPT]) {
-                    
-                    alertView = [JUBAlertView showMsg:@"Identity verification via fgpt in progress..."];
-                    {
-                        rv = [self identity_verify:deviceID
-                                              mode:JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_FPGT];
-                        
-                        [alertView dismiss];
-                    }
-                }   // if ([selectedItem isEqual:BUTTON_TITLE_VIA_FGPT]) end
+//                else if ([selectedItem isEqual:BUTTON_TITLE_VIA_FGPT]) {
+//
+//                    alertView = [JUBAlertView showMsg:@"Identity verification via fgpt in progress..."];
+//                    {
+//                        rv = [self identity_verify:deviceID
+//                                              mode:JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_FPGT];
+//
+//                        [alertView dismiss];
+//                    }
+//                }   // if ([selectedItem isEqual:BUTTON_TITLE_VIA_FGPT]) end
                 
                 isDone = YES;
             }); // dispatch_async(dispatch_get_global_queue(0, 0), ^ end
@@ -374,7 +374,7 @@
         BUTTON_TITLE_VIA_DEV,
         BUTTON_TITLE_VIA_9GRIDS,
         BUTTON_TITLE_VIA_APDU,
-        BUTTON_TITLE_VIA_FGPT
+//        BUTTON_TITLE_VIA_FGPT
     ]];
     [listAlert setTextAlignment:NSTextAlignment::NSTextAlignmentLeft];
     
@@ -424,10 +424,13 @@
     
     JUB_RV rv = JUBR_ERROR;
     
+    JUB_UINT16 fpTimeout = 60;
+    
     NSUInteger fgptNextIndex = fgptIndex;
     JUB_ULONG remainingTimes = times;
     NSUInteger assignedID = fgptID;
     rv = JUB_EnrollFingerprint(deviceID,
+                               fpTimeout,
                                (JUB_BYTE_PTR)(&fgptNextIndex), &remainingTimes,
                                (JUB_BYTE_PTR)(&assignedID));
     if (JUBR_OK != rv) {
@@ -446,7 +449,10 @@
     
     JUB_RV rv = JUBR_ERROR;
     
-    rv = JUB_EraseFingerprint(deviceID);
+    JUB_UINT16 fpTimeout = 60;
+    
+    rv = JUB_EraseFingerprint(deviceID,
+                              fpTimeout);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_EraseFingerprint() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
@@ -462,7 +468,11 @@
     
     JUB_RV rv = JUBR_ERROR;
     
-    rv = JUB_DeleteFingerprint(deviceID, fgptID);
+    JUB_UINT16 fpTimeout = 60;
+    
+    rv = JUB_DeleteFingerprint(deviceID,
+                               fpTimeout,
+                               fgptID);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_DeleteFingerprint() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;

@@ -357,6 +357,10 @@
                                         encoding:[NSString defaultCStringEncoding]]
                      componentsSeparatedByString:@" "];
     for (auto appID : vAppList) {
+        if (NSComparisonResult::NSOrderedSame == [appID compare:[NSString stringWithCString:""
+                                                                                   encoding:[NSString defaultCStringEncoding]]]) {
+            continue;
+        }
         char* version;
         auto rv = JUB_GetAppletVersion(deviceID, [appID UTF8String], &version);
         if (JUBR_OK != rv) {

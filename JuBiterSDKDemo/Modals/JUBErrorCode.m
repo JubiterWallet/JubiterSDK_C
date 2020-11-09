@@ -138,7 +138,10 @@
     case JUBR_NOT_SUPPORT_FORID:        { errMsg = @"JUBR_NOT_SUPPORT_FORID"; break; }
     case JUBR_USDT_NUMBER_NOT_MATCH_DUST:{ errMsg = @"JUBR_USDT_NUMBER_NOT_MATCH_DUST"; break; }
     case JUBR_CHANGE_ADDR_RULE:         { errMsg = @"JUBR_CHANGE_ADDR_RULE"; break; }
-    
+    case JUBR_BIO_FINGERPRINT_MODALITY_ERROR:{ errMsg = @"JUBR_BIO_FINGERPRINT_MODALITY_ERROR"; break; }
+    case JUBR_BIO_SPACE_LIMITATION:     { errMsg = @"JUBR_BIO_SPACE_LIMITATION"; break; }
+    case JUBR_BIO_TIMEOUT:              { errMsg = @"JUBR_BIO_TIMEOUT"; break; }
+
     default:                            { errMsg = @"UNKNOWN ERROR."; break; }
     }   // switch (rv) end
     
