@@ -150,7 +150,8 @@ JUB_RV JUB_IdentityCancelNineGrids(IN JUB_UINT16 deviceID) {
 /*****************************************************************************
  * @function name : JUB_EnrollFingerprint
  * @in  param : deviceID - device ID
- * @inout param: fgptIndex - The index of current fingerprint modality.
+ * @inout param: fpTimeout - timeout for fingerprint
+ *            fgptIndex - The index of current fingerprint modality.
  *                    If this value is ZERO, indicate enroll a new fingerprint;
  *                      otherwise this value mast be equal to the value in
  *                      response of previous this command.
@@ -160,6 +161,7 @@ JUB_RV JUB_IdentityCancelNineGrids(IN JUB_UINT16 deviceID) {
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_EnrollFingerprint(IN JUB_UINT16 deviceID,
+                             IN JUB_UINT16 fpTimeout,
                              INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
                              OUT JUB_BYTE_PTR fgptID) {
 
@@ -168,7 +170,8 @@ JUB_RV JUB_EnrollFingerprint(IN JUB_UINT16 deviceID,
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->EnrollFingerprint(fgptIndex, ptimes,
+    JUB_VERIFY_RV(token->EnrollFingerprint(fpTimeout,
+                                           fgptIndex, ptimes,
                                            fgptID));
 
     // Clean up the session for device in order to force calling ActiveSelf().
@@ -214,18 +217,20 @@ JUB_RV JUB_EnumFingerprint(IN JUB_UINT16 deviceID,
 /*****************************************************************************
  * @function name : JUB_EraseFingerprint
  * @in  param : deviceID - device ID
+ *           fpTimeout - timeout for fingerprint
  * @out param :
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_EraseFingerprint(IN JUB_UINT16 deviceID) {
+JUB_RV JUB_EraseFingerprint(IN JUB_UINT16 deviceID,
+                            IN JUB_UINT16 fpTimeout) {
 
 #if defined(BLE_MODE) || defined(HID_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->EraseFingerprint());
+    JUB_VERIFY_RV(token->EraseFingerprint(fpTimeout));
 
     // Clean up the session for device in order to force calling ActiveSelf().
     jub::context::ContextManager::GetInstance()->ClearLast();
@@ -240,12 +245,14 @@ JUB_RV JUB_EraseFingerprint(IN JUB_UINT16 deviceID) {
 /*****************************************************************************
  * @function name : JUB_DeleteFingerprint
  * @in  param : deviceID - device ID
+ *           fpTimeout - timeout for fingerprint
  *           fgptID - the modality ID of a fingerprint.
  * @out param :
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_DeleteFingerprint(IN JUB_UINT16 deviceID,
+                             IN JUB_UINT16 fpTimeout,
                              IN JUB_BYTE fgptID) {
 
 #if defined(BLE_MODE) || defined(HID_MODE)
@@ -253,7 +260,7 @@ JUB_RV JUB_DeleteFingerprint(IN JUB_UINT16 deviceID,
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
 
-    JUB_VERIFY_RV(token->DeleteFingerprint(fgptID));
+    JUB_VERIFY_RV(token->DeleteFingerprint(fpTimeout, fgptID));
 
     // Clean up the session for device in order to force calling ActiveSelf().
     jub::context::ContextManager::GetInstance()->ClearLast();
