@@ -187,6 +187,8 @@ void main_test() {
         default:
             continue;
         }   // switch (choice) end
+
+        JUB_DisconnetDeviceHid(deviceID);
     }   // while (true) end
 }
 

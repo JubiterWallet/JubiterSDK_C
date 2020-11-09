@@ -759,7 +759,8 @@ JUB_RV JubiterBladeToken::VerifyFingerprint(OUT JUB_ULONG &retry) {
 }
 
 
-JUB_RV JubiterBladeToken::EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
+JUB_RV JubiterBladeToken::EnrollFingerprint(IN JUB_UINT16 fpTimeout,
+                                            INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
                                             OUT JUB_BYTE_PTR fgptID) {
     return JUBR_IMPL_NOT_SUPPORT;
 }
@@ -771,13 +772,14 @@ JUB_RV JubiterBladeToken::EnumFingerprint(std::string& fgptList) {
 }
 
 
-JUB_RV JubiterBladeToken::EraseFingerprint() {
+JUB_RV JubiterBladeToken::EraseFingerprint(IN JUB_UINT16 fpTimeout) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
-JUB_RV JubiterBladeToken::DeleteFingerprint(JUB_BYTE fgptID)  {
+JUB_RV JubiterBladeToken::DeleteFingerprint(IN JUB_UINT16 fpTimeout,
+                                            JUB_BYTE fgptID)  {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
