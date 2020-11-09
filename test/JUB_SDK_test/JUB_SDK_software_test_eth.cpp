@@ -105,4 +105,9 @@ void software_test_eth(const char* json_file) {
     if (JUBR_OK != rv) {
         return;
     }
+
+    rv = bytestring_proc_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
 }
