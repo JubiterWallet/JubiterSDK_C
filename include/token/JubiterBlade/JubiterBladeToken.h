@@ -108,11 +108,13 @@ public:
 
     virtual JUB_RV VerifyFgptForIntl(OUT JUB_ULONG &retry) override;
     virtual JUB_RV VerifyFingerprint(OUT JUB_ULONG &retry) override;
-    virtual JUB_RV EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
+    virtual JUB_RV EnrollFingerprint(IN JUB_UINT16 fpTimeout,
+                                     INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
                                      OUT JUB_BYTE_PTR fgptID) override;
     virtual JUB_RV EnumFingerprint(std::string& fgptList) override;
-    virtual JUB_RV EraseFingerprint() override;
-    virtual JUB_RV DeleteFingerprint(JUB_BYTE fgptID) override;
+    virtual JUB_RV EraseFingerprint(IN JUB_UINT16 fpTimeout) override;
+    virtual JUB_RV DeleteFingerprint(IN JUB_UINT16 fpTimeout,
+                                     JUB_BYTE fgptID) override;
 
     static stAppInfos g_appInfo[];
 

@@ -92,15 +92,17 @@ JUB_RV verify_identity_via_apdu(JUB_UINT16 deviceID) {
 }
 
 
-void device_fgpt_enroll_test(JUB_UINT16 deviceID, int fgptIndex) {
+void device_fgpt_enroll_test(JUB_UINT16 deviceID, JUB_UINT16 fpTimeout, int fgptIndex) {
 
     JUB_RV rv = JUBR_ERROR;
 
     JUB_BYTE fgptID = fgptIndex;
     JUB_ULONG times = 0;
     JUB_BYTE modalityID = 0;
-    rv = JUB_EnrollFingerprint(deviceID, &fgptID, &times, &modalityID);
-    std::cout << "JUB_EnrollFingerprint() return " << rv << std::endl;
+    rv = JUB_EnrollFingerprint(deviceID,
+                               fpTimeout,
+                               &fgptID, &times, &modalityID);
+    std::cout << "JUB_EnrollFingerprint() return " << GetErrMsg(rv) << std::endl;
     if (JUBR_OK == rv) {
         std::cout << "The total number of times that need to enroll for _NO."
                   << modalityID
@@ -116,7 +118,9 @@ void device_fgpt_enroll_test(JUB_UINT16 deviceID, int fgptIndex) {
             _times = times;
             _modalityID = modalityID;
         }
-        rv = JUB_EnrollFingerprint(deviceID, &_fgptID, &_times, &_modalityID);
+        rv = JUB_EnrollFingerprint(deviceID,
+                                   fpTimeout,
+                                   &_fgptID, &_times, &_modalityID);
         std::cout << "JUB_EnrollFingerprint() return " << rv << std::endl;
         if (JUBR_OK == rv) {
             std::cout << "The total number of times that need to enroll for _NO."
@@ -130,10 +134,12 @@ void device_fgpt_enroll_test(JUB_UINT16 deviceID, int fgptIndex) {
 void device_fgpt_test(JUB_UINT16 deviceID) {
 
     JUB_RV rv = JUBR_ERROR;
+    JUB_UINT16 fpTimeout = 60;
 
     while (true) {
         cout << "|-------------------------------------------|" << endl;
         cout << "|*********** G2 fingerprint test ***********|" << endl;
+//        cout << "| 1. Set timeout.                           |" << endl;
         cout << "| 1. Enumerate Fingerprint.                 |" << endl;
         cout << "| 2. Enroll    Fingerprint.                 |" << endl;
         cout << "| 3. Delete    Fingerprint.                 |" << endl;
@@ -179,7 +185,7 @@ void device_fgpt_test(JUB_UINT16 deviceID) {
             int fgptIndex = 0;
             std::cout << "Please enter your fingerprint index for enroll:" << std::endl;
             std::cin >> fgptIndex;
-            device_fgpt_enroll_test(deviceID, fgptIndex);
+            device_fgpt_enroll_test(deviceID, fpTimeout, fgptIndex);
             break;
         }
         case 3:
@@ -187,7 +193,7 @@ void device_fgpt_test(JUB_UINT16 deviceID) {
             int fgptID = 0;
             std::cout << "Please enter your fingerprint ID for delete:" << std::endl;
             std::cin >> fgptID;
-            rv = JUB_DeleteFingerprint(deviceID, fgptID);
+            rv = JUB_DeleteFingerprint(deviceID, fpTimeout, fgptID);
             std::cout << "JUB_DeleteFingerprint() return " << rv << std::endl;
             break;
         }
@@ -197,7 +203,7 @@ void device_fgpt_test(JUB_UINT16 deviceID) {
             std::cout << "Erase all fingerprint? Y:N" << std::endl;
             std::cin >> ch;
             if ('Y' == ch) {
-                rv = JUB_EraseFingerprint(deviceID);
+                rv = JUB_EraseFingerprint(deviceID, fpTimeout);
                 std::cout << "JUB_EraseFingerprint() return " << rv << std::endl;
             }
             break;

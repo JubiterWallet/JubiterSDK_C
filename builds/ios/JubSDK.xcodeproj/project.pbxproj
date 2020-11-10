@@ -29,14 +29,12 @@
 		6713A82F23A07B760083A34D /* HDKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A82E23A07B760083A34D /* HDKey.cpp */; };
 		6713A83523A07B8F0083A34D /* ApduBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A83123A07B8F0083A34D /* ApduBuilder.cpp */; };
 		6713A83623A07B8F0083A34D /* Fido.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A83223A07B8F0083A34D /* Fido.cpp */; };
-		6713A83723A07B8F0083A34D /* JubiterHidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A83323A07B8F0083A34D /* JubiterHidDevice.cpp */; };
 		6713A83823A07B8F0083A34D /* JubiterBLEDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A83423A07B8F0083A34D /* JubiterBLEDevice.cpp */; };
 		6713A85123A07BB80083A34D /* JUB_SDK_BTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84623A07BB80083A34D /* JUB_SDK_BTC.cpp */; };
 		6713A85223A07BB80083A34D /* JUB_SDK_DEV_BLE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84723A07BB80083A34D /* JUB_SDK_DEV_BLE.cpp */; };
 		6713A85323A07BB80083A34D /* JUB_SDK_EOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84823A07BB80083A34D /* JUB_SDK_EOS.cpp */; };
 		6713A85423A07BB80083A34D /* JUB_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84923A07BB80083A34D /* JUB_core.cpp */; };
 		6713A85523A07BB80083A34D /* JUB_SDK_COMM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84A23A07BB80083A34D /* JUB_SDK_COMM.cpp */; };
-		6713A85623A07BB80083A34D /* JUB_SDK_DEV_HID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84B23A07BB80083A34D /* JUB_SDK_DEV_HID.cpp */; };
 		6713A85723A07BB80083A34D /* JUB_SDK_ETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84C23A07BB80083A34D /* JUB_SDK_ETH.cpp */; };
 		6713A85823A07BB80083A34D /* JUB_SDK_Hcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84D23A07BB80083A34D /* JUB_SDK_Hcash.cpp */; };
 		6713A85923A07BB80083A34D /* JUB_SDK_DEV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84E23A07BB80083A34D /* JUB_SDK_DEV.cpp */; };
@@ -92,7 +90,6 @@
 		6718A02323A213F200F8A5CD /* JUB_SDK_BTC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7C7239FD6350083A34D /* JUB_SDK_BTC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6718A02423A213F200F8A5CD /* JUB_SDK_COMM.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7CE239FD6360083A34D /* JUB_SDK_COMM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6718A02523A213F200F8A5CD /* JUB_SDK_DEV_BLE.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7C9239FD6360083A34D /* JUB_SDK_DEV_BLE.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6718A02623A213F200F8A5CD /* JUB_SDK_DEV_HID.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7CF239FD6360083A34D /* JUB_SDK_DEV_HID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6718A02723A213F200F8A5CD /* JUB_SDK_DEV.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7D1239FD6360083A34D /* JUB_SDK_DEV.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6718A02823A213F200F8A5CD /* JUB_SDK_EOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7C8239FD6350083A34D /* JUB_SDK_EOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6718A02923A213F200F8A5CD /* JUB_SDK_ETH.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7CD239FD6360083A34D /* JUB_SDK_ETH.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -244,12 +241,10 @@
 		6718A40D23A339E300F8A5CD /* ApduBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A83123A07B8F0083A34D /* ApduBuilder.cpp */; };
 		6718A40E23A339E300F8A5CD /* Fido.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A83223A07B8F0083A34D /* Fido.cpp */; };
 		6718A40F23A339E300F8A5CD /* JubiterBLEDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A83423A07B8F0083A34D /* JubiterBLEDevice.cpp */; };
-		6718A41023A339E300F8A5CD /* JubiterHidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A83323A07B8F0083A34D /* JubiterHidDevice.cpp */; };
 		6718A41723A339ED00F8A5CD /* JUB_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84923A07BB80083A34D /* JUB_core.cpp */; };
 		6718A41823A339ED00F8A5CD /* JUB_SDK_COMM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84A23A07BB80083A34D /* JUB_SDK_COMM.cpp */; };
 		6718A41923A339ED00F8A5CD /* JUB_SDK_DEV.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84E23A07BB80083A34D /* JUB_SDK_DEV.cpp */; };
 		6718A41A23A339ED00F8A5CD /* JUB_SDK_DEV_BLE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84723A07BB80083A34D /* JUB_SDK_DEV_BLE.cpp */; };
-		6718A41B23A339ED00F8A5CD /* JUB_SDK_DEV_HID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84B23A07BB80083A34D /* JUB_SDK_DEV_HID.cpp */; };
 		6718A41C23A339ED00F8A5CD /* JUB_SDK_BTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84623A07BB80083A34D /* JUB_SDK_BTC.cpp */; };
 		6718A41D23A339ED00F8A5CD /* JUB_SDK_EOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84823A07BB80083A34D /* JUB_SDK_EOS.cpp */; };
 		6718A41E23A339ED00F8A5CD /* JUB_SDK_ETH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6713A84C23A07BB80083A34D /* JUB_SDK_ETH.cpp */; };
@@ -266,7 +261,6 @@
 		6718A43A23A33A1C00F8A5CD /* DeviceTypeBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7F723A07A240083A34D /* DeviceTypeBase.hpp */; };
 		6718A43B23A33A1C00F8A5CD /* Fido.h in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7F923A07A240083A34D /* Fido.h */; };
 		6718A43C23A33A1C00F8A5CD /* JubiterBLEDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7F523A07A240083A34D /* JubiterBLEDevice.hpp */; };
-		6718A43D23A33A1C00F8A5CD /* JubiterHidDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6713A7F623A07A240083A34D /* JubiterHidDevice.hpp */; };
 		6718A43E23A33A2100F8A5CD /* xManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6713A80123A07A4E0083A34D /* xManager.hpp */; };
 		671E23F423CEC197001A5F81 /* CashAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = 671E23EE23CEC197001A5F81 /* CashAddress.h */; };
 		671E23F523CEC197001A5F81 /* SegwitAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 671E23EF23CEC197001A5F81 /* SegwitAddress.cpp */; };
@@ -704,7 +698,6 @@
 		6713A7CC239FD6360083A34D /* JUB_SDK_XRP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_XRP.h; path = ../../include/JUB_SDK_XRP.h; sourceTree = "<group>"; };
 		6713A7CD239FD6360083A34D /* JUB_SDK_ETH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_ETH.h; path = ../../include/JUB_SDK_ETH.h; sourceTree = "<group>"; };
 		6713A7CE239FD6360083A34D /* JUB_SDK_COMM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_COMM.h; path = ../../include/JUB_SDK_COMM.h; sourceTree = "<group>"; };
-		6713A7CF239FD6360083A34D /* JUB_SDK_DEV_HID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DEV_HID.h; path = ../../include/JUB_SDK_DEV_HID.h; sourceTree = "<group>"; };
 		6713A7D0239FD6360083A34D /* JUB_CORE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_CORE.h; path = ../../include/JUB_CORE.h; sourceTree = "<group>"; };
 		6713A7D1239FD6360083A34D /* JUB_SDK_DEV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DEV.h; path = ../../include/JUB_SDK_DEV.h; sourceTree = "<group>"; };
 		6713A7D3239FD6670083A34D /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = ../../include/utility/util.h; sourceTree = "<group>"; };
@@ -715,7 +708,6 @@
 		6713A7F123A079FE0083A34D /* HDKey.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HDKey.hpp; path = ../../include/HDKey/HDKey.hpp; sourceTree = "<group>"; };
 		6713A7F423A07A240083A34D /* ApduBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ApduBuilder.hpp; path = ../../include/device/ApduBuilder.hpp; sourceTree = "<group>"; };
 		6713A7F523A07A240083A34D /* JubiterBLEDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JubiterBLEDevice.hpp; path = ../../include/device/JubiterBLEDevice.hpp; sourceTree = "<group>"; };
-		6713A7F623A07A240083A34D /* JubiterHidDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JubiterHidDevice.hpp; path = ../../include/device/JubiterHidDevice.hpp; sourceTree = "<group>"; };
 		6713A7F723A07A240083A34D /* DeviceTypeBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DeviceTypeBase.hpp; path = ../../include/device/DeviceTypeBase.hpp; sourceTree = "<group>"; };
 		6713A7F823A07A240083A34D /* DeviceIOLogHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DeviceIOLogHelper.hpp; path = ../../include/device/DeviceIOLogHelper.hpp; sourceTree = "<group>"; };
 		6713A7F923A07A240083A34D /* Fido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fido.h; path = ../../include/device/Fido.h; sourceTree = "<group>"; };
@@ -725,14 +717,12 @@
 		6713A82E23A07B760083A34D /* HDKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HDKey.cpp; path = ../../src/HDKey/HDKey.cpp; sourceTree = "<group>"; };
 		6713A83123A07B8F0083A34D /* ApduBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ApduBuilder.cpp; path = ../../src/device/ApduBuilder.cpp; sourceTree = "<group>"; };
 		6713A83223A07B8F0083A34D /* Fido.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Fido.cpp; path = ../../src/device/Fido.cpp; sourceTree = "<group>"; };
-		6713A83323A07B8F0083A34D /* JubiterHidDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterHidDevice.cpp; path = ../../src/device/JubiterHidDevice.cpp; sourceTree = "<group>"; };
 		6713A83423A07B8F0083A34D /* JubiterBLEDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBLEDevice.cpp; path = ../../src/device/JubiterBLEDevice.cpp; sourceTree = "<group>"; };
 		6713A84623A07BB80083A34D /* JUB_SDK_BTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_BTC.cpp; path = ../../src/JUB_SDK_BTC.cpp; sourceTree = "<group>"; };
 		6713A84723A07BB80083A34D /* JUB_SDK_DEV_BLE.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV_BLE.cpp; path = ../../src/JUB_SDK_DEV_BLE.cpp; sourceTree = "<group>"; };
 		6713A84823A07BB80083A34D /* JUB_SDK_EOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_EOS.cpp; path = ../../src/JUB_SDK_EOS.cpp; sourceTree = "<group>"; };
 		6713A84923A07BB80083A34D /* JUB_core.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_core.cpp; path = ../../src/JUB_core.cpp; sourceTree = "<group>"; };
 		6713A84A23A07BB80083A34D /* JUB_SDK_COMM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_COMM.cpp; path = ../../src/JUB_SDK_COMM.cpp; sourceTree = "<group>"; };
-		6713A84B23A07BB80083A34D /* JUB_SDK_DEV_HID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV_HID.cpp; path = ../../src/JUB_SDK_DEV_HID.cpp; sourceTree = "<group>"; };
 		6713A84C23A07BB80083A34D /* JUB_SDK_ETH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_ETH.cpp; path = ../../src/JUB_SDK_ETH.cpp; sourceTree = "<group>"; };
 		6713A84D23A07BB80083A34D /* JUB_SDK_Hcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_Hcash.cpp; path = ../../src/JUB_SDK_Hcash.cpp; sourceTree = "<group>"; };
 		6713A84E23A07BB80083A34D /* JUB_SDK_DEV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV.cpp; path = ../../src/JUB_SDK_DEV.cpp; sourceTree = "<group>"; };
@@ -1230,7 +1220,6 @@
 				6713A7C9239FD6360083A34D /* JUB_SDK_DEV_BLE.h */,
 				677B329224C85E8600D4EAFB /* JUB_SDK_DEV_BIO.h */,
 				6749089B242DD0FD001F2044 /* JUB_SDK_DEV_NFC.h */,
-				6713A7CF239FD6360083A34D /* JUB_SDK_DEV_HID.h */,
 				6713A7C7239FD6350083A34D /* JUB_SDK_BTC.h */,
 				6713A7CA239FD6360083A34D /* JUB_SDK_Hcash.h */,
 				6713A7CD239FD6360083A34D /* JUB_SDK_ETH.h */,
@@ -1287,11 +1276,8 @@
 				675B05112428689A004C62D4 /* JubiterBladeToken.h */,
 				677B329524C85EA500D4EAFB /* JubiterBIOToken.h */,
 				675B0514242868B8004C62D4 /* JubiterNFCToken.h */,
-				6746219B23C31C710096DDA2 /* BTCTokenInterface.hpp */,
-				675B04DF242866BD004C62D4 /* QTUMTokenInterface.hpp */,
-				674621A123C31C720096DDA2 /* ETHTokenInterface.hpp */,
-				6746219F23C31C720096DDA2 /* XRPTokenInterface.hpp */,
-				6746219D23C31C710096DDA2 /* EOSTokenInterface.hpp */,
+				675B0513242868B8004C62D4 /* JubiterNFCImpl.h */,
+				674621BF23C31CE30096DDA2 /* TrezorCryptoToken.h */,
 			);
 			name = interface;
 			sourceTree = "<group>";
@@ -1314,7 +1300,6 @@
 				6713A7F923A07A240083A34D /* Fido.h */,
 				6713A7F523A07A240083A34D /* JubiterBLEDevice.hpp */,
 				670B8FD524332C2200E8EF5C /* JubiterNFCDevice.hpp */,
-				6713A7F623A07A240083A34D /* JubiterHidDevice.hpp */,
 			);
 			name = device;
 			sourceTree = "<group>";
@@ -1348,7 +1333,6 @@
 				6713A84723A07BB80083A34D /* JUB_SDK_DEV_BLE.cpp */,
 				677B329824C85EF500D4EAFB /* JUB_SDK_DEV_BIO.cpp */,
 				67742D23242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp */,
-				6713A84B23A07BB80083A34D /* JUB_SDK_DEV_HID.cpp */,
 				6713A84623A07BB80083A34D /* JUB_SDK_BTC.cpp */,
 				6713A84D23A07BB80083A34D /* JUB_SDK_Hcash.cpp */,
 				6713A84C23A07BB80083A34D /* JUB_SDK_ETH.cpp */,
@@ -1405,7 +1389,6 @@
 				6713A83223A07B8F0083A34D /* Fido.cpp */,
 				6713A83423A07B8F0083A34D /* JubiterBLEDevice.cpp */,
 				670B8FDE2433390200E8EF5C /* JubiterNFCDevice.cpp */,
-				6713A83323A07B8F0083A34D /* JubiterHidDevice.cpp */,
 			);
 			name = device;
 			sourceTree = "<group>";
@@ -1415,10 +1398,10 @@
 			children = (
 				6746215723C319A10096DDA2 /* BaseContext.cpp */,
 				6746215523C319A10096DDA2 /* BTCContext.cpp */,
-				6746215623C319A10096DDA2 /* EOSContext.cpp */,
 				6746215823C319A20096DDA2 /* ETHContext.cpp */,
-				6746215423C319A10096DDA2 /* HCContext.cpp */,
 				673E498D2429EE1C00C7F469 /* QTUMContext.cpp */,
+				6746215423C319A10096DDA2 /* HCContext.cpp */,
+				6746215623C319A10096DDA2 /* EOSContext.cpp */,
 				6746215923C319A20096DDA2 /* XRPContext.cpp */,
 			);
 			name = context;
@@ -2220,6 +2203,135 @@
 			name = src;
 			sourceTree = "<group>";
 		};
+		678679DA2558E4E800A48116 /* XRP */ = {
+			isa = PBXGroup;
+			children = (
+				6746219F23C31C720096DDA2 /* XRPTokenInterface.hpp */,
+				675B0518242868DB004C62D4 /* JubiterBaseXRPImpl.h */,
+				674621AB23C31C860096DDA2 /* JubiterBladeXRPImpl.h */,
+				677DF32924DD1D21001920A9 /* JubiterBIOXRPImpl.h */,
+				675B0517242868DB004C62D4 /* JubiterNFCXRPImpl.h */,
+				674621AC23C31C860096DDA2 /* TrezorCryptoXRPImpl.h */,
+			);
+			name = XRP;
+			sourceTree = "<group>";
+		};
+		678679DB2558E4F800A48116 /* EOS */ = {
+			isa = PBXGroup;
+			children = (
+				6746219D23C31C710096DDA2 /* EOSTokenInterface.hpp */,
+				675B050724286838004C62D4 /* JubiterBaseEOSImpl.h */,
+				674621AF23C31C9C0096DDA2 /* JubiterBladeEOSImpl.h */,
+				677DF32524DD1C7D001920A9 /* JubiterBIOEOSImpl.h */,
+				675B050824286838004C62D4 /* JubiterNFCEOSImpl.h */,
+				674621B023C31C9C0096DDA2 /* TrezorCryptoEOSImpl.h */,
+			);
+			name = EOS;
+			sourceTree = "<group>";
+		};
+		678679DC2558E50000A48116 /* ETH */ = {
+			isa = PBXGroup;
+			children = (
+				674621A123C31C720096DDA2 /* ETHTokenInterface.hpp */,
+				675B050B2428685D004C62D4 /* JubiterBaseETHImpl.h */,
+				677DF32024DD1BD1001920A9 /* JubiterBIOETHImpl.h */,
+				674621B723C31CBB0096DDA2 /* JubiterBladeETHImpl.h */,
+				675B050C2428685D004C62D4 /* JubiterNFCETHImpl.h */,
+				674621B823C31CBC0096DDA2 /* TrezorCryptoETHImpl.h */,
+			);
+			name = ETH;
+			sourceTree = "<group>";
+		};
+		678679DD2558E50800A48116 /* BTC */ = {
+			isa = PBXGroup;
+			children = (
+				6746219B23C31C710096DDA2 /* BTCTokenInterface.hpp */,
+				675B04E8242866ED004C62D4 /* JubiterBaseBTCImpl.h */,
+				674621BC23C31CCF0096DDA2 /* JubiterBladeBTCImpl.h */,
+				67362AC124DA5389008DC757 /* JubiterBIOBTCImpl.h */,
+				675B04E6242866ED004C62D4 /* JubiterNFCBTCImpl.h */,
+				674621BB23C31CCE0096DDA2 /* TrezorCryptoBTCImpl.h */,
+				675B04EE242866ED004C62D4 /* JubiterBaseBCHImpl.h */,
+				675B04EC242866ED004C62D4 /* JubiterBladeBCHImpl.h */,
+				675B04E2242866EC004C62D4 /* JubiterNFCBCHImpl.h */,
+				675B04EB242866ED004C62D4 /* TrezorCryptoBCHImpl.h */,
+				675B04F1242866EE004C62D4 /* JubiterBaseDashImpl.h */,
+				675B04F3242866EE004C62D4 /* JubiterBladeDashImpl.h */,
+				675B04E5242866ED004C62D4 /* JubiterNFCDashImpl.h */,
+				675B04E4242866ED004C62D4 /* TrezorCryptoDashImpl.h */,
+				675B04E1242866EC004C62D4 /* JubiterBladeLTCImpl.h */,
+				675B04EA242866ED004C62D4 /* JubiterNFCLTCImpl.h */,
+				675B04EF242866ED004C62D4 /* TrezorCryptoLTCImpl.h */,
+				675B04DF242866BD004C62D4 /* QTUMTokenInterface.hpp */,
+				675B04F2242866EE004C62D4 /* JubiterBladeQTUMImpl.h */,
+				675B04E9242866ED004C62D4 /* JubiterNFCQTUMImpl.h */,
+				675B04E3242866EC004C62D4 /* TrezorCryptoQTUMImpl.h */,
+				675B04E7242866ED004C62D4 /* JubiterBladeUSDTImpl.h */,
+				675B04F0242866EE004C62D4 /* JubiterNFCUSDTImpl.h */,
+				675B04ED242866ED004C62D4 /* TrezorCryptoUSDTImpl.h */,
+				675B050F2428687F004C62D4 /* JubiterBaseHCImpl.h */,
+				674621B423C31CAB0096DDA2 /* JubiterBladeHCImpl.h */,
+				677DF32724DD1CC6001920A9 /* JubiterBIOHCImpl.h */,
+				674621B323C31CAB0096DDA2 /* TrezorCryptoHCImpl.h */,
+			);
+			name = BTC;
+			sourceTree = "<group>";
+		};
+		678679DE2558E63000A48116 /* BTC */ = {
+			isa = PBXGroup;
+			children = (
+				675B051C24286908004C62D4 /* JubiterBaseBTCImpl.cpp */,
+				6746216923C319FA0096DDA2 /* JubiterBladeBTCImpl.cpp */,
+				675B052224286909004C62D4 /* JubiterNFCBTCImpl.cpp */,
+				6746216A23C319FA0096DDA2 /* TrezorCryptoBTCImpl.cpp */,
+				675B052124286909004C62D4 /* JubiterBaseBCHImpl.cpp */,
+				675B051E24286908004C62D4 /* JubiterNFCBCHImpl.cpp */,
+				675B051F24286908004C62D4 /* TrezorCryptoBCHImpl.cpp */,
+				675B051B24286908004C62D4 /* JubiterBaseDashImpl.cpp */,
+				675B051D24286908004C62D4 /* TrezorCryptoDashImpl.cpp */,
+				675B052024286908004C62D4 /* JubiterBladeQTUMImpl.cpp */,
+				675B052324286909004C62D4 /* JubiterNFCQTUMImpl.cpp */,
+				675B052424286909004C62D4 /* TrezorCryptoQTUMImpl.cpp */,
+				675B0545242869AB004C62D4 /* JubiterBaseHCImpl.cpp */,
+				6746217B23C31A390096DDA2 /* JubiterBladeHCImpl.cpp */,
+				6746217C23C31A390096DDA2 /* TrezorCryptoHCImpl.cpp */,
+			);
+			name = BTC;
+			sourceTree = "<group>";
+		};
+		678679DF2558E63700A48116 /* XRP */ = {
+			isa = PBXGroup;
+			children = (
+				675B054E242869D7004C62D4 /* JubiterBaseXRPImpl.cpp */,
+				6746218123C31A490096DDA2 /* JubiterBladeXRPImpl.cpp */,
+				675B054F242869D7004C62D4 /* JubiterNFCXRPImpl.cpp */,
+				6746218223C31A490096DDA2 /* TrezorCryptoXRPImpl.cpp */,
+			);
+			name = XRP;
+			sourceTree = "<group>";
+		};
+		678679E02558E63E00A48116 /* EOS */ = {
+			isa = PBXGroup;
+			children = (
+				675B053924286970004C62D4 /* JubiterBaseEOSImpl.cpp */,
+				6746217523C31A230096DDA2 /* JubiterBladeEOSImpl.cpp */,
+				675B053A24286970004C62D4 /* JubiterNFCEOSImpl.cpp */,
+				6746217623C31A230096DDA2 /* TrezorCryptoEOSImpl.cpp */,
+			);
+			name = EOS;
+			sourceTree = "<group>";
+		};
+		678679E12558E64300A48116 /* ETH */ = {
+			isa = PBXGroup;
+			children = (
+				675B05402428698C004C62D4 /* JubiterBaseETHImpl.cpp */,
+				6746217023C31A0D0096DDA2 /* JubiterBladeETHImpl.cpp */,
+				675B053F2428698C004C62D4 /* JubiterNFCETHImpl.cpp */,
+				6746216F23C31A0D0096DDA2 /* TrezorCryptoETHImpl.cpp */,
+			);
+			name = ETH;
+			sourceTree = "<group>";
+		};
 		EADCCD6A22A7B380008F2EF5 = {
 			isa = PBXGroup;
 			children = (
@@ -2261,7 +2373,6 @@
 				6749089C242DD0FD001F2044 /* JUB_SDK_DEV_NFC.h in Headers */,
 				67E0DF61250F6D6C00D42EF0 /* TWPublicKeyType.h in Headers */,
 				6745C8E2254A656100D49A75 /* JUB_SDK_TRX.h in Headers */,
-				6718A02623A213F200F8A5CD /* JUB_SDK_DEV_HID.h in Headers */,
 				6718A02323A213F200F8A5CD /* JUB_SDK_BTC.h in Headers */,
 				6718A02923A213F200F8A5CD /* JUB_SDK_ETH.h in Headers */,
 				677DF32124DD1BD1001920A9 /* JubiterBIOETHImpl.h in Headers */,
@@ -2295,7 +2406,6 @@
 				6745C8EF254A661E00D49A75 /* JubiterBaseTRXImpl.h in Headers */,
 				6718A43C23A33A1C00F8A5CD /* JubiterBLEDevice.hpp in Headers */,
 				670B8FD624332C2200E8EF5C /* JubiterNFCDevice.hpp in Headers */,
-				6718A43D23A33A1C00F8A5CD /* JubiterHidDevice.hpp in Headers */,
 				6718A43723A33A1700F8A5CD /* HDKey.hpp in Headers */,
 				674621A423C31C720096DDA2 /* BaseToken.h in Headers */,
 				674621A823C31C720096DDA2 /* HardwareTokenInterface.hpp in Headers */,
@@ -2694,7 +2804,6 @@
 				325B55CB249E66FC002A0616 /* scp11c.cpp in Sources */,
 				675B052C24286909004C62D4 /* JubiterNFCBCHImpl.cpp in Sources */,
 				6718A36323A338DF00F8A5CD /* PublicKey.cpp in Sources */,
-				6718A41B23A339ED00F8A5CD /* JUB_SDK_DEV_HID.cpp in Sources */,
 				6746217223C31A0D0096DDA2 /* TrezorCryptoETHImpl.cpp in Sources */,
 				6718A34923A338D800F8A5CD /* Address.cpp in Sources */,
 				6718A3FC23A3397B00F8A5CD /* util.cpp in Sources */,
@@ -2749,7 +2858,6 @@
 				6718A37923A3390200F8A5CD /* keypair.c in Sources */,
 				673E498F2429EE1C00C7F469 /* QTUMContext.cpp in Sources */,
 				6718A37A23A3390900F8A5CD /* base58.c in Sources */,
-				6718A41023A339E300F8A5CD /* JubiterHidDevice.cpp in Sources */,
 				6718A37D23A3390900F8A5CD /* scrypt.c in Sources */,
 				67755DB8253F10B70056F2C0 /* ContractBalance.cpp in Sources */,
 				6718A34C23A338D800F8A5CD /* Signer.cpp in Sources */,
@@ -2883,7 +2991,6 @@
 				6713A85923A07BB80083A34D /* JUB_SDK_DEV.cpp in Sources */,
 				6746218523C31A490096DDA2 /* TrezorCryptoXRPImpl.cpp in Sources */,
 				6746216223C319A20096DDA2 /* ETHContext.cpp in Sources */,
-				6713A83723A07B8F0083A34D /* JubiterHidDevice.cpp in Sources */,
 				677B329924C85EF500D4EAFB /* JUB_SDK_DEV_BIO.cpp in Sources */,
 				67755DA9253F10B70056F2C0 /* AccountId.cpp in Sources */,
 				674F1A0B23A1080A001702DD /* ed25519-keccak.c in Sources */,
@@ -2909,7 +3016,6 @@
 				675B056624286B30004C62D4 /* TWCurve.cpp in Sources */,
 				675B056824286B30004C62D4 /* TWCoinType.cpp in Sources */,
 				673E49852429EDD700C7F469 /* OutPoint.cpp in Sources */,
-				6713A85623A07BB80083A34D /* JUB_SDK_DEV_HID.cpp in Sources */,
 				674F19F223A107E5001702DD /* aescrypt.c in Sources */,
 				6746216423C319A20096DDA2 /* XRPContext.cpp in Sources */,
 				6713A8F223A082B20083A34D /* base58.c in Sources */,
@@ -3049,7 +3155,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3113,7 +3219,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -201,17 +201,44 @@ JUB_RV JubiterBIOToken::VerifyFingerprint(OUT JUB_ULONG &retry) {
 }
 
 
-JUB_RV JubiterBIOToken::EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
+JUB_RV JubiterBIOToken::EnrollFingerprint(IN JUB_UINT16 fpTimeout,
+                                          INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
                                           OUT JUB_BYTE_PTR fgptID) {
 
-    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8210, *fgptIndex).encode()).encode();
+    uchar_vector tagData;
+    tagData.push_back(*fgptIndex);
+    if (DEFAULT_FP_TIMEOUT != fpTimeout) {
+        tagData.push_back(fpTimeout);
+    }
+
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8210, tagData).encode()).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 != ret) {
-        return JUBR_ERROR;
+        JUB_RV rv = JUBR_ERROR;
+        switch (ret | 0x40000000) {
+        case JUBR_BIO_FINGERPRINT_MODALITY_ERROR:   // The ID of fingerprint modality error
+            rv = JUBR_BIO_FINGERPRINT_MODALITY_ERROR;
+            break;
+        case JUBR_BIO_SPACE_LIMITATION:             // Space limitation
+            rv = JUBR_BIO_SPACE_LIMITATION;
+            break;
+        case 0x9BE1:            // Function error.
+            rv = JUBR_OTHER_ERROR;
+            break;
+        case JUBR_BIO_TIMEOUT:  // Time out.
+            rv = JUBR_BIO_TIMEOUT;
+            break;
+        case 0x9BEF:            // PIN verified error
+            rv = JUBR_DEVICE_PIN_ERROR;
+            break;
+        default:
+            break;
+        }
+        return rv;
     }
 
     TW::Data v;
@@ -222,9 +249,9 @@ JUB_RV JubiterBIOToken::EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_
         return JUBR_ERROR;
     }
 
-    *fgptID = v[0];     // Modality ID.
+    *fgptID    = v[0];  // Modality ID.
     *fgptIndex = v[1];  // The number of times of current fingerprint modality, start from 1.
-    *ptimes = v[2];     // The total times that current fingerprint needs.
+    *ptimes    = v[2];  // The total times that current fingerprint needs.
 
     return JUBR_OK;
 }
@@ -232,14 +259,34 @@ JUB_RV JubiterBIOToken::EnrollFingerprint(INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_
 
 JUB_RV JubiterBIOToken::EnumFingerprint(std::string& fgptList) {
 
-    uchar_vector apduData = tlv_buf(0xDFFF, tlv_buf(0x8211).encode()).encode();
+    uchar_vector apduData = tlv_buf(0xDFFF, tlv_buf(0x8211).encodeT()).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
     JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 != ret) {
-        return JUBR_ERROR;
+        JUB_RV rv = JUBR_ERROR;
+        switch (ret | 0x40000000) {
+        case JUBR_BIO_FINGERPRINT_MODALITY_ERROR:   // The ID of fingerprint modality error
+            rv = JUBR_BIO_FINGERPRINT_MODALITY_ERROR;
+            break;
+        case JUBR_BIO_SPACE_LIMITATION:             // Space limitation
+            rv = JUBR_BIO_SPACE_LIMITATION;
+            break;
+        case 0x9BE1:            // Function error.
+            rv = JUBR_OTHER_ERROR;
+            break;
+        case JUBR_BIO_TIMEOUT:  // Time out.
+            rv = JUBR_BIO_TIMEOUT;
+            break;
+        case 0x9BEF:            // PIN verified error
+            rv = JUBR_DEVICE_PIN_ERROR;
+            break;
+        default:
+            break;
+        }
+        return rv;
     }
 
     // (  Enroll FP  )     (   Enum FP     )           (binary)    (ID list)
@@ -289,9 +336,13 @@ JUB_RV JubiterBIOToken::EnumFingerprint(std::string& fgptList) {
 }
 
 
-JUB_RV JubiterBIOToken::EraseFingerprint() {
+JUB_RV JubiterBIOToken::EraseFingerprint(IN JUB_UINT16 fpTimeout) {
 
-    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8212).encode()).encode();
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8212).encodeT()).encode();
+    if (DEFAULT_FP_TIMEOUT != fpTimeout) {
+        apduData.clear();
+        apduData = tlv_buf(0xDFFE, tlv_buf(0x8212, fpTimeout).encode()).encode();
+    }
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
@@ -315,9 +366,16 @@ JUB_RV JubiterBIOToken::EraseFingerprint() {
 }
 
 
-JUB_RV JubiterBIOToken::DeleteFingerprint(JUB_BYTE fgptID) {
+JUB_RV JubiterBIOToken::DeleteFingerprint(IN JUB_UINT16 fpTimeout,
+                                          JUB_BYTE fgptID) {
 
-    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8213, fgptID).encode()).encode();
+    uchar_vector tagData;
+    tagData.push_back(fgptID);
+    if (DEFAULT_FP_TIMEOUT != fpTimeout) {
+        tagData.push_back(fpTimeout);
+    }
+
+    uchar_vector apduData = tlv_buf(0xDFFE, tlv_buf(0x8213, tagData).encode()).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = {0,};
