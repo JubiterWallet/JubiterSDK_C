@@ -22,7 +22,10 @@ JUB_RV JubiterNFCXRPImpl::SetCoin() {
 JUB_RV JubiterNFCXRPImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                path,
+                                                publicKey));
 
     return _getAddress(publicKey, address);
 }
@@ -31,7 +34,7 @@ JUB_RV JubiterNFCXRPImpl::GetAddress(const std::string& path, const JUB_UINT16 t
 JUB_RV JubiterNFCXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
     std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(_getSignType(_curve_name), 0x00, path, btcXpub));
 
     //    typedef enum class {
     //        HEX = 0x00,
@@ -83,7 +86,10 @@ JUB_RV JubiterNFCXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         vInputPath.push_back(path);
 
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                    (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                    path,
+                                                    publicKey));
 
         tx.pub_key.insert(tx.pub_key.end(), publicKey.begin(), publicKey.end());
         tx.serialize();
