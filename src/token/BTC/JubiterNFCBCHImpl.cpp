@@ -64,7 +64,10 @@ JUB_RV JubiterNFCBCHImpl::_SignTx(bool witness,
     std::vector<TW::Data> vPreImageHash;
     for (size_t index=0; index<tx.inputs.size(); ++index) {
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(type, vInputPath[index], publicKey));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                    type,
+                                                    vInputPath[index],
+                                                    publicKey));
 
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
 

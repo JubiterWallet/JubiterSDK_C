@@ -26,14 +26,16 @@ JUB_RV JubiterNFCImpl::SelectApplet() {
 }
 
 
-JUB_RV JubiterNFCImpl::GetHDNode(const JUB_BYTE& type, const std::string& path, std::string& xpub) {
+JUB_RV JubiterNFCImpl::GetHDNode(const JUB_BYTE& curveType,
+                                 const JUB_BYTE& type,
+                                 const std::string& path,
+                                 std::string& xpub) {
 
     uchar_vector vPath;
     vPath << path;
     uchar_vector apduData = ToTlv(TAG_PATH_08, vPath);
-    JUB_BYTE p2 = type;
 
-    APDU apdu(0x00, 0xE6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xE6, curveType, type, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -51,14 +53,16 @@ JUB_RV JubiterNFCImpl::GetHDNode(const JUB_BYTE& type, const std::string& path, 
 }
 
 
-JUB_RV JubiterNFCImpl::GetCompPubKey(const JUB_BYTE& type, const std::string& path, TW::Data& pubkey) {
+JUB_RV JubiterNFCImpl::GetCompPubKey(const JUB_BYTE& curveType,
+                                     const JUB_BYTE& type,
+                                     const std::string& path,
+                                     TW::Data& pubkey) {
 
     uchar_vector vPath;
     vPath << path;
     uchar_vector apduData = ToTlv(TAG_PATH_08, vPath);
-    JUB_BYTE p2 = type;
 
-    APDU apdu(0x00, 0xF6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF6, curveType, type, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -88,8 +92,8 @@ JUB_RV JubiterNFCImpl::GetAddress(const JUB_BYTE addrFmt,
 
 JUB_RV JubiterNFCImpl::SignTX(const JUB_UINT16 inputCount,
                               const std::vector<std::string>& vInputPath,
-                              const JUB_BYTE& signType,
-                              const JUB_BYTE& hashType,
+                              const JUB_BYTE& curveType,
+                              const JUB_BYTE&  hashType,
                               const std::vector<TW::Data>& vPreImageHash,
                               std::vector<TW::Data>& vRSV) {
 
@@ -100,8 +104,8 @@ JUB_RV JubiterNFCImpl::SignTX(const JUB_UINT16 inputCount,
         rv = SignOne(inputCount,
                      i,
                      vInputPath[i-1],
-                     signType,
-                     hashType,
+                     curveType,
+                      hashType,
                      vPreImageHash[i-1],
                      rsv);
         if (JUBR_OK != rv) {
