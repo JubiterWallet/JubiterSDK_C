@@ -205,10 +205,12 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const JUB_
                                 unsignedTrans,
                                 vRaw));
 
+#if defined(DEBUG)
     JUB_VERIFY_RV(token->VerifyTX(_transType,
                                   vInputAmount,
                                   vInputPath,
                                   vRaw));
+#endif
 
     raw = vRaw.getHex();
 

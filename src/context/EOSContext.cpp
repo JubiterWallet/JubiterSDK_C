@@ -233,6 +233,7 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
             TW::EOS::Signature signature(signatureRaw, TW::EOS::Type::ModernK1);
             tx.signatures.push_back(signature);
 
+#if defined(DEBUG)
             //verify
             std::string strPubkey;
             JUB_VERIFY_RV(token->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, strPubkey));
@@ -244,6 +245,7 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
             if (!signer.verify( pubkey, _eosType, tx)) {
                 return JUBR_VERIFY_SIGN_FAILED;
             }
+#endif
         }
 
         TW::EOS::PackedTransaction packedTx(tx);

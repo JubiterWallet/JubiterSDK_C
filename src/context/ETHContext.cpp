@@ -173,10 +173,12 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
                                 vChainID,
                                 raw));
 
+#if defined(DEBUG)
     //verify
     JUB_VERIFY_RV(token->VerifyTX(vChainID,
                                   strPath,
                                   raw));
+#endif
 
     strRaw = std::string(ETH_PRDFIX) + raw.getHex();
 
@@ -254,12 +256,13 @@ JUB_RV ETHContext::SignBytestring(const BIP44_Path& path,
                                         vPath,
                                         vChainID,
                                         vSignature));
-
+#if defined(DEBUG)
     //verify
     JUB_VERIFY_RV(token->VerifyBytestring(vChainID,
                                           strPath,
                                           vTypeData,
                                           vSignature));
+#endif
 
     strSignature = std::string(ETH_PRDFIX) + vSignature.getHex();
 
