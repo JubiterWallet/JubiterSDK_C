@@ -32,7 +32,10 @@ JUB_RV JubiterNFCETHImpl::GetAppletVersion(std::string &version) {
 JUB_RV JubiterNFCETHImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                path,
+                                                publicKey));
 
     return _getAddress(publicKey, address);
 }
@@ -42,7 +45,7 @@ JUB_RV JubiterNFCETHImpl::GetHDNode(const JUB_BYTE format, const std::string& pa
 
     //path = "m/44'/60'/0'";
     std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(0x00, path, btcXpub));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(_getSignType(_curve_name), 0x00, path, btcXpub));
 
 //    typedef enum {
 //        HEX = 0x00,
@@ -104,7 +107,10 @@ JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
         vInputPath.push_back(path);
 
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                    (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                    path,
+                                                    publicKey));
 
         TW::Hash::Hasher halfHasher;
         JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
@@ -144,7 +150,10 @@ JUB_RV JubiterNFCETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                                    const std::vector<JUB_BYTE>& vSigedTrans) {
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, publicKey));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                JUB_ENUM_BTC_TRANS_TYPE::p2pkh,
+                                                path,
+                                                publicKey));
 
     // verify signature
     return VerifyTx(vChainID,
@@ -173,7 +182,10 @@ JUB_RV JubiterNFCETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedData
         vInputPath.push_back(path);
 
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                    (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                    path,
+                                                    publicKey));
 
         TW::Hash::Hasher halfHasher;
         JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
@@ -204,7 +216,10 @@ JUB_RV JubiterNFCETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID
                                            const std::vector<JUB_BYTE>& vSignature) {
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, publicKey));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                JUB_ENUM_BTC_TRANS_TYPE::p2pkh,
+                                                path,
+                                                publicKey));
 
     // verify signature
     return JubiterBaseETHImpl::VerifyBytestring(vChainID,

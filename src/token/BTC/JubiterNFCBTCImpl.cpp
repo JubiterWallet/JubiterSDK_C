@@ -16,7 +16,7 @@ JUB_RV JubiterNFCBTCImpl::SelectApplet() {
 JUB_RV JubiterNFCBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
 
     std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, btcXpub));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(_getSignType(_curve_name), JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, btcXpub));
 
     const curve_info *curve = get_curve_by_name(_curve_name);
     uint8_t nodeData[128] = {0x00,};
@@ -57,7 +57,10 @@ JUB_RV JubiterNFCBTCImpl::GetAddress(const JUB_BYTE addrFmt,
     JUB_RV rv = JUBR_ERROR;
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                path,
+                                                publicKey));
 
     switch (type) {
     case p2pkh:
@@ -209,7 +212,10 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
     std::vector<TW::Data> vPreImageHash;
     for (size_t index=0; index<tx.inputs.size(); ++index) {
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, vInputPath[index], publicKey));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                    JUB_ENUM_BTC_TRANS_TYPE::p2pkh,
+                                                    vInputPath[index],
+                                                    publicKey));
 
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
 
@@ -269,7 +275,10 @@ JUB_RV JubiterNFCBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
     std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(JUB_ENUM_BTC_TRANS_TYPE::p2pkh, inputPath, publicKey));
+        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                    JUB_ENUM_BTC_TRANS_TYPE::p2pkh,
+                                                    inputPath,
+                                                    publicKey));
 
         vInputPublicKey.push_back(publicKey);
     }
