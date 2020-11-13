@@ -29,7 +29,7 @@ MESSAGE( STATUS "hidapi = ${HID_API_LIB_STATIC}.")
 
 #user lib
 if(APPLE)
-    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
+    target_link_libraries(JUB_test PRIVATE JUB_SDK libprotobuf TrezorCrypto ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
 else()
     target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto ${HID_API_LIB_STATIC})  
 endif(APPLE)

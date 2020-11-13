@@ -1,3 +1,4 @@
+#if defined(NFC_MODE)
 #include <token/BTC/JubiterNFCBCHImpl.h>
 
 namespace jub {
@@ -106,3 +107,4 @@ JUB_RV JubiterNFCBCHImpl::_SignTx(bool witness,
 
 } // namespace token end
 } // namespace jub end
+#endif //end NFC_MODE

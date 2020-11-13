@@ -11,6 +11,10 @@ endif() #if(devOnly)
 
 add_subdirectory(src)
 
+option(protobuf_BUILD_TESTS "Build tests" OFF)
+option(protobuf_BUILD_PROTOC_BINARIES "Build libprotoc and protoc compiler" OFF)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/protobuf/cmake)
+
 if(devOnly)
 else()  #if(devOnly)
 if(NOT ANDROID AND NOT IOS)

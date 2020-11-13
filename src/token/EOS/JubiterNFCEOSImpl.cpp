@@ -1,3 +1,5 @@
+#if defined(NFC_MODE)
+
 #include <token/EOS/JubiterNFCEOSImpl.h>
 #include <TrezorCrypto/bip32.h>
 #include "EOS/Signer.h"
@@ -122,3 +124,5 @@ JUB_RV JubiterNFCEOSImpl::SignTX(const TW::EOS::Type& type,
 
 } // namespace token end
 } // namespace jub end
+
+#endif //end NFC_MODE

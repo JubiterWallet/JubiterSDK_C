@@ -5,6 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #pragma once
+#if 0
 
 #include "Contract.h"
 
@@ -64,3 +65,5 @@ public:
 
 
 } // namespace TW::Tron
+
+#endif

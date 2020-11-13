@@ -4,6 +4,7 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
+#if 0
 #include "ContractShield.h"
 
 #include "../HexCoding.h"
@@ -153,3 +154,5 @@ pb_varint ShieldedTransferContract::getToAmount() const {
 
 
 } // namespace TW::Tron end
+
+#endif
