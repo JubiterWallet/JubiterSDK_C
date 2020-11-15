@@ -64,7 +64,19 @@
 git submodule update --init --recursive
 ```
 ---
-### **macOS,Linux,Cygwin**
+### **MacOS**
++ 请使用3.18.4版本，brew的3.16与3.19不保证会成功，可能会出现无法找到framework的问题
++ 暂时先不考虑M1芯片
++ MacOS由于CMake的Bug，无法打出FatLib，需要分平台打包，具体见 https://gitlab.kitware.com/cmake/cmake/-/issues/21282
++ 暂时关闭了RPATH，如果需要参照 https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling 进行修改
++ 打包framework无法使用make体系，只能使用Xcode
+```bash
+mkdir buildMacOS & cd buildMacOS
+cmake -G Xcode -DCMAKE_OSX_ARCHITECTURES=x86_64  ..
+cmake --build . --config Release  
+```
+---
+### **Linux,Cygwin**
 ```bash
 mkdir build & cd build
 cmake ..
