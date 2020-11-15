@@ -62,6 +62,18 @@ JUB_RV JubApduBuiler::SetSCP11(void *scp11Ptr) {
 }
 
 
+JUB_RV JubApduBuiler::IncCounter() {
+
+    if (nullptr == _scp03Ptr) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    ((scp03*)_scp03Ptr)->incCounter();
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubApduBuiler::PackData(std::vector<JUB_BYTE> &vDest,
                                const std::vector<JUB_BYTE> &vSrc) {
 
@@ -271,6 +283,7 @@ JUB_RV JubApduBuiler::ParseSafeApduResp(const JUB_BYTE_PTR respData, const JUB_U
 
     wRet = respApdu.SW1 * 0x100 + respApdu.SW2;
     if (0x9000 != wRet) {
+        IncCounter();
         return JUBR_OK;
     }
 

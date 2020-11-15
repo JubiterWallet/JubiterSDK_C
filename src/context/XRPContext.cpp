@@ -147,6 +147,7 @@ JUB_RV XRPContext::SignTransaction(BIP44_Path path,
         }
         tx.signature = vSignatureRaw[0];
 
+#if defined(DEBUG)
         // Verify
         uchar_vector vTx(tx.serialize());
         TW::PublicKey verifyPubk(tx.pub_key, TWPublicKeyTypeSECP256k1);
@@ -154,6 +155,7 @@ JUB_RV XRPContext::SignTransaction(BIP44_Path path,
         if (!verifySigner.verify(verifyPubk, tx)) {
             return JUBR_VERIFY_SIGN_FAILED;
         }
+#endif
 
         signedRaw = vTx.getHex();
     }

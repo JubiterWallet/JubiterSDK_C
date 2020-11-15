@@ -81,7 +81,7 @@ public:
 //        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterBladeETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &JubiterBladeEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &JubiterBladeXRPImpl::Create);
-        Register(TWCoinType::TWCoinTypeTron,            &JubiterBladeXRPImpl::Create);
+        Register(TWCoinType::TWCoinTypeTron,            &JubiterBladeTRXImpl::Create);
     }
 }; // class xJuBiterBladeMISCFactory end
 

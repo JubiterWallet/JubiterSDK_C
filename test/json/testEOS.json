@@ -1,9 +1,9 @@
 {
     "main_path" : "m/44'/194'/0'",
     "EOS" : {
-        "chainID" : "",
+        "chainID" : "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906",
         "expiration" : "900",
-        "referenceBlockId" : "0862700f60195b52f1193764c2618bfc2e277539e0074f1f031515686bbb6d08",
+        "referenceBlockId" : "08ed367dd3948e992813680e6896e8e8e0ad05421b0a6665517d47d3e53711e0",
         "referenceBlockTime" : "2020-09-07 11:47:06.500",
         "actions" : [
         {
@@ -13,7 +13,7 @@
             "0" : {
                 "from" : "zijunzimo555",
                 "to" : "jubitertest4",
-                "asset" : "0.0010 EOS",
+                "asset" : "50.0000 EOS",
                 "memo" : ""
             }
         }],
