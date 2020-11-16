@@ -146,10 +146,11 @@ JUB_RV XRPContext::SignTransaction(BIP44_Path path,
             return JUBR_ARGUMENTS_BAD;
         }
         tx.signature = vSignatureRaw[0];
+        uchar_vector vTx(tx.serialize());
 
 #if defined(DEBUG)
         // Verify
-        uchar_vector vTx(tx.serialize());
+
         TW::PublicKey verifyPubk(tx.pub_key, TWPublicKeyTypeSECP256k1);
         TW::Ripple::Signer verifySigner;
         if (!verifySigner.verify(verifyPubk, tx)) {

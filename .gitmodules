@@ -8,3 +8,6 @@
 [submodule "deps/protobuf"]
 	path = deps/protobuf
 	url = https://github.com/protocolbuffers/protobuf.git
+[submodule "deps/ios-cmake"]
+	path = deps/ios-cmake
+	url = https://github.com/leetal/ios-cmake.git
