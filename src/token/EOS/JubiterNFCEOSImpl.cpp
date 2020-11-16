@@ -1,7 +1,10 @@
-#include <token/EOS/JubiterNFCEOSImpl.h>
+#include "utility/util.h"
+
+#include "token/JubiterBlade/JubiterBladeToken.h"
+#include "token/EOS/JubiterNFCEOSImpl.h"
 #include <TrezorCrypto/bip32.h>
-#include "EOS/Signer.h"
-#include "EOS/Transaction.h"
+#include <EOS/Signer.h>
+#include <EOS/Transaction.h>
 
 namespace jub {
 namespace token {
@@ -104,7 +107,7 @@ JUB_RV JubiterNFCEOSImpl::SignTX(const TW::EOS::Type& type,
         std::vector<TW::Data> vRSV;
         JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
                                              vInputPath,
-                                             _getSignType(_curve_name),
+                                             ((JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINEOS << 4) | _getSignType(_curve_name),
                                              halfHasherType,
                                              vPreImageHash,
                                              vRSV));
