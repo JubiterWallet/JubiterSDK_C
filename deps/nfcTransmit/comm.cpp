@@ -5,6 +5,8 @@
 //  Created by whl on 2020/3/30.
 //  Copyright © 2020 whl. All rights reserved.
 //
+#include "JUB_SDK_COMM.h"
+
 #ifdef NFC_MODE
 #include "comm.h"
 #include <string.h>

@@ -1,3 +1,4 @@
+#include "JUB_SDK_COMM.h"
 #if defined(NFC_MODE)
 #include <token/XRP/JubiterNFCXRPImpl.h>
 #include <TrezorCrypto/bip32.h>

@@ -1,3 +1,4 @@
+#include "JUB_SDK_COMM.h"
 #if defined(NFC_MODE)
 #include <token/JubiterNFC/JubiterNFCToken.h>
 #include <device/DeviceTypeBase.hpp>

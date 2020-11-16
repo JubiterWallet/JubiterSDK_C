@@ -136,13 +136,31 @@ if(APPLE) #MacOS与iOS打出来的为framework
     XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development: zxckiller@163.com (BV9H9Z227X)"
     )
 
-    FIND_LIBRARY(HID_API_LIB_STATIC
-    NAMES hidapi hidapi-hidraw
-    )   
-    MESSAGE( STATUS "hidapi = ${HID_API_LIB_STATIC}.")
-
     #链接静态库
-    target_link_libraries(JUB_SDK PRIVATE libprotobuf TrezorCrypto ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
+    if(IOS)
+
+        FIND_LIBRARY(BT_LIB_STATIC
+        NAMES FTTransmission 
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/ios
+        )   
+        MESSAGE( STATUS "FTTransmission = ${BT_LIB_STATIC}.")
+
+        FIND_LIBRARY(NFC_LIB_STATIC
+        NAMES FTNFCTransmission 
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/../deps/nfcTransmit/ios
+        )   
+        MESSAGE( STATUS "NFCFTTransmission = ${NFC_LIB_STATIC}.")
+
+        target_link_libraries(JUB_SDK PRIVATE libprotobuf TrezorCrypto ${BT_LIB_STATIC} ${NFC_LIB_STATIC} "-framework CoreFoundation" "-framework IOKit")   
+    else()#MacOS
+
+        FIND_LIBRARY(HID_API_LIB_STATIC
+        NAMES hidapi hidapi-hidraw
+        )   
+        MESSAGE( STATUS "hidapi = ${HID_API_LIB_STATIC}.")
+        target_link_libraries(JUB_SDK PRIVATE libprotobuf TrezorCrypto ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
+    endif()
+
 
 else() #其他平台为.a静态库
     ADD_LIBRARY(JUB_SDK STATIC ${SRC_LIST})

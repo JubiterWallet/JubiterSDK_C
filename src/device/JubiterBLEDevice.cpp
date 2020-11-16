@@ -1,5 +1,5 @@
 #include "device/DeviceIOLogHelper.hpp"
-
+#include "JUB_SDK_COMM.h"
 #if defined(BLE_MODE)
 #include <unistd.h>
 #include <sys/time.h>

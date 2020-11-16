@@ -1,4 +1,5 @@
 
+#include "JUB_SDK_COMM.h"
 #if defined(NFC_MODE)
 
 #include <utility/util.h>

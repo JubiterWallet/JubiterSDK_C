@@ -95,12 +95,15 @@ make
 ```
 ---
 ### **iOS**
-- **.a**
+
++ 由于通讯库，暂时无法打模拟器
++ 由于通讯库，暂时无法支持BITCODE
 ```bash
-sh ./builds/ios-build
+mkdir buildIOS & cd buildIOS
+cmake .. -G Xcode -DCMAKE_TOOLCHAIN_FILE=../deps/ios-cmake/ios.toolchain.cmake -DENABLE_BITCODE=0 -DPLATFORM=OS64
+cmake --build . --config Release  
 ```
-- **framework**
-To Do
+
 ---
 ### **macOS Xcode Project file generation**
 ```bash
