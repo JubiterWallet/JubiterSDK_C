@@ -5,6 +5,7 @@
 //  Created by Pan Min on 2020/3/27.
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
+#include "JUB_SDK_COMM.h"
 #if defined(NFC_MODE)
 
 #include "JUB_SDK_DEV_NFC.h"

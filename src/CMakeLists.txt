@@ -124,14 +124,14 @@ if(APPLE) #MacOS与iOS打出来的为framework
     #framework需要codesign，证书怎么处理还没想明白，先写死，不同的人打包请先手动修改，这里指定TeamID
     set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "PSRT22QP6C" CACHE INTERNAL "")
     #动态的framework，HEADERS需要加到工程里，否则打出的framework没有头文件
-    add_library (JUB_SDK SHARED ${SRC_LIST} ${HEADERS})
-    set_target_properties(JUB_SDK PROPERTIES
+    add_library (JubSDK SHARED ${SRC_LIST} ${HEADERS})
+    set_target_properties(JubSDK PROPERTIES
     FRAMEWORK TRUE
     FRAMEWORK_VERSION C
     MACOSX_FRAMEWORK_IDENTIFIER com.ftsafe.JubSDK
     #MACOSX_FRAMEWORK_INFO_PLIST Info.plist
     #PUBLIC_HEADER只能是这种格式，不能直接用${HEADERS}，WHY？？？不知道CMake还是XCode闹哪样。
-    PUBLIC_HEADER "include/JUB_CORE.h;include/JUB_SDK_BTC.h;include/JUB_SDK_COMM.h;include/JUB_SDK_DEV_BIO.h;include/JUB_SDK_DEV_BLE.h;include/JUB_SDK_DEV_HID.h;include/JUB_SDK_DEV_NFC.h;include/JUB_SDK_DEV.h;include/JUB_SDK_EOS.h;include/JUB_SDK_ETH.h;include/JUB_SDK_Hcash.h;include/JUB_SDK_TRX.h,include/JUB_SDK_XRP.h,include/JUB_SDK.h"
+    PUBLIC_HEADER "include/JUB_CORE.h;include/JUB_SDK_BTC.h;include/JUB_SDK_COMM.h;include/JUB_SDK_DEV_BIO.h;include/JUB_SDK_DEV_BLE.h;include/JUB_SDK_DEV_HID.h;include/JUB_SDK_DEV_NFC.h;include/JUB_SDK_DEV.h;include/JUB_SDK_EOS.h;include/JUB_SDK_ETH.h;include/JUB_SDK_Hcash.h;include/JUB_SDK_TRX.h;include/JUB_SDK_XRP.h;include/JUB_SDK.h"
     #这里指定签名证书，也需要手动修改
     XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development: zxckiller@163.com (BV9H9Z227X)"
     )
@@ -151,19 +151,19 @@ if(APPLE) #MacOS与iOS打出来的为framework
         )   
         MESSAGE( STATUS "NFCFTTransmission = ${NFC_LIB_STATIC}.")
 
-        target_link_libraries(JUB_SDK PRIVATE libprotobuf TrezorCrypto ${BT_LIB_STATIC} ${NFC_LIB_STATIC} "-framework CoreFoundation" "-framework IOKit")   
+        target_link_libraries(JubSDK PRIVATE libprotobuf TrezorCrypto ${BT_LIB_STATIC} ${NFC_LIB_STATIC} "-framework CoreFoundation" "-framework IOKit")   
     else()#MacOS
 
         FIND_LIBRARY(HID_API_LIB_STATIC
         NAMES hidapi hidapi-hidraw
         )   
         MESSAGE( STATUS "hidapi = ${HID_API_LIB_STATIC}.")
-        target_link_libraries(JUB_SDK PRIVATE libprotobuf TrezorCrypto ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
+        target_link_libraries(JubSDK PRIVATE libprotobuf TrezorCrypto ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
     endif()
 
 
 else() #其他平台为.a静态库
-    ADD_LIBRARY(JUB_SDK STATIC ${SRC_LIST})
+    ADD_LIBRARY(JubSDK STATIC ${SRC_LIST})
 endif()
 
 
@@ -173,10 +173,10 @@ find_path(SYS_ENDIAN_PATH sys/endian.h)
 
 if(ENDIAN_PATH)
     message("ENDIAN_PATH = ${ENDIAN_PATH}")
-    target_compile_definitions(JUB_SDK PRIVATE HAVE_ENDIAN_H=1)
+    target_compile_definitions(JubSDK PRIVATE HAVE_ENDIAN_H=1)
 elseif(SYS_ENDIAN_PATH)
     message("SYS_ENDIAN_PATH = ${SYS_ENDIAN_PATH}")
-    target_compile_definitions(JUB_SDK PRIVATE HAVE_SYS_ENDIAN_H=1)
+    target_compile_definitions(JubSDK PRIVATE HAVE_SYS_ENDIAN_H=1)
 endif() #if(ENDIAN_PATH)
 
 #endif() #if(devOnly)
