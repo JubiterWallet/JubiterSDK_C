@@ -4,6 +4,19 @@
 namespace jub {
 
 /*
+* Convert character array to string in C++
+*/
+std::string convertToString(char* a, int size) {
+    int i;
+    std::string s = "";
+    for (i = 0; i < size; i++) {
+        s = s + a[i];
+    }
+
+    return s;
+}
+
+/*
  * String splitting function
 */
 std::vector<std::string> Split(std::string str, std::string pattern) {

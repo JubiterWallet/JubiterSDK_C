@@ -555,6 +555,10 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
 
     JUB_RV rv = JUBR_ERROR;
 
+    JUB_BYTE fwVersion[4] = {0x00,};
+    JUB_VERIFY_RV(GetFwVersion(fwVersion));
+    std::string strFWVersion = convertToString((char*)fwVersion, sizeof(fwVersion)/sizeof(JUB_BYTE));
+
     std::string appletList;
     JUB_VERIFY_RV(EnumApplet(appletList));
 
@@ -575,6 +579,12 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
                 continue;
             }
             if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {
+                // v2.0.04 of COS couldn't support EOS.
+                if (  "2004" == strFWVersion
+                    && "EOS" == appInfo.coinName
+                    ) {
+                    continue;
+                }
                 coinList += appInfo.coinName;
                 coinList += " ";
                 coinNameList.insert(coinNameList.end(), appInfo.coinName);
