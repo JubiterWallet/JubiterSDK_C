@@ -46,6 +46,11 @@ constexpr size_t array_size(const _Ty (&)[_Size]) noexcept {
 }
 
 /*
+* Convert character array to string in C++
+*/
+std::string convertToString(char* a, int size);
+
+/*
 * String splitting function
 */
 std::vector<std::string> Split(std::string str, std::string pattern);
