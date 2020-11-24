@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-
+#include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1196,14 +1196,15 @@ int ecdsa_sig_to_der(const uint8_t *sig, uint8_t *der)
 int der_to_ecdsa_sig(const uint8_t *der, uint8_t *sig)
 {
     int i;
-    uint8_t *p = sig, len, len1, len2, len1Zero, len2Zero;
+//    uint8_t *p = sig, len, len1, len2, len1Zero, len2Zero;
+    uint8_t *p = sig, len1, len2, len1Zero, len2Zero;
 
     uint8_t *q = (uint8_t*)der;
     if (0x30 != *q) {           // sequence
         return 0;
     }
     ++q;
-    len = *q;                   // len(sequence)
+//    len = *q;                   // len(sequence)
     q++;
     if (0x02 != *q) {           // integer
         return 0;

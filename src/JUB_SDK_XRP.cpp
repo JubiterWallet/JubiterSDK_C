@@ -11,8 +11,8 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
-#include "context/XRPContext.h"
-#include "token/XRP/JubiterBladeXRPImpl.h"
+#include "context/XRPContextFactory.h"
+
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -126,12 +126,11 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-	auto token = std::make_shared<jub::token::JubiterBladeXRPImpl>(deviceID);
+    auto context = jub::context::XRPseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    JUB_CHECK_NULL(context);
 
-
-    jub::context::XRPContext* context = new jub::context::XRPContext(cfg, token);
+    JUB_VERIFY_RV(context->ActiveSelf());
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
-	JUB_VERIFY_RV(context->ActiveSelf());
 
     return JUBR_OK;
 }
@@ -163,7 +162,7 @@ JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SetMyAddressXRP
  * @in  param : contextID - context ID
- *            : path
+ *          : path
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -229,13 +228,13 @@ JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
-* @function name : JUB_SignTransactionXRP
-* @in  param : contextID - context ID
-*                     : path
-*                     : tx - JUB_TX_XRP
-* @out param : raw
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_SignTransactionXRP
+ * @in  param : contextID - context ID
+ *          : path
+ *          : tx - JUB_TX_XRP
+ * @out param : raw
+ * @last change :
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionXRP(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,

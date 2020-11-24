@@ -1,6 +1,9 @@
 #pragma once
-#include <token/TrezorCrypto/TrezorCryptoToken.h>
-#include <token/ETH/JubiterBaseETHImpl.h>
+#include <memory>
+
+#include "token/TrezorCrypto/TrezorCryptoToken.h"
+#include "token/ETH/JubiterBaseETHImpl.h"
+
 
 namespace jub {
 namespace token {
@@ -11,9 +14,14 @@ class TrezorCryptoETHImpl :
 virtual public JubiterBaseETHImpl {
 
 public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
+        return std::make_shared<TrezorCryptoETHImpl>(XPRVorXPUB);
+    }
+
     TrezorCryptoETHImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoToken(XPRVorXPUB) {};
-    ~TrezorCryptoETHImpl() {};
+        TrezorCryptoToken(XPRVorXPUB) {}
+    ~TrezorCryptoETHImpl() {}
 
     //ETH functions
     virtual JUB_RV SelectApplet();
@@ -36,6 +44,14 @@ public:
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
+    virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+                                  const std::vector<JUB_BYTE>& vPath,
+                                  const std::vector<JUB_BYTE>& vChainID,
+                                  std::vector<JUB_BYTE>& signatureRaw);
+    virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
+                                    const std::string& path,
+                                    const std::vector<JUB_BYTE>& vTypedData,
+                                    const std::vector<JUB_BYTE>& vSignature);
 }; // class TrezorCryptoETHImpl end
 
 

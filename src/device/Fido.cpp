@@ -65,7 +65,7 @@ unsigned int Fido::clear() {
 int Fido::RecvCallBack(unsigned long devHandle,
                        unsigned char *data,
                        unsigned int dataLen) {
-    DEBUG_LOG("recv data: %s\n", jub::ByteArray2String(data, dataLen).c_str());
+    DEBUG_LOG("FIDO recv data: %s\n", jub::ByteArray2String(data, dataLen).c_str());
 
     // todo: There is an upper-level data null pointer in ios that causes crashes,
     //       It is necessary to handle null pointer judgments in the communication library.
@@ -108,14 +108,14 @@ int Fido::RecvCallBack(unsigned long devHandle,
     fido.mRecvMsg.insert(fido.mRecvMsg.end(), data, data + dataLen);
     auto status = fido.checkResponse();
     switch (status) {
-        case ResponseStatus::empty:
-        case ResponseStatus::receiving:
-            break;
-        case ResponseStatus::done:
-        case ResponseStatus::invalid:
-            // notification have error
-            fido.stopReceiving();
-            break;
+    case ResponseStatus::empty:
+    case ResponseStatus::receiving:
+        break;
+    case ResponseStatus::done:
+    case ResponseStatus::invalid:
+        // notification have error
+        fido.stopReceiving();
+        break;
     } // switch (status) end
 
     return 0;

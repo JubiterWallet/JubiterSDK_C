@@ -48,11 +48,11 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf) {
 }
 
 /*****************************************************************************
-* @function name : JUB_FreeMemory
-* @in  param : memPtr
-* @out param :
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_FreeMemory
+ * @in  param : memPtr
+ * @out param :
+ * @last change :
+ *****************************************************************************/
 JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -71,11 +71,11 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
 }
 
 /*****************************************************************************
-* @function name : JUB_ClearContext
-* @in  param : contextID - context ID
-* @out param :
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_ClearContext
+ * @in  param : contextID - context ID
+ * @out param :
+ * @last change :
+ *****************************************************************************/
 JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -85,11 +85,11 @@ JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID) {
 }
 
 /*****************************************************************************
-* @function name : JUB_ShowVirtualPwd
-* @in  param : contextID - context ID
-* @out param :
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_ShowVirtualPwd
+ * @in  param : contextID - context ID
+ * @out param :
+ * @last change :
+ *****************************************************************************/
 JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -102,11 +102,11 @@ JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID) {
 }
 
 /*****************************************************************************
-* @function name : JUB_CancelVirtualPwd
-* @in  param : contextID - context ID
-* @out param :
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_CancelVirtualPwd
+ * @in  param : contextID - context ID
+ * @out param :
+ * @last change :
+ *****************************************************************************/
 JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -119,12 +119,12 @@ JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID) {
 }
 
 /*****************************************************************************
-* @function name : JUB_VerifyPIN
-* @in  param : contextID - context ID
-*            : pinMix
-* @out param : retry
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_VerifyPIN
+ * @in  param : contextID - context ID
+ *          : pinMix
+ * @out param : retry
+ * @last change :
+ *****************************************************************************/
 JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
                      IN JUB_CHAR_CPTR pinMix,
                      OUT JUB_ULONG_PTR pretry) {
@@ -139,11 +139,11 @@ JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
-* @function name : JUB_GetVersion
-* @in  param :
-* @out param :
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_GetVersion
+ * @in  param :
+ * @out param :
+ * @last change :
+ *****************************************************************************/
 JUB_CHAR_PTR JUB_GetVersion(void) {
 
 	std::string monthes[] = {

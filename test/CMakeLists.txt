@@ -2,13 +2,17 @@ cmake_minimum_required(VERSION 3.0.0)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/test/JUB_SDK_test)
 
+include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/deps/jsoncpp/include)
 include_directories(${CMAKE_SOURCE_DIR}/deps)
-include_directories(${CMAKE_SOURCE_DIR}/deps/libbitcoin)
 include_directories(${CMAKE_SOURCE_DIR}/deps/TrustWallet/wallet-core/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../gpc/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
 
 aux_source_directory(${CMAKE_SOURCE_DIR}/deps/jsoncpp/src/lib_json SRC_LIST)
+aux_source_directory(${CMAKE_SOURCE_DIR}/gpc/src SRC_LIST)
+aux_source_directory(${CMAKE_SOURCE_DIR}/trezor-crypto/src SRC_LIST)
 aux_source_directory(${CMAKE_SOURCE_DIR}/test/JUB_SDK_test SRC_LIST)
 if(APPLE)
 list(REMOVE_ITEM SRC_LIST "${CMAKE_SOURCE_DIR}/test/JUB_SDK_test/stdafx.h")

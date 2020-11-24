@@ -5,25 +5,20 @@
  */
 
 #include "JUB_CORE.h"
+
+#include "utility/util.h"
+#include "utility/mutex.h"
+
 #include <string>
 #include <TrezorCrypto/bip39.h>
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
-#include <utility/util.h>
-#include "utility/mutex.h"
-#include <TrustWalletCore/TWCoinType.h>
-#include <token/BTC/TrezorCryptoBTCImpl.h>
-#include <token/ETH/TrezorCryptoETHImpl.h>
-#include <token/HC/TrezorCryptoHCImpl.h>
-#include <token/EOS/TrezorCryptoEOSImpl.h>
-#include <token/XRP/TrezorCryptoXRPImpl.h>
-#include <context/BTCContext.h>
-#include <context/ETHContext.h>
-#include <context/HCContext.h>
-#include <context/EOSContext.h>
-#include <context/XRPContext.h>
 
-#include <context/ContextFactory.h>
+#include "context/BTCContextFactory.h"
+#include "context/HCContextFactory.h"
+#include "context/ETHContextFactory.h"
+#include "context/EOSContextFactory.h"
+#include "context/XRPContextFactory.h"
 
 
 //where to place...
@@ -32,22 +27,22 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 JUB_RV _curveToString(JUB_ENUM_CURVES enumCurve, std::string& strCurve) {
 
     switch(enumCurve) {
-        case secp256k1:
-            strCurve = SECP256K1_NAME;
-            return JUBR_OK;
-        case ed25519:
-            strCurve = ED25519_NAME;
-            return JUBR_OK;
-        case nist256p1:
-            strCurve = NIST256P1_NAME;
-            return JUBR_OK;
-        default:
-            return JUBR_ARGUMENTS_BAD;   
+    case JUB_ENUM_CURVES::SECP256K1:
+        strCurve = SECP256K1_NAME;
+        return JUBR_OK;
+    case JUB_ENUM_CURVES::ED25519:
+        strCurve = ED25519_NAME;
+        return JUBR_OK;
+    case JUB_ENUM_CURVES::NIST256P1:
+        strCurve = NIST256P1_NAME;
+        return JUBR_OK;
+    default:
+        return JUBR_ARGUMENTS_BAD;   
     }
 }
 
-JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
-                            OUT JUB_CHAR_PTR_PTR mnemonic) {
+JUB_RV JUB_GenerateMnemonic_soft(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
+                                 OUT JUB_CHAR_PTR_PTR mnemonic) {
 
     CREATE_THREAD_LOCK_GUARD
     JUB_CHAR _mnemonic[240] = {0,};
@@ -61,6 +56,7 @@ JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
 }
 
 JUB_RV JUB_CheckMnemonic(IN JUB_CHAR_CPTR mnemonic) {
+
     CREATE_THREAD_LOCK_GUARD
     if (0 == mnemonic_check(mnemonic)) {
         return JUBR_ERROR;
@@ -70,8 +66,10 @@ JUB_RV JUB_CheckMnemonic(IN JUB_CHAR_CPTR mnemonic) {
     }
 }
 
-JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, OUT JUB_BYTE seed[64],
-                        void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total)) {
+JUB_RV JUB_GenerateSeed_soft(IN JUB_CHAR_CPTR mnemonic,
+                             IN JUB_CHAR_CPTR passphrase,
+                             OUT JUB_BYTE seed[64],
+                             void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total)) {
 
     CREATE_THREAD_LOCK_GUARD
     JUB_CHECK_NULL(mnemonic);
@@ -80,8 +78,9 @@ JUB_RV JUB_GenerateSeed(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase, 
     return JUBR_OK;
 }
 
-JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len, IN JUB_ENUM_CURVES curve,
-                                  OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
+JUB_RV JUB_SeedToMasterPrivateKey_soft(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
+                                       IN JUB_ENUM_CURVES curve,
+                                       OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
 
     CREATE_THREAD_LOCK_GUARD
     JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin);
@@ -128,10 +127,13 @@ JUB_RV JUB_SeedToMasterPrivateKey(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
 JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
                                  IN JUB_CHAR_CPTR XPRVorXPUB,
                                  OUT JUB_UINT16* contextID) {
+
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, XPRVorXPUB);
     JUB_CHECK_NULL(context);
+
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }
 
@@ -140,20 +142,24 @@ JUB_RV JUB_CreateContextHC_soft(IN CONTEXT_CONFIG_HC cfg,
                                 OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::TrezorCryptoHCImpl>(std::string(masterPriInXPRV));
-    jub::context::HCContext* context = new jub::context::HCContext(cfg, token);
+    auto context = jub::context::HCseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
     JUB_CHECK_NULL(context);
+
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }
 
 JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID) {
+
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::TrezorCryptoETHImpl>(std::string(masterPriInXPRV));
-    jub::context::ETHContext* context = new jub::context::ETHContext(cfg, token);
+    auto context = jub::context::ETHseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
+    JUB_CHECK_NULL(context);
+
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }
 
@@ -162,10 +168,11 @@ JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
                                  OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::TrezorCryptoEOSImpl>(std::string(masterPriInXPRV));
-    jub::context::EOSContext* context = new jub::context::EOSContext(cfg, token);
+    auto context = jub::context::EOSseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
     JUB_CHECK_NULL(context);
+
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }
 
@@ -174,10 +181,10 @@ JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
                                  OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::TrezorCryptoXRPImpl>(std::string(masterPriInXPRV));
-
-    jub::context::XRPContext* context = new jub::context::XRPContext(cfg, token);
+    auto context = jub::context::XRPseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
     JUB_CHECK_NULL(context);
+
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
     return JUBR_OK;
 }

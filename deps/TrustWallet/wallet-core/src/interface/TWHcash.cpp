@@ -4,9 +4,10 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include <TrustWalletCore/TWHcash.h>
+#include <TrustWalletCore/TWHcashSigHashType.h>
+#include "../Bitcoin/SigHashTypeHcash.h"
 
 // JuBiter-defined
-bool SigHashIsAll(uint32_t type) {
-    return (type & 0x1f) == SigHashAll;
+bool TWHcashSigHashTypeIsAll(enum TWHcashSigHashType type) {
+    return TW::Bitcoin::hashTypeIsAll(type);
 }

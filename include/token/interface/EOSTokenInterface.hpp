@@ -13,9 +13,10 @@
 #include "EOS/Prefixes.h"
 
 #include <vector>
-#include <token/interface/BaseToken.h>
+#include "token/interface/BaseToken.h"
 #include <nlohmann/json.hpp>
-#include <mSIGNA/stdutils/uchar_vector.h>
+#include "mSIGNA/stdutils/uchar_vector.h"
+
 
 namespace jub {
 namespace token {
@@ -27,7 +28,7 @@ public:
     virtual ~EOSTokenInterface() = default;
 
     virtual JUB_RV SelectApplet() = 0;
-    virtual JUB_RV SetCoinType() = 0;
+    virtual JUB_RV SetCoin() = 0;
     virtual JUB_RV GetAddress(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
     virtual JUB_RV SignTX(const TW::EOS::Type& type,

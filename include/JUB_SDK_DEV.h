@@ -27,7 +27,7 @@
 #define JUBR_BT_BOND_FAILED         0x00001005
 
 
-//token errors								 
+//token errors
 #define JUBR_UNKNOWN_COS_ERROR				 0x40000000UL
 #define JUBR_NOT_FOUND_MASTER_KEY_TYPE       0x40006401UL
 #define JUBR_NOT_FOUND_ECC_KEY_TYPE          0x40006402UL
@@ -97,6 +97,54 @@ typedef struct stDevicdInfo {
 } JUB_DEVICE_INFO;
 typedef JUB_DEVICE_INFO* JUB_DEVICE_INFO_PTR;
 // Remove c++ features for swift framework end
+
+typedef enum {
+    STRENGTH128 = 128,
+    STRENGTH192 = 192,
+    STRENGTH256 = 256
+} JUB_ENUM_MNEMONIC_STRENGTH;
+
+// The definition is the same as the COS definition
+typedef enum {
+    SECP256K1 = 0,
+    NIST256P1,
+    ED25519
+} JUB_ENUM_CURVES;
+
+// Remove c++ features for swift framework
+typedef enum {
+    SWI = 0x00, // Software Implementation
+    HID = 0x01,
+    BLE = 0x02,
+    NFC = 0x03,
+    COMMODE_NS_ITEM
+} JUB_ENUM_COMMODE;
+typedef JUB_ENUM_COMMODE* JUB_ENUM_COMMODE_PTR;
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+typedef enum {
+    VD = 0x00,  // Virtual Device
+    BLADE,
+    BIO,
+    LITE,
+    DEVICE_NS_ITEM
+} JUB_ENUM_DEVICE;
+typedef JUB_ENUM_DEVICE* JUB_ENUM_DEVICE_PTR;
+// Remove c++ features for swift framework end
+
+
+/*****************************************************************************
+ * @function name : JUB_GetDeviceType
+ * @in  param : deviceID - device ID
+ * @out param : commode - device communication mode
+ *           : deviceClass - device class
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetDeviceType(IN JUB_UINT16 deviceID,
+                         OUT JUB_ENUM_COMMODE_PTR commode, OUT JUB_ENUM_DEVICE_PTR deviceClass);
+
 
 /*****************************************************************************
  * @function name : JUB_GetDeviceInfo
@@ -169,13 +217,13 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
                        OUT JUB_CHAR_PTR_PTR appList);
 
 /*****************************************************************************
- * @function name : Jub_EnumSupportCoins
+ * @function name : JUB_EnumSupportCoins
  * @in  param : deviceID - device ID
  * @out param : coinsList - coin list
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID,
+JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR coinsList);
 
 /*****************************************************************************

@@ -11,16 +11,17 @@
 
 #include "utility/Singleton.h"
 #include "utility/xManager.hpp"
-#include <token/interface/BaseToken.h>
-#include <token/interface/SoftwareTokenInterface.h>
+
+#include "token/interface/BaseToken.h"
+#include "token/interface/SoftwareTokenInterface.h"
 
 namespace jub {
 namespace context {
 #define CONTEXT_CHECK_TYPE(t)                                                   \
 do {                                                                            \
     auto token = std::dynamic_pointer_cast<token::SoftwareToken>(_tokenPtr);    \
-    if(token != nullptr){                                                       \
-        if(token->Type() < t){                                                  \
+    if(token != nullptr) {                                                      \
+        if(token->Type() < t) {                                                 \
             return JUBR_CONTEXT_NOT_SATISFIED;                                  \
         }                                                                       \
     }                                                                           \
@@ -32,14 +33,15 @@ do {                                                                            
 
 class BaseContext {
 public:
-    BaseContext(std::shared_ptr<token::BaseToken> tokenPtr) :_tokenPtr(tokenPtr) {};
-    virtual ~BaseContext() {};
+    BaseContext(std::shared_ptr<token::BaseToken> tokenPtr) :_tokenPtr(tokenPtr) {}
+    virtual ~BaseContext() {}
 
     virtual JUB_RV ShowVirtualPwd();
     virtual JUB_RV CancelVirtualPwd();
     virtual JUB_RV VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry);
     virtual JUB_RV ActiveSelf() = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout);
+    virtual JUB_RV VerifyFingerprint(OUT JUB_ULONG &retry);
 
 protected:
     std::string _mainPath;
@@ -59,10 +61,8 @@ public:
     T* GetOneSafe(JUB_UINT16 ID) {
 		BaseContext* pContext= GetOne(ID);
 		T* t = dynamic_cast<T*>(pContext); 
-		if (t != nullptr)
-		{
-			if (_last != pContext)
-			{
+		if (t != nullptr) {
+			if (_last != pContext) {
 				pContext->ActiveSelf();
 				_last = pContext;
 			}

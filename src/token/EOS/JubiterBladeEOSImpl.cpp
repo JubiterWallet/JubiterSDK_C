@@ -1,27 +1,19 @@
-#include <token/EOS/JubiterBladeEOSImpl.h>
-#include <utility/util.h>
+#include "token/EOS/JubiterBladeEOSImpl.h"
+#include "utility/util.h"
 
-#include "EOS/Transaction.h"
-#include <token/ErrorHandler.h>
+#include <EOS/Transaction.h>
+#include "token/ErrorHandler.h"
 
 namespace jub {
 namespace token {
 
 
-typedef enum class enumCoinTypeMisc {
-    COIN = 0x00,
-    COINEOS = 0x01,
-    COINXRP = 0x02,
-    Default = COIN
-} JUB_ENUM_COINTYPE_MISC;
-
-
 #define SWITCH_TO_EOS_APP                           \
 do {				                                \
-    if (JUBR_OK == _SelectApp(kPKIAID_MISC, 16)) {  \
+    if (JUBR_OK == _SelectApp(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE))) {  \
         break;                                      \
     }                                               \
-    if (JUBR_OK == _SelectApp(kPKIAID_EOS, 16)) {   \
+    if (JUBR_OK == _SelectApp(kPKIAID_EOS, sizeof(kPKIAID_EOS)/sizeof(JUB_BYTE))) {   \
         return JUBR_EOS_APP_INDEP_OK;               \
     }                                               \
 } while (0);                                        \
@@ -35,9 +27,9 @@ JUB_RV JubiterBladeEOSImpl::SelectApplet() {
 
 
 //MISC functions
-JUB_RV JubiterBladeEOSImpl::SetCoinType() {
+JUB_RV JubiterBladeEOSImpl::SetCoin() {
 
-    APDU apdu(0x00, 0xf5, (JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINEOS, 0x00, 0x00);
+    APDU apdu(0x00, 0xF5, (JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINEOS, 0x00, 0x00);
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     if (   0x9000 == ret
@@ -55,7 +47,7 @@ JUB_RV JubiterBladeEOSImpl::GetAddress(const TW::EOS::Type& type, const std::str
     uchar_vector vPath;
     vPath << path;
 
-    uchar_vector apduData = ToTlv(0x08, vPath);
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
     JUB_BYTE p1 = (JUB_BYTE)tag;
     JUB_BYTE eosType = 0x00;
     switch (type) {
@@ -78,7 +70,7 @@ JUB_RV JubiterBladeEOSImpl::GetAddress(const TW::EOS::Type& type, const std::str
         return JUBR_IMPL_NOT_SUPPORT;
     } // switch (type) end
 
-    APDU apdu(0x00, 0xf6, p1, eosType, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xF6, p1, eosType, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -96,7 +88,7 @@ JUB_RV JubiterBladeEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     //path = "m/44'/194'/0'";
     uchar_vector vPath;
     vPath << path;
-    uchar_vector apduData = ToTlv(0x08, vPath);
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
 
     //0x00 for hex
     if (JUB_ENUM_PUB_FORMAT::HEX != format
@@ -104,7 +96,7 @@ JUB_RV JubiterBladeEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& 
         return JUBR_ERROR_ARGS;
     }
 
-    APDU apdu(0x00, 0xe6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
+    APDU apdu(0x00, 0xE6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -137,7 +129,7 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
         pathLV << (JUB_BYTE)(vPath.size());
         pathLV << vPath;
         uchar_vector pathTLV;
-        pathTLV << ToTlv(0x08, pathLV);
+        pathTLV << ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, pathLV);
         total += pathTLV.size();
 
         // chainID
@@ -166,7 +158,7 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
 
         // maxNetUsageWords
         uchar_vector vMaxNetUsageWords;
-        TW::Bravo::encodeVarInt32(tx.maxNetUsageWords, vMaxNetUsageWords);
+        TW::EOS::encodeVarInt32(tx.maxNetUsageWords, vMaxNetUsageWords);
         uchar_vector maxNetUsageWordsLV;
         maxNetUsageWordsLV << (JUB_BYTE)vMaxNetUsageWords.size();
         maxNetUsageWordsLV << vMaxNetUsageWords;
@@ -174,7 +166,7 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
 
         // delaySeconds
         uchar_vector vDelaySeconds;
-        TW::Bravo::encodeVarInt32(tx.delaySeconds, vDelaySeconds);
+        TW::EOS::encodeVarInt32(tx.delaySeconds, vDelaySeconds);
         uchar_vector delaySecondsLV;
         delaySecondsLV << (JUB_BYTE)vDelaySeconds.size();
         delaySecondsLV << vDelaySeconds;
@@ -182,7 +174,7 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
 
         // contextFreeActions
         uchar_vector vContextFreeActions;
-        TW::Bravo::encodeCollection(tx.contextFreeActions, vContextFreeActions);
+        encodeCollection(tx.contextFreeActions, vContextFreeActions);
         uchar_vector contextFreeActionsTLV;
         contextFreeActionsTLV << ToTlv(0x01, vContextFreeActions);
         total += contextFreeActionsTLV.size();
@@ -207,13 +199,13 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
                 memoOffset += actionOffset;
                 memoLength = txAction.memoLength();
                 break;
-            }
+            }   // case JUB_ENUM_EOS_ACTION_TYPE::XFER end
             case JUB_ENUM_EOS_ACTION_TYPE::DELE:
             case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
             case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
             default:
                 break;
-            }
+            }   // switch ((JUB_ENUM_EOS_ACTION_TYPE)action.getType()) end
 
             // data offset
             uchar_vector vOffset;
@@ -243,14 +235,14 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
 
         // actions
         uchar_vector vActions;
-        TW::Bravo::encodeCollection(tx.actions, vActions);
+        encodeCollection(tx.actions, vActions);
         uchar_vector actionsTLV;
         actionsTLV << ToTlv(0x03, vActions);
         total += actionsTLV.size();
 
         // transactionExtensions
         uchar_vector vTransactionExtensions;
-        TW::Bravo::encodeCollection(tx.transactionExtensions, vTransactionExtensions);
+        encodeCollection(tx.transactionExtensions, vTransactionExtensions);
         uchar_vector transactionExtensionsTLV;
         transactionExtensionsTLV << ToTlv(0x04, vTransactionExtensions);
         total += transactionExtensionsTLV.size();
@@ -320,7 +312,7 @@ JUB_RV JubiterBladeEOSImpl::SignTX(const TW::EOS::Type& type,
         //  sign transactions
         JUB_BYTE retData[2048] = { 0, };
         JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-        apdu.SetApdu(0x00, 0x2A, 0x00, 0x00, 0);
+        apdu.SetApdu(0x00, JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A, 0x00, 0x00, 0);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         if (0x6f09 == ret) {
             return JUBR_USER_CANCEL;

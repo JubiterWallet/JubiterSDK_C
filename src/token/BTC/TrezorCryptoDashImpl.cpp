@@ -1,4 +1,4 @@
-#include <token/BTC/TrezorCryptoDashImpl.h>
+#include "token/BTC/TrezorCryptoDashImpl.h"
 
 namespace jub {
 namespace token {

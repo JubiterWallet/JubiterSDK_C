@@ -1,8 +1,8 @@
 #pragma once
-#include <token/interface/BTCTokenInterface.hpp>
-#include <token/BTC/JubiterBaseBTCImpl.h>
-#include "Bitcoin/TransactionHcash.h"
-#include <TrustWalletCore/TWHcash.h>
+#include "token/interface/BTCTokenInterface.hpp"
+#include "token/BTC/JubiterBaseBTCImpl.h"
+#include <Bitcoin/TransactionHcash.h>
+#include <TrustWalletCore/TWHcashSigHashType.h>
 
 namespace jub {
 namespace token {
@@ -12,11 +12,12 @@ virtual public JubiterBaseBTCImpl {
 public:
     JubiterBaseHCImpl() :
         JubiterBaseBTCImpl() {
-        _coin = TWCoinType::TWCoinTypeHcash;
-        _curve_name = (char*)SECP256K1_HCASH_NAME;
+            _coin = TWCoinType::TWCoinTypeHcash;
+            _curve_name = (char*)SECP256K1_HCASH_NAME;
     };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                       const JUB_UINT32 version,
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,
@@ -28,7 +29,7 @@ public:
                             const std::vector<TW::Data>& vInputPublicKey) override;
 
 protected:
-    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address) override;
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address) override;
 
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,

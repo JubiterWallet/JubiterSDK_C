@@ -1,10 +1,12 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
 #include <TrustWalletCore/TWCoinType.h>
+#include <TrustWalletCore/TWP2PKHPrefix.h>
+#include <TrustWalletCore/TWP2SHPrefix.h>
 #include <TrustWalletCore/TWHDVersion.h>
 
 //#include "../Coin.h"
@@ -58,21 +60,20 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
-        prefix = 0x00;
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixBitcoin;
         break;
     case TWCoinTypeLitecoin:
-        prefix = 0x30;
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixLitecoin;
         break;
     case TWCoinTypeQtum:
-        prefix = 0x3a;
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixQtum;
         break;
     case TWCoinTypeDash:
-        prefix = 0x4c;
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixDash;
         break;
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
@@ -135,21 +136,22 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
 
     switch (coin) {
     case TWCoinTypeBitcoin:
-    case TWCoinTypeBitcoinCash:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
-        prefix = 0x05;
+        prefix = TWP2SHPrefix::TWP2SHPrefixBitcoin;
+        break;
+    case TWCoinTypeBitcoinCash:
+        prefix = TWP2SHPrefix::TWP2SHPrefixBitcoinCash;
         break;
     case TWCoinTypeLitecoin:
     case TWCoinTypeQtum:
-        prefix = 0x32;
+        prefix = TWP2SHPrefix::TWP2SHPrefixLitecoin;
         break;
     case TWCoinTypeDash:
-        prefix = 0x10;
+        prefix = TWP2SHPrefix::TWP2SHPrefixDash;
         break;
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
@@ -213,7 +215,6 @@ std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin) {
     switch (coin) {
     case TWCoinTypeHcash:
         prefix = {0x09, 0x7f};  //MainNetID
-//        prefix = {0x0f, 0x21};  //TestNetID
         break;
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
@@ -222,7 +223,6 @@ std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin) {
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
@@ -304,7 +304,6 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:
@@ -381,7 +380,6 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeAeternity:
     case TWCoinTypeAion:
     case TWCoinTypeBinance:
-    case TWCoinTypeBravoCoin:
     case TWCoinTypeCallisto:
     case TWCoinTypeCardano:
     case TWCoinTypeCosmos:

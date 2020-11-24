@@ -1,6 +1,6 @@
-#include <token/BTC/TrezorCryptoBTCImpl.h>
+#include "token/BTC/TrezorCryptoBTCImpl.h"
 #include <TrezorCrypto/curves.h>
-#include <HDKey/HDKey.hpp>
+#include "HDKey/HDKey.hpp"
 #include "utility/util.h"
 #include <Bitcoin/Script.h>
 #include <Base58Address.h>
@@ -68,7 +68,7 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
 //    case p2sh_p2wsh_multisig:
     default:
         rv = JUBR_ARGUMENTS_BAD;
-    }
+    }   // switch (type) end
 
     return rv;
 }
@@ -80,7 +80,7 @@ JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 }
 
 
-JUB_RV TrezorCryptoBTCImpl::SetCoinType(const JUB_ENUM_COINTYPE_BTC& type) {
+JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
 
     return JUBR_OK;
 }
@@ -173,7 +173,7 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         }
 
         const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
-        TW::Data digest = tx.hasher(begin, begin+preImage.size());
+        TW::Data digest = tx.hasher(begin, preImage.size());
         TW::Data sign = twprvk.signAsDER(digest, curveName2TWCurve(_curve_name));
         TW::Data signature = pushAll(sign);
         if (!twpk.verifyAsDER(signature, digest)) {

@@ -1,20 +1,21 @@
 #pragma once
 #include <string>
-#include <token/interface/SoftwareTokenInterface.h>
+#include "token/interface/SoftwareTokenInterface.h"
 #include <TrezorCrypto/bip32.h>
-#include <JUB_SDK_COMM.h>
 #include <string.h>
 #include <HDKey/HDKey.hpp>
+
 
 namespace jub {
 namespace token {
 
 
 class TrezorCryptoToken :
-    public SoftwareToken {
+   public SoftwareToken {
 
 public:
     TrezorCryptoToken(const std::string& XPRVorXPUB) {
+
         //master key only support xpub and xprv encoding
         //if some coin didn't match this code , it may "override" it's constructrue.
         JUB_UINT32 xpubPrefix = TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin);
@@ -39,7 +40,7 @@ public:
             if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, xpubPrefix, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
                 _type = JUB_SoftwareTokenType::NONE;
                 return;
-            }   
+            }
 
             _MasterKey_XPRV = XPRVorXPUB;
             _MasterKey_XPUB = _pk;
@@ -54,9 +55,11 @@ public:
         }
 
         _type = JUB_SoftwareTokenType::NONE;
+
         return;
-    };
-    ~TrezorCryptoToken() {};
+    }
+    ~TrezorCryptoToken() {}
+
 
     virtual JUB_RV _HdnodeCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint) {
         if(JUB_SoftwareTokenType::PRIVATE == _type) {
@@ -66,8 +69,10 @@ public:
         if(JUB_SoftwareTokenType::PUBLIC == _type) {
             return hdnode_pub_ckd(_MasterKey_XPUB, path, _curve_name, TWCoinType2HDVersionPublic(_coin),  TWCoinType2HDVersionPrivate(_coin), node, parentFingerprint);
         }
+
         return JUBR_ERROR;
     }
+
 
 protected:
     std::string _MasterKey_XPRV{""};

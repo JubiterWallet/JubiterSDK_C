@@ -1,4 +1,4 @@
-add_library(TrezorCrypto STATIC
+add_library(TrezorCrypto
     src/bignum.c src/ecdsa.c src/curves.c src/secp256k1.c src/rand.c src/hmac.c src/bip32.c src/bip39.c src/pbkdf2.c src/base58.c src/base32.c
     src/address.c
     src/script.c
@@ -28,18 +28,19 @@ add_library(TrezorCrypto STATIC
     src/nist256p1.c
     src/groestl.c
     src/schnorr.c
+    src/cmac.c
 )
 
 target_compile_options(TrezorCrypto
     PRIVATE
-        #-W
+        -W
         -Wall
         -Wextra
         -Wimplicit-function-declaration
         -Wredundant-decls
         -Wstrict-prototypes
         -Wundef
-        #-Wshadow
+        -Wshadow
         -Wpointer-arith
         -Wformat
         -Wreturn-type
@@ -49,7 +50,7 @@ target_compile_options(TrezorCrypto
         -Winit-self
         -Wuninitialized
         -Wformat-security
-        #-Werror
+        -Werror
 )
 
 target_include_directories(TrezorCrypto
@@ -59,3 +60,7 @@ target_include_directories(TrezorCrypto
     PRIVATE
         src
 )
+
+#if(NOT ANDROID AND NOT IOS_PLATFORM)
+#    add_subdirectory(tests)
+#endif()

@@ -19,8 +19,8 @@
 #include "utility/xManager.hpp"
 
 #include "context/BaseContext.h"
+#include "token/interface/BaseToken.h"
 #include "EOS/Prefixes.h"
-#include <token/interface/EOSTokenInterface.hpp>
 
 
 namespace jub {
@@ -39,13 +39,18 @@ const std::string chainIds[] = {
 class EOSContext :
     public BaseContext {
 public:
-    EOSContext(CONTEXT_CONFIG_EOS cfg, std::shared_ptr<token::EOSTokenInterface> tokenPtr) :
-        BaseContext(std::dynamic_pointer_cast<token::BaseToken>(tokenPtr)),
-        _tokenPtr(tokenPtr) {
-        _mainPath = cfg.mainPath;
-        _timeout = 120 * 2;
-    };
-    ~EOSContext() {};
+    //for Factory
+    static EOSContext* Create(const CONTEXT_CONFIG_EOS& cfg,
+                              std::shared_ptr<token::BaseToken> tokenPtr) {
+        return new EOSContext(cfg, tokenPtr);
+    }
+
+    EOSContext(CONTEXT_CONFIG_EOS cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
+        BaseContext(tokenPtr) {
+            _mainPath = cfg.mainPath;
+            _timeout = 120 * 2;
+    }
+    ~EOSContext() {}
 
     virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
@@ -79,8 +84,6 @@ public:
 
 private:
     TW::EOS::Type _eosType{ TW::EOS::Type::Legacy };
-
-    std::shared_ptr<token::EOSTokenInterface> _tokenPtr;
 }; // class EOSContext end
 
 

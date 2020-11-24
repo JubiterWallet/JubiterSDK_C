@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -84,7 +84,7 @@ Signer::sign(const Data& chainID, const PrivateKey& privateKey, const Data& hash
 //    return protoOutput;
 //}
 //
-void Signer::sign(const PrivateKey& privateKey, Transaction& transaction) const noexcept {
+void Signer::sign(const PrivateKey &privateKey, Transaction &transaction) const noexcept {
     auto hash = this->hash(transaction);
     auto tuple = Signer::sign(chainID, privateKey, hash);
 
@@ -102,7 +102,25 @@ bool Signer::verify(const PublicKey& publicKey, Transaction& transaction) const 
     return publicKey.verify(signature, this->hash(transaction));
 }
 
-Data Signer::hash(const Transaction& transaction) const noexcept {
+// JuBiter-defined
+bool Signer::verify(const Data chainID, const PublicKey& publicKey, Transaction& transaction) const noexcept {
+    Data signature;
+    std::copy(transaction.r.begin(), transaction.r.end(), std::back_inserter(signature));
+    std::copy(transaction.s.begin(), transaction.s.end(), std::back_inserter(signature));
+    std::copy(transaction.v.begin(), transaction.v.end(), std::back_inserter(signature));
+
+    int v = signature[signature.size()-1];
+    if (0 != chainID.size()) {
+        v -= (35 + chainID[0] + chainID[0]);
+    }
+    else {
+        v += 27;
+    }
+
+    return publicKey.verify(signature, this->hash(transaction), v);
+}
+
+Data Signer::hash(const Transaction &transaction) const noexcept {
     auto encoded = Data();
     append(encoded, RLP::encode(transaction.nonce));
     append(encoded, RLP::encode(transaction.gasPrice));
@@ -115,4 +133,49 @@ Data Signer::hash(const Transaction& transaction) const noexcept {
     append(encoded, RLP::encode(Data{0}));
     append(encoded, RLP::encode(Data{0}));
     return Hash::keccak256(RLP::encodeList(encoded));
+}
+
+// JuBiter-defined
+void Signer::sign(const PrivateKey &privateKey, const Data& bytestring, Data& signature) const noexcept {
+    auto hash = this->hash(bytestring);
+    auto tuple = Signer::sign(chainID, privateKey, hash);
+
+    signature.clear();
+    // r
+    std::copy(std::get<0>(tuple).begin(), std::get<0>(tuple).end(), std::back_inserter(signature));
+    // s
+    std::copy(std::get<1>(tuple).begin(), std::get<1>(tuple).end(), std::back_inserter(signature));
+    // v
+    std::copy(std::get<2>(tuple).begin(), std::get<2>(tuple).end(), std::back_inserter(signature));
+}
+
+// JuBiter-defined
+bool Signer::verify(const Data chainID, const PublicKey& publicKey, const Data& bytestring, const Data& signature) const noexcept {
+
+    int v = signature[signature.size()-1];
+    if (0 != chainID.size()) {
+        v -= (35 + chainID[0] + chainID[0]);
+    }
+    else {
+        v += 27;
+    }
+
+    return publicKey.verify(signature, this->hash(bytestring), v);
+}
+
+// JuBiter-defined
+/// Computes the bytestring hash.
+Data Signer::hash(const Data &bytestring) const noexcept {
+    auto encoded = Data();
+
+    // encode(b : 𝔹⁸ⁿ) = "\x19Ethereum Signed Message:\n" ‖ len(b) ‖ b where len(b) is the ascii-decimal encoding of the number of bytes in b.
+    std::string pr = "Ethereum Signed Message:\n";
+
+    encoded.push_back(0x19);
+    std::copy(pr.begin(), pr.end(), std::back_inserter(encoded));
+    auto sz = std::to_string(bytestring.size());
+    std::copy(sz.begin(), sz.end(), std::back_inserter(encoded));
+    std::copy(bytestring.begin(), bytestring.end(), std::back_inserter(encoded));
+
+    return Hash::keccak256(encoded);
 }

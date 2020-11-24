@@ -4,6 +4,19 @@
 namespace jub {
 
 /*
+* Convert character array to string in C++
+*/
+std::string convertToString(char* a, int size) {
+    int i;
+    std::string s = "";
+    for (i = 0; i < size; i++) {
+        s = s + a[i];
+    }
+
+    return s;
+}
+
+/*
  * String splitting function
 */
 std::vector<std::string> Split(std::string str, std::string pattern) {
@@ -233,6 +246,7 @@ bool StripPKCSPadding(TW::Data &data, unsigned long block_size) {
     return true;
 }
 */
+
 std::vector<TW::Data> ParseTlv(const TW::Data &data) {
     std::vector<TW::Data> dataList;
 
@@ -268,6 +282,7 @@ std::vector<TW::Data> ParseTlv(const TW::Data &data) {
     return dataList;
 }
 
+
 TW::Data ToTlv(uint8_t tag, const TW::Data &data) {
 
     TW::Data tlvData;
@@ -293,6 +308,7 @@ TW::Data ToTlv(uint8_t tag, const TW::Data &data) {
     return tlvData;
 }
 
+
 TW::Data Tollv(const std::string& strData) {
 
     TW::Data vData;
@@ -311,5 +327,26 @@ TW::Data Tollv(const std::string& strData) {
     llvData.insert(llvData.end(), vData.begin(), vData.end());
 
     return llvData;
+}
+
+
+// function to convert decimal to binary
+void decToBinary(uint8_t n, std::vector<uint8_t> &v) {
+    // array to store binary number
+    uint8_t binaryNum[8*8] = {0x00,};
+
+    // counter for binary array
+    int i = 0;
+    while (n > 0) {
+        // storing remainder in binary array
+        binaryNum[i] = n % 2;
+        n = n / 2;
+        i++;
+    }
+
+    // printing binary array in order
+    for (int8_t j=0; j<i; ++j) {
+        v.push_back(binaryNum[j]);
+    }
 }
 } // namespace jub end

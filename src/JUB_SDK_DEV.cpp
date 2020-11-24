@@ -14,8 +14,9 @@
 #include "utility/mutex.h"
 #include "utility/Singleton.h"
 
-#include <token/JubiterBlade/JubiterBladeToken.h>
-#include <context/BaseContext.h>
+#include "context/BaseContext.h"
+#include "product/ProductFactory.h"
+
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -30,6 +31,25 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 //}
 // Remove c++ features for swift framework
 
+
+/*****************************************************************************
+ * @function name : JUB_GetDeviceType
+ * @in  param : deviceID - device ID
+ * @out param : commode - device communication mode
+ *           : deviceClass - device class
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetDeviceType(IN JUB_UINT16 deviceID,
+                         OUT JUB_ENUM_COMMODE_PTR commode, OUT JUB_ENUM_DEVICE_PTR deviceClass) {
+
+    CREATE_THREAD_LOCK_GUARD
+
+    return jub::product::xProductFactory::GetDeviceType(deviceID,
+                                                        commode, deviceClass);
+}
+
+
 /*****************************************************************************
  * @function name : JUB_GetDeviceInfo
  * @in  param : deviceID - device ID
@@ -40,18 +60,24 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
                          OUT JUB_DEVICE_INFO_PTR info) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
 
-    /*
-     JUB_VERIFY_RV(token->getPinRetry(info.pinRetry));
-     JUB_VERIFY_RV(token->getPinMaxRetry(info.pinMaxRetry));
-     JUB_VERIFY_RV(token->getSN(sn));
-     JUB_VERIFY_RV(token->getLabel(label));*/
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+/*
+    JUB_VERIFY_RV(token->getPinRetry(info.pinRetry));
+    JUB_VERIFY_RV(token->getPinMaxRetry(info.pinMaxRetry));
+    JUB_VERIFY_RV(token->getSN(sn));
+    JUB_VERIFY_RV(token->getLabel(label));*/
 
     // Let's go to the main security domain,
     // instead of judging the return value,
     // to get the data back
-    token->IsBootLoader();
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_BYTE sn[24] = {0,};
     JUB_BYTE label[32] = {0,};
@@ -74,8 +100,12 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     memcpy(info->bleVersion, bleVersion, sizeof(bleVersion)/sizeof(JUB_BYTE));
     memcpy(info->firmwareVersion, fwVersion, sizeof(fwVersion)/sizeof(JUB_BYTE));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_IsInitialize
@@ -86,10 +116,22 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
 JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (!device) {
+        return JUB_ENUM_BOOL::BOOL_FALSE;
+    }
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUB_ENUM_BOOL::BOOL_FALSE;
+    }
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return (JUB_ENUM_BOOL)token->IsInitialize();
 }
+
 
 /*****************************************************************************
  * @function name : JUB_IsBootLoader
@@ -100,12 +142,21 @@ JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID) {
 JUB_ENUM_BOOL JUB_IsBootLoader(IN JUB_UINT16 deviceID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (!device) {
+        return JUB_ENUM_BOOL::BOOL_FALSE;
+    }
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUB_ENUM_BOOL::BOOL_FALSE;
+    }
 
     jub::context::ContextManager::GetInstance()->ClearLast();
 
     return (JUB_ENUM_BOOL)token->IsBootLoader();
 }
+
 
 /*****************************************************************************
  * @function name : JUB_EnumApplets
@@ -117,33 +168,63 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
                        OUT JUB_CHAR_PTR_PTR appList) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string appletList;
     JUB_VERIFY_RV(token->EnumApplet(appletList));
     JUB_VERIFY_RV(_allocMem(appList, appletList));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
- * @function name : Jub_EnumSupportCoins
+ * @function name : JUB_EnumSupportCoins
  * @in  param : deviceID - device ID
  * @out param : coinsList - coin list
  * @last change :
  *****************************************************************************/
-JUB_RV Jub_EnumSupportCoins(IN JUB_UINT16 deviceID,
+JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR coinsList) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_coinsList;
     JUB_VERIFY_RV(token->EnumSupportCoins(str_coinsList));
     JUB_VERIFY_RV(_allocMem(coinsList, str_coinsList));
 
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_GetAppletVersion
@@ -157,14 +238,89 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
                             OUT JUB_CHAR_PTR_PTR version) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     std::string str_version;
-    JUB_VERIFY_RV(token->GetAppletVersionBlade(appID,str_version));
+    JUB_VERIFY_RV(token->GetAppletVersion(appID,str_version));
     JUB_VERIFY_RV(_allocMem(version, str_version));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
 
     return JUBR_OK;
 }
+
+
+/*****************************************************************************
+ * @function name : JUB_GetDeviceCert
+ * @in  param : deviceID - device ID
+ * @out param : cert - device certificate
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
+                         OUT JUB_CHAR_PTR_PTR cert) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
+    std::string str_cert;
+    JUB_VERIFY_RV(token->GetDeviceCert(str_cert));
+    JUB_VERIFY_RV(_allocMem(cert, str_cert));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_SendOneApdu
+ * @in  param : deviceID - device ID
+ *            : apdu - one apdu
+ * @out param : response
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
+                       IN JUB_CHAR_CPTR apdu,
+                       OUT JUB_CHAR_PTR_PTR response) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::string str_response;
+    JUB_VERIFY_RV(token->SendOneApdu(apdu, str_response));
+    JUB_VERIFY_RV(_allocMem(response, str_response));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
+    return JUBR_OK;
+}
+
 
 /*****************************************************************************
  * @function name : JUB_SetTimeOut
@@ -185,51 +341,6 @@ JUB_RV JUB_SetTimeOut(IN JUB_UINT16 contextID,
     }
 
     JUB_VERIFY_RV(context->SetTimeout(timeout * 2));
-
-    return JUBR_OK;
-}
-
-/*****************************************************************************
- * @function name : JUB_GetDeviceCert
- * @in  param : deviceID - device ID
- * @out param : cert - device certificate
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_GetDeviceCert(IN JUB_UINT16 deviceID,
-                         OUT JUB_CHAR_PTR_PTR cert) {
-
-    CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-
-    // Let's go to the main security domain,
-    // instead of judging the return value,
-    // to get the data back
-    token->IsBootLoader();
-
-    std::string str_cert;
-    JUB_VERIFY_RV(token->GetDeviceCert(str_cert));
-    JUB_VERIFY_RV(_allocMem(cert, str_cert));
-
-    return JUBR_OK;
-}
-
-/*****************************************************************************
- * @function name : JUB_SendOneApdu
- * @in  param : deviceID - device ID
- *            : apdu - one apdu
- * @out param : response
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
-                       IN JUB_CHAR_CPTR apdu,
-                       OUT JUB_CHAR_PTR_PTR response) {
-
-    CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeToken>(deviceID);
-
-    std::string str_response;
-    JUB_VERIFY_RV(token->SendOneApdu(apdu, str_response));
-    JUB_VERIFY_RV(_allocMem(response, str_response));
 
     return JUBR_OK;
 }

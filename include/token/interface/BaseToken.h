@@ -2,13 +2,14 @@
 #include <TrezorCrypto/curves.h>
 #include <TrustWalletCore/TWCoinType.h>
 
+
 namespace jub {
 namespace token {
 
 
 class BaseToken {
 public:
-    virtual ~BaseToken() {};
+    virtual ~BaseToken() {}
 
 protected:
     TWCoinType _coin;

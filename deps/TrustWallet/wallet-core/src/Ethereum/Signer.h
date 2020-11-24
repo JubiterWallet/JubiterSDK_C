@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -36,10 +36,17 @@ class Signer {
 //    Proto::SigningOutput sign(const Proto::SigningInput& input) const noexcept;
 //
     /// Signs the given transaction.
-    void sign(const PrivateKey& privateKey, Transaction& transaction) const noexcept;
+    void sign(const PrivateKey &privateKey, Transaction &transaction) const noexcept;
 
     // JuBiter-defined
     bool verify(const PublicKey& publicKey, Transaction& transaction) const noexcept;
+    // JuBiter-defined
+    bool verify(const Data chainID, const PublicKey& publicKey, Transaction& transaction) const noexcept;
+
+    // JuBiter-defined
+    void sign(const PrivateKey &privateKey, const Data& bytestring, Data& signature) const noexcept;
+    // JuBiter-defined
+    bool verify(const Data chainID, const PublicKey& publicKey, const Data& bytestring, const Data& signature) const noexcept;
 
   public:
     /// Signs a hash with the given private key for the given chain identifier.
@@ -59,7 +66,11 @@ class Signer {
 
 //  protected:
     /// Computes the transaction hash.
-    Data hash(const Transaction& transaction) const noexcept;
+    Data hash(const Transaction &transaction) const noexcept;
+
+    // JuBiter-defined
+    /// Computes the bytestring hash.
+    Data hash(const Data &bytestring) const noexcept;
 };
 
 } // namespace TW::Ethereum

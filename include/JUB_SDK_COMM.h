@@ -46,9 +46,11 @@
         #define HID_MODE
     #elif TARGET_OS_IOS // ios
         #define BLE_MODE
+        #define NFC_MODE
     #endif // #if TARGET_OS_OSX
 #elif defined(__ANDROID__)
     #define BLE_MODE
+    #define NFC_MODE
 #else //other
     #define HID_MODE
 #endif // #if defined(_WIN32)
@@ -204,59 +206,59 @@ typedef struct {
 } BIP48_Path;
 
 /*****************************************************************************
-* @function name : JUB_ClearContext
-* @in  param : contextID - context ID
-* @out param : 
-* @last change : 
-*****************************************************************************/
+ * @function name : JUB_ClearContext
+ * @in  param : contextID - context ID
+ * @out param : 
+ * @last change : 
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ClearContext(IN JUB_UINT16 contextID);
 
 /*****************************************************************************
-* @function name : JUB_ShowVirtualPwd
-* @in  param : contextID - context ID
-* @out param : 
-* @last change :
-*****************************************************************************/
+ * @function name : JUB_ShowVirtualPwd
+ * @in  param : contextID - context ID
+ * @out param : 
+ * @last change :
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_ShowVirtualPwd(IN JUB_UINT16 contextID);
 
 /*****************************************************************************
-* @function name : JUB_CancelVirtualPwd
-* @in  param : contextID - context ID
-* @out param : 
-* @last change : 
-*****************************************************************************/
+ * @function name : JUB_CancelVirtualPwd
+ * @in  param : contextID - context ID
+ * @out param : 
+ * @last change : 
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CancelVirtualPwd(IN JUB_UINT16 contextID);
 
 /*****************************************************************************
-* @function name : JUB_VerifyPIN
-* @in  param : contextID - context ID
-*            : pinMix
-* @out param : retry
-* @last change : 
-*****************************************************************************/
+ * @function name : JUB_VerifyPIN
+ * @in  param : contextID - context ID
+ *            : pinMix
+ * @out param : retry
+ * @last change : 
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_VerifyPIN(IN JUB_UINT16 contextID,
                      IN JUB_CHAR_CPTR pinMix,
                      OUT JUB_ULONG_PTR pretry);
 
 /*****************************************************************************
-* @function name : JUB_FreeMemory
-* @in  param : memPtr
-* @out param : 
-* @last change : 
-*****************************************************************************/
+ * @function name : JUB_FreeMemory
+ * @in  param : memPtr
+ * @out param : 
+ * @last change : 
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
 
 /*****************************************************************************
-* @function name : JUB_GetVersion
-* @in  param :
-* @out param : 
-* @last change : 
-*****************************************************************************/
+ * @function name : JUB_GetVersion
+ * @in  param :
+ * @out param : 
+ * @last change : 
+ *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_CHAR_PTR JUB_GetVersion(void);
 

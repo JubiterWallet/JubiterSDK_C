@@ -1,7 +1,7 @@
 #pragma once
-#include <token/interface/BTCTokenInterface.hpp>
-#include <token/BTC/JubiterBaseBTCImpl.h>
-#include "Bitcoin/TransactionDash.h"
+#include "token/interface/BTCTokenInterface.hpp"
+#include "token/BTC/JubiterBaseBTCImpl.h"
+#include <Bitcoin/TransactionDash.h>
 
 namespace jub {
 namespace token {
@@ -16,6 +16,7 @@ public:
     };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                       const JUB_UINT32 version,
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,

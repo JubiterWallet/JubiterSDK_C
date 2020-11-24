@@ -1,11 +1,16 @@
-#include <token/JubiterBlade/JubiterBladeToken.h>
-#include <token/BTC/JubiterBladeBTCImpl.h>
-#include <token/ETH/JubiterBladeETHImpl.h>
-#include <token/EOS/JubiterBladeEOSImpl.h>
-#include <device/DeviceTypeBase.hpp>
-#include <device/JubiterHidDevice.hpp>
-#include <utility/util.h>
-#include <token/ErrorHandler.h>
+#include "token/JubiterBlade/JubiterBladeToken.h"
+
+#include "token/BTC/JubiterBladeBTCImpl.h"
+#include "token/ETH/JubiterBladeETHImpl.h"
+#include "token/EOS/JubiterBladeEOSImpl.h"
+#include "token/ErrorHandler.h"
+
+#include "device/DeviceTypeBase.hpp"
+#include "device/JubiterHidDevice.hpp"
+
+#include "utility/util.h"
+#include "tlv.hpp"
+
 
 namespace jub {
 namespace token {
@@ -68,10 +73,11 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
 
 
 JubiterBladeToken::JubiterBladeToken(JUB_UINT16 deviceID)
-    :_apduBuilder(std::make_shared<JubApudBuiler>()),
+    :_apduBuilder(std::make_shared<JubApduBuiler>()),
     _deviceID(deviceID) {
 
 }
+
 
 JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
     JUB_ULONG *pulRetDataLen /*= nullptr*/,
@@ -139,7 +145,7 @@ JUB_RV JubiterBladeToken::_TranPack(const TW::Data &apduData, const JUB_BYTE hig
     auto left = apduData.size() % ulSendOnceLen;
 
     // split last pack
-    if (0 == left
+    if (   0 == left
         && 0 != nextTimes
         ) {
         nextTimes--;
@@ -204,7 +210,7 @@ JUB_RV JubiterBladeToken::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG ni
     auto left = apduData.size() % ulSendOnceLen;
 
     // split last pack
-    if (0 == left
+    if (   0 == left
         && 0 != nextTimes
         ) {
         nextTimes--;
@@ -246,7 +252,7 @@ JUB_RV JubiterBladeToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     JUB_VERIFY_COS_ERROR(ret);
 
     uchar_vector vVersion(&retData[4], retData[3]);
@@ -302,8 +308,8 @@ JUB_RV JubiterBladeToken::CancelVirtualPwd() {
 
 bool JubiterBladeToken::IsInitialize() {
 
-    uchar_vector apduData("DFFF028105");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8105")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -320,14 +326,17 @@ bool JubiterBladeToken::IsInitialize() {
 
 bool JubiterBladeToken::IsBootLoader() {
 
-    APDU apdu(0x00, 0xa4, 0x04, 0x00, 0x00);
+    APDU apdu(0x00, 0xA4, 0x04, 0x00, 0x00);
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     auto rv = _SendApdu(&apdu, ret, retData, &ulRetDataLen);
-    if (JUBR_OK == rv
+    if (  JUBR_OK == rv
         && 0x6e00 == ret
         ) {
+        return true;
+    }
+    else if (0x9000 == ret) {
         return true;
     }
 
@@ -335,14 +344,26 @@ bool JubiterBladeToken::IsBootLoader() {
 }
 
 
+JUB_RV JubiterBladeToken::SelectMainSecurityDomain() {
+
+    // select main safe scope
+    APDU apdu(0x00, 0xA4, 0x04, 0x00, 0x00);
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterBladeToken::GetSN(JUB_BYTE sn[24]) {
 
-    uchar_vector apduData("DFFF028101");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8101")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         memset(sn, 0x00, 24);
         memcpy(sn, retData, 24);
@@ -356,12 +377,12 @@ JUB_RV JubiterBladeToken::GetSN(JUB_BYTE sn[24]) {
 
 JUB_RV JubiterBladeToken::GetLabel(JUB_BYTE label[32]) {
 
-    uchar_vector apduData("DFFF028104");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8104")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         memset(label, 0x00, 32);
         memcpy(label, retData, 32);
@@ -375,12 +396,12 @@ JUB_RV JubiterBladeToken::GetLabel(JUB_BYTE label[32]) {
 
 JUB_RV JubiterBladeToken::GetPinRetry(JUB_BYTE& retry) {
 
-    uchar_vector apduData("DFFF028102");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8102")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         retry = retData[0];
 
@@ -393,12 +414,12 @@ JUB_RV JubiterBladeToken::GetPinRetry(JUB_BYTE& retry) {
 
 JUB_RV JubiterBladeToken::GetPinMaxRetry(JUB_BYTE& maxRetry) {
 
-    uchar_vector apduData("DFFF028103");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8103")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         maxRetry = retData[0];
 
@@ -411,12 +432,12 @@ JUB_RV JubiterBladeToken::GetPinMaxRetry(JUB_BYTE& maxRetry) {
 
 JUB_RV JubiterBladeToken::GetBleVersion(JUB_BYTE bleVersion[4]) {
 
-    uchar_vector apduData("DFFF028100");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8100")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         uchar_vector version(retData, retData + ulRetDataLen);
         memset(bleVersion, 0x00, 4);
@@ -431,12 +452,12 @@ JUB_RV JubiterBladeToken::GetBleVersion(JUB_BYTE bleVersion[4]) {
 
 JUB_RV JubiterBladeToken::GetFwVersion(JUB_BYTE fwVersion[4]) {
 
-    uchar_vector apduData("DFFF028003");
-    APDU apdu(0x80, 0xcb, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8003")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         uchar_vector version(retData, retData + ulRetDataLen);
         memset(fwVersion, 0x00, 4);
@@ -451,17 +472,17 @@ JUB_RV JubiterBladeToken::GetFwVersion(JUB_BYTE fwVersion[4]) {
 
 JUB_RV JubiterBladeToken::EnumApplet(std::string& appletList) {
 
-    {
-        // select main safe scope
-        APDU apdu(0x00, 0xa4, 0x04, 0x00, 0x00);
-        JUB_UINT16 ret = 0;
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-        JUB_VERIFY_COS_ERROR(ret);
-    }
+//    {
+//        // select main safe scope
+//        APDU apdu(0x00, 0xA4, 0x04, 0x00, 0x00);
+//        JUB_UINT16 ret = 0;
+//        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret));
+//        JUB_VERIFY_COS_ERROR(ret);
+//    }
 
     // send apdu, then decide which coin types supports.
-    APDU apdu(0x80, 0xCB, 0x80, 0x00, 0x05,
-        (const JUB_BYTE *)"\xDF\xFF\x02\x81\x06");
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8106")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -481,7 +502,7 @@ JUB_RV JubiterBladeToken::EnumApplet(std::string& appletList) {
 }
 
 
-JUB_RV JubiterBladeToken::GetAppletVersionBlade(const std::string& appID, std::string& version) {
+JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, std::string& version) {
 
     uchar_vector id(appID);
     if (0 == appID.length()) {
@@ -489,22 +510,21 @@ JUB_RV JubiterBladeToken::GetAppletVersionBlade(const std::string& appID, std::s
     }
 
     JUB_UINT16 ret = 0;
-    uchar_vector FidoID(kPKIAID_FIDO, 8);
+    uchar_vector FidoID(kPKIAID_FIDO, sizeof(kPKIAID_FIDO)/sizeof(JUB_BYTE));
     if (id == FidoID) {
         //select
         APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);
         JUB_BYTE retData[1024] = { 0, };
         JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         JUB_VERIFY_COS_ERROR(ret);
 
         //get version
-
-        uchar_vector apduData("DFFF028001");
+        uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8001")).encode();
         APDU apduVersion(0x80, 0xE2, 0x80, 0x00, (JUB_ULONG)apduData.size(), &apduData[0], 0x00);
         JUB_BYTE retDataVersion[1024] = { 0, };
         JUB_ULONG ulRetVersionLen = sizeof(retDataVersion) / sizeof(JUB_BYTE);
-        JUB_VERIFY_RV(_SendApdu(&apduVersion, ret, retDataVersion, &ulRetVersionLen));
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apduVersion, ret, retDataVersion, &ulRetVersionLen));
         JUB_VERIFY_COS_ERROR(ret);
 
         uchar_vector vVersion(&retDataVersion[6], 4);
@@ -515,10 +535,10 @@ JUB_RV JubiterBladeToken::GetAppletVersionBlade(const std::string& appID, std::s
         APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);
         JUB_BYTE retData[1024] = { 0, };
         JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-        JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         JUB_VERIFY_COS_ERROR(ret);
 
-        if (0x84 == retData[2]
+        if (   0x84 == retData[2]
             && 0x04 == retData[3]
             ) {
             uchar_vector vVersion(&retData[4], 4);
@@ -535,6 +555,10 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
 
     JUB_RV rv = JUBR_ERROR;
 
+    JUB_BYTE fwVersion[4] = {0x00,};
+    JUB_VERIFY_RV(GetFwVersion(fwVersion));
+    std::string strFWVersion = convertToString((char*)fwVersion, sizeof(fwVersion)/sizeof(JUB_BYTE));
+
     std::string appletList;
     JUB_VERIFY_RV(EnumApplet(appletList));
 
@@ -542,7 +566,7 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
     auto vAppList = Split(appletList, " ");
     for (auto appID : vAppList) {
         std::string version;
-        rv = GetAppletVersionBlade(appID, version);
+        rv = GetAppletVersion(appID, version);
         if (JUBR_OK != rv) {
             continue;
         }
@@ -555,6 +579,12 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
                 continue;
             }
             if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {
+                // v2.0.04 of COS couldn't support EOS.
+                if (  "2004" == strFWVersion
+                    && "EOS" == appInfo.coinName
+                    ) {
+                    continue;
+                }
                 coinList += appInfo.coinName;
                 coinList += " ";
                 coinNameList.insert(coinNameList.end(), appInfo.coinName);
@@ -568,12 +598,12 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
 
 JUB_RV JubiterBladeToken::GetDeviceCert(std::string& cert) {
 
-    uchar_vector apduData("A60483021518");
-    APDU apdu(0x80, 0xca, 0xbf, 0x21, (JUB_ULONG)apduData.size(), apduData.data());
+    uchar_vector apduData = tlv_buf(0xA6, tlv_buf(0x83, uchar_vector("1518")).encode()).encode();
+    APDU apdu(0x80, 0xCA, 0xBF, 0x21, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x9000 == ret) {
         uchar_vector vcert(retData + 4, retData + ulRetDataLen);
         cert = vcert.getHex();
@@ -632,11 +662,17 @@ JUB_RV JubiterBladeToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &re
 }
 
 
+JUB_RV JubiterBladeToken::ChangePIN(const std::string &pinMix, const std::string &pinNew) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
 
     JUB_UINT16 p1 = timeout >> 8;
     JUB_UINT16 p2 = timeout & 0xFF;
-    APDU apdu(0x00, 0xfb, p1, p2, 0x00);
+    APDU apdu(0x00, 0xFB, p1, p2, 0x00);
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     if (0x9000 == ret) {
@@ -644,6 +680,121 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
     }
 
     return JUBR_ERROR;
+}
+
+
+#if defined(NFC_MODE)
+/// NFC
+JUB_RV JubiterBladeToken::SetLabel(const std::string& label) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+#endif // #if defined(NFC_MODE) end
+
+
+#if defined(NFC_MODE)
+JUB_RV JubiterBladeToken::Reset() {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+#endif // #if defined(NFC_MODE) end
+
+
+#if defined(NFC_MODE)
+JUB_RV JubiterBladeToken::GenerateSeed(const std::string& pinMix,
+                                       const JUB_ENUM_CURVES& curve) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+#endif // #if defined(NFC_MODE) end
+
+
+#if defined(NFC_MODE)
+JUB_RV JubiterBladeToken::ImportMnemonic(const std::string& pinMix,
+                                         const std::string& mnemonic) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+#endif // #if defined(NFC_MODE) end
+
+
+#if defined(NFC_MODE)
+JUB_RV JubiterBladeToken::ExportMnemonic(const std::string& pinMix,
+                                         OUT std::string& mnemonic) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+#endif // #if defined(NFC_MODE) end
+
+
+#if defined(NFC_MODE)
+JUB_RV JubiterBladeToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+#endif // #if defined(NFC_MODE) end
+
+
+/// BIO
+JUB_RV JubiterBladeToken::UIShowMain() {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::IdentityVerify(IN JUB_BYTE mode, OUT JUB_ULONG &retry) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::IdentityVerifyPIN(IN JUB_BYTE mode, IN const std::string &pinMix, OUT JUB_ULONG &retry) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::IdentityNineGrids(IN bool bShow) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::VerifyFgptForIntl(OUT JUB_ULONG &retry) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::VerifyFingerprint(OUT JUB_ULONG &retry) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::EnrollFingerprint(IN JUB_UINT16 fpTimeout,
+                                            INOUT JUB_BYTE_PTR fgptIndex, OUT JUB_ULONG_PTR ptimes,
+                                            OUT JUB_BYTE_PTR fgptID) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::EnumFingerprint(std::string& fgptList) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::EraseFingerprint(IN JUB_UINT16 fpTimeout) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeToken::DeleteFingerprint(IN JUB_UINT16 fpTimeout,
+                                            JUB_BYTE fgptID)  {
+
+    return JUBR_IMPL_NOT_SUPPORT;
 }
 
 

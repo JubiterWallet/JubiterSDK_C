@@ -11,10 +11,8 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
-#include "context/BTCContext.h"
-#include "token/BTC/JubiterBladeBTCImpl.h"
+#include "context/BTCContextFactory.h"
 
-#include <context/ContextFactory.h>
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -85,7 +83,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 /*****************************************************************************
  * @function name : JUB_CreateContextBTC
  * @in  param : cfg
- *            : deviceID - device ID
+ *          : deviceID - device ID
  * @out param : contextID
  * @last change :
  *****************************************************************************/
@@ -96,6 +94,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::BTCseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
     JUB_CHECK_NULL(context);
+
     JUB_VERIFY_RV(context->ActiveSelf());
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
@@ -105,7 +104,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeBTC
  * @in  param : contextID - context ID
- *            : path
+ *          : path
  * @out param : xpub
  * @last change :
  *****************************************************************************/
@@ -147,8 +146,8 @@ JUB_RV JUB_GetMainHDNodeBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetAddressBTC
  * @in  param : contextID - context ID
- *            : path
- *            : bShow
+ *          : path
+ *          : bShow
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -171,7 +170,7 @@ JUB_RV JUB_GetAddressBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SetMyAddressBTC
  * @in  param : contextID - context ID
- *            : path
+ *          : path
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -193,15 +192,17 @@ JUB_RV JUB_SetMyAddressBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SignTransactionBTC
  * @in  param : contextID - context ID
- *            : inputs
- *            : iCount
- *            : outputs
- *            : oCount
- *            : lockTime
+ *          : version
+ *          : inputs
+ *          : iCount
+ *          : outputs
+ *          : oCount
+ *          : lockTime
  * @out param : raw
  * @last change :
  *****************************************************************************/
 JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
+                              IN JUB_UINT32 version,
                               IN INPUT_BTC inputs[], IN JUB_UINT16 iCount,
                               IN OUTPUT_BTC outputs[], IN JUB_UINT16 oCount,
                               IN JUB_UINT32 lockTime,
@@ -238,7 +239,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
 	JUB_CHECK_NULL(context);
 
     std::string str_raw;
-    JUB_VERIFY_RV(context->SignTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, vInputs, vOutputs, lockTime, str_raw));
+    JUB_VERIFY_RV(context->SignTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, version, vInputs, vOutputs, lockTime, str_raw));
 
     JUB_VERIFY_RV(_allocMem(raw, str_raw));
 
@@ -248,7 +249,7 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SetUnitBTC
  * @in  param : contextID - context ID
- *            : unit
+ *          : unit
  * @out param :
  * @last change :
  *****************************************************************************/
@@ -267,8 +268,8 @@ JUB_RV JUB_SetUnitBTC(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_BuildUSDTOutputs
  * @in  param : contextID - context ID
- *            : USDTTo - to address
- *            : amount
+ *          : USDTTo - to address
+ *          : amount
  * @out param : outputs
  * @last change : build the return0 and dust 2 outputs
  *****************************************************************************/
@@ -290,11 +291,11 @@ JUB_RV JUB_BuildUSDTOutputs(IN JUB_UINT16 contextID,
  * @function name : BuildQRC20Outputs
  * @in  param : contextID - context ID
  *            : contractAddress - contract address for QRC20 token
- *            : decimal         - decimal for QRC20 token
- *            : symbol          - symbol for QRC20 token
+ *            : decimal - decimal for QRC20 token
+ *            : symbol - symbol for QRC20 token
  *            : gasLimit - gas limit
  *            : gasPrice - gas price
- *            : to    - to address for transfer
+ *            : to - to address for transfer
  *            : value - amount for transfer
  * @out param : outputs
  * @last change : build the QRC20 outputs
@@ -315,7 +316,14 @@ JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID,IN JUB_CHAR_CPTR address){
+/*****************************************************************************
+ * @function name : JUB_CheckAddressBTC
+ * @in  param : contextID - context ID
+ *          : address
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address) {
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
     JUB_CHECK_NULL(context);

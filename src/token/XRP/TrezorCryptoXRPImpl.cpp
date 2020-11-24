@@ -1,12 +1,12 @@
-#include <token/XRP/TrezorCryptoXRPImpl.h>
+#include "token/XRP/TrezorCryptoXRPImpl.h"
 
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
-#include <HDKey/HDKey.hpp>
-#include <utility/util.h>
+#include "HDKey/HDKey.hpp"
+#include "utility/util.h"
 
-#include "Ripple/Signer.h"
-#include "Ripple/Transaction.h"
+#include <Ripple/Signer.h>
+#include <Ripple/Transaction.h>
 
 namespace jub {
 namespace token {
@@ -18,7 +18,7 @@ JUB_RV TrezorCryptoXRPImpl::SelectApplet() {
 }
 
 
-JUB_RV TrezorCryptoXRPImpl::SetCoinType() {
+JUB_RV TrezorCryptoXRPImpl::SetCoin() {
 
     return JUBR_OK;
 }

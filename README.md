@@ -1,4 +1,52 @@
-编译工程文件已经迁移到CMake
+### master branch
+> Our customers:
+> - HyperPay
+---
+### API redefinition include:
++ Supports multiple types of HID & bluetooth & NFC devices, added functions as below, see 'JUB_SDK_DEV.h':
+  + JUB_GetDeviceType()
+
++ Add "devName" param, see 'JUB_SDK_DEV_BLE.h':
+  + JUB_connectDevice()
+  + JUB_cancelConnect()
+
++ Add "version" param, see 'JUB_SDK_BTC.h':
+  + JUB_SignTransactionBTC()
+  + JUB_SignTransactionHC();
++ Rename Jub_EnumSupportCoins() as JUB_EnumSupportCoins();
+
+
+### NFC module include:
++ Supports NFC(`#define NFC_MODE`), added functions as below, see 'JUB_SDK_DEV_NFC.h':
+  + JUB_Reset()
+  + JUB_GenerateSeed()
+  + JUB_ImportMnemonic()
+  + JUB_ExportMnemonic()
+  + JUB_GetRootKeyStatus()
+  + JUB_ChangePIN()
+  + JUB_SetLabel()
+
+
+### Bio module include:
++ Supports BIO(`#define BLE_MODE || #define HID_MODE`), added functions as below, see 'JUB_SDK_DEV_BIO.h':
+  + Authentication for operating fingerprint:
+    + JUB_IdentityVerify()
+    + JUB_IdentityVerifyPIN()
+    + JUB_IdentityShowNineGrids()
+    + JUB_IdentityCancelNineGrids()
+  + Operating fingerprint:
+    + JUB_EnrollFingerprint()
+    + JUB_EnumFingerprint()
+    + JUB_EraseFingerprint()
+    + JUB_DeleteFingerprint()
+    + JUB_VerifyFingerprint()
+
+---
+### Demo reference:
++ [nfcDemo-Android](https://github.com/JubiterWallet/nfcDemo-Android)
++ [JuBiterSDKDemo-iOS](https://github.com/JubiterWallet/JuBiterSDKDemo-iOS)
+---
+### **编译工程文件已经迁移到CMake**
 1.  安装CMake 3+
 2.  Mac和Linux需要安装hidapi-dev
 3.  windows需要使用cygwin,不支持visual studio,需要在cygwin环境下,安装hidapi-dev
@@ -7,14 +55,14 @@
 ```bash
 git submodule update --init --recursive
 ```
-
+---
 ### **macOS,Linux,Cygwin**
 ```bash
 mkdir build & cd build
 cmake ..
 make
 ```
-
+---
 ### **Android**
 可以直接将cmake直接引入Android Studio的项目里,也可以通过命令行进行操作
 ANDROID_ABI可以是armeabi-v7a,arm64-v8a,x86,x86_64,mips,mips64
@@ -25,7 +73,7 @@ cmake -G "Unix Makefiles" -DANDROID_ABI=arm64-v8a -DCMAKE_BUILD_TYPE=Release -DA
 
 make
 ```
-
+---
 ### **iOS**
 - **.a**
 ```bash
@@ -33,7 +81,7 @@ sh ./builds/ios-build
 ```
 - **framework**
 To Do
-
+---
 ### **macOS Xcode Project file generation**
 ```bash
 mkdir build & cd build
@@ -57,7 +105,7 @@ xxx/JubiterSDK_C/src/._JUB_SDK_DEV.cpp:2:3933: error:
 ```bash
 dot_clean <directory>
 ```
-
+---
 ### **JUB_SDK for Production tools**
 ```bash
 mkdir build & cd build

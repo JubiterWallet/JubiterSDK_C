@@ -1,6 +1,9 @@
 #pragma once
-#include <token/BTC/TrezorCryptoBTCImpl.h>
-#include <token/BTC/JubiterBaseDashImpl.h>
+#include <memory>
+
+#include "token/BTC/TrezorCryptoBTCImpl.h"
+#include "token/BTC/JubiterBaseDashImpl.h"
+
 
 namespace jub {
 namespace token {
@@ -9,15 +12,16 @@ namespace token {
 class TrezorCryptoDashImpl :
         public TrezorCryptoBTCImpl,
 virtual public JubiterBaseDashImpl {
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
+        return std::make_shared<TrezorCryptoDashImpl>(XPRVorXPUB);
+    }
 
 public:
     TrezorCryptoDashImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoBTCImpl(XPRVorXPUB) {};
-    ~TrezorCryptoDashImpl() {};
-
-    static std::shared_ptr<BTCTokenInterface> Create(const std::string& XPRVorXPUB) {
-        return std::make_shared<TrezorCryptoDashImpl>(XPRVorXPUB);
-    }
+        TrezorCryptoBTCImpl(XPRVorXPUB) {}
+    ~TrezorCryptoDashImpl() {}
 
     virtual JUB_RV SignTX(const JUB_BYTE addrFmt,
                           const JUB_ENUM_BTC_TRANS_TYPE& type,

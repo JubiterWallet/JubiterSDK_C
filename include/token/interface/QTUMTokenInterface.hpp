@@ -1,8 +1,9 @@
 #pragma once
 
-#include <JUB_SDK.h>
+#include "JUB_SDK.h"
 #include <vector>
-#include <token/interface/BTCTokenInterface.hpp>
+#include "token/interface/BTCTokenInterface.hpp"
+
 
 namespace jub {
 namespace token {

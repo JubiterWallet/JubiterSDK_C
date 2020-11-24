@@ -1,11 +1,11 @@
-#include <token/EOS/TrezorCryptoEOSImpl.h>
+#include "token/EOS/TrezorCryptoEOSImpl.h"
 
-#include <HDKey/HDKey.hpp>
-#include <utility/util.h>
+#include "HDKey/HDKey.hpp"
+#include "utility/util.h"
 
-#include "HexCoding.h"
-#include "EOS/Signer.h"
-#include "EOS/Transaction.h"
+#include <HexCoding.h>
+#include <EOS/Signer.h>
+#include <EOS/Transaction.h>
 
 namespace jub {
 namespace token {
@@ -17,7 +17,7 @@ JUB_RV TrezorCryptoEOSImpl::SelectApplet() {
 }
 
 
-JUB_RV TrezorCryptoEOSImpl::SetCoinType() {
+JUB_RV TrezorCryptoEOSImpl::SetCoin() {
 
     return JUBR_OK;
 }

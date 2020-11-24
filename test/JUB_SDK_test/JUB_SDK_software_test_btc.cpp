@@ -18,14 +18,14 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     JUB_RV rv = JUBR_ERROR;
 
     JUB_CHAR_PTR mnemonic = nullptr;
-    rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
+    rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
     if(rv == JUBR_OK) {
         cout << mnemonic << endl;
     }
 
     rv = JUB_CheckMnemonic(mnemonic);
     if(rv != JUBR_OK) {
-        cout << "JUB_CheckMnemonic return" << rv << endl;
+        cout << "JUB_CheckMnemonic() return" << rv << endl;
     }
     JUB_BYTE seed[64] = {0,};
     JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
@@ -33,9 +33,9 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
         cout << ".";
     };
 
-    rv = JUB_GenerateSeed("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
+    rv = JUB_GenerateSeed_soft("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
     if (rv != JUBR_OK) {
-        cout << "JUB_GenerateSeed error" << endl;
+        cout << "JUB_GenerateSeed_soft() error" << endl;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
@@ -45,21 +45,23 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
-    rv = JUB_SeedToMasterPrivateKey(seed, seedLen, secp256k1, &masterXprv);
+    rv = JUB_SeedToMasterPrivateKey_soft(seed, seedLen,
+                                         JUB_ENUM_CURVES::SECP256K1,
+                                         &masterXprv);
     if (rv == JUBR_OK) {
-        cout << "MasterPrivateKey: " << masterXprv << endl;
+        cout << "JUB_SeedToMasterPrivateKey_soft() return " << masterXprv << endl;
     }
 
     JUB_UINT16 contextID;
     rv = JUB_CreateContextBTC_soft(cfg, masterXprv, &contextID);
     if (rv != JUBR_OK) {
-        cout << "JUB_CreateContextBTC_soft return " << rv << endl;
+        cout << "JUB_CreateContextBTC_soft() return " << rv << endl;
     }
 
     JUB_CHAR_PTR mainXpub;
     rv = JUB_GetMainHDNodeBTC(contextID, &mainXpub);
     if (rv == JUBR_OK) {
-        cout << "JUB_GetMainHDNodeBTC: " << mainXpub << endl;
+        cout << "JUB_GetMainHDNodeBTC() return " << mainXpub << endl;
         JUB_FreeMemory(mainXpub);
     }
 
@@ -69,14 +71,14 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     JUB_CHAR_PTR  xpub = nullptr;
     rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
     if (rv == JUBR_OK) {
-        cout << "JUB_GetHDNodeBTC: " << xpub << endl;
+        cout << "JUB_GetHDNodeBTC() return " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
     if(rv == JUBR_OK) {
-        cout << "JUB_GetAddressBTC: " << address << endl;
+        cout << "JUB_GetAddressBTC() return " << address << endl;
         rv = JUB_CheckAddressBTC(contextID, address);
         cout << "JUB_CheckAddressBTC() return " << GetErrMsg(rv) << endl;
         JUB_FreeMemory(address);
@@ -116,77 +118,77 @@ void software_test_btc() {
         int choice = 0;
         cin >> choice;
 
+        std::string json_file = "json/";
         bool isQRC20 = false;
-        const char* json_file;
         CONTEXT_CONFIG_BTC cfg;
         switch (choice) {
-            case 2:
-            {
-                cfg.coinType = COINLTC;
-                cfg.transType = p2sh_p2wpkh;
-                json_file = "json/testLTC.json";
-                break;
-            }
-            case 5:
-            {
-                cfg.coinType = COINDASH;
-                cfg.transType = p2pkh;
-                json_file = "json/testDASH.json";
-                break;
-            }
-            case 31:
-            {
-                cfg.coinType = COINBTC;
-                cfg.transType = p2pkh;
-                json_file = "json/testBTC44.json";
-                break;
-            }
-            case 32:
-            {
-                cfg.coinType = COINBTC;
-                cfg.transType = p2sh_p2wpkh;
-                json_file = "json/testBTC49.json";
-                break;
-            }
-            case 39:
-            {
-                cfg.coinType = COINUSDT;
-                cfg.transType = p2pkh;
-                json_file = "json/testUSDT.json";
-                break;
-            }
-            case 145:
-            {
-                cfg.coinType = COINBCH;
-                cfg.transType = p2pkh;
-                json_file = "json/testBCH.json";
-                break;
-            }
-            case 88:
-            {
-                cfg.coinType = COINQTUM;
-                cfg.transType = p2pkh;
-                json_file = "json/testQTUM_qrc20.json";
-                isQRC20 = true;
-                break;
-            }
-            case 2301:
-            {
-                cfg.coinType = COINQTUM;
-                cfg.transType = p2pkh;
-                json_file = "json/testQTUM.json";
-                break;
-            }
-            case 0:
-                exit(0);
-            default:
-                continue;
+        case 2:
+        {
+            cfg.coinType = COINLTC;
+            cfg.transType = p2sh_p2wpkh;
+            json_file += "testLTC.json";
+            break;
         }
+        case 5:
+        {
+            cfg.coinType = COINDASH;
+            cfg.transType = p2pkh;
+            json_file += "testDASH.json";
+            break;
+        }
+        case 31:
+        {
+            cfg.coinType = COINBTC;
+            cfg.transType = p2pkh;
+            json_file += "testBTC44.json";
+            break;
+        }
+        case 32:
+        {
+            cfg.coinType = COINBTC;
+            cfg.transType = p2sh_p2wpkh;
+            json_file += "testBTC49.json";
+            break;
+        }
+        case 39:
+        {
+            cfg.coinType = COINUSDT;
+            cfg.transType = p2pkh;
+            json_file += "testUSDT.json";
+            break;
+        }
+        case 145:
+        {
+            cfg.coinType = COINBCH;
+            cfg.transType = p2pkh;
+            json_file += "testBCH.json";
+            break;
+        }
+        case 88:
+        {
+            cfg.coinType = COINQTUM;
+            cfg.transType = p2pkh;
+            json_file += "testQTUM_qrc20.json";
+            isQRC20 = true;
+            break;
+        }
+        case 2301:
+        {
+            cfg.coinType = COINQTUM;
+            cfg.transType = p2pkh;
+            json_file += "testQTUM.json";
+            break;
+        }
+        case 0:
+            exit(0);
+        default:
+            continue;
+        }   // switch (choice) end
 
-        Json::Value root = readJSON(json_file);
+        Json::Value root = readJSON(json_file.c_str());
 
         cfg.mainPath = (char*)root["main_path"].asCString();
 
         software_test_btc(cfg, root, isQRC20);
-    }
+    }   // while (true) end
 }

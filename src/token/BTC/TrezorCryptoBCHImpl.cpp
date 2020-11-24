@@ -1,4 +1,4 @@
-#include <token/BTC/TrezorCryptoBCHImpl.h>
+#include "token/BTC/TrezorCryptoBCHImpl.h"
 
 namespace jub {
 namespace token {

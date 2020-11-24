@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -6,8 +6,8 @@
 
 #include "Action.h"
 #include "../HexCoding.h"
-#include "../Bravo/Serialization.h"
-#include "../Bravo/Deserialization.h"
+#include "../EOS/Serialization.h"
+#include "../EOS/Deserialization.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 
 using namespace TW;
@@ -46,7 +46,7 @@ void Action::deserialize(const Data& o) noexcept {
     Data tempTempAuthorizations(vTempAuthorizations);
     uint64_t authorizationCnt = 0;
     int varIntByteSize = 0;
-    Bravo::decodeVarInt64(tempTempAuthorizations, authorizationCnt, varIntByteSize);
+    decodeVarInt64(tempTempAuthorizations, authorizationCnt, varIntByteSize);
     vAction.reset_it(varIntByteSize);
     for (uint64_t i=0; i<authorizationCnt; ++i) {
         Name actor, permission;
@@ -62,7 +62,7 @@ void Action::deserialize(const Data& o) noexcept {
     Data tempData(vTempData);
     uint64_t dataSize = 0;
     varIntByteSize = 0;
-    Bravo::decodeVarInt64(tempData, dataSize, varIntByteSize);
+    decodeVarInt64(tempData, dataSize, varIntByteSize);
     vAction.reset_it(varIntByteSize);
     data = vAction.read_vector(dataSize);
 }
@@ -78,11 +78,11 @@ void Action::deserializeWithType(const Data& o) noexcept {
 uint64_t Action::size() const noexcept {
     uint64_t authorizationCnt = authorization.size();
     Data authorizationVarInt64Len;
-    Bravo::encodeVarInt64(authorizationCnt, authorizationVarInt64Len);
+    encodeVarInt64(authorizationCnt, authorizationVarInt64Len);
 
     uint64_t dataSize = data.size();
     Data dataVarInt64Len;
-    Bravo::encodeVarInt64(dataSize, dataVarInt64Len);
+    encodeVarInt64(dataSize, dataVarInt64Len);
 
     return (  Name::size()
             + Name::size()
@@ -108,7 +108,7 @@ uint16_t Action::startingPostData() const noexcept {
     actionOffset += authOffset;
 
     Data dataVarInt64Len;
-    TW::Bravo::encodeVarInt64(data.size(), dataVarInt64Len);
+    encodeVarInt64(data.size(), dataVarInt64Len);
     actionOffset += dataVarInt64Len.size();  // data length
 
     return actionOffset;
@@ -117,8 +117,8 @@ uint16_t Action::startingPostData() const noexcept {
 void Action::serialize(Data& o) const {
     account.serialize(o);
     name.serialize(o);
-    Bravo::encodeCollection(authorization, o);
-    Bravo::encodeVarInt64(data.size(), o);
+    encodeCollection(authorization, o);
+    encodeVarInt64(data.size(), o);
     append(o, data);
 }
 
@@ -140,7 +140,7 @@ nlohmann::json Action::serialize() const noexcept {
 
     obj["account"] = account.string();
     obj["name"] = name.string();
-    obj["authorizations"] = Bravo::encodeCollection(authorization);
+    obj["authorizations"] = encodeCollection(authorization);
 //    obj["data"] = hex(data);
     obj["hex_data"] = hex(data);
 
@@ -175,7 +175,7 @@ TransferAction::TransferAction(const std::string& currency,
                                const std::string& actName,
                                const std::string& from,
                                const std::string& to,
-                               const Bravo::Asset& asset,
+                               const Asset& asset,
                                const std::string& memo) {
     account = Name(currency);
 //    name = Name("transfer");
@@ -185,7 +185,7 @@ TransferAction::TransferAction(const std::string& currency,
     setData(from, to, asset, memo);
 }
 
-void TransferAction::setData(const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo) {
+void TransferAction::setData(const std::string& from, const std::string& to, const Asset& asset, const std::string& memo) {
     if (asset.amount <= 0) {
         throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
     }
@@ -193,7 +193,7 @@ void TransferAction::setData(const std::string& from, const std::string& to, con
     this->from = Name(from);
     this->to = Name(to);
     this->asset = asset;
-    Bravo::encodeString(memo, this->memo);
+    encodeString(memo, this->memo);
 
     this->from.serialize(data);
     this->to.serialize(data);
@@ -207,7 +207,7 @@ void TransferAction::deserialize(const Data& o) noexcept {
     from.value = vTransfer.read_le_uint64();
       to.value = vTransfer.read_le_uint64();
 
-    //Bravo::Asset
+    //Asset
     asset.amount = vTransfer.read_le_uint64();
     asset.symbol = vTransfer.read_le_uint64();
 
@@ -226,7 +226,7 @@ uint16_t TransferAction::startingPostData() const noexcept {
     memoOffset += asset.size();
 
     Data os;
-    TW::Bravo::encodeVarInt64(memo.size(), os);
+    encodeVarInt64(memo.size(), os);
     memoOffset += os.size();
 
     return memoOffset;
@@ -237,7 +237,7 @@ uint16_t TransferAction::memoLength() const noexcept {
     uint16_t memoLength = memo.size();
 
     Data os;
-    TW::Bravo::encodeVarInt64(memo.size(), os);
+    encodeVarInt64(memo.size(), os);
     memoLength -= os.size();
 
     return memoLength;
@@ -258,7 +258,7 @@ nlohmann::json TransferAction::serialize() const noexcept {
     data["quantity"] = asset.string();
     std::string memo;
     int varIntByteSize = 0;
-    Bravo::decodeString(this->memo, memo, varIntByteSize);
+    decodeString(this->memo, memo, varIntByteSize);
     data["memo"] = memo;
 
     if (obj.empty()) {
@@ -291,7 +291,7 @@ void TransferAction::deserialize(const nlohmann::json& inJson) noexcept {
     Action::deserialize(inJson);
 
     setData(inJson["data"]["from"], inJson["data"]["to"],
-            TW::Bravo::Asset::fromString(inJson["data"]["quantity"]),
+            Asset::fromString(inJson["data"]["quantity"]),
             inJson["data"]["memo"]);
 }
 
@@ -300,8 +300,8 @@ DelegateAction::DelegateAction(const std::string& currency,
                                const std::string& actName,
                                const std::string& from,
                                const std::string& receiver,
-                               const Bravo::Asset& netQty,
-                               const Bravo::Asset& cpuQty,
+                               const Asset& netQty,
+                               const Asset& cpuQty,
                                const bool transferable,
                                bool bStake) {
     account = Name(currency);
@@ -319,7 +319,7 @@ DelegateAction::DelegateAction(const std::string& currency,
 
 // JuBiter-defined
 void DelegateAction::setData(const std::string& from, const std::string& receiver,
-                             const Bravo::Asset& netQty, const Bravo::Asset& cpuQty,
+                             const Asset& netQty, const Asset& cpuQty,
                              const uint8_t transfer) {
     if ((   0 == netQty.amount
          && 0 == cpuQty.amount)
@@ -366,11 +366,11 @@ void DelegateAction::deserialize(const Data& o) noexcept {
     from.value = vDelegate.read_le_uint64();
 receiver.value = vDelegate.read_le_uint64();
 
-    //Bravo::Asset
+    //Asset
     netQty.amount = vDelegate.read_le_uint64();
     netQty.symbol = vDelegate.read_le_uint64();
 
-    //Bravo::Asset
+    //Asset
     cpuQty.amount = vDelegate.read_le_uint64();
     cpuQty.symbol = vDelegate.read_le_uint64();
 
@@ -414,14 +414,14 @@ void DelegateAction::deserialize(const nlohmann::json& inJson) noexcept {
 
     if (_bStake) {
         setData(inJson["data"]["from"], inJson["data"]["receiver"],
-                TW::Bravo::Asset::fromString(inJson["data"]["stake_net_quantity"]),
-                TW::Bravo::Asset::fromString(inJson["data"]["stake_cpu_quantity"]),
+                Asset::fromString(inJson["data"]["stake_net_quantity"]),
+                Asset::fromString(inJson["data"]["stake_cpu_quantity"]),
                 inJson["data"]["transfer"]);
     }
     else {
     setData(inJson["data"]["from"], inJson["data"]["receiver"],
-            TW::Bravo::Asset::fromString(inJson["data"]["unstake_net_quantity"]),
-            TW::Bravo::Asset::fromString(inJson["data"]["unstake_cpu_quantity"]),
+            Asset::fromString(inJson["data"]["unstake_net_quantity"]),
+            Asset::fromString(inJson["data"]["unstake_cpu_quantity"]),
             inJson["data"]["transfer"]);
     }
 }
@@ -429,7 +429,7 @@ void DelegateAction::deserialize(const nlohmann::json& inJson) noexcept {
 // JuBiter-defined
 BuyRamAction::BuyRamAction(const std::string& currency, const std::string& actName,
                            const std::string& payer, const std::string& receiver,
-                           const Bravo::Asset& quant) {
+                           const Asset& quant) {
     account = Name(currency);
 //    name = Name("buyram");
     name = Name(actName);
@@ -441,7 +441,7 @@ BuyRamAction::BuyRamAction(const std::string& currency, const std::string& actNa
 
 // JuBiter-defined
 void BuyRamAction::setData(const std::string& payer, const std::string& receiver,
-                           const Bravo::Asset& quant) {
+                           const Asset& quant) {
     if (quant.amount <= 0) {
         throw std::invalid_argument("Amount in a transfer action must be greater than zero.");
     }
@@ -476,7 +476,7 @@ void BuyRamAction::deserialize(const Data& o) noexcept {
    payer.value = vBuyRam.read_le_uint64();
 receiver.value = vBuyRam.read_le_uint64();
 
-    //Bravo::Asset
+    //Asset
     quant.amount = vBuyRam.read_le_uint64();
     quant.symbol = vBuyRam.read_le_uint64();
 }
@@ -526,7 +526,7 @@ void BuyRamAction::deserialize(const nlohmann::json& inJson) noexcept {
     Action::deserialize(inJson);
 
     setData(inJson["data"]["payer"], inJson["data"]["receiver"],
-            TW::Bravo::Asset::fromString(inJson["data"]["quant"]));
+            Asset::fromString(inJson["data"]["quant"]));
 }
 
 // JuBiter-defined

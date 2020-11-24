@@ -11,12 +11,9 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
-
-#include "context/EOSContext.h"
-#include "token/EOS/JubiterBladeEOSImpl.h"
-
-#include "TrustWallet/wallet-core/src/Bravo/Serialization.h"
-#include "TrustWallet/wallet-core/src/Bravo/Deserialization.h"
+#include "context/EOSContextFactory.h"
+#include <TrustWallet/wallet-core/src/EOS/Serialization.h>
+#include <TrustWallet/wallet-core/src/EOS/Deserialization.h>
 #include <TrezorCrypto/hasher.h>
 
 
@@ -81,12 +78,11 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeEOSImpl>(deviceID);
+    auto context = jub::context::EOSseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    JUB_CHECK_NULL(context);
 
-
-    jub::context::EOSContext* context = new jub::context::EOSContext(cfg, token);
-    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     JUB_VERIFY_RV(context->ActiveSelf());
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
     return JUBR_OK;
 }
@@ -94,8 +90,8 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
 /*****************************************************************************
  * @function name : JUB_GetAddressEOS
  * @in  param : contextID - context ID
- *            : path
- *            : bShow
+ *          : path
+ *          : bShow
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -119,7 +115,7 @@ JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_SetMyAddressEOS
  * @in  param : contextID - context ID
- *            : path
+ *          : path
  * @out param : address
  * @last change :
  *****************************************************************************/
@@ -230,8 +226,8 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_BuildActionEOS
  * @in  param : contextID - context ID
- *                     : actions - action array
- *                     : actionCount - the count of action array
+ *          : actions - action array
+ *          : actionCount - the count of action array
  * @out param : actionsInJSON
  * @last change :
  *****************************************************************************/
@@ -266,11 +262,11 @@ JUB_RV JUB_CalculateMemoHash(IN JUB_CHAR_CPTR memo,
     CREATE_THREAD_LOCK_GUARD
     std::string strMemo = std::string(memo);
     TW::Data encode;
-    TW::Bravo::encodeString(strMemo, encode);
+    TW::EOS::encodeString(strMemo, encode);
 
     int varIntByteSize = 0;
     std::string s;
-    TW::Bravo::decodeString(encode, s, varIntByteSize);
+    TW::EOS::decodeString(encode, s, varIntByteSize);
     if (0 != s.compare(strMemo)) {
         return JUBR_HOST_MEMORY;
     }
@@ -279,7 +275,7 @@ JUB_RV JUB_CalculateMemoHash(IN JUB_CHAR_CPTR memo,
 
     const auto begin = reinterpret_cast<const uint8_t*>(toHash.data());
     TW::Hash::Hasher hasher;
-    TW::Data hash = TW::Hash::sha256(begin, begin+toHash.size());
+    TW::Data hash = TW::Hash::sha256(begin, toHash.size());
 
     uchar_vector memoh = uchar_vector(hash.begin(), hash.begin()+4);
     std::string str_memoHash = memoh.getHex();

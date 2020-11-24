@@ -1,6 +1,9 @@
 #pragma once
-#include <token/JubiterBlade/JubiterBladeToken.h>
-#include <token/ETH/JubiterBaseETHImpl.h>
+#include <memory>
+
+#include "token/JubiterBlade/JubiterBladeToken.h"
+#include "token/ETH/JubiterBaseETHImpl.h"
+
 
 namespace jub {
 namespace token {
@@ -14,10 +17,14 @@ class JubiterBladeETHImpl :
 virtual public JubiterBaseETHImpl {
 
 public:
-    JubiterBladeETHImpl(JUB_UINT16 deviceID) :
-        JubiterBladeToken(deviceID) {};
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeETHImpl>(deviceID);
+    }
 
-    ~JubiterBladeETHImpl() {};
+    JubiterBladeETHImpl(JUB_UINT16 deviceID) :
+        JubiterBladeToken(deviceID) {}
+    ~JubiterBladeETHImpl() {}
 
     //ETH functions
     virtual JUB_RV SelectApplet();
@@ -40,6 +47,15 @@ public:
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
+
+    virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+                                  const std::vector<JUB_BYTE>& vPath,
+                                  const std::vector<JUB_BYTE>& vChainID,
+                                  std::vector<JUB_BYTE>& signatureRaw);
+    virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
+                                    const std::string& path,
+                                    const std::vector<JUB_BYTE>& vTypedData,
+                                    const std::vector<JUB_BYTE>& vSignature);
 }; // class JubiterBladeETHImpl end
 
 

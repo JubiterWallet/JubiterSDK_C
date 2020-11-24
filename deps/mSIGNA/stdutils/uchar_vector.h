@@ -22,8 +22,8 @@
 #include <string>
 #include <algorithm>
 
-#include "TrustWalletCore/TWBitcoinOpCodes.h"
-#include "BinaryCoding.h"
+#include <TrustWalletCore/TWBitcoinOpCodes.h>
+#include <TrustWallet/wallet-core/src/BinaryCoding.h>
 
 const char g_hexBytes[][3] = {
     "00","01","02","03","04","05","06","07","08","09","0a","0b","0c","0d","0e","0f",

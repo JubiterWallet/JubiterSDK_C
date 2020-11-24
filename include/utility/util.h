@@ -2,8 +2,6 @@
 #ifndef COINPASS_BIO_UTIL_HPP
 #define COINPASS_BIO_UTIL_HPP
 
-#include "JUB_SDK.h"
-
 #include <assert.h>
 #include <memory>
 #include <string>
@@ -13,7 +11,7 @@
 #include <iostream>
 #include <cstring>
 #include "mSIGNA/stdutils/uchar_vector.h"
-#include "Data.h"
+#include <Data.h>
 
 namespace jub {
 
@@ -46,6 +44,11 @@ template <class _Ty, size_t _Size>
 constexpr size_t array_size(const _Ty (&)[_Size]) noexcept {
     return (_Size);
 }
+
+/*
+* Convert character array to string in C++
+*/
+std::string convertToString(char* a, int size);
 
 /*
 * String splitting function
@@ -101,6 +104,8 @@ std::vector<unsigned char> ETHHexStr2CharPtr(std::string str);
 TW::Data ToTlv(uint8_t tag, const TW::Data &data);
 std::vector<TW::Data> ParseTlv(const TW::Data &data);
 TW::Data Tollv(const std::string& strData);
+
+void decToBinary(uint8_t n, std::vector<uint8_t> &v);
 } // namespace jub
 
 #endif

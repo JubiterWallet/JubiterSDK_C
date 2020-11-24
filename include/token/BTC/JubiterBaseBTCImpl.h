@@ -1,10 +1,11 @@
 #pragma once
-#include <token/interface/BTCTokenInterface.hpp>
+#include "token/interface/BTCTokenInterface.hpp"
 #include <TrezorCrypto/bip32.h>
-#include <TrustWalletCore/TWBitcoin.h>
-#include "Bitcoin/Address.h"
-#include "Bitcoin/Transaction.h"
+#include <TrustWalletCore/TWBitcoinSigHashType.h>
+#include <Bitcoin/Address.h>
+#include <Bitcoin/Transaction.h>
 #include <Hash.h>
+
 
 namespace jub {
 namespace token {
@@ -18,6 +19,7 @@ public:
     };
 
     virtual JUB_RV SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                       const JUB_UINT32 version,
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,
@@ -28,7 +30,7 @@ public:
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<TW::Data>& vInputPublicKey);
     
-    virtual JUB_RV CheckAddress(const std::string address);
+    virtual JUB_RV CheckAddress(const std::string& address);
 
 protected:
     JUB_RV _serializeUnsignedTx(const uint32_t coin,
@@ -62,11 +64,11 @@ protected:
                                       uint32_t hdVersionPub=TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
                                       uint32_t hdVersionPrv=TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin));
 
-    virtual JUB_RV _getAddress(const TW::Data publicKey, std::string& address);
-    virtual JUB_RV _getSegwitAddress(const TW::Data publicKey, std::string& address);
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address);
+    virtual JUB_RV _getSegwitAddress(const TW::Data& publicKey, std::string& address);
 
 protected:
-    uint32_t _hashType = TWSignatureHashTypeAll;
+    uint32_t _hashType = TWBitcoinSigHashTypeAll;
 }; // class JubiterBaseBTCImpl end
 
 

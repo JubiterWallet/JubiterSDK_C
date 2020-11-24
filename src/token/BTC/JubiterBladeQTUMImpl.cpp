@@ -1,6 +1,6 @@
-#include <utility/util.h>
-#include <token/BTC/JubiterBladeQTUMImpl.h>
-#include <token/ErrorHandler.h>
+#include "utility/util.h"
+#include "token/BTC/JubiterBladeQTUMImpl.h"
+#include "token/ErrorHandler.h"
 
 
 namespace jub {
@@ -22,7 +22,7 @@ JUB_RV JubiterBladeQTUMImpl::SetQRC20ETHToken(const std::string& tokenName,
     data << (uint8_t)address.size();
     data << address;
 
-    APDU apdu(0x00, 0xc7, 0x00, 0x00, (JUB_ULONG)data.size(), data.data());
+    APDU apdu(0x00, 0xC7, 0x00, 0x00, (JUB_ULONG)data.size(), data.data());
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     JUB_VERIFY_COS_ERROR(ret);

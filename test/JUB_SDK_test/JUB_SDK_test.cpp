@@ -7,6 +7,7 @@
 
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
+#include "JUB_SDK_test_dev_bio.hpp"
 #include "JUB_SDK_test_btc.hpp"
 #include "JUB_SDK_test_hcash.hpp"
 #include "JUB_SDK_test_qtum.hpp"
@@ -91,6 +92,7 @@ void main_test() {
         cout << "-------------------------------------------" << endl;
         cout << "|********** Jubiter Wallet Test **********|" << endl;
         cout << "|   1. get_device_info_test               |" << endl;
+        cout << "|  11.     device_fgpt_test               |" << endl;
         cout << "|   2. LTC_test.                          |" << endl;
         cout << "|   5.DASH_test.                          |" << endl;
         cout << "|  31. BTC_test.                          |" << endl;
@@ -109,10 +111,12 @@ void main_test() {
         cout << "-------------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
-        rv = JUB_DisconnetDeviceHid(deviceID);
-        if (JUBR_OK != rv) {
-            cout << "JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        }
+//        rv = JUB_DisconnetDeviceHid(deviceID);
+//        if (JUBR_OK != rv) {
+//            cout << "JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
+//        }
+
+        std::string json_file = "json/";
 
         int choice = 0;
         cin >> choice;
@@ -121,45 +125,56 @@ void main_test() {
         case 1:
             get_device_info_test();
             break;
+        case 11:
+            device_fgpt_test(deviceID);
+            break;
         case 2:
-            BTC_test("json/testLTC.json", COINLTC);
+            json_file += "testLTC.json";
+            BTC_test(json_file.c_str(), COINLTC);
             break;
         case 5:
-            BTC_test("json/testDASH.json", COINDASH);
+            json_file += "testDASH.json";
+            BTC_test(json_file.c_str(), COINDASH);
             break;
         case 31:
-            BTC_test("json/testBTC44.json", COINBTC);
+            json_file += "testBTC44.json";
+            BTC_test(json_file.c_str(), COINBTC);
             break;
         case 32:
-            BTC_test("json/testBTC49.json", COINBTC);
+            json_file += "testBTC49.json";
+            BTC_test(json_file.c_str(), COINBTC);
             break;
         case 39:
-            USDT_test("json/testUSDT.json");
+            json_file += "testUSDT.json";
+            USDT_test(json_file.c_str());
             break;
         case 60:
-            ETH_test("json/testETH.json");
+            json_file += "testETH.json";
+            ETH_test(json_file.c_str());
             break;
         case 144:
-            XRP_test("json/testXRP.json");
+            json_file += "testXRP.json";
+            XRP_test(json_file.c_str());
             break;
         case 145:
-            BTC_test("json/testBCH.json", COINBCH);
+            json_file += "testBCH.json";
+            BTC_test(json_file.c_str(), COINBCH);
             break;
         case 171:
-            HC_test(deviceID, "json/testHCash.json");
+            json_file += "testHCash.json";
+            HC_test(deviceID, json_file.c_str());
             break;
         case 194:
-            EOS_test("json/testEOS.json");
-//            EOS_test("json/testEOS_buyram.json");
-//            EOS_test("json/testEOS_sellram.json");
-//            EOS_test("json/testEOS_stake.json");
-//            EOS_test("json/testEOS_unstake.json");
+            json_file += "testEOS.json";
+            EOS_test(json_file.c_str());
             break;
         case 88:
-            QTUM_test(deviceID, "json/testQTUM_qrc20.json");
+            json_file += "testQTUM_qrc20.json";
+            QTUM_test(deviceID, json_file.c_str());
             break;
         case 2301:
-            BTC_test("json/testQTUM.json", COINQTUM);
+            json_file += "testQTUM.json";
+            BTC_test(json_file.c_str(), COINQTUM);
             break;
         case 98:
             send_apdu_test();
@@ -171,8 +186,10 @@ void main_test() {
             exit(0);
         default:
             continue;
-        }
-    }
+        }   // switch (choice) end
+
+        JUB_DisconnetDeviceHid(deviceID);
+    }   // while (true) end
 }
 
 void monitor_test() {

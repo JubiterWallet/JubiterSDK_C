@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -42,7 +42,7 @@ class Transaction {
         , gasLimit(std::move(gasLimit))
         , to(std::move(to))
         , amount(std::move(amount))
-        , payload(std::move(payload)){}
+        , payload(std::move(payload)) {}
 
     // JuBiter-defined
     bool isValid() {

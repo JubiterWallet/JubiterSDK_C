@@ -32,5 +32,7 @@ int getMnemonicStrength(jint strength);
 
 JUB_RV jobjectToInitParam(JNIEnv *env, JUB_VOID_PTR javaVM, DEVICE_INIT_PARAM *param);
 
+JUB_RV jobjectToNFCInitParam(JNIEnv *env, JUB_VOID_PTR javaVM, NFC_DEVICE_INIT_PARAM *param);
+
 
 #endif //JUBITER_UTILS_H

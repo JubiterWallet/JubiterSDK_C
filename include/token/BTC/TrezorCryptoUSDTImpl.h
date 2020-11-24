@@ -1,5 +1,8 @@
 #pragma once
-#include <token/BTC/TrezorCryptoBTCImpl.h>
+#include <memory>
+
+#include "token/BTC/TrezorCryptoBTCImpl.h"
+
 
 namespace jub {
 namespace token {
@@ -7,14 +10,16 @@ namespace token {
 
 class TrezorCryptoUSDTImpl :
     public TrezorCryptoBTCImpl{
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
+        return std::make_shared<TrezorCryptoUSDTImpl>(XPRVorXPUB);
+    }
 
 public:
     TrezorCryptoUSDTImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoBTCImpl(XPRVorXPUB) {};
-    ~TrezorCryptoUSDTImpl() {};
-
-    static std::shared_ptr<BTCTokenInterface> Create(const std::string& XPRVorXPUB) { return std::make_shared<TrezorCryptoUSDTImpl>(XPRVorXPUB);
-    }
+        TrezorCryptoBTCImpl(XPRVorXPUB) {}
+    ~TrezorCryptoUSDTImpl() {}
 }; // class TrezorCryptoUSDTImpl end
 
 

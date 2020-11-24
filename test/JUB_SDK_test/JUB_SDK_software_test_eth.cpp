@@ -18,14 +18,14 @@ void software_test_eth(const char* json_file) {
 
     JUB_CHAR_PTR mnemonic = nullptr;
 
-    JUB_RV rv = JUB_GenerateMnemonic(STRENGTH128, &mnemonic);
+    JUB_RV rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
     if(rv == JUBR_OK) {
-        cout << mnemonic << endl;
+        cout << "JUB_GenerateMnemonic_soft() return " << mnemonic << endl;
     }
 
     rv = JUB_CheckMnemonic(mnemonic);
     if(rv != JUBR_OK) {
-        cout << "JUB_CheckMnemonic return" << rv << endl;
+        cout << "JUB_CheckMnemonic() return" << rv << endl;
     }
     JUB_BYTE seed[64] = {0,};
     JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
@@ -33,9 +33,9 @@ void software_test_eth(const char* json_file) {
         cout << ".";
     };
 
-    rv = JUB_GenerateSeed("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
+    rv = JUB_GenerateSeed_soft("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
     if (rv != JUBR_OK) {
-        cout << "JUB_GenerateSeed error" << endl;
+        cout << "JUB_GenerateSeed_soft() error" << endl;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
@@ -45,9 +45,11 @@ void software_test_eth(const char* json_file) {
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
-    rv = JUB_SeedToMasterPrivateKey(seed, seedLen, secp256k1, &masterXprv);
+    rv = JUB_SeedToMasterPrivateKey_soft(seed, seedLen,
+                                         JUB_ENUM_CURVES::SECP256K1,
+                                         &masterXprv);
     if (rv == JUBR_OK) {
-        cout << masterXprv << endl;
+        cout << "JUB_SeedToMasterPrivateKey_soft() return " << masterXprv << endl;
     }
 
     CONTEXT_CONFIG_ETH cfgeth;
@@ -56,19 +58,19 @@ void software_test_eth(const char* json_file) {
     JUB_UINT16 contextID = 0;
     rv = JUB_CreateContextETH_soft(cfgeth, masterXprv, &contextID);
     if (rv != JUBR_OK) {
-        cout << "JUB_CreateContextETH_soft return " << rv << endl;
+        cout << "JUB_CreateContextETH_soft() return " << rv << endl;
     }
 
     JUB_CHAR_PTR xpub = nullptr;
     rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, &xpub);
     if (rv == JUBR_OK) {
-        cout << "main hex: " << xpub << endl;
+        cout << "JUB_GetMainHDNodeETH() return " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
     rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &xpub);
     if (rv == JUBR_OK) {
-        cout << "main xpub: " << xpub << endl;
+        cout << "JUB_GetMainHDNodeETH() return " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
@@ -77,20 +79,20 @@ void software_test_eth(const char* json_file) {
     path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asInt();
     rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &xpub);
     if (rv == JUBR_OK) {
-        cout << "hex: " << xpub << endl;
+        cout << "JUB_GetHDNodeETH() return " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
     rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &xpub);
     if (rv == JUBR_OK) {
-        cout << "xpub: " << xpub << endl;
+        cout << "JUB_GetHDNodeETH() return " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressETH(contextID, path, BOOL_FALSE, &address);
     if(rv == JUBR_OK) {
-        cout << address << endl;
+        cout << "JUB_GetAddressETH() return " << address << endl;
         JUB_FreeMemory(address);
     }
 
@@ -100,6 +102,11 @@ void software_test_eth(const char* json_file) {
     }
 
     rv = transaction_proc_ERC20_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = bytestring_proc_ETH(contextID, root);
     if (JUBR_OK != rv) {
         return;
     }

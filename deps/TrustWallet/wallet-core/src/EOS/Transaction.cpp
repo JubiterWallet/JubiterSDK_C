@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -8,7 +8,7 @@
 #include "../Hash.h"
 #include "../HexCoding.h"
 #include "Transaction.h"
-#include "../Bravo/Deserialization.h"
+#include "../EOS/Deserialization.h"
 
 #include <TrezorCrypto/ripemd160.h>
 #include "mSIGNA/stdutils/uchar_vector.h"
@@ -21,7 +21,7 @@ using namespace TW;
 using namespace TW::EOS;
 using json = nlohmann::json;
 
-Signature::Signature(Data sig, Type type) : data(sig), type(type) {
+Signature::Signature(const Data& sig, Type type) : data(sig), type(type) {
     if (sig.size() != DataSize) {
         throw std::invalid_argument("Invalid signature size!");
     }
@@ -130,7 +130,7 @@ void Signature::deserialize(const Data& sig) noexcept {
 void Signature::serialize(Data& os) const noexcept {
     // type should never be Legacy
     uint32_t typeId = type == Type::ModernK1 ? 0 : 1;
-    Bravo::encodeVarInt32(typeId, os);
+    encodeVarInt32(typeId, os);
     os.insert(os.end(), data.begin(), data.end());
 }
 
@@ -172,7 +172,7 @@ void Extension::deserialize(const Data& o) noexcept {
     Data tempData(vTempData);
     uint64_t dataSize = 0;
     int varIntByteSize = 0;
-    Bravo::decodeVarInt64(tempData, dataSize, varIntByteSize);
+    decodeVarInt64(tempData, dataSize, varIntByteSize);
     vExtension.reset_it(varIntByteSize);
     buffer = vExtension.read_vector(dataSize);
 }
@@ -181,7 +181,7 @@ void Extension::deserialize(const Data& o) noexcept {
 size_t Extension::size() const noexcept {
     uint64_t dataSize = buffer.size();
     Data dataVarInt64Len;
-    Bravo::encodeVarInt64(dataSize, dataVarInt64Len);
+    encodeVarInt64(dataSize, dataVarInt64Len);
 
     return (  sizeof(uint16_t)/sizeof(uint8_t)
             + dataVarInt64Len.size() + dataSize);
@@ -189,7 +189,7 @@ size_t Extension::size() const noexcept {
 
 void Extension::serialize(Data& os) const noexcept {
     encode16LE(type, os);
-    Bravo::encodeVarInt64(buffer.size(), os);
+    encodeVarInt64(buffer.size(), os);
     append(os, buffer);
 }
 
@@ -219,7 +219,7 @@ void Transaction::deserialize(const Data& o, const bool bWithType) noexcept {
     uchar_vector vMaxNetUsageWords(vTrx.get_cur_it(), vTrx.end());
     Data tempMaxNetUsageWords(vMaxNetUsageWords);
     int varIntByteSize = 0;
-    TW::Bravo::decodeVarInt32(tempMaxNetUsageWords, maxNetUsageWords, varIntByteSize);
+    decodeVarInt32(tempMaxNetUsageWords, maxNetUsageWords, varIntByteSize);
     vTrx.reset_it(varIntByteSize);
 
     // maxCPUUsageInMS
@@ -229,7 +229,7 @@ void Transaction::deserialize(const Data& o, const bool bWithType) noexcept {
     uchar_vector vDelaySeconds(vTrx.get_cur_it(), vTrx.end());
     Data tempDelaySeconds(vDelaySeconds);
     varIntByteSize = 0;
-    TW::Bravo::decodeVarInt32(tempDelaySeconds, delaySeconds, varIntByteSize);
+    decodeVarInt32(tempDelaySeconds, delaySeconds, varIntByteSize);
     vTrx.reset_it(varIntByteSize);
 
     //Collection - contextFreeActions
@@ -237,7 +237,7 @@ void Transaction::deserialize(const Data& o, const bool bWithType) noexcept {
     Data tempCtxFreeActions(vCtxFreeActions);
     uint64_t collectionCnt = 0;
     varIntByteSize = 0;
-    Bravo::decodeCollection(tempCtxFreeActions, collectionCnt, varIntByteSize);
+    decodeCollection(tempCtxFreeActions, collectionCnt, varIntByteSize);
     vTrx.reset_it(varIntByteSize);
     uint16_t ctxFreeActionSize = 0;
     for (uint64_t i=0; i<collectionCnt; ++i) {
@@ -259,7 +259,7 @@ void Transaction::deserialize(const Data& o, const bool bWithType) noexcept {
     Data tempActions(vActions);
     collectionCnt = 0;
     varIntByteSize = 0;
-    Bravo::decodeCollection(tempActions, collectionCnt, varIntByteSize);
+    decodeCollection(tempActions, collectionCnt, varIntByteSize);
     vTrx.reset_it(varIntByteSize);
     uint16_t actionSize = 0;
     for (uint8_t i=0; i<collectionCnt; ++i) {
@@ -287,7 +287,7 @@ void Transaction::deserialize(const Data& o, const bool bWithType) noexcept {
     Data tempTransactionExtensions(vTransactionExtensions);
     collectionCnt = 0;
     varIntByteSize = 0;
-    Bravo::decodeCollection(tempTransactionExtensions, collectionCnt, varIntByteSize);
+    decodeCollection(tempTransactionExtensions, collectionCnt, varIntByteSize);
     vTrx.reset_it(varIntByteSize);
     uint16_t txExtSize = 0;
     for (uint8_t i=0; i<collectionCnt; ++i) {
@@ -305,7 +305,7 @@ void Transaction::deserialize(const Data& o, const bool bWithType) noexcept {
 // JuBiter-defined
 uint16_t Transaction::actionCntLength() const noexcept {
     Data os;
-    TW::Bravo::encodeVarInt64(actions.size(), os);
+    encodeVarInt64(actions.size(), os);
 
     return os.size();
 }
@@ -320,8 +320,6 @@ void Transaction::setReferenceBlock(const Data& refBlockId) {
 }
 
 void Transaction::serialize(Data& os, const bool bWithType) const noexcept{
-    using namespace Bravo;
-
     encode32LE(expiration, os);
     encode16LE(refBlockNumber, os);
     encode32LE(refBlockPrefix, os);
@@ -340,7 +338,6 @@ void Transaction::serialize(Data& os, const bool bWithType) const noexcept{
 }
 
 json Transaction::serialize() const {
-    using namespace Bravo;
 
     // get a formatted date
     char formattedDate[20] = {0x00,};

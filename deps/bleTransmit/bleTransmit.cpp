@@ -8,8 +8,8 @@
 #include "bleTransmit.h"
 
 #ifdef __ANDROID__
-#include <bleTransmit/android/BTManager.h>
-#include <utility/Debug.hpp>
+#include "bleTransmit/android/BTManager.h"
+#include "utility/Debug.hpp"
 
 #elif defined(TARGET_OS_IPHONE)
 #include "BLEInterface.h"
@@ -130,7 +130,7 @@ CK_FUNCTION_INFO(BLE_StopScan)
 #elif defined(TARGET_OS_IPHONE)
     //whl 20170327
 //    [[BLEManager sharedManager] stopScan];
-    ret = ADDPRE(BLEStopScan());;
+    ret = ADDPRE(BLEStopScan());
 #endif
     return ret;
 }

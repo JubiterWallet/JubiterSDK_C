@@ -1,6 +1,6 @@
 #pragma once
 
-#include <JUB_CORE.h>
+#include "JUB_CORE.h"
 
 namespace jub {
 namespace token {

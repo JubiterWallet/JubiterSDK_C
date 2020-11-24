@@ -1,10 +1,8 @@
-#include <JUB_SDK_Hcash.h>
-#include <token/HC/JubiterBladeHCImpl.h>
-#include <utility/util.h>
+#include "utility/util.h"
 #include "utility/mutex.h"
 
-#include <context/HCContext.h>
-#include <string>
+#include "context/HCContextFactory.h"
+
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -27,13 +25,11 @@ JUB_RV JUB_CreateContextHC(IN CONTEXT_CONFIG_HC cfg,
                            OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto token = std::make_shared<jub::token::JubiterBladeHCImpl>(deviceID);
-
-    jub::context::HCContext* context = new jub::context::HCContext(cfg, std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(token));
+    auto context = jub::context::HCseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
     JUB_CHECK_NULL(context);
 
-	*contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
     JUB_VERIFY_RV(context->ActiveSelf());
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
     return JUBR_OK;
 }
@@ -45,9 +41,9 @@ JUB_RV JUB_GetMainHDNodeHC(IN JUB_UINT16 contextID,
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
     JUB_CHECK_NULL(context);
 
-    std::string strXpub;
-    JUB_VERIFY_RV(context->GetMainHDNode(strXpub));
-    JUB_VERIFY_RV(_allocMem(xpub, strXpub));
+    std::string str_xpub;
+    JUB_VERIFY_RV(context->GetMainHDNode(str_xpub));
+    JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
 
     return JUBR_OK;
 }
@@ -60,9 +56,9 @@ JUB_RV JUB_GetHDNodeHC(IN JUB_UINT16 contextID,
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
     JUB_CHECK_NULL(context);
 
-    std::string strXpub;
-    JUB_VERIFY_RV(context->GetHDNode(path, strXpub));
-    JUB_VERIFY_RV(_allocMem(xpub, strXpub));
+    std::string str_xpub;
+    JUB_VERIFY_RV(context->GetHDNode(path, str_xpub));
+    JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
 
     return JUBR_OK;
 }
@@ -84,6 +80,7 @@ JUB_RV JUB_GetAddressHC(IN JUB_UINT16 contextID,
 }
 
 JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
+                             IN JUB_UINT32 version,
                              IN INPUT_HC inputs[], IN JUB_UINT16 iCount,
                              IN OUTPUT_HC outputs[], IN JUB_UINT16 oCount,
                              IN JUB_CHAR_CPTR unsignedTrans,
@@ -92,13 +89,14 @@ JUB_RV JUB_SignTransactionHC(IN JUB_UINT16 contextID,
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::HCContext>(contextID);
     JUB_CHECK_NULL(context);
+
     JUB_CHECK_NULL(unsignedTrans);
 
     std::vector<INPUT_HC> vInputs(inputs, inputs + iCount);
     std::vector<OUTPUT_HC> vOutputs(outputs, outputs + oCount);
 
     std::string strRaw;
-    auto rv = context->signTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, vInputs, vOutputs, unsignedTrans, strRaw);
+    auto rv = context->signTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, version, vInputs, vOutputs, unsignedTrans, strRaw);
     if (   JUBR_OK          == rv
         || JUBR_MULTISIG_OK == rv
         ) {

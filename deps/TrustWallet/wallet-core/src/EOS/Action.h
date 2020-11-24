@@ -1,4 +1,4 @@
-// Copyright © 2017-2019 Trust Wallet.
+// Copyright © 2017-2020 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "../Bravo/Asset.h"
+#include "Asset.h"
 #include "Name.h"
 
 #include <nlohmann/json.hpp>
@@ -70,7 +70,7 @@ private:
 class TransferAction: public Action {
 public:
     TransferAction(const std::string& currency, const std::string& actName,
-                   const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo);
+                   const std::string& from, const std::string& to, const Asset& asset, const std::string& memo);
     // JuBiter-defined
     TransferAction() { }
 
@@ -88,13 +88,13 @@ public:
     virtual void deserialize(const nlohmann::json& inJson) noexcept override;
 
 private:
-    void setData(const std::string& from, const std::string& to, const Bravo::Asset& asset, const std::string& memo);
+    void setData(const std::string& from, const std::string& to, const Asset& asset, const std::string& memo);
 
 public:
     // JuBiter-defined
     Name from, to;
     // JuBiter-defined
-    Bravo::Asset asset;
+    Asset asset;
     // JuBiter-defined
     Data memo;
 }; // class TransferAction end
@@ -103,7 +103,7 @@ public:
 class DelegateAction: public Action {
 public:
     DelegateAction(const std::string& currency, const std::string& actName,
-                   const std::string& from, const std::string& receiver, const Bravo::Asset& netQty, const Bravo::Asset& cpuQty, const bool transferable, bool bStake = false);
+                   const std::string& from, const std::string& receiver, const Asset& netQty, const Asset& cpuQty, const bool transferable, bool bStake = false);
     DelegateAction(bool bStake = false) {
         transfer = 0x00;
         _bStake = bStake;
@@ -116,14 +116,14 @@ public:
 
 private:
     void setData(const std::string& from, const std::string& receiver,
-                 const Bravo::Asset& netQty, const Bravo::Asset& cpuQty,
+                 const Asset& netQty, const Asset& cpuQty,
                  const uint8_t transfer);
     bool _bStake;
 
 public:
     Name from, receiver;
-    Bravo::Asset netQty;
-    Bravo::Asset cpuQty;
+    Asset netQty;
+    Asset cpuQty;
     uint8_t transfer;
 }; // class DelegateAction end
 
@@ -132,7 +132,7 @@ class BuyRamAction: public Action {
 public:
     BuyRamAction(const std::string& currency, const std::string& actName,
                  const std::string& payer, const std::string& receiver,
-                 const Bravo::Asset& quant);
+                 const Asset& quant);
     BuyRamAction() { }
 
     virtual void deserialize(const Data& o) noexcept override;
@@ -142,11 +142,11 @@ public:
 
 private:
     void setData(const std::string& payer, const std::string& receiver,
-                 const Bravo::Asset& quant);
+                 const Asset& quant);
 
 public:
     Name payer, receiver;
-    Bravo::Asset quant;
+    Asset quant;
 }; // class BuyRamAction end
 
 // JuBiter-defined
