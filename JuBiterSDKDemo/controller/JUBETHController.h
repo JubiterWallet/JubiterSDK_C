@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define BUTTON_TITLE_ETH            @"ETH"
 #define BUTTON_TITLE_ETH_ERC20      @"ETH_ERC20"
+#define BUTTON_TITLE_ETH_BYTESTR    @"ETH_BYTESTR"
 #define BUTTON_TITLE_ETC            @"ETC"
 
 

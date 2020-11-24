@@ -392,9 +392,6 @@
 // Fingerprint timeout setting
 - (void)timeOutEntry {
     
-    __block
-    NSString *timeout = nil;
-    
     JUBCustomInputAlert *customInputAlert = [JUBCustomInputAlert showCallBack:^(NSString * _Nonnull timeout,
                                                                                 JUBDissAlertCallBack  _Nonnull dissAlertCallBack,
                                                                                 JUBSetErrorCallBack  _Nonnull setErrorCallBack) {

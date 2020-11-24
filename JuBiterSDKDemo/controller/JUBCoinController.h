@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #define BUTTON_TITLE_TRANSACTION    @"TRANSACTION"
-#define BUTTON_TITLE_MESSAGE        @"MESSAGE"
 #define BUTTON_TITLE_GETADDRESS     @"   GET_ADDRESS"
 #define BUTTON_TITLE_SHOWADDRESS    @"  SHOW_ADDRESS"
 #define BUTTON_TITLE_SETMYADDRESS   @"SET_MY_ADDRESS"
@@ -25,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, JUB_NS_ENUM_OPT) {
     TRANSACTION,
-    MESSAGE,
        GET_ADDRESS,
       SHOW_ADDRESS,
     SET_MY_ADDRESS,
@@ -34,6 +32,8 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_OPT) {
 
 
 @interface JUBCoinController : JUBSubPageController
+
+- (void) EnterAmount;
 
 - (void) CoinOpt:(NSUInteger)contextID
             root:(Json::Value)root

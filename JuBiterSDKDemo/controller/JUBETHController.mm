@@ -35,6 +35,7 @@
     return @[
         BUTTON_TITLE_ETH,
         BUTTON_TITLE_ETH_ERC20,
+        BUTTON_TITLE_ETH_BYTESTR,
 //        BUTTON_TITLE_ETC
     ];
 }
@@ -47,6 +48,7 @@
     switch (self.selectedMenuIndex) {
     case JUB_NS_ENUM_ETH_COIN::BTN_ETH:
     case JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC20:
+    case JUB_NS_ENUM_ETH_COIN::BTN_ETH_BYTESTR:
     {
         json_file = JSON_FILE_ETH;
         break;
@@ -71,6 +73,25 @@
 
 
 #pragma mark - ETH applet
+- (void) EnterAmount {
+    
+    __block
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
+    switch(self.selectedMenuIndex) {
+    case JUB_NS_ENUM_ETH_COIN::BTN_ETH_BYTESTR:
+        [sharedData setAmount:@""];
+        break;
+    default:
+        [super EnterAmount];
+        break;
+    }
+}
+
+
 - (void) ETH_test:(NSUInteger)deviceID
              root:(Json::Value)root
            choice:(int)choice {

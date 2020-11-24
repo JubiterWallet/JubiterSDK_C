@@ -348,7 +348,11 @@
         action.currency = (char*)(*it)["currency"].asCString();
         action.name     = (char*)(*it)["name"].asCString();
         
-        const char* sType = std::to_string((unsigned int)action.type).c_str();
+        std::string strType = std::to_string((unsigned int)action.type);
+        char* sType = new char[strType.length()+1];
+        memset(sType, 0x00, strType.length()+1);
+        std::copy(strType.begin(), strType.end(), sType);
+        
         switch (action.type) {
         case JUB_ENUM_EOS_ACTION_TYPE::XFER:
         {
@@ -423,9 +427,15 @@
         }
         case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
         default:
+            if (sType) {
+                delete [] sType; sType = nullptr;
+            }
             return JUBR_ARGUMENTS_BAD;
         }   // switch (action.type) end
         actions.push_back(action);
+        if (sType) {
+            delete [] sType; sType = nullptr;
+        }
     }
     size_t actionCnt = actions.size();
     JUB_ACTION_EOS_PTR pActions = new JUB_ACTION_EOS[actionCnt*sizeof(JUB_ACTION_EOS)+1];
@@ -440,7 +450,9 @@
     rv = JUB_BuildActionEOS(contextID,
                             pActions, actionCnt,
                             &actionsInJSON);
-    delete [] pActions; pActions = nullptr;
+    if (pActions) {
+        delete [] pActions; pActions = nullptr;
+    }
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildActionEOS() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
@@ -472,8 +484,10 @@
     
     time_t localTime;
     tRefblocktime += localtime(&localTime)->tm_gmtoff;
-    char* referenceBlockTime = (char*)std::to_string(tRefblocktime).c_str();
-    
+    std::string strReferenceBlockTime = std::to_string(tRefblocktime);
+    char* referenceBlockTime = new char[strReferenceBlockTime.length()+1];
+    memset(referenceBlockTime, 0x00, strReferenceBlockTime.length()+1);
+    std::copy(strReferenceBlockTime.begin(), strReferenceBlockTime.end(), referenceBlockTime);
     JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionEOS(contextID,
                                 path,
@@ -483,6 +497,9 @@
                                 referenceBlockTime,
                                 actionsInJSON,
                                 &raw);
+    if (referenceBlockTime) {
+        delete [] referenceBlockTime; referenceBlockTime = nullptr;
+    }
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;

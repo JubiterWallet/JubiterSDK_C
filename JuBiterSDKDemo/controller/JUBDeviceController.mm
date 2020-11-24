@@ -356,7 +356,7 @@
     auto vAppList = [[NSString stringWithCString:appletList.c_str()
                                         encoding:[NSString defaultCStringEncoding]]
                      componentsSeparatedByString:@" "];
-    for (auto appID : vAppList) {
+    for (id appID : vAppList) {
         if (NSComparisonResult::NSOrderedSame == [appID compare:[NSString stringWithCString:""
                                                                                    encoding:[NSString defaultCStringEncoding]]]) {
             continue;

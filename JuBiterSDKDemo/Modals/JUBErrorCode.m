@@ -141,7 +141,7 @@
     case JUBR_BIO_FINGERPRINT_MODALITY_ERROR:{ errMsg = @"JUBR_BIO_FINGERPRINT_MODALITY_ERROR"; break; }
     case JUBR_BIO_SPACE_LIMITATION:     { errMsg = @"JUBR_BIO_SPACE_LIMITATION"; break; }
     case JUBR_BIO_TIMEOUT:              { errMsg = @"JUBR_BIO_TIMEOUT"; break; }
-
+    
     default:                            { errMsg = @"UNKNOWN ERROR."; break; }
     }   // switch (rv) end
     

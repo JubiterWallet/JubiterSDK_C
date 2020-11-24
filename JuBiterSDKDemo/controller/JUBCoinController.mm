@@ -28,7 +28,6 @@
     
     NSArray *buttonTitleArray = @[
         BUTTON_TITLE_TRANSACTION,
-        BUTTON_TITLE_MESSAGE,
         BUTTON_TITLE_GETADDRESS,
         BUTTON_TITLE_SHOWADDRESS,
         BUTTON_TITLE_SETMYADDRESS,
@@ -105,18 +104,9 @@
     
     switch (self.optIndex) {
     case JUB_NS_ENUM_OPT::TRANSACTION:
-    case JUB_NS_ENUM_OPT::MESSAGE:
     {
         if (JUB_NS_ENUM_OPT::TRANSACTION == self.optIndex) {
-            NSString *amount = [self inputAmount];
-            if (nil == amount) {
-                [self addMsgData:[NSString stringWithFormat:@"Input transaction amount CANCELED."]];
-                break;
-            }
-            else if (NSComparisonResult::NSOrderedSame == [amount compare:@""]) {
-                [self addMsgData:[NSString stringWithFormat:@"The transaction amount using default values."]];
-            }
-            [sharedData setAmount:amount];
+            [self EnterAmount];
         }
         
         switch (self.selectedTransmitTypeIndex) {
@@ -207,6 +197,25 @@
 
 
 #pragma mark - 业务
+- (void) EnterAmount {
+    
+    __block
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
+    NSString *amount = [self inputAmount];
+    if (nil == amount) {
+        [self addMsgData:[NSString stringWithFormat:@"Input transaction amount CANCELED."]];
+    }
+    else if (NSComparisonResult::NSOrderedSame == [amount compare:@""]) {
+        [self addMsgData:[NSString stringWithFormat:@"The transaction amount using default values."]];
+    }
+    [sharedData setAmount:amount];
+}
+
+
 - (void) CoinOpt:(NSUInteger)contextID
             root:(Json::Value)root
           choice:(int)choice {
@@ -238,19 +247,15 @@
             break;
         }
         
-        [self transaction_test:contextID
-                        amount:[[JUBSharedData sharedInstance] amount]
+        if ([[[JUBSharedData sharedInstance] amount] isEqual:@""]) {
+            [self message_test:contextID
                           root:root];
-        break;
-    }
-    case JUB_NS_ENUM_OPT::MESSAGE:
-    {
-        if (JUBR_OK != [self verify_user:contextID]) {
-            break;
         }
-        
-        [self message_test:contextID
-                      root:root];
+        else {
+            [self transaction_test:contextID
+                            amount:[[JUBSharedData sharedInstance] amount]
+                              root:root];
+        }
         break;
     }
     default:
@@ -567,8 +572,12 @@
 - (void) message_test:(NSUInteger)contextID
                  root:(Json::Value)root {
     
-    [self message_proc:contextID
-                  root:root];
+    JUBAlertView *alertView = [JUBAlertView showMsg:@"Message in progress..."];
+    {
+        [self message_proc:contextID
+                      root:root];
+        [alertView dismiss];
+    }
 }
 
 

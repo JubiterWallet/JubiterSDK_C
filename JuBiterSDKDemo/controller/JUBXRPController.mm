@@ -343,7 +343,10 @@
     //    JUB_PYMT_AMOUNT sendMax;    // [Optional]
     //    JUB_PYMT_AMOUNT deliverMin; // [Optional]
     //} JUB_PYMT_XRP;
-    const char* sType = std::to_string((unsigned int)xrp.type).c_str();
+    std::string strType = std::to_string((unsigned int)xrp.type);
+    char* sType = new char[strType.length()+1];
+    std::memset(sType, 0x00, strType.length()+1);
+    std::copy(strType.begin(), strType.end(), sType);
     xrp.pymt.type = (JUB_ENUM_XRP_PYMT_TYPE)root["XRP"][sType]["type"].asUInt();
     switch (xrp.pymt.type) {
     case JUB_ENUM_XRP_PYMT_TYPE::DXRP:
@@ -364,6 +367,9 @@
                                 path,
                                 xrp,
                                 &raw);
+    if (sType) {
+        delete[] sType; sType = nullptr;
+    }
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_SignTransactionXRP() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
