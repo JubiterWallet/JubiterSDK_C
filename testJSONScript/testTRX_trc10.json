@@ -1,0 +1,26 @@
+{
+    "main_path" : "m/44'/195'/0'",
+    "TRX" : {
+        "pack" : {
+            "ref_block_bytes" : "8610",
+            "ref_block_hash" : "6a630e523f995e67",
+            "expiration" : "1603346250000",
+            "timestamp" : "1603346193445",
+            "fee_limit": "0"
+        },
+        "contracts" :
+        {
+            "type" : 2,
+            "owner_address" : "TWqFgX6kK4WN4bzq2CySTCmP9UTYfSHRrE",
+            "2" : {
+                "asset_name" : "1000959",
+                "to_address" : "TLb2e2uRhzxvrxMcC8VkL2N7zmxYyg3Vfc",
+                "amount" : 4
+            }
+        },
+        "bip32_path" : {
+            "change" : false,
+            "addressIndex" : 0
+        }
+    }
+}

@@ -21,6 +21,7 @@
 #import "JUBETHController.h"
 #import "JUBEOSController.h"
 #import "JUBXRPController.h"
+#import "JUBTRXController.h"
 
 
 @interface JUBHomePageController ()
@@ -270,6 +271,7 @@
         BUTTON_TITLE_ETH,
         BUTTON_TITLE_EOS,
         BUTTON_TITLE_XRP,
+        BUTTON_TITLE_TRX,
     ];
     
     NSMutableArray *buttonModelArray = [NSMutableArray array];
@@ -397,6 +399,11 @@
     case JUB_NS_ENUM_MAIN::OPT_XRP:
     {
         vc = [[JUBXRPController alloc] init];
+        break;
+    }
+    case JUB_NS_ENUM_MAIN::OPT_TRX:
+    {
+        vc = [[JUBTRXController alloc] init];
         break;
     }
     default:

@@ -1,0 +1,30 @@
+{
+    "main_path" : "m/44'/195'/0'",
+    "TRX" : {
+        "pack" : {
+            "ref_block_bytes" : "8610",
+            "ref_block_hash" : "6a630e523f995e67",
+            "expiration" : "1603346250000",
+            "timestamp" : "1603346193445",
+            "fee_limit": "0"
+        },
+        "contracts" :
+        {
+            "type" : 31,
+            "owner_address" : "TWqFgX6kK4WN4bzq2CySTCmP9UTYfSHRrE",
+            "31" : {
+                "fee_limit": "1",
+                "contract_address" : "41a7837ce56da0cbb28f30bcd5bff01d4fe7e4c6e3",
+                "call_value" : 2,
+                "token_to" : "0xef31DEc147DCDcd64F6a0ABFA7D441B62A216BC9",
+                "data" : "a9059cbb",
+                "call_token_value" : 0,
+                "token_id" : 0
+            }
+        },
+        "bip32_path" : {
+            "change" : false,
+            "addressIndex" : 0
+        }
+    }
+}

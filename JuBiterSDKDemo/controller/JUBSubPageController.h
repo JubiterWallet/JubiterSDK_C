@@ -59,6 +59,10 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid);
 - (void)CoinXRPOpt:(NSUInteger)deviceID;
 
 
+#pragma mark - TRX 通讯库寻卡回调
+- (void)CoinTRXOpt:(NSUInteger)deviceID;
+
+
 @end
 
 
