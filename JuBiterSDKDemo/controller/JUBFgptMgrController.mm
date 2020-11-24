@@ -26,6 +26,8 @@
     self.title = @"Fingerprint Management";
     
     self.navRightButtonTitle = @"Verify";
+    
+    self.timeOut = 20;
 }
 
 
@@ -387,6 +389,39 @@
 }
 
 
+// Fingerprint timeout setting
+- (void)timeOutEntry {
+    
+    __block
+    NSString *timeout = nil;
+    
+    JUBCustomInputAlert *customInputAlert = [JUBCustomInputAlert showCallBack:^(NSString * _Nonnull timeout,
+                                                                                JUBDissAlertCallBack  _Nonnull dissAlertCallBack,
+                                                                                JUBSetErrorCallBack  _Nonnull setErrorCallBack) {
+        
+        NSLog(@"content = %@", timeout);
+        
+        if (   [timeout integerValue] >=  8
+            && [timeout integerValue] <= 60
+            ) {
+            //隐藏弹框
+            dissAlertCallBack();
+            
+            self.timeOut = [timeout integerValue];
+            
+        }
+        else {
+            setErrorCallBack(@"The maximum fingerprint timeout is 60s.");
+        }
+    }
+                                                                 keyboardType:UIKeyboardTypeDecimalPad];
+    
+    customInputAlert.message = @"Please input the timeout (8 ~ 60s):";
+    
+    customInputAlert.title = @"The fingerprint operation timeout setting";
+}
+
+
 - (NSUInteger) enum_fgpt_test:(NSUInteger)deviceID {
     
     JUB_RV rv = JUBR_ERROR;
@@ -424,13 +459,11 @@
     
     JUB_RV rv = JUBR_ERROR;
     
-    JUB_UINT16 fpTimeout = 60;
-    
     NSUInteger fgptNextIndex = fgptIndex;
     JUB_ULONG remainingTimes = times;
     NSUInteger assignedID = fgptID;
     rv = JUB_EnrollFingerprint(deviceID,
-                               fpTimeout,
+                               self.timeOut,
                                (JUB_BYTE_PTR)(&fgptNextIndex), &remainingTimes,
                                (JUB_BYTE_PTR)(&assignedID));
     if (JUBR_OK != rv) {
@@ -449,10 +482,8 @@
     
     JUB_RV rv = JUBR_ERROR;
     
-    JUB_UINT16 fpTimeout = 60;
-    
     rv = JUB_EraseFingerprint(deviceID,
-                              fpTimeout);
+                              self.timeOut);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_EraseFingerprint() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
@@ -468,10 +499,8 @@
     
     JUB_RV rv = JUBR_ERROR;
     
-    JUB_UINT16 fpTimeout = 60;
-    
     rv = JUB_DeleteFingerprint(deviceID,
-                               fpTimeout,
+                               self.timeOut,
                                fgptID);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_DeleteFingerprint() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
