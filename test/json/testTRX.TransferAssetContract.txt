@@ -1,0 +1,46 @@
+//0a = 0000 1010 -> 00001 010 ->  1, 2
+//22 = 0010 0010 -> 00100 010 ->  4, 2
+//40 = 0100 0000 -> 01000 000 ->  8, 0
+//5a = 0101 1010 -> 01011 010 -> 11, 2
+//70 = 0111 0000 -> 01110 000 -> 14, 0
+
+
+//08 = 0000 1000 -> 00001 000 ->  1, 0
+//12 = 0001 0010 -> 00010 010 ->  2, 2
+//0a = 0000 1010 -> 00001 010 ->  1, 2
+//1a = 0001 1010 -> 00011 010 ->  3, 2
+//20 = 0010 0000 -> 00100 000 ->  4, 0
+
+
+//server(145)
+//0a0212a222084612a8bc0f1840f340a8fb9cafd22e5a730802126f0a32747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e736665724173736574436f6e747261637412390a0731303030393539121541e4d98d1c7122a48e4adb5954b34af2661f3d52281a15417477951026491cfda5920233b818eb3ced770eb4200470cbc799afd22e
+//0a 02 12a2                (raw.ref_block_bytes)
+//22 08 4612a8bc0f1840f3    (raw.ref_block_hash)
+//40 a8fb9cafd22e           (raw.expiration)
+//5a 73                     (repeated raw.Contract length = 115)
+//      08 02                   (Contract.type length = 2)
+//      12 6f                   (Contract.parameter length = 111)
+//            0a 32                 (Contract.parameter.typeUrl length = 50)
+//                   747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e736665724173736574436f6e7472616374
+//            12 39                 (Contract.parameter.TransferAssetContract length = 57)
+//                  0a 07 31303030393539 (Contract.parameter.TransferAssetContract.asset_name)
+//                  12 15 41e4d98d1c7122a48e4adb5954b34af2661f3d5228 (Contract.parameter.TransferAssetContract.owner_address)
+//                  1a 15 417477951026491cfda5920233b818eb3ced770eb4 (Contract.parameter.TransferAssetContract.to_address)
+//                  20 04 (Contract.parameter.TransferAssetContract.amount)
+//70 cbc799afd22e           (raw.timestamp)
+
+//(145)
+//0a0212a222084612a8bc 0f1840f340a8fb9cafd2
+//2e5a730802126f0a3274 7970652e676f6f676c65
+//617069732e636f6d2f70 726f746f636f6c2e5472
+//616e7366657241737365 74436f6e747261637412
+//39
+//0a07                   - 83
+//31303030393539
+//12 15                  - 92
+//41e4d98d1c7122a48e4a db5954b34af2661f3d5228
+//1a 15                  - 115
+//417477951026491cfda5 920233b818eb3ced770eb4
+//20                     - 137
+//04
+//70 cbc799afd22e

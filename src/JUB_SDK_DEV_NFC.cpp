@@ -5,6 +5,8 @@
 //  Created by Pan Min on 2020/3/27.
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
+#include "JUB_SDK_COMM.h"
+#if defined(NFC_MODE)
 
 #include "JUB_SDK_DEV_NFC.h"
 
@@ -465,3 +467,4 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
     return JUBR_IMPL_NOT_SUPPORT;
 #endif  // #if defined(NFC_MODE) end
 }
+#endif  // #if defined(NFC_MODE) end

@@ -24,6 +24,9 @@
 		67A4BE902330D1A80059A3DB /* JUB_SDK_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE8F2330D1A80059A3DB /* JUB_SDK_main.cpp */; };
 		67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67B74EDC248109050066EF8E /* libJubSDK.a */; };
 		67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */; };
+		67D7BD37256625FB00A84359 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7BD36256625FB00A84359 /* libprotobuf.a */; };
+		67E0DFB8250F78DB00D42EF0 /* JUB_SDK_test_trx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFB4250F78DA00D42EF0 /* JUB_SDK_test_trx.cpp */; };
+		67E0DFB9250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFB7250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp */; };
 		67F808C2235966D900DE9ECE /* JUB_SDK_software_test_eth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */; };
 		67F808C3235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BE235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp */; };
 		67F808C4235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808C0235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp */; };
@@ -54,6 +57,38 @@
 		674B4A9024A1C7C20053AB2F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = CMakeLists.txt; path = ../../test/CMakeLists.txt; sourceTree = "<group>"; };
 		675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.cpp; sourceTree = "<group>"; };
 		675C7974238BEBFF0015C95D /* JUB_SDK_software_test_xrp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_xrp.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_xrp.hpp; sourceTree = "<group>"; };
+		676393AB2537F60F00C41883 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		676393AC2537F60F00C41883 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .travis.yml; sourceTree = "<group>"; };
+		676393AE2537F60F00C41883 /* api.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = api.proto; sourceTree = "<group>"; };
+		676393AF2537F60F00C41883 /* zksnark.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = zksnark.proto; sourceTree = "<group>"; };
+		676393B02537F60F00C41883 /* Chinese version of TRON Protocol document.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Chinese version of TRON Protocol document.md"; sourceTree = "<group>"; };
+		676393B32537F60F00C41883 /* account_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = account_contract.proto; sourceTree = "<group>"; };
+		676393B42537F60F00C41883 /* asset_issue_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = asset_issue_contract.proto; sourceTree = "<group>"; };
+		676393B52537F60F00C41883 /* balance_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = balance_contract.proto; sourceTree = "<group>"; };
+		676393B62537F60F00C41883 /* common.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = common.proto; sourceTree = "<group>"; };
+		676393B72537F60F00C41883 /* exchange_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = exchange_contract.proto; sourceTree = "<group>"; };
+		676393B82537F60F00C41883 /* proposal_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = proposal_contract.proto; sourceTree = "<group>"; };
+		676393B92537F60F00C41883 /* shield_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = shield_contract.proto; sourceTree = "<group>"; };
+		676393BA2537F60F00C41883 /* smart_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = smart_contract.proto; sourceTree = "<group>"; };
+		676393BB2537F60F00C41883 /* storage_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = storage_contract.proto; sourceTree = "<group>"; };
+		676393BC2537F60F00C41883 /* vote_asset_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = vote_asset_contract.proto; sourceTree = "<group>"; };
+		676393BD2537F61000C41883 /* witness_contract.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = witness_contract.proto; sourceTree = "<group>"; };
+		676393BE2537F61000C41883 /* Discover.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = Discover.proto; sourceTree = "<group>"; };
+		676393C02537F61000C41883 /* account.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = account.proto; sourceTree = "<group>"; };
+		676393C12537F61000C41883 /* block.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = block.proto; sourceTree = "<group>"; };
+		676393C22537F61000C41883 /* delegated_resource.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = delegated_resource.proto; sourceTree = "<group>"; };
+		676393C32537F61000C41883 /* p2p.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = p2p.proto; sourceTree = "<group>"; };
+		676393C42537F61000C41883 /* proposal.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = proposal.proto; sourceTree = "<group>"; };
+		676393C52537F61000C41883 /* transaction.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = transaction.proto; sourceTree = "<group>"; };
+		676393C62537F61000C41883 /* vote.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = vote.proto; sourceTree = "<group>"; };
+		676393C72537F61000C41883 /* witness.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = witness.proto; sourceTree = "<group>"; };
+		676393C82537F61000C41883 /* Tron.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = Tron.proto; sourceTree = "<group>"; };
+		676393C92537F61000C41883 /* TronInventoryItems.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = TronInventoryItems.proto; sourceTree = "<group>"; };
+		676393CA2537F61000C41883 /* English version of TRON Protocol document.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "English version of TRON Protocol document.md"; sourceTree = "<group>"; };
+		676393CB2537F61000C41883 /* install-googleapis.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "install-googleapis.sh"; sourceTree = "<group>"; };
+		676393CC2537F61000C41883 /* install-protobuf.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "install-protobuf.sh"; sourceTree = "<group>"; };
+		676393CD2537F61000C41883 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		676393CE2537F61000C41883 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		67742FCD24D15B7A00A37903 /* JUB_SDK_test_dev_bio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_dev_bio.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_bio.hpp; sourceTree = "<group>"; };
 		67742FCE24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_dev_bio.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_bio.cpp; sourceTree = "<group>"; };
 		6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.cpp; sourceTree = "<group>"; };
@@ -88,6 +123,11 @@
 		67B74EDF24812C1D0066EF8E /* json */ = {isa = PBXFileReference; lastKnownFileType = folder; name = json; path = ../../test/json; sourceTree = "<group>"; };
 		67BED7E6237947890051E3DC /* JUB_SDK_test_eos.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_eos.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_eos.hpp; sourceTree = "<group>"; };
 		67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_eos.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_eos.cpp; sourceTree = "<group>"; };
+		67D7BD36256625FB00A84359 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
+		67E0DFB4250F78DA00D42EF0 /* JUB_SDK_test_trx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_trx.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_trx.cpp; sourceTree = "<group>"; };
+		67E0DFB5250F78DA00D42EF0 /* JUB_SDK_software_test_trx.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_trx.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_trx.hpp; sourceTree = "<group>"; };
+		67E0DFB6250F78DA00D42EF0 /* JUB_SDK_test_trx.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_trx.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_trx.hpp; sourceTree = "<group>"; };
+		67E0DFB7250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_trx.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_trx.cpp; sourceTree = "<group>"; };
 		67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_eth.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_eth.cpp; sourceTree = "<group>"; };
 		67F808BD235966D800DE9ECE /* JUB_SDK_software_test_eth.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_eth.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_eth.hpp; sourceTree = "<group>"; };
 		67F808BE235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_eos.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_eos.cpp; sourceTree = "<group>"; };
@@ -101,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67D7BD37256625FB00A84359 /* libprotobuf.a in Frameworks */,
 				67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,6 +149,86 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		676393A92537F60F00C41883 /* Tron */ = {
+			isa = PBXGroup;
+			children = (
+				676393AA2537F60F00C41883 /* protocol */,
+			);
+			name = Tron;
+			path = ../../../JubiterSDK_Common_pb/protos/Tron;
+			sourceTree = "<group>";
+		};
+		676393AA2537F60F00C41883 /* protocol */ = {
+			isa = PBXGroup;
+			children = (
+				676393AB2537F60F00C41883 /* .gitignore */,
+				676393AC2537F60F00C41883 /* .travis.yml */,
+				676393AD2537F60F00C41883 /* api */,
+				676393B02537F60F00C41883 /* Chinese version of TRON Protocol document.md */,
+				676393B12537F60F00C41883 /* core */,
+				676393CA2537F61000C41883 /* English version of TRON Protocol document.md */,
+				676393CB2537F61000C41883 /* install-googleapis.sh */,
+				676393CC2537F61000C41883 /* install-protobuf.sh */,
+				676393CD2537F61000C41883 /* LICENSE */,
+				676393CE2537F61000C41883 /* README.md */,
+			);
+			path = protocol;
+			sourceTree = "<group>";
+		};
+		676393AD2537F60F00C41883 /* api */ = {
+			isa = PBXGroup;
+			children = (
+				676393AE2537F60F00C41883 /* api.proto */,
+				676393AF2537F60F00C41883 /* zksnark.proto */,
+			);
+			path = api;
+			sourceTree = "<group>";
+		};
+		676393B12537F60F00C41883 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				676393B22537F60F00C41883 /* contract */,
+				676393BE2537F61000C41883 /* Discover.proto */,
+				676393BF2537F61000C41883 /* tron */,
+				676393C82537F61000C41883 /* Tron.proto */,
+				676393C92537F61000C41883 /* TronInventoryItems.proto */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		676393B22537F60F00C41883 /* contract */ = {
+			isa = PBXGroup;
+			children = (
+				676393B32537F60F00C41883 /* account_contract.proto */,
+				676393B42537F60F00C41883 /* asset_issue_contract.proto */,
+				676393B52537F60F00C41883 /* balance_contract.proto */,
+				676393B62537F60F00C41883 /* common.proto */,
+				676393B72537F60F00C41883 /* exchange_contract.proto */,
+				676393B82537F60F00C41883 /* proposal_contract.proto */,
+				676393B92537F60F00C41883 /* shield_contract.proto */,
+				676393BA2537F60F00C41883 /* smart_contract.proto */,
+				676393BB2537F60F00C41883 /* storage_contract.proto */,
+				676393BC2537F60F00C41883 /* vote_asset_contract.proto */,
+				676393BD2537F61000C41883 /* witness_contract.proto */,
+			);
+			path = contract;
+			sourceTree = "<group>";
+		};
+		676393BF2537F61000C41883 /* tron */ = {
+			isa = PBXGroup;
+			children = (
+				676393C02537F61000C41883 /* account.proto */,
+				676393C12537F61000C41883 /* block.proto */,
+				676393C22537F61000C41883 /* delegated_resource.proto */,
+				676393C32537F61000C41883 /* p2p.proto */,
+				676393C42537F61000C41883 /* proposal.proto */,
+				676393C52537F61000C41883 /* transaction.proto */,
+				676393C62537F61000C41883 /* vote.proto */,
+				676393C72537F61000C41883 /* witness.proto */,
+			);
+			path = tron;
+			sourceTree = "<group>";
+		};
 		67A4BE512330C3870059A3DB = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +275,8 @@
 				67BED7E6237947890051E3DC /* JUB_SDK_test_eos.hpp */,
 				6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */,
 				6791CE0A23968EB7000B6B16 /* JUB_SDK_test_xrp.hpp */,
+				67E0DFB4250F78DA00D42EF0 /* JUB_SDK_test_trx.cpp */,
+				67E0DFB6250F78DA00D42EF0 /* JUB_SDK_test_trx.hpp */,
 				67F808C0235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp */,
 				67F808BF235966D900DE9ECE /* JUB_SDK_software_test_btc.hpp */,
 				6715459723D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp */,
@@ -164,6 +287,8 @@
 				67F808C1235966D900DE9ECE /* JUB_SDK_software_test_eos.hpp */,
 				675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */,
 				675C7974238BEBFF0015C95D /* JUB_SDK_software_test_xrp.hpp */,
+				67E0DFB7250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp */,
+				67E0DFB5250F78DA00D42EF0 /* JUB_SDK_software_test_trx.hpp */,
 			);
 			name = JubSDKTest;
 			sourceTree = "<group>";
@@ -171,6 +296,7 @@
 		67A4BE672330C3E50059A3DB /* deps */ = {
 			isa = PBXGroup;
 			children = (
+				676393A92537F60F00C41883 /* Tron */,
 				67A4BE682330C43A0059A3DB /* jsoncpp */,
 			);
 			name = deps;
@@ -233,6 +359,7 @@
 		67A4BE7F2330C5810059A3DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				67D7BD36256625FB00A84359 /* libprotobuf.a */,
 				67B74EDC248109050066EF8E /* libJubSDK.a */,
 			);
 			name = Frameworks;
@@ -278,7 +405,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
 			mainGroup = 67A4BE512330C3870059A3DB;
 			productRefGroup = 67A4BE5B2330C3870059A3DB /* Products */;
@@ -298,10 +424,12 @@
 				67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */,
 				671CDC2824971594004C0772 /* JUB_SDK_test_scp11.cpp in Sources */,
 				67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */,
+				67E0DFB9250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp in Sources */,
 				67A4BE7E2330C4B80059A3DB /* json_value.cpp in Sources */,
 				67A4BE8B2330CCDF0059A3DB /* JUB_SDK_test_eth.cpp in Sources */,
 				67A4BE882330C99C0059A3DB /* JUB_SDK_test_btc.cpp in Sources */,
 				6715458D23D434BD00810F16 /* JUB_SDK_test_qtum.cpp in Sources */,
+				67E0DFB8250F78DB00D42EF0 /* JUB_SDK_test_trx.cpp in Sources */,
 				67F808C2235966D900DE9ECE /* JUB_SDK_software_test_eth.cpp in Sources */,
 				67A4BE902330D1A80059A3DB /* JUB_SDK_main.cpp in Sources */,
 				67A4BE842330C6440059A3DB /* JUB_SDK_test_dev.cpp in Sources */,
@@ -346,6 +474,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -405,6 +534,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -434,10 +564,11 @@
 		67A4BE622330C3870059A3DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CODE_SIGN_IDENTITY = "-";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = PL9NCP8CG6;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
 					"../../trezor-crypto/include",
@@ -450,23 +581,29 @@
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
 					../../SCP11_Device_API/SCP11_Device_API/scp11_device,
+					../../deps/JubiterSDK_Common_pb/cpp/Tron,
+					../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol,
+					../../deps/protobuf/src,
 				);
+				LIBRARY_SEARCH_PATHS = ../../outputs/Darwin/Release;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"'-std=c++11'",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "x86_64 i386";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
 		67A4BE632330C3870059A3DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CODE_SIGN_IDENTITY = "-";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = PL9NCP8CG6;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
 					"../../trezor-crypto/include",
@@ -479,13 +616,18 @@
 					"../../deps/TrustWallet/wallet-core/include",
 					"../../deps/TrustWallet/wallet-core/src",
 					../../SCP11_Device_API/SCP11_Device_API/scp11_device,
+					../../deps/JubiterSDK_Common_pb/cpp/Tron,
+					../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol,
+					../../deps/protobuf/src,
 				);
+				LIBRARY_SEARCH_PATHS = ../../outputs/Darwin/Release;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"'-std=c++11'",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "x86_64 i386";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

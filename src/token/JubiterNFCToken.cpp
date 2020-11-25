@@ -1,3 +1,5 @@
+#include "JUB_SDK_COMM.h"
+#if defined(NFC_MODE)
 #include "token/JubiterNFC/JubiterNFCToken.h"
 #include "device/DeviceTypeBase.hpp"
 #include "device/JubiterHidDevice.hpp"
@@ -886,3 +888,5 @@ JUB_RV JubiterNFCToken::MutualAuthenticate(const uchar_vector& apduData,
 
 } // namespace token end
 } // namespace jub end
+
+#endif //NFC_MODE

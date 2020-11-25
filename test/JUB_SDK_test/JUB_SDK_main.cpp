@@ -14,6 +14,7 @@
 #include "JUB_SDK_software_test_hcash.hpp"
 #include "JUB_SDK_software_test_eos.hpp"
 #include "JUB_SDK_software_test_xrp.hpp"
+#include "JUB_SDK_software_test_trx.hpp"
 #include "JUB_SDK_test_scp11.h"
 #endif
 using namespace std;
@@ -100,6 +101,7 @@ std::string GetErrMsg(JUB_RV rv) {
 
     case JUBR_CUSTOM_DEFINED:            { errMsg = "JUBR_CUSTOM_DEFINED"; break; }
     case JUBR_EOS_APP_INDEP_OK:          { errMsg = "JUBR_EOS_APP_INDEP_OK"; break; }
+    case JUBR_VERIFY_SIGN_FAILED:        { errMsg = "JUBR_VERIFY_SIGN_FAILED"; break; }
     case JUBR_BIO_FINGERPRINT_MODALITY_ERROR:{ errMsg = "JUBR_BIO_TIMEOUT"; break; }
     case JUBR_BIO_SPACE_LIMITATION:      { errMsg = "JUBR_BIO_SPACE_LIMITATION"; break; }
     case JUBR_BIO_TIMEOUT:               { errMsg = "JUBR_BIO_TIMEOUT"; break; }
@@ -146,6 +148,7 @@ int main() {
         cout << "|144. software_test_xrp.             |" << endl;
         cout << "|171. software_test_hcash.           |" << endl;
         cout << "|194. software_test_eos.             |" << endl;
+        cout << "|195. software_test_trx.             |" << endl;
 #endif
         cout << "| 99. scp_test.                      |" << endl;
         cout << "|  0. exit.                          |" << endl;
@@ -173,6 +176,9 @@ int main() {
             break;
         case 194:
             software_test_eos("json/testEOS.json");
+            break;
+        case 195:
+            software_test_trx("json/testTRX.json");
             break;
 #endif
         case 99:

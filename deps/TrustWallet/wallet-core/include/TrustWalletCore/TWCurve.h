@@ -7,7 +7,7 @@
 #pragma once
 
 #include <TrustWalletCore/TWBase.h>
-#include "../Hash.h"
+#include "Hash.h"
 #include <TrezorCrypto/hasher.h>
 
 TW_EXTERN_C_BEGIN

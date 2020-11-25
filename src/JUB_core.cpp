@@ -19,6 +19,7 @@
 #include "context/ETHContextFactory.h"
 #include "context/EOSContextFactory.h"
 #include "context/XRPContextFactory.h"
+#include "context/TRXContextFactory.h"
 
 
 //where to place...
@@ -182,6 +183,19 @@ JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::XRPseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
+    JUB_CHECK_NULL(context);
+
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
+    return JUBR_OK;
+}
+
+JUB_RV JUB_CreateContextTRX_soft(IN CONTEXT_CONFIG_TRX cfg,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
+                                 OUT JUB_UINT16* contextID) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::TRXseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
     JUB_CHECK_NULL(context);
 
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);

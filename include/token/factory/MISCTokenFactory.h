@@ -16,26 +16,31 @@
 #include "token/interface/ETHTokenInterface.hpp"
 #include "token/interface/EOSTokenInterface.hpp"
 #include "token/interface/XRPTokenInterface.hpp"
+#include "token/interface/TRXTokenInterface.hpp"
 
 #include "token/HC/JubiterBladeHCImpl.h"
 #include "token/ETH/JubiterBladeETHImpl.h"
 #include "token/EOS/JubiterBladeEOSImpl.h"
 #include "token/XRP/JubiterBladeXRPImpl.h"
+#include "token/TRX/JubiterBladeTRXImpl.h"
 
 #include "token/HC/JubiterBIOHCImpl.h"
 #include "token/ETH/JubiterBIOETHImpl.h"
 #include "token/EOS/JubiterBIOEOSImpl.h"
 #include "token/XRP/JubiterBIOXRPImpl.h"
+#include "token/TRX/JubiterBIOTRXImpl.h"
 
 #include "token/HC/TrezorCryptoHCImpl.h"
 #include "token/ETH/TrezorCryptoETHImpl.h"
 #include "token/EOS/TrezorCryptoEOSImpl.h"
 #include "token/XRP/TrezorCryptoXRPImpl.h"
+#include "token/TRX/TrezorCryptoTRXImpl.h"
 
 #if defined(NFC_MODE)
 #include "token/ETH/JubiterNFCETHImpl.h"
 #include "token/EOS/JubiterNFCEOSImpl.h"
 #include "token/XRP/JubiterNFCXRPImpl.h"
+#include "token/TRX/JubiterNFCTRXImpl.h"
 #endif // #if defined(NFC_MODE) end
 
 #include <TrustWalletCore/TWCoinType.h>
@@ -60,6 +65,7 @@ public:
 //        Register(TWCoinType::TWCoinTypeEthereumClassic, &TrezorCryptoETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &TrezorCryptoEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &TrezorCryptoXRPImpl::Create);
+        Register(TWCoinType::TWCoinTypeTron,            &TrezorCryptoTRXImpl::Create);
     }
 }; // class xTrezorCryptoMISCFactory end
 
@@ -75,6 +81,7 @@ public:
 //        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterBladeETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &JubiterBladeEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &JubiterBladeXRPImpl::Create);
+        Register(TWCoinType::TWCoinTypeTron,            &JubiterBladeTRXImpl::Create);
     }
 }; // class xJuBiterBladeMISCFactory end
 
@@ -90,6 +97,7 @@ public:
 //        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterBIOETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &JubiterBIOEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &JubiterBIOXRPImpl::Create);
+        Register(TWCoinType::TWCoinTypeTron,            &JubiterBIOTRXImpl::Create);
     }
 }; // class xJuBiterBIOMISCFactory end
 
@@ -105,6 +113,7 @@ public:
 //        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterNFCETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &JubiterNFCEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &JubiterNFCXRPImpl::Create);
+        Register(TWCoinType::TWCoinTypeTron,            &JubiterNFCTRXImpl::Create);
     }
 }; // class xJuBiterNFCMISCFactory end
 #endif // #if defined(NFC_MODE) end

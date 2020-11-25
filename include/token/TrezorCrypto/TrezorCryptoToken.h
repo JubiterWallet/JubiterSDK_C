@@ -3,7 +3,7 @@
 #include "token/interface/SoftwareTokenInterface.h"
 #include <TrezorCrypto/bip32.h>
 #include <string.h>
-#include <HDKey/HDKey.hpp>
+#include "HDKey/HDKey.hpp"
 
 
 namespace jub {

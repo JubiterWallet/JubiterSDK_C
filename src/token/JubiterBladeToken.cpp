@@ -69,6 +69,11 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
         "XRP",
         "01000001"
     },
+    {
+        TW::Data(uchar_vector(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE))),
+        "TRX",
+        "01000002"
+    },
 };
 
 

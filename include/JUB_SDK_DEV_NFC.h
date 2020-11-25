@@ -6,6 +6,8 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
+#if defined(NFC_MODE)
+
 #ifndef JUB_SDK_DEV_NFC_h
 #define JUB_SDK_DEV_NFC_h
 
@@ -152,3 +154,5 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
 #endif // #ifdef __cplusplus
 
 #endif /* JUB_SDK_DEV_NFC_h */
+
+#endif /* NFC_MODE */

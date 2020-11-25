@@ -147,7 +147,6 @@ JUB_RV XRPContext::SignTransaction(BIP44_Path path,
         }
         tx.signature = vSignatureRaw[0];
 
-
         uchar_vector vTx(tx.serialize());
 
 #if defined(DEBUG)

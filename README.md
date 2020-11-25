@@ -41,6 +41,17 @@
     + JUB_DeleteFingerprint()
     + JUB_VerifyFingerprint()
 
+
+### Tron module include:
++ Supports Tron, added functions as below, see 'JUB_SDK_TRX.h':
+ + JUB_CreateContextTRX()
+ + JUB_GetAddressTRX()
+ + JUB_GetHDNodeTRX()
+ + JUB_GetMainHDNodeTRX()
+ + JUB_SetMyAddressTRX()
+ + JUB_SignTransactionTRX()
+ + JUB_PackContractTRX()
+
 ---
 ### Demo reference:
 + [nfcDemo-Android](https://github.com/JubiterWallet/nfcDemo-Android)
@@ -56,7 +67,19 @@
 git submodule update --init --recursive
 ```
 ---
-### **macOS,Linux,Cygwin**
+### **MacOS**
++ 请使用3.18.4版本，brew的3.16与3.19不保证会成功，可能会出现无法找到framework的问题
++ 暂时先不考虑M1芯片
++ MacOS由于CMake的Bug，无法打出FatLib，需要分平台打包，具体见 https://gitlab.kitware.com/cmake/cmake/-/issues/21282
++ 暂时关闭了RPATH，如果需要参照 https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling 进行修改
++ 打包framework无法使用make体系，只能使用Xcode
+```bash
+mkdir buildMacOS & cd buildMacOS
+cmake -G Xcode -DCMAKE_OSX_ARCHITECTURES=x86_64 ..
+cmake --build . --config Release
+```
+---
+### **Linux,Cygwin**
 ```bash
 mkdir build & cd build
 cmake ..
@@ -75,12 +98,15 @@ make
 ```
 ---
 ### **iOS**
-- **.a**
+
++ 由于通讯库，暂时无法打模拟器
++ 由于通讯库，暂时无法支持BITCODE
 ```bash
-sh ./builds/ios-build
+mkdir buildIOS & cd buildIOS
+cmake .. -G Xcode -DCMAKE_TOOLCHAIN_FILE=../deps/ios-cmake/ios.toolchain.cmake -DENABLE_BITCODE=0 -DPLATFORM=OS64
+cmake --build . --config Release
 ```
-- **framework**
-To Do
+
 ---
 ### **macOS Xcode Project file generation**
 ```bash

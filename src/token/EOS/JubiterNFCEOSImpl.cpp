@@ -1,3 +1,6 @@
+#include "JUB_SDK_COMM.h"
+#if defined(NFC_MODE)
+
 #include "utility/util.h"
 
 #include "token/JubiterBlade/JubiterBladeToken.h"
@@ -128,3 +131,5 @@ JUB_RV JubiterNFCEOSImpl::SignTX(const TW::EOS::Type& type,
 
 } // namespace token end
 } // namespace jub end
+
+#endif //end NFC_MODE
