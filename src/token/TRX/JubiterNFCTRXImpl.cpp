@@ -3,8 +3,8 @@
 
 #include "token/TRX/JubiterNFCTRXImpl.h"
 #include <TrezorCrypto/bip32.h>
-//#include <TRX/Signer.h>
-//#include <TRX/Transaction.h>
+#include <Tron/Signer.h>
+#include <Tron/Transaction.h>
 
 namespace jub {
 namespace token {
@@ -26,7 +26,7 @@ JUB_RV JubiterNFCTRXImpl::SetCoin() {
 JUB_RV JubiterNFCTRXImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),(JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name), (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
 
     return _getAddress(publicKey, address);
 }
@@ -35,7 +35,7 @@ JUB_RV JubiterNFCTRXImpl::GetAddress(const std::string& path, const JUB_UINT16 t
 JUB_RV JubiterNFCTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
     std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(_getSignType(_curve_name),0x00, path, btcXpub));
+    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(_getSignType(_curve_name), 0x00, path, btcXpub));
 
     //    typedef enum class JubPubFormat {
     //        HEX = 0x00,
@@ -69,9 +69,8 @@ JUB_RV JubiterNFCTRXImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vec
     uint8_t by = vRSV[64];
     by += 31;
 
-    // VRS
+    std::copy(std::begin(vRSV), std::end(vRSV), std::back_inserter(signature));
     signature.push_back(by);
-    std::copy(std::begin(vRSV), std::end(vRSV)-1, std::back_inserter(signature));
 
     return JUBR_OK;
 }
@@ -81,42 +80,42 @@ JUB_RV JubiterNFCTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
                                  const std::vector<JUB_BYTE>& vRaw,
                                  std::vector<uchar_vector>& vSignatureRaw) {
 
-//    try {
-//        TW::EOS::Transaction tx;
-//        tx.deserialize(vRaw, bWithType);
-//
-//        std::string path(vPath.begin(), vPath.end());
-//        std::vector<std::string> vInputPath;
-//        vInputPath.push_back(path);
-//
-//        TW::Hash::Hasher halfHasher;
-//        JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
-//
-//        TW::EOS::Signer signer{ vChainId };
-//        TW::Data half = signer.hash(tx);
-//
-//        std::vector<TW::Data> vPreImageHash;
-//        vPreImageHash.push_back(half);
-//
-//        std::vector<TW::Data> vRSV;
-//        JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
-//                                             vInputPath,
-//                                             _getSignType(_curve_name),
-//                                             halfHasherType,
-//                                             vPreImageHash,
-//                                             vRSV));
-//
-//        for (const auto& rsv : vRSV) {
-//            TW::Data sign;
-//            JUB_VERIFY_RV(_encodeRSV(rsv, sign));
-//            vSignatureRaw.push_back(sign);
-//        }
-//    }
-//    catch (...) {
-//        return JUBR_ERROR_ARGS;
-//    }
+    try {
+        TW::Tron::Transaction tx;
+        tx.raw_data.deserialize(vRaw);
 
-    return JUBR_IMPL_NOT_SUPPORT;
+        std::string path(vPath.begin(), vPath.end());
+        std::vector<std::string> vInputPath;
+        vInputPath.push_back(path);
+
+        TW::Hash::Hasher halfHasher;
+        JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
+
+        TW::Tron::Signer signer;
+        TW::Data half = signer.hash(tx);
+
+        std::vector<TW::Data> vPreImageHash;
+        vPreImageHash.push_back(half);
+
+        std::vector<TW::Data> vRSV;
+        JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
+                                             vInputPath,
+                                             _getSignType(_curve_name),
+                                             halfHasherType,
+                                             vPreImageHash,
+                                             vRSV));
+
+        for (const auto& rsv : vRSV) {
+            TW::Data sign;
+            JUB_VERIFY_RV(_encodeRSV(rsv, sign));
+            vSignatureRaw.push_back(sign);
+        }
+    }
+    catch (...) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    return JUBR_OK;
 }
 
 

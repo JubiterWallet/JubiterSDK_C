@@ -182,6 +182,7 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
         tx.raw_data.deserialize(vRaw);
         tx.signature = vSignatureRaw[0];
 
+#if defined(DEBUG)
         //verify
         std::string pubkey;
         JUB_VERIFY_RV(token->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
@@ -191,6 +192,7 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
                            tx)) {
             return JUBR_VERIFY_SIGN_FAILED;
         }
+#endif
 
         rawInJSON = tx.serialize().dump();
     }

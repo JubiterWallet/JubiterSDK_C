@@ -44,7 +44,7 @@ JUB_RV JubiterBladeTRXImpl::GetAddress(const std::string& path, const JUB_UINT16
     uchar_vector vPath;
     vPath << path;
 
-    uchar_vector apduData = ToTlv(0x08, vPath);
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
     JUB_BYTE p1 = (JUB_BYTE)tag;
 
     APDU apdu(0x00, 0xF6, p1, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
@@ -65,7 +65,7 @@ JUB_RV JubiterBladeTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     //path = "m/44'/195'/0'";
     uchar_vector vPath;
     vPath << path;
-    uchar_vector apduData = ToTlv(0x08, vPath);
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
 
     //0x00 for hex, 0x01 for xpub
     if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX  != format

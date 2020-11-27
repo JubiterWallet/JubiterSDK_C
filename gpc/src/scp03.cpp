@@ -5,11 +5,11 @@
 //  Created by Pan Min on 2020/6/21.
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
+#include "utility/Debug.hpp"
 
 #include "scp03/scp03.hpp"
 #include <TrezorCrypto/aes.h>
 #include <TrezorCrypto/cmac.h>
-#include "utility/Debug.hpp"
 
 int gpc_scp03::counter = 1;
 

@@ -15,11 +15,7 @@
                 "receiver" : "gq4demjrhege",
                 "unstake_net_quantity" : "70080.2476 EOS",
                 "unstake_cpu_quantity" : "70071.5415 EOS",
-<<<<<<< HEAD:test/JUB_SDK_test/json/testEOS_unstake.json
-                "transfer" : false,
-=======
                 "transfer" : false
->>>>>>> 2.2:test/json/testEOS_unstake.json
             }
         }],
         "bip32_path" : {

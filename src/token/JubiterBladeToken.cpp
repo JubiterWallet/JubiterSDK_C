@@ -8,6 +8,7 @@
 #include "device/DeviceTypeBase.hpp"
 #include "device/JubiterHidDevice.hpp"
 
+#include "utility/Debug.hpp"
 #include "utility/util.h"
 #include "tlv.hpp"
 
@@ -96,6 +97,8 @@ JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE
 
     std::vector<JUB_BYTE> vSendApdu;
     if (JUBR_OK == _apduBuilder->BuildApdu(apdu, vSendApdu)) {
+        DEBUG_LOG("Send APDU[%d]: %s\n", vSendApdu.size(), uchar_vector(vSendApdu).getHex().c_str());
+
         if (JUBR_OK != device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
             JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
         }
@@ -120,6 +123,8 @@ JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE
         memcpy(retData, _retData, ulRetDataLen - 2);
 
         wRet = _retData[ulRetDataLen - 2] * 0x100 + _retData[ulRetDataLen - 1];
+
+        DEBUG_LOG("APDU Resp[%d]: %s\n", ulRetDataLen, uchar_vector(_retData, ulRetDataLen).getHex().c_str());
         return JUBR_OK;
     }
 

@@ -58,12 +58,7 @@ JUB_RV JubiterBaseTRXImpl::_getAddress(const TW::Data& publicKey, std::string& a
 JUB_RV JubiterBaseTRXImpl::SerializePreimage(const std::string& packedContractInPb,
                                              uchar_vector& preimageRaw) {
 
-//    JUB_RV rv = JUBR_OK;
-
     try {
-        // build transaction
-//        TW::Tron::Transaction tx;
-//        tx.deserialize(uchar_vector(packedContractInPb));
         preimageRaw = uchar_vector(packedContractInPb);
     }
     catch (...) {

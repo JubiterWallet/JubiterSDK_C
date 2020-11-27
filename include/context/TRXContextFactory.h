@@ -1,10 +1,10 @@
 #pragma once
-#include <utility/xFactory.hpp>
-#include <utility/Singleton.h>
+#include "utility/xFactory.hpp"
+#include "utility/Singleton.h"
 
-#include <context/BaseContext.h>
-#include <context/TRXContext.h>
-#include <token/factory/MISCTokenFactory.h>
+#include "context/BaseContext.h"
+#include "context/TRXContext.h"
+#include "token/factory/MISCTokenFactory.h"
 
 #include <TrustWalletCore/TWCoinType.h>
 

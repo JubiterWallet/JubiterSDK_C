@@ -293,4 +293,13 @@ bool Signer::verify(const PublicKey& publicKey, Transaction& transaction) const 
 }
 
 
+// JuBiter-defined
+/// Computes the transaction hash.
+Data Signer::hash(const Transaction& transaction) const noexcept {
+    Transaction tempTx(transaction);
+    const auto serialized = tempTx.raw_data.serialize();
+    return Hash::sha256(Data(serialized.begin(), serialized.end()));
+}
+
+
 } // namespace TW::Tron end

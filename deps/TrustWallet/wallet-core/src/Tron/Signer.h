@@ -24,6 +24,11 @@ class Signer {
     // JuBiter-defined
     /// Verifies the given signature.
     bool verify(const PublicKey& publicKey, Transaction& transaction) const noexcept;
+
+    // JuBiter-defined
+    /// Computes the transaction hash.
+    Data hash(const Transaction& transaction) const noexcept;
+
 }; // class Signer end
 
 } // namespace TW::Tron end

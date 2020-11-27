@@ -1,4 +1,4 @@
-#include "bigint/BigIntegerLibrary.hh"
+#include <bigint/BigIntegerLibrary.hh>
 #include "utility/util.h"
 
 namespace jub {

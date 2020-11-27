@@ -9,8 +9,8 @@
 #ifndef gpc_scp03_hpp
 #define gpc_scp03_hpp
 
-#include "mSIGNA/stdutils/uchar_vector.h"
 #include "utility/Debug.hpp"
+#include "mSIGNA/stdutils/uchar_vector.h"
 
 #include <stdio.h>
 #include <string.h>

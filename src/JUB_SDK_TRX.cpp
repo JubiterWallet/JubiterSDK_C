@@ -11,7 +11,7 @@
 #include "utility/util.h"
 #include "utility/mutex.h"
 
-#include <context/TRXContextFactory.h>
+#include "context/TRXContextFactory.h"
 
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);

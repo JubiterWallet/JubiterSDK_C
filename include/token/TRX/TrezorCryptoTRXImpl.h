@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 
-#include <token/TrezorCrypto/TrezorCryptoToken.h>
-#include <token/TRX/JubiterBaseTRXImpl.h>
+#include "token/TrezorCrypto/TrezorCryptoToken.h"
+#include "token/TRX/JubiterBaseTRXImpl.h"
 
 
 namespace jub {

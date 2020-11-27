@@ -15,11 +15,7 @@
                 "receiver" : "ftsafetest55",
                 "stake_cpu_quantity" : "0.7000 EOS",
                 "stake_net_quantity" : "0.3000 EOS",
-<<<<<<< HEAD:test/JUB_SDK_test/json/testEOS_stake.json
-                "transfer" : false,
-=======
                 "transfer" : false
->>>>>>> 2.2:test/json/testEOS_stake.json
             }
         }],
         "bip32_path" : {

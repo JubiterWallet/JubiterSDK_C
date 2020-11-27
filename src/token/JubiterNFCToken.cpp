@@ -67,6 +67,11 @@ stAppInfos JubiterNFCToken::g_appInfo[] = {
         "XRP",
         "0000000"
     },
+    {
+        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
+        "TRX",
+        "0000000"
+    },
 };
 
 
@@ -153,10 +158,12 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
     if (JUBR_OK != _apduBuilder->BuildSafeApdu(apdu, vSendApdu)) {
         return JUBR_TRANSMIT_DEVICE_ERROR;
     }
+    DEBUG_LOG("Send APDU[%d]: %s\n", vSendApdu.size(), uchar_vector(vSendApdu).getHex().c_str());
 
     if (JUBR_OK != device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
         JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
+    DEBUG_LOG("APDU Resp[%d]: %s\n", ulRetDataLen, uchar_vector(_retData, ulRetDataLen).getHex().c_str());
 
     JUB_VERIFY_RV(_apduBuilder->ParseSafeApduResp(_retData, ulRetDataLen,
                                                   retData, pulRetDataLen,

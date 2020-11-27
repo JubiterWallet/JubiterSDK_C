@@ -15,7 +15,7 @@
 #include "token/JubiterNFC/JubiterNFCToken.h"
 #endif // #if defined(NFC_MODE) end
 #include "token/interface/XRPTokenInterface.hpp"
-#include "Ripple/Signer.h"
+#include <Ripple/Signer.h>
 
 
 namespace jub {

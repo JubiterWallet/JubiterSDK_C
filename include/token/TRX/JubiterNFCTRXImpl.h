@@ -1,7 +1,7 @@
 #pragma once
-#include <token/JubiterNFC/JubiterNFCToken.h>
-#include <token/JubiterNFC/JubiterNFCImpl.h>
-#include <token/TRX/JubiterBaseTRXImpl.h>
+#include "token/JubiterNFC/JubiterNFCToken.h"
+#include "token/JubiterNFC/JubiterNFCImpl.h"
+#include "token/TRX/JubiterBaseTRXImpl.h"
 
 namespace jub {
 namespace token {

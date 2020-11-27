@@ -12,7 +12,7 @@
 #include "SigHashTypeHcash.h"
 
 #include <cassert>
-#include "mSIGNA/stdutils/uchar_vector.h"
+
 
 using namespace TW;
 using namespace TW::Bitcoin;

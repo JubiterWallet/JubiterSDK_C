@@ -1,5 +1,5 @@
 #pragma once
-#include <token/interface/TRXTokenInterface.hpp>
+#include "token/interface/TRXTokenInterface.hpp"
 #include <TrustWalletCore/TWCoinType.h>
 
 
@@ -12,6 +12,7 @@ virtual public TRXTokenInterface {
 public:
     JubiterBaseTRXImpl() {
         _coin = TWCoinType::TWCoinTypeTron;
+        _curve_name = (char*)SECP256K1_TRX_NAME;
     };
 
     virtual JUB_RV PackTransactionRaw(const JUB_TX_TRX& tx,
