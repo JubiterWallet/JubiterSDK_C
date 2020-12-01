@@ -46,7 +46,9 @@ void XRP_test(const char* json_file) {
         cout << "--------------------------------------" << endl;
         cout << "|******* Jubiter Wallet XRP  ********|" << endl;
         cout << "| 1. show_address_pubkey_test.       |" << endl;
+        cout << "|                                    |" << endl;
         cout << "| 2. transaction_test.               |" << endl;
+        cout << "|                                    |" << endl;
         cout << "| 3. set_my_address_test.            |" << endl;
         cout << "| 4. set_timeout_test.               |" << endl;
         cout << "| 9. return.                         |" << endl;

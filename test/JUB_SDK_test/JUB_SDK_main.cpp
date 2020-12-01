@@ -180,11 +180,11 @@ int main() {
         case 195:
             software_test_trx("json/testTRX.json");
             break;
-#endif
         case 99:
             scp11_test("settings/42584E46433230303532353030303031_apk.settings");
 //            scp11_test("settings/42584E46433230303532353030303032_apk.settings");
             break;
+#endif
         case 0:
             exit(0);
         default:

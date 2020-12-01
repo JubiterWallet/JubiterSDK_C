@@ -101,7 +101,7 @@ void get_device_info_test() {
         return;
     }
 
-    cout << "support coin list is :" << coinList << endl;
+    cout << "support coin list is:" << coinList << endl;
     JUB_FreeMemory(coinList);
 }
 

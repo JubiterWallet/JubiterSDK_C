@@ -25,7 +25,7 @@ void   transaction_test_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root);
 void   transaction_test_ERC20_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root);
-void    bytestring_test_ETH(JUB_UINT16 contextID, Json::Value root);
-JUB_RV  bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root);
+void   bytestring_test_ETH(JUB_UINT16 contextID, Json::Value root);
+JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root);
 
 #endif /* JUB_SDK_test_eth_hpp */

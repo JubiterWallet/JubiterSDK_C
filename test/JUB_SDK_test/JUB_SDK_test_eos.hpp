@@ -18,9 +18,9 @@
 void EOS_test(const char* json_file);
 
 void set_my_address_test_EOS(JUB_UINT16 contextID);
-void get_address_pubkey_EOS(JUB_UINT16 contextID);
+void  get_address_pubkey_EOS(JUB_UINT16 contextID);
 
-void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root);
-JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root);
+void   transaction_test_EOS(JUB_UINT16 contextID, Json::Value root, int choice);
+JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice);
 
 #endif /* JUB_SDK_test_eos_hpp */

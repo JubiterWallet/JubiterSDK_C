@@ -16,7 +16,63 @@
                 "asset" : "50.0000 EOS",
                 "memo" : ""
             }
+        },
+        {
+            "type" : 0,
+            "currency" : "metpacktoken",
+            "name" : "transfer",
+            "0" : {
+                "from" : "abcdenero123",
+                "to" : "gsy123451111",
+                "asset" : "14.285 MPT",
+                "memo" : "@gmail.com"
+            }
         }],
+        "acts" : [
+        {
+            "type" : 1,
+            "currency" : "eosio",
+            "name" : "delegatebw",
+            "1" : {
+                "from" : "ftsafetest55",
+                "receiver" : "ftsafetest55",
+                "stake_cpu_quantity" : "0.7000 EOS",
+                "stake_net_quantity" : "0.3000 EOS",
+                "transfer" : false
+            }
+        },
+        {
+            "type" : 2,
+            "currency" : "eosio",
+            "name" : "undelegatebw",
+            "2" : {
+                "from" : "gq4demjrhege",
+                "receiver" : "gq4demjrhege",
+                "unstake_net_quantity" : "70080.2476 EOS",
+                "unstake_cpu_quantity" : "70071.5415 EOS",
+                "transfer" : false
+            }
+        },
+        {
+            "type" : 3,
+            "currency" : "eosio",
+            "name" : "buyram",
+            "3" : {
+                "payer" : "punkneverdie",
+                "quant" : "0.4000 EOS",
+                "receiver" : "punkneverdie"
+            }
+        },
+        {
+            "type" : 4,
+            "currency" : "eosio",
+            "name" : "sellram",
+            "4" : {
+                "account" : "gq4demjrhege",
+                "bytes" : "134246400"
+            }
+        }
+        ],
         "bip32_path" : {
             "change" : false,
             "addressIndex" : 0

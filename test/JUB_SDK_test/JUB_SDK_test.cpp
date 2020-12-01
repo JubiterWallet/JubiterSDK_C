@@ -94,22 +94,27 @@ void main_test() {
         cout << "|********** Jubiter Wallet Test **********|" << endl;
         cout << "|   1. get_device_info_test               |" << endl;
         cout << "|  11.     device_fgpt_test               |" << endl;
-        cout << "|   2. LTC_test.                          |" << endl;
-        cout << "|   5.DASH_test.                          |" << endl;
-        cout << "|  31. BTC_test.                          |" << endl;
-        cout << "|  32. BTC_segwit_test.                   |" << endl;
-        cout << "|  39. BTC_USDT_test.                     |" << endl;
-        cout << "|  60. ETH_test & ETC_test.               |" << endl;
-        cout << "| 144. XRP_test.                          |" << endl;
-        cout << "| 145. BCH_test.                          |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|   2.   LTC_test.                        |" << endl;
+        cout << "|   5.  DASH_test.                        |" << endl;
+        cout << "|  31.   BTC_test.                        |" << endl;
+        cout << "|  32.   BTC_segwit_test.                 |" << endl;
+        cout << "|  39.   BTC_USDT_test.                   |" << endl;
+        cout << "|  88.  QTUM_QRC20_test.                  |" << endl;
+        cout << "|2301.  QTUM_test.                        |" << endl;
+        cout << "| 145.   BCH_test.                        |" << endl;
         cout << "| 171. Hcash_test.                        |" << endl;
-        cout << "| 194. EOS_test.                          |" << endl;
-        cout << "| 195. TRX_test.                          |" << endl;
-        cout << "|  88.QTUM_QRC20_test.                    |" << endl;
-        cout << "|2301.QTUM_test.                          |" << endl;
-        cout << "|  98. send_apdu_test.                    |" << endl;
-        cout << "|  99. get_version.                       |" << endl;
-        cout << "|   0. exit.                              |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|  60.   ETH_test & ETC_test.             |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "| 144.   XRP_test.                        |" << endl;
+        cout << "| 194.   EOS_test.                        |" << endl;
+        cout << "| 195.   TRX_test.                        |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|  98.  send_apdu_test.                   |" << endl;
+        cout << "|  99.  get_version.                      |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|   0.  exit.                             |" << endl;
         cout << "-------------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -130,6 +135,7 @@ void main_test() {
         case 11:
             device_fgpt_test(deviceID);
             break;
+
         case 2:
             json_file += "testLTC.json";
             BTC_test(json_file.c_str(), COINLTC);
@@ -150,13 +156,13 @@ void main_test() {
             json_file += "testUSDT.json";
             USDT_test(json_file.c_str());
             break;
-        case 60:
-            json_file += "testETH.json";
-            ETH_test(json_file.c_str());
+        case 88:
+            json_file += "testQTUM_qrc20.json";
+            QTUM_test(deviceID, json_file.c_str());
             break;
-        case 144:
-            json_file += "testXRP.json";
-            XRP_test(json_file.c_str());
+        case 2301:
+            json_file += "testQTUM.json";
+            BTC_test(json_file.c_str(), COINQTUM);
             break;
         case 145:
             json_file += "testBCH.json";
@@ -166,26 +172,25 @@ void main_test() {
             json_file += "testHCash.json";
             HC_test(deviceID, json_file.c_str());
             break;
+
+        case 60:
+            json_file += "testETH.json";
+            ETH_test(json_file.c_str());
+            break;
+
+        case 144:
+            json_file += "testXRP.json";
+            XRP_test(json_file.c_str());
+            break;
         case 194:
-//            json_file += "testEOS.json";
-            json_file += "testEOS_sellram.json";
-//            json_file += "testEOS_buyram.json";
-//            json_file += "testEOS_stake.json";
-//            json_file += "testEOS_unstake.json";
+            json_file += "testEOS.json";
             EOS_test(json_file.c_str());
             break;
         case 195:
             json_file += "testTRX.json";
             TRX_test(json_file.c_str());
             break;
-        case 88:
-            json_file += "testQTUM_qrc20.json";
-            QTUM_test(deviceID, json_file.c_str());
-            break;
-        case 2301:
-            json_file += "testQTUM.json";
-            BTC_test(json_file.c_str(), COINQTUM);
-            break;
+
         case 98:
             send_apdu_test();
             break;

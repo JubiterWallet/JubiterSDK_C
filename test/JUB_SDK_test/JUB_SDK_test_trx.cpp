@@ -49,11 +49,16 @@ void TRX_test(const char* json_file) {
     while (true) {
         cout << " ------------------------------------ " << endl;
         cout << "|******* Jubiter Wallet TRX  ********|" << endl;
-        cout << "| 1. show_address_pubkey_test.       |" << endl;
-        cout << "| 2. transaction_test.               |" << endl;
-        cout << "| 3. set_my_address_test.            |" << endl;
-        cout << "| 4. set_timeout_test.               |" << endl;
-        cout << "| 9. return.                         |" << endl;
+        cout << "| 1 . show_address_pubkey_test.      |" << endl;
+        cout << "|                                    |" << endl;
+        cout << "| 21.       transfer_contract_test.  |" << endl;
+        cout << "| 22. transfer_asset_contract_test.  |" << endl;
+        cout << "| 23.  trigger_smart_contract_test.  |" << endl;
+        cout << "|                                    |" << endl;
+        cout << "| 3 . set_my_address_test.           |" << endl;
+        cout << "| 4 . set_timeout_test.              |" << endl;
+        cout << "|                                    |" << endl;
+        cout << "| 9 . return.                        |" << endl;
         cout << " ------------------------------------ " << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -64,12 +69,11 @@ void TRX_test(const char* json_file) {
         case 1:
             get_address_pubkey_TRX(contextID);
             break;
-        case 2:
-            transaction_test_TRX(contextID, root);
+        case 21:
+        case 22:
+        case 23:
+            transaction_test_TRX(contextID, root, choice);
             break;
-//        case 3:
-//            transaction_test_TRC20(contextID, root);
-//            break;
         case 3:
             set_my_address_test_TRX(contextID);
             break;
@@ -177,20 +181,20 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
     JUB_FreeMemory(address);
 }
 
-void transaction_test_TRX(JUB_UINT16 contextID, Json::Value root) {
+void transaction_test_TRX(JUB_UINT16 contextID, Json::Value root, int choice) {
 
     JUB_RV rv = verify_pin(contextID);
     if (JUBR_OK != rv) {
         return;
     }
 
-    rv = transaction_proc_TRX(contextID, root);
+    rv = transaction_proc_TRX(contextID, root, choice);
     if (JUBR_OK != rv) {
         return;
     }
 }
 
-JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root) {
+JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -199,42 +203,38 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root) {
     path.addressIndex = root["TRX"]["bip32_path"]["addressIndex"].asUInt();
 
     //TRX Test
-    while (true) {
-        cout << " ------------------------------------ " << endl;
-        cout << "|******* Jubiter Wallet TRX  ********|" << endl;
-        cout << "|  1.       transfer_contract_test.  |" << endl;
-        cout << "|  2. transfer_asset_contract_test.  |" << endl;
-        cout << "| 30.   create_smart_contract_test.  |" << endl;
-        cout << "| 31.  trigger_smart_contract_test.  |" << endl;
-        cout << "|  9. return.                        |" << endl;
-        cout << " ------------------------------------ " << endl;
-        cout << "* Please enter your choice:" << endl;
+//    typedef enum {
+//                XFER_CONTRACT =  1, // TransferContract(balance_contract.proto)
+//          XFER_ASSET_CONTRACT =  2, // TransferAssetContract(asset_issue_contract.proto)
+//        CREATE_SMART_CONTRACT = 30, // CreateSmartContract(smart_contract.proto)
+//          TRIG_SMART_CONTRACT = 31, // TriggerSmartContract(smart_contract.proto)
+//         NS_ITEM_TRX_CONTRACT
+//    } JUB_ENUM_TRX_CONTRACT_TYPE;
+    if (3 == choice) {
+        choice = 31;
+    }
 
-        int choice = 0;
-        cin >> choice;
+    std::string packedContractInPb;
+    rv = pack_contract_proc(contextID, root,
+                            choice,
+                            packedContractInPb);
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+    std::cout << "Packed Contract[" << (packedContractInPb.length()/2) << "]: " << packedContractInPb << std::endl;
 
-        std::string packedContractInPb;
-        rv = pack_contract_proc(contextID, root,
-                                choice,
-                                packedContractInPb);
-        if (JUBR_OK != rv) {
-            break;
-        }
-        std::cout << "Packed Contract[" << (packedContractInPb.length()/2) << "]: " << packedContractInPb << std::endl;
-
-        char* raw = nullptr;
-        rv = JUB_SignTransactionTRX(contextID, path,
-                                    packedContractInPb.c_str(),
-                                    &raw);
-        if (JUBR_OK != rv) {
-            cout << "JUB_SignTransactionTRX() return " << GetErrMsg(rv) << endl;
-            return rv;
-        }
-        else {
-            cout << "raw[" << strlen(raw) << "]: "  << raw << endl;
-            JUB_FreeMemory(raw);
-        }
-    } // while (true) end
+    char* raw = nullptr;
+    rv = JUB_SignTransactionTRX(contextID, path,
+                                packedContractInPb.c_str(),
+                                &raw);
+    if (JUBR_OK != rv) {
+        cout << "JUB_SignTransactionTRX() return " << GetErrMsg(rv) << endl;
+        return rv;
+    }
+    else {
+        cout << "raw[" << strlen(raw) << "]: "  << raw << endl;
+        JUB_FreeMemory(raw);
+    }
 
     return rv;
 }

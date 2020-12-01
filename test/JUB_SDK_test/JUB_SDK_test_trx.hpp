@@ -18,14 +18,12 @@
 void TRX_test(const char* json_file);
 
 void set_my_address_test_TRX(JUB_UINT16 contextID);
-void get_address_pubkey_TRX(JUB_UINT16 contextID);
+void  get_address_pubkey_TRX(JUB_UINT16 contextID);
 
-void transaction_test_TRX(JUB_UINT16 contextID, Json::Value root);
-JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root);
+void   transaction_test_TRX(JUB_UINT16 contextID, Json::Value root, int choice);
+JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice);
 JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
                           int choice,
                           std::string& packedContract);
-void transaction_test_TRC20(JUB_UINT16 contextID, Json::Value root);
-JUB_RV transaction_proc_TRC20(JUB_UINT16 contextID, Json::Value root);
 
 #endif /* JUB_SDK_test_trx_hpp */

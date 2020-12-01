@@ -16,7 +16,7 @@
 
 void BTC_test(const char* json_file, JUB_ENUM_COINTYPE_BTC coinType);
 
-void get_address_test(JUB_UINT16 contextID, Json::Value root);
+void  get_address_test(JUB_UINT16 contextID, Json::Value root);
 void show_address_test(JUB_UINT16 contextID);
 void set_my_address_test_BTC(JUB_UINT16 contextID);
 

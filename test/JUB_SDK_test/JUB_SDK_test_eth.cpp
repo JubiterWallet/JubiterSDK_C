@@ -46,9 +46,11 @@ void ETH_test(const char* json_file) {
         cout << "--------------------------------------" << endl;
         cout << "|******* Jubiter Wallet ETH  ********|" << endl;
         cout << "| 1. show_address_pubkey_test.       |" << endl;
+        cout << "|                                    |" << endl;
         cout << "| 2.         transaction_test.       |" << endl;
         cout << "| 3.   transaction_ERC20_test.       |" << endl;
         cout << "| 4.          bytestring_test.       |" << endl;
+        cout << "|                                    |" << endl;
         cout << "| 5.      set_my_address_test.       |" << endl;
         cout << "| 6.         set_timeout_test.       |" << endl;
         cout << "| 9. return.                         |" << endl;

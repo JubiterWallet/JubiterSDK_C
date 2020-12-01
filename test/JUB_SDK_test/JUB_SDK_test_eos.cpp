@@ -45,11 +45,18 @@ void EOS_test(const char* json_file) {
     while (true) {
         cout << "--------------------------------------" << endl;
         cout << "|******* Jubiter Wallet EOS  ********|" << endl;
-        cout << "| 1. show_address_pubkey_test.       |" << endl;
-        cout << "| 2. transaction_test.               |" << endl;
-        cout << "| 3. set_my_address_test.            |" << endl;
-        cout << "| 4. set_timeout_test.               |" << endl;
-        cout << "| 9. return.                         |" << endl;
+        cout << "| 1 . show_address_pubkey_test.      |" << endl;
+        cout << "|                                    |" << endl;
+        cout << "| 21.       transfer_test.           |" << endl;
+        cout << "| 22. transfer_token_test.           |" << endl;
+        cout << "| 23.          stake_test.           |" << endl;
+        cout << "| 24.        unstake_test.           |" << endl;
+        cout << "| 25.        buy_ram_test.           |" << endl;
+        cout << "| 26.       sell_ram_test.           |" << endl;
+        cout << "|                                    |" << endl;
+        cout << "| 3 . set_my_address_test.           |" << endl;
+        cout << "| 4 . set_timeout_test.              |" << endl;
+        cout << "| 9 . return.                        |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -60,8 +67,13 @@ void EOS_test(const char* json_file) {
         case 1:
             get_address_pubkey_EOS(contextID);
             break;
-        case 2:
-            transaction_test_EOS(contextID, root);
+        case 21:
+        case 22:
+        case 23:
+        case 24:
+        case 25:
+        case 26:
+            transaction_test_EOS(contextID, root, choice);
             break;
         case 3:
             set_my_address_test_EOS(contextID);
@@ -171,20 +183,20 @@ void get_address_pubkey_EOS(JUB_UINT16 contextID) {
     JUB_FreeMemory(address);
 }
 
-void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root) {
+void transaction_test_EOS(JUB_UINT16 contextID, Json::Value root, int choice) {
 
     JUB_RV rv = verify_pin(contextID);
     if (JUBR_OK != rv) {
         return;
     }
 
-    rv = transaction_proc_EOS(contextID, root);
+    rv = transaction_proc_EOS(contextID, root, (choice-20));
     if (JUBR_OK != rv) {
         return;
     }
 }
 
-JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
+JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -196,16 +208,51 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
         return JUBR_ARGUMENTS_BAD;
     }
 
+    int actIndex = 0;
+    std::string sAction = "acts";
+    if (   (1 == choice)
+        || (2 == choice)
+        ) {
+        sAction = "actions";
+    }
+    switch (choice) {
+    case 1:
+        actIndex = 0;
+        break;
+    case 2:
+        actIndex = 1;
+        break;
+    case 3:
+        actIndex = 0;
+        break;
+    case 4:
+        actIndex = 1;
+        break;
+    case 5:
+        actIndex = 2;
+        break;
+    case 6:
+        actIndex = 3;
+        break;
+    default:
+        break;
+    }
+
     std::vector<JUB_ACTION_EOS> actions;
     //EOS Test
-    for (Json::Value::iterator it = root["EOS"]["actions"].begin(); it != root["EOS"]["actions"].end(); ++it) {
+//    for (Json::Value::iterator it = root["EOS"][sAction][actIndex].begin(); it != root["EOS"][sAction][actIndex].end(); ++it) {
+        Json::Value::iterator it = root["EOS"][sAction].begin();
+        for (int i=0; i<actIndex; ++i) {
+            it ++;
+        }
+
         JUB_ACTION_EOS action;
 
         action.type = (JUB_ENUM_EOS_ACTION_TYPE)(*it)["type"].asUInt();
         action.currency = (char*)(*it)["currency"].asCString();
         action.name     = (char*)(*it)["name"].asCString();
 
-        const char* sType = std::to_string((unsigned int)action.type).c_str();
+        std::string sType = std::to_string((unsigned int)action.type);
         switch (action.type) {
         case JUB_ENUM_EOS_ACTION_TYPE::XFER:
             action.transfer.from  = (char*)(*it)[sType]["from"].asCString();
@@ -252,7 +299,8 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root) {
             return JUBR_ARGUMENTS_BAD;
         }   // switch (action.type) end
         actions.push_back(action);
-    }   // for (Json::Value::iterator it ... end
+//    }   // for (Json::Value::iterator it ... end
+
     size_t actionCnt = actions.size();
     JUB_ACTION_EOS_PTR pActions = new JUB_ACTION_EOS[actionCnt*sizeof(JUB_ACTION_EOS)+1];
     memset(pActions, 0x00, actionCnt*sizeof(JUB_ACTION_EOS)+1);

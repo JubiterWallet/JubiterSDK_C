@@ -120,8 +120,33 @@ void software_test_eos(const char* json_file) {
     cout << "JUB_GetAddressEOS return " << address << endl;
     JUB_FreeMemory(address);
 
-    rv = transaction_proc_EOS(contextID, root);
-    if (JUBR_OK != rv) {
-        return;
+    for (int i=1; i<=6; ++i) {
+        switch (i) {
+        case 1:
+            std::cout << "transfer test..." << std::endl;
+            break;
+        case 2:
+            std::cout << "transfer token test..." << std::endl;
+            break;
+        case 3:
+            std::cout << "stake test..." << std::endl;
+            break;
+        case 4:
+            std::cout << "unstake test..." << std::endl;
+            break;
+        case 5:
+            std::cout << "buy ram test..." << std::endl;
+            break;
+        case 6:
+            std::cout << "sell ram test..." << std::endl;
+            break;
+
+        default:
+            break;
+        }
+        rv = transaction_proc_EOS(contextID, root, i);
+        if (JUBR_OK != rv) {
+            return;
+        }
     }
 }

@@ -132,13 +132,21 @@ void software_test_trx(const char* json_file) {
         JUB_FreeMemory(address);
     }
 
-    rv = transaction_proc_TRX(contextID, root);
-    if (JUBR_OK != rv) {
-        return;
+    for (int i=1; i<=3; ++i) {
+        switch (i) {
+        case 1:
+            std::cout << "transfer contract test..." << std::endl;
+            break;
+        case 2:
+            std::cout << "transfer asset contract test..." << std::endl;
+            break;
+        case 3:
+            std::cout << "trigger smart contract test..." << std::endl;
+            break;
+        }
+        rv = transaction_proc_TRX(contextID, root, i);
+        if (JUBR_OK != rv) {
+            return;
+        }
     }
-
-//    rv = transaction_proc_TRC20(contextID, root);
-//    if (JUBR_OK != rv) {
-//        return;
-//    }
 }
