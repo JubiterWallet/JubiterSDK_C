@@ -25,10 +25,10 @@ JUB_RV verify_identity_via_9grids(JUB_UINT16 deviceID) {
 
         cout << "to cancel the virtualpwd iput 'c'" << endl;
         rv = JUB_IdentityShowNineGrids(deviceID);
+        cout << "JUB_IdentityShowNineGrids() return " << GetErrMsg(rv) << endl;
         if (   JUBR_OK               != rv
             && JUBR_IMPL_NOT_SUPPORT != rv
             ) {
-            cout << "JUB_IdentityShowNineGrids() return " << GetErrMsg(rv) << endl;
             break;
         }
 
@@ -42,8 +42,8 @@ JUB_RV verify_identity_via_9grids(JUB_UINT16 deviceID) {
             ) {
             cout << "cancel the VirtualPwd "<< endl;
             rv = JUB_IdentityCancelNineGrids(deviceID);
+            cout << "JUB_IdentityCancelNineGrids() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
-                cout << "JUB_IdentityResetNineGrids() return " << GetErrMsg(rv) << endl;
                 break;
             }
             return rv;
@@ -51,8 +51,8 @@ JUB_RV verify_identity_via_9grids(JUB_UINT16 deviceID) {
 
         JUB_ULONG retry;
         rv = JUB_IdentityVerifyPIN(deviceID, JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_9GRIDS, str, &retry);
+        cout << "JUB_IdentityVerifyPIN() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_VerifyPIN() return " << GetErrMsg(rv) << endl;
             break;
         }
     }
@@ -84,9 +84,7 @@ JUB_RV verify_identity_via_apdu(JUB_UINT16 deviceID) {
 
     JUB_ULONG retry;
     rv = JUB_IdentityVerifyPIN(deviceID, JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_APDU, str, &retry);
-    if (JUBR_OK != rv) {
-        cout << "JUB_IdentityVerifyPIN() return " << GetErrMsg(rv) << endl;
-    }
+    cout << "JUB_IdentityVerifyPIN() return " << GetErrMsg(rv) << endl;
 
     return rv;
 }

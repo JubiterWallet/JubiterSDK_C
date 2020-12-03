@@ -16,7 +16,7 @@
 #include "../../include/JUB_SDK_BTC.h"
 
 
-void ETH_test(const char* json_file);
+void ETH_test(JUB_UINT16 deviceID, const char* json_file);
 
 void set_my_address_test_ETH(JUB_UINT16 contextID);
 void  get_address_pubkey_ETH(JUB_UINT16 contextID);

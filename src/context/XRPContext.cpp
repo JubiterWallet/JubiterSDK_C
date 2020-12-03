@@ -11,9 +11,7 @@
 #include "context/XRPContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
-#if defined(NFC_MODE)
 #include "token/JubiterNFC/JubiterNFCToken.h"
-#endif // #if defined(NFC_MODE) end
 #include "token/interface/XRPTokenInterface.hpp"
 #include <Ripple/Signer.h>
 

@@ -1,5 +1,4 @@
 #include "JUB_SDK_COMM.h"
-#if defined(NFC_MODE)
 #include "token/ETH/JubiterNFCETHImpl.h"
 #include <TrezorCrypto/bip32.h>
 #include <Ethereum/Signer.h>
@@ -232,5 +231,3 @@ JUB_RV JubiterNFCETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID
 
 } // namespace token end
 } // namespace jub end
-
-#endif //end NFC_MODE

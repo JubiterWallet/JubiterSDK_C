@@ -1,6 +1,4 @@
 #include "JUB_SDK_COMM.h"
-#if defined(NFC_MODE)
-
 #include "token/TRX/JubiterNFCTRXImpl.h"
 #include <TrezorCrypto/bip32.h>
 #include <Tron/Signer.h>
@@ -121,5 +119,3 @@ JUB_RV JubiterNFCTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
 
 } // namespace token end
 } // namespace jub end
-
-#endif //end NFC_MODE

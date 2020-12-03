@@ -1,10 +1,8 @@
 #include "JUB_SDK_COMM.h"
-#if defined(NFC_MODE)
 #include "token/BTC/JubiterNFCBCHImpl.h"
 
 namespace jub {
 namespace token {
-
 
 //JUB_RV JubiterNFCBCHImpl::SignTX(const JUB_BYTE addrFmt,
 //                                 const JUB_ENUM_BTC_TRANS_TYPE& type,
@@ -111,4 +109,3 @@ JUB_RV JubiterNFCBCHImpl::_SignTx(bool witness,
 
 } // namespace token end
 } // namespace jub end
-#endif //end NFC_MODE

@@ -13,21 +13,14 @@
 #include "JUB_SDK_main.h"
 #include <time.h>
 
-void XRP_test(const char* json_file) {
+void XRP_test(JUB_UINT16 deviceID, const char* json_file) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
-
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        return;
-    }
+    JUB_RV rv = JUBR_ERROR;
 
     char* appList;
-    rv = JUB_EnumApplets(deviceIDs[0], &appList);
+    rv = JUB_EnumApplets(deviceID, &appList);
+    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -36,9 +29,9 @@ void XRP_test(const char* json_file) {
 
     CONTEXT_CONFIG_XRP cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
-    rv = JUB_CreateContextXRP(cfg, deviceIDs[0], &contextID);
+    rv = JUB_CreateContextXRP(cfg, deviceID, &contextID);
+    cout << "JUB_CreateContextXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_CreateContextXRP() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -99,8 +92,8 @@ void set_my_address_test_XRP(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_SetMyAddressXRP(contextID, path, &address);
+    cout << "JUB_SetMyAddressXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SetMyAddressXRP() return " << GetErrMsg(rv) << endl;
         return;
     }
     else {
@@ -125,8 +118,8 @@ void get_address_pubkey_XRP(JUB_UINT16 contextID) {
 
     char* pubkey = nullptr;
     rv = JUB_GetMainHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
+    cout << "JUB_GetMainHDNodeXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetMainHDNodeXRP() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -135,8 +128,8 @@ void get_address_pubkey_XRP(JUB_UINT16 contextID) {
 
     pubkey = nullptr;
     rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pubkey);
+    cout << "JUB_GetHDNodeXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetHDNodeXRP() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -145,8 +138,8 @@ void get_address_pubkey_XRP(JUB_UINT16 contextID) {
 
     char* address = nullptr;
     rv = JUB_GetAddressXRP(contextID, path, BOOL_TRUE, &address);
+    cout << "JUB_GetAddressXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetAddressXRP() return " << GetErrMsg(rv) << endl;
         return;
     }
     cout << "address: " << address << endl;
@@ -240,8 +233,8 @@ JUB_RV transaction_proc_XRP(JUB_UINT16 contextID, Json::Value root) {
                                 path,
                                 xrp,
                                 &raw);
+    cout << "JUB_SignTransactionXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SignTransactionXRP() return " << rv << endl;
         return rv;
     }
     cout << "JUB_SignTransactionXRP() return " << raw << endl;

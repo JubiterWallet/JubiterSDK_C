@@ -17,21 +17,14 @@ using namespace std;
 
 #include "JUB_SDK_main.h"
 
-void TRX_test(const char* json_file) {
+void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
-
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        return;
-    }
+    JUB_RV rv = JUBR_ERROR;
 
     char* appList;
-    rv = JUB_EnumApplets(deviceIDs[0], &appList);
+    rv = JUB_EnumApplets(deviceID, &appList);
+    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -40,9 +33,9 @@ void TRX_test(const char* json_file) {
 
     CONTEXT_CONFIG_TRX cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
-    rv = JUB_CreateContextTRX(cfg, deviceIDs[0], &contextID);
+    rv = JUB_CreateContextTRX(cfg, deviceID, &contextID);
+    cout << "JUB_CreateContextTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_CreateContextTRX() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -108,8 +101,8 @@ void set_my_address_test_TRX(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_SetMyAddressTRX(contextID, path, &address);
+    cout << "JUB_SetMyAddressTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SetMyAddressTRX() return " << GetErrMsg(rv) << endl;
         return;
     }
     else {
@@ -133,8 +126,8 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
 
     char* pubkey = nullptr;
     JUB_RV rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
+    cout << "JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -143,8 +136,8 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
 
     pubkey = nullptr;
     rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &pubkey);
+    cout << "JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -153,8 +146,8 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
 
     pubkey = nullptr;
     rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pubkey);
+    cout << "JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -163,8 +156,8 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
 
     pubkey = nullptr;
     rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &pubkey);
+    cout << "JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -173,8 +166,8 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
 
     char* address = nullptr;
     rv = JUB_GetAddressTRX(contextID, path, BOOL_TRUE, &address);
+    cout << "JUB_GetAddressTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetAddressTRX() return " << GetErrMsg(rv) << endl;
         return;
     }
     cout << "address: " << address << endl;
@@ -227,8 +220,8 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) 
     rv = JUB_SignTransactionTRX(contextID, path,
                                 packedContractInPb.c_str(),
                                 &raw);
+    cout << "JUB_SignTransactionTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SignTransactionTRX() return " << GetErrMsg(rv) << endl;
         return rv;
     }
     else {
@@ -306,6 +299,7 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
 
     JUB_CHAR_PTR packContractInPb = nullptr;
     rv = JUB_PackContractTRX(contextID, tx, &packContractInPb);
+    cout << "JUB_PackContractTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK == rv) {
         packedContract = packContractInPb;
     }

@@ -2,9 +2,7 @@
 #include "context/HCContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
-#if defined(NFC_MODE)
 #include "token/JubiterNFC/JubiterNFCToken.h"
-#endif // #if defined(NFC_MODE) end
 #include "token/interface/BTCTokenInterface.hpp"
 #include "utility/util.h"
 #include "mSIGNA/stdutils/uchar_vector.h"

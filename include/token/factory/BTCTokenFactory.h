@@ -6,6 +6,9 @@
 #include "utility/xFactory.hpp"
 #include "utility/Singleton.h"
 
+#if defined(GRPC_MODE)
+#include "device/JubiterBridgeDevice.hpp"
+#endif // #if defined(GRPC_MODE) end
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -23,14 +26,12 @@
 
 #include "token/BTC/JubiterBIOBTCImpl.h"
 
-#if defined(NFC_MODE)
 #include "token/BTC/JubiterNFCBTCImpl.h"
 #include "token/BTC/JubiterNFCBCHImpl.h"
 #include "token/BTC/JubiterNFCLTCImpl.h"
 #include "token/BTC/JubiterNFCUSDTImpl.h"
 #include "token/BTC/JubiterNFCDashImpl.h"
 #include "token/BTC/JubiterNFCQTUMImpl.h"
-#endif // #if defined(NFC_MODE) end
 
 #include "token/BTC/TrezorCryptoBTCImpl.h"
 #include "token/BTC/TrezorCryptoBCHImpl.h"
@@ -96,7 +97,6 @@ public:
 }; // class xJuBiterBIOBTCFactory end
 
 
-#if defined(NFC_MODE)
 class xJuBiterNFCBTCFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 JUB_ENUM_COINTYPE_BTC,
@@ -111,7 +111,6 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterNFCQTUMImpl::Create);
     }
 }; // class xJuBiterNFCBTCFactory end
-#endif // #if defined(NFC_MODE) end
 
 
 class xBTCTokenFactory {
@@ -119,9 +118,7 @@ protected:
     xTrezorCryptoBTCFactory     trezorFactory;
     xJuBiterBladeBTCFactory jubiterBLDFactory;
     xJuBiterBIOBTCFactory   jubiterBIOFactory;
-#if defined(NFC_MODE)
     xJuBiterNFCBTCFactory   jubiterNFCFactory;
-#endif // #if defined(NFC_MODE) end
 
 public:
     std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const std::string& XPRVorXPUB) {
@@ -129,6 +126,23 @@ public:
     }
 
     std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const JUB_UINT16 deviceID) {
+#if defined(GRPC_MODE)
+        if (dynamic_cast<jub::device::JubiterBridgeBLDDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterBLDFactory.Create(type, deviceID);
+        }
+        else if (dynamic_cast<jub::device::JubiterBridgeBIODevice*>(
+                              jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterBIOFactory.Create(type, deviceID);
+        }
+        else if (dynamic_cast<jub::device::JubiterBridgeLITEDevice*>(
+                              jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterNFCFactory.Create(type, deviceID);
+        }
+#endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
         if (dynamic_cast<jub::device::JubiterHidBLDDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))

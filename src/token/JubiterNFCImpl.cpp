@@ -1,5 +1,4 @@
 #include "JUB_SDK_COMM.h"
-#if defined(NFC_MODE)
 #include "token/JubiterNFC/JubiterNFCImpl.h"
 #include "utility/util.h"
 #include "token/ErrorHandler.h"
@@ -260,5 +259,3 @@ JUB_BYTE JubiterNFCImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::H
 
 } // namespace token end
 } // namespace jub end
-
-#endif //end NFC_MODE

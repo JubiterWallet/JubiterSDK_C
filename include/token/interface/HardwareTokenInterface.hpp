@@ -42,7 +42,6 @@ public:
     virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
 
-#if defined(NFC_MODE)
     // NFC
     virtual JUB_RV SetLabel(const std::string& label) = 0;
     virtual JUB_RV Reset() = 0;
@@ -54,7 +53,6 @@ public:
     virtual JUB_RV ExportMnemonic(const std::string& pinMix,
                                   OUT std::string& mnemonic) = 0;
     virtual JUB_RV GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) = 0;
-#endif // #if defined(NFC_MODE) end
 
     // BIO
     virtual JUB_RV UIShowMain() = 0;

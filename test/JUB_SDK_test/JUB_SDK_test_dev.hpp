@@ -22,9 +22,9 @@ vector<string> split(const string &str, char delim, bool bSkipEmpty = true);
 JUB_RV verify_pin(JUB_UINT16 contextID);
 JUB_RV verify_fgpt(JUB_UINT16 contextID);
 
-void get_device_info_test();
-void set_timeout_test(JUB_UINT16 contextID);
+void get_device_info_test(JUB_UINT16 deviceID);
+void     set_timeout_test(JUB_UINT16 contextID);
 
-void send_apdu_test();
+void send_apdu_test(JUB_UINT16 deviceID);
 
 #endif /* JUB_SDK_test_dev_hpp */

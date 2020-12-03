@@ -10,9 +10,7 @@
 #include "context/EOSContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
-#if defined(NFC_MODE)
 #include "token/JubiterNFC/JubiterNFCToken.h"
-#endif // #if defined(NFC_MODE) end
 #include "token/interface/EOSTokenInterface.hpp"
 #include <EOS/Signer.h>
 #include <EOS/Transaction.h>

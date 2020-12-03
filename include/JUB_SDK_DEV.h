@@ -117,6 +117,7 @@ typedef enum {
     HID = 0x01,
     BLE = 0x02,
     NFC = 0x03,
+    GRPC= 0x04,
     COMMODE_NS_ITEM
 } JUB_ENUM_COMMODE;
 typedef JUB_ENUM_COMMODE* JUB_ENUM_COMMODE_PTR;

@@ -22,25 +22,16 @@
 using std::getline;
 using std::istringstream;
 
-void getVersion() {
+void getVersion(JUB_UINT16 deviceID) {
 
     cout << "~~~~~~~~~~~Device Version ~~~~~~~~~~~~~~" << endl;
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
-
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        return;
-    }
-
-    JUB_UINT16 deviceID = deviceIDs[0];
+    JUB_RV rv = JUBR_ERROR;
 
     JUB_DEVICE_INFO info;
     rv = JUB_GetDeviceInfo(deviceID, &info);
+    cout << "JUB_GetDeviceInfo() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetDeviceInfo() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -55,8 +46,8 @@ void getVersion() {
 
     char* appList;
     rv = JUB_EnumApplets(deviceID, &appList);
+    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
         return;
     }
     std::string appletList = appList;
@@ -66,8 +57,8 @@ void getVersion() {
     for (auto appID : vAppList) {
         char* version;
         auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
+        cout << "JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
             break;
         }
         else {
@@ -82,12 +73,87 @@ void getVersion() {
 
 void main_test() {
 
+    JUB_RV rv = JUBR_ERROR;
+
+    int choice = 0;
+    JUB_ENUM_COMMODE commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
+    cout << "-------------------------------------------" << endl;
+    cout << "|********** Jubiter Wallet Test **********|" << endl;
+    cout << "| *. device test via HID                  |" << endl;
+    cout << "|                                         |" << endl;
+    cout << "| 1. virtual JuBiter Blade test           |" << endl;
+    cout << "| 2. virtual JuBiter Bio   test           |" << endl;
+    cout << "| 3. virtual JuBiter Lite  test           |" << endl;
+    cout << "|                                         |" << endl;
+    cout << "| 0.  exit.                               |" << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << "* Please enter your choice:" << endl;
+
+    cin >> choice;
+
     JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_RV rv = JUB_ListDeviceHid(deviceIDs);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ListDeviceHid() return " << GetErrMsg(rv) << endl;
+    JUB_UINT16 deviceID = 0;
+    switch (choice) {
+    case 0:
+        exit(0);
+        break;
+    case 1:
+    case 2:
+    {
+        commode = JUB_ENUM_COMMODE::GRPC;
+        rv = JUB_ListDeviceGRPC((JUB_ENUM_DEVICE)choice, deviceIDs);
+        cout << "JUB_ListDeviceGRPC() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+        deviceID = deviceIDs[0];
+        rv = JUB_ConnetDeviceGRPC(deviceID);
+        cout << "JUB_ConnetDeviceGRPC() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+        break;
     }
-    auto deviceID = deviceIDs[0];
+    case 3:
+    {
+        commode = JUB_ENUM_COMMODE::GRPC;
+        LITE_DEVICE_INIT_PARAM param;
+        Json::Value root = readJSON("settings/42584E46433230303532353030303031_apk.settings");
+        param.crt = (char*)root["SCP11c"]["OCE"][1][0].asCString();
+        param.sk  = (char*)root["SCP11c"]["OCE"][1][2].asCString();
+        param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
+        param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
+
+        rv = JUB_ListLiteGRPC((JUB_ENUM_DEVICE)choice, param, deviceIDs);
+        cout << "JUB_ListDeviceGRPC() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+        deviceID = deviceIDs[0];
+        rv = JUB_ConnetDeviceGRPC(deviceID);
+        cout << "JUB_ConnetDeviceGRPC() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+        break;
+    }
+    default:
+    {
+        commode = JUB_ENUM_COMMODE::HID;
+        rv = JUB_ListDeviceHid(deviceIDs);
+        cout << "JUB_ListDeviceHid() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+        deviceID = deviceIDs[0];
+        rv = JUB_ConnetDeviceHid(deviceID);
+        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+        break;
+    }
+    }
 
     while (true) {
         cout << "-------------------------------------------" << endl;
@@ -125,12 +191,11 @@ void main_test() {
 
         std::string json_file = "json/";
 
-        int choice = 0;
         cin >> choice;
 
         switch (choice) {
         case 1:
-            get_device_info_test();
+            get_device_info_test(deviceID);
             break;
         case 11:
             device_fgpt_test(deviceID);
@@ -138,23 +203,23 @@ void main_test() {
 
         case 2:
             json_file += "testLTC.json";
-            BTC_test(json_file.c_str(), COINLTC);
+            BTC_test(deviceID, json_file.c_str(), COINLTC);
             break;
         case 5:
             json_file += "testDASH.json";
-            BTC_test(json_file.c_str(), COINDASH);
+            BTC_test(deviceID, json_file.c_str(), COINDASH);
             break;
         case 31:
             json_file += "testBTC44.json";
-            BTC_test(json_file.c_str(), COINBTC);
+            BTC_test(deviceID, json_file.c_str(), COINBTC);
             break;
         case 32:
             json_file += "testBTC49.json";
-            BTC_test(json_file.c_str(), COINBTC);
+            BTC_test(deviceID, json_file.c_str(), COINBTC);
             break;
         case 39:
             json_file += "testUSDT.json";
-            USDT_test(json_file.c_str());
+            USDT_test(deviceID, json_file.c_str());
             break;
         case 88:
             json_file += "testQTUM_qrc20.json";
@@ -162,11 +227,11 @@ void main_test() {
             break;
         case 2301:
             json_file += "testQTUM.json";
-            BTC_test(json_file.c_str(), COINQTUM);
+            BTC_test(deviceID, json_file.c_str(), COINQTUM);
             break;
         case 145:
             json_file += "testBCH.json";
-            BTC_test(json_file.c_str(), COINBCH);
+            BTC_test(deviceID, json_file.c_str(), COINBCH);
             break;
         case 171:
             json_file += "testHCash.json";
@@ -175,27 +240,27 @@ void main_test() {
 
         case 60:
             json_file += "testETH.json";
-            ETH_test(json_file.c_str());
+            ETH_test(deviceID, json_file.c_str());
             break;
 
         case 144:
             json_file += "testXRP.json";
-            XRP_test(json_file.c_str());
+            XRP_test(deviceID, json_file.c_str());
             break;
         case 194:
             json_file += "testEOS.json";
-            EOS_test(json_file.c_str());
+            EOS_test(deviceID, json_file.c_str());
             break;
         case 195:
             json_file += "testTRX.json";
-            TRX_test(json_file.c_str());
+            TRX_test(deviceID, json_file.c_str());
             break;
 
         case 98:
-            send_apdu_test();
+            send_apdu_test(deviceID);
             break;
         case 99:
-            getVersion();
+            getVersion(deviceID);
             break;
         case 0:
             exit(0);
@@ -203,7 +268,22 @@ void main_test() {
             continue;
         }   // switch (choice) end
 
-        JUB_DisconnetDeviceHid(deviceID);
+        switch (commode) {
+        case JUB_ENUM_COMMODE::HID:
+        {
+            rv = JUB_DisconnetDeviceHid(deviceID);
+            cout << "JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
+            break;
+        }
+        case JUB_ENUM_COMMODE::GRPC:
+        {
+            rv = JUB_DisconnetDeviceGRPC(deviceID);
+            cout << "JUB_DisconnetDeviceGRPC() return " << GetErrMsg(rv) << endl;
+            break;
+        }
+        default:
+            return;
+        }
     }   // while (true) end
 }
 

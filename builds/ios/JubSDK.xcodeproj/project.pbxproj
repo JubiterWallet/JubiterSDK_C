@@ -653,9 +653,6 @@
 		67EA8EAE256E0E3E00AD9179 /* TRXContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EAC256E0E3E00AD9179 /* TRXContext.h */; };
 		67EA8EB4256E0E8A00AD9179 /* TRXTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EB3256E0E8A00AD9179 /* TRXTokenInterface.hpp */; };
 		67EA8ECE256E216800AD9179 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EA8ECD256E216800AD9179 /* libprotobuf.a */; };
-		67EA8FAC256E2A9700AD9179 /* trc20_contract.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FAA256E2A9700AD9179 /* trc20_contract.pb.cc */; };
-		67EA8FAD256E2A9700AD9179 /* trc20_contract.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FAA256E2A9700AD9179 /* trc20_contract.pb.cc */; };
-		67EA8FAE256E2A9700AD9179 /* trc20_contract.pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8FAB256E2A9700AD9179 /* trc20_contract.pb.h */; };
 		67EA8FE0256E2E1200AD9179 /* TRXContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */; };
 		67EA8FE1256E2E1200AD9179 /* TRXContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */; };
 		67EB5BF72513763500501E9A /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EB5BF62513763500501E9A /* CoreNFC.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -1152,8 +1149,6 @@
 		67EA8EAC256E0E3E00AD9179 /* TRXContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXContext.h; path = ../../include/context/TRXContext.h; sourceTree = "<group>"; };
 		67EA8EB3256E0E8A00AD9179 /* TRXTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TRXTokenInterface.hpp; path = ../../include/token/interface/TRXTokenInterface.hpp; sourceTree = "<group>"; };
 		67EA8ECD256E216800AD9179 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/iOS/Release/libprotobuf.a; sourceTree = "<group>"; };
-		67EA8FAA256E2A9700AD9179 /* trc20_contract.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = trc20_contract.pb.cc; path = ../../deps/JubiterSDK_Common_pb/cpp/Tron/trc20_contract.pb.cc; sourceTree = "<group>"; };
-		67EA8FAB256E2A9700AD9179 /* trc20_contract.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = trc20_contract.pb.h; path = ../../deps/JubiterSDK_Common_pb/cpp/Tron/trc20_contract.pb.h; sourceTree = "<group>"; };
 		67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TRXContext.cpp; path = ../../src/context/TRXContext.cpp; sourceTree = "<group>"; };
 		67EB5BF62513763500501E9A /* CoreNFC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreNFC.framework; path = System/Library/Frameworks/CoreNFC.framework; sourceTree = SDKROOT; };
 		67F173822542DCA2009211A3 /* pb_buf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pb_buf.hpp; path = ../../pbparse/pb_buf.hpp; sourceTree = "<group>"; };
@@ -2227,8 +2222,6 @@
 		67EA8FA3256E2A5200AD9179 /* protocol */ = {
 			isa = PBXGroup;
 			children = (
-				67EA8FAA256E2A9700AD9179 /* trc20_contract.pb.cc */,
-				67EA8FAB256E2A9700AD9179 /* trc20_contract.pb.h */,
 				676393592534649100C41883 /* core */,
 			);
 			name = protocol;
@@ -2525,7 +2518,6 @@
 				6718A38B23A3391100F8A5CD /* ed25519-hash-custom-sha3.h in Headers */,
 				6718A3AB23A3391C00F8A5CD /* check_mem.h in Headers */,
 				677DF32A24DD1D22001920A9 /* JubiterBIOXRPImpl.h in Headers */,
-				67EA8FAE256E2A9700AD9179 /* trc20_contract.pb.h in Headers */,
 				67E0DE45250F19B700D42EF0 /* Prefixes.h in Headers */,
 				6718A42423A339F300F8A5CD /* trim.hpp in Headers */,
 				673E49822429EDD700C7F469 /* OutPoint.h in Headers */,
@@ -2744,7 +2736,6 @@
 				6718A3A823A3391C00F8A5CD /* blake2s.c in Sources */,
 				6718A41723A339ED00F8A5CD /* JUB_core.cpp in Sources */,
 				675B05442428698C004C62D4 /* JubiterBaseETHImpl.cpp in Sources */,
-				67EA8FAD256E2A9700AD9179 /* trc20_contract.pb.cc in Sources */,
 				6718A38723A3391100F8A5CD /* ed25519-donna-basepoint-table.c in Sources */,
 				6746215B23C319A20096DDA2 /* HCContext.cpp in Sources */,
 				6718A37223A338EA00F8A5CD /* Base58.cpp in Sources */,
@@ -2843,7 +2834,6 @@
 				6713A87323A07C200083A34D /* HexCoding.cpp in Sources */,
 				6746216023C319A20096DDA2 /* BaseContext.cpp in Sources */,
 				6713A85523A07BB80083A34D /* JUB_SDK_COMM.cpp in Sources */,
-				67EA8FAC256E2A9700AD9179 /* trc20_contract.pb.cc in Sources */,
 				6713A83823A07B8F0083A34D /* JubiterBLEDevice.cpp in Sources */,
 				6745C8D6254A653100D49A75 /* JubiterNFCTRXImpl.cpp in Sources */,
 				6713A87423A07C200083A34D /* Hash.cpp in Sources */,
