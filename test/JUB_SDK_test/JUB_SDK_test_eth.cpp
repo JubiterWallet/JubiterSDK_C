@@ -12,21 +12,14 @@
 
 #include "JUB_SDK_main.h"
 
-void ETH_test(const char* json_file) {
+void ETH_test(JUB_UINT16 deviceID, const char* json_file) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
-
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        return;
-    }
+    JUB_RV rv = JUBR_ERROR;
 
     char* appList;
-    rv = JUB_EnumApplets(deviceIDs[0], &appList);
+    rv = JUB_EnumApplets(deviceID, &appList);
+    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -36,11 +29,12 @@ void ETH_test(const char* json_file) {
     CONTEXT_CONFIG_ETH cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
     cfg.chainID = root["chainID"].asInt();
-    rv = JUB_CreateContextETH(cfg, deviceIDs[0], &contextID);
+    rv = JUB_CreateContextETH(cfg, deviceID, &contextID);
+    cout << "JUB_CreateContextETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_CreateContextETH() return " << GetErrMsg(rv) << endl;
         return;
     }
+    cout << "JUB_CreateContextETH() return OK." << endl;
 
     while (true) {
         cout << "--------------------------------------" << endl;
@@ -107,8 +101,8 @@ void set_my_address_test_ETH(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_SetMyAddressETH(contextID, path, &address);
+    cout << "JUB_SetMyAddressETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SetMyAddressETH() return " << GetErrMsg(rv) << endl;
         return;
     }
     else {
@@ -132,8 +126,8 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 
     char* pubkey = nullptr;
     JUB_RV rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
+    cout << "JUB_GetMainHDNodeETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetMainHDNodeETH() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -142,8 +136,8 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 
     pubkey = nullptr;
     rv = JUB_GetMainHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &pubkey);
+    cout << "JUB_GetMainHDNodeETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetMainHDNodeETH() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -152,8 +146,8 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 
     pubkey = nullptr;
     rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pubkey);
+    cout << "JUB_GetHDNodeETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetHDNodeETH() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -162,8 +156,8 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 
     pubkey = nullptr;
     rv = JUB_GetHDNodeETH(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &pubkey);
+    cout << "JUB_GetHDNodeETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetHDNodeETH() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -172,8 +166,8 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 
     char* address = nullptr;
     rv = JUB_GetAddressETH(contextID, path, BOOL_TRUE, &address);
+    cout << "JUB_GetAddressETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetAddressETH() return " << GetErrMsg(rv) << endl;
         return;
     }
     cout << "address: " << address << endl;
@@ -211,8 +205,8 @@ JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
 
     char* raw = nullptr;
     rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
+    cout << "JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
         return rv;
     }
     else {
@@ -252,8 +246,8 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     rv = JUB_BuildERC20AbiETH(contextID,
                               tokenName, unitDP, contractAddress,
                               token_to, token_value, &abi);
+    cout << "JUB_BuildERC20AbiETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_BuildERC20AbiETH() return " << GetErrMsg(rv) << endl;
         return rv;
     }
 
@@ -266,9 +260,9 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     char* valueInWei = nullptr; //"" and "0" ara also OK
     char* raw = nullptr;
     rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
+    cout << "JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
     JUB_FreeMemory(abi);
     if (JUBR_OK != rv) {
-        cout << "JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
         return rv;
     }
     else {
@@ -308,8 +302,8 @@ JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
 
     char* raw = nullptr;
     rv = JUB_SignBytestringETH(contextID, path, data, &raw);
+    cout << "JUB_SignBytestringETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SignBytestringETH() return " << GetErrMsg(rv) << endl;
         return rv;
     }
     else {

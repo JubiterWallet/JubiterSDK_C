@@ -16,7 +16,7 @@
 #include "context/BaseContext.h"
 #include "product/ProductFactory.h"
 #include "device/JubiterNFCDevice.hpp"
-#include "token/JubiterNFC/JubiterNFCToken.h"
+#include "token/JubiterLite/JubiterLiteToken.h"
 #ifdef __ANDROID__
 #include "utils/logUtils.h"
 #endif
@@ -169,8 +169,8 @@ JUB_RV JUB_SetLabel(IN JUB_UINT16 deviceID,
 
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+        token = std::dynamic_pointer_cast<jub::token::JubiterLiteToken>(
+                         std::make_shared<jub::token::JubiterLiteToken>(deviceID));
     }
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -213,8 +213,8 @@ JUB_RV JUB_Reset(IN JUB_UINT16 deviceID) {
 
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+        token = std::dynamic_pointer_cast<jub::token::JubiterLiteToken>(
+                         std::make_shared<jub::token::JubiterLiteToken>(deviceID));
     }
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -260,8 +260,8 @@ JUB_RV JUB_GenerateSeed(IN JUB_UINT16 deviceID,
 
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+        token = std::dynamic_pointer_cast<jub::token::JubiterLiteToken>(
+                         std::make_shared<jub::token::JubiterLiteToken>(deviceID));
     }
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -308,8 +308,8 @@ JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
 
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+        token = std::dynamic_pointer_cast<jub::token::JubiterLiteToken>(
+                         std::make_shared<jub::token::JubiterLiteToken>(deviceID));
     }
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -354,8 +354,8 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+        token = std::dynamic_pointer_cast<jub::token::JubiterLiteToken>(
+                         std::make_shared<jub::token::JubiterLiteToken>(deviceID));
     }
     if (!token) {
         return JUBR_ARGUMENTS_BAD;
@@ -439,8 +439,8 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
 
     std::shared_ptr<jub::token::HardwareTokenInterface> token;
     if (dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice)) {
-        token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(
-                         std::make_shared<jub::token::JubiterNFCToken>(deviceID));
+        token = std::dynamic_pointer_cast<jub::token::JubiterLiteToken>(
+                         std::make_shared<jub::token::JubiterLiteToken>(deviceID));
     }
     if (!token) {
         return JUBR_ARGUMENTS_BAD;

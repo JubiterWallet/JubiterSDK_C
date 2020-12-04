@@ -314,8 +314,8 @@
 		673E498E2429EE1C00C7F469 /* QTUMContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 673E498D2429EE1C00C7F469 /* QTUMContext.cpp */; };
 		673E498F2429EE1C00C7F469 /* QTUMContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 673E498D2429EE1C00C7F469 /* QTUMContext.cpp */; };
 		673E49912429EE3000C7F469 /* BTCContextFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 673E49902429EE3000C7F469 /* BTCContextFactory.h */; };
-		6745C8D6254A653100D49A75 /* JubiterNFCTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6745C8D2254A653100D49A75 /* JubiterNFCTRXImpl.cpp */; };
-		6745C8D7254A653100D49A75 /* JubiterNFCTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6745C8D2254A653100D49A75 /* JubiterNFCTRXImpl.cpp */; };
+		6745C8D6254A653100D49A75 /* JubiterLiteTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6745C8D2254A653100D49A75 /* JubiterLiteTRXImpl.cpp */; };
+		6745C8D7254A653100D49A75 /* JubiterLiteTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6745C8D2254A653100D49A75 /* JubiterLiteTRXImpl.cpp */; };
 		6745C8D8254A653200D49A75 /* JubiterBladeTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6745C8D3254A653100D49A75 /* JubiterBladeTRXImpl.cpp */; };
 		6745C8D9254A653200D49A75 /* JubiterBladeTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6745C8D3254A653100D49A75 /* JubiterBladeTRXImpl.cpp */; };
 		6745C8DA254A653200D49A75 /* TrezorCryptoTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6745C8D4254A653100D49A75 /* TrezorCryptoTRXImpl.cpp */; };
@@ -329,7 +329,7 @@
 		6745C8EF254A661E00D49A75 /* JubiterBaseTRXImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6745C8EA254A661D00D49A75 /* JubiterBaseTRXImpl.h */; };
 		6745C8F0254A661E00D49A75 /* JubiterBIOTRXImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6745C8EB254A661D00D49A75 /* JubiterBIOTRXImpl.h */; };
 		6745C8F1254A661E00D49A75 /* TrezorCryptoTRXImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6745C8EC254A661D00D49A75 /* TrezorCryptoTRXImpl.h */; };
-		6745C8F2254A661E00D49A75 /* JubiterNFCTRXImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6745C8ED254A661D00D49A75 /* JubiterNFCTRXImpl.h */; };
+		6745C8F2254A661E00D49A75 /* JubiterLiteTRXImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6745C8ED254A661D00D49A75 /* JubiterLiteTRXImpl.h */; };
 		6745C8F3254A661E00D49A75 /* JubiterBladeTRXImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6745C8EE254A661D00D49A75 /* JubiterBladeTRXImpl.h */; };
 		6746215A23C319A20096DDA2 /* HCContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6746215423C319A10096DDA2 /* HCContext.cpp */; };
 		6746215B23C319A20096DDA2 /* HCContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6746215423C319A10096DDA2 /* HCContext.cpp */; };
@@ -414,33 +414,24 @@
 		675B04DE2428665F004C62D4 /* SField.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04DA2428665F004C62D4 /* SField.h */; };
 		675B04E0242866BD004C62D4 /* QTUMTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 675B04DF242866BD004C62D4 /* QTUMTokenInterface.hpp */; };
 		675B04F4242866EE004C62D4 /* JubiterBladeLTCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E1242866EC004C62D4 /* JubiterBladeLTCImpl.h */; };
-		675B04F5242866EE004C62D4 /* JubiterNFCBCHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E2242866EC004C62D4 /* JubiterNFCBCHImpl.h */; };
 		675B04F6242866EE004C62D4 /* TrezorCryptoQTUMImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E3242866EC004C62D4 /* TrezorCryptoQTUMImpl.h */; };
 		675B04F7242866EE004C62D4 /* TrezorCryptoDashImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E4242866ED004C62D4 /* TrezorCryptoDashImpl.h */; };
-		675B04F8242866EE004C62D4 /* JubiterNFCDashImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E5242866ED004C62D4 /* JubiterNFCDashImpl.h */; };
-		675B04F9242866EE004C62D4 /* JubiterNFCBTCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E6242866ED004C62D4 /* JubiterNFCBTCImpl.h */; };
 		675B04FA242866EE004C62D4 /* JubiterBladeUSDTImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E7242866ED004C62D4 /* JubiterBladeUSDTImpl.h */; };
 		675B04FB242866EE004C62D4 /* JubiterBaseBTCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E8242866ED004C62D4 /* JubiterBaseBTCImpl.h */; };
-		675B04FC242866EE004C62D4 /* JubiterNFCQTUMImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04E9242866ED004C62D4 /* JubiterNFCQTUMImpl.h */; };
-		675B04FD242866EE004C62D4 /* JubiterNFCLTCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04EA242866ED004C62D4 /* JubiterNFCLTCImpl.h */; };
 		675B04FE242866EE004C62D4 /* TrezorCryptoBCHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04EB242866ED004C62D4 /* TrezorCryptoBCHImpl.h */; };
 		675B04FF242866EE004C62D4 /* JubiterBladeBCHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04EC242866ED004C62D4 /* JubiterBladeBCHImpl.h */; };
 		675B0500242866EE004C62D4 /* TrezorCryptoUSDTImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04ED242866ED004C62D4 /* TrezorCryptoUSDTImpl.h */; };
 		675B0501242866EE004C62D4 /* JubiterBaseBCHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04EE242866ED004C62D4 /* JubiterBaseBCHImpl.h */; };
 		675B0502242866EE004C62D4 /* TrezorCryptoLTCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04EF242866ED004C62D4 /* TrezorCryptoLTCImpl.h */; };
-		675B0503242866EE004C62D4 /* JubiterNFCUSDTImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04F0242866EE004C62D4 /* JubiterNFCUSDTImpl.h */; };
 		675B0504242866EE004C62D4 /* JubiterBaseDashImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04F1242866EE004C62D4 /* JubiterBaseDashImpl.h */; };
 		675B0505242866EE004C62D4 /* JubiterBladeQTUMImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04F2242866EE004C62D4 /* JubiterBladeQTUMImpl.h */; };
 		675B0506242866EE004C62D4 /* JubiterBladeDashImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B04F3242866EE004C62D4 /* JubiterBladeDashImpl.h */; };
 		675B050924286838004C62D4 /* JubiterBaseEOSImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B050724286838004C62D4 /* JubiterBaseEOSImpl.h */; };
-		675B050A24286838004C62D4 /* JubiterNFCEOSImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B050824286838004C62D4 /* JubiterNFCEOSImpl.h */; };
+		675B050A24286838004C62D4 /* JubiterLiteEOSImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B050824286838004C62D4 /* JubiterLiteEOSImpl.h */; };
 		675B050D2428685D004C62D4 /* JubiterBaseETHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B050B2428685D004C62D4 /* JubiterBaseETHImpl.h */; };
-		675B050E2428685D004C62D4 /* JubiterNFCETHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B050C2428685D004C62D4 /* JubiterNFCETHImpl.h */; };
 		675B051024286880004C62D4 /* JubiterBaseHCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B050F2428687F004C62D4 /* JubiterBaseHCImpl.h */; };
 		675B05122428689A004C62D4 /* JubiterBladeToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B05112428689A004C62D4 /* JubiterBladeToken.h */; };
-		675B0515242868B8004C62D4 /* JubiterNFCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B0513242868B8004C62D4 /* JubiterNFCImpl.h */; };
-		675B0516242868B8004C62D4 /* JubiterNFCToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B0514242868B8004C62D4 /* JubiterNFCToken.h */; };
-		675B0519242868DB004C62D4 /* JubiterNFCXRPImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B0517242868DB004C62D4 /* JubiterNFCXRPImpl.h */; };
+		675B0519242868DB004C62D4 /* JubiterLiteXRPImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B0517242868DB004C62D4 /* JubiterLiteXRPImpl.h */; };
 		675B051A242868DB004C62D4 /* JubiterBaseXRPImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 675B0518242868DB004C62D4 /* JubiterBaseXRPImpl.h */; };
 		675B052524286909004C62D4 /* JubiterBaseDashImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051B24286908004C62D4 /* JubiterBaseDashImpl.cpp */; };
 		675B052624286909004C62D4 /* JubiterBaseDashImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051B24286908004C62D4 /* JubiterBaseDashImpl.cpp */; };
@@ -448,38 +439,38 @@
 		675B052824286909004C62D4 /* JubiterBaseBTCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051C24286908004C62D4 /* JubiterBaseBTCImpl.cpp */; };
 		675B052924286909004C62D4 /* TrezorCryptoDashImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051D24286908004C62D4 /* TrezorCryptoDashImpl.cpp */; };
 		675B052A24286909004C62D4 /* TrezorCryptoDashImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051D24286908004C62D4 /* TrezorCryptoDashImpl.cpp */; };
-		675B052B24286909004C62D4 /* JubiterNFCBCHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051E24286908004C62D4 /* JubiterNFCBCHImpl.cpp */; };
-		675B052C24286909004C62D4 /* JubiterNFCBCHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051E24286908004C62D4 /* JubiterNFCBCHImpl.cpp */; };
+		675B052B24286909004C62D4 /* JubiterLiteBCHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051E24286908004C62D4 /* JubiterLiteBCHImpl.cpp */; };
+		675B052C24286909004C62D4 /* JubiterLiteBCHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051E24286908004C62D4 /* JubiterLiteBCHImpl.cpp */; };
 		675B052D24286909004C62D4 /* TrezorCryptoBCHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051F24286908004C62D4 /* TrezorCryptoBCHImpl.cpp */; };
 		675B052E24286909004C62D4 /* TrezorCryptoBCHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B051F24286908004C62D4 /* TrezorCryptoBCHImpl.cpp */; };
 		675B052F24286909004C62D4 /* JubiterBladeQTUMImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052024286908004C62D4 /* JubiterBladeQTUMImpl.cpp */; };
 		675B053024286909004C62D4 /* JubiterBladeQTUMImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052024286908004C62D4 /* JubiterBladeQTUMImpl.cpp */; };
 		675B053124286909004C62D4 /* JubiterBaseBCHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052124286909004C62D4 /* JubiterBaseBCHImpl.cpp */; };
 		675B053224286909004C62D4 /* JubiterBaseBCHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052124286909004C62D4 /* JubiterBaseBCHImpl.cpp */; };
-		675B053324286909004C62D4 /* JubiterNFCBTCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052224286909004C62D4 /* JubiterNFCBTCImpl.cpp */; };
-		675B053424286909004C62D4 /* JubiterNFCBTCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052224286909004C62D4 /* JubiterNFCBTCImpl.cpp */; };
-		675B053524286909004C62D4 /* JubiterNFCQTUMImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052324286909004C62D4 /* JubiterNFCQTUMImpl.cpp */; };
-		675B053624286909004C62D4 /* JubiterNFCQTUMImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052324286909004C62D4 /* JubiterNFCQTUMImpl.cpp */; };
+		675B053324286909004C62D4 /* JubiterLiteBTCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052224286909004C62D4 /* JubiterLiteBTCImpl.cpp */; };
+		675B053424286909004C62D4 /* JubiterLiteBTCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052224286909004C62D4 /* JubiterLiteBTCImpl.cpp */; };
+		675B053524286909004C62D4 /* JubiterLiteQTUMImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052324286909004C62D4 /* JubiterLiteQTUMImpl.cpp */; };
+		675B053624286909004C62D4 /* JubiterLiteQTUMImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052324286909004C62D4 /* JubiterLiteQTUMImpl.cpp */; };
 		675B053724286909004C62D4 /* TrezorCryptoQTUMImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052424286909004C62D4 /* TrezorCryptoQTUMImpl.cpp */; };
 		675B053824286909004C62D4 /* TrezorCryptoQTUMImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B052424286909004C62D4 /* TrezorCryptoQTUMImpl.cpp */; };
 		675B053B24286970004C62D4 /* JubiterBaseEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053924286970004C62D4 /* JubiterBaseEOSImpl.cpp */; };
 		675B053C24286970004C62D4 /* JubiterBaseEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053924286970004C62D4 /* JubiterBaseEOSImpl.cpp */; };
-		675B053D24286970004C62D4 /* JubiterNFCEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053A24286970004C62D4 /* JubiterNFCEOSImpl.cpp */; };
-		675B053E24286970004C62D4 /* JubiterNFCEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053A24286970004C62D4 /* JubiterNFCEOSImpl.cpp */; };
-		675B05412428698C004C62D4 /* JubiterNFCETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053F2428698C004C62D4 /* JubiterNFCETHImpl.cpp */; };
-		675B05422428698C004C62D4 /* JubiterNFCETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053F2428698C004C62D4 /* JubiterNFCETHImpl.cpp */; };
+		675B053D24286970004C62D4 /* JubiterLiteEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053A24286970004C62D4 /* JubiterLiteEOSImpl.cpp */; };
+		675B053E24286970004C62D4 /* JubiterLiteEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053A24286970004C62D4 /* JubiterLiteEOSImpl.cpp */; };
+		675B05412428698C004C62D4 /* JubiterLiteETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053F2428698C004C62D4 /* JubiterLiteETHImpl.cpp */; };
+		675B05422428698C004C62D4 /* JubiterLiteETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B053F2428698C004C62D4 /* JubiterLiteETHImpl.cpp */; };
 		675B05432428698C004C62D4 /* JubiterBaseETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B05402428698C004C62D4 /* JubiterBaseETHImpl.cpp */; };
 		675B05442428698C004C62D4 /* JubiterBaseETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B05402428698C004C62D4 /* JubiterBaseETHImpl.cpp */; };
 		675B0546242869AB004C62D4 /* JubiterBaseHCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0545242869AB004C62D4 /* JubiterBaseHCImpl.cpp */; };
 		675B0547242869AB004C62D4 /* JubiterBaseHCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0545242869AB004C62D4 /* JubiterBaseHCImpl.cpp */; };
-		675B054A242869C0004C62D4 /* JubiterNFCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0548242869BF004C62D4 /* JubiterNFCImpl.cpp */; };
-		675B054B242869C0004C62D4 /* JubiterNFCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0548242869BF004C62D4 /* JubiterNFCImpl.cpp */; };
-		675B054C242869C0004C62D4 /* JubiterNFCToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0549242869C0004C62D4 /* JubiterNFCToken.cpp */; };
-		675B054D242869C0004C62D4 /* JubiterNFCToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0549242869C0004C62D4 /* JubiterNFCToken.cpp */; };
+		675B054A242869C0004C62D4 /* JubiterLiteImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0548242869BF004C62D4 /* JubiterLiteImpl.cpp */; };
+		675B054B242869C0004C62D4 /* JubiterLiteImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0548242869BF004C62D4 /* JubiterLiteImpl.cpp */; };
+		675B054C242869C0004C62D4 /* JubiterLiteToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0549242869C0004C62D4 /* JubiterLiteToken.cpp */; };
+		675B054D242869C0004C62D4 /* JubiterLiteToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B0549242869C0004C62D4 /* JubiterLiteToken.cpp */; };
 		675B0550242869D7004C62D4 /* JubiterBaseXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B054E242869D7004C62D4 /* JubiterBaseXRPImpl.cpp */; };
 		675B0551242869D7004C62D4 /* JubiterBaseXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B054E242869D7004C62D4 /* JubiterBaseXRPImpl.cpp */; };
-		675B0552242869D7004C62D4 /* JubiterNFCXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B054F242869D7004C62D4 /* JubiterNFCXRPImpl.cpp */; };
-		675B0553242869D7004C62D4 /* JubiterNFCXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B054F242869D7004C62D4 /* JubiterNFCXRPImpl.cpp */; };
+		675B0552242869D7004C62D4 /* JubiterLiteXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B054F242869D7004C62D4 /* JubiterLiteXRPImpl.cpp */; };
+		675B0553242869D7004C62D4 /* JubiterLiteXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B054F242869D7004C62D4 /* JubiterLiteXRPImpl.cpp */; };
 		675B055C24286B30004C62D4 /* TWHDVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B055524286B2F004C62D4 /* TWHDVersion.cpp */; };
 		675B055D24286B30004C62D4 /* TWHDVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B055524286B2F004C62D4 /* TWHDVersion.cpp */; };
 		675B055E24286B30004C62D4 /* TWData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675B055624286B2F004C62D4 /* TWData.cpp */; };
@@ -598,6 +589,15 @@
 		677DF34024DD3D53001920A9 /* XRPContextFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 677DF33D24DD3D52001920A9 /* XRPContextFactory.h */; };
 		677DF34124DD3D53001920A9 /* HCContextFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 677DF33E24DD3D52001920A9 /* HCContextFactory.h */; };
 		67807E3C249CA66100817E5D /* cmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 67807E3B249CA66100817E5D /* cmac.c */; };
+		679520312579F8A600548B5B /* JubiterLiteImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6795202F2579F8A600548B5B /* JubiterLiteImpl.h */; };
+		679520322579F8A600548B5B /* JubiterLiteToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520302579F8A600548B5B /* JubiterLiteToken.h */; };
+		6795203B2579F8CD00548B5B /* JubiterLiteQTUMImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520352579F8CC00548B5B /* JubiterLiteQTUMImpl.h */; };
+		6795203C2579F8CD00548B5B /* JubiterLiteUSDTImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520362579F8CC00548B5B /* JubiterLiteUSDTImpl.h */; };
+		6795203D2579F8CD00548B5B /* JubiterLiteBTCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520372579F8CC00548B5B /* JubiterLiteBTCImpl.h */; };
+		6795203E2579F8CD00548B5B /* JubiterLiteLTCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520382579F8CD00548B5B /* JubiterLiteLTCImpl.h */; };
+		6795203F2579F8CD00548B5B /* JubiterLiteDashImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520392579F8CD00548B5B /* JubiterLiteDashImpl.h */; };
+		679520402579F8CD00548B5B /* JubiterLiteBCHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6795203A2579F8CD00548B5B /* JubiterLiteBCHImpl.h */; };
+		679520482579F90600548B5B /* JubiterLiteETHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520472579F90600548B5B /* JubiterLiteETHImpl.h */; };
 		67B9C0AB23BB5F9800A17638 /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67B9C0A923BB5F9800A17638 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		67D837B224A380C7004DE1D2 /* tlv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67D837B124A380C7004DE1D2 /* tlv.hpp */; };
 		67D837B424A3818A004DE1D2 /* tlv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D837B324A38189004DE1D2 /* tlv.cpp */; };
@@ -653,9 +653,6 @@
 		67EA8EAE256E0E3E00AD9179 /* TRXContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EAC256E0E3E00AD9179 /* TRXContext.h */; };
 		67EA8EB4256E0E8A00AD9179 /* TRXTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EB3256E0E8A00AD9179 /* TRXTokenInterface.hpp */; };
 		67EA8ECE256E216800AD9179 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EA8ECD256E216800AD9179 /* libprotobuf.a */; };
-		67EA8FAC256E2A9700AD9179 /* trc20_contract.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FAA256E2A9700AD9179 /* trc20_contract.pb.cc */; };
-		67EA8FAD256E2A9700AD9179 /* trc20_contract.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FAA256E2A9700AD9179 /* trc20_contract.pb.cc */; };
-		67EA8FAE256E2A9700AD9179 /* trc20_contract.pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8FAB256E2A9700AD9179 /* trc20_contract.pb.h */; };
 		67EA8FE0256E2E1200AD9179 /* TRXContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */; };
 		67EA8FE1256E2E1200AD9179 /* TRXContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */; };
 		67EB5BF72513763500501E9A /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EB5BF62513763500501E9A /* CoreNFC.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -843,7 +840,7 @@
 		673E49702429EDD700C7F469 /* TransactionDash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionDash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionDash.h"; sourceTree = "<group>"; };
 		673E498D2429EE1C00C7F469 /* QTUMContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QTUMContext.cpp; path = ../../src/context/QTUMContext.cpp; sourceTree = "<group>"; };
 		673E49902429EE3000C7F469 /* BTCContextFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BTCContextFactory.h; path = ../../include/context/BTCContextFactory.h; sourceTree = "<group>"; };
-		6745C8D2254A653100D49A75 /* JubiterNFCTRXImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCTRXImpl.cpp; path = ../../src/token/TRX/JubiterNFCTRXImpl.cpp; sourceTree = "<group>"; };
+		6745C8D2254A653100D49A75 /* JubiterLiteTRXImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteTRXImpl.cpp; path = ../../src/token/TRX/JubiterLiteTRXImpl.cpp; sourceTree = "<group>"; };
 		6745C8D3254A653100D49A75 /* JubiterBladeTRXImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBladeTRXImpl.cpp; path = ../../src/token/TRX/JubiterBladeTRXImpl.cpp; sourceTree = "<group>"; };
 		6745C8D4254A653100D49A75 /* TrezorCryptoTRXImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrezorCryptoTRXImpl.cpp; path = ../../src/token/TRX/TrezorCryptoTRXImpl.cpp; sourceTree = "<group>"; };
 		6745C8D5254A653100D49A75 /* JubiterBaseTRXImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBaseTRXImpl.cpp; path = ../../src/token/TRX/JubiterBaseTRXImpl.cpp; sourceTree = "<group>"; };
@@ -853,7 +850,7 @@
 		6745C8EA254A661D00D49A75 /* JubiterBaseTRXImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBaseTRXImpl.h; path = ../../include/token/TRX/JubiterBaseTRXImpl.h; sourceTree = "<group>"; };
 		6745C8EB254A661D00D49A75 /* JubiterBIOTRXImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBIOTRXImpl.h; path = ../../include/token/TRX/JubiterBIOTRXImpl.h; sourceTree = "<group>"; };
 		6745C8EC254A661D00D49A75 /* TrezorCryptoTRXImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrezorCryptoTRXImpl.h; path = ../../include/token/TRX/TrezorCryptoTRXImpl.h; sourceTree = "<group>"; };
-		6745C8ED254A661D00D49A75 /* JubiterNFCTRXImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCTRXImpl.h; path = ../../include/token/TRX/JubiterNFCTRXImpl.h; sourceTree = "<group>"; };
+		6745C8ED254A661D00D49A75 /* JubiterLiteTRXImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteTRXImpl.h; path = ../../include/token/TRX/JubiterLiteTRXImpl.h; sourceTree = "<group>"; };
 		6745C8EE254A661D00D49A75 /* JubiterBladeTRXImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBladeTRXImpl.h; path = ../../include/token/TRX/JubiterBladeTRXImpl.h; sourceTree = "<group>"; };
 		6746215423C319A10096DDA2 /* HCContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HCContext.cpp; path = ../../src/context/HCContext.cpp; sourceTree = "<group>"; };
 		6746215523C319A10096DDA2 /* BTCContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BTCContext.cpp; path = ../../src/context/BTCContext.cpp; sourceTree = "<group>"; };
@@ -974,53 +971,44 @@
 		675B04DA2428665F004C62D4 /* SField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SField.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/SField.h"; sourceTree = "<group>"; };
 		675B04DF242866BD004C62D4 /* QTUMTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = QTUMTokenInterface.hpp; path = ../../include/token/interface/QTUMTokenInterface.hpp; sourceTree = "<group>"; };
 		675B04E1242866EC004C62D4 /* JubiterBladeLTCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBladeLTCImpl.h; path = ../../include/token/BTC/JubiterBladeLTCImpl.h; sourceTree = "<group>"; };
-		675B04E2242866EC004C62D4 /* JubiterNFCBCHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCBCHImpl.h; path = ../../include/token/BTC/JubiterNFCBCHImpl.h; sourceTree = "<group>"; };
 		675B04E3242866EC004C62D4 /* TrezorCryptoQTUMImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrezorCryptoQTUMImpl.h; path = ../../include/token/BTC/TrezorCryptoQTUMImpl.h; sourceTree = "<group>"; };
 		675B04E4242866ED004C62D4 /* TrezorCryptoDashImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrezorCryptoDashImpl.h; path = ../../include/token/BTC/TrezorCryptoDashImpl.h; sourceTree = "<group>"; };
-		675B04E5242866ED004C62D4 /* JubiterNFCDashImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCDashImpl.h; path = ../../include/token/BTC/JubiterNFCDashImpl.h; sourceTree = "<group>"; };
-		675B04E6242866ED004C62D4 /* JubiterNFCBTCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCBTCImpl.h; path = ../../include/token/BTC/JubiterNFCBTCImpl.h; sourceTree = "<group>"; };
 		675B04E7242866ED004C62D4 /* JubiterBladeUSDTImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBladeUSDTImpl.h; path = ../../include/token/BTC/JubiterBladeUSDTImpl.h; sourceTree = "<group>"; };
 		675B04E8242866ED004C62D4 /* JubiterBaseBTCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBaseBTCImpl.h; path = ../../include/token/BTC/JubiterBaseBTCImpl.h; sourceTree = "<group>"; };
-		675B04E9242866ED004C62D4 /* JubiterNFCQTUMImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCQTUMImpl.h; path = ../../include/token/BTC/JubiterNFCQTUMImpl.h; sourceTree = "<group>"; };
-		675B04EA242866ED004C62D4 /* JubiterNFCLTCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCLTCImpl.h; path = ../../include/token/BTC/JubiterNFCLTCImpl.h; sourceTree = "<group>"; };
 		675B04EB242866ED004C62D4 /* TrezorCryptoBCHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrezorCryptoBCHImpl.h; path = ../../include/token/BTC/TrezorCryptoBCHImpl.h; sourceTree = "<group>"; };
 		675B04EC242866ED004C62D4 /* JubiterBladeBCHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBladeBCHImpl.h; path = ../../include/token/BTC/JubiterBladeBCHImpl.h; sourceTree = "<group>"; };
 		675B04ED242866ED004C62D4 /* TrezorCryptoUSDTImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrezorCryptoUSDTImpl.h; path = ../../include/token/BTC/TrezorCryptoUSDTImpl.h; sourceTree = "<group>"; };
 		675B04EE242866ED004C62D4 /* JubiterBaseBCHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBaseBCHImpl.h; path = ../../include/token/BTC/JubiterBaseBCHImpl.h; sourceTree = "<group>"; };
 		675B04EF242866ED004C62D4 /* TrezorCryptoLTCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrezorCryptoLTCImpl.h; path = ../../include/token/BTC/TrezorCryptoLTCImpl.h; sourceTree = "<group>"; };
-		675B04F0242866EE004C62D4 /* JubiterNFCUSDTImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCUSDTImpl.h; path = ../../include/token/BTC/JubiterNFCUSDTImpl.h; sourceTree = "<group>"; };
 		675B04F1242866EE004C62D4 /* JubiterBaseDashImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBaseDashImpl.h; path = ../../include/token/BTC/JubiterBaseDashImpl.h; sourceTree = "<group>"; };
 		675B04F2242866EE004C62D4 /* JubiterBladeQTUMImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBladeQTUMImpl.h; path = ../../include/token/BTC/JubiterBladeQTUMImpl.h; sourceTree = "<group>"; };
 		675B04F3242866EE004C62D4 /* JubiterBladeDashImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBladeDashImpl.h; path = ../../include/token/BTC/JubiterBladeDashImpl.h; sourceTree = "<group>"; };
 		675B050724286838004C62D4 /* JubiterBaseEOSImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBaseEOSImpl.h; path = ../../include/token/EOS/JubiterBaseEOSImpl.h; sourceTree = "<group>"; };
-		675B050824286838004C62D4 /* JubiterNFCEOSImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCEOSImpl.h; path = ../../include/token/EOS/JubiterNFCEOSImpl.h; sourceTree = "<group>"; };
+		675B050824286838004C62D4 /* JubiterLiteEOSImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteEOSImpl.h; path = ../../include/token/EOS/JubiterLiteEOSImpl.h; sourceTree = "<group>"; };
 		675B050B2428685D004C62D4 /* JubiterBaseETHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBaseETHImpl.h; path = ../../include/token/ETH/JubiterBaseETHImpl.h; sourceTree = "<group>"; };
-		675B050C2428685D004C62D4 /* JubiterNFCETHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCETHImpl.h; path = ../../include/token/ETH/JubiterNFCETHImpl.h; sourceTree = "<group>"; };
 		675B050F2428687F004C62D4 /* JubiterBaseHCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBaseHCImpl.h; path = ../../include/token/HC/JubiterBaseHCImpl.h; sourceTree = "<group>"; };
 		675B05112428689A004C62D4 /* JubiterBladeToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBladeToken.h; path = ../../include/token/JubiterBlade/JubiterBladeToken.h; sourceTree = "<group>"; };
-		675B0513242868B8004C62D4 /* JubiterNFCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCImpl.h; path = ../../include/token/JubiterNFC/JubiterNFCImpl.h; sourceTree = "<group>"; };
-		675B0514242868B8004C62D4 /* JubiterNFCToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCToken.h; path = ../../include/token/JubiterNFC/JubiterNFCToken.h; sourceTree = "<group>"; };
-		675B0517242868DB004C62D4 /* JubiterNFCXRPImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterNFCXRPImpl.h; path = ../../include/token/XRP/JubiterNFCXRPImpl.h; sourceTree = "<group>"; };
+		675B0517242868DB004C62D4 /* JubiterLiteXRPImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteXRPImpl.h; path = ../../include/token/XRP/JubiterLiteXRPImpl.h; sourceTree = "<group>"; };
 		675B0518242868DB004C62D4 /* JubiterBaseXRPImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterBaseXRPImpl.h; path = ../../include/token/XRP/JubiterBaseXRPImpl.h; sourceTree = "<group>"; };
 		675B051B24286908004C62D4 /* JubiterBaseDashImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBaseDashImpl.cpp; path = ../../src/token/BTC/JubiterBaseDashImpl.cpp; sourceTree = "<group>"; };
 		675B051C24286908004C62D4 /* JubiterBaseBTCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBaseBTCImpl.cpp; path = ../../src/token/BTC/JubiterBaseBTCImpl.cpp; sourceTree = "<group>"; };
 		675B051D24286908004C62D4 /* TrezorCryptoDashImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrezorCryptoDashImpl.cpp; path = ../../src/token/BTC/TrezorCryptoDashImpl.cpp; sourceTree = "<group>"; };
-		675B051E24286908004C62D4 /* JubiterNFCBCHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCBCHImpl.cpp; path = ../../src/token/BTC/JubiterNFCBCHImpl.cpp; sourceTree = "<group>"; };
+		675B051E24286908004C62D4 /* JubiterLiteBCHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteBCHImpl.cpp; path = ../../src/token/BTC/JubiterLiteBCHImpl.cpp; sourceTree = "<group>"; };
 		675B051F24286908004C62D4 /* TrezorCryptoBCHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrezorCryptoBCHImpl.cpp; path = ../../src/token/BTC/TrezorCryptoBCHImpl.cpp; sourceTree = "<group>"; };
 		675B052024286908004C62D4 /* JubiterBladeQTUMImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBladeQTUMImpl.cpp; path = ../../src/token/BTC/JubiterBladeQTUMImpl.cpp; sourceTree = "<group>"; };
 		675B052124286909004C62D4 /* JubiterBaseBCHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBaseBCHImpl.cpp; path = ../../src/token/BTC/JubiterBaseBCHImpl.cpp; sourceTree = "<group>"; };
-		675B052224286909004C62D4 /* JubiterNFCBTCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCBTCImpl.cpp; path = ../../src/token/BTC/JubiterNFCBTCImpl.cpp; sourceTree = "<group>"; };
-		675B052324286909004C62D4 /* JubiterNFCQTUMImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCQTUMImpl.cpp; path = ../../src/token/BTC/JubiterNFCQTUMImpl.cpp; sourceTree = "<group>"; };
+		675B052224286909004C62D4 /* JubiterLiteBTCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteBTCImpl.cpp; path = ../../src/token/BTC/JubiterLiteBTCImpl.cpp; sourceTree = "<group>"; };
+		675B052324286909004C62D4 /* JubiterLiteQTUMImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteQTUMImpl.cpp; path = ../../src/token/BTC/JubiterLiteQTUMImpl.cpp; sourceTree = "<group>"; };
 		675B052424286909004C62D4 /* TrezorCryptoQTUMImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrezorCryptoQTUMImpl.cpp; path = ../../src/token/BTC/TrezorCryptoQTUMImpl.cpp; sourceTree = "<group>"; };
 		675B053924286970004C62D4 /* JubiterBaseEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBaseEOSImpl.cpp; path = ../../src/token/EOS/JubiterBaseEOSImpl.cpp; sourceTree = "<group>"; };
-		675B053A24286970004C62D4 /* JubiterNFCEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCEOSImpl.cpp; path = ../../src/token/EOS/JubiterNFCEOSImpl.cpp; sourceTree = "<group>"; };
-		675B053F2428698C004C62D4 /* JubiterNFCETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCETHImpl.cpp; path = ../../src/token/ETH/JubiterNFCETHImpl.cpp; sourceTree = "<group>"; };
+		675B053A24286970004C62D4 /* JubiterLiteEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteEOSImpl.cpp; path = ../../src/token/EOS/JubiterLiteEOSImpl.cpp; sourceTree = "<group>"; };
+		675B053F2428698C004C62D4 /* JubiterLiteETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteETHImpl.cpp; path = ../../src/token/ETH/JubiterLiteETHImpl.cpp; sourceTree = "<group>"; };
 		675B05402428698C004C62D4 /* JubiterBaseETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBaseETHImpl.cpp; path = ../../src/token/ETH/JubiterBaseETHImpl.cpp; sourceTree = "<group>"; };
 		675B0545242869AB004C62D4 /* JubiterBaseHCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBaseHCImpl.cpp; path = ../../src/token/HC/JubiterBaseHCImpl.cpp; sourceTree = "<group>"; };
-		675B0548242869BF004C62D4 /* JubiterNFCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCImpl.cpp; path = ../../src/token/JubiterNFCImpl.cpp; sourceTree = "<group>"; };
-		675B0549242869C0004C62D4 /* JubiterNFCToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCToken.cpp; path = ../../src/token/JubiterNFCToken.cpp; sourceTree = "<group>"; };
+		675B0548242869BF004C62D4 /* JubiterLiteImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteImpl.cpp; path = ../../src/token/JubiterLiteImpl.cpp; sourceTree = "<group>"; };
+		675B0549242869C0004C62D4 /* JubiterLiteToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteToken.cpp; path = ../../src/token/JubiterLiteToken.cpp; sourceTree = "<group>"; };
 		675B054E242869D7004C62D4 /* JubiterBaseXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBaseXRPImpl.cpp; path = ../../src/token/XRP/JubiterBaseXRPImpl.cpp; sourceTree = "<group>"; };
-		675B054F242869D7004C62D4 /* JubiterNFCXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterNFCXRPImpl.cpp; path = ../../src/token/XRP/JubiterNFCXRPImpl.cpp; sourceTree = "<group>"; };
+		675B054F242869D7004C62D4 /* JubiterLiteXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteXRPImpl.cpp; path = ../../src/token/XRP/JubiterLiteXRPImpl.cpp; sourceTree = "<group>"; };
 		675B055524286B2F004C62D4 /* TWHDVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TWHDVersion.cpp; path = "../../deps/TrustWallet/wallet-core/src/interface/TWHDVersion.cpp"; sourceTree = "<group>"; };
 		675B055624286B2F004C62D4 /* TWData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TWData.cpp; path = "../../deps/TrustWallet/wallet-core/src/interface/TWData.cpp"; sourceTree = "<group>"; };
 		675B055724286B2F004C62D4 /* TWHcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TWHcash.cpp; path = "../../deps/TrustWallet/wallet-core/src/interface/TWHcash.cpp"; sourceTree = "<group>"; };
@@ -1104,6 +1092,15 @@
 		677DF33D24DD3D52001920A9 /* XRPContextFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XRPContextFactory.h; path = ../../include/context/XRPContextFactory.h; sourceTree = "<group>"; };
 		677DF33E24DD3D52001920A9 /* HCContextFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HCContextFactory.h; path = ../../include/context/HCContextFactory.h; sourceTree = "<group>"; };
 		67807E3B249CA66100817E5D /* cmac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cmac.c; path = "../../trezor-crypto/src/cmac.c"; sourceTree = "<group>"; };
+		6795202F2579F8A600548B5B /* JubiterLiteImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteImpl.h; path = ../../include/token/JubiterLite/JubiterLiteImpl.h; sourceTree = "<group>"; };
+		679520302579F8A600548B5B /* JubiterLiteToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteToken.h; path = ../../include/token/JubiterLite/JubiterLiteToken.h; sourceTree = "<group>"; };
+		679520352579F8CC00548B5B /* JubiterLiteQTUMImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteQTUMImpl.h; path = ../../include/token/BTC/JubiterLiteQTUMImpl.h; sourceTree = "<group>"; };
+		679520362579F8CC00548B5B /* JubiterLiteUSDTImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteUSDTImpl.h; path = ../../include/token/BTC/JubiterLiteUSDTImpl.h; sourceTree = "<group>"; };
+		679520372579F8CC00548B5B /* JubiterLiteBTCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteBTCImpl.h; path = ../../include/token/BTC/JubiterLiteBTCImpl.h; sourceTree = "<group>"; };
+		679520382579F8CD00548B5B /* JubiterLiteLTCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteLTCImpl.h; path = ../../include/token/BTC/JubiterLiteLTCImpl.h; sourceTree = "<group>"; };
+		679520392579F8CD00548B5B /* JubiterLiteDashImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteDashImpl.h; path = ../../include/token/BTC/JubiterLiteDashImpl.h; sourceTree = "<group>"; };
+		6795203A2579F8CD00548B5B /* JubiterLiteBCHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteBCHImpl.h; path = ../../include/token/BTC/JubiterLiteBCHImpl.h; sourceTree = "<group>"; };
+		679520472579F90600548B5B /* JubiterLiteETHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteETHImpl.h; path = ../../include/token/ETH/JubiterLiteETHImpl.h; sourceTree = "<group>"; };
 		67B9C0A823BB5F9800A17638 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = ../../builds/apple/JubSDKCore/module.modulemap; sourceTree = "<group>"; };
 		67B9C0A923BB5F9800A17638 /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../builds/apple/JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
 		67B9C0AD23BB62FB00A17638 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../builds/apple/JubSDKCore/Info.plist; sourceTree = "<group>"; };
@@ -1152,8 +1149,6 @@
 		67EA8EAC256E0E3E00AD9179 /* TRXContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXContext.h; path = ../../include/context/TRXContext.h; sourceTree = "<group>"; };
 		67EA8EB3256E0E8A00AD9179 /* TRXTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TRXTokenInterface.hpp; path = ../../include/token/interface/TRXTokenInterface.hpp; sourceTree = "<group>"; };
 		67EA8ECD256E216800AD9179 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/iOS/Release/libprotobuf.a; sourceTree = "<group>"; };
-		67EA8FAA256E2A9700AD9179 /* trc20_contract.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = trc20_contract.pb.cc; path = ../../deps/JubiterSDK_Common_pb/cpp/Tron/trc20_contract.pb.cc; sourceTree = "<group>"; };
-		67EA8FAB256E2A9700AD9179 /* trc20_contract.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = trc20_contract.pb.h; path = ../../deps/JubiterSDK_Common_pb/cpp/Tron/trc20_contract.pb.h; sourceTree = "<group>"; };
 		67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TRXContext.cpp; path = ../../src/context/TRXContext.cpp; sourceTree = "<group>"; };
 		67EB5BF62513763500501E9A /* CoreNFC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreNFC.framework; path = System/Library/Frameworks/CoreNFC.framework; sourceTree = SDKROOT; };
 		67F173822542DCA2009211A3 /* pb_buf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pb_buf.hpp; path = ../../pbparse/pb_buf.hpp; sourceTree = "<group>"; };
@@ -1271,8 +1266,8 @@
 				6713A7E9239FD7400083A34D /* interface */,
 				675B05112428689A004C62D4 /* JubiterBladeToken.h */,
 				677B329524C85EA500D4EAFB /* JubiterBIOToken.h */,
-				675B0514242868B8004C62D4 /* JubiterNFCToken.h */,
-				675B0513242868B8004C62D4 /* JubiterNFCImpl.h */,
+				679520302579F8A600548B5B /* JubiterLiteToken.h */,
+				6795202F2579F8A600548B5B /* JubiterLiteImpl.h */,
 				674621BF23C31CE30096DDA2 /* TrezorCryptoToken.h */,
 				677DF32B24DD1F1C001920A9 /* factory */,
 				6745C8E5254A658E00D49A75 /* BTC */,
@@ -1383,8 +1378,8 @@
 			children = (
 				6746216623C319CF0096DDA2 /* JubiterBladeToken.cpp */,
 				677B329C24C85F1A00D4EAFB /* JubiterBIOToken.cpp */,
-				675B0549242869C0004C62D4 /* JubiterNFCToken.cpp */,
-				675B0548242869BF004C62D4 /* JubiterNFCImpl.cpp */,
+				675B0549242869C0004C62D4 /* JubiterLiteToken.cpp */,
+				675B0548242869BF004C62D4 /* JubiterLiteImpl.cpp */,
 				6745C8CD254A648900D49A75 /* BTC */,
 				6745C8CE254A64D100D49A75 /* ETH */,
 				6745C8CF254A64E600D49A75 /* EOS */,
@@ -1821,15 +1816,15 @@
 			children = (
 				675B051C24286908004C62D4 /* JubiterBaseBTCImpl.cpp */,
 				6746216923C319FA0096DDA2 /* JubiterBladeBTCImpl.cpp */,
-				675B052224286909004C62D4 /* JubiterNFCBTCImpl.cpp */,
+				675B052224286909004C62D4 /* JubiterLiteBTCImpl.cpp */,
 				6746216A23C319FA0096DDA2 /* TrezorCryptoBTCImpl.cpp */,
 				675B052124286909004C62D4 /* JubiterBaseBCHImpl.cpp */,
-				675B051E24286908004C62D4 /* JubiterNFCBCHImpl.cpp */,
+				675B051E24286908004C62D4 /* JubiterLiteBCHImpl.cpp */,
 				675B051F24286908004C62D4 /* TrezorCryptoBCHImpl.cpp */,
 				675B051B24286908004C62D4 /* JubiterBaseDashImpl.cpp */,
 				675B051D24286908004C62D4 /* TrezorCryptoDashImpl.cpp */,
 				675B052024286908004C62D4 /* JubiterBladeQTUMImpl.cpp */,
-				675B052324286909004C62D4 /* JubiterNFCQTUMImpl.cpp */,
+				675B052324286909004C62D4 /* JubiterLiteQTUMImpl.cpp */,
 				675B052424286909004C62D4 /* TrezorCryptoQTUMImpl.cpp */,
 				675B0545242869AB004C62D4 /* JubiterBaseHCImpl.cpp */,
 				6746217B23C31A390096DDA2 /* JubiterBladeHCImpl.cpp */,
@@ -1843,7 +1838,7 @@
 			children = (
 				675B05402428698C004C62D4 /* JubiterBaseETHImpl.cpp */,
 				6746217023C31A0D0096DDA2 /* JubiterBladeETHImpl.cpp */,
-				675B053F2428698C004C62D4 /* JubiterNFCETHImpl.cpp */,
+				675B053F2428698C004C62D4 /* JubiterLiteETHImpl.cpp */,
 				6746216F23C31A0D0096DDA2 /* TrezorCryptoETHImpl.cpp */,
 			);
 			name = ETH;
@@ -1854,7 +1849,7 @@
 			children = (
 				675B053924286970004C62D4 /* JubiterBaseEOSImpl.cpp */,
 				6746217523C31A230096DDA2 /* JubiterBladeEOSImpl.cpp */,
-				675B053A24286970004C62D4 /* JubiterNFCEOSImpl.cpp */,
+				675B053A24286970004C62D4 /* JubiterLiteEOSImpl.cpp */,
 				6746217623C31A230096DDA2 /* TrezorCryptoEOSImpl.cpp */,
 			);
 			name = EOS;
@@ -1865,7 +1860,7 @@
 			children = (
 				675B054E242869D7004C62D4 /* JubiterBaseXRPImpl.cpp */,
 				6746218123C31A490096DDA2 /* JubiterBladeXRPImpl.cpp */,
-				675B054F242869D7004C62D4 /* JubiterNFCXRPImpl.cpp */,
+				675B054F242869D7004C62D4 /* JubiterLiteXRPImpl.cpp */,
 				6746218223C31A490096DDA2 /* TrezorCryptoXRPImpl.cpp */,
 			);
 			name = XRP;
@@ -1876,7 +1871,7 @@
 			children = (
 				6745C8D5254A653100D49A75 /* JubiterBaseTRXImpl.cpp */,
 				6745C8D3254A653100D49A75 /* JubiterBladeTRXImpl.cpp */,
-				6745C8D2254A653100D49A75 /* JubiterNFCTRXImpl.cpp */,
+				6745C8D2254A653100D49A75 /* JubiterLiteTRXImpl.cpp */,
 				6745C8D4254A653100D49A75 /* TrezorCryptoTRXImpl.cpp */,
 			);
 			name = TRX;
@@ -1888,24 +1883,24 @@
 				675B04E8242866ED004C62D4 /* JubiterBaseBTCImpl.h */,
 				674621BC23C31CCF0096DDA2 /* JubiterBladeBTCImpl.h */,
 				67362AC124DA5389008DC757 /* JubiterBIOBTCImpl.h */,
-				675B04E6242866ED004C62D4 /* JubiterNFCBTCImpl.h */,
+				679520372579F8CC00548B5B /* JubiterLiteBTCImpl.h */,
 				674621BB23C31CCE0096DDA2 /* TrezorCryptoBTCImpl.h */,
 				675B04EE242866ED004C62D4 /* JubiterBaseBCHImpl.h */,
 				675B04EC242866ED004C62D4 /* JubiterBladeBCHImpl.h */,
-				675B04E2242866EC004C62D4 /* JubiterNFCBCHImpl.h */,
+				6795203A2579F8CD00548B5B /* JubiterLiteBCHImpl.h */,
 				675B04EB242866ED004C62D4 /* TrezorCryptoBCHImpl.h */,
 				675B04F1242866EE004C62D4 /* JubiterBaseDashImpl.h */,
 				675B04F3242866EE004C62D4 /* JubiterBladeDashImpl.h */,
-				675B04E5242866ED004C62D4 /* JubiterNFCDashImpl.h */,
+				679520392579F8CD00548B5B /* JubiterLiteDashImpl.h */,
 				675B04E4242866ED004C62D4 /* TrezorCryptoDashImpl.h */,
 				675B04E1242866EC004C62D4 /* JubiterBladeLTCImpl.h */,
-				675B04EA242866ED004C62D4 /* JubiterNFCLTCImpl.h */,
+				679520382579F8CD00548B5B /* JubiterLiteLTCImpl.h */,
 				675B04EF242866ED004C62D4 /* TrezorCryptoLTCImpl.h */,
 				675B04F2242866EE004C62D4 /* JubiterBladeQTUMImpl.h */,
-				675B04E9242866ED004C62D4 /* JubiterNFCQTUMImpl.h */,
+				679520352579F8CC00548B5B /* JubiterLiteQTUMImpl.h */,
 				675B04E3242866EC004C62D4 /* TrezorCryptoQTUMImpl.h */,
 				675B04E7242866ED004C62D4 /* JubiterBladeUSDTImpl.h */,
-				675B04F0242866EE004C62D4 /* JubiterNFCUSDTImpl.h */,
+				679520362579F8CC00548B5B /* JubiterLiteUSDTImpl.h */,
 				675B04ED242866ED004C62D4 /* TrezorCryptoUSDTImpl.h */,
 				675B050F2428687F004C62D4 /* JubiterBaseHCImpl.h */,
 				674621B423C31CAB0096DDA2 /* JubiterBladeHCImpl.h */,
@@ -1921,7 +1916,7 @@
 				675B050B2428685D004C62D4 /* JubiterBaseETHImpl.h */,
 				677DF32024DD1BD1001920A9 /* JubiterBIOETHImpl.h */,
 				674621B723C31CBB0096DDA2 /* JubiterBladeETHImpl.h */,
-				675B050C2428685D004C62D4 /* JubiterNFCETHImpl.h */,
+				679520472579F90600548B5B /* JubiterLiteETHImpl.h */,
 				674621B823C31CBC0096DDA2 /* TrezorCryptoETHImpl.h */,
 			);
 			name = ETH;
@@ -1933,7 +1928,7 @@
 				675B050724286838004C62D4 /* JubiterBaseEOSImpl.h */,
 				674621AF23C31C9C0096DDA2 /* JubiterBladeEOSImpl.h */,
 				677DF32524DD1C7D001920A9 /* JubiterBIOEOSImpl.h */,
-				675B050824286838004C62D4 /* JubiterNFCEOSImpl.h */,
+				675B050824286838004C62D4 /* JubiterLiteEOSImpl.h */,
 				674621B023C31C9C0096DDA2 /* TrezorCryptoEOSImpl.h */,
 			);
 			name = EOS;
@@ -1945,7 +1940,7 @@
 				675B0518242868DB004C62D4 /* JubiterBaseXRPImpl.h */,
 				674621AB23C31C860096DDA2 /* JubiterBladeXRPImpl.h */,
 				677DF32924DD1D21001920A9 /* JubiterBIOXRPImpl.h */,
-				675B0517242868DB004C62D4 /* JubiterNFCXRPImpl.h */,
+				675B0517242868DB004C62D4 /* JubiterLiteXRPImpl.h */,
 				674621AC23C31C860096DDA2 /* TrezorCryptoXRPImpl.h */,
 			);
 			name = XRP;
@@ -1957,7 +1952,7 @@
 				6745C8EA254A661D00D49A75 /* JubiterBaseTRXImpl.h */,
 				6745C8EB254A661D00D49A75 /* JubiterBIOTRXImpl.h */,
 				6745C8EE254A661D00D49A75 /* JubiterBladeTRXImpl.h */,
-				6745C8ED254A661D00D49A75 /* JubiterNFCTRXImpl.h */,
+				6745C8ED254A661D00D49A75 /* JubiterLiteTRXImpl.h */,
 				6745C8EC254A661D00D49A75 /* TrezorCryptoTRXImpl.h */,
 			);
 			name = TRX;
@@ -2227,8 +2222,6 @@
 		67EA8FA3256E2A5200AD9179 /* protocol */ = {
 			isa = PBXGroup;
 			children = (
-				67EA8FAA256E2A9700AD9179 /* trc20_contract.pb.cc */,
-				67EA8FAB256E2A9700AD9179 /* trc20_contract.pb.h */,
 				676393592534649100C41883 /* core */,
 			);
 			name = protocol;
@@ -2295,7 +2288,7 @@
 				6746218E23C31BFB0096DDA2 /* HCContext.h in Headers */,
 				6746219023C31BFB0096DDA2 /* ETHContext.h in Headers */,
 				6746219223C31BFB0096DDA2 /* EOSContext.h in Headers */,
-				6745C8F2254A661E00D49A75 /* JubiterNFCTRXImpl.h in Headers */,
+				6745C8F2254A661E00D49A75 /* JubiterLiteTRXImpl.h in Headers */,
 				6746218F23C31BFB0096DDA2 /* XRPContext.h in Headers */,
 				6718A43823A33A1C00F8A5CD /* ApduBuilder.hpp in Headers */,
 				6718A43923A33A1C00F8A5CD /* DeviceIOLogHelper.hpp in Headers */,
@@ -2318,38 +2311,31 @@
 				67E0DF5C250F6D6C00D42EF0 /* TWCurve.h in Headers */,
 				675B05122428689A004C62D4 /* JubiterBladeToken.h in Headers */,
 				677B329724C85EA500D4EAFB /* JubiterBIOToken.h in Headers */,
-				675B0516242868B8004C62D4 /* JubiterNFCToken.h in Headers */,
-				675B0515242868B8004C62D4 /* JubiterNFCImpl.h in Headers */,
 				674621C023C31CE30096DDA2 /* TrezorCryptoToken.h in Headers */,
 				67E0DF57250F6D6C00D42EF0 /* TWHRP.h in Headers */,
 				67755DB2253F10B70056F2C0 /* Serialization.h in Headers */,
 				675B04FB242866EE004C62D4 /* JubiterBaseBTCImpl.h in Headers */,
 				674621BE23C31CCF0096DDA2 /* JubiterBladeBTCImpl.h in Headers */,
 				67E0DE3E250F19B700D42EF0 /* Action.h in Headers */,
-				675B04F9242866EE004C62D4 /* JubiterNFCBTCImpl.h in Headers */,
 				67E0DF58250F6D6C00D42EF0 /* TWHcashSigHashType.h in Headers */,
 				675B04F4242866EE004C62D4 /* JubiterBladeLTCImpl.h in Headers */,
 				674621BD23C31CCF0096DDA2 /* TrezorCryptoBTCImpl.h in Headers */,
+				679520312579F8A600548B5B /* JubiterLiteImpl.h in Headers */,
 				675B0502242866EE004C62D4 /* TrezorCryptoLTCImpl.h in Headers */,
 				6763937B253464D600C41883 /* common.pb.h in Headers */,
-				675B04FD242866EE004C62D4 /* JubiterNFCLTCImpl.h in Headers */,
 				67E0DF5D250F6D6C00D42EF0 /* TWHcash.h in Headers */,
 				67755DA8253F10B70056F2C0 /* TransactionRaw.h in Headers */,
 				675B0504242866EE004C62D4 /* JubiterBaseDashImpl.h in Headers */,
 				675B0506242866EE004C62D4 /* JubiterBladeDashImpl.h in Headers */,
-				675B04F8242866EE004C62D4 /* JubiterNFCDashImpl.h in Headers */,
 				675B0500242866EE004C62D4 /* TrezorCryptoUSDTImpl.h in Headers */,
 				675B04F7242866EE004C62D4 /* TrezorCryptoDashImpl.h in Headers */,
 				67E0DF5F250F6D6C00D42EF0 /* TWP2PKHPrefix.h in Headers */,
 				675B04FA242866EE004C62D4 /* JubiterBladeUSDTImpl.h in Headers */,
-				675B0503242866EE004C62D4 /* JubiterNFCUSDTImpl.h in Headers */,
-				675B04FC242866EE004C62D4 /* JubiterNFCQTUMImpl.h in Headers */,
 				675B0505242866EE004C62D4 /* JubiterBladeQTUMImpl.h in Headers */,
 				67E0DE3A250F19B700D42EF0 /* PackedTransaction.h in Headers */,
 				675B04F6242866EE004C62D4 /* TrezorCryptoQTUMImpl.h in Headers */,
 				675B0501242866EE004C62D4 /* JubiterBaseBCHImpl.h in Headers */,
 				675B04FF242866EE004C62D4 /* JubiterBladeBCHImpl.h in Headers */,
-				675B04F5242866EE004C62D4 /* JubiterNFCBCHImpl.h in Headers */,
 				675B04FE242866EE004C62D4 /* TrezorCryptoBCHImpl.h in Headers */,
 				6763937C253464D600C41883 /* smart_contract.pb.h in Headers */,
 				675B051024286880004C62D4 /* JubiterBaseHCImpl.h in Headers */,
@@ -2357,17 +2343,18 @@
 				674621B623C31CAB0096DDA2 /* JubiterBladeHCImpl.h in Headers */,
 				675B050D2428685D004C62D4 /* JubiterBaseETHImpl.h in Headers */,
 				67E0DE4E250F307100D42EF0 /* SigHashType.h in Headers */,
-				675B050E2428685D004C62D4 /* JubiterNFCETHImpl.h in Headers */,
+				679520482579F90600548B5B /* JubiterLiteETHImpl.h in Headers */,
 				674621B923C31CBC0096DDA2 /* JubiterBladeETHImpl.h in Headers */,
+				6795203D2579F8CD00548B5B /* JubiterLiteBTCImpl.h in Headers */,
 				674621BA23C31CBC0096DDA2 /* TrezorCryptoETHImpl.h in Headers */,
 				67E0DE4C250F2F4B00D42EF0 /* SignatureVersion.h in Headers */,
 				675B051A242868DB004C62D4 /* JubiterBaseXRPImpl.h in Headers */,
 				674621AD23C31C870096DDA2 /* JubiterBladeXRPImpl.h in Headers */,
-				675B0519242868DB004C62D4 /* JubiterNFCXRPImpl.h in Headers */,
+				675B0519242868DB004C62D4 /* JubiterLiteXRPImpl.h in Headers */,
 				674621AE23C31C870096DDA2 /* TrezorCryptoXRPImpl.h in Headers */,
 				675B050924286838004C62D4 /* JubiterBaseEOSImpl.h in Headers */,
 				674621B123C31C9C0096DDA2 /* JubiterBladeEOSImpl.h in Headers */,
-				675B050A24286838004C62D4 /* JubiterNFCEOSImpl.h in Headers */,
+				675B050A24286838004C62D4 /* JubiterLiteEOSImpl.h in Headers */,
 				674621B223C31C9C0096DDA2 /* TrezorCryptoEOSImpl.h in Headers */,
 				6718A42123A339F300F8A5CD /* Apdu.hpp in Headers */,
 				6718A42223A339F300F8A5CD /* Debug.hpp in Headers */,
@@ -2381,6 +2368,7 @@
 				675B057D24286B55004C62D4 /* AddressChecksum.h in Headers */,
 				673E49842429EDD700C7F469 /* TransactionOutputHcash.h in Headers */,
 				67EA8EB4256E0E8A00AD9179 /* TRXTokenInterface.hpp in Headers */,
+				6795203B2579F8CD00548B5B /* JubiterLiteQTUMImpl.h in Headers */,
 				325B55C5249E66E2002A0616 /* scp11.hpp in Headers */,
 				675B058124286B55004C62D4 /* Address.h in Headers */,
 				67755D98253F10B70056F2C0 /* ContractBalance.h in Headers */,
@@ -2394,6 +2382,7 @@
 				6718A36023A338DF00F8A5CD /* HexCoding.h in Headers */,
 				6718A38923A3391100F8A5CD /* ed25519-hash-custom-blake2b.h in Headers */,
 				6718A3BB23A3393900F8A5CD /* sha3.h in Headers */,
+				6795203C2579F8CD00548B5B /* JubiterLiteUSDTImpl.h in Headers */,
 				6718A35E23A338DF00F8A5CD /* Hash.h in Headers */,
 				6718A3F823A3396C00F8A5CD /* NumberlikeArray.hh in Headers */,
 				677DF32824DD1CC6001920A9 /* JubiterBIOHCImpl.h in Headers */,
@@ -2505,6 +2494,7 @@
 				6718A3DB23A3394600F8A5CD /* blake2s.h in Headers */,
 				675B058224286B55004C62D4 /* RLP.h in Headers */,
 				6718A3B823A3393900F8A5CD /* scrypt.h in Headers */,
+				679520322579F8A600548B5B /* JubiterLiteToken.h in Headers */,
 				6718A3B123A3392B00F8A5CD /* TrezorCrypto.h in Headers */,
 				6718A36223A338DF00F8A5CD /* PrivateKey.h in Headers */,
 				675B04DE2428665F004C62D4 /* SField.h in Headers */,
@@ -2525,13 +2515,14 @@
 				6718A38B23A3391100F8A5CD /* ed25519-hash-custom-sha3.h in Headers */,
 				6718A3AB23A3391C00F8A5CD /* check_mem.h in Headers */,
 				677DF32A24DD1D22001920A9 /* JubiterBIOXRPImpl.h in Headers */,
-				67EA8FAE256E2A9700AD9179 /* trc20_contract.pb.h in Headers */,
 				67E0DE45250F19B700D42EF0 /* Prefixes.h in Headers */,
+				6795203E2579F8CD00548B5B /* JubiterLiteLTCImpl.h in Headers */,
 				6718A42423A339F300F8A5CD /* trim.hpp in Headers */,
 				673E49822429EDD700C7F469 /* OutPoint.h in Headers */,
 				6718A3DE23A3394600F8A5CD /* ecdsa.h in Headers */,
 				67E0DE52250F47E800D42EF0 /* SigHashTypeHcash.h in Headers */,
 				67E0DF5B250F6D6C00D42EF0 /* TWPurpose.h in Headers */,
+				679520402579F8CD00548B5B /* JubiterLiteBCHImpl.h in Headers */,
 				671E240D23CEC220001A5F81 /* DerivationPath.h in Headers */,
 				6745C8E4254A658300D49A75 /* ErrorHandler.h in Headers */,
 				671E240423CEC1E8001A5F81 /* Bech32.h in Headers */,
@@ -2540,6 +2531,7 @@
 				671E240523CEC1E8001A5F81 /* Base58Address.h in Headers */,
 				673E49812429EDD700C7F469 /* Amount.h in Headers */,
 				6718A3E323A3395700F8A5CD /* bleTransmitF.h in Headers */,
+				6795203F2579F8CD00548B5B /* JubiterLiteDashImpl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2635,10 +2627,10 @@
 				670B8FE02433390200E8EF5C /* JubiterNFCDevice.cpp in Sources */,
 				671E23F623CEC197001A5F81 /* SegwitAddress.cpp in Sources */,
 				67E0DE3D250F19B700D42EF0 /* Address.cpp in Sources */,
-				6745C8D7254A653100D49A75 /* JubiterNFCTRXImpl.cpp in Sources */,
+				6745C8D7254A653100D49A75 /* JubiterLiteTRXImpl.cpp in Sources */,
 				6746218423C31A490096DDA2 /* JubiterBladeXRPImpl.cpp in Sources */,
 				673E498B2429EDD700C7F469 /* TransactionDash.cpp in Sources */,
-				675B053E24286970004C62D4 /* JubiterNFCEOSImpl.cpp in Sources */,
+				675B053E24286970004C62D4 /* JubiterLiteEOSImpl.cpp in Sources */,
 				6718A3AA23A3391C00F8A5CD /* cash_addr.c in Sources */,
 				67E0DE37250F19B700D42EF0 /* Name.cpp in Sources */,
 				675B056124286B30004C62D4 /* TWHcash.cpp in Sources */,
@@ -2703,12 +2695,12 @@
 				6746217823C31A240096DDA2 /* JubiterBladeEOSImpl.cpp in Sources */,
 				671E240323CEC1E8001A5F81 /* Bech32Address.cpp in Sources */,
 				6718A40F23A339E300F8A5CD /* JubiterBLEDevice.cpp in Sources */,
-				675B05422428698C004C62D4 /* JubiterNFCETHImpl.cpp in Sources */,
+				675B05422428698C004C62D4 /* JubiterLiteETHImpl.cpp in Sources */,
 				6718A3FB23A3397B00F8A5CD /* Debug.cpp in Sources */,
 				67755DAA253F10B70056F2C0 /* AccountId.cpp in Sources */,
 				6718A39223A3391100F8A5CD /* hasher.c in Sources */,
 				325B55CB249E66FC002A0616 /* scp11c.cpp in Sources */,
-				675B052C24286909004C62D4 /* JubiterNFCBCHImpl.cpp in Sources */,
+				675B052C24286909004C62D4 /* JubiterLiteBCHImpl.cpp in Sources */,
 				6718A36323A338DF00F8A5CD /* PublicKey.cpp in Sources */,
 				6746217223C31A0D0096DDA2 /* TrezorCryptoETHImpl.cpp in Sources */,
 				6718A34923A338D800F8A5CD /* Address.cpp in Sources */,
@@ -2744,7 +2736,6 @@
 				6718A3A823A3391C00F8A5CD /* blake2s.c in Sources */,
 				6718A41723A339ED00F8A5CD /* JUB_core.cpp in Sources */,
 				675B05442428698C004C62D4 /* JubiterBaseETHImpl.cpp in Sources */,
-				67EA8FAD256E2A9700AD9179 /* trc20_contract.pb.cc in Sources */,
 				6718A38723A3391100F8A5CD /* ed25519-donna-basepoint-table.c in Sources */,
 				6746215B23C319A20096DDA2 /* HCContext.cpp in Sources */,
 				6718A37223A338EA00F8A5CD /* Base58.cpp in Sources */,
@@ -2755,7 +2746,7 @@
 				6718A38223A3391100F8A5CD /* curve25519-donna-helpers.c in Sources */,
 				67639373253464D600C41883 /* asset_issue_contract.pb.cc in Sources */,
 				673E497D2429EDD700C7F469 /* OutPointHcash.cpp in Sources */,
-				675B053624286909004C62D4 /* JubiterNFCQTUMImpl.cpp in Sources */,
+				675B053624286909004C62D4 /* JubiterLiteQTUMImpl.cpp in Sources */,
 				67EA8FE1256E2E1200AD9179 /* TRXContext.cpp in Sources */,
 				675B058824286B55004C62D4 /* Address.cpp in Sources */,
 				6718A3A523A3391C00F8A5CD /* bip39.c in Sources */,
@@ -2778,7 +2769,7 @@
 				673E49792429EDD700C7F469 /* TransactionOutputHcash.cpp in Sources */,
 				677B32A024C85F1A00D4EAFB /* JubiterBIOToken.cpp in Sources */,
 				6763937A253464D600C41883 /* balance_contract.pb.cc in Sources */,
-				675B0553242869D7004C62D4 /* JubiterNFCXRPImpl.cpp in Sources */,
+				675B0553242869D7004C62D4 /* JubiterLiteXRPImpl.cpp in Sources */,
 				6718A37723A338FF00F8A5CD /* ed25519_ref10_fe_25_5.c in Sources */,
 				67D837B524A3818A004DE1D2 /* tlv.cpp in Sources */,
 				6718A3A323A3391C00F8A5CD /* bip32.c in Sources */,
@@ -2788,7 +2779,7 @@
 				671E23F823CEC197001A5F81 /* CashAddress.cpp in Sources */,
 				6718A36123A338DF00F8A5CD /* PrivateKey.cpp in Sources */,
 				6718A3AD23A3391C00F8A5CD /* ecdsa.c in Sources */,
-				675B054D242869C0004C62D4 /* JubiterNFCToken.cpp in Sources */,
+				675B054D242869C0004C62D4 /* JubiterLiteToken.cpp in Sources */,
 				6718A38823A3391100F8A5CD /* ed25519-donna-impl-base.c in Sources */,
 				67639360253464A800C41883 /* Discover.pb.cc in Sources */,
 				6718A37B23A3390900F8A5CD /* schnorr.c in Sources */,
@@ -2796,7 +2787,7 @@
 				67755DA6253F10B70056F2C0 /* Contract.cpp in Sources */,
 				6746218023C31A390096DDA2 /* TrezorCryptoHCImpl.cpp in Sources */,
 				6718A3A723A3391C00F8A5CD /* blake2b.c in Sources */,
-				675B053424286909004C62D4 /* JubiterNFCBTCImpl.cpp in Sources */,
+				675B053424286909004C62D4 /* JubiterLiteBTCImpl.cpp in Sources */,
 				673E497B2429EDD700C7F469 /* TransactionHcash.cpp in Sources */,
 				673E49762429EDD700C7F469 /* TransactionInputHcash.cpp in Sources */,
 				6718A39623A3391100F8A5CD /* nist256p1.c in Sources */,
@@ -2807,7 +2798,7 @@
 				6718A3AE23A3392000F8A5CD /* address.c in Sources */,
 				675B058424286B55004C62D4 /* AddressChecksum.cpp in Sources */,
 				6718A38D23A3391100F8A5CD /* ed25519-keccak.c in Sources */,
-				675B054B242869C0004C62D4 /* JubiterNFCImpl.cpp in Sources */,
+				675B054B242869C0004C62D4 /* JubiterLiteImpl.cpp in Sources */,
 				67F1738C2542DCA3009211A3 /* pb_basevarint.cpp in Sources */,
 				675B055F24286B30004C62D4 /* TWData.cpp in Sources */,
 				675B053824286909004C62D4 /* TrezorCryptoQTUMImpl.cpp in Sources */,
@@ -2831,7 +2822,7 @@
 				6713A8FA23A0831F0083A34D /* hmac.c in Sources */,
 				671E23F523CEC197001A5F81 /* SegwitAddress.cpp in Sources */,
 				673E498A2429EDD700C7F469 /* TransactionDash.cpp in Sources */,
-				675B053D24286970004C62D4 /* JubiterNFCEOSImpl.cpp in Sources */,
+				675B053D24286970004C62D4 /* JubiterLiteEOSImpl.cpp in Sources */,
 				6746218323C31A490096DDA2 /* JubiterBladeXRPImpl.cpp in Sources */,
 				67755DA2253F10B70056F2C0 /* Transaction.cpp in Sources */,
 				675B056024286B30004C62D4 /* TWHcash.cpp in Sources */,
@@ -2843,9 +2834,8 @@
 				6713A87323A07C200083A34D /* HexCoding.cpp in Sources */,
 				6746216023C319A20096DDA2 /* BaseContext.cpp in Sources */,
 				6713A85523A07BB80083A34D /* JUB_SDK_COMM.cpp in Sources */,
-				67EA8FAC256E2A9700AD9179 /* trc20_contract.pb.cc in Sources */,
 				6713A83823A07B8F0083A34D /* JubiterBLEDevice.cpp in Sources */,
-				6745C8D6254A653100D49A75 /* JubiterNFCTRXImpl.cpp in Sources */,
+				6745C8D6254A653100D49A75 /* JubiterLiteTRXImpl.cpp in Sources */,
 				6713A87423A07C200083A34D /* Hash.cpp in Sources */,
 				6713A85423A07BB80083A34D /* JUB_core.cpp in Sources */,
 				67F1738B2542DCA3009211A3 /* pb_basevarint.cpp in Sources */,
@@ -2907,9 +2897,9 @@
 				6713A8B223A07D600083A34D /* keypair.c in Sources */,
 				6746216D23C319FA0096DDA2 /* TrezorCryptoBTCImpl.cpp in Sources */,
 				6746217723C31A240096DDA2 /* JubiterBladeEOSImpl.cpp in Sources */,
-				675B05412428698C004C62D4 /* JubiterNFCETHImpl.cpp in Sources */,
+				675B05412428698C004C62D4 /* JubiterLiteETHImpl.cpp in Sources */,
 				671E240223CEC1E8001A5F81 /* Bech32Address.cpp in Sources */,
-				675B052B24286909004C62D4 /* JubiterNFCBCHImpl.cpp in Sources */,
+				675B052B24286909004C62D4 /* JubiterLiteBCHImpl.cpp in Sources */,
 				6713A8AF23A07D500083A34D /* ed25519_ref10.c in Sources */,
 				67E0DE38250F19B700D42EF0 /* Signer.cpp in Sources */,
 				6713A85323A07BB80083A34D /* JUB_SDK_EOS.cpp in Sources */,
@@ -2951,7 +2941,7 @@
 				6713A91523A083B20083A34D /* blake2b.c in Sources */,
 				6746216B23C319FA0096DDA2 /* JubiterBladeBTCImpl.cpp in Sources */,
 				673E497C2429EDD700C7F469 /* OutPointHcash.cpp in Sources */,
-				675B053524286909004C62D4 /* JubiterNFCQTUMImpl.cpp in Sources */,
+				675B053524286909004C62D4 /* JubiterLiteQTUMImpl.cpp in Sources */,
 				67755D90253F10B70056F2C0 /* ContractAssetIssue.cpp in Sources */,
 				675B058724286B55004C62D4 /* Address.cpp in Sources */,
 				6713A85123A07BB80083A34D /* JUB_SDK_BTC.cpp in Sources */,
@@ -2977,7 +2967,7 @@
 				6713A83523A07B8F0083A34D /* ApduBuilder.cpp in Sources */,
 				67755DB9253F10B70056F2C0 /* Signer.cpp in Sources */,
 				673E49782429EDD700C7F469 /* TransactionOutputHcash.cpp in Sources */,
-				675B0552242869D7004C62D4 /* JubiterNFCXRPImpl.cpp in Sources */,
+				675B0552242869D7004C62D4 /* JubiterLiteXRPImpl.cpp in Sources */,
 				67755DAD253F10B70056F2C0 /* Serialization.cpp in Sources */,
 				6713A85223A07BB80083A34D /* JUB_SDK_DEV_BLE.cpp in Sources */,
 				6713A80623A07A800083A34D /* util.cpp in Sources */,
@@ -2985,7 +2975,7 @@
 				6713A85723A07BB80083A34D /* JUB_SDK_ETH.cpp in Sources */,
 				671E23F723CEC197001A5F81 /* CashAddress.cpp in Sources */,
 				6713A8FC23A0831F0083A34D /* hasher.c in Sources */,
-				675B054C242869C0004C62D4 /* JubiterNFCToken.cpp in Sources */,
+				675B054C242869C0004C62D4 /* JubiterLiteToken.cpp in Sources */,
 				6713A91A23A083DC0083A34D /* schnorr.c in Sources */,
 				6713A90223A083800083A34D /* ecdsa.c in Sources */,
 				6713A8EE23A082770083A34D /* sha2.c in Sources */,
@@ -2993,7 +2983,7 @@
 				325B55CA249E66FC002A0616 /* scp11c.cpp in Sources */,
 				6746217F23C31A390096DDA2 /* TrezorCryptoHCImpl.cpp in Sources */,
 				67639379253464D600C41883 /* balance_contract.pb.cc in Sources */,
-				675B053324286909004C62D4 /* JubiterNFCBTCImpl.cpp in Sources */,
+				675B053324286909004C62D4 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67F1738D2542DCA3009211A3 /* pb_length_delimited.cpp in Sources */,
 				673E497A2429EDD700C7F469 /* TransactionHcash.cpp in Sources */,
 				673E49752429EDD700C7F469 /* TransactionInputHcash.cpp in Sources */,
@@ -3004,7 +2994,7 @@
 				675B058324286B55004C62D4 /* AddressChecksum.cpp in Sources */,
 				67639374253464D600C41883 /* smart_contract.pb.cc in Sources */,
 				6713A83623A07B8F0083A34D /* Fido.cpp in Sources */,
-				675B054A242869C0004C62D4 /* JubiterNFCImpl.cpp in Sources */,
+				675B054A242869C0004C62D4 /* JubiterLiteImpl.cpp in Sources */,
 				675B055E24286B30004C62D4 /* TWData.cpp in Sources */,
 				675B053724286909004C62D4 /* TrezorCryptoQTUMImpl.cpp in Sources */,
 				675B0546242869AB004C62D4 /* JubiterBaseHCImpl.cpp in Sources */,

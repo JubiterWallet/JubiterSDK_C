@@ -18,14 +18,15 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
 
     JUB_CHAR_PTR mnemonic = nullptr;
     rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
-    if(rv == JUBR_OK) {
-        cout << mnemonic << endl;
+    cout << "JUB_GenerateMnemonic_soft() return " << GetErrMsg(rv) << endl;
+    if(JUBR_OK == rv) {
+        cout << "Generate mnemonic: " << mnemonic << endl;
     }
 
     rv = JUB_CheckMnemonic(mnemonic);
-    if(rv != JUBR_OK) {
-        cout << "JUB_CheckMnemonic return" << rv << endl;
-    }
+    cout << "JUB_CheckMnemonic() return " << GetErrMsg(rv) << endl;
+    JUB_FreeMemory(mnemonic);
+
     JUB_BYTE seed[64] = {0,};
     JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
     auto callback = [](JUB_UINT32 current, JUB_UINT32 total) -> void {
@@ -33,8 +34,9 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     };
 
     rv = JUB_GenerateSeed_soft("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GenerateSeed_soft error" << endl;
+    cout << "JUB_GenerateSeed_soft() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
@@ -66,15 +68,19 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     rv = JUB_SeedToMasterPrivateKey_soft(hcSeed32, hcSeed32Len,
                                          JUB_ENUM_CURVES::SECP256K1,
                                          &masterXprv);
-    if (rv == JUBR_OK) {
-        cout << "JUB_SeedToMasterPrivateKey_soft() return " << masterXprv << endl;
+    cout << "JUB_SeedToMasterPrivateKey_soft() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "master xprv: " << masterXprv << endl;
     }
 
     JUB_UINT16 contextID;
     rv = JUB_CreateContextHC_soft(cfg, masterXprv, &contextID);
-    if (rv != JUBR_OK) {
-        cout << "JUB_CreateContextHC_soft() return " << rv << endl;
+    cout << "JUB_CreateContextHC_soft() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        JUB_FreeMemory(masterXprv);
+        return;
     }
+    JUB_FreeMemory(masterXprv);
 
     JUB_CHAR_PTR mainXpub;
     rv = JUB_GetMainHDNodeHC(contextID, &mainXpub);
@@ -90,7 +96,7 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     JUB_CHAR_PTR  xpub = nullptr;
     rv = JUB_GetHDNodeHC(contextID, path, &xpub);
     cout << "JUB_GetHDNodeHC() return " << GetErrMsg(rv) << endl;
-    if (rv == JUBR_OK) {
+    if (JUBR_OK == rv) {
         cout << "dpub: " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
@@ -98,7 +104,7 @@ void software_test_hcash(CONTEXT_CONFIG_HC cfg, Json::Value root) {
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressHC(contextID, path, BOOL_FALSE, &address);
     cout << "JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
-    if(rv == JUBR_OK) {
+    if(JUBR_OK == rv) {
         cout << "address: " << address << endl;
         JUB_FreeMemory(address);
     }

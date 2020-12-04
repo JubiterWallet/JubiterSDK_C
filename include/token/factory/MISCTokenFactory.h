@@ -6,6 +6,9 @@
 #include "utility/xFactory.hpp"
 #include "utility/Singleton.h"
 
+#if defined(GRPC_MODE)
+#include "device/JubiterBridgeDevice.hpp"
+#endif // #if defined(GRPC_MODE) end
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -36,12 +39,10 @@
 #include "token/XRP/TrezorCryptoXRPImpl.h"
 #include "token/TRX/TrezorCryptoTRXImpl.h"
 
-#if defined(NFC_MODE)
-#include "token/ETH/JubiterNFCETHImpl.h"
-#include "token/EOS/JubiterNFCEOSImpl.h"
-#include "token/XRP/JubiterNFCXRPImpl.h"
-#include "token/TRX/JubiterNFCTRXImpl.h"
-#endif // #if defined(NFC_MODE) end
+#include "token/ETH/JubiterLiteETHImpl.h"
+#include "token/EOS/JubiterLiteEOSImpl.h"
+#include "token/XRP/JubiterLiteXRPImpl.h"
+#include "token/TRX/JubiterLiteTRXImpl.h"
 
 #include <TrustWalletCore/TWCoinType.h>
 
@@ -102,21 +103,19 @@ public:
 }; // class xJuBiterBIOMISCFactory end
 
 
-#if defined(NFC_MODE)
-class xJuBiterNFCMISCFactory :
+class xJuBiterLITEMISCFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 TWCoinType,
                 CreateJubiterMISCFn> {
 public:
-    xJuBiterNFCMISCFactory() {
-        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterNFCETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterNFCETHImpl::Create);
-        Register(TWCoinType::TWCoinTypeEOS,             &JubiterNFCEOSImpl::Create);
-        Register(TWCoinType::TWCoinTypeXRP,             &JubiterNFCXRPImpl::Create);
-        Register(TWCoinType::TWCoinTypeTron,            &JubiterNFCTRXImpl::Create);
+    xJuBiterLITEMISCFactory() {
+        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterLiteETHImpl::Create);
+//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterLiteETHImpl::Create);
+        Register(TWCoinType::TWCoinTypeEOS,             &JubiterLiteEOSImpl::Create);
+        Register(TWCoinType::TWCoinTypeXRP,             &JubiterLiteXRPImpl::Create);
+        Register(TWCoinType::TWCoinTypeTron,            &JubiterLiteTRXImpl::Create);
     }
-}; // class xJuBiterNFCMISCFactory end
-#endif // #if defined(NFC_MODE) end
+}; // class xJuBiterLITEMISCFactory end
 
 
 class xMISCTokenFactory {
@@ -124,9 +123,7 @@ protected:
     xTrezorCryptoMISCFactory     trezorFactory;
     xJuBiterBladeMISCFactory jubiterBLDFactory;
     xJuBiterBIOMISCFactory   jubiterBIOFactory;
-#if defined(NFC_MODE)
-    xJuBiterNFCMISCFactory   jubiterNFCFactory;
-#endif // #if defined(NFC_MODE) end
+    xJuBiterLITEMISCFactory jubiterLITEFactory;
 
 public:
     std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const std::string& XPRVorXPUB) {
@@ -134,6 +131,23 @@ public:
     }
 
     std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const JUB_UINT16 deviceID) {
+#if defined(GRPC_MODE)
+        if (dynamic_cast<jub::device::JubiterBridgeBLDDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterBLDFactory.Create(type, deviceID);
+        }
+        else if (dynamic_cast<jub::device::JubiterBridgeBIODevice*>(
+                              jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterBIOFactory.Create(type, deviceID);
+        }
+        else if (dynamic_cast<jub::device::JubiterBridgeLITEDevice*>(
+                              jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterLITEFactory.Create(type, deviceID);
+        }
+#endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
         if (dynamic_cast<jub::device::JubiterHidBLDDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
@@ -162,7 +176,7 @@ public:
         if (dynamic_cast<jub::device::JubiterNFCDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
         ) {
-            return jubiterNFCFactory.Create(type, deviceID);
+            return jubiterLITEFactory.Create(type, deviceID);
         }
 #endif  // #if defined(NFC_MODE) end
 //        else {

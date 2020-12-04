@@ -1,6 +1,5 @@
 #include "JUB_SDK_COMM.h"
-#if defined(NFC_MODE)
-#include "token/JubiterNFC/JubiterNFCImpl.h"
+#include "token/JubiterLite/JubiterLiteImpl.h"
 #include "utility/util.h"
 #include "token/ErrorHandler.h"
 #include <TrezorCrypto/bip32.h>
@@ -22,16 +21,16 @@ do {				                            \
 } while (0)                                     \
 
 
-JUB_RV JubiterNFCImpl::SelectApplet() {
+JUB_RV JubiterLiteImpl::SelectApplet() {
     SWITCH_TO_NFC_APP;
     return JUBR_OK;
 }
 
 
-JUB_RV JubiterNFCImpl::GetHDNode(const JUB_BYTE& curveType,
-                                 const JUB_BYTE& type,
-                                 const std::string& path,
-                                 std::string& xpub) {
+JUB_RV JubiterLiteImpl::GetHDNode(const JUB_BYTE& curveType,
+                                  const JUB_BYTE& type,
+                                  const std::string& path,
+                                  std::string& xpub) {
 
     uchar_vector vPath;
     vPath << path;
@@ -55,10 +54,10 @@ JUB_RV JubiterNFCImpl::GetHDNode(const JUB_BYTE& curveType,
 }
 
 
-JUB_RV JubiterNFCImpl::GetCompPubKey(const JUB_BYTE& curveType,
-                                     const JUB_BYTE& type,
-                                     const std::string& path,
-                                     TW::Data& pubkey) {
+JUB_RV JubiterLiteImpl::GetCompPubKey(const JUB_BYTE& curveType,
+                                      const JUB_BYTE& type,
+                                      const std::string& path,
+                                      TW::Data& pubkey) {
 
     uchar_vector vPath;
     vPath << path;
@@ -82,22 +81,22 @@ JUB_RV JubiterNFCImpl::GetCompPubKey(const JUB_BYTE& curveType,
 }
 
 
-JUB_RV JubiterNFCImpl::GetAddress(const JUB_BYTE addrFmt,
-                                  const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                  const std::string& path,
-                                  const JUB_UINT16 tag,
-                                  std::string& address) {
+JUB_RV JubiterLiteImpl::GetAddress(const JUB_BYTE addrFmt,
+                                   const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                   const std::string& path,
+                                   const JUB_UINT16 tag,
+                                   std::string& address) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
-JUB_RV JubiterNFCImpl::SignTX(const JUB_UINT16 inputCount,
-                              const std::vector<std::string>& vInputPath,
-                              const JUB_BYTE& curveType,
-                              const JUB_BYTE&  hashType,
-                              const std::vector<TW::Data>& vPreImageHash,
-                              std::vector<TW::Data>& vRSV) {
+JUB_RV JubiterLiteImpl::SignTX(const JUB_UINT16 inputCount,
+                               const std::vector<std::string>& vInputPath,
+                               const JUB_BYTE& curveType,
+                               const JUB_BYTE&  hashType,
+                               const std::vector<TW::Data>& vPreImageHash,
+                               std::vector<TW::Data>& vRSV) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -121,13 +120,13 @@ JUB_RV JubiterNFCImpl::SignTX(const JUB_UINT16 inputCount,
 }
 
 
-JUB_RV JubiterNFCImpl::SignOne(const JUB_UINT16 inputCount,
-                               const JUB_UINT16 inputIndex,
-                               const std::string& path,
-                               const JUB_BYTE& signType,
-                               const JUB_BYTE& hashType,
-                               const TW::Data& preImageHash,
-                               TW::Data& rsv) {
+JUB_RV JubiterLiteImpl::SignOne(const JUB_UINT16 inputCount,
+                                const JUB_UINT16 inputIndex,
+                                const std::string& path,
+                                const JUB_BYTE& signType,
+                                const JUB_BYTE& hashType,
+                                const TW::Data& preImageHash,
+                                TW::Data& rsv) {
 
     constexpr JUB_UINT32 kSendOnceLen = 230;
 
@@ -190,18 +189,18 @@ JUB_RV JubiterNFCImpl::SignOne(const JUB_UINT16 inputCount,
 }
 
 
-JUB_RV JubiterNFCImpl::SignBytestring(const JUB_UINT16 inputCount,
-                                      const std::vector<std::string>& vInputPath,
-                                      const JUB_BYTE& signType,
-                                      const JUB_BYTE& hashType,
-                                      const std::vector<TW::Data>& vPreImageHash,
-                                      std::vector<TW::Data>& vRSV) {
+JUB_RV JubiterLiteImpl::SignBytestring(const JUB_UINT16 inputCount,
+                                       const std::vector<std::string>& vInputPath,
+                                       const JUB_BYTE& signType,
+                                       const JUB_BYTE& hashType,
+                                       const std::vector<TW::Data>& vPreImageHash,
+                                       std::vector<TW::Data>& vRSV) {
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
 
-JUB_BYTE JubiterNFCImpl::_getSignType(const char *curve_name) {
+JUB_BYTE JubiterLiteImpl::_getSignType(const char *curve_name) {
 
     if (0 == strcmp(curve_name, NIST256P1_NAME)) {
         return JUB_ENUM_CURVES::NIST256P1;
@@ -214,7 +213,7 @@ JUB_BYTE JubiterNFCImpl::_getSignType(const char *curve_name) {
 }
 
 
-JUB_BYTE JubiterNFCImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::Hasher& halfHasher) {
+JUB_BYTE JubiterLiteImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::Hasher& halfHasher) {
     JUB_BYTE halfHasherType = 0xEE; // Identifiers do not hash
 
     switch (hasherType) {
@@ -260,5 +259,3 @@ JUB_BYTE JubiterNFCImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::H
 
 } // namespace token end
 } // namespace jub end
-
-#endif //end NFC_MODE

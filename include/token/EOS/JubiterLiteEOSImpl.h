@@ -1,25 +1,25 @@
 #pragma once
-#include "token/JubiterNFC/JubiterNFCToken.h"
-#include "token/JubiterNFC/JubiterNFCImpl.h"
+#include "token/JubiterLite/JubiterLiteToken.h"
+#include "token/JubiterLite/JubiterLiteImpl.h"
 #include "token/EOS/JubiterBaseEOSImpl.h"
 
 namespace jub {
 namespace token {
 
 
-class JubiterNFCEOSImpl :
-        public JubiterNFCImpl,
+class JubiterLiteEOSImpl :
+        public JubiterLiteImpl,
 virtual public JubiterBaseEOSImpl {
 
 public:
     //for Factory
     static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterNFCEOSImpl>(deviceID);
+        return std::make_shared<JubiterLiteEOSImpl>(deviceID);
     }
 
-    JubiterNFCEOSImpl(JUB_UINT16 deviceID) :
-        JubiterNFCImpl(deviceID) {}
-    ~JubiterNFCEOSImpl() {}
+    JubiterLiteEOSImpl(JUB_UINT16 deviceID) :
+        JubiterLiteImpl(deviceID) {}
+    ~JubiterLiteEOSImpl() {}
 
     //EOS functions
     virtual JUB_RV SelectApplet() override;
@@ -35,7 +35,7 @@ public:
 
 protected:
     virtual JUB_RV _encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature);
-}; // class JubiterNFCEOSImpl end
+}; // class JubiterLiteEOSImpl end
 
 
 } // namespace token end

@@ -19,9 +19,7 @@
 
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
-#if defined(NFC_MODE)
-#include "token/JubiterNFC/JubiterNFCToken.h"
-#endif // #if defined(NFC_MODE) end
+#include "token/JubiterLite/JubiterLiteToken.h"
 
 namespace jub {
 namespace product {
@@ -29,12 +27,18 @@ namespace product {
 
 // Remove c++ features for swift framework
 typedef enum {
+    GRPC_BLD =(JUB_ENUM_COMMODE::GRPC<<0x10)|(JUB_ENUM_DEVICE::BLADE),
+    GRPC_BIO =(JUB_ENUM_COMMODE::GRPC<<0x10)|(JUB_ENUM_DEVICE::BIO),
+    GRPC_LITE=(JUB_ENUM_COMMODE::GRPC<<0x10)|(JUB_ENUM_DEVICE::LITE),
+
     HID_BLD = (JUB_ENUM_COMMODE::HID<<0x10)|(JUB_ENUM_DEVICE::BLADE),
     HID_BIO = (JUB_ENUM_COMMODE::HID<<0x10)|(JUB_ENUM_DEVICE::BIO),
     HID_NFC = (JUB_ENUM_COMMODE::HID<<0x10)|(JUB_ENUM_DEVICE::LITE),
+
     BLE_BLD = (JUB_ENUM_COMMODE::BLE<<0x10)|(JUB_ENUM_DEVICE::BLADE),
     BLE_BIO = (JUB_ENUM_COMMODE::BLE<<0x10)|(JUB_ENUM_DEVICE::BIO),
     NFC_CARD= (JUB_ENUM_COMMODE::NFC<<0x10)|(JUB_ENUM_DEVICE::LITE),
+
     PRODUCT_NS_ITEM
 } JUB_ENUM_PRODUCT;
 // Remove c++ features for swift framework end
@@ -48,17 +52,22 @@ protected xFactory<device::DeviceTypeBase*,
                    JUB_ENUM_PRODUCT,
                     CreateProductFn> {
 public:
-    static JUB_ENUM_DEVICE  EnumProduct2EnumDevice(JUB_ENUM_PRODUCT product) {
+    static JUB_ENUM_DEVICE  EnumProduct2EnumDevice(const JUB_ENUM_PRODUCT& product) {
         return (JUB_ENUM_DEVICE)(product&0x0000FFFF);
     }
 
-    static JUB_ENUM_PRODUCT EnumProduct2EnumDevice(JUB_ENUM_COMMODE mode, JUB_ENUM_DEVICE type) {
+    static JUB_ENUM_PRODUCT EnumProduct2EnumDevice(const JUB_ENUM_COMMODE& mode, const JUB_ENUM_DEVICE& type) {
         return (JUB_ENUM_PRODUCT)((mode<<0x10)|type);
     }
 
 
 public:
     xProductFactory() {
+#if defined(GRPC_MODE)
+        Register(JUB_ENUM_PRODUCT::GRPC_BLD,  &device::JubiterBridgeBLDDevice::Create);
+        Register(JUB_ENUM_PRODUCT::GRPC_BIO,  &device::JubiterBridgeBIODevice::Create);
+        Register(JUB_ENUM_PRODUCT::GRPC_LITE,&device::JubiterBridgeLITEDevice::Create);
+#endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
         Register(JUB_ENUM_PRODUCT::HID_BLD,   &device::JubiterHidBLDDevice::Create);
         Register(JUB_ENUM_PRODUCT::HID_BIO,   &device::JubiterHidBIODevice::Create);
@@ -81,42 +90,76 @@ public:
 
         *commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
         *deviceClass = JUB_ENUM_DEVICE::DEVICE_NS_ITEM;
+#if defined(GRPC_MODE)
+        if (   JUB_ENUM_COMMODE::COMMODE_NS_ITEM == (*commode)
+            &&  JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == (*deviceClass)
+            ) {
+            *commode = JUB_ENUM_COMMODE::GRPC;
+            switch (jub::device::xGRPCDeviceFactory::GetEnumDevice(device)) {
+            case JUB_ENUM_DEVICE::BLADE:
+                *deviceClass = JUB_ENUM_DEVICE::BLADE;
+                break;
+            case JUB_ENUM_DEVICE::BIO:
+                *deviceClass = JUB_ENUM_DEVICE::BIO;
+                break;
+            case JUB_ENUM_DEVICE::LITE:
+                *deviceClass = JUB_ENUM_DEVICE::LITE;
+                break;
+            default:
+                *commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
+                break;
+            }
+        }
+#endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
-        switch (jub::device::xHidDeviceFactory::GetEnumDevice(device)) {
-        case JUB_ENUM_DEVICE::BLADE:
+        if (   JUB_ENUM_COMMODE::COMMODE_NS_ITEM == (*commode)
+            &&  JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == (*deviceClass)
+            ) {
             *commode = JUB_ENUM_COMMODE::HID;
-            *deviceClass = JUB_ENUM_DEVICE::BLADE;
-            break;
-        case JUB_ENUM_DEVICE::BIO:
-            *commode = JUB_ENUM_COMMODE::HID;
-            *deviceClass = JUB_ENUM_DEVICE::BIO;
-            break;
-        default:
-            break;
+            switch (jub::device::xHidDeviceFactory::GetEnumDevice(device)) {
+            case JUB_ENUM_DEVICE::BLADE:
+                *deviceClass = JUB_ENUM_DEVICE::BLADE;
+                break;
+            case JUB_ENUM_DEVICE::BIO:
+                *deviceClass = JUB_ENUM_DEVICE::BIO;
+                break;
+            default:
+                *commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
+                break;
+            }
         }
 #endif  // #if defined(HID_MODE) end
 #if defined(BLE_MODE)
-        switch (jub::device::xBLEDeviceFactory::GetEnumDevice(device)) {
-        case JUB_ENUM_DEVICE::BLADE:
+        if (   JUB_ENUM_COMMODE::COMMODE_NS_ITEM == (*commode)
+            &&  JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == (*deviceClass)
+            ) {
             *commode = JUB_ENUM_COMMODE::BLE;
-            *deviceClass = JUB_ENUM_DEVICE::BLADE;
-            break;
-        case JUB_ENUM_DEVICE::BIO:
-            *commode = JUB_ENUM_COMMODE::BLE;
-            *deviceClass = JUB_ENUM_DEVICE::BIO;
-            break;
-        default:
-            break;
+            switch (jub::device::xBLEDeviceFactory::GetEnumDevice(device)) {
+            case JUB_ENUM_DEVICE::BLADE:
+                *deviceClass = JUB_ENUM_DEVICE::BLADE;
+                break;
+            case JUB_ENUM_DEVICE::BIO:
+                *deviceClass = JUB_ENUM_DEVICE::BIO;
+                break;
+            default:
+                *commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
+                break;
+            }
         }
 #endif  // #if defined(BLE_MODE) end
 #if defined(NFC_MODE)
-        switch (jub::device::xNFCDeviceFactory::GetEnumDevice(device)) {
-        case JUB_ENUM_DEVICE::LITE:
+        if (   JUB_ENUM_COMMODE::COMMODE_NS_ITEM == (*commode)
+            && JUB_ENUM_DEVICE::DEVICE_NS_ITEM   == (*deviceClass)
+            ) {
             *commode = JUB_ENUM_COMMODE::NFC;
-            *deviceClass = JUB_ENUM_DEVICE::LITE;
-            break;
-        default:
-            break;
+            switch (jub::device::xNFCDeviceFactory::GetEnumDevice(device)) {
+            case JUB_ENUM_DEVICE::LITE:
+                *deviceClass = JUB_ENUM_DEVICE::LITE;
+                break;
+            default:
+                *commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
+                break;
+            }
         }
 #endif  // #if defined(NFC_MODE) end
 
@@ -142,6 +185,23 @@ public:
         }
 
         switch (commode) {
+        case JUB_ENUM_COMMODE::GRPC:
+        {
+            switch (deviceClass) {
+            case JUB_ENUM_DEVICE::BLADE:
+                token = std::make_shared<token::JubiterBladeToken>(deviceID);
+                break;
+            case JUB_ENUM_DEVICE::BIO:
+                token = std::make_shared<token::JubiterBIOToken>(deviceID);
+                break;
+            case JUB_ENUM_DEVICE::LITE:
+                token = std::make_shared<token::JubiterLiteToken>(deviceID);
+                break;
+            default:
+                break;
+            }
+            break;
+        }
         case JUB_ENUM_COMMODE::HID:
         case JUB_ENUM_COMMODE::BLE:
         {
@@ -157,19 +217,17 @@ public:
             }
             break;
         }
-#if defined(NFC_MODE)
         case JUB_ENUM_COMMODE::NFC:
         {
             switch (deviceClass) {
             case JUB_ENUM_DEVICE::LITE:
-                token = std::make_shared<token::JubiterNFCToken>(deviceID);
+                token = std::make_shared<token::JubiterLiteToken>(deviceID);
                 break;
             default:
                 break;
             }
             break;
         }
-#endif  // #if defined(NFC_MODE) end
         default:
             break;
         }
@@ -208,6 +266,7 @@ public:
             enumProduct = EnumProduct2EnumDevice(mode, type);
 #endif  // #if defined(BLE_MODE) end
             break;
+        case JUB_ENUM_COMMODE::GRPC:
         case JUB_ENUM_COMMODE::NFC:
         default:
             break;
@@ -267,6 +326,37 @@ public:
         }
 
         auto device = device::devFactory::GetInstance()->CreateDevice(mode);
+        return Create(enumProduct, type, device);
+    }
+
+
+    device::DeviceTypeBase* CreateProduct(const JUB_ENUM_COMMODE& mode, const JUB_ENUM_DEVICE& type, const std::string& arg) {
+
+        if (  JUB_ENUM_COMMODE::COMMODE_NS_ITEM == mode
+            || JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == type
+            ) {
+            return nullptr;
+        }
+
+        JUB_ENUM_PRODUCT enumProduct = (JUB_ENUM_PRODUCT)((mode<<0x10)|type);
+        switch (mode) {
+        case JUB_ENUM_COMMODE::HID:
+        case JUB_ENUM_COMMODE::BLE:
+#if defined(BLE_MODE)
+            enumProduct = EnumProduct2EnumDevice(mode, type);
+#endif  // #if defined(BLE_MODE) end
+            break;
+        case JUB_ENUM_COMMODE::GRPC:
+        case JUB_ENUM_COMMODE::NFC:
+        default:
+            break;
+        }   // switch (mode) end
+
+        if (JUB_ENUM_PRODUCT::PRODUCT_NS_ITEM == enumProduct) {
+            return nullptr;
+        }
+
+        auto device = device::devFactory::GetInstance()->CreateDevice(type, arg);
         return Create(enumProduct, type, device);
     }
 };

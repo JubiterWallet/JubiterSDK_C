@@ -13,6 +13,9 @@
 
 #include "utility/xFactory.hpp"
 
+#if defined(GRPC_MODE)
+#include "device/JubiterBridgeDevice.hpp"
+#endif // #if defined(GRPC_MODE) end
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -22,6 +25,57 @@
 
 namespace jub {
 namespace device {
+
+
+#if defined(GRPC_MODE)
+typedef std::shared_ptr<JubiterBridgeDevice>(*CreateBridgeDeviceFn)(const std::string&);
+
+class xGRPCDeviceFactory :
+public xFactory<std::shared_ptr<JubiterBridgeDevice>,
+                JUB_ENUM_DEVICE,
+                CreateBridgeDeviceFn> {
+public:
+    xGRPCDeviceFactory() {
+        Register(JUB_ENUM_DEVICE::BLADE, &JubiterBridgeBLDDevice::Create);
+        Register(JUB_ENUM_DEVICE::BIO,   &JubiterBridgeBIODevice::Create);
+        Register(JUB_ENUM_DEVICE::LITE, &JubiterBridgeLITEDevice::Create);
+    }
+    ~xGRPCDeviceFactory() = default;
+
+
+    static JUB_ENUM_DEVICE GetEnumDevice(const DeviceTypeBase* device) {
+
+        JUB_ENUM_DEVICE enumDevice = DEVICE_NS_ITEM;
+
+        if (typeid(JubiterBridgeBLDDevice) == typeid(*device)) {
+            enumDevice = JUB_ENUM_DEVICE::BLADE;
+        }
+        else if (typeid(JubiterBridgeBIODevice) == typeid(*device)) {
+            enumDevice = JUB_ENUM_DEVICE::BIO;
+        }
+        else if (typeid(JubiterBridgeLITEDevice) == typeid(*device)) {
+            enumDevice = JUB_ENUM_DEVICE::LITE;
+        }
+
+        return enumDevice;
+    }
+
+
+    static bool CheckTypeid(const DeviceTypeBase* device) {
+        bool b = false;
+
+        if (   (typeid(JubiterBridgeDevice)    == typeid(*device))
+            || (typeid(JubiterBridgeBLDDevice) == typeid(*device))
+            || (typeid(JubiterBridgeBIODevice) == typeid(*device))
+            || (typeid(JubiterBridgeLITEDevice)== typeid(*device))
+            ) {
+            b = true;
+        }
+
+        return b;
+    }
+}; // class xGRPCDeviceFactory end
+#endif  // #if defined(GRPC_MODE) end
 
 
 #if defined(HID_MODE)
@@ -226,6 +280,9 @@ public:
 
 class xDeviceFactory {
 protected:
+#if defined(GRPC_MODE)
+    xGRPCDeviceFactory grpcFactory;
+#endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
     xHidDeviceFactory hidFactory;
 #endif  // #if defined(HID_MODE) end
@@ -240,6 +297,18 @@ protected:
 public:
     std::shared_ptr<DeviceTypeBase> CreateDevice(const JUB_ENUM_DEVICE& type, const std::string& arg) {
 
+#if defined(GRPC_MODE)
+        switch (type) {
+        case JUB_ENUM_DEVICE::BLADE:
+            return grpcFactory.Create(JUB_ENUM_DEVICE::BLADE, arg);
+        case JUB_ENUM_DEVICE::BIO:
+            return grpcFactory.Create(JUB_ENUM_DEVICE::BIO, arg);
+        case JUB_ENUM_DEVICE::LITE:
+            return grpcFactory.Create(JUB_ENUM_DEVICE::LITE, arg);
+        default:
+            break;
+        }   // switch (type) end
+#endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
         switch (type) {
         case JUB_ENUM_DEVICE::BLADE:

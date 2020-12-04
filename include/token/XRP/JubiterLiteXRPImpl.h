@@ -1,26 +1,26 @@
 #pragma once
 
-#include "token/JubiterNFC/JubiterNFCToken.h"
-#include "token/JubiterNFC/JubiterNFCImpl.h"
+#include "token/JubiterLite/JubiterLiteToken.h"
+#include "token/JubiterLite/JubiterLiteImpl.h"
 #include "token/XRP/JubiterBaseXRPImpl.h"
 
 namespace jub {
 namespace token {
 
 
-class JubiterNFCXRPImpl :
-        public JubiterNFCImpl,
+class JubiterLiteXRPImpl :
+        public JubiterLiteImpl,
 virtual public JubiterBaseXRPImpl {
 
 public:
     //for Factory
     static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterNFCXRPImpl>(deviceID);
+        return std::make_shared<JubiterLiteXRPImpl>(deviceID);
     }
 
-    JubiterNFCXRPImpl(JUB_UINT16 deviceID) :
-        JubiterNFCImpl(deviceID) {}
-    ~JubiterNFCXRPImpl() {}
+    JubiterLiteXRPImpl(JUB_UINT16 deviceID) :
+        JubiterLiteImpl(deviceID) {}
+    ~JubiterLiteXRPImpl() {}
 
     //XRP functions
     virtual JUB_RV SelectApplet() override;
@@ -33,7 +33,7 @@ public:
 
 protected:
     virtual JUB_RV _encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature);
-}; // class JubiterNFCXRPImpl end
+}; // class JubiterLiteXRPImpl end
 
 
 } // namespace token end

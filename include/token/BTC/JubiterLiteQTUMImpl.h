@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-#include "token/BTC/JubiterNFCBTCImpl.h"
+#include "token/BTC/JubiterLiteBTCImpl.h"
 #include "token/interface/QTUMTokenInterface.hpp"
 
 
@@ -9,27 +9,27 @@ namespace jub {
 namespace token {
 
 
-class JubiterNFCQTUMImpl :
-        public JubiterNFCBTCImpl,
+class JubiterLiteQTUMImpl :
+        public JubiterLiteBTCImpl,
 virtual public QTUMTokenInterface {
 public:
     //for Factory
     static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterNFCQTUMImpl>(deviceID);
+        return std::make_shared<JubiterLiteQTUMImpl>(deviceID);
     }
 
 public:
-    JubiterNFCQTUMImpl(JUB_UINT16 deviceID) :
-        JubiterNFCBTCImpl(deviceID) {
+    JubiterLiteQTUMImpl(JUB_UINT16 deviceID) :
+        JubiterLiteBTCImpl(deviceID) {
             _coin = TWCoinType::TWCoinTypeQtum;
     }
-    ~JubiterNFCQTUMImpl() {}
+    ~JubiterLiteQTUMImpl() {}
 
 	//QTUM functions
 	virtual JUB_RV SetQRC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress) override;
-}; // class JubiterBladeQTUMImpl end
+}; // class JubiterLiteQTUMImpl end
 
 
 } // namespace token end

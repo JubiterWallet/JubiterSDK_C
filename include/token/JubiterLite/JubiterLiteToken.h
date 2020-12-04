@@ -1,7 +1,4 @@
 #pragma once
-
-#if defined(NFC_MODE)
-
 #include <memory>
 
 #include "token/JubiterBlade/JubiterBladeToken.h"
@@ -28,11 +25,11 @@ constexpr JUB_BYTE kPKIAID_NFC[16] = {
 //};
 
 
-class JubiterNFCToken :
+class JubiterLiteToken :
     public JubiterBladeToken {
 public:
-    JubiterNFCToken(JUB_UINT16 deviceID);
-    virtual ~JubiterNFCToken() = default;
+    JubiterLiteToken(JUB_UINT16 deviceID);
+    virtual ~JubiterLiteToken() = default;
     //common token functions
     virtual JUB_RV QueryBattery(JUB_BYTE &percent) override;
     virtual JUB_RV ShowVirtualPwd() override;
@@ -93,10 +90,8 @@ protected:
     virtual JUB_RV PerformSecurityOperation(const uchar_vector& oceCert);
     virtual JUB_RV MutualAuthenticate(const uchar_vector& apduData,
                                       uchar_vector& receipt);
-}; // class JubiterNFCToken end
+}; // class JubiterLiteToken end
 
 
 } // namespace token end
 } // namespace jub end
-
-#endif // end NFC_MODE

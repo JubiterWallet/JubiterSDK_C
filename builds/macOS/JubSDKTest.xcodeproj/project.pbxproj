@@ -14,6 +14,10 @@
 		675C7975238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 675C7973238BEBFF0015C95D /* JUB_SDK_software_test_xrp.cpp */; };
 		67742FCF24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67742FCE24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp */; };
 		6791CE0B23968EB7000B6B16 /* JUB_SDK_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */; };
+		679DA9592577954100B08471 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 679DA9582577953E00B08471 /* libprotobuf.a */; };
+		679DA95B2577957500B08471 /* libgpr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 679DA95A2577956B00B08471 /* libgpr.a */; };
+		679DA95D2577958D00B08471 /* libgrpc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 679DA95C2577958700B08471 /* libgrpc.a */; };
+		679DA95F257795A000B08471 /* libgrpc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 679DA95E2577959C00B08471 /* libgrpc++.a */; };
 		67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE652330C3CE0059A3DB /* JUB_SDK_test.cpp */; };
 		67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE782330C4B80059A3DB /* json_reader.cpp */; };
 		67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE792330C4B80059A3DB /* json_writer.cpp */; };
@@ -24,7 +28,6 @@
 		67A4BE902330D1A80059A3DB /* JUB_SDK_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE8F2330D1A80059A3DB /* JUB_SDK_main.cpp */; };
 		67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67B74EDC248109050066EF8E /* libJubSDK.a */; };
 		67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */; };
-		67D7BD37256625FB00A84359 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67D7BD36256625FB00A84359 /* libprotobuf.a */; };
 		67E0DFB8250F78DB00D42EF0 /* JUB_SDK_test_trx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFB4250F78DA00D42EF0 /* JUB_SDK_test_trx.cpp */; };
 		67E0DFB9250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFB7250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp */; };
 		67F808C2235966D900DE9ECE /* JUB_SDK_software_test_eth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */; };
@@ -93,6 +96,11 @@
 		67742FCE24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_dev_bio.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_bio.cpp; sourceTree = "<group>"; };
 		6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_xrp.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.cpp; sourceTree = "<group>"; };
 		6791CE0A23968EB7000B6B16 /* JUB_SDK_test_xrp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_xrp.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_xrp.hpp; sourceTree = "<group>"; };
+		679DA9562577947200B08471 /* libgrpc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgrpc.a; path = ../../../../../../../../usr/local/lib/libgrpc.a; sourceTree = "<group>"; };
+		679DA9582577953E00B08471 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../../../../../../../usr/local/lib/libprotobuf.a; sourceTree = "<group>"; };
+		679DA95A2577956B00B08471 /* libgpr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgpr.a; path = ../../../../../../../../usr/local/Cellar/grpc/1.28.1/lib/libgpr.a; sourceTree = "<group>"; };
+		679DA95C2577958700B08471 /* libgrpc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgrpc.a; path = ../../../../../../../../usr/local/Cellar/grpc/1.28.1/lib/libgrpc.a; sourceTree = "<group>"; };
+		679DA95E2577959C00B08471 /* libgrpc++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgrpc++.a"; path = "../../../../../../../../usr/local/Cellar/grpc/1.28.1/lib/libgrpc++.a"; sourceTree = "<group>"; };
 		67A4BE5A2330C3870059A3DB /* JubSDKTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = JubSDKTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A4BE652330C3CE0059A3DB /* JUB_SDK_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test.cpp; sourceTree = "<group>"; };
 		67A4BE6B2330C4670059A3DB /* allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = allocator.h; path = ../../deps/jsoncpp/include/json/allocator.h; sourceTree = "<group>"; };
@@ -141,8 +149,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67D7BD37256625FB00A84359 /* libprotobuf.a in Frameworks */,
+				679DA9592577954100B08471 /* libprotobuf.a in Frameworks */,
 				67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */,
+				679DA95B2577957500B08471 /* libgpr.a in Frameworks */,
+				679DA95F257795A000B08471 /* libgrpc++.a in Frameworks */,
+				679DA95D2577958D00B08471 /* libgrpc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +370,11 @@
 		67A4BE7F2330C5810059A3DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				679DA95E2577959C00B08471 /* libgrpc++.a */,
+				679DA95C2577958700B08471 /* libgrpc.a */,
+				679DA95A2577956B00B08471 /* libgpr.a */,
+				679DA9582577953E00B08471 /* libprotobuf.a */,
+				679DA9562577947200B08471 /* libgrpc.a */,
 				67D7BD36256625FB00A84359 /* libprotobuf.a */,
 				67B74EDC248109050066EF8E /* libJubSDK.a */,
 			);
@@ -585,7 +601,11 @@
 					../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol,
 					../../deps/protobuf/src,
 				);
-				LIBRARY_SEARCH_PATHS = ../../outputs/Darwin/Release;
+				LIBRARY_SEARCH_PATHS = (
+					../../outputs/Darwin/Release,
+					/usr/local/Cellar/grpc/1.28.1/lib,
+					/usr/local/lib,
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"'-std=c++11'",
@@ -620,7 +640,11 @@
 					../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol,
 					../../deps/protobuf/src,
 				);
-				LIBRARY_SEARCH_PATHS = ../../outputs/Darwin/Release;
+				LIBRARY_SEARCH_PATHS = (
+					../../outputs/Darwin/Release,
+					/usr/local/Cellar/grpc/1.28.1/lib,
+					/usr/local/lib,
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"'-std=c++11'",

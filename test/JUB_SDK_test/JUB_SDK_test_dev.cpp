@@ -31,23 +31,14 @@ vector<string> split(const string &str, char delim, bool bSkipEmpty/* = true*/) 
 }
 
 
-void get_device_info_test() {
+void get_device_info_test(JUB_UINT16 deviceID) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
-
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        return;
-    }
-
-    JUB_UINT16 deviceID = deviceIDs[0];
+    JUB_RV rv = JUBR_ERROR;
 
     char* appList;
     rv = JUB_EnumApplets(deviceID, &appList);
+    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
         return;
     }
     std::string appletList = appList;
@@ -58,8 +49,8 @@ void get_device_info_test() {
     for (auto appID : vAppList) {
         char* version;
         auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
+        cout << "JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
             return;
         }
 
@@ -68,8 +59,8 @@ void get_device_info_test() {
 
     JUB_DEVICE_INFO info;
     rv = JUB_GetDeviceInfo(deviceID, &info);
+    cout << "JUB_GetDeviceInfo() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetDeviceInfo() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -84,25 +75,25 @@ void get_device_info_test() {
     cout << "device bleVersion :" << bleVersion << endl;
     cout << "device fwVersion :" << fwVersion << endl;
 
-    char* cert;
-    rv = JUB_GetDeviceCert(deviceID, &cert);
-    if (JUBR_OK != rv) {
-        cout << "JUB_GetDeviceCert() return " << GetErrMsg(rv) << endl;
-        return;
-    }
-
-    cout << "device cert is :" << cert << endl;
-    JUB_FreeMemory(cert);
-
     char* coinList;
     rv = JUB_EnumSupportCoins(deviceID, &coinList);
+    cout << "JUB_EnumSupportCoins() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumSupportCoins() return " << GetErrMsg(rv) << endl;
         return;
     }
 
     cout << "support coin list is:" << coinList << endl;
     JUB_FreeMemory(coinList);
+
+    char* cert;
+    rv = JUB_GetDeviceCert(deviceID, &cert);
+    cout << "JUB_GetDeviceCert() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    cout << "device cert is :" << cert << endl;
+    JUB_FreeMemory(cert);
 }
 
 
@@ -117,10 +108,10 @@ JUB_RV verify_pin(JUB_UINT16 contextID) {
 
         cout << "to cancel the virtualpwd iput 'c'" << endl;
         rv = JUB_ShowVirtualPwd(contextID);
+        cout << "JUB_ShowVirtualPwd() return " << GetErrMsg(rv) << endl;
         if (   JUBR_OK               != rv
             && JUBR_IMPL_NOT_SUPPORT != rv
             ) {
-            cout << "JUB_ShowVirtualPwd() return " << GetErrMsg(rv) << endl;
             break;
         }
 
@@ -134,8 +125,8 @@ JUB_RV verify_pin(JUB_UINT16 contextID) {
             ) {
             cout << "cancel the VirtualPwd "<< endl;
             rv = JUB_CancelVirtualPwd(contextID);
+            cout << "JUB_CancelVirtualPwd() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
-                cout << "JUB_CancelVirtualPwd() return " << GetErrMsg(rv) << endl;
                 break;
             }
             return rv;
@@ -143,8 +134,8 @@ JUB_RV verify_pin(JUB_UINT16 contextID) {
 
         JUB_ULONG retry;
         rv = JUB_VerifyPIN(contextID, str, &retry);
+        cout << "JUB_VerifyPIN() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_VerifyPIN() return " << GetErrMsg(rv) << endl;
             break;
         }
     }
@@ -165,9 +156,7 @@ JUB_RV verify_fgpt(JUB_UINT16 contextID) {
     cout << "to cancel the fgpt iput 'c'" << endl;
     JUB_ULONG retry;
     rv = JUB_VerifyFingerprint(contextID, &retry);
-    if (JUBR_OK != rv) {
-        cout << "JUB_VerifyFingerprint() return " << GetErrMsg(rv) << endl;
-    }
+    cout << "JUB_VerifyFingerprint() return " << GetErrMsg(rv) << endl;
 
     return rv;
 }
@@ -178,23 +167,13 @@ void set_timeout_test(JUB_UINT16 contextID) {
 
     int timeout = 0;
     cin >> timeout;
-    JUB_SetTimeOut(contextID, timeout);
+    JUB_RV rv = JUB_SetTimeOut(contextID, timeout);
+    cout << "JUB_SetTimeOut() return " << GetErrMsg(rv) << endl;
 }
 
-void send_apdu_test() {
+void send_apdu_test(JUB_UINT16 deviceID) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_RV rv = JUB_ListDeviceHid(deviceIDs);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ListDeviceHid() return " << GetErrMsg(rv) << endl;
-    }
-
-    rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-    }
-
-    JUB_UINT16 deviceID = deviceIDs[0];
+    JUB_RV rv = JUBR_ERROR;
 
     cout << "please input apdu in hex:" << endl;
     cout << "|------ example: select main safe scope ------|" << endl;
@@ -204,8 +183,8 @@ void send_apdu_test() {
 
     char* response = nullptr;
     rv = JUB_SendOneApdu(deviceID, apdu, &response);
+    cout << "JUB_SendOneApdu() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SendOneApdu() return " << GetErrMsg(rv) << endl;
         return;
     }
 
