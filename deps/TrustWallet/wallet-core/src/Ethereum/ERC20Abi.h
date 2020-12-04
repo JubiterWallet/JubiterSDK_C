@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <stdint.h>
+#include <cstdint>
 
 // Allowance is a free data retrieval call binding the contract method 0xdd62ed3e.
 // Solidity: function allowance( address,  address) constant returns(uint256)

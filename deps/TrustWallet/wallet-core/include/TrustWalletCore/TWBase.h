@@ -41,6 +41,13 @@
 // Marker for Protobuf types to be serialized across the interface
 #define PROTO(x) TWData *
 
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
+#ifndef __has_builtin
+#define __has_builtin(x) 0
+#endif
+
 #if __has_feature(assume_nonnull)
 #define TW_ASSUME_NONNULL_BEGIN _Pragma("clang assume_nonnull begin")
 #define TW_ASSUME_NONNULL_END   _Pragma("clang assume_nonnull end")
