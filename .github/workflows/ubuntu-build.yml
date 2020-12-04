@@ -1,0 +1,19 @@
+name: ubuntu build CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: module
+      run: |
+        git submodule update --init --recursive
+        sudo apt install libhidapi-dev
+    - name: cmake
+      run: cmake .
+    - name: make
+      run: make
