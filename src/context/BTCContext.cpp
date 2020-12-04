@@ -1,7 +1,7 @@
 #include "context/BTCContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
-#include "token/JubiterNFC/JubiterNFCToken.h"
+#include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/BTCTokenInterface.hpp"
 #include "utility/util.h"
 
@@ -121,7 +121,7 @@ JUB_RV BTCContext::ActiveSelf() {
     JUB_VERIFY_RV(token->SetCoin(_coinType));
 
     // For NFC devices, the session is cleaned up so that the ActiveSelf() function can be started at every session level operation.
-    if (std::dynamic_pointer_cast<token::JubiterNFCToken>(_tokenPtr)) {
+    if (std::dynamic_pointer_cast<token::JubiterLiteToken>(_tokenPtr)) {
         jub::context::ContextManager::GetInstance()->ClearLast();
     }
 

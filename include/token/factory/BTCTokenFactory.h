@@ -26,12 +26,12 @@
 
 #include "token/BTC/JubiterBIOBTCImpl.h"
 
-#include "token/BTC/JubiterNFCBTCImpl.h"
-#include "token/BTC/JubiterNFCBCHImpl.h"
-#include "token/BTC/JubiterNFCLTCImpl.h"
-#include "token/BTC/JubiterNFCUSDTImpl.h"
-#include "token/BTC/JubiterNFCDashImpl.h"
-#include "token/BTC/JubiterNFCQTUMImpl.h"
+#include "token/BTC/JubiterLiteBTCImpl.h"
+#include "token/BTC/JubiterLiteBCHImpl.h"
+#include "token/BTC/JubiterLiteLTCImpl.h"
+#include "token/BTC/JubiterLiteUSDTImpl.h"
+#include "token/BTC/JubiterLiteDashImpl.h"
+#include "token/BTC/JubiterLiteQTUMImpl.h"
 
 #include "token/BTC/TrezorCryptoBTCImpl.h"
 #include "token/BTC/TrezorCryptoBCHImpl.h"
@@ -97,20 +97,20 @@ public:
 }; // class xJuBiterBIOBTCFactory end
 
 
-class xJuBiterNFCBTCFactory :
+class xJuBiterLiteBTCFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 JUB_ENUM_COINTYPE_BTC,
                 CreateJubiterBTCFn> {
 public:
-    xJuBiterNFCBTCFactory() {
-        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,   &JubiterNFCBTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,   &JubiterNFCBCHImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,   &JubiterNFCLTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &JubiterNFCUSDTImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterNFCDashImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterNFCQTUMImpl::Create);
+    xJuBiterLiteBTCFactory() {
+        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,   &JubiterLiteBTCImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,   &JubiterLiteBCHImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,   &JubiterLiteLTCImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &JubiterLiteUSDTImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterLiteDashImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterLiteQTUMImpl::Create);
     }
-}; // class xJuBiterNFCBTCFactory end
+}; // class xJuBiterLiteBTCFactory end
 
 
 class xBTCTokenFactory {
@@ -118,7 +118,7 @@ protected:
     xTrezorCryptoBTCFactory     trezorFactory;
     xJuBiterBladeBTCFactory jubiterBLDFactory;
     xJuBiterBIOBTCFactory   jubiterBIOFactory;
-    xJuBiterNFCBTCFactory   jubiterNFCFactory;
+    xJuBiterLiteBTCFactory jubiterLITEFactory;
 
 public:
     std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const std::string& XPRVorXPUB) {
@@ -140,7 +140,7 @@ public:
         else if (dynamic_cast<jub::device::JubiterBridgeLITEDevice*>(
                               jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
         ) {
-            return jubiterNFCFactory.Create(type, deviceID);
+            return jubiterLITEFactory.Create(type, deviceID);
         }
 #endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
@@ -171,7 +171,7 @@ public:
         if (dynamic_cast<jub::device::JubiterNFCDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
         ) {
-            return jubiterNFCFactory.Create(type, deviceID);
+            return jubiterLITEFactory.Create(type, deviceID);
         }
 #endif  // #if defined(NFC_MODE) end
 //        else {

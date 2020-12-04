@@ -1,5 +1,5 @@
 #include "JUB_SDK_COMM.h"
-#include "token/JubiterNFC/JubiterNFCToken.h"
+#include "token/JubiterLite/JubiterLiteToken.h"
 #include "device/DeviceTypeBase.hpp"
 #include "device/JubiterHidDevice.hpp"
 #include "utility/util.h"
@@ -13,7 +13,7 @@ namespace jub {
 namespace token {
 
 
-stAppInfos JubiterNFCToken::g_appInfo[] = {
+stAppInfos JubiterLiteToken::g_appInfo[] = {
 //    {
 //        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
 //        "NFC",
@@ -74,13 +74,13 @@ stAppInfos JubiterNFCToken::g_appInfo[] = {
 };
 
 
-JubiterNFCToken::JubiterNFCToken(JUB_UINT16 deviceID)
+JubiterLiteToken::JubiterLiteToken(JUB_UINT16 deviceID)
     : JubiterBladeToken(deviceID) {
 
 }
 
 
-JUB_RV JubiterNFCToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
+JUB_RV JubiterLiteToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
 
     // Clear SCP11c Session for NFC
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
@@ -93,9 +93,9 @@ JUB_RV JubiterNFCToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
 }
 
 
-JUB_RV JubiterNFCToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
-                              JUB_ULONG *pulRetDataLen /*= nullptr*/,
-                              JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
+JUB_RV JubiterLiteToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
+                                   JUB_ULONG *pulRetDataLen /*= nullptr*/,
+                                   JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
 
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(device);
@@ -119,9 +119,9 @@ JUB_RV JubiterNFCToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *
 }
 
 
-JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
-                                      JUB_ULONG *pulRetDataLen /*= nullptr*/,
-                                      JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
+JUB_RV JubiterLiteToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
+                                       JUB_ULONG *pulRetDataLen /*= nullptr*/,
+                                       JUB_ULONG ulMiliSecondTimeout /*= 0*/) {
 
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
     JUB_CHECK_NULL(device);
@@ -171,7 +171,7 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
 }
 
 
-//JUB_RV JubiterNFCToken::_TranPack(const TW::Data &apduData, const JUB_BYTE highMark, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
+//JUB_RV JubiterLiteToken::_TranPack(const TW::Data &apduData, const JUB_BYTE highMark, const JUB_BYTE sigType, const JUB_ULONG ulSendOnceLen, int finalData/* = false*/, int bOnce/* = false*/) {
 //
 //    if (apduData.empty()) {
 //        JUB_VERIFY_RV(JUBR_ERROR);
@@ -230,13 +230,13 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
 //}
 //
 //
-//JUB_RV JubiterNFCToken::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
-//                                      const TW::Data &apduData,
-//                                      const JUB_BYTE highMark,
-//                                      const JUB_BYTE sigType,
-//                                      const JUB_ULONG ulSendOnceLen,
-//                                      JUB_BYTE *retData/* = nullptr*/, JUB_ULONG *pulRetDataLen/* = nullptr*/,
-//                                      int finalData/* = false*/, int bOnce/* = false*/) {
+//JUB_RV JubiterLiteToken::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG nins,
+//                                       const TW::Data &apduData,
+//                                       const JUB_BYTE highMark,
+//                                       const JUB_BYTE sigType,
+//                                       const JUB_ULONG ulSendOnceLen,
+//                                       JUB_BYTE *retData/* = nullptr*/, JUB_ULONG *pulRetDataLen/* = nullptr*/,
+//                                       int finalData/* = false*/, int bOnce/* = false*/) {
 //
 //    if (apduData.empty()) {
 //        JUB_VERIFY_RV(JUBR_ERROR);
@@ -295,31 +295,31 @@ JUB_RV JubiterNFCToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BY
 //}
 //
 //
-JUB_RV JubiterNFCToken::QueryBattery(JUB_BYTE &percent) {
+JUB_RV JubiterLiteToken::QueryBattery(JUB_BYTE &percent) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
-JUB_RV JubiterNFCToken::ShowVirtualPwd() {
+JUB_RV JubiterLiteToken::ShowVirtualPwd() {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
-JUB_RV JubiterNFCToken::CancelVirtualPwd() {
+JUB_RV JubiterLiteToken::CancelVirtualPwd() {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
-bool JubiterNFCToken::IsBootLoader() {
+bool JubiterLiteToken::IsBootLoader() {
 
     return (JUBR_OK == SelectMainSecurityDomain() ? true:false);
 }
 
 
-JUB_RV JubiterNFCToken::SelectMainSecurityDomain() {
+JUB_RV JubiterLiteToken::SelectMainSecurityDomain() {
 
     // select main safe scope
     APDU apdu(0x00, 0xA4, 0x04, 0x00, sizeof(kPKIAID_NFC_DOMAIN)/sizeof(JUB_BYTE), kPKIAID_NFC_DOMAIN);
@@ -336,7 +336,7 @@ JUB_RV JubiterNFCToken::SelectMainSecurityDomain() {
 }
 
 
-JUB_RV JubiterNFCToken::GetSN(JUB_BYTE sn[24]) {
+JUB_RV JubiterLiteToken::GetSN(JUB_BYTE sn[24]) {
 
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8101")).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
@@ -360,7 +360,7 @@ JUB_RV JubiterNFCToken::GetSN(JUB_BYTE sn[24]) {
 }
 
 
-JUB_RV JubiterNFCToken::GetLabel(JUB_BYTE label[32]) {
+JUB_RV JubiterLiteToken::GetLabel(JUB_BYTE label[32]) {
 
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8104")).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
@@ -384,7 +384,7 @@ JUB_RV JubiterNFCToken::GetLabel(JUB_BYTE label[32]) {
 }
 
 
-JUB_RV JubiterNFCToken::SetLabel(const std::string& label) {
+JUB_RV JubiterLiteToken::SetLabel(const std::string& label) {
 
     if (0x20 < label.length()) {
         return JUBR_ARGUMENTS_BAD;
@@ -413,7 +413,7 @@ JUB_RV JubiterNFCToken::SetLabel(const std::string& label) {
 }
 
 
-JUB_RV JubiterNFCToken::GetPinRetry(JUB_BYTE& retry) {
+JUB_RV JubiterLiteToken::GetPinRetry(JUB_BYTE& retry) {
 
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8102")).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
@@ -436,7 +436,7 @@ JUB_RV JubiterNFCToken::GetPinRetry(JUB_BYTE& retry) {
 }
 
 
-JUB_RV JubiterNFCToken::GetPinMaxRetry(JUB_BYTE& maxRetry) {
+JUB_RV JubiterLiteToken::GetPinMaxRetry(JUB_BYTE& maxRetry) {
 
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8103")).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
@@ -459,13 +459,13 @@ JUB_RV JubiterNFCToken::GetPinMaxRetry(JUB_BYTE& maxRetry) {
 }
 
 
-JUB_RV JubiterNFCToken::GetBleVersion(JUB_BYTE bleVersion[4]) {
+JUB_RV JubiterLiteToken::GetBleVersion(JUB_BYTE bleVersion[4]) {
 
     return JUBR_OK;
 }
 
 
-JUB_RV JubiterNFCToken::GetFwVersion(JUB_BYTE fwVersion[4]) {
+JUB_RV JubiterLiteToken::GetFwVersion(JUB_BYTE fwVersion[4]) {
 
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8003")).encode();
     APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
@@ -490,7 +490,7 @@ JUB_RV JubiterNFCToken::GetFwVersion(JUB_BYTE fwVersion[4]) {
 }
 
 
-JUB_RV JubiterNFCToken::EnumApplet(std::string& appletList) {
+JUB_RV JubiterLiteToken::EnumApplet(std::string& appletList) {
 
     // send apdu, then decide which coin types supports.
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8106")).encode();
@@ -519,7 +519,7 @@ JUB_RV JubiterNFCToken::EnumApplet(std::string& appletList) {
 }
 
 
-JUB_RV JubiterNFCToken::EnumSupportCoins(std::string& coinList) {
+JUB_RV JubiterLiteToken::EnumSupportCoins(std::string& coinList) {
 
     std::string appletList;
     JUB_VERIFY_RV(EnumApplet(appletList));
@@ -527,7 +527,7 @@ JUB_RV JubiterNFCToken::EnumSupportCoins(std::string& coinList) {
     std::vector<std::string> coinNameList;
     auto vAppList = Split(appletList, " ");
     for (auto appID : vAppList) {
-        for (auto appInfo : JubiterNFCToken::g_appInfo) {
+        for (auto appInfo : JubiterLiteToken::g_appInfo) {
             uchar_vector _appID(appInfo.appID);
             if (_appID.getHex() != appID) {
                 continue;
@@ -544,7 +544,7 @@ JUB_RV JubiterNFCToken::EnumSupportCoins(std::string& coinList) {
 }
 
 
-JUB_RV JubiterNFCToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) {
+JUB_RV JubiterLiteToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) {
 
     std::vector<uint8_t> pin;
     std::transform(pinMix.begin(),
@@ -573,7 +573,7 @@ JUB_RV JubiterNFCToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retr
 }
 
 
-JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &pinNew) {
+JUB_RV JubiterLiteToken::ChangePIN(const std::string &pinMix, const std::string &pinNew) {
 
     std::vector<uint8_t> pinOld;
     std::transform(pinMix.begin(),
@@ -615,13 +615,13 @@ JUB_RV JubiterNFCToken::ChangePIN(const std::string &pinMix, const std::string &
 }
 
 
-JUB_RV JubiterNFCToken::SetTimeout(const JUB_UINT16 timeout) {
+JUB_RV JubiterLiteToken::SetTimeout(const JUB_UINT16 timeout) {
 
     return JUBR_OK;
 }
 
 
-JUB_RV JubiterNFCToken::Reset() {
+JUB_RV JubiterLiteToken::Reset() {
 
     // reset
     uchar_vector apduData = tlv_buf(0xDFFE, uchar_vector("8205")).encode();
@@ -634,8 +634,8 @@ JUB_RV JubiterNFCToken::Reset() {
 }
 
 
-JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
-                                     const JUB_ENUM_CURVES& curve) {
+JUB_RV JubiterLiteToken::GenerateSeed(const std::string& pinMix,
+                                      const JUB_ENUM_CURVES& curve) {
 
     switch (curve) {
     case JUB_ENUM_CURVES::SECP256K1:
@@ -669,8 +669,8 @@ JUB_RV JubiterNFCToken::GenerateSeed(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterNFCToken::ImportMnemonic(const std::string& pinMix,
-                                       const std::string& mnemonic) {
+JUB_RV JubiterLiteToken::ImportMnemonic(const std::string& pinMix,
+                                        const std::string& mnemonic) {
 
     std::vector<std::string> words = Split(mnemonic, " ");
     JUB_ENUM_MNEMONIC_STRENGTH strength;
@@ -707,7 +707,7 @@ JUB_RV JubiterNFCToken::ImportMnemonic(const std::string& pinMix,
 }
 
 
-bool JubiterNFCToken::_isOpenSecureChannel() {
+bool JubiterLiteToken::_isOpenSecureChannel() {
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(_deviceID);
     if (!device) {
         return false;
@@ -716,10 +716,10 @@ bool JubiterNFCToken::_isOpenSecureChannel() {
 }
 
 
-JUB_RV JubiterNFCToken::_SetMnemonic(const std::string& pinMix,
-                                     const JUB_ENUM_MNEMONIC_STRENGTH& strength,
-                                     const std::string& entropy,
-                                     const std::string& seed) {
+JUB_RV JubiterLiteToken::_SetMnemonic(const std::string& pinMix,
+                                      const JUB_ENUM_MNEMONIC_STRENGTH& strength,
+                                      const std::string& entropy,
+                                      const std::string& seed) {
 
     std::vector<uint8_t> vEntropy = HexStr2CharPtr(entropy);
     if ((size_t)strength/8 != vEntropy.size()) {
@@ -756,8 +756,8 @@ JUB_RV JubiterNFCToken::_SetMnemonic(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterNFCToken::ExportMnemonic(const std::string& pinMix,
-                                       OUT std::string& mnemonic) {
+JUB_RV JubiterLiteToken::ExportMnemonic(const std::string& pinMix,
+                                        OUT std::string& mnemonic) {
 
     std::string entropy;
     JUB_VERIFY_RV(_GetEntropy(pinMix, entropy));
@@ -787,8 +787,8 @@ JUB_RV JubiterNFCToken::ExportMnemonic(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterNFCToken::_GetEntropy(const std::string& pinMix,
-                                    OUT std::string& entropy) {
+JUB_RV JubiterLiteToken::_GetEntropy(const std::string& pinMix,
+                                     OUT std::string& entropy) {
 
     // send apdu.
     std::vector<uint8_t> pin;
@@ -817,7 +817,7 @@ JUB_RV JubiterNFCToken::_GetEntropy(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterNFCToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
+JUB_RV JubiterLiteToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
 
     // send apdu
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8105")).encode();
@@ -850,7 +850,7 @@ JUB_RV JubiterNFCToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status
 }
 
 
-JUB_RV JubiterNFCToken::PerformSecurityOperation(const uchar_vector& oceCert) {
+JUB_RV JubiterLiteToken::PerformSecurityOperation(const uchar_vector& oceCert) {
 
     if (0 == oceCert.size()) {
         return JUBR_ARGUMENTS_BAD;
@@ -870,8 +870,8 @@ JUB_RV JubiterNFCToken::PerformSecurityOperation(const uchar_vector& oceCert) {
 }
 
 
-JUB_RV JubiterNFCToken::MutualAuthenticate(const uchar_vector& apduData,
-                                           uchar_vector& receipt) {
+JUB_RV JubiterLiteToken::MutualAuthenticate(const uchar_vector& apduData,
+                                            uchar_vector& receipt) {
 
     if (0 == apduData.size()) {
         return JUBR_ARGUMENTS_BAD;

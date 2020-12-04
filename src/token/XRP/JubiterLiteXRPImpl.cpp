@@ -1,5 +1,5 @@
 #include "JUB_SDK_COMM.h"
-#include "token/XRP/JubiterNFCXRPImpl.h"
+#include "token/XRP/JubiterLiteXRPImpl.h"
 #include <TrezorCrypto/bip32.h>
 #include <Ripple/Transaction.h>
 
@@ -7,35 +7,35 @@ namespace jub {
 namespace token {
 
 
-JUB_RV JubiterNFCXRPImpl::SelectApplet() {
+JUB_RV JubiterLiteXRPImpl::SelectApplet() {
 
-    return JubiterNFCImpl::SelectApplet();
+    return JubiterLiteImpl::SelectApplet();
 }
 
 
 //MISC functions
-JUB_RV JubiterNFCXRPImpl::SetCoin() {
+JUB_RV JubiterLiteXRPImpl::SetCoin() {
 
     return JUBR_OK;
 }
 
 
-JUB_RV JubiterNFCXRPImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
+JUB_RV JubiterLiteXRPImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
-                                                (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
-                                                path,
-                                                publicKey));
+    JUB_VERIFY_RV(JubiterLiteImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                 (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                 path,
+                                                 publicKey));
 
     return _getAddress(publicKey, address);
 }
 
 
-JUB_RV JubiterNFCXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
+JUB_RV JubiterLiteXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
     std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(_getSignType(_curve_name), 0x00, path, btcXpub));
+    JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(_getSignType(_curve_name), 0x00, path, btcXpub));
 
     //    typedef enum class {
     //        HEX = 0x00,
@@ -57,7 +57,7 @@ JUB_RV JubiterNFCXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& pa
 }
 
 
-JUB_RV JubiterNFCXRPImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature) {
+JUB_RV JubiterLiteXRPImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature) {
 
     uint8_t* sig = new uint8_t[vRSV.size()+1];
     memset(sig, 0x0, vRSV.size()+1);
@@ -74,9 +74,9 @@ JUB_RV JubiterNFCXRPImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vec
 }
 
 
-JUB_RV JubiterNFCXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
-                                 std::vector<JUB_BYTE>& vUnsignedRaw,
-                                 std::vector<uchar_vector>& vSignatureRaw) {
+JUB_RV JubiterLiteXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
+                                  std::vector<JUB_BYTE>& vUnsignedRaw,
+                                  std::vector<uchar_vector>& vSignatureRaw) {
 
     try {
         TW::Ripple::Transaction tx;
@@ -87,10 +87,10 @@ JUB_RV JubiterNFCXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         vInputPath.push_back(path);
 
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
-                                                    (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
-                                                    path,
-                                                    publicKey));
+        JUB_VERIFY_RV(JubiterLiteImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                     (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                     path,
+                                                     publicKey));
 
         tx.pub_key.insert(tx.pub_key.end(), publicKey.begin(), publicKey.end());
         tx.serialize();
@@ -109,12 +109,12 @@ JUB_RV JubiterNFCXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         vPreImageHash.push_back(half);
 
         std::vector<TW::Data> vRSV;
-        JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
-                                             vInputPath,
-                                             _getSignType(_curve_name),
-                                             halfHasherType,
-                                             vPreImageHash,
-                                             vRSV));
+        JUB_VERIFY_RV(JubiterLiteImpl::SignTX(vInputPath.size(),
+                                              vInputPath,
+                                              _getSignType(_curve_name),
+                                              halfHasherType,
+                                              vPreImageHash,
+                                              vRSV));
 
         for (const auto& rsv : vRSV) {
             TW::Data sign;

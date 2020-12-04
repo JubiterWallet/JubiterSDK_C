@@ -39,10 +39,10 @@
 #include "token/XRP/TrezorCryptoXRPImpl.h"
 #include "token/TRX/TrezorCryptoTRXImpl.h"
 
-#include "token/ETH/JubiterNFCETHImpl.h"
-#include "token/EOS/JubiterNFCEOSImpl.h"
-#include "token/XRP/JubiterNFCXRPImpl.h"
-#include "token/TRX/JubiterNFCTRXImpl.h"
+#include "token/ETH/JubiterLiteETHImpl.h"
+#include "token/EOS/JubiterLiteEOSImpl.h"
+#include "token/XRP/JubiterLiteXRPImpl.h"
+#include "token/TRX/JubiterLiteTRXImpl.h"
 
 #include <TrustWalletCore/TWCoinType.h>
 
@@ -103,19 +103,19 @@ public:
 }; // class xJuBiterBIOMISCFactory end
 
 
-class xJuBiterNFCMISCFactory :
+class xJuBiterLITEMISCFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 TWCoinType,
                 CreateJubiterMISCFn> {
 public:
-    xJuBiterNFCMISCFactory() {
-        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterNFCETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterNFCETHImpl::Create);
-        Register(TWCoinType::TWCoinTypeEOS,             &JubiterNFCEOSImpl::Create);
-        Register(TWCoinType::TWCoinTypeXRP,             &JubiterNFCXRPImpl::Create);
-        Register(TWCoinType::TWCoinTypeTron,            &JubiterNFCTRXImpl::Create);
+    xJuBiterLITEMISCFactory() {
+        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterLiteETHImpl::Create);
+//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterLiteETHImpl::Create);
+        Register(TWCoinType::TWCoinTypeEOS,             &JubiterLiteEOSImpl::Create);
+        Register(TWCoinType::TWCoinTypeXRP,             &JubiterLiteXRPImpl::Create);
+        Register(TWCoinType::TWCoinTypeTron,            &JubiterLiteTRXImpl::Create);
     }
-}; // class xJuBiterNFCMISCFactory end
+}; // class xJuBiterLITEMISCFactory end
 
 
 class xMISCTokenFactory {
@@ -123,7 +123,7 @@ protected:
     xTrezorCryptoMISCFactory     trezorFactory;
     xJuBiterBladeMISCFactory jubiterBLDFactory;
     xJuBiterBIOMISCFactory   jubiterBIOFactory;
-    xJuBiterNFCMISCFactory   jubiterNFCFactory;
+    xJuBiterLITEMISCFactory jubiterLITEFactory;
 
 public:
     std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const std::string& XPRVorXPUB) {
@@ -145,7 +145,7 @@ public:
         else if (dynamic_cast<jub::device::JubiterBridgeLITEDevice*>(
                               jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
         ) {
-            return jubiterNFCFactory.Create(type, deviceID);
+            return jubiterLITEFactory.Create(type, deviceID);
         }
 #endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
@@ -176,7 +176,7 @@ public:
         if (dynamic_cast<jub::device::JubiterNFCDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
         ) {
-            return jubiterNFCFactory.Create(type, deviceID);
+            return jubiterLITEFactory.Create(type, deviceID);
         }
 #endif  // #if defined(NFC_MODE) end
 //        else {

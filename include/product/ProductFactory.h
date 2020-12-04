@@ -19,7 +19,7 @@
 
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
-#include "token/JubiterNFC/JubiterNFCToken.h"
+#include "token/JubiterLite/JubiterLiteToken.h"
 
 namespace jub {
 namespace product {
@@ -195,7 +195,7 @@ public:
                 token = std::make_shared<token::JubiterBIOToken>(deviceID);
                 break;
             case JUB_ENUM_DEVICE::LITE:
-                token = std::make_shared<token::JubiterNFCToken>(deviceID);
+                token = std::make_shared<token::JubiterLiteToken>(deviceID);
                 break;
             default:
                 break;
@@ -221,7 +221,7 @@ public:
         {
             switch (deviceClass) {
             case JUB_ENUM_DEVICE::LITE:
-                token = std::make_shared<token::JubiterNFCToken>(deviceID);
+                token = std::make_shared<token::JubiterLiteToken>(deviceID);
                 break;
             default:
                 break;
