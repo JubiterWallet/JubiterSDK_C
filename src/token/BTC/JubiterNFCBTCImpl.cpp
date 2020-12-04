@@ -1,3 +1,6 @@
+#include "JUB_SDK_COMM.h"
+#if defined(NFC_MODE)
+
 #include <token/BTC/JubiterNFCBTCImpl.h>
 #include <TrezorCrypto/base58.h>
 
@@ -291,3 +294,5 @@ JUB_RV JubiterNFCBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
 
 } // namespace token end
 } // namespace jub end
+
+#endif //NFC_MODE

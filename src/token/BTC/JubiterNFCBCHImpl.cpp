@@ -1,3 +1,5 @@
+#include "JUB_SDK_COMM.h"
+#if defined(NFC_MODE)
 #include <token/BTC/JubiterNFCBCHImpl.h>
 
 namespace jub {
@@ -109,3 +111,5 @@ JUB_RV JubiterNFCBCHImpl::_SignTx(bool witness,
 
 } // namespace token end
 } // namespace jub end
+
+#endif //NFC_MODE

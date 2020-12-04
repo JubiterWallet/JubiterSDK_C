@@ -1,3 +1,7 @@
+
+#include "JUB_SDK_COMM.h"
+#if defined(NFC_MODE)
+
 #include <token/XRP/JubiterNFCXRPImpl.h>
 #include <TrezorCrypto/bip32.h>
 #include "Ripple/Transaction.h"
@@ -131,3 +135,5 @@ JUB_RV JubiterNFCXRPImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
 
 } // namespace token end
 } // namespace jub end
+
+#endif //NFC_MODE

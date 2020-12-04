@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <array>
+#include <algorithm>
 
 namespace TW {
 

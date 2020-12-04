@@ -51,6 +51,8 @@ target_compile_options(TrezorCrypto
         -Wuninitialized
         -Wformat-security
         -Werror
+        -Wno-shorten-64-to-32
+        -Wno-char-subscripts
 )
 
 target_include_directories(TrezorCrypto

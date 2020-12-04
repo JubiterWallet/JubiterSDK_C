@@ -1,4 +1,7 @@
 #pragma once
+
+#include "JUB_SDK_COMM.h"
+#if defined(NFC_MODE)
 #include <token/JubiterNFC/JubiterNFCToken.h>
 
 
@@ -54,3 +57,5 @@ protected:
 
 } // namespace token end
 } // namespace jub end
+
+#endif //NFC_MODE

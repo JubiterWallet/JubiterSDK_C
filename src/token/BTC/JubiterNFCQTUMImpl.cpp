@@ -1,3 +1,6 @@
+#include "JUB_SDK_COMM.h"
+#if defined(NFC_MODE)
+
 #include <utility/util.h>
 #include <token/BTC/JubiterNFCQTUMImpl.h>
 #include <token/ErrorHandler.h>
@@ -17,3 +20,5 @@ JUB_RV JubiterNFCQTUMImpl::SetQRC20ETHToken(const std::string& tokenName,
 
 } // namespace token end
 } // namespace jub end
+
+#endif //NFC_MODE
