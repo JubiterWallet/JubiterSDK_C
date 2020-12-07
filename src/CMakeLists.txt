@@ -77,8 +77,26 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../gpc/include)
 
 endif() #if(devOnly)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../include DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+# 把需要打包的头文件加进工程,方便打包BLE和NFC暂时先加进来，应该没有影响
+set(HEADERS
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_CORE.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_BTC.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_COMM.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_DEV_BIO.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_DEV_BLE.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_DEV_HID.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_DEV_NFC.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_DEV.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_EOS.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_ETH.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_Hcash.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_XRP.h
+${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK.h
+)
 
 ADD_LIBRARY(JUB_SDK STATIC ${SRC_LIST})
+set_target_properties(JUB_SDK PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
 # test endian.h
 find_path(ENDIAN_PATH endian.h)
@@ -91,5 +109,12 @@ elseif(SYS_ENDIAN_PATH)
     message("SYS_ENDIAN_PATH = ${SYS_ENDIAN_PATH}")
     target_compile_definitions(JUB_SDK PRIVATE HAVE_SYS_ENDIAN_H=1)
 endif() #if(ENDIAN_PATH)
+
+install(TARGETS JUB_SDK
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        PUBLIC_HEADER DESTINATION include
+        )
 
 #endif() #if(devOnly)

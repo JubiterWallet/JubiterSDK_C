@@ -33,3 +33,15 @@ if(APPLE)
 else()
     target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto ${HID_API_LIB_STATIC})  
 endif(APPLE)
+
+
+install(TARGETS JUB_test
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        PUBLIC_HEADER DESTINATION include
+        )
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/json
+        DESTINATION bin
+)
