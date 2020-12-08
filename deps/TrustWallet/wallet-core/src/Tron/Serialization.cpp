@@ -256,7 +256,7 @@ json raw_dataJSON(const ::protocol::Transaction_raw &raw) {
 }
 
 
-json TW::Tron::transactionJSON(const ::protocol::Transaction_raw& raw, const TW::Data& txID, const TW::Data& signature) {
+json transactionJSON(const ::protocol::Transaction_raw& raw, const TW::Data& txID, const TW::Data& signature) {
     json transactionJSON;
     transactionJSON["raw_data"] = raw_dataJSON(raw);
     transactionJSON["txID"] = hex(txID);

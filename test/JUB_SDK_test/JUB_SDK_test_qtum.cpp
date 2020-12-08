@@ -77,8 +77,8 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
                                    gasLimit, gasPrice,
                                    to, value,
                                    &QRC20_output);
+        cout << "JUB_BuildQRC20Outputs() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_BuildQRC20Outputs() return " << GetErrMsg(rv) << endl;
             return rv;
         }
         outputs.emplace_back(QRC20_output);
@@ -123,8 +123,8 @@ void QTUM_test(JUB_UINT16 deviceID, const char* json_file) {
         cfg.transType = p2pkh;
 
         rv = JUB_CreateContextBTC(cfg, deviceID, &contextID);
+        cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
             return;
         }
     }

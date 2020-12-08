@@ -10,9 +10,7 @@
 #include "context/EOSContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
-#if defined(NFC_MODE)
-#include "token/JubiterNFC/JubiterNFCToken.h"
-#endif // #if defined(NFC_MODE) end
+#include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/EOSTokenInterface.hpp"
 #include <EOS/Signer.h>
 #include <EOS/Transaction.h>
@@ -53,7 +51,7 @@ JUB_RV EOSContext::ActiveSelf() {
 
 #if defined(NFC_MODE)
     // For NFC devices, the session is cleaned up so that the ActiveSelf() function can be started at every session level operation.
-    if (std::dynamic_pointer_cast<token::JubiterNFCToken>(_tokenPtr)) {
+    if (std::dynamic_pointer_cast<token::JubiterLiteToken>(_tokenPtr)) {
         jub::context::ContextManager::GetInstance()->ClearLast();
     }
 #endif // #if defined(NFC_MODE) end

@@ -1,23 +1,21 @@
 #include "JUB_SDK_COMM.h"
-#if defined(NFC_MODE)
-
-#include "token/BTC/JubiterNFCBTCImpl.h"
+#include "token/BTC/JubiterLiteBTCImpl.h"
 #include <TrezorCrypto/base58.h>
 
 namespace jub {
 namespace token {
 
 
-JUB_RV JubiterNFCBTCImpl::SelectApplet() {
+JUB_RV JubiterLiteBTCImpl::SelectApplet() {
 
-    return JubiterNFCImpl::SelectApplet();
+    return JubiterLiteImpl::SelectApplet();
 }
 
 
-JUB_RV JubiterNFCBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
+JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
 
     std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(_getSignType(_curve_name), JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, btcXpub));
+    JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(_getSignType(_curve_name), JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, btcXpub));
 
     const curve_info *curve = get_curve_by_name(_curve_name);
     uint8_t nodeData[128] = {0x00,};
@@ -49,19 +47,19 @@ JUB_RV JubiterNFCBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const s
 }
 
 
-JUB_RV JubiterNFCBTCImpl::GetAddress(const JUB_BYTE addrFmt,
-                                     const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                     const std::string& path,
-                                     const JUB_UINT16 tag,
-                                     std::string& address) {
+JUB_RV JubiterLiteBTCImpl::GetAddress(const JUB_BYTE addrFmt,
+                                      const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                      const std::string& path,
+                                      const JUB_UINT16 tag,
+                                      std::string& address) {
 
     JUB_RV rv = JUBR_ERROR;
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
-                                                (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
-                                                path,
-                                                publicKey));
+    JUB_VERIFY_RV(JubiterLiteImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                 (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                 path,
+                                                 publicKey));
 
     switch (type) {
     case p2pkh:
@@ -86,13 +84,13 @@ JUB_RV JubiterNFCBTCImpl::GetAddress(const JUB_BYTE addrFmt,
 }
 
 
-JUB_RV JubiterNFCBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
+JUB_RV JubiterLiteBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE& unit) {
 
     return JUBR_OK;
 }
 
 
-JUB_RV JubiterNFCBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
+JUB_RV JubiterLiteBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
 
     switch (type) {
     case COINBCH:
@@ -117,7 +115,7 @@ JUB_RV JubiterNFCBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
 }
 
 
-JUB_RV JubiterNFCBTCImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature) {
+JUB_RV JubiterLiteBTCImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature) {
 
     ecdsa_curve *curve = (ecdsa_curve *)get_curve_by_name(_curve_name)->params;
 
@@ -151,15 +149,15 @@ JUB_RV JubiterNFCBTCImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vec
 }
 
 
-JUB_RV JubiterNFCBTCImpl::SignTX(const JUB_BYTE addrFmt,
-                                 const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                 const JUB_UINT16 inputCount,
-                                 const std::vector<JUB_UINT64>& vInputAmount,
-                                 const std::vector<std::string>& vInputPath,
-                                 const std::vector<JUB_UINT16>& vChangeIndex,
-                                 const std::vector<std::string>& vChangePath,
-                                 const std::vector<JUB_BYTE>& vUnsigedTrans,
-                                 std::vector<JUB_BYTE>& vRaw) {
+JUB_RV JubiterLiteBTCImpl::SignTX(const JUB_BYTE addrFmt,
+                                  const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                  const JUB_UINT16 inputCount,
+                                  const std::vector<JUB_UINT64>& vInputAmount,
+                                  const std::vector<std::string>& vInputPath,
+                                  const std::vector<JUB_UINT16>& vChangeIndex,
+                                  const std::vector<std::string>& vChangePath,
+                                  const std::vector<JUB_BYTE>& vUnsigedTrans,
+                                  std::vector<JUB_BYTE>& vRaw) {
 
     bool witness = false;
     if (p2sh_p2wpkh == type) {
@@ -197,15 +195,15 @@ JUB_RV JubiterNFCBTCImpl::SignTX(const JUB_BYTE addrFmt,
 }
 
 
-JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
-                                  const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                  const std::vector<JUB_UINT64>& vInputAmount,
-                                  const std::vector<std::string>& vInputPath,
-                                  const std::vector<JUB_UINT16>& vChangeIndex,
-                                  const std::vector<std::string>& vChangePath,
-                                  const TW::Bitcoin::Transaction& tx,
-                                  std::vector<TW::Data>& vInputPublicKey,
-                                  std::vector<uchar_vector>& vSignatureRaw) {
+JUB_RV JubiterLiteBTCImpl::_SignTx(bool witness,
+                                   const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                   const std::vector<JUB_UINT64>& vInputAmount,
+                                   const std::vector<std::string>& vInputPath,
+                                   const std::vector<JUB_UINT16>& vChangeIndex,
+                                   const std::vector<std::string>& vChangePath,
+                                   const TW::Bitcoin::Transaction& tx,
+                                   std::vector<TW::Data>& vInputPublicKey,
+                                   std::vector<uchar_vector>& vSignatureRaw) {
 
     TW::Hash::Hasher halfHasher;
     JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
@@ -213,10 +211,10 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
     std::vector<TW::Data> vPreImageHash;
     for (size_t index=0; index<tx.inputs.size(); ++index) {
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
-                                                    JUB_ENUM_BTC_TRANS_TYPE::p2pkh,
-                                                    vInputPath[index],
-                                                    publicKey));
+        JUB_VERIFY_RV(JubiterLiteImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                     JUB_ENUM_BTC_TRANS_TYPE::p2pkh,
+                                                     vInputPath[index],
+                                                     publicKey));
 
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
 
@@ -245,12 +243,12 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
     }
 
     std::vector<TW::Data> vRSV;
-    JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
-                                         vInputPath,
-                                         _getSignType(_curve_name),
-                                         halfHasherType,
-                                         vPreImageHash,
-                                         vRSV));
+    JUB_VERIFY_RV(JubiterLiteImpl::SignTX(vInputPath.size(),
+                                          vInputPath,
+                                          _getSignType(_curve_name),
+                                          halfHasherType,
+                                          vPreImageHash,
+                                          vRSV));
 
     for (const auto& rsv : vRSV) {
         TW::Data sign;
@@ -263,10 +261,10 @@ JUB_RV JubiterNFCBTCImpl::_SignTx(bool witness,
 }
 
 
-JUB_RV JubiterNFCBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
-                                   const std::vector<JUB_UINT64>& vInputAmount,
-                                   const std::vector<std::string>& vInputPath,
-                                   const std::vector<JUB_BYTE>& vSigedTrans) {
+JUB_RV JubiterLiteBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                    const std::vector<JUB_UINT64>& vInputAmount,
+                                    const std::vector<std::string>& vInputPath,
+                                    const std::vector<JUB_BYTE>& vSigedTrans) {
 
     bool witness = false;
     if (p2sh_p2wpkh == type) {
@@ -276,10 +274,10 @@ JUB_RV JubiterNFCBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
     std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {
         TW::Data publicKey;
-        JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
-                                                    JUB_ENUM_BTC_TRANS_TYPE::p2pkh,
-                                                    inputPath,
-                                                    publicKey));
+        JUB_VERIFY_RV(JubiterLiteImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                     JUB_ENUM_BTC_TRANS_TYPE::p2pkh,
+                                                     inputPath,
+                                                     publicKey));
 
         vInputPublicKey.push_back(publicKey);
     }
@@ -294,5 +292,3 @@ JUB_RV JubiterNFCBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
 
 } // namespace token end
 } // namespace jub end
-
-#endif //end NFC_MODE

@@ -13,21 +13,14 @@
 #include "JUB_SDK_main.h"
 #include <time.h>
 
-void EOS_test(const char* json_file) {
+void EOS_test(JUB_UINT16 deviceID, const char* json_file) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
-
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        return;
-    }
+    JUB_RV rv = JUBR_ERROR;
 
     char* appList;
-    rv = JUB_EnumApplets(deviceIDs[0], &appList);
+    rv = JUB_EnumApplets(deviceID, &appList);
+    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -36,9 +29,9 @@ void EOS_test(const char* json_file) {
 
     CONTEXT_CONFIG_EOS cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
-    rv = JUB_CreateContextEOS(cfg, deviceIDs[0], &contextID);
+    rv = JUB_CreateContextEOS(cfg, deviceID, &contextID);
+    cout << "JUB_CreateContextEOS() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_CreateContextEOS() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -109,8 +102,8 @@ void set_my_address_test_EOS(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_SetMyAddressEOS(contextID, path, &address);
+    cout << "JUB_SetMyAddressEOS() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SetMyAddressEOS() return " << GetErrMsg(rv) << endl;
         return;
     }
     else {
@@ -135,8 +128,8 @@ void get_address_pubkey_EOS(JUB_UINT16 contextID) {
 
 //    char* pubkey = nullptr;
 //    rv = JUB_GetMainHDNodeEOS(contextID, JUB_ENUM_EOS_PUB_FORMAT::HEX, &pubkey);
+//    cout << "JUB_GetMainHDNodeEOS() return " << GetErrMsg(rv) << endl;
 //    if (JUBR_OK != rv) {
-//        cout << "JUB_GetMainHDNodeEOS() return " << GetErrMsg(rv) << endl;
 //        return;
 //    }
 //
@@ -145,8 +138,8 @@ void get_address_pubkey_EOS(JUB_UINT16 contextID) {
 //
 //    pubkey = nullptr;
 //    rv = JUB_GetMainHDNodeEOS(contextID, JUB_ENUM_EOS_PUB_FORMAT::XPUB, &pubkey);
+//    cout << "JUB_GetMainHDNodeEOS() return " << GetErrMsg(rv) << endl;
 //    if (JUBR_OK != rv) {
-//        cout << "JUB_GetMainHDNodeEOS() return " << GetErrMsg(rv) << endl;
 //        return;
 //    }
 //
@@ -155,8 +148,8 @@ void get_address_pubkey_EOS(JUB_UINT16 contextID) {
 //
 //    pubkey = nullptr;
 //    rv = JUB_GetHDNodeEOS(contextID, JUB_ENUM_EOS_PUB_FORMAT::HEX, path, &pubkey);
+//    cout << "JUB_GetHDNodeEOS() return " << GetErrMsg(rv) << endl;
 //    if (JUBR_OK != rv) {
-//        cout << "JUB_GetHDNodeEOS() return " << GetErrMsg(rv) << endl;
 //        return;
 //    }
 //
@@ -165,8 +158,8 @@ void get_address_pubkey_EOS(JUB_UINT16 contextID) {
 //
 //    pubkey = nullptr;
 //    rv = JUB_GetHDNodeEOS(contextID, JUB_ENUM_EOS_PUB_FORMAT::XPUB, path, &pubkey);
+//    cout << "JUB_GetHDNodeEOS() return " << GetErrMsg(rv) << endl;
 //    if (JUBR_OK != rv) {
-//        cout << "JUB_GetHDNodeEOS() return " << GetErrMsg(rv) << endl;
 //        return;
 //    }
 //
@@ -175,8 +168,8 @@ void get_address_pubkey_EOS(JUB_UINT16 contextID) {
 
     char* address = nullptr;
     rv = JUB_GetAddressEOS(contextID, path, BOOL_TRUE, &address);
+    cout << "JUB_GetAddressEOS() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetAddressEOS() return " << GetErrMsg(rv) << endl;
         return;
     }
     cout << "address: " << address << endl;
@@ -262,10 +255,8 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
 
             JUB_CHAR_PTR memoHash;
             rv = JUB_CalculateMemoHash(action.transfer.memo, &memoHash);
-            if (JUBR_OK != rv) {
-                cout << "JUB_CalculateMemoHash() return " << GetErrMsg(rv) << endl;
-            }
-            else {
+            cout << "JUB_CalculateMemoHash() return " << GetErrMsg(rv) << endl;
+            if (JUBR_OK == rv) {
                 cout << "memoHash: " << memoHash << std::endl;
             }
             break;
@@ -314,9 +305,9 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
     rv = JUB_BuildActionEOS(contextID,
                             pActions, actionCnt,
                             &actionsInJSON);
+    cout << "JUB_BuildActionEOS() return " << GetErrMsg(rv) << endl;
     delete [] pActions; pActions = nullptr;
     if (JUBR_OK != rv) {
-        cout << "JUB_BuildActionEOS() return " << GetErrMsg(rv) << endl;
         return rv;
     }
     std::cout << "JUB_BuildActionEOS return " << actionsInJSON << std::endl;
@@ -352,9 +343,9 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
                                 referenceBlockTime,
                                 actionsInJSON,
                                 &raw);
+    cout << "JUB_SignTransactionEOS() return " << GetErrMsg(rv) << endl;
     JUB_FreeMemory(actionsInJSON);
     if (JUBR_OK != rv) {
-        cout << "JUB_SignTransactionEOS() return " << GetErrMsg(rv) << endl;
         return rv;
     }
     else {

@@ -13,21 +13,14 @@
 #include "JUB_SDK_main.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 
-void BTC_test(const char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
+void BTC_test(JUB_UINT16 deviceID, const char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
-
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        return;
-    }
+    JUB_RV rv = JUBR_ERROR;
 
     char* appList;
-    rv = JUB_EnumApplets(deviceIDs[0], &appList);
+    rv = JUB_EnumApplets(deviceID, &appList);
+    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -51,9 +44,9 @@ void BTC_test(const char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
             }
         }
 
-        rv = JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);
+        rv = JUB_CreateContextBTC(cfg, deviceID, &contextID);
+        cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
             return;
         }
     }
@@ -105,8 +98,8 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root) {
     try {
         JUB_CHAR_PTR mainXpub;
         JUB_RV rv = JUB_GetMainHDNodeBTC(contextID, &mainXpub);
+        cout << "JUB_GetMainHDNodeBTC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_GetMainHDNodeBTC() return " << GetErrMsg(rv) << endl;
             return;
         }
 
@@ -122,8 +115,8 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root) {
             path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
 
             JUB_RV rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
+            cout << "JUB_GetHDNodeBTC() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
-                cout << "JUB_GetHDNodeBTC() return " << GetErrMsg(rv) << endl;
                 break;
             }
 
@@ -132,8 +125,8 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root) {
 
             JUB_CHAR_PTR address;
             rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
+            cout << "JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
-                cout << "JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
                 break;
             }
             cout << "input " << i << " address : " << address << endl;
@@ -163,8 +156,8 @@ void show_address_test(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address;
     JUB_RV rv = JUB_GetAddressBTC(contextID, path, BOOL_TRUE, &address);
+    cout << "JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
         return;
     }
     cout << "show address is : " << address << endl;
@@ -194,8 +187,8 @@ void set_my_address_test_BTC(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_SetMyAddressBTC(contextID, path, &address);
+    cout << "JUB_SetMyAddressBTC() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_SetMyAddressBTC() return " << GetErrMsg(rv) << endl;
         return;
     }
     else {
@@ -240,10 +233,10 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
     }   // switch (choice) end
 
     rv = JUB_SetUnitBTC(contextID, unit);
+    cout << "JUB_SetUnitBTC() return " << GetErrMsg(rv) << endl;
     if (   JUBR_OK               != rv
         && JUBR_IMPL_NOT_SUPPORT != rv
         ) {
-        cout << "JUB_SetUnitBTC() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -390,8 +383,8 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
 
         OUTPUT_BTC USDT_outputs[2] = {};
         rv = JUB_BuildUSDTOutputs(contextID, (char*)root["USDT_to"].asCString(), root["USDT_amount"].asUInt64(), USDT_outputs);
+        cout << "JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
             return rv;
         }
         for (int i=0; i<2; ++i) {
@@ -441,21 +434,14 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
     return JUBR_OK;
 }
 
-void USDT_test(const char* json_file) {
+void USDT_test(JUB_UINT16 deviceID, const char* json_file) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
-
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
-    if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
-        return;
-    }
+    JUB_RV rv = JUBR_ERROR;
 
     char* appList;
-    rv = JUB_EnumApplets(deviceIDs[0], &appList);
+    rv = JUB_EnumApplets(deviceID, &appList);
+    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
         return;
     }
 
@@ -468,9 +454,9 @@ void USDT_test(const char* json_file) {
         cfg.coinType = COINUSDT;
         cfg.transType = p2pkh;
 
-        rv = JUB_CreateContextBTC(cfg, deviceIDs[0], &contextID);
+        rv = JUB_CreateContextBTC(cfg, deviceID, &contextID);
+        cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
             return;
         }
     }

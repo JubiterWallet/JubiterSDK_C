@@ -1,10 +1,9 @@
 #include "JUB_SDK_COMM.h"
-#if defined(NFC_MODE)
 
 #include "utility/util.h"
 
 #include "token/JubiterBlade/JubiterBladeToken.h"
-#include "token/EOS/JubiterNFCEOSImpl.h"
+#include "token/EOS/JubiterLiteEOSImpl.h"
 #include <TrezorCrypto/bip32.h>
 #include <EOS/Signer.h>
 #include <EOS/Transaction.h>
@@ -13,35 +12,35 @@ namespace jub {
 namespace token {
 
 
-JUB_RV JubiterNFCEOSImpl::SelectApplet() {
+JUB_RV JubiterLiteEOSImpl::SelectApplet() {
 
-    return JubiterNFCImpl::SelectApplet();
+    return JubiterLiteImpl::SelectApplet();
 }
 
 
 //MISC functions
-JUB_RV JubiterNFCEOSImpl::SetCoin() {
+JUB_RV JubiterLiteEOSImpl::SetCoin() {
 
     return JUBR_OK;
 }
 
 
-JUB_RV JubiterNFCEOSImpl::GetAddress(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
+JUB_RV JubiterLiteEOSImpl::GetAddress(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
     TW::Data publicKey;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetCompPubKey(_getSignType(_curve_name),
-                                                (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
-                                                path,
-                                                publicKey));
+    JUB_VERIFY_RV(JubiterLiteImpl::GetCompPubKey(_getSignType(_curve_name),
+                                                 (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX,
+                                                 path,
+                                                 publicKey));
 
     return _getAddress(publicKey, address);
 }
 
 
-JUB_RV JubiterNFCEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
+JUB_RV JubiterLiteEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
     std::string btcXpub;
-    JUB_VERIFY_RV(JubiterNFCImpl::GetHDNode(_getSignType(_curve_name), 0x00, path, btcXpub));
+    JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(_getSignType(_curve_name), 0x00, path, btcXpub));
 
     //    typedef enum class JubPubFormat {
     //        HEX = 0x00,
@@ -62,7 +61,7 @@ JUB_RV JubiterNFCEOSImpl::GetHDNode(const JUB_BYTE format, const std::string& pa
 }
 
 
-JUB_RV JubiterNFCEOSImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature) {
+JUB_RV JubiterLiteEOSImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vector<JUB_BYTE>& signature) {
 
     // RSV: 32 + 32 + 1
     curve_point R;
@@ -83,12 +82,12 @@ JUB_RV JubiterNFCEOSImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::vec
 }
 
 
-JUB_RV JubiterNFCEOSImpl::SignTX(const TW::EOS::Type& type,
-                                 const std::vector<JUB_BYTE>& vPath,
-                                 const std::vector<JUB_BYTE>& vChainId,
-                                 const std::vector<JUB_BYTE>& vRaw,
-                                 std::vector<uchar_vector>& vSignatureRaw,
-                                 bool bWithType) {
+JUB_RV JubiterLiteEOSImpl::SignTX(const TW::EOS::Type& type,
+                                  const std::vector<JUB_BYTE>& vPath,
+                                  const std::vector<JUB_BYTE>& vChainId,
+                                  const std::vector<JUB_BYTE>& vRaw,
+                                  std::vector<uchar_vector>& vSignatureRaw,
+                                  bool bWithType) {
 
     try {
         TW::EOS::Transaction tx;
@@ -108,12 +107,12 @@ JUB_RV JubiterNFCEOSImpl::SignTX(const TW::EOS::Type& type,
         vPreImageHash.push_back(half);
 
         std::vector<TW::Data> vRSV;
-        JUB_VERIFY_RV(JubiterNFCImpl::SignTX(vInputPath.size(),
-                                             vInputPath,
-                                             ((JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINEOS << 4) | _getSignType(_curve_name),
-                                             halfHasherType,
-                                             vPreImageHash,
-                                             vRSV));
+        JUB_VERIFY_RV(JubiterLiteImpl::SignTX(vInputPath.size(),
+                                              vInputPath,
+                                              ((JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINEOS << 4) | _getSignType(_curve_name),
+                                              halfHasherType,
+                                              vPreImageHash,
+                                              vRSV));
 
         for (const auto& rsv : vRSV) {
             TW::Data sign;
@@ -131,5 +130,3 @@ JUB_RV JubiterNFCEOSImpl::SignTX(const TW::EOS::Type& type,
 
 } // namespace token end
 } // namespace jub end
-
-#endif //end NFC_MODE

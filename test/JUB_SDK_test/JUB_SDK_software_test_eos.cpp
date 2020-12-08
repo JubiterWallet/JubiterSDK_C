@@ -22,14 +22,14 @@ void software_test_eos(const char* json_file) {
 
 /*    JUB_CHAR_PTR mnemonic = nullptr;
     JUB_RV rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
-    if(rv == JUBR_OK) {
-        cout << mnemonic << endl;
+    cout << "JUB_GenerateMnemonic_soft() return " << GetErrMsg(rv) << endl;
+    if(JUBR_OK == rv) {
+        cout << "Generate mnemonic: " << mnemonic << endl;
     }
 
     rv = JUB_CheckMnemonic(mnemonic);
-    if(rv != JUBR_OK) {
-        cout << "JUB_CheckMnemonic return" << rv << endl;
-    }
+    cout << "JUB_CheckMnemonic() return " << GetErrMsg(rv) << endl;
+    JUB_FreeMemory(mnemonic);
 */
     JUB_BYTE seed[64] = {0,};
     JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
@@ -39,8 +39,9 @@ void software_test_eos(const char* json_file) {
 
     JUB_CHAR_CPTR mnemonic = "gauge hole clog property soccer idea cycle stadium utility slice hold chief";
     rv = JUB_GenerateSeed_soft(mnemonic, "", seed, callback);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GenerateSeed_soft error" << endl;
+    cout << "JUB_GenerateSeed_soft() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
@@ -54,35 +55,36 @@ void software_test_eos(const char* json_file) {
                                          JUB_ENUM_CURVES::SECP256K1,
 //                                         JUB_ENUM_CURVES::ED25519,
                                          &masterXprv);
-    if (rv == JUBR_OK) {
-        cout << masterXprv << endl;
+    cout << "JUB_SeedToMasterPrivateKey_soft() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "master xprv: " << masterXprv << endl;
     }
 
     CONTEXT_CONFIG_EOS cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
     JUB_UINT16 contextID;
     rv = JUB_CreateContextEOS_soft(cfg, masterXprv, &contextID);
-    if (rv != JUBR_OK) {
-        cout << "JUB_CreateContextEOS_soft return " << rv << endl;
+    cout << "JUB_CreateContextEOS_soft() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        JUB_FreeMemory(masterXprv);
         return;
     }
+    JUB_FreeMemory(masterXprv);
 
     JUB_CHAR_PTR mainPub = nullptr;
     rv = JUB_GetMainHDNodeEOS(contextID, JUB_ENUM_PUB_FORMAT::HEX, &mainPub);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GetMainHDNodeEOS return " << rv << endl;
-        return;
+    cout << "JUB_GetMainHDNodeEOS() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "main xpub in HEX: " << mainPub << endl;
+        JUB_FreeMemory(mainPub);
     }
-    cout << "JUB_GetMainHDNodeEOS return " << mainPub << endl;
-    JUB_FreeMemory(mainPub);
 
     rv = JUB_GetMainHDNodeEOS(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &mainPub);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GetMainHDNodeEOS return " << rv << endl;
-        return;
+    cout << "JUB_GetMainHDNodeEOS() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "main xpub in xpub: " << mainPub << endl;
+        JUB_FreeMemory(mainPub);
     }
-    cout << "JUB_GetMainHDNodeEOS return " << mainPub << endl;
-    JUB_FreeMemory(mainPub);
 
     BIP44_Path path;
     path.change = (JUB_ENUM_BOOL)root["EOS"]["bip32_path"]["change"].asBool();
@@ -94,31 +96,29 @@ void software_test_eos(const char* json_file) {
 //    path.keyIndex = 0;
     JUB_CHAR_PTR pub = nullptr;
     rv = JUB_GetHDNodeEOS(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pub);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GetHDNodeEOS return " << rv << endl;
-        return;
+    cout << "JUB_GetHDNodeEOS() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "xpub in HEX: " << pub << endl;
+        JUB_FreeMemory(pub);
     }
-    cout << "JUB_GetHDNodeEOS return " << pub << endl;
-    JUB_FreeMemory(pub);
 
     rv = JUB_GetHDNodeEOS(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &pub);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GetHDNodeEOS return " << rv << endl;
-        return;
+    cout << "JUB_GetHDNodeEOS() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "xpub in xpub: " << pub << endl;
+        JUB_FreeMemory(pub);
     }
-    cout << "JUB_GetHDNodeEOS return " << pub << endl;
-    JUB_FreeMemory(pub);
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressEOS(contextID,
                            path,
                            JUB_ENUM_BOOL::BOOL_FALSE,
                            &address);
-    if (rv != JUBR_OK) {
-        cout << "JUB_GetAddressEOS return " << rv << endl;
+    cout << "JUB_GetAddressEOS() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "address: " << address << endl;
+        JUB_FreeMemory(address);
     }
-    cout << "JUB_GetAddressEOS return " << address << endl;
-    JUB_FreeMemory(address);
 
     for (int i=1; i<=6; ++i) {
         switch (i) {

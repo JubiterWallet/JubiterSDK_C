@@ -18,8 +18,8 @@ void get_address_test_HC(JUB_UINT16 contextID, Json::Value root) {
     try {
         JUB_CHAR_PTR mainXpub;
         JUB_RV rv = JUB_GetMainHDNodeHC(contextID, &mainXpub);
+        cout << "JUB_GetMainHDNodeHC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_GetMainHDNodeHC() return " << GetErrMsg(rv) << endl;
             return;
         }
         cout << "Main xpub : " << mainXpub << endl;
@@ -34,8 +34,8 @@ void get_address_test_HC(JUB_UINT16 contextID, Json::Value root) {
             path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
 
             JUB_RV rv = JUB_GetHDNodeHC(contextID, path, &xpub);
+            cout << "JUB_GetHDNodeHC() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
-                cout << "JUB_GetHDNodeHC() return " << GetErrMsg(rv) << endl;
                 break;
             }
 
@@ -44,8 +44,8 @@ void get_address_test_HC(JUB_UINT16 contextID, Json::Value root) {
 
             JUB_CHAR_PTR address;
             rv = JUB_GetAddressHC(contextID, path, BOOL_FALSE, &address);
+            cout << "JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
-                cout << "JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
                 break;
             }
             cout << "input " << i << " address : " << address << endl;
@@ -76,8 +76,8 @@ void show_address_test_HC(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address;
     JUB_RV rv = JUB_GetAddressHC(contextID, path, BOOL_TRUE, &address);
+    cout << "JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
         return;
     }
     cout << "show address is : " << address << endl;
@@ -170,8 +170,8 @@ void HC_test(JUB_UINT16 deviceID, const char* json_file) {
         cfg.mainPath = (char*)root["main_path"].asCString();
 
         rv = JUB_CreateContextHC(cfg, deviceID, &contextID);
+        cout << "JUB_CreateContextHC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
-            cout << "JUB_CreateContextHC() return " << GetErrMsg(rv) << endl;
             return;
         }
     }

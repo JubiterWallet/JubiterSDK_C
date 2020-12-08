@@ -85,7 +85,6 @@ public:
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
-#if defined(NFC_MODE)
     // NFC
     virtual JUB_RV SetLabel(const std::string& label) override;
     virtual JUB_RV Reset() override;
@@ -97,7 +96,6 @@ public:
     virtual JUB_RV ExportMnemonic(const std::string& pinMix,
                                   OUT std::string& mnemonic) override;
     virtual JUB_RV GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) override;
-#endif // #if defined(NFC_MODE) end
 
     // BIO
     virtual JUB_RV UIShowMain() override;

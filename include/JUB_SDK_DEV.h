@@ -98,6 +98,16 @@ typedef struct stDevicdInfo {
 typedef JUB_DEVICE_INFO* JUB_DEVICE_INFO_PTR;
 // Remove c++ features for swift framework end
 
+// Remove c++ features for swift framework
+typedef enum {
+    HAS_PIN      = 0x00,    // User's PIN has been setted
+    RESETTED     = 0x02,    // NFC has been resetted
+    HAS_ROOT_KEY = 0x5A     // root key has been generated
+} JUB_ENUM_NFC_ROOT_KEY_STATUS;
+typedef JUB_ENUM_NFC_ROOT_KEY_STATUS JUB_PTR JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR;
+// Remove c++ features for swift framework end
+
+
 typedef enum {
     STRENGTH128 = 128,
     STRENGTH192 = 192,
@@ -117,6 +127,7 @@ typedef enum {
     HID = 0x01,
     BLE = 0x02,
     NFC = 0x03,
+    GRPC= 0x04,
     COMMODE_NS_ITEM
 } JUB_ENUM_COMMODE;
 typedef JUB_ENUM_COMMODE* JUB_ENUM_COMMODE_PTR;

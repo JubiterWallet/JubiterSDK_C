@@ -108,7 +108,7 @@ void scp11_test(const char* json_file) {
 
     const curve_info *curi = get_curve_by_name(NIST256P1_NAME);//verify sign
     if(nullptr == curi) {
-        return ;
+        return;
     }
 
     // OCE key pair(SK.OCE.ECKA, PK.OCE.ECKA)
@@ -135,7 +135,7 @@ void scp11_test(const char* json_file) {
     unsigned char session_key[65] = {0x00,};
     rv = ecdh_multiply(curi->params, oce_priv_key, sd_pub_key, session_key);
     if (JUBR_OK != rv) {
-        return ;
+        return;
     }
     std::cout << "session_key: " << uchar_vector(session_key, sizeof(session_key)/sizeof(uint8_t)).getHex() << std::endl;
     uint8_t ShSss[20] = {0,};
@@ -149,7 +149,7 @@ void scp11_test(const char* json_file) {
     memset(session_key, 0x00, sizeof(session_key)/sizeof(uint8_t));
     rv = ecdh_multiply(curi->params, oce_e_priv_key, sd_pub_key, session_key);
     if (JUBR_OK != rv) {
-        return ;
+        return;
     }
     std::cout << "session_key: " << uchar_vector(session_key, sizeof(session_key)/sizeof(uint8_t)).getHex() << std::endl;
     uint8_t ShSes[20] = {0,};
@@ -191,7 +191,7 @@ void scp11_test(const char* json_file) {
     std::cout << "AES sessionkeys[" << outKeyLen <<  "]: " << uchar_vector(outKey, outKeyLen).getHex() << std::endl;
     scp11_session_key sk(uchar_vector(outKey, outKeyLen));
     if (!sk.decode()) {
-        return ;
+        return;
     }
 
     // OCE prepares MUTUAL AUTHENTICATE prepare payload
