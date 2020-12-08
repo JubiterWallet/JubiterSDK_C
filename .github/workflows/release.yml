@@ -83,7 +83,7 @@ jobs:
 
       - name: Zip project # This would actually build your project, using zip for an example artifact
         run: |
-          zip --junk-paths JubSDK-${{runner.os}} install
+          zip -r JubSDK-${{runner.os}}.zip install
 
       - name: Upload Release Asset
         id: upload-release-asset 
