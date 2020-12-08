@@ -202,15 +202,6 @@ JUB_RV JUB_SendOneApdu(IN JUB_UINT16 deviceID,
                        OUT JUB_CHAR_PTR_PTR response);
 
 /*****************************************************************************
- * @function name : JUB_IsInitialize
- * @in  param : deviceID - device ID
- * @out param :
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_ENUM_BOOL JUB_IsInitialize(IN JUB_UINT16 deviceID);
-
-/*****************************************************************************
  * @function name : JUB_IsBootLoader
  * @in  param : deviceID - device ID
  * @out param :

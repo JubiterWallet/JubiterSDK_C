@@ -21,7 +21,7 @@ public:
     /* functions */
     virtual JUB_RV ShowVirtualPwd() = 0;
     virtual JUB_RV CancelVirtualPwd() = 0;
-    virtual bool   IsInitialize() = 0;
+    virtual JUB_RV GetRootKeyStatus(JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) = 0;
     virtual bool   IsBootLoader() = 0;
     virtual JUB_RV SelectMainSecurityDomain() = 0;
     virtual JUB_RV GetSN(JUB_BYTE sn[24]) = 0;
@@ -41,7 +41,6 @@ public:
     virtual JUB_RV VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &retry) = 0;
     virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
-    virtual JUB_RV GetRootKeyStatus(JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) = 0;
 
     // NFC
     virtual JUB_RV SetLabel(const std::string& label) = 0;

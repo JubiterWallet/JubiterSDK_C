@@ -34,7 +34,7 @@ public:
     virtual JUB_RV QueryBattery(JUB_BYTE &percent) override;
     virtual JUB_RV ShowVirtualPwd() override;
     virtual JUB_RV CancelVirtualPwd() override;
-//    virtual bool   IsInitialize();
+    virtual JUB_RV GetRootKeyStatus(JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) override;
     virtual bool   IsBootLoader() override;
     virtual JUB_RV SelectMainSecurityDomain() override;
     virtual JUB_RV GetSN(JUB_BYTE sn[24]) override;
@@ -64,7 +64,6 @@ public:
                                   const std::string& mnemonic) override;
     virtual JUB_RV ExportMnemonic(const std::string& pinMix,
                                   OUT std::string& mnemonic) override;
-    virtual JUB_RV GetRootKeyStatus(JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) override;
 
     static stAppInfos g_appInfo[];
 

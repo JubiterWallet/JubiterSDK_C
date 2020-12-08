@@ -64,7 +64,7 @@ public:
     virtual JUB_RV QueryBattery(JUB_BYTE &percent) override;
     virtual JUB_RV ShowVirtualPwd() override;
     virtual JUB_RV CancelVirtualPwd() override;
-    virtual bool   IsInitialize() override;
+    virtual JUB_RV GetRootKeyStatus(JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) override;
     virtual bool   IsBootLoader() override;
     virtual JUB_RV SelectMainSecurityDomain() override;
     virtual JUB_RV GetSN(JUB_BYTE sn[24]) override;
@@ -84,7 +84,6 @@ public:
     virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) override;
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
-    virtual JUB_RV GetRootKeyStatus(JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) override;
 
     // NFC
     virtual JUB_RV SetLabel(const std::string& label) override;
