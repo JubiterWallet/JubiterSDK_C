@@ -67,9 +67,8 @@ JUB_RV JubiterBladeTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     vPath << path;
     uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
 
-    //0x00 for hex, 0x01 for xpub
-    if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX  != format
-     && (JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB != format
+    //0x00 for hex
+    if (JUB_ENUM_PUB_FORMAT::HEX != format
         ) {
         return JUBR_ERROR_ARGS;
     }
