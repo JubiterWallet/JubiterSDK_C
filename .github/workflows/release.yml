@@ -56,7 +56,7 @@ jobs:
       - name: Install cygwin additional packages
         if: runner.os == 'Windows'
         run: |
-          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P autoconf,bison,gcc-core,git,libcrypt-devel,libedit-devel,libffi-devel,libgdbm-devel,libgmp-devel,libintl-devel,libncurses-devel,libreadline-devel,libssl-devel,libuuid-devel,make,patch,ruby,tcl-tk-devel,zlib-devel,libhidapi-devel,cmake
+          C:\tools\cygwin\cygwinsetup.exe -qgnNdO -R C:/tools/cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ -P autoconf,bison,gcc-core,gcc-g++,git,libcrypt-devel,libedit-devel,libffi-devel,libgdbm-devel,libgmp-devel,libintl-devel,libncurses-devel,libreadline-devel,libssl-devel,libuuid-devel,make,patch,ruby,tcl-tk-devel,zlib-devel,libhidapi-devel,cmake
         shell: cmd
 
 
