@@ -10,6 +10,7 @@
 #include "context/TRXContext.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
+#include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/TRXTokenInterface.hpp"
 #include <Tron/Signer.h>
 #include "utility/util.h"
@@ -27,6 +28,7 @@ JUB_RV TRXContext::ActiveSelf() {
     }
 
     JUB_RV rv = token->SelectApplet();
+    JUB_VERIFY_RV(token->SetCoin());
     if (JUBR_OK != rv) {
         return rv;
     }
@@ -36,6 +38,13 @@ JUB_RV TRXContext::ActiveSelf() {
         ) {
         JUB_VERIFY_RV(SetTimeout(_timeout));
     }
+
+#if defined(NFC_MODE)
+    // For NFC devices, the session is cleaned up so that the ActiveSelf() function can be started at every session level operation.
+    if (std::dynamic_pointer_cast<token::JubiterLiteToken>(_tokenPtr)) {
+        jub::context::ContextManager::GetInstance()->ClearLast();
+    }
+#endif // #if defined(NFC_MODE) end
 
     return JUBR_OK;
 }
