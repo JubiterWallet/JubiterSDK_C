@@ -379,40 +379,6 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
 #endif  // #if defined(NFC_MODE) end
 }
 
-/*****************************************************************************
- * @function name : JUB_GetRootKeyStatus
- * @in  param : deviceID - device ID
- * @out param : status - 00 - User's PIN has been setted
- *                 02 - NFC has been resetted
- *                 5A - root key has been generated
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetRootKeyStatus(IN JUB_UINT16 deviceID,
-                            OUT JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
-
-#if defined(NFC_MODE)
-    CREATE_THREAD_LOCK_GUARD
-    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
-    if (!device) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
-    if (!token) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    JUB_VERIFY_RV(token->GetRootKeyStatus(status));
-
-    // Clean up the session for device in order to force calling ActiveSelf().
-    jub::context::ContextManager::GetInstance()->ClearLast();
-
-    return JUBR_OK;
-#else   // #if defined(NFC_MODE)
-    return JUBR_IMPL_NOT_SUPPORT;
-#endif  // #if defined(NFC_MODE) end
-}
 
 /*****************************************************************************
 * @function name : JUB_VerifyPIN

@@ -817,7 +817,7 @@ JUB_RV JubiterLiteToken::_GetEntropy(const std::string& pinMix,
 }
 
 
-JUB_RV JubiterLiteToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
+JUB_RV JubiterLiteToken::GetRootKeyStatus(JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) {
 
     // send apdu
     uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8105")).encode();
@@ -837,14 +837,14 @@ JUB_RV JubiterLiteToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR statu
         return JUBR_ERROR;
     }
 
-    if (   JUB_ENUM_NFC_ROOT_KEY_STATUS::HAS_PIN      != retData[0]
-        && JUB_ENUM_NFC_ROOT_KEY_STATUS::RESETTED     != retData[0]
-        && JUB_ENUM_NFC_ROOT_KEY_STATUS::HAS_ROOT_KEY != retData[0]
+    if (   JUB_ENUM_DEVICE_ROOT_KEY_STATUS::HAS_PIN      != retData[0]
+        && JUB_ENUM_DEVICE_ROOT_KEY_STATUS::RESETTED     != retData[0]
+        && JUB_ENUM_DEVICE_ROOT_KEY_STATUS::HAS_ROOT_KEY != retData[0]
         ) {
         return JUBR_ERROR;
     }
 
-    *status = (JUB_ENUM_NFC_ROOT_KEY_STATUS)retData[0];
+    *status = (JUB_ENUM_DEVICE_ROOT_KEY_STATUS)retData[0];
 
     return JUBR_OK;
 }

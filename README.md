@@ -16,13 +16,15 @@
 + Rename Jub_EnumSupportCoins() as JUB_EnumSupportCoins();
 
 
+### DEV module add:
++ JUB_GetDeviceRootKeyStatus()
+
 ### NFC module include:
 + Supports NFC(`#define NFC_MODE`), added functions as below, see 'JUB_SDK_DEV_NFC.h':
   + JUB_Reset()
   + JUB_GenerateSeed()
   + JUB_ImportMnemonic()
   + JUB_ExportMnemonic()
-  + JUB_GetRootKeyStatus()
   + JUB_ChangePIN()
   + JUB_SetLabel()
 

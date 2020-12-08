@@ -101,12 +101,11 @@ typedef JUB_DEVICE_INFO* JUB_DEVICE_INFO_PTR;
 // Remove c++ features for swift framework
 typedef enum {
     HAS_PIN      = 0x00,    // User's PIN has been setted
-    RESETTED     = 0x02,    // NFC has been resetted
+    RESETTED     = 0x02,    // device has been resetted
     HAS_ROOT_KEY = 0x5A     // root key has been generated
-} JUB_ENUM_NFC_ROOT_KEY_STATUS;
-typedef JUB_ENUM_NFC_ROOT_KEY_STATUS JUB_PTR JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR;
+} JUB_ENUM_DEVICE_ROOT_KEY_STATUS;
+typedef JUB_ENUM_DEVICE_ROOT_KEY_STATUS JUB_PTR JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR;
 // Remove c++ features for swift framework end
-
 
 typedef enum {
     STRENGTH128 = 128,
@@ -166,6 +165,19 @@ JUB_RV JUB_GetDeviceType(IN JUB_UINT16 deviceID,
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
                          OUT JUB_DEVICE_INFO_PTR info);
+
+
+/*****************************************************************************
+ * @function name : JUB_GetDeviceRootKeyStatus
+ * @in  param : deviceID - device ID
+ * @out param : status - 00 - User's PIN has been setted
+ *                 02 - device has been resetted
+ *                 5A - root key has been generated
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetDeviceRootKeyStatus(IN JUB_UINT16 deviceID,
+                                  OUT JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status);
 
 /*****************************************************************************
  * @function name : JUB_GetDeviceCert

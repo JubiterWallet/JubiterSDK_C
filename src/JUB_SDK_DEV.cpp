@@ -108,6 +108,38 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
 
 
 /*****************************************************************************
+ * @function name : JUB_GetDeviceRootKeyStatus
+ * @in  param : deviceID - device ID
+ * @out param : status - 00 - User's PIN has been setted
+ *                 02 - NFC has been resetted
+ *                 5A - root key has been generated
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetDeviceRootKeyStatus(IN JUB_UINT16 deviceID,
+                                  OUT JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (!device) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    JUB_VERIFY_RV(token->GetRootKeyStatus(status));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
  * @function name : JUB_IsInitialize
  * @in  param : deviceID - device ID
  * @out param :

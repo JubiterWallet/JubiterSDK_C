@@ -116,17 +116,6 @@ JUB_RV JUB_ExportMnemonic(IN JUB_UINT16 deviceID,
                           IN JUB_CHAR_CPTR pinMix,
                           OUT JUB_CHAR_PTR_PTR mnemonic);
 
-/*****************************************************************************
- * @function name : JUB_GetRootKeyStatus
- * @in  param : deviceID - device ID
- * @out param : status - 00 - User's PIN has been setted
- *                 02 - NFC has been resetted
- *                 5A - root key has been generated
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetRootKeyStatus(IN JUB_UINT16 deviceID,
-                            OUT JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status);
 
 /*****************************************************************************
  * @function name : JUB_VerifyPIN

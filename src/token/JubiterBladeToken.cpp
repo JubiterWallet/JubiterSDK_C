@@ -663,7 +663,7 @@ JUB_RV JubiterBladeToken::VerifyPIN(const std::string &pinMix, OUT JUB_ULONG &re
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[1024] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x6985 == ret) { //locked
         JUB_VERIFY_RV(JUBR_PIN_LOCKED);
     }
@@ -689,12 +689,40 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
     JUB_UINT16 p2 = timeout & 0xFF;
     APDU apdu(0x00, 0xFB, p1, p2, 0x00);
     JUB_UINT16 ret = 0;
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret));
     if (0x9000 == ret) {
         return JUBR_OK;
     }
 
     return JUBR_ERROR;
+}
+
+
+JUB_RV JubiterBladeToken::GetRootKeyStatus(JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR status) {
+
+    // send apdu
+    uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8105")).encode();
+    APDU apdu(0x80, 0xCB, 0x80, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x9000 != ret
+        ||   1 != ulRetDataLen
+        ) {
+        return JUBR_ERROR;
+    }
+
+    if (   JUB_ENUM_DEVICE_ROOT_KEY_STATUS::HAS_PIN      != retData[0]
+        && JUB_ENUM_DEVICE_ROOT_KEY_STATUS::RESETTED     != retData[0]
+        && JUB_ENUM_DEVICE_ROOT_KEY_STATUS::HAS_ROOT_KEY != retData[0]
+        ) {
+        return JUBR_ERROR;
+    }
+
+    *status = (JUB_ENUM_DEVICE_ROOT_KEY_STATUS)retData[0];
+
+    return JUBR_OK;
 }
 
 
@@ -727,12 +755,6 @@ JUB_RV JubiterBladeToken::ImportMnemonic(const std::string& pinMix,
 
 JUB_RV JubiterBladeToken::ExportMnemonic(const std::string& pinMix,
                                          OUT std::string& mnemonic) {
-
-    return JUBR_IMPL_NOT_SUPPORT;
-}
-
-
-JUB_RV JubiterBladeToken::GetRootKeyStatus(JUB_ENUM_NFC_ROOT_KEY_STATUS_PTR status) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }
