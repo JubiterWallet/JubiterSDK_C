@@ -1,4 +1,4 @@
-name: test matrix
+name: release on tag
 on:
   push:
     tags:
