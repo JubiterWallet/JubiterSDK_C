@@ -122,23 +122,23 @@ typedef enum {
 
 // Remove c++ features for swift framework
 typedef enum {
-    SWI = 0x00, // Software Implementation
-    HID = 0x01,
-    BLE = 0x02,
-    NFC = 0x03,
-    GRPC= 0x04,
-    COMMODE_NS_ITEM
+    COMMODE_NS_ITEM = 0x00,
+    SWI = 0x01, // Software Implementation
+    HID = 0x02,
+    BLE = 0x03,
+    NFC = 0x04,
+    GRPC= 0x05,
 } JUB_ENUM_COMMODE;
 typedef JUB_ENUM_COMMODE* JUB_ENUM_COMMODE_PTR;
 // Remove c++ features for swift framework end
 
 // Remove c++ features for swift framework
 typedef enum {
-    VD = 0x00,  // Virtual Device
+    DEVICE_NS_ITEM = 0x00,
+    VD = 0x01,  // Virtual Device
     BLADE,
     BIO,
     LITE,
-    DEVICE_NS_ITEM
 } JUB_ENUM_DEVICE;
 typedef JUB_ENUM_DEVICE* JUB_ENUM_DEVICE_PTR;
 // Remove c++ features for swift framework end
