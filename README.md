@@ -1,65 +1,52 @@
-### master branch
-> Our customers:
-> - HyperPay
----
-### API redefinition include:
-+ Supports multiple types of HID & bluetooth & NFC devices, added functions as below, see 'JUB_SDK_DEV.h':
-  + JUB_GetDeviceType()
+# Introduction
+JuBiter SDK is an open source, cross-platform, mobile-focused library implementing low-level cryptographic wallet functionality for a certain number of blockchains. It is a core part of the JuBiter Wallet, and some other projects. Most of the code is C++ with a set of strict C interfaces, and idiomatic interfaces for supported languages: Swift for iOS and Java for Android.
 
-+ Add "devName" param, see 'JUB_SDK_DEV_BLE.h':
-  + JUB_connectDevice()
-  + JUB_cancelConnect()
+# Supported Blockchains
+JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some major blockchain platforms.
 
-+ Add "version" param, see 'JUB_SDK_BTC.h':
-  + JUB_SignTransactionBTC()
-  + JUB_SignTransactionHC();
-+ Rename Jub_EnumSupportCoins() as JUB_EnumSupportCoins();
+| Index | Name | Symbol | URL |
+| --- | --- | --- | --- |
+| 0000 | Bitcoin | BTC | https://bitcoin.org |
+| 0002 | Litecoin | LTC | https://litecoin.org |
+| 0005 | Dash | DASH | https://dash.org |
+| 0060 | Ethereum | ETH | https://ethereum.org |
+| 0061 | Ethereum Classic | ETC |https://ethereumclassic.org |
+| 0144 | XRP | XRP | https://ripple.com/xrp |
+| 0145 | Bitcoin Cash | BCH |https://bitcoincash.org |
+| 0194 | EOS | EOS | http://eos.io |
+| 0195 | Tron | TRX | https://tron.network/ |
+| 2301 | Qtum | QTUM | https://qtum.org |
+| ---- | USDT | USDT | https://tether.to |
 
+# API
+JuBiter SDK supports software & hardware implementation for JuBiter wallet. Hardware support mainly JuBiter series products, including JuBiter Blade, JuBiter Bio and JuBiter Lite.
 
-### DEV module add:
-+ JUB_GetDeviceRootKeyStatus()
+Accordingly, JuBiter SDK is divided into the following modules, common module, device operation related module, Blade related module, Bio related module, Lite related module, coin related module, and software wallet module, etc.
 
-### NFC module include:
-+ Supports NFC(`#define NFC_MODE`), added functions as below, see 'JUB_SDK_DEV_NFC.h':
-  + JUB_Reset()
-  + JUB_GenerateSeed()
-  + JUB_ImportMnemonic()
-  + JUB_ExportMnemonic()
-  + JUB_ChangePIN()
-  + JUB_SetLabel()
+There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used to operate and connect hardware devices, and the last one is used for device-related and coin-related operations in a coin context. So, deviceID is obtained through the device operation related interface, and contextID is obtained through the coin-related interface.
 
+### API include:
+- Device in HID mode related module (see [here](docs/README_DEV_HID.md))
+- Device in BLE mode related module (see [here](docs/README_DEV_BLE.md))
+- Device in NFC mode related module (see [here](docs/README_DEV_NFC.md))
+- Device operation related module (see [here](docs/README_DEV.md))
+- Coin related module (see [here](docs/README_COIN.md))
+- Software wallet module (see [here](docs/README_SW.md))
 
-### Bio module include:
-+ Supports BIO(`#define BLE_MODE || #define HID_MODE`), added functions as below, see 'JUB_SDK_DEV_BIO.h':
-  + Authentication for operating fingerprint:
-    + JUB_IdentityVerify()
-    + JUB_IdentityVerifyPIN()
-    + JUB_IdentityShowNineGrids()
-    + JUB_IdentityCancelNineGrids()
-  + Operating fingerprint:
-    + JUB_EnrollFingerprint()
-    + JUB_EnumFingerprint()
-    + JUB_EraseFingerprint()
-    + JUB_DeleteFingerprint()
-    + JUB_VerifyFingerprint()
+# Dependency
+| Name | URL | Note |
+| ---- | ---- | ---- |
+| **Trust Wallet Core** | https://github.com/trustwallet/wallet-core.git | Source level integration, based on v2.2.10. The code added by JuBiter is identified as "JuBiter-defined". |
+| **trezor-crypto** | https://github.com/trezor/trezor-crypto.git| Source level integration, based on 'master'. The code added by JuBiter is identified as "JuBiter-defined". |
+| **JSON for Modern C++** | https://github.com/nlohmann/json.git | Source level integeration, based on v3.9.1. |
+| **C++ Big Integer Library** | https://mattmccutchen.net/bigint | Source level integeration, based on 'bigint-2010.04.30.tar.bz2. |
+|  |  |  |
+| **Bluetooth communication library** for JuBiter Blade & Bio | --- | JuBiter developed. |
+| **NFC communication library** for JuBiter Lite | --- | JuBiter developed. |
 
-
-### Tron module include:
-+ Supports Tron, added functions as below, see 'JUB_SDK_TRX.h':
- + JUB_CreateContextTRX()
- + JUB_GetAddressTRX()
- + JUB_GetHDNodeTRX()
- + JUB_GetMainHDNodeTRX()
- + JUB_SetMyAddressTRX()
- + JUB_SignTransactionTRX()
- + JUB_PackContractTRX()
-
----
-### Demo reference:
-+ [nfcDemo-Android](https://github.com/JubiterWallet/nfcDemo-Android)
-+ [JuBiterSDKDemo-iOS](https://github.com/JubiterWallet/JuBiterSDKDemo-iOS)
----
-### **编译工程文件已经迁移到CMake**
+* * *
+# Compiler Installation
+### **编译工程文件已经迁移到 CMake**
 1.  安装CMake 3+
 2.  Mac和Linux需要安装hidapi-dev
 3.  windows需要使用cygwin,不支持visual studio,需要在cygwin环境下,安装hidapi-dev
@@ -152,3 +139,9 @@ Only the following device operation related interfaces are exported:
 > JUB_IsInitialize
 > JUB_SendOneApdu
 > JUB_SetTimeOut
+
+
+* * *
+# Demo reference
++ [nfcDemo-Android](https://github.com/JubiterWallet/nfcDemo-Android)
++ [JuBiterSDKDemo-iOS](https://github.com/JubiterWallet/JuBiterSDKDemo-iOS)
