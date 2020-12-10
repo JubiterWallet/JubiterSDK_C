@@ -316,8 +316,8 @@
     switch ([sharedData comMode]) {
     case JUB_ENUM_COMMODE::NFC:
     {
-        JUB_ENUM_NFC_ROOT_KEY_STATUS status;
-        rv = JUB_GetRootKeyStatus(deviceID, &status);
+        JUB_ENUM_DEVICE_ROOT_KEY_STATUS status;
+        rv = JUB_GetDeviceRootKeyStatus(deviceID, &status);
         if (JUBR_OK != rv) {
             [self addMsgData:[NSString stringWithFormat:@"[JUB_GetRootKeyStatus() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
             return;
