@@ -27,12 +27,13 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
         "ETH",
         "0000000"
     },
-    // BTC and ETH index position fixed, start adding new apps below:
+    // ETH index position fixed, start adding new apps below:
     {
         TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE))),
         "ETC",
         "01010000"
     },
+    // BTC index position fixed, start adding new apps below:
     {
         TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "BCH",

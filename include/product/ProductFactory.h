@@ -331,7 +331,7 @@ public:
     }
 
 
-    device::DeviceTypeBase* CreateProduct(const JUB_ENUM_COMMODE& mode, const JUB_ENUM_DEVICE& type, const std::string& arg) {
+    device::DeviceTypeBase* CreateProduct(const JUB_ENUM_COMMODE& mode, const JUB_ENUM_DEVICE& type, const std::string& arg1, const std::string& arg2) {
 
         if (  JUB_ENUM_COMMODE::COMMODE_NS_ITEM == mode
             || JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == type
@@ -339,15 +339,13 @@ public:
             return nullptr;
         }
 
-        JUB_ENUM_PRODUCT enumProduct = (JUB_ENUM_PRODUCT)((mode<<0x10)|type);
+        JUB_ENUM_PRODUCT enumProduct = JUB_ENUM_PRODUCT::PRODUCT_NS_ITEM;
         switch (mode) {
+        case JUB_ENUM_COMMODE::GRPC:
+            enumProduct = (JUB_ENUM_PRODUCT)((mode<<0x10)|type);
+            break;
         case JUB_ENUM_COMMODE::HID:
         case JUB_ENUM_COMMODE::BLE:
-#if defined(BLE_MODE)
-            enumProduct = EnumProduct2EnumDevice(mode, type);
-#endif  // #if defined(BLE_MODE) end
-            break;
-        case JUB_ENUM_COMMODE::GRPC:
         case JUB_ENUM_COMMODE::NFC:
         default:
             break;
@@ -357,7 +355,7 @@ public:
             return nullptr;
         }
 
-        auto device = device::devFactory::GetInstance()->CreateDevice(type, arg);
+        auto device = device::devFactory::GetInstance()->CreateDevice(mode, type, arg1, arg2);
         return Create(enumProduct, type, device);
     }
 };

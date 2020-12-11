@@ -4,7 +4,7 @@
 
 #include "context/BaseContext.h"
 #include "context/ETHContext.h"
-#include "token/factory/MISCTokenFactory.h"
+#include "token/factory/ETHTokenFactory.h"
 
 #include <TrustWalletCore/TWCoinType.h>
 
@@ -25,12 +25,12 @@ public:
     }
 
     ETHContext* CreateContext(const CONTEXT_CONFIG_ETH& cfg, std::string XPRVorXPUB) {
-        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(_type, XPRVorXPUB);
+        auto token = jub::token::ETHseriesTokenFactory::GetInstance()->CreateToken(_type, XPRVorXPUB);
         return Create(_type, cfg, token);
     }
 
     ETHContext* CreateContext(const CONTEXT_CONFIG_ETH& cfg, JUB_UINT16 deviceID) {
-        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(_type, deviceID);
+        auto token = jub::token::ETHseriesTokenFactory::GetInstance()->CreateToken(_type, deviceID);
         return Create(_type, cfg, token);
     }
 

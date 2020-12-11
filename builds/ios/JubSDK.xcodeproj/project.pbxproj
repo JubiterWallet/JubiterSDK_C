@@ -649,6 +649,7 @@
 		67E0DF5F250F6D6C00D42EF0 /* TWP2PKHPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF4E250F6D6B00D42EF0 /* TWP2PKHPrefix.h */; };
 		67E0DF60250F6D6C00D42EF0 /* TWHDVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF4F250F6D6B00D42EF0 /* TWHDVersion.h */; };
 		67E0DF61250F6D6C00D42EF0 /* TWPublicKeyType.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF50250F6D6B00D42EF0 /* TWPublicKeyType.h */; };
+		67EA8E3425836658001D8809 /* ETHTokenFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8E3325836657001D8809 /* ETHTokenFactory.h */; };
 		67EA8EAD256E0E3E00AD9179 /* TRXContextFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EAB256E0E3E00AD9179 /* TRXContextFactory.h */; };
 		67EA8EAE256E0E3E00AD9179 /* TRXContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EAC256E0E3E00AD9179 /* TRXContext.h */; };
 		67EA8EB4256E0E8A00AD9179 /* TRXTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EB3256E0E8A00AD9179 /* TRXTokenInterface.hpp */; };
@@ -1145,6 +1146,7 @@
 		67E0DF4E250F6D6B00D42EF0 /* TWP2PKHPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWP2PKHPrefix.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWP2PKHPrefix.h"; sourceTree = "<group>"; };
 		67E0DF4F250F6D6B00D42EF0 /* TWHDVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWHDVersion.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWHDVersion.h"; sourceTree = "<group>"; };
 		67E0DF50250F6D6B00D42EF0 /* TWPublicKeyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWPublicKeyType.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWPublicKeyType.h"; sourceTree = "<group>"; };
+		67EA8E3325836657001D8809 /* ETHTokenFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTokenFactory.h; path = ../../include/token/factory/ETHTokenFactory.h; sourceTree = "<group>"; };
 		67EA8EAB256E0E3E00AD9179 /* TRXContextFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXContextFactory.h; path = ../../include/context/TRXContextFactory.h; sourceTree = "<group>"; };
 		67EA8EAC256E0E3E00AD9179 /* TRXContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXContext.h; path = ../../include/context/TRXContext.h; sourceTree = "<group>"; };
 		67EA8EB3256E0E8A00AD9179 /* TRXTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TRXTokenInterface.hpp; path = ../../include/token/interface/TRXTokenInterface.hpp; sourceTree = "<group>"; };
@@ -2202,6 +2204,7 @@
 			isa = PBXGroup;
 			children = (
 				677DF32C24DD1F37001920A9 /* BTCTokenFactory.h */,
+				67EA8E3325836657001D8809 /* ETHTokenFactory.h */,
 				677DF32E24DD20D6001920A9 /* MISCTokenFactory.h */,
 			);
 			name = factory;
@@ -2390,6 +2393,7 @@
 				675B057C24286B55004C62D4 /* Signer.h in Headers */,
 				6718A3CE23A3394000F8A5CD /* pbkdf2.h in Headers */,
 				673E49892429EDD700C7F469 /* TransactionOutput.h in Headers */,
+				67EA8E3425836658001D8809 /* ETHTokenFactory.h in Headers */,
 				677DF31824DC0B71001920A9 /* FTMacro.h in Headers */,
 				67E0DF53250F6D6C00D42EF0 /* TWBitcoinSigHashType.h in Headers */,
 				325B55D7249E73E5002A0616 /* scp03.hpp in Headers */,

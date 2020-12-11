@@ -32,9 +32,9 @@ namespace jub {
 namespace device {
 
 
-std::string ServerAddress() {
+std::string ServerAddress(const std::string& ip) {
     std::string address = "127.0.0.1:5001";
-    std::ifstream in("ip_bridge.info", std::ifstream::in);
+    std::ifstream in(ip, std::ifstream::in);
     if (!in) {
         return address;
     }
@@ -110,8 +110,8 @@ public:
 };
 
 
-JubiterBridgeDevice::JubiterBridgeDevice(std::string name) : name_(name) {
-    auto address = ServerAddress();
+JubiterBridgeDevice::JubiterBridgeDevice(const std::string& ip, const std::string& name) : ip_(ip), name_(name) {
+    auto address = ServerAddress(ip);
     impl_ = new JubiterBridgeDevice::Impl(address);
     handle_ = 0;
 }
@@ -122,8 +122,8 @@ JubiterBridgeDevice::~JubiterBridgeDevice() {
 }
 
 
-std::vector<std::string> JubiterBridgeDevice::EnumDevice() {
-    auto address = ServerAddress();
+std::vector<std::string> JubiterBridgeDevice::EnumDevice(const std::string& ip) {
+    auto address = ServerAddress(ip);
     auto impl = std::make_unique<JubiterBridgeDevice::Impl>(address);
     return impl->ListReaders();
 }

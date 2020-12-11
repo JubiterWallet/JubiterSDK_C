@@ -81,6 +81,11 @@ void main_test() {
     cout << "|********** Jubiter Wallet Test **********|" << endl;
     cout << "| *. device test via HID                  |" << endl;
     cout << "|                                         |" << endl;
+    cout << "|  ------------------------------------   |" << endl;
+    cout << "| | gRPC config file (ip_bridge.info): |  |" << endl;
+    cout << "| | ip_bridge.info example:            |  |" << endl;
+    cout << "| | 192.168.17.60:5001                 |  |" << endl;
+    cout << "|   -----------------------------------   |" << endl;
     cout << "| 1. virtual JuBiter Blade test           |" << endl;
     cout << "| 2. virtual JuBiter Bio   test           |" << endl;
     cout << "| 3. virtual JuBiter Lite  test           |" << endl;
@@ -101,7 +106,7 @@ void main_test() {
     case 2:
     {
         commode = JUB_ENUM_COMMODE::GRPC;
-        rv = JUB_ListDeviceGRPC((JUB_ENUM_DEVICE)choice, deviceIDs);
+        rv = JUB_ListDeviceGRPC("ip_bridge.info", (JUB_ENUM_DEVICE)choice, deviceIDs);
         cout << "JUB_ListDeviceGRPC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
@@ -124,7 +129,7 @@ void main_test() {
         param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
         param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
 
-        rv = JUB_ListLiteGRPC((JUB_ENUM_DEVICE)choice, param, deviceIDs);
+        rv = JUB_ListLiteGRPC("ip_bridge.info", (JUB_ENUM_DEVICE)choice, param, deviceIDs);
         cout << "JUB_ListDeviceGRPC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;

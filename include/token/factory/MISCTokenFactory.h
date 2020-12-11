@@ -1,5 +1,5 @@
 #pragma once
-//only for other than BTC series coins now, maybe for all coins later
+//only for other than BTC/ETH series coins now, maybe for all coins later
 #include <string>
 #include <memory>
 
@@ -62,8 +62,6 @@ public xFactory<std::shared_ptr<BaseToken>,
 public:
     xTrezorCryptoMISCFactory() {
         Register(TWCoinType::TWCoinTypeHcash,            &TrezorCryptoHCImpl::Create);
-        Register(TWCoinType::TWCoinTypeEthereum,        &TrezorCryptoETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &TrezorCryptoETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &TrezorCryptoEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &TrezorCryptoXRPImpl::Create);
         Register(TWCoinType::TWCoinTypeTron,            &TrezorCryptoTRXImpl::Create);
@@ -78,8 +76,6 @@ public xFactory<std::shared_ptr<BaseToken>,
 public:
     xJuBiterBladeMISCFactory() {
         Register(TWCoinType::TWCoinTypeHcash,            &JubiterBladeHCImpl::Create);
-        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterBladeETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterBladeETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &JubiterBladeEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &JubiterBladeXRPImpl::Create);
         Register(TWCoinType::TWCoinTypeTron,            &JubiterBladeTRXImpl::Create);
@@ -94,8 +90,6 @@ public xFactory<std::shared_ptr<BaseToken>,
 public:
     xJuBiterBIOMISCFactory() {
         Register(TWCoinType::TWCoinTypeHcash,            &JubiterBIOHCImpl::Create);
-        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterBIOETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterBIOETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &JubiterBIOEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &JubiterBIOXRPImpl::Create);
         Register(TWCoinType::TWCoinTypeTron,            &JubiterBIOTRXImpl::Create);
@@ -110,7 +104,6 @@ public xFactory<std::shared_ptr<BaseToken>,
 public:
     xJuBiterLITEMISCFactory() {
         Register(TWCoinType::TWCoinTypeEthereum,        &JubiterLiteETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterLiteETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &JubiterLiteEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &JubiterLiteXRPImpl::Create);
         Register(TWCoinType::TWCoinTypeTron,            &JubiterLiteTRXImpl::Create);

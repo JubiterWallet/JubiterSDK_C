@@ -34,6 +34,12 @@ typedef struct _stAppInfos_ {
 } stAppInfos;
 
 
+typedef enum class enumCoinTypeETH {
+    COINETH = 0x00,
+    Default = COINETH
+} JUB_ENUM_COINTYPE_ETH;
+
+
 typedef enum class enumCoinTypeMisc {
     COIN = 0x00,
     COINEOS = 0x01,

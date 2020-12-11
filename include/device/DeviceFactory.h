@@ -28,7 +28,7 @@ namespace device {
 
 
 #if defined(GRPC_MODE)
-typedef std::shared_ptr<JubiterBridgeDevice>(*CreateBridgeDeviceFn)(const std::string&);
+typedef std::shared_ptr<JubiterBridgeDevice>(*CreateBridgeDeviceFn)(const std::string&, const std::string&);
 
 class xGRPCDeviceFactory :
 public xFactory<std::shared_ptr<JubiterBridgeDevice>,
@@ -295,20 +295,23 @@ protected:
 
 
 public:
-    std::shared_ptr<DeviceTypeBase> CreateDevice(const JUB_ENUM_DEVICE& type, const std::string& arg) {
+    std::shared_ptr<DeviceTypeBase> CreateDevice(const JUB_ENUM_COMMODE& mode, const JUB_ENUM_DEVICE& type, const std::string& arg1, const std::string& arg2) {
 
+        switch (mode) {
 #if defined(GRPC_MODE)
-        switch (type) {
-        case JUB_ENUM_DEVICE::BLADE:
-            return grpcFactory.Create(JUB_ENUM_DEVICE::BLADE, arg);
-        case JUB_ENUM_DEVICE::BIO:
-            return grpcFactory.Create(JUB_ENUM_DEVICE::BIO, arg);
-        case JUB_ENUM_DEVICE::LITE:
-            return grpcFactory.Create(JUB_ENUM_DEVICE::LITE, arg);
+        case JUB_ENUM_COMMODE::GRPC:
+            return grpcFactory.Create(type, arg1, arg2);
+#endif  // #if defined(GRPC_MODE) end
         default:
             break;
-        }   // switch (type) end
-#endif  // #if defined(GRPC_MODE) end
+        }   // switch (mode) end
+
+        return nullptr;
+    }
+
+
+    std::shared_ptr<DeviceTypeBase> CreateDevice(const JUB_ENUM_DEVICE& type, const std::string& arg) {
+
 #if defined(HID_MODE)
         switch (type) {
         case JUB_ENUM_DEVICE::BLADE:

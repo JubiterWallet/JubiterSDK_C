@@ -29,9 +29,9 @@ class JubiterBridgeDevice
 private:
     class Impl;
 public:
-    JubiterBridgeDevice(std::string name);
+    JubiterBridgeDevice(const std::string& ip, const std::string& name);
     virtual ~JubiterBridgeDevice();
-    static  std::vector<std::string> EnumDevice();
+    static  std::vector<std::string> EnumDevice(const std::string& ip);
     virtual JUB_RV Connect();
     virtual JUB_RV Disconnect();
     virtual void Reset() {}
@@ -39,11 +39,13 @@ public:
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
         OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
         IN JUB_ULONG ulMiliSecondTimeout = 1200000);
+    std::string getIP() { return ip_; }
     std::string getName() { return name_; }
 
 private:
     Impl *impl_;
     unsigned long handle_;
+    std::string ip_;
     std::string name_;
 }; // class JubiterBridgeDevice end
 
@@ -52,15 +54,17 @@ class JubiterBridgeBLDDevice :
 public JubiterBridgeDevice {
 public:
     //for Factory
-    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& path) {
-        return std::make_shared<JubiterBridgeBLDDevice>(path);
+    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& ip, const std::string& name) {
+        return std::make_shared<JubiterBridgeBLDDevice>(ip, name);
     }
 
     static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
         case JUB_ENUM_DEVICE::BLADE:
-            return new JubiterBridgeBLDDevice(std::dynamic_pointer_cast<device::JubiterBridgeBLDDevice>(devicePtr)->getName());
+            return new JubiterBridgeBLDDevice(
+                std::dynamic_pointer_cast<device::JubiterBridgeDevice>(devicePtr)->getIP(),
+                std::dynamic_pointer_cast<device::JubiterBridgeBLDDevice>(devicePtr)->getName());
         case JUB_ENUM_DEVICE::BIO:
         case JUB_ENUM_DEVICE::LITE:
         default:
@@ -71,8 +75,8 @@ public:
     }
 
 public:
-    JubiterBridgeBLDDevice(const std::string& path) :
-        JubiterBridgeDevice(path) {}
+    JubiterBridgeBLDDevice(const std::string& ip, const std::string& name) :
+        JubiterBridgeDevice(ip, name) {}
     ~JubiterBridgeBLDDevice() {}
 
 //    explicit operator JubiterBridgeBLDDevice* () const {
@@ -90,15 +94,17 @@ class JubiterBridgeBIODevice :
 public JubiterBridgeDevice {
 public:
     //for Factory
-    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& path) {
-        return std::make_shared<JubiterBridgeBIODevice>(path);
+    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& ip, const std::string& name) {
+        return std::make_shared<JubiterBridgeBIODevice>(ip, name);
     }
 
     static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
         case JUB_ENUM_DEVICE::BIO:
-            return new JubiterBridgeBIODevice(std::dynamic_pointer_cast<device::JubiterBridgeBIODevice>(devicePtr)->getName());
+            return new JubiterBridgeBIODevice(
+                std::dynamic_pointer_cast<device::JubiterBridgeDevice>(devicePtr)->getIP(),
+                std::dynamic_pointer_cast<device::JubiterBridgeBIODevice>(devicePtr)->getName());
         case JUB_ENUM_DEVICE::BLADE:
         case JUB_ENUM_DEVICE::LITE:
         default:
@@ -109,8 +115,8 @@ public:
     }
 
 public:
-    JubiterBridgeBIODevice(const std::string& path) :
-        JubiterBridgeDevice(path) {}
+    JubiterBridgeBIODevice(const std::string& ip, const std::string& name) :
+        JubiterBridgeDevice(ip, name) {}
     ~JubiterBridgeBIODevice() {}
 
 //    explicit operator JubiterBridgeBIODevice* () const {
@@ -129,15 +135,17 @@ public JubiterBridgeDevice {
 public:
     //for Factory
     //, const LITE_DEVICE_INIT_PARAM& parm
-    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& path) {
-        return std::make_shared<JubiterBridgeLITEDevice>(path);
+    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& ip, const std::string& name) {
+        return std::make_shared<JubiterBridgeLITEDevice>(ip, name);
     }
 
     static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
         case JUB_ENUM_DEVICE::LITE:
-            return new JubiterBridgeLITEDevice(std::dynamic_pointer_cast<device::JubiterBridgeLITEDevice>(devicePtr)->getName());
+            return new JubiterBridgeLITEDevice(
+                std::dynamic_pointer_cast<device::JubiterBridgeDevice>(devicePtr)->getIP(),
+                std::dynamic_pointer_cast<device::JubiterBridgeLITEDevice>(devicePtr)->getName());
         case JUB_ENUM_DEVICE::BLADE:
         case JUB_ENUM_DEVICE::BIO:
         default:
@@ -148,8 +156,8 @@ public:
     }
 
 public:
-    JubiterBridgeLITEDevice(const std::string& path) :
-        JubiterBridgeDevice(path) {}
+    JubiterBridgeLITEDevice(const std::string& ip, const std::string& name) :
+        JubiterBridgeDevice(ip, name) {}
     ~JubiterBridgeLITEDevice() {}
 
 //    explicit operator JubiterBridgeLITEDevice* () const {
@@ -190,4 +198,3 @@ private:
 
 #endif  // #if defined(GRPC_MODE) end
 #endif  // __JubiterBridgeDevice__
-

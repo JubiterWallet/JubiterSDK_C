@@ -16,13 +16,14 @@
 
 /*****************************************************************************
  * @function name : JUB_ListLiteGRPC
- * @in  param : prod -  JUB_ENUM_DEVICE::LITE
+ * @in  param :  ip - gRPC virtual device's IP file name
+ *         prod -  JUB_ENUM_DEVICE::LITE
  *         param - LITE_DEVICE_INIT_PARAM
  * @out param : deviceIDs - device ID list
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ListLiteGRPC(IN JUB_ENUM_DEVICE prod, IN LITE_DEVICE_INIT_PARAM param, OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
+JUB_RV JUB_ListLiteGRPC(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, IN LITE_DEVICE_INIT_PARAM param, OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
 #if defined(GRPC_MODE)
     CREATE_THREAD_LOCK_GUARD
@@ -31,13 +32,13 @@ JUB_RV JUB_ListLiteGRPC(IN JUB_ENUM_DEVICE prod, IN LITE_DEVICE_INIT_PARAM param
         return JUBR_ARGUMENTS_BAD;
     }
 
-    auto name_list = jub::device::JubiterBridgeDevice::EnumDevice();
+    auto name_list = jub::device::JubiterBridgeDevice::EnumDevice(std::string(ip));
     //std::cout <<"** "<< name_list.size() << std::endl;
 
     // add new key
     for (auto name : name_list) {
         //new inserted key
-        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::GRPC, prod, name);
+        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::GRPC, prod, std::string(ip), name);
         if (!device) {
             continue;
         }
@@ -61,12 +62,13 @@ JUB_RV JUB_ListLiteGRPC(IN JUB_ENUM_DEVICE prod, IN LITE_DEVICE_INIT_PARAM param
 
 /*****************************************************************************
  * @function name : JUB_ListDeviceGRPC
- * @in  param : prod -  JUB_ENUM_DEVICE::BLADE
+ * @in  param : ip - gRPC virtual device's IP file name
+ *           prod -  JUB_ENUM_DEVICE::BLADE
  *                JUB_ENUM_DEVICE::BIO
  * @out param : deviceIDs - device ID list
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_ListDeviceGRPC(IN JUB_ENUM_DEVICE prod, OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
+JUB_RV JUB_ListDeviceGRPC(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
 #if defined(GRPC_MODE)
     CREATE_THREAD_LOCK_GUARD
@@ -77,13 +79,13 @@ JUB_RV JUB_ListDeviceGRPC(IN JUB_ENUM_DEVICE prod, OUT JUB_UINT16 deviceIDs[MAX_
         return JUBR_ARGUMENTS_BAD;
     }
 
-    auto name_list = jub::device::JubiterBridgeDevice::EnumDevice();
+    auto name_list = jub::device::JubiterBridgeDevice::EnumDevice(std::string(ip));
     //std::cout <<"** "<< name_list.size() << std::endl;
 
     // add new key
     for (auto name : name_list) {
         //new inserted key
-        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::GRPC, prod, name);
+        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::GRPC, prod, std::string(ip), name);
         if (!device) {
             continue;
         }

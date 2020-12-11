@@ -916,6 +916,8 @@
 		67E0DFDB25106B8600D42EF0 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFD825106B8600D42EF0 /* Transaction.cpp */; };
 		67E0DFDC25106B8600D42EF0 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DFD925106B8600D42EF0 /* Transaction.h */; };
 		67E0DFDD25106B8600D42EF0 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DFD925106B8600D42EF0 /* Transaction.h */; };
+		67EA8E2D258365B1001D8809 /* ETHTokenFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8E2C258365B1001D8809 /* ETHTokenFactory.h */; };
+		67EA8E2E258365B1001D8809 /* ETHTokenFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8E2C258365B1001D8809 /* ETHTokenFactory.h */; };
 		67ECD12D23CD71B900B7D514 /* DerivationPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67ECD12B23CD71B900B7D514 /* DerivationPath.cpp */; };
 		67ECD12E23CD71B900B7D514 /* DerivationPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67ECD12B23CD71B900B7D514 /* DerivationPath.cpp */; };
 		67ECD12F23CD71B900B7D514 /* DerivationPath.h in Headers */ = {isa = PBXBuildFile; fileRef = 67ECD12C23CD71B900B7D514 /* DerivationPath.h */; };
@@ -1422,6 +1424,7 @@
 		67E0DFA4250F783700D42EF0 /* Address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Address.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/Address.cpp"; sourceTree = "<group>"; };
 		67E0DFD825106B8600D42EF0 /* Transaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transaction.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/Transaction.cpp"; sourceTree = "<group>"; };
 		67E0DFD925106B8600D42EF0 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/Transaction.h"; sourceTree = "<group>"; };
+		67EA8E2C258365B1001D8809 /* ETHTokenFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTokenFactory.h; path = ../../include/token/factory/ETHTokenFactory.h; sourceTree = "<group>"; };
 		67ECD12B23CD71B900B7D514 /* DerivationPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DerivationPath.cpp; path = "../../deps/TrustWallet/wallet-core/src/DerivationPath.cpp"; sourceTree = "<group>"; };
 		67ECD12C23CD71B900B7D514 /* DerivationPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DerivationPath.h; path = "../../deps/TrustWallet/wallet-core/src/DerivationPath.h"; sourceTree = "<group>"; };
 		67ECD13123CD724100B7D514 /* Bech32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bech32.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bech32.cpp"; sourceTree = "<group>"; };
@@ -1888,6 +1891,7 @@
 			isa = PBXGroup;
 			children = (
 				677DF33324DD39F2001920A9 /* BTCTokenFactory.h */,
+				67EA8E2C258365B1001D8809 /* ETHTokenFactory.h */,
 				677DF33424DD39F2001920A9 /* MISCTokenFactory.h */,
 			);
 			name = factory;
@@ -2498,6 +2502,7 @@
 				67189F1023A20FED00F8A5CD /* JUB_SDK.h in Headers */,
 				67189F1123A20FED00F8A5CD /* JUB_core.h in Headers */,
 				67755D58253DB8020056F2C0 /* pb_varint.hpp in Headers */,
+				67EA8E2E258365B1001D8809 /* ETHTokenFactory.h in Headers */,
 				67E0DE83250F6C1F00D42EF0 /* TWPrivateKey.h in Headers */,
 				67189F1223A20FED00F8A5CD /* JUB_SDK_COMM.h in Headers */,
 				67189F1323A20FED00F8A5CD /* JUB_SDK_DEV.h in Headers */,
@@ -2781,6 +2786,7 @@
 				67A4BCB5233083730059A3DB /* JUB_SDK.h in Headers */,
 				67A4BCB6233083730059A3DB /* JUB_core.h in Headers */,
 				67755D57253DB8020056F2C0 /* pb_varint.hpp in Headers */,
+				67EA8E2D258365B1001D8809 /* ETHTokenFactory.h in Headers */,
 				67E0DE82250F6C1F00D42EF0 /* TWPrivateKey.h in Headers */,
 				67A4BCB4233083730059A3DB /* JUB_SDK_COMM.h in Headers */,
 				67A4BCB2233083730059A3DB /* JUB_SDK_DEV.h in Headers */,
