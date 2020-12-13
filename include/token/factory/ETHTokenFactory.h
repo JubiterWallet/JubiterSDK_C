@@ -16,7 +16,6 @@
 #endif // #if defined(NFC_MODE) end
 
 #include "token/interface/ETHTokenInterface.hpp"
-#include "token/interface/FILTokenInterface.hpp"
 
 #include "token/ETH/JubiterBladeETHImpl.h"
 

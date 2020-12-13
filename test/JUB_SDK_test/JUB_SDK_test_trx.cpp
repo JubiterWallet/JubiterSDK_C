@@ -183,7 +183,12 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) 
 //          TRIG_SMART_CONTRACT = 31, // TriggerSmartContract(smart_contract.proto)
 //         NS_ITEM_TRX_CONTRACT
 //    } JUB_ENUM_TRX_CONTRACT_TYPE;
-    if (3 == choice) {
+    if (   21 == choice
+        || 22 == choice
+        ) {
+        choice -= 20;
+    }
+    else if (23 == choice) {
         choice = 31;
     }
 
