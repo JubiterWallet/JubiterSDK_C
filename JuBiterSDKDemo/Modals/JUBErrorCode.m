@@ -67,7 +67,6 @@
     case JUBR_WRONG_OFFSET:              { errMsg = @"JUBR_WRONG_OFFSET"; break; }
     case JUBR_INS_NOT_SUPPORTED:         { errMsg = @"JUBR_INS_NOT_SUPPORTED"; break; }
     case JUBR_WRONG_P1P2:                { errMsg = @"JUBR_WRONG_P1P2"; break; }
-    case JUBR_WRONG_P3:                  { errMsg = @"JUBR_WRONG_P3"; break; }
     case JUBR_FILE_INVALID:              { errMsg = @"JUBR_FILE_INVALID"; break; }
     case JUBR_AUTHENTICATION_FAILED:     { errMsg = @"JUBR_AUTHENTICATION_FAILED"; break; }
     case JUBR_NO_MESSAGE_SENT:           { errMsg = @"JUBR_NO_MESSAGE_SENT"; break; }

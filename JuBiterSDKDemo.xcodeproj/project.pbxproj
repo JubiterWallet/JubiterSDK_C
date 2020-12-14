@@ -63,6 +63,9 @@
 		67E9E4F2256CEAFB009ABDA7 /* JUBTRXAmount.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67E9E4F1256CEAFB009ABDA7 /* JUBTRXAmount.mm */; };
 		67E9E4F5256CEF63009ABDA7 /* testTRX_trc10.json in Resources */ = {isa = PBXBuildFile; fileRef = 67E9E4F3256CEF63009ABDA7 /* testTRX_trc10.json */; };
 		67E9E4F6256CEF63009ABDA7 /* testTRX_trc20.json in Resources */ = {isa = PBXBuildFile; fileRef = 67E9E4F4256CEF63009ABDA7 /* testTRX_trc20.json */; };
+		67EA8E6125838F35001D8809 /* JUBFILController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8E5F25838F34001D8809 /* JUBFILController.mm */; };
+		67EA8E6425838F54001D8809 /* JUBFILAmount.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8E6325838F54001D8809 /* JUBFILAmount.mm */; };
+		67EA8E6925839161001D8809 /* testFIL.json in Resources */ = {isa = PBXBuildFile; fileRef = 67EA8E6825839161001D8809 /* testFIL.json */; };
 		687BCEDD245866BD00CD1780 /* JUBBTCController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 687BCECB245866BC00CD1780 /* JUBBTCController.mm */; };
 		68B860F824239FEF0009F474 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68B860F724239FEF0009F474 /* LaunchScreen.storyboard */; };
 		8BE2A70E235D89600015B9AB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A70D235D89600015B9AB /* AppDelegate.m */; };
@@ -164,6 +167,11 @@
 		67E9E4F1256CEAFB009ABDA7 /* JUBTRXAmount.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JUBTRXAmount.mm; path = Modals/JUBTRXAmount.mm; sourceTree = "<group>"; };
 		67E9E4F3256CEF63009ABDA7 /* testTRX_trc10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testTRX_trc10.json; path = testJSONScript/testTRX_trc10.json; sourceTree = "<group>"; };
 		67E9E4F4256CEF63009ABDA7 /* testTRX_trc20.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testTRX_trc20.json; path = testJSONScript/testTRX_trc20.json; sourceTree = "<group>"; };
+		67EA8E5F25838F34001D8809 /* JUBFILController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBFILController.mm; sourceTree = "<group>"; };
+		67EA8E6025838F34001D8809 /* JUBFILController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBFILController.h; sourceTree = "<group>"; };
+		67EA8E6225838F54001D8809 /* JUBFILAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUBFILAmount.h; path = Modals/JUBFILAmount.h; sourceTree = "<group>"; };
+		67EA8E6325838F54001D8809 /* JUBFILAmount.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JUBFILAmount.mm; path = Modals/JUBFILAmount.mm; sourceTree = "<group>"; };
+		67EA8E6825839161001D8809 /* testFIL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testFIL.json; path = testJSONScript/testFIL.json; sourceTree = "<group>"; };
 		680DDAB5242880F400622FB0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		687BCEC8245866BC00CD1780 /* JUBBTCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBBTCController.h; sourceTree = "<group>"; };
 		687BCECB245866BC00CD1780 /* JUBBTCController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBBTCController.mm; sourceTree = "<group>"; };
@@ -267,6 +275,7 @@
 				67E9E4EE256CEAC9009ABDA7 /* testTRX.json */,
 				67E9E4F3256CEF63009ABDA7 /* testTRX_trc10.json */,
 				67E9E4F4256CEF63009ABDA7 /* testTRX_trc20.json */,
+				67EA8E6825839161001D8809 /* testFIL.json */,
 			);
 			name = testJSONScript;
 			sourceTree = "<group>";
@@ -294,6 +303,8 @@
 				67317CB22504C71300860877 /* JUBXRPAmount.mm */,
 				67E9E4F0256CEAFB009ABDA7 /* JUBTRXAmount.h */,
 				67E9E4F1256CEAFB009ABDA7 /* JUBTRXAmount.mm */,
+				67EA8E6225838F54001D8809 /* JUBFILAmount.h */,
+				67EA8E6325838F54001D8809 /* JUBFILAmount.mm */,
 			);
 			name = Modals;
 			sourceTree = "<group>";
@@ -333,6 +344,8 @@
 				677BDA73246A855900A0F913 /* JUBXRPController.mm */,
 				67E9E4EB256CEA9E009ABDA7 /* JUBTRXController.h */,
 				67E9E4EC256CEA9E009ABDA7 /* JUBTRXController.mm */,
+				67EA8E6025838F34001D8809 /* JUBFILController.h */,
+				67EA8E5F25838F34001D8809 /* JUBFILController.mm */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -454,6 +467,7 @@
 				67317CAD250491F800860877 /* testEOS_token.json in Resources */,
 				67E9E4EF256CEAC9009ABDA7 /* testTRX.json in Resources */,
 				6774048524E4EF9300F358ED /* testEOS_stake.json in Resources */,
+				67EA8E6925839161001D8809 /* testFIL.json in Resources */,
 				6774048324E4EF9300F358ED /* testEOS_unstake.json in Resources */,
 				6774048624E4EF9300F358ED /* testEOS_sellram.json in Resources */,
 				6774048924E4EF9300F358ED /* testEOS_buyram.json in Resources */,
@@ -471,9 +485,11 @@
 				67317CB62506036900860877 /* JUBErrorCode.m in Sources */,
 				67B151CC2500D5C900D244DC /* JUBTimeOut.mm in Sources */,
 				67B151C325008E7100D244DC /* JUBRegEx.m in Sources */,
+				67EA8E6125838F35001D8809 /* JUBFILController.mm in Sources */,
 				67B151C425008E7100D244DC /* JUBSharedData.m in Sources */,
 				67676B082462AB620099E2A8 /* JUBDeviceController.mm in Sources */,
 				67B151C9250096C800D244DC /* JUBAmount.mm in Sources */,
+				67EA8E6425838F54001D8809 /* JUBFILAmount.mm in Sources */,
 				67B151D4250251EC00D244DC /* JUBBTCAmount.mm in Sources */,
 				67317CB02504AC1B00860877 /* JUBETHAmount.mm in Sources */,
 				67B151D5250251EC00D244DC /* JUBEOSAmount.mm in Sources */,
@@ -642,7 +658,7 @@
 					"$(SRCROOT)/../JubiterSDK_C/include",
 					"$(SRCROOT)/deps/jsoncpp/include",
 					"$(SRCROOT)",
-					"$(SRCROOT)/view",
+					"$(SRCROOT)/Modals",
 				);
 				INFOPLIST_FILE = JuBiterSDKDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -686,7 +702,7 @@
 					"$(SRCROOT)/../JubiterSDK_C/include",
 					"$(SRCROOT)/deps/jsoncpp/include",
 					"$(SRCROOT)",
-					"$(SRCROOT)/view",
+					"$(SRCROOT)/Modals",
 				);
 				INFOPLIST_FILE = JuBiterSDKDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
