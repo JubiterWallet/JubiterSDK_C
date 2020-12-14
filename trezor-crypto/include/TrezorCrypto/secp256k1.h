@@ -45,6 +45,8 @@ extern const curve_info secp256k1_hcash_info;
 extern const curve_info secp256k1_eos_info;
 // JuBiter-defined
 extern const curve_info secp256k1_trx_info;
+// JuBiter-defined
+extern const curve_info secp256k1_fil_info;
 extern const curve_info secp256k1_decred_info;
 extern const curve_info secp256k1_smart_info;
 

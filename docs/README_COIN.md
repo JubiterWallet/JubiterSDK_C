@@ -1,12 +1,12 @@
 # Coin related module
-In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h).
+In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h), [JUB_SDK_FIL.h](../include/JUB_SDK_FIL.h).
 
 Function list:
-* [JUB_CreateContext](#JUB_CreateContextXXX)BTC/ETH/EOS/XRP/TRX
-* [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/ETH/EOS/XRP/TRX
-* [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/ETH/EOS/XRP/TRX
-* [JUB_GetAddress](#JUB_GetAddressXXX)BTC/ETH/EOS/XRP/TRX
-* [JUB_SetMyAddress](#JUB_SetMyAddressXXX)BTC/ETH/EOS/XRP/TRX
+* [JUB_CreateContext](#JUB_CreateContextXXX)BTC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetAddress](#JUB_GetAddressXXX)BTC/ETH/EOS/XRP/TRX/FIL
+* [JUB_SetMyAddress](#JUB_SetMyAddressXXX)BTC/ETH/EOS/XRP/TRX/FIL
 * **BTC series related module**
     * [JUB_CheckAddressBTC](#JUB_CheckAddressBTC)
     * [JUB_SetUnitBTC](#JUB_SetUnitBTC)
@@ -16,6 +16,8 @@ Function list:
 * **ETH series related module**
     * [JUB_SignTransactionETH](#JUB_SignTransactionETH)
     * [JUB_BuildERC20AbiETH](#JUB_BuildERC20AbiETH)
+* **FIL related module**
+    * [JUB_SignTransactionFIL](#JUB_SignTransactionFIL)
 * **EOS related module**
     * [JUB_SignTransactionEOS](#JUB_SignTransactionEOS)
     * [JUB_BuildActionEOS](#JUB_BuildActionEOS)
@@ -263,6 +265,35 @@ JUB_RV JUB_BuildERC20AbiETH(
     IN JUB_CHAR_CPTR tokenTo,
     IN JUB_CHAR_CPTR tokenValue,
     OUT JUB_CHAR_PTR_PTR abi);
+```
+
+## FIL related module
+### JUB_SignTransactionFIL
+* **Function:** Sign FIL transaction.
+* **IN param:**
+contextID - context ID from JUB_CreateContextFIL.
+path - path in BIP44.
+nonce - nonce.
+gasLimit - gas limit.
+gasPriceInAtto - gas price in attoFIL.
+to - to address.
+valueInAtto - amount in attoFIL of FIL tx.
+input - empyt string for FIL tx or...
+* **OUT param:**
+raw - signed FIL/FIL token tx.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_SignTransactionFIL(
+    IN JUB_UINT16 contextID,
+    IN BIP44_Path path,
+    IN JUB_UINT64 nonce,
+    IN JUB_UINT64 gasLimit,
+    IN JUB_CHAR_CPTR gasPriceInAtto,
+    IN JUB_CHAR_CPTR to,
+    IN JUB_CHAR_CPTR valueInAtto,
+    IN JUB_CHAR_CPTR input,
+    OUT JUB_CHAR_PTR_PTR raw
+);
 ```
 
 ## EOS related module

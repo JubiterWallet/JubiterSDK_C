@@ -294,6 +294,7 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeXRP:
     case TWCoinTypeLitecoin:
     case TWCoinTypeTron:
+    case TWCoinTypeFilecoin:
         hdVersionPublic = TWHDVersionXPUB;
         if (witness) {
             hdVersionPublic = TWHDVersionYPUB;
@@ -370,6 +371,7 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeXRP:
     case TWCoinTypeLitecoin:
     case TWCoinTypeTron:
+    case TWCoinTypeFilecoin:
         hdVersionPrivate = TWHDVersionXPRV;
         if (witness) {
             hdVersionPrivate = TWHDVersionYPRV;

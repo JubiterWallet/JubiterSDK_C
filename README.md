@@ -14,7 +14,8 @@ JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some majo
 | 0144 | XRP | XRP | https://ripple.com/xrp |
 | 0145 | Bitcoin Cash | BCH |https://bitcoincash.org |
 | 0194 | EOS | EOS | http://eos.io |
-| 0195 | Tron | TRX | https://tron.network/ |
+| 0195 | Tron | TRX | https://tron.network |
+| 0461 | Filecoin | FIL | https://filecoin.io |
 | 2301 | Qtum | QTUM | https://qtum.org |
 | ---- | USDT | USDT | https://tether.to |
 

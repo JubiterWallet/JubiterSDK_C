@@ -1,0 +1,15 @@
+{
+    "main_path" : "m/44'/461'/0'",
+    "FIL" : {
+        "nonce" : 3664590,
+        "gasLimit" : 74168842,
+        "gasPriceInAtto" : "10000000000",
+        "to" : "f3uaytmmjfrqemkkmdjjokifesr46macih5s7y467jluqewknhwrmobgl7h6ymxgtvhefxveum4ee5o5727bca",
+        "valueInAtto" : "1000000000",
+        "data" : "",
+        "bip32_path" : {
+          "change" : false,
+          "addressIndex" : 0
+        }
+    }
+}
