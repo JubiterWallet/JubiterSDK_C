@@ -233,11 +233,13 @@ bool TransactionRaw::calculateOffset() {
     pb_length_delimited pbData = getData();
     pb_length_delimited pbContract = getContract();
     pb_length_delimited pbScripts = getScripts();
+    pb_varint pbTimestamp = getTimestamp();
 
     if (  !pbRefBlockBytes.isValid()
         || !pbRefBlockHash.isValid()
         ||   !pbExpiration.isValid()
         ||     !pbContract.isValid()
+        ||    !pbTimestamp.isValid()
         ) {
         return false;
     }
@@ -249,6 +251,7 @@ bool TransactionRaw::calculateOffset() {
     size_t szData  = pbData.size();
     size_t szContract = pbContract.size();
     size_t szScripts  = pbScripts.size();
+    size_t szTimestamp= pbTimestamp.size();
 
     contrIndex = szRefBlockBytes
                + szRefBlockNum
@@ -269,7 +272,9 @@ bool TransactionRaw::calculateOffset() {
                     + szAuths
                     + szData
                     + szContract
-                    + szScripts;
+                    + szScripts
+                    + szTimestamp;
+        feeLimIndex += pbFeeLimit.sizeTag();
     }
 
     return true;

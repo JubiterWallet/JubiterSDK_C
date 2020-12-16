@@ -20,11 +20,11 @@ typedef CONTEXT_CONFIG CONTEXT_CONFIG_TRX;
 // Remove c++ features for swift framework
 //typedef enum class JubTRXContractType {
 typedef enum {
+     NS_ITEM_TRX_CONTRACT =  0,
             XFER_CONTRACT =  1, // TransferContract(balance_contract.proto)
       XFER_ASSET_CONTRACT =  2, // TransferAssetContract(asset_issue_contract.proto)
     CREATE_SMART_CONTRACT = 30, // CreateSmartContract(smart_contract.proto)
       TRIG_SMART_CONTRACT = 31, // TriggerSmartContract(smart_contract.proto)
-     NS_ITEM_TRX_CONTRACT
 } JUB_ENUM_TRX_CONTRACT_TYPE;
 // Remove c++ features for swift framework end
 

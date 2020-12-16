@@ -134,6 +134,12 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
             JUB_CHECK_NULL(contract.transfer.owner_address);
             JUB_CHECK_NULL(contract.transfer.to_address);
 
+            if (   !TW::Tron::Address::isValid(contract.transfer.owner_address)
+                || !TW::Tron::Address::isValid(contract.transfer.to_address)
+                ) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+
             parameter = TW::Tron::TransactionContract::to_parameter(
                             TW::Tron::TransferContract(
                                 contract.transfer.owner_address,
@@ -149,6 +155,12 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
             JUB_CHECK_NULL(contract.transferAsset.owner_address);
             JUB_CHECK_NULL(contract.transferAsset.to_address);
 
+            if (   !TW::Tron::Address::isValid(contract.transferAsset.owner_address)
+                || !TW::Tron::Address::isValid(contract.transferAsset.to_address)
+                ) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+
             parameter = TW::Tron::TransactionContract::to_parameter(
                             TW::Tron::TransferAssetContract(
                                 contract.transferAsset.asset_name,
@@ -163,6 +175,11 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
         {
             JUB_CHECK_NULL(contract.createSmart.owner_address);
             JUB_CHECK_NULL(contract.createSmart.bytecode);
+
+            if (!TW::Tron::Address::isValid(contract.createSmart.owner_address)) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+
             ::protocol::SmartContract pb;
             TW::Data bytecode(uchar_vector(contract.createSmart.bytecode));
             TW::Tron::SmartContract::deserialize(bytecode);
@@ -181,6 +198,12 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
             JUB_CHECK_NULL(contract.triggerSmart.owner_address);
             JUB_CHECK_NULL(contract.triggerSmart.contract_address);
             JUB_CHECK_NULL(contract.triggerSmart.data);
+
+            if (   !TW::Tron::Address::isValid(contract.triggerSmart.owner_address)
+//                || !TW::Tron::Address::isValid(contract.triggerSmart.contract_address)
+                ) {
+                return JUBR_ARGUMENTS_BAD;
+            }
 
             parameter = TW::Tron::TransactionContract::to_parameter(
                             TW::Tron::TriggerSmartContract(
