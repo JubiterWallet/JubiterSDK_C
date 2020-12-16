@@ -387,7 +387,15 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_CreateSmartContract:
         break;
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TriggerSmartContract:
+    {
+        TriggerSmartContract triggerSmart;
+        if (!from_parameter(triggerSmart)) {
+            o.clear();
+            break;
+        }
+        o = triggerSmart.serialize();
         break;
+    }
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_GetContract:
         break;
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateSettingContract:
@@ -423,6 +431,7 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_Transaction_Contract_ContractType_INT_MAX_SENTINEL_DO_NOT_USE_:
         break;
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountCreateContract:
+        break;
     default:
         break;
     }

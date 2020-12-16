@@ -86,9 +86,9 @@ void main_test() {
     cout << "| | ip_bridge.info example:            |  |" << endl;
     cout << "| | 192.168.17.60:5001                 |  |" << endl;
     cout << "|   -----------------------------------   |" << endl;
-    cout << "| 1. virtual JuBiter Blade test           |" << endl;
-    cout << "| 2. virtual JuBiter Bio   test           |" << endl;
-    cout << "| 3. virtual JuBiter Lite  test           |" << endl;
+    cout << "| 2. virtual JuBiter Blade test           |" << endl;
+    cout << "| 3. virtual JuBiter Bio   test           |" << endl;
+    cout << "| 4. virtual JuBiter Lite  test           |" << endl;
     cout << "|                                         |" << endl;
     cout << "| 0.  exit.                               |" << endl;
     cout << "-------------------------------------------" << endl;
@@ -103,7 +103,9 @@ void main_test() {
         exit(0);
         break;
     case 1:
+        break;
     case 2:
+    case 3:
     {
         commode = JUB_ENUM_COMMODE::GRPC;
         rv = JUB_ListDeviceGRPC("ip_bridge.info", (JUB_ENUM_DEVICE)choice, deviceIDs);
@@ -119,7 +121,7 @@ void main_test() {
         }
         break;
     }
-    case 3:
+    case 4:
     {
         commode = JUB_ENUM_COMMODE::GRPC;
         LITE_DEVICE_INIT_PARAM param;
