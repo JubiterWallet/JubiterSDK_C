@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_TRX_OPT) {
 #define TITLE_UNIT_TRX       @"TRX"
 
 
-static NSUInteger decimalTRX = 1;
+static NSUInteger decimalTRX = 18; // https://www.cryps.info/en/attoTron_to_TRX/1/
 @interface JUBTRXAmount : JUBAmount
 
 + (NSString*)title:(JUB_NS_ENUM_TRX_OPT)opt;

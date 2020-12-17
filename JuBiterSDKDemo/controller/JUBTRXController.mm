@@ -341,11 +341,18 @@
         contrTRX.transfer.owner_address = (JUB_CHAR_PTR)strOwnerAddress.c_str();
         contrTRX.transfer.to_address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["to_address"].asCString();
         contrTRX.transfer.amount = root["TRX"]["contracts"][sType]["amount"].asUInt();
+        if (NSComparisonResult::NSOrderedSame != [amount compare:@""]) {
+            contrTRX.transfer.amount = [amount integerValue];
+        }
         break;
     case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_ASSET_CONTRACT:
+        contrTRX.transferAsset.owner_address = (JUB_CHAR_PTR)strOwnerAddress.c_str();
         contrTRX.transferAsset.asset_name = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["asset_name"].asCString();
         contrTRX.transferAsset.to_address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["to_address"].asCString();
         contrTRX.transferAsset.amount = root["TRX"]["contracts"][sType]["amount"].asUInt();
+        if (NSComparisonResult::NSOrderedSame != [amount compare:@""]) {
+            contrTRX.transferAsset.amount = [amount integerValue];
+        }
         break;
     case JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT:
         tx.fee_limit = (char*)root["TRX"]["contracts"][sType]["fee_limit"].asCString();
@@ -353,9 +360,14 @@
         contrTRX.triggerSmart.contract_address = (char*)root["TRX"]["contracts"][sType]["contract_address"].asCString();
         contrTRX.triggerSmart.data = (char*)root["TRX"]["contracts"][sType]["data"].asCString();
         contrTRX.triggerSmart.call_value = root["TRX"]["contracts"][sType]["call_value"].asUInt64();
+        if (NSComparisonResult::NSOrderedSame != [amount compare:@""]) {
+            contrTRX.triggerSmart.call_value = [amount integerValue];
+        }
         contrTRX.triggerSmart.call_token_value = root["TRX"]["contracts"][sType]["call_token_value"].asUInt64();
         contrTRX.triggerSmart.token_id = root["TRX"]["contracts"][sType]["token_id"].asUInt64();
         break;
+    case JUB_ENUM_TRX_CONTRACT_TYPE::CREATE_SMART_CONTRACT:
+    case JUB_ENUM_TRX_CONTRACT_TYPE::NS_ITEM_TRX_CONTRACT:
     default:
         return JUBR_ARGUMENTS_BAD;
     }

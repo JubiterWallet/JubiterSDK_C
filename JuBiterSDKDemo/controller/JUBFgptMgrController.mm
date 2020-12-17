@@ -397,10 +397,12 @@
                                                                                 JUBSetErrorCallBack  _Nonnull setErrorCallBack) {
         
         NSLog(@"content = %@", timeout);
-        
-        if (   [timeout integerValue] >=  8
-            && [timeout integerValue] <= 60
-            ) {
+        if (nil == timeout) {
+            dissAlertCallBack();
+        }
+        else if (   [timeout integerValue] >=  8
+                 && [timeout integerValue] <= 60
+                 ) {
             //隐藏弹框
             dissAlertCallBack();
             

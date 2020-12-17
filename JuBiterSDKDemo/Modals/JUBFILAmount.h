@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_FIL_COIN) {
 //#define TITLE_UNIT_FIL_TOKEN @"token"
 
 
-static NSUInteger decimalFIL = 9;
+static NSUInteger decimalFIL = 18;
 @interface JUBFILAmount : JUBAmount
 
 + (NSString*)title:(JUB_NS_ENUM_FIL_COIN)opt;
