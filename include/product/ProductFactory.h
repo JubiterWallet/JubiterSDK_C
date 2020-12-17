@@ -64,11 +64,6 @@ public:
 
 public:
     xProductFactory() {
-#if defined(GRPC_MODE)
-        Register(JUB_ENUM_PRODUCT::GRPC_BLD,  &device::JubiterBridgeBLDDevice::Create);
-        Register(JUB_ENUM_PRODUCT::GRPC_BIO,  &device::JubiterBridgeBIODevice::Create);
-        Register(JUB_ENUM_PRODUCT::GRPC_LITE,&device::JubiterBridgeLITEDevice::Create);
-#endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
         Register(JUB_ENUM_PRODUCT::HID_BLD,   &device::JubiterHidBLDDevice::Create);
         Register(JUB_ENUM_PRODUCT::HID_BIO,   &device::JubiterHidBIODevice::Create);
@@ -91,27 +86,6 @@ public:
 
         *commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
         *deviceClass = JUB_ENUM_DEVICE::DEVICE_NS_ITEM;
-#if defined(GRPC_MODE)
-        if (   JUB_ENUM_COMMODE::COMMODE_NS_ITEM == (*commode)
-            &&  JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == (*deviceClass)
-            ) {
-            *commode = JUB_ENUM_COMMODE::GRPC;
-            switch (jub::device::xGRPCDeviceFactory::GetEnumDevice(device)) {
-            case JUB_ENUM_DEVICE::BLADE:
-                *deviceClass = JUB_ENUM_DEVICE::BLADE;
-                break;
-            case JUB_ENUM_DEVICE::BIO:
-                *deviceClass = JUB_ENUM_DEVICE::BIO;
-                break;
-            case JUB_ENUM_DEVICE::LITE:
-                *deviceClass = JUB_ENUM_DEVICE::LITE;
-                break;
-            default:
-                *commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
-                break;
-            }
-        }
-#endif  // #if defined(GRPC_MODE) end
 #if defined(HID_MODE)
         if (   JUB_ENUM_COMMODE::COMMODE_NS_ITEM == (*commode)
             &&  JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == (*deviceClass)

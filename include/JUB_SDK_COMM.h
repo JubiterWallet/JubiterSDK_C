@@ -44,7 +44,6 @@
     #include <TargetConditionals.h>
     #if TARGET_OS_OSX // mac osx
         #define  HID_MODE
-        #define GRPC_MODE
     #elif TARGET_OS_IOS // ios
         #define BLE_MODE
         #define NFC_MODE
@@ -54,7 +53,6 @@
     #define NFC_MODE
 #else //other
     #define  HID_MODE
-    #define GRPC_MODE
 #endif // #if defined(_WIN32)
 
 #define JUBR_OK                     0x00000000UL
