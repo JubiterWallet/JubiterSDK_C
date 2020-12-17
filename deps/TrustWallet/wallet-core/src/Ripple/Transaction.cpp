@@ -17,7 +17,7 @@ using namespace TW::Ripple;
 const int TW::Ripple::NETWORK_PREFIX = 0x53545800;
 // JuBiter-added
 const int TW::Ripple::NETWORK_PREFIX_MULTI_SIGN = 0x534D5400;
-const int64_t MAX_ALLOWED_AMOUNT = 100000000000;
+const int64_t MAX_ALLOWED_AMOUNT = 0x7FFFFFFFFFFFFFFF;
 
 // JuBiter-defined
 void Transaction::deserialize(const Data& o) {

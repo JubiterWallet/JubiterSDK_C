@@ -5,7 +5,6 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "Transaction.h"
-#include "mSIGNA/stdutils/uchar_vector.h"
 
 using namespace TW;
 using namespace TW::Filecoin;
@@ -16,7 +15,6 @@ static Data encodeVaruint(const uint64_t& value) {
     Data data;
 //    encode256BE(data, value, 256);
     encode64BE(value, data);
-    std::cout << "encodeVaruint(" << value << "): " << uchar_vector(data).getHex() << std::endl;
     size_t i = 0;
     for (i = 0; i < data.size(); ++i) {
         if (data[i] != 0) {

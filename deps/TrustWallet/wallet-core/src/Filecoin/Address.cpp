@@ -134,7 +134,6 @@ Address::Address(const Data& data) {
 }
 
 Address::Address(const PublicKey& publicKey) {
-    std::cout << "Address.bytes: " << uchar_vector(bytes).getHex() << std::endl;
     bytes.push_back(static_cast<uint8_t>(Type::SECP256K1));
     Data hash = Hash::blake2b(publicKey.bytes, payloadSize(Type::SECP256K1));
     bytes.insert(bytes.end(), hash.begin(), hash.end());
