@@ -63,11 +63,12 @@ Asset Asset::fromString(std::string assetString) {
         throw std::invalid_argument("Missing decimal fraction after decimal point");
     }
 
-    uint8_t decimals = 0;
-    if (dotPosition != string::npos) {
-        decimals = static_cast<uint8_t>(amountString.size() - dotPosition - 1);
-    }
-                           
+//    uint8_t decimals = 0;
+//    if (dotPosition != string::npos) {
+//        decimals = static_cast<uint8_t>(amountString.size() - dotPosition - 1);
+//    }
+    uint8_t decimals = (dotPosition == string::npos) ? 0 : static_cast<uint8_t>(amountString.size() - dotPosition - 1);
+
     int64_t precision = static_cast<uint64_t>(pow(10, static_cast<double>(decimals)));
 
     // Parse amount
@@ -130,10 +131,13 @@ std::string Asset::string() const {
     char buffer[maxBufferSize];
 
     auto decimals = getDecimals();
+    // JuBiter-added
+    // or the precision always be Bravo defaults, which is 1000
+    int64_t precision = static_cast<uint64_t>(pow(10, static_cast<double>(decimals)));
 
     int charsWritten = snprintf(buffer, maxBufferSize, "%.*f %s", 
                             decimals,
-                            static_cast<double>(amount) / Precision,
+                            static_cast<double>(amount) / precision,
                             getSymbol().c_str());
 
     if (charsWritten < 0 || charsWritten > maxBufferSize) {
