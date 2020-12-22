@@ -2,16 +2,12 @@
 #include <memory>
 
 #include "token/JubiterBlade/JubiterBladeToken.h"
+#include "token/ETH/JubiterBladeETHImpl.h"
 #include "token/FIL/JubiterBaseFILImpl.h"
 
 
 namespace jub {
 namespace token {
-
-
-constexpr JUB_BYTE kPKIAID_FIL[16] = {
-    0xD1, 0x56, 0x00, 0x01, 0x32, 0x03, 0x00, 0x42, 0x4C, 0x44, 0x00, 0x00, 0x45, 0x54, 0x49, 0x01
-};
 
 
 class JubiterBladeFILImpl :

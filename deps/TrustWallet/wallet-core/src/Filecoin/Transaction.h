@@ -32,15 +32,6 @@ class Transaction {
     int64_t gasLimit;
     // Transaction type; 0 for simple transfers
     uint64_t method;
-//    // Transaction nonce
-//    Data nonce;
-//    // Transaction value
-//    Data value;
-//    // Miner fee
-//    Data gasPrice;
-//    Data gasLimit;
-//    // Transaction type; 0 for simple transfers
-//    Data method;
     // Transaction data; empty for simple transfers
     Data params;
 
@@ -48,8 +39,6 @@ class Transaction {
 //                uint256_t glimit)
     Transaction(Address to, Address from, uint64_t nonce, uint64_t value, uint64_t gprice,
                 uint64_t glimit)
-//    Transaction(Address to, Address from, Data nonce, Data value, Data gprice,
-//                Data glimit)
         : to(std::move(to))
         , from(std::move(from))
         , nonce(nonce)
@@ -59,6 +48,17 @@ class Transaction {
         , method(0) {}
 
   public:
+    // JuBiter-defined
+    static Data getCidPrefix();
+    // JuBiter-defined
+    Data getNonce() const;
+    // JuBiter-defined
+    Data getValue() const;
+    // JuBiter-defined
+    Data getGasPrice() const;
+    // JuBiter-defined
+    Data getGasLimit() const;
+
     // message returns the CBOR encoding of the Filecoin Message to be signed.
     Cbor::Encode message() const;
 
@@ -67,9 +67,6 @@ class Transaction {
 
     // serialize returns the CBOR encoding of the Filecoin SignedMessage.
     Data serialize(Data& signature) const;
-
-    // JuBiter-defined
-    
 };
 
 } // namespace TW::Filecoin

@@ -38,6 +38,37 @@ const Data cidPrefix = {
     0x20,
 };
 
+// JuBiter-defined
+Data Transaction::getCidPrefix() {
+    return cidPrefix;
+}
+
+// JuBiter-defined
+Data Transaction::getNonce() const {
+    Data vNonce = Cbor::Encode::uint(nonce).encoded();
+    return Data(vNonce.begin()+1, vNonce.end());
+}
+
+// JuBiter-defined
+Data Transaction::getValue() const {
+    Data vValue = Cbor::Encode::bytes(encodeVaruint(value)).encoded();
+    return Data(vValue.begin()+1, vValue.end());
+}
+
+// JuBiter-defined
+Data Transaction::getGasPrice() const {
+    Data vGasPrice = Cbor::Encode::bytes(encodeVaruint(gasPrice)).encoded();
+    return Data(vGasPrice.begin()+1, vGasPrice.end());
+}
+
+// JuBiter-defined
+Data Transaction::getGasLimit() const {
+    Cbor::Encode cborGasLimit = gasLimit >= 0 ? Cbor::Encode::uint((uint64_t)gasLimit)
+                                              : Cbor::Encode::negInt((uint64_t)(-gasLimit - 1));
+    Data vGasLimit = cborGasLimit.encoded();
+    return Data(vGasLimit.begin()+1, vGasLimit.end());
+}
+
 Cbor::Encode Transaction::message() const {
     Cbor::Encode cborGasLimit = gasLimit >= 0 ? Cbor::Encode::uint((uint64_t)gasLimit)
                                               : Cbor::Encode::negInt((uint64_t)(-gasLimit - 1));

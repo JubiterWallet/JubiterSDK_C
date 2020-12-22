@@ -57,6 +57,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ethereum SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ripple SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Tron SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Filecoin SRC_LIST)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core SRC_LIST)
@@ -121,8 +122,9 @@ if(APPLE) #MacOS与iOS打出来的为framework
     ${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_EOS.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_ETH.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_Hcash.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_TRX.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_XRP.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_TRX.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK_FIL.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/JUB_SDK.h
     )
 

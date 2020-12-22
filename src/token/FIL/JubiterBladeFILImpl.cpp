@@ -1,6 +1,8 @@
 #include "token/FIL/JubiterBladeFILImpl.h"
+#include "token/ETH/JubiterBaseETHImpl.h"
 
-#include <Ripple/Transaction.h>
+#include <Filecoin/Transaction.h>
+#include "Cbor.h"
 #include "token/ErrorHandler.h"
 
 
@@ -10,7 +12,7 @@ namespace token {
 
 #define SWITCH_TO_FIL_APP                       \
 do {                                            \
-    JUB_VERIFY_RV(_SelectApp(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE)));\
+    JUB_VERIFY_RV(_SelectApp(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE)));\
 } while (0);                                    \
 
 
@@ -94,158 +96,57 @@ JUB_RV JubiterBladeFILImpl::SignTX(const uint64_t& nonce,
                                    const std::string& path,
                                    std::vector<JUB_BYTE>& vSignatureRaw) {
 
-    constexpr JUB_UINT32 kSendOnceLen = 230;
-
     try {
-//        TW::Filecoin::Transaction tx;
-//        tx.setPreImage(vUnsignedRaw);
-//
-//        std::string path(vPath.begin(), vPath.end());
-//        std::string pubkey;
-//        JUB_VERIFY_RV(GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, pubkey));
-//        uchar_vector vPubkey(pubkey);
-//        tx.pub_key.insert(tx.pub_key.end(), vPubkey.begin(), vPubkey.end());
-//        tx.serialize();
-//        vUnsignedRaw.clear();
-//        vUnsignedRaw = tx.getPreImage();
-//
-//        uint16_t total = 0;
-//        // pathTLV
-//        uchar_vector pathLV;
-//        pathLV << (JUB_BYTE)(vPath.size());
-//        pathLV << vPath;
-//        uchar_vector pathTLV;
-//        pathTLV << ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, pathLV);
-//        total += pathTLV.size();
-//
-//        //txAssistTLV                       - tag = 0x02
-//        //txType
-//        //txAssistBodyTLV                   - tag = 0x01
-//        //    pymtTypeType
-//        //    transferTLV                       - dxrp.tag = 0x05
-//        //        amountIndex
-//        //        feeIndex
-//        //        signingPubKeyTLV                  -  signingPubKey.tag = 0x03
-//        //           signingPubKeyIndex
-//        //           signingPubKeyLength
-//        //        destinationTLV                    -    destination.tag = 0x04
-//        //           destinationIndex
-//        //           destinationLength
-//        //        destinationTagTLV                 - destinationTag.tag = 0x07
-//        //           destinationTagIndex
-//        //           destinationTagLength
-//        //        memoTLV                           -           memo.tag = 0x08
-//        //           memoIndex
-//        //           memoLength
-//        //NETWORK_PREFIX TLV                - tag = 0x06
-//        //signingPubKeyTLV
-//        uchar_vector vSigningPubKey;
-//        vSigningPubKey << tx.getSignPubkeyIndex();
-//        vSigningPubKey << (uint8_t)tx.pub_key.size();
-//        uchar_vector vSigningPubKeyTLV;
-//        vSigningPubKeyTLV << ToTlv(0x03, vSigningPubKey);
-//        //destinationTLV
-//        uchar_vector vDestination;
-//        vDestination << tx.getDestinationIndex();
-//        vDestination << (uint8_t)tx.destination.pubkeyHashSize();
-//        uchar_vector vDestinationTLV;
-//        vDestinationTLV << ToTlv(0x04, vDestination);
-//        //destinationTagTLV
-//        uchar_vector vDestinationTag;
-//        vDestinationTag << tx.getDestinationTagIndex();
-//        vDestinationTag << (uint8_t)(0 < tx.destination_tag ? 4 : 0);
-//        uchar_vector vDestinationTagTLV;
-//        vDestinationTagTLV << ToTlv(0x07, vDestinationTag);
-//        //memoTLV
-//        uchar_vector vMemo;
-//        vMemo << tx.getShowMemoIndex();
-//        vMemo << (uint8_t)tx.getShowMemoSize();
-//        uchar_vector vMemoTLV;
-//        vMemoTLV << ToTlv(0x08, vMemo);
-//
-//        //dxrpTLV
-//        uchar_vector vDxrp;
-//        vDxrp << tx.getAmountIndex();
-//        vDxrp << tx.getFeeIndex();
-//        vDxrp << vSigningPubKeyTLV;
-//        vDxrp << vDestinationTLV;
-//        vDxrp << vDestinationTagTLV;
-//        vDxrp << vMemoTLV;
-//        uchar_vector vDxrpTLV;
-//        vDxrpTLV << ToTlv(0x05, vDxrp);
-//
-//        //txAssistBody
-//        uchar_vector vTxAssistBody;
-//        vTxAssistBody << (uint8_t)JUB_ENUM_XRP_PYMT_TYPE::DXRP;
-//        vTxAssistBody << vDxrpTLV;
-//        uchar_vector vTxAssistBodyTLV;
-//        vTxAssistBodyTLV << ToTlv(0x01, vTxAssistBody);
-//
-//        //NETWORK_PREFIX TLV
-//        uchar_vector vNetWorkPrefix;
-//        vNetWorkPrefix << (uint8_t)(sizeof(TW::Ripple::NETWORK_PREFIX) / sizeof(uint8_t));
-//        vNetWorkPrefix << tx.getNetworkPrefix();
-//
-//        //txAssistTLV
-//        uchar_vector vTxAssist;
-//        vTxAssist << (uint8_t)TW::Ripple::TransactionType::payment;
-//        vTxAssist << vTxAssistBodyTLV;
-//        uchar_vector vTxAssistTLV;
-//        vTxAssistTLV << ToTlv(0x02, vTxAssist);
-//        uchar_vector vNetWorkPrefixTLV;
-//        vTxAssistTLV << ToTlv(0x06, vNetWorkPrefix);
-//        total += vTxAssistTLV.size();
-//        total += tx.size();
-//
-//        uchar_vector apduData;
-//        apduData << total;
-//        apduData.reverse();
-//        // pathTLV
-//        apduData << pathTLV;
-//        // txAssist
-//        apduData << vTxAssistTLV;
-//
-//        //  first pack
-//        APDU apdu(0x00, 0xF8, 0x01, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
-//        JUB_UINT16 ret = 0;
-//        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-//        JUB_VERIFY_COS_ERROR(ret);
-//        apduData.clear();
-//
-//        // tx
-//        apduData << tx.serialize();
-//        unsigned long iCnt = apduData.size() / kSendOnceLen;
-//        JUB_UINT32 iRemainder = apduData.size() % kSendOnceLen;
-//        if (iCnt) {
-//            int bOnce = false;
-//            for (unsigned long i = 0; i < iCnt; ++i) {
-//                if ((i + 1) == iCnt
-//                    &&    0 == iRemainder
-//                    ) {
-//                    bOnce = true;
-//                }
-//                uchar_vector apduDataPart(&apduData[i*kSendOnceLen], kSendOnceLen);
-//                JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, bOnce));  // last data or not.
-//            }
+        std::string from;
+        JUB_VERIFY_RV(GetAddress(path, 0, from));
+
+        TW::Filecoin::Address fromAddr = TW::Filecoin::Address(from);
+        TW::Filecoin::Transaction tx(TW::Filecoin::Address(to),
+                                     fromAddr,
+                                     nonce,
+                                     value,
+                                     gprice,
+                                     glimit);
+
+        uchar_vector data;
+
+        // cidPrefix
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_CID_PREFIX_4A, TW::Filecoin::Transaction::getCidPrefix());
+        // version
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_VERSION_40, {0x00});
+        // to address
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_TO_44, TW::Filecoin::Address(to).bytes);
+        // from address
+        std::vector<JUB_BYTE> vPath(path.begin(), path.end());
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_PATH_47, vPath);
+        // nonce
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_NONCE_41, tx.getNonce());
+        // value
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_VALUE_45, tx.getValue());
+        // gas price
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_PRICE_42, tx.getGasPrice());
+        // gas limit
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_LIMIT_43, tx.getGasLimit());
+        // abi.MethodNum (0 => send)
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_ABI_METHODNUM_4B, {0x00});
+        // data (empty)
+        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_DATA_4C, TW::Data());
+
+        JUB_BYTE ins = JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A;
+//        if (bERC20) {
+//            ins = JUB_ENUM_APDU_CMD::INS_SIGN_ERC20_C8;
 //        }
-//        if (iRemainder) {
-//            uchar_vector apduDataPart(&apduData[iCnt*kSendOnceLen], iRemainder);
-//            JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, true));  // last data.
-//        }
-//        apduData.clear();
-//
-//        //  sign transactions
-//        JUB_BYTE retData[2048] = { 0, };
-//        JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-//        apdu.SetApdu(0x00, JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A, 0x00, 0x00, 0);
-//        JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-//        if (0x6f09 == ret) {
-//            return JUBR_USER_CANCEL;
-//        }
-//        JUB_VERIFY_COS_ERROR(ret);
-//
-//        uchar_vector signatureRaw(retData, retData + ulRetDataLen);
-//        vSignatureRaw.push_back(signatureRaw);
+
+        //one pack can do it
+        APDU apdu(0x00, ins, 0x01, 0x00, (JUB_ULONG)data.size(), data.data());
+        JUB_UINT16 ret = 0;
+        JUB_BYTE retData[2048] = { 0, };
+        JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+        JUB_VERIFY_COS_ERROR(ret);
+
+        vSignatureRaw.clear();
+        vSignatureRaw.insert(vSignatureRaw.end(), retData, retData + ulRetDataLen);
     }
     catch (...) {
         return JUBR_ERROR_ARGS;

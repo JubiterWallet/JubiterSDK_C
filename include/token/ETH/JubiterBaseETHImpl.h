@@ -7,11 +7,8 @@
 namespace jub {
 namespace token {
 
-
-class JubiterBaseETHImpl :
-virtual public ETHTokenInterface {
-public:
-    enum JUB_ENUM_APDU_DATA_ETH : uint8_t {
+enum JUB_ENUM_APDU_DATA_ETH : uint8_t {
+          TAG_VERSION_40 = 0x40,
             TAG_NONCE_41 = 0x41,
         TAG_GAS_PRICE_42 = 0x42,
         TAG_GAS_LIMIT_43 = 0x43,
@@ -21,8 +18,13 @@ public:
              TAG_PATH_47 = 0X47,
          TAG_CHAIN_ID_48 = 0x48,
               TAG_MSG_49 = 0x49,
-    };
+       TAG_CID_PREFIX_4A = 0x4A,
+    TAG_ABI_METHODNUM_4B = 0x4B,
+             TAG_DATA_4C = 0x4C,
+};
 
+class JubiterBaseETHImpl :
+virtual public ETHTokenInterface {
 public:
     JubiterBaseETHImpl() {
         _coin = TWCoinType::TWCoinTypeEthereum;
