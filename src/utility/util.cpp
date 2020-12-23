@@ -180,7 +180,8 @@ std::vector<unsigned char> ETHHexStr2CharPtr(std::string str) {
     std::string _str = str;
     size_t pos = _str.find(ETH_PRDFIX);
     if (std::string::npos == pos) {
-        return std::vector<unsigned char>();
+//        return std::vector<unsigned char>();
+        return HexStr2CharPtr(_str);
     }
     _str.erase(pos, strlen(ETH_PRDFIX));
     return HexStr2CharPtr(_str);

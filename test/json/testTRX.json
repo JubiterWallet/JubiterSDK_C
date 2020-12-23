@@ -39,6 +39,13 @@
         "bip32_path" : {
             "change" : false,
             "addressIndex" : 0
+        },
+        "TRC20" : {
+            "token_to" : "TX8K7GXogXRPZnUsxmQrM3ZyHKXQwd93ZQ",
+            "token_value" : "156000000",
+            "tokenName" : "USDT",
+            "dp" : 6,
+            "contract_address" : "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
         }
     }
 }

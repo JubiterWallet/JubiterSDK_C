@@ -35,6 +35,10 @@ public:
         return tag;
     }
 
+    std::vector<uint8_t> getValue() {
+        return value;
+    }
+
     size_t getValueIndex() {
         return (tag.size(fieldType) + length.size());
     }

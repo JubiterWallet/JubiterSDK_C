@@ -16,6 +16,7 @@
 #include <mSIGNA/stdutils/uchar_vector.h>
 #include <google/protobuf/any.pb.h>
 
+
 namespace jub {
 namespace token {
 
@@ -32,6 +33,9 @@ public:
     virtual JUB_RV SignTX(const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vRaw,
                           std::vector<uchar_vector>& vSignatureRaw) = 0;
+    virtual JUB_RV SetTRC20Token(const std::string& tokenName,
+                                 const JUB_UINT16 unitDP,
+                                 const std::string& contractAddress) = 0;
 
     virtual JUB_RV SerializeContract(const JUB_CONTRACT_TRX& contract,
                                      ::google::protobuf::Any& parameter) = 0;

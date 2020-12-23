@@ -105,5 +105,11 @@ JUB_RV TrezorCryptoTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
 }
 
 
+JUB_RV TrezorCryptoTRXImpl::SetTRC20Token(const std::string& tokenName,
+                                          const JUB_UINT16 unitDP,
+                                          const std::string& contractAddress) {
+
+    return JUBR_OK;
+}
 } // namespace token end
 } // namespace jub end

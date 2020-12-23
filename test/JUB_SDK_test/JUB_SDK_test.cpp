@@ -102,8 +102,6 @@ void main_test() {
     case 0:
         exit(0);
         break;
-    case 1:
-        break;
     case 2:
     case 3:
     {

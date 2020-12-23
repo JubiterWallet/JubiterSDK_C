@@ -31,6 +31,9 @@ public:
     virtual JUB_RV SignTX(const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vRaw,
                           std::vector<uchar_vector>& vSignatureRaw) override;
+    virtual JUB_RV SetTRC20Token(const std::string& tokenName,
+                                 const JUB_UINT16 unitDP,
+                                 const std::string& contractAddress) override;
 }; // class TrezorCryptoTRXImpl end
 
 

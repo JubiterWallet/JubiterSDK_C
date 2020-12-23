@@ -163,6 +163,39 @@ JUB_RV JUB_SignTransactionTRX(IN JUB_UINT16 contextID,
 
 
 /*****************************************************************************
+ * @function name : JUB_BuildTRC20Abi
+ * @in  param : contextID - context ID
+ *          : tokenName - TRX token name
+ *          : unitDP - unit decimal place
+ *          : contractAddress - contract address
+ *          : tokenTo - token to
+ *          : tokenValue - value for token transaction
+ * @out param : abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildTRC20Abi(IN JUB_UINT16 contextID,
+                         IN JUB_CHAR_CPTR tokenName,
+                         IN JUB_UINT16 unitDP,
+                         IN JUB_CHAR_CPTR contractAddress,
+                         IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
+                         OUT JUB_CHAR_PTR_PTR abi) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    JUB_VERIFY_RV(context->SetTRC20Token(tokenName, unitDP, contractAddress));
+
+    std::string strAbi;
+    JUB_VERIFY_RV(context->BuildTRC20Abi(tokenTo, tokenValue, strAbi));
+    JUB_VERIFY_RV(_allocMem(abi, strAbi));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
  * @function name : JUB_PackContractTRX
  * @in  param : contextID - context ID
  *          : tx - transaction

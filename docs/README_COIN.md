@@ -24,6 +24,7 @@ Function list:
     * [JUB_SignTransactionXRP](#JUB_SignTransactionXRP)
 * **TRX related module**
     * [JUB_PackContractTRX](#JUB_PackContractTRX)
+    * [JUB_BuildTRC20Abi](#JUB_BuildTRC20Abi)
     * [JUB_SignTransactionTRX](#JUB_SignTransactionTRX)
 
 ### JUB_CreateContextXXX
@@ -363,6 +364,30 @@ JUB_RV JUB_SignTransactionTRX(
     IN JUB_CHAR_CPTR packedContractInPb,
     OUT JUB_CHAR_PTR_PTR rawInJSON
 );
+```
+
+### JUB_BuildTRC20Abi
+* **Function:** Build TRC20(transfer) ABI.
+* **IN param:**
+contextID - context ID from JUB_CreateContextTRX.
+tokenName - TRC-20 token name.
+unitDP - unit.
+contractAddress - contract address for TRC-20.
+tokenTo - TRC-20 token to address.
+tokenValue - TRC-20 token amount.
+* **OUT param:**
+abi - TRC-20 ABI.
+
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionTRX/JUB_PackContractTRX for TRC-20 token transactions.
+```
+JUB_RV JUB_BuildTRC20Abi(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR tokenName,
+    IN JUB_UINT16 unitDP,
+    IN JUB_CHAR_CPTR contractAddress,
+    IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
+    OUT JUB_CHAR_PTR_PTR abi);
 ```
 
 ### JUB_PackContractTRX

@@ -208,7 +208,7 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
     }
 
     // ETH token extension apdu
-    if (0 > _appletVersion.compare(APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+    if (0 > _appletVersion.compare(ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
         return JUBR_OK;
     }
 
@@ -216,7 +216,7 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
     JUB_CHECK_NULL(pContractAddress);
 
     std::string tokenName = std::string(pTokenName);
-    std::string contractAddress = std::string(pContractAddress);
+    std::string contractAddress = uchar_vector(ETHHexStr2CharPtr(pContractAddress)).getHex();
     JUB_VERIFY_RV(token->SetERC20ETHToken(tokenName,
                                           unitDP,
                                           contractAddress));

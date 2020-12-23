@@ -2,6 +2,7 @@
 #include "utility/util.h"
 
 #include <Tron/Transaction.h>
+#include <Ethereum/ERC20Abi.h>
 #include "token/ErrorHandler.h"
 
 namespace jub {
@@ -217,6 +218,13 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
                 break;
             }
 
+            bool bERC20 = false;
+            if (0 == memcmp(uchar_vector(contract.getData().getValue()).getHex().c_str(),
+                            ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))
+                ) { // erc20 function sign
+                bERC20 = true;
+            }
+
             //triggerSmartTLV(TRC-20)   - triggerSmart.type = 0x1F
             //    contractAddress               - contractAddress.tag = 0x04
             //       contractAddressOffset
@@ -252,9 +260,11 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
             //      8601        - feeLimit offset
             //      01          - feeLimit size
             uchar_vector vItem;
-            vItem << contract.callValueOffset(contrIndex);
-            vItem << contract.callValueSize();
-            vContractAssist << ToTlv(0x05, vItem);
+            if (!bERC20) {
+                vItem << contract.callValueOffset(contrIndex);
+                vItem << contract.callValueSize();
+                vContractAssist << ToTlv(0x05, vItem);
+            }
 
             vItem.clear();
             vItem << contract.contractAddressOffset(contrIndex);
@@ -342,5 +352,11 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
 }
 
 
+JUB_RV JubiterBladeTRXImpl::SetTRC20Token(const std::string& tokenName,
+                                          const JUB_UINT16 unitDP,
+                                          const std::string& contractAddress) {
+
+    return SetERC20Token(tokenName.c_str(), unitDP, contractAddress.c_str());
+}
 } // namespace token end
 } // namespace jub end
