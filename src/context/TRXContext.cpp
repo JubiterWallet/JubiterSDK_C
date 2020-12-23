@@ -13,6 +13,7 @@
 #include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/TRXTokenInterface.hpp"
 #include <Tron/Signer.h>
+#include <Ethereum/ERC20Abi.h>
 #include "utility/util.h"
 
 
@@ -32,6 +33,7 @@ JUB_RV TRXContext::ActiveSelf() {
     if (JUBR_OK != rv) {
         return rv;
     }
+    JUB_VERIFY_RV(token->GetAppletVersion(_appletVersion));
 
     if (   std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
         || std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)
@@ -208,6 +210,48 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
     catch (...) {
         return JUBR_ARGUMENTS_BAD;
     }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV TRXContext::BuildTRC20Abi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
+
+    CONTEXT_CHECK_TYPE_NONE
+    TW::Tron::Address toAddr(to);
+    std::vector<JUB_BYTE> vTo = uchar_vector(toAddr.bytes.begin(), toAddr.bytes.end());
+    std::vector<JUB_BYTE> vValue = jub::HexStr2CharPtr(DecStringToHexString(std::string(value)));
+    uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vTo, vValue);
+    abi = vAbi.getHex();
+
+    return JUBR_OK;
+}
+
+
+JUB_RV TRXContext::SetTRC20Token(JUB_CHAR_CPTR pTokenName,
+                                 JUB_UINT16 unitDP,
+                                 JUB_CHAR_CPTR pContractAddress) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::TRXTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    // TRX token extension apdu
+    if (0 > _appletVersion.compare(MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+        return JUBR_OK;
+    }
+
+    JUB_CHECK_NULL(pTokenName);
+    JUB_CHECK_NULL(pContractAddress);
+
+    std::string tokenName = std::string(pTokenName);
+    std::string contractAddress = std::string(pContractAddress);
+    JUB_VERIFY_RV(token->SetTRC20Token(tokenName,
+                                       unitDP,
+                                       contractAddress));
 
     return JUBR_OK;
 }

@@ -714,6 +714,30 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
 }
 
 
+JUB_RV JubiterBladeToken::SetERC20Token(JUB_CHAR_CPTR tokenName,
+                                        JUB_UINT16 unitDP,
+                                        JUB_CHAR_CPTR contractAddress) {
+
+    uchar_vector lvName = Tollv(tokenName);
+    uchar_vector address;
+    address << ETHHexStr2CharPtr(contractAddress);
+
+    uchar_vector data;
+    data << (uint8_t)unitDP;
+    data << (uint8_t)lvName.size();
+    data << lvName;
+    data << (uint8_t)address.size();
+    data << address;
+
+    APDU apdu(0x00, 0xC7, 0x00, 0x00, (JUB_ULONG)data.size(), data.data());
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    return JUBR_OK;
+}
+
+
 /// NFC
 JUB_RV JubiterBladeToken::SetLabel(const std::string& label) {
 

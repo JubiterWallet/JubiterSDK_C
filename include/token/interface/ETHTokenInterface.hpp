@@ -8,7 +8,7 @@
 #include "utility/util.h"
 
 // ETH token extension apdu
-#define APPLET_VERSION_SUPPORT_EXT_TOKEN "01040109"
+#define ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN "01040109"
 
 
 namespace jub {

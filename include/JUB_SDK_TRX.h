@@ -232,6 +232,24 @@ JUB_RV JUB_SignTransactionTRX(IN JUB_UINT16 contextID,
                               IN JUB_CHAR_CPTR packedContractInPb,
                               OUT JUB_CHAR_PTR_PTR rawInJSON);
 
+/*****************************************************************************
+ * @function name : JUB_BuildTRC20Abi
+ * @in  param : contextID - context ID
+ *          : tokenName - TRX token name
+ *          : unitDP - unit decimal place
+ *          : contractAddress - contract address
+ *          : tokenTo - token to
+ *          : tokenValue - value for token transaction
+ * @out param : abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildTRC20Abi(IN JUB_UINT16 contextID,
+                         IN JUB_CHAR_CPTR tokenName,
+                         IN JUB_UINT16 unitDP,
+                         IN JUB_CHAR_CPTR contractAddress,
+                         IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
+                         OUT JUB_CHAR_PTR_PTR abi);
 
 /*****************************************************************************
  * @function name : JUB_PackContractTRX

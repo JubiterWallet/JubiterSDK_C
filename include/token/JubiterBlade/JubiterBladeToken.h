@@ -92,6 +92,10 @@ public:
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
+    virtual JUB_RV SetERC20Token(JUB_CHAR_CPTR tokenName,
+                                 JUB_UINT16 unitDP,
+                                 JUB_CHAR_CPTR contractAddress) override;
+
     // NFC
     virtual JUB_RV SetLabel(const std::string& label) override;
     virtual JUB_RV Reset() override;

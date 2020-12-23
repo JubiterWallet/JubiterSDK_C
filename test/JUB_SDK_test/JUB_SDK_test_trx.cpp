@@ -40,13 +40,14 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
     }
 
     while (true) {
-        cout << " ------------------------------------ " << endl;
+        cout << " ------------------------------------- " << endl;
         cout << "|******* Jubiter Wallet TRX  ********|" << endl;
         cout << "| 1 . show_address_pubkey_test.      |" << endl;
         cout << "|                                    |" << endl;
         cout << "| 21.       transfer_contract_test.  |" << endl;
         cout << "| 22. transfer_asset_contract_test.  |" << endl;
-        cout << "| 23.  trigger_smart_contract_test.  |" << endl;
+        cout << "| 23. trigger_smart_contr_erc20_test.|" << endl;
+        cout << "| 24. trigger_smart_contr_trc20_test.|" << endl;
         cout << "|                                    |" << endl;
         cout << "| 3 . set_my_address_test.           |" << endl;
         cout << "| 4 . set_timeout_test.              |" << endl;
@@ -65,6 +66,7 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
         case 21:
         case 22:
         case 23:
+        case 24:
             transaction_test_TRX(contextID, root, choice);
             break;
         case 3:
@@ -183,19 +185,26 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) 
 //          TRIG_SMART_CONTRACT = 31, // TriggerSmartContract(smart_contract.proto)
 //         NS_ITEM_TRX_CONTRACT
 //    } JUB_ENUM_TRX_CONTRACT_TYPE;
+    bool bERC20 = false;
     if (   21 == choice
         || 22 == choice
         ) {
         choice -= 20;
     }
-    else if (23 == choice) {
+    else if (   23 == choice
+             || 24 == choice
+             ) {
+        if (23 == choice) {
+            bERC20 = true;
+        }
         choice = 31;
     }
 
     std::string packedContractInPb;
     rv = pack_contract_proc(contextID, root,
                             choice,
-                            packedContractInPb);
+                            packedContractInPb,
+                            bERC20);
     if (JUBR_OK != rv) {
         return rv;
     }
@@ -220,9 +229,29 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) 
 
 JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
                           int choice,
-                          std::string& packedContract) {
+                          std::string& packedContract,
+                          bool bERC20) {
 
     JUB_RV rv = JUBR_OK;
+
+    JUB_CHAR_PTR trc20Abi = nullptr;
+    if (bERC20) {
+        string tokenName = (char*)root["TRX"]["TRC20"]["tokenName"].asCString();
+        JUB_UINT16 unitDP = root["TRX"]["TRC20"]["dp"].asUInt64();
+        string contractAddress = (char*)root["TRX"]["TRC20"]["contract_address"].asCString();
+        string tokenTo = (char*)root["TRX"]["TRC20"]["token_to"].asCString();
+        string tokenValue = (char*)root["TRX"]["TRC20"]["token_value"].asCString();
+
+        rv = JUB_BuildTRC20Abi(contextID,
+                               tokenName.c_str(),
+                               unitDP,
+                               contractAddress.c_str(),
+                               tokenTo.c_str(), tokenValue.c_str(),
+                               &trc20Abi);
+        if (JUBR_OK != rv) {
+            return rv;
+        }
+    }
 
     JUB_TX_TRX tx;
 
@@ -264,7 +293,12 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
         tx.fee_limit = (char*)root["TRX"]["contracts"][sType]["fee_limit"].asCString();
         contrTRX.triggerSmart.owner_address = (char*)root["TRX"]["contracts"]["owner_address"].asCString();
         contrTRX.triggerSmart.contract_address = (char*)root["TRX"]["contracts"][sType]["contract_address"].asCString();
-        contrTRX.triggerSmart.data = (char*)root["TRX"]["contracts"][sType]["data"].asCString();
+        if (bERC20) {
+            contrTRX.triggerSmart.data = trc20Abi;
+        }
+        else {
+            contrTRX.triggerSmart.data = (char*)root["TRX"]["contracts"][sType]["data"].asCString();
+        }
         contrTRX.triggerSmart.call_value = root["TRX"]["contracts"][sType]["call_value"].asUInt64();
         contrTRX.triggerSmart.call_token_value = root["TRX"]["contracts"][sType]["call_token_value"].asUInt64();
         contrTRX.triggerSmart.token_id = root["TRX"]["contracts"][sType]["token_id"].asUInt64();

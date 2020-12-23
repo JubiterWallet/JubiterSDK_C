@@ -23,6 +23,15 @@ JUB_RV JubiterBladeTRXImpl::SelectApplet() {
 }
 
 
+JUB_RV JubiterBladeTRXImpl::GetAppletVersion(std::string &version) {
+
+    uchar_vector appID(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE));
+    JUB_VERIFY_RV(JubiterBladeToken::GetAppletVersion(CharPtr2HexStr(appID), version));
+
+    return JUBR_OK;
+}
+
+
 //MISC functions
 JUB_RV JubiterBladeTRXImpl::SetCoin() {
 
@@ -342,5 +351,11 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
 }
 
 
+JUB_RV JubiterBladeTRXImpl::SetTRC20Token(const std::string& tokenName,
+                                          const JUB_UINT16 unitDP,
+                                          const std::string& contractAddress) {
+
+    return SetERC20Token(tokenName.c_str(), unitDP, contractAddress.c_str());
+}
 } // namespace token end
 } // namespace jub end
