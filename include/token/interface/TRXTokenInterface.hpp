@@ -17,10 +17,6 @@
 #include <google/protobuf/any.pb.h>
 
 
-// TRX token extension apdu
-#define MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN "01000006"
-
-
 namespace jub {
 namespace token {
 
@@ -31,7 +27,6 @@ public:
     virtual ~TRXTokenInterface() = default;
 
     virtual JUB_RV SelectApplet() = 0;
-    virtual JUB_RV GetAppletVersion(std::string& version) = 0;
     virtual JUB_RV SetCoin() = 0;
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;

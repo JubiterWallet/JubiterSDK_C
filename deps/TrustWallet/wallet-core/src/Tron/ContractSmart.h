@@ -160,13 +160,13 @@ public:
 
     virtual TW::Data dataSize() const;
     virtual TW::Data dataOffset(const size_t offset) const;
+    virtual pb_length_delimited getData() const;
 
 private:
     virtual bool calculateOffset();
 
     virtual pb_length_delimited getContractAddress() const;
     virtual pb_varint getCallValue() const;
-    virtual pb_length_delimited getData() const;
     virtual pb_varint getCallTokenValue() const;
 
     virtual size_t contractAddressIndex(const size_t offset) const;

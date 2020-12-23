@@ -24,13 +24,13 @@ JUB_RV QTUMContext::SetQRC20Token(IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8
 //        _contractAddress));
 
     std::string tokenName = std::string(symbol);
-    std::string _contractAddress = std::string(ETH_PRDFIX) + contractAddress;
+    std::string _contractAddress = uchar_vector(ETHHexStr2CharPtr(std::string(contractAddress))).getHex();
 
     auto token = std::dynamic_pointer_cast<token::QTUMTokenInterface>(_tokenPtr);
     JUB_CHECK_NULL(token);
     JUB_VERIFY_RV(token->SetQRC20ETHToken(tokenName,
                                           decimal,
-                                          contractAddress));
+                                          _contractAddress));
 
     return JUBR_OK;
 }

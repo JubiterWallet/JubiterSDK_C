@@ -719,8 +719,7 @@ JUB_RV JubiterBladeToken::SetERC20Token(JUB_CHAR_CPTR tokenName,
                                         JUB_CHAR_CPTR contractAddress) {
 
     uchar_vector lvName = Tollv(tokenName);
-    uchar_vector address;
-    address << ETHHexStr2CharPtr(contractAddress);
+    uchar_vector address = HexStr2CharPtr(contractAddress);
 
     uchar_vector data;
     data << (uint8_t)unitDP;

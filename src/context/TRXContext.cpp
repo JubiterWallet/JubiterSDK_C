@@ -33,7 +33,6 @@ JUB_RV TRXContext::ActiveSelf() {
     if (JUBR_OK != rv) {
         return rv;
     }
-    JUB_VERIFY_RV(token->GetAppletVersion(_appletVersion));
 
     if (   std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
         || std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)
@@ -239,16 +238,12 @@ JUB_RV TRXContext::SetTRC20Token(JUB_CHAR_CPTR pTokenName,
         return JUBR_IMPL_NOT_SUPPORT;
     }
 
-    // TRX token extension apdu
-    if (0 > _appletVersion.compare(MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
-        return JUBR_OK;
-    }
-
     JUB_CHECK_NULL(pTokenName);
     JUB_CHECK_NULL(pContractAddress);
 
     std::string tokenName = std::string(pTokenName);
-    std::string contractAddress = std::string(pContractAddress);
+    std::string contractAddress = uchar_vector(TW::Tron::Address::toHex(std::string(pContractAddress))).getHex();
+
     JUB_VERIFY_RV(token->SetTRC20Token(tokenName,
                                        unitDP,
                                        contractAddress));

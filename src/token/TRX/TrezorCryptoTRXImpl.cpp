@@ -17,12 +17,6 @@ JUB_RV TrezorCryptoTRXImpl::SelectApplet() {
 }
 
 
-JUB_RV TrezorCryptoTRXImpl::GetAppletVersion(std::string& version) {
-
-    return JUBR_OK;
-}
-
-
 JUB_RV TrezorCryptoTRXImpl::SetCoin() {
 
     return JUBR_OK;
