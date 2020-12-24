@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define BUTTON_TITLE_TRX        @"TRX"
 #define BUTTON_TITLE_TRC10      @"TRC10"
+#define BUTTON_TITLE_TRC20_TRANSFER @"TRC20(transfer)"
 #define BUTTON_TITLE_TRC20      @"TRC20"
 
 

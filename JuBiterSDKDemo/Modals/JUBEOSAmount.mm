@@ -151,7 +151,7 @@
     case JUB_NS_ENUM_EOS_OPT::BTN_EOS_TOKEN:
         amt = [JUBEOSAmount convertToProperFormat:amount
                                             point:@"."
-                                          decimal:0];
+                                          decimal:decimalEOS];
         break;
     case JUB_NS_ENUM_EOS_OPT::BTN_EOS:
     case JUB_NS_ENUM_EOS_OPT::BTN_EOS_BUYRAM:

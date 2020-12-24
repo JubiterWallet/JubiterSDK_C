@@ -14,6 +14,7 @@
 typedef NS_ENUM(NSInteger, JUB_NS_ENUM_TRX_OPT) {
     BTN_TRX,
     BTN_TRC10,
+    BTN_TRC20_TRANSFER,
     BTN_TRC20
 };
 
