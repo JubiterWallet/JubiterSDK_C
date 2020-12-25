@@ -259,7 +259,7 @@ bool TriggerSmartContract::calculateOffset() {
     dIndex = szOwnerAddress
            + szContractAddress
            + szCallValue
-           + pbData.sizeTag();
+           + pbData.sizeTag() + pbData.sizeLength();
 
 //    callTokenVSize  = pbCallTokenValue.sizeValue();
 //    callTokenVIndex = szOwnerAddress

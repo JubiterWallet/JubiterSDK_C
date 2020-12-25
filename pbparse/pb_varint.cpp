@@ -62,10 +62,6 @@ pb_varint::pb_varint(const int field_number,
 
     clear();
 
-    if (WireFormatLite::FieldType::TYPE_INT32  != type) {
-        return;
-    }
-
     if (!encodeTag(field_number, type)) {
         return;
     }
@@ -81,10 +77,6 @@ pb_varint::pb_varint(const int field_number,
                      const uint32_t v) {
 
     clear();
-
-    if (WireFormatLite::FieldType::TYPE_UINT32  != type) {
-        return;
-    }
 
     if (!encodeTag(field_number, type)) {
         return;
@@ -145,6 +137,7 @@ bool pb_varint::encodeTag(const int field_number,
     case WireFormatLite::FieldType::TYPE_INT32:
     case WireFormatLite::FieldType::TYPE_BOOL:
     case WireFormatLite::FieldType::TYPE_UINT32:
+    case WireFormatLite::FieldType::TYPE_ENUM:
     case WireFormatLite::FieldType::TYPE_SINT32:
     case WireFormatLite::FieldType::TYPE_SINT64:
         wire_type = WireFormatLite::WireType::WIRETYPE_VARINT;
