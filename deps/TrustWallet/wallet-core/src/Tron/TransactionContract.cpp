@@ -458,9 +458,6 @@ bool TransactionContract::calculateOffset() {
     Data o = pbParameter.serialize();
 
     paramValueIndex += szType;
-
-    paramValueIndex += pbParameter.sizeTag();
-    paramValueIndex += pbParameter.sizeLength();
     paramValueIndex += parameterValueIndex(o);
 
     return true;

@@ -235,10 +235,10 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
     JUB_RV rv = JUBR_OK;
 
     JUB_CHAR_PTR trc20Abi = nullptr;
+    string contractAddress = (char*)root["TRX"]["TRC20"]["contract_address"].asCString();
     if (bERC20) {
         string tokenName = (char*)root["TRX"]["TRC20"]["tokenName"].asCString();
         JUB_UINT16 unitDP = root["TRX"]["TRC20"]["dp"].asUInt64();
-        string contractAddress = (char*)root["TRX"]["TRC20"]["contract_address"].asCString();
         string tokenTo = (char*)root["TRX"]["TRC20"]["token_to"].asCString();
         string tokenValue = (char*)root["TRX"]["TRC20"]["token_value"].asCString();
 
@@ -292,11 +292,12 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
     {
         tx.fee_limit = (char*)root["TRX"]["contracts"][sType]["fee_limit"].asCString();
         contrTRX.triggerSmart.owner_address = (char*)root["TRX"]["contracts"]["owner_address"].asCString();
-        contrTRX.triggerSmart.contract_address = (char*)root["TRX"]["contracts"][sType]["contract_address"].asCString();
         if (bERC20) {
+            contrTRX.triggerSmart.contract_address = (char*)contractAddress.c_str();
             contrTRX.triggerSmart.data = trc20Abi;
         }
         else {
+            contrTRX.triggerSmart.contract_address = (char*)root["TRX"]["contracts"][sType]["contract_address"].asCString();
             contrTRX.triggerSmart.data = (char*)root["TRX"]["contracts"][sType]["data"].asCString();
         }
         contrTRX.triggerSmart.call_value = root["TRX"]["contracts"][sType]["call_value"].asUInt64();
