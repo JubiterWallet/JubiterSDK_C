@@ -297,6 +297,7 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
             contrTRX.triggerSmart.data = trc20Abi;
         }
         else {
+            contrTRX.triggerSmart.contract_address = (char*)root["TRX"]["contracts"][sType]["contract_address"].asCString();
             contrTRX.triggerSmart.data = (char*)root["TRX"]["contracts"][sType]["data"].asCString();
         }
         contrTRX.triggerSmart.call_value = root["TRX"]["contracts"][sType]["call_value"].asUInt64();
