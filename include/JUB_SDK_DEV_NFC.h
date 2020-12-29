@@ -147,6 +147,16 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
                      IN JUB_CHAR_CPTR pinNew,
                      OUT JUB_ULONG_PTR pretry);
 
+/*****************************************************************************
+ * @function name : JUB_GetPINRetries (Heart Beat)
+ * @in  param : compID - could be device ID or context ID, both are OK
+ * @out param : retry
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetPINRetries(IN JUB_UINT16 compID,
+                         OUT JUB_ULONG_PTR pretry);
+
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus

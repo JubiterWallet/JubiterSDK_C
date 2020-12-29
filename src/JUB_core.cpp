@@ -6,7 +6,7 @@
 
 #include "JUB_CORE.h"
 
-#include <utility/util.h>
+#include "utility/util.h"
 #include "utility/mutex.h"
 
 #include <string>
@@ -14,11 +14,11 @@
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
 
-#include <context/BTCContextFactory.h>
-#include <context/HCContextFactory.h>
-#include <context/ETHContextFactory.h>
-#include <context/EOSContextFactory.h>
-#include <context/XRPContextFactory.h>
+#include "context/BTCContextFactory.h"
+#include "context/HCContextFactory.h"
+#include "context/ETHContextFactory.h"
+#include "context/EOSContextFactory.h"
+#include "context/XRPContextFactory.h"
 
 
 //where to place...

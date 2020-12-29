@@ -468,4 +468,47 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
 #endif  // #if defined(NFC_MODE) end
 }
 
+/*****************************************************************************
+ * @function name : JUB_GetPINRetries (Heart Beat)
+ * @in  param : compID - could be device ID or context ID, both are OK
+ * @out param : retry
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetPINRetries(IN JUB_UINT16 compID,
+                         OUT JUB_ULONG_PTR pretry) {
+
+#if defined(NFC_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(compID);
+    auto context = jub::context::ContextManager::GetInstance()->GetOne(compID);
+    if(    nullptr == device
+        && nullptr == context
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    if (device) {
+        std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(compID);
+        if (!token) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+
+        JUB_BYTE retry = 0;
+        JUB_VERIFY_RV(token->GetPinRetry(retry));
+        *pretry = retry;
+    }
+    else if (context) {
+        JUB_VERIFY_RV(context->GetPINRetries(pretry));
+    }
+    else {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+#else   // #if defined(NFC_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(NFC_MODE) end
+}
+
 #endif // NFC_MODE

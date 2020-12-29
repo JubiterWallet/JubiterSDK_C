@@ -3,6 +3,7 @@
 #include "context/BaseContext.h"
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #include <token/JubiterBIO/JubiterBIOToken.h>
+#include <token/JubiterNFC/JubiterNFCToken.h>
 
 namespace jub {
 namespace context {
@@ -51,6 +52,32 @@ JUB_RV BaseContext::VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry) {
     }
 
     JUB_VERIFY_RV(token->VerifyPIN(pinMix, retry));
+
+    return JUBR_OK;
+}
+
+
+JUB_RV BaseContext::GetPINRetries(OUT JUB_ULONG_PTR pretry) {
+
+    auto token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+//    auto token = std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr);
+//    if (!token) {
+//        if (!token) {
+//            token = std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr);
+//            if (!token) {
+//                token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(_tokenPtr);
+//            }
+//            return JUBR_IMPL_NOT_SUPPORT;
+//        }
+//    }
+
+    JUB_BYTE retry = 0;
+    JUB_VERIFY_RV(token->GetPinRetry(retry));
+    *pretry = retry;
 
     return JUBR_OK;
 }

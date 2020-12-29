@@ -39,6 +39,7 @@ public:
     virtual JUB_RV ShowVirtualPwd();
     virtual JUB_RV CancelVirtualPwd();
     virtual JUB_RV VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry);
+    virtual JUB_RV GetPINRetries(OUT JUB_ULONG_PTR pretry);
     virtual JUB_RV ActiveSelf() = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout);
     virtual JUB_RV VerifyFingerprint(OUT JUB_ULONG &retry);

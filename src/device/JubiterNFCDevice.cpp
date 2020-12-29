@@ -106,11 +106,15 @@ JUB_RV JubiterNFCDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
         ) {
         return JUBR_NOT_CONNECT_DEVICE;
     }
+    DEBUG_LOG("NFC send data: %s\n", jub::ByteArray2String(sendData, (uint32_t)ulSendLen).c_str());
 
-    return TransmitNFC(_handle,
-                         (JUB_BYTE_PTR)sendData, (JUB_UINT32)ulSendLen,
-                         retData, (JUB_UINT32_PTR)pulRetDataLen,
-                         (int)ulMilliSecondTimeout);
+    JUB_RV rv = TransmitNFC(_handle,
+                            (JUB_BYTE_PTR)sendData, (JUB_UINT32)ulSendLen,
+                            retData, (JUB_UINT32_PTR)pulRetDataLen,
+                            (int)ulMilliSecondTimeout);
+    DEBUG_LOG("NFC recv data: %s\n", jub::ByteArray2String(retData, (uint32_t)(*pulRetDataLen)).c_str());
+
+    return rv;
 }
 
 
