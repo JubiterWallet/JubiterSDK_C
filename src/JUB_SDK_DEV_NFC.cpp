@@ -512,3 +512,4 @@ JUB_RV JUB_GetPINRetries(IN JUB_UINT16 compID,
 }
 
 #endif // NFC_MODE
+

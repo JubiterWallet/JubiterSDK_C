@@ -3,7 +3,9 @@
 #include "context/BaseContext.h"
 #include <token/JubiterBlade/JubiterBladeToken.h>
 #include <token/JubiterBIO/JubiterBIOToken.h>
+#if defined(NFC_MODE)
 #include <token/JubiterNFC/JubiterNFCToken.h>
+#endif  // #if defined(NFC_MODE) end
 
 namespace jub {
 namespace context {
@@ -59,6 +61,7 @@ JUB_RV BaseContext::VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry) {
 
 JUB_RV BaseContext::GetPINRetries(OUT JUB_ULONG_PTR pretry) {
 
+#if defined(NFC_MODE)
     auto token = std::dynamic_pointer_cast<jub::token::JubiterNFCToken>(_tokenPtr);
     if (!token) {
         return JUBR_IMPL_NOT_SUPPORT;
@@ -80,6 +83,9 @@ JUB_RV BaseContext::GetPINRetries(OUT JUB_ULONG_PTR pretry) {
     *pretry = retry;
 
     return JUBR_OK;
+#else   // #if defined(NFC_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(NFC_MODE) end
 }
 
 
