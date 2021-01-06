@@ -16,6 +16,7 @@ Function list:
 * **ETH series related module**
     * [JUB_SignTransactionETH](#JUB_SignTransactionETH)
     * [JUB_BuildERC20AbiETH](#JUB_BuildERC20AbiETH)
+    * [JUB_SignContractETH](#JUB_SignContractETH)
 * **EOS related module**
     * [JUB_SignTransactionEOS](#JUB_SignTransactionEOS)
     * [JUB_BuildActionEOS](#JUB_BuildActionEOS)
@@ -264,6 +265,34 @@ JUB_RV JUB_BuildERC20AbiETH(
     IN JUB_CHAR_CPTR tokenTo,
     IN JUB_CHAR_CPTR tokenValue,
     OUT JUB_CHAR_PTR_PTR abi);
+```
+
+### JUB_SignContractETH
+* **Function:** Sign ETH contract.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
+path - path in BIP44.
+nonce - nonce.
+gasLimit - gas limit.
+gasPriceInWei - gas price in Wei.
+to - to address.
+valueInWei - amount in Wei of ETH tx.
+input - ERC-20 ABI from JUB_BuildERC20AbiETH, otherwise using other API to build contract.
+* **OUT param:**
+raw - signed ETH contract.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_SignContractETH(
+    IN JUB_UINT16 contextID,
+    IN BIP44_Path path,
+    IN JUB_UINT32 nonce,
+    IN JUB_UINT32 gasLimit,
+    IN JUB_CHAR_CPTR gasPriceInWei,
+    IN JUB_CHAR_CPTR to,
+    IN JUB_CHAR_CPTR valueInWei,
+    IN JUB_CHAR_CPTR input,
+    OUT JUB_CHAR_PTR_PTR raw
+);
 ```
 
 ## EOS related module

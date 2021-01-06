@@ -15,6 +15,17 @@ namespace jub {
 namespace token {
 
 
+typedef enum {
+    CREATE_CONTRACT = 0,
+    WITH_ADDRESS = 1,           // abandon
+    WITH_ADDRESS_AMOUNT = 2,    // abandon
+    WITH_TXID = 3,
+    WITH_AMOUNT = 4,            // abandon
+    WITH_ADDRESS_AMOUNT_DATA = 5,
+    NS_ITEM
+} ENUM_CONTRACT_ABI;
+
+
 class ETHTokenInterface:
 virtual public BaseToken {
 public:
@@ -38,6 +49,17 @@ public:
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress) = 0;
+
+    virtual JUB_RV SignContract(const JUB_BYTE inputType,
+                                const std::vector<JUB_BYTE>& vNonce,
+                                const std::vector<JUB_BYTE>& vGasPrice,
+                                const std::vector<JUB_BYTE>& vGasLimit,
+                                const std::vector<JUB_BYTE>& vTo,
+                                const std::vector<JUB_BYTE>& vValue,
+                                const std::vector<JUB_BYTE>& vInput,
+                                const std::vector<JUB_BYTE>& vPath,
+                                const std::vector<JUB_BYTE>& vChainID,
+                                std::vector<JUB_BYTE>& vRaw) = 0;
 
     virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
                                   const std::vector<JUB_BYTE>& vPath,

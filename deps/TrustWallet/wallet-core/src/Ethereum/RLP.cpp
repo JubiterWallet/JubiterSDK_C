@@ -38,7 +38,7 @@ Data RLP::encodeList(const Data& encoded) noexcept {
 
 // JuBiter-defined
 Data RLP::decodeList(const Data& decoded) noexcept {
-    uint8_t offset = 0;
+    uint64_t offset = 0;
     return removeHeader(decoded, 0xc0, 0xf7, offset);
 }
 
@@ -64,8 +64,8 @@ Transaction RLP::decode(const Data& encoded) noexcept {
 
     Transaction transaction;
 
-    uint8_t offset = 0;
-    uint8_t headerSize = 0;
+    uint64_t offset = 0;
+    uint64_t headerSize = 0;
     transaction.nonce    = decode(toDecode, headerSize);
     offset += headerSize;
     offset += transaction.nonce.size();
@@ -132,7 +132,8 @@ Data RLP::encode(const Data& data) noexcept {
     return encoded;
 }
 
-Data RLP::encodeHeader(uint64_t size, uint8_t smallTag, uint8_t largeTag) noexcept {
+// JuBiter-modified
+Data RLP::encodeHeader(uint64_t size, uint64_t smallTag, uint64_t largeTag) noexcept {
     if (size < 56) {
         return {static_cast<uint8_t>(smallTag + size)};
     }
@@ -147,7 +148,7 @@ Data RLP::encodeHeader(uint64_t size, uint8_t smallTag, uint8_t largeTag) noexce
 }
 
 // JuBiter-defined
-Data RLP::decode(const Data& data, uint8_t& offset) noexcept {
+Data RLP::decode(const Data& data, uint64_t& offset) noexcept {
     if (data.empty() || (data[0] == 0x80)) {
         offset = 0;
         return {0};
@@ -163,7 +164,7 @@ Data RLP::decode(const Data& data, uint8_t& offset) noexcept {
 }
 
 // JuBiter-defined
-Data RLP::removeHeader(const Data& header, const uint8_t smallTag, const uint8_t largeTag, uint8_t& headerSize) noexcept {
+Data RLP::removeHeader(const Data& header, const uint64_t smallTag, const uint64_t largeTag, uint64_t& headerSize) noexcept {
 
     auto size = decodeHeader(header, smallTag, largeTag, headerSize);
     if (0 == size) {
@@ -176,7 +177,7 @@ Data RLP::removeHeader(const Data& header, const uint8_t smallTag, const uint8_t
 }
 
 // JuBiter-defined
-uint64_t RLP::decodeHeader(const Data& header, const uint8_t smallTag, const uint8_t largeTag, uint8_t& headerSize) noexcept {
+uint64_t RLP::decodeHeader(const Data& header, const uint64_t smallTag, const uint64_t largeTag, uint64_t& headerSize) noexcept {
 
     uint8_t cnt = header[0] - smallTag;
     if ( 56 > cnt) {

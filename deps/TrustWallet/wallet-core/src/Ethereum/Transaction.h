@@ -45,6 +45,18 @@ class Transaction {
         , payload(std::move(payload)) {}
 
     // JuBiter-defined
+    Transaction(Data nonce, Data gasPrice, Data gasLimit, Address to, Data amount, Data payload, Data v, Data r, Data s)
+        : nonce(std::move(nonce))
+        , gasPrice(std::move(gasPrice))
+        , gasLimit(std::move(gasLimit))
+        , to(std::move(to))
+        , amount(std::move(amount))
+        , payload(std::move(payload))
+        , v(v)
+        , r(r)
+        , s(s) {}
+
+    // JuBiter-defined
     bool isValid() {
         if (   0 == nonce.size()
             || 0 == gasPrice.size()
