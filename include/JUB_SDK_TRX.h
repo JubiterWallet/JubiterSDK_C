@@ -177,6 +177,16 @@ JUB_RV JUB_GetAddressTRX(IN JUB_UINT16 contextID,
                          OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
+ * @function name : JUB_CheckAddressTRX
+ * @in  param : contextID - context ID
+ *          : address
+ * @out param : addrInHex: base58 decode
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressTRX(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addrInHex);
+
+/*****************************************************************************
  * @function name : JUB_GetHDNodeTRX
  * @in  param : contextID - context ID
  *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;

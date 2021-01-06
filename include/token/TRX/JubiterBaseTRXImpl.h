@@ -15,6 +15,8 @@ public:
         _curve_name = (char*)SECP256K1_TRX_NAME;
     };
 
+    virtual JUB_RV CheckAddress(const std::string& address, std::string& hex);
+
     virtual JUB_RV PackTransactionRaw(const JUB_TX_TRX& tx,
                                       std::string& packedContractInPB);
     virtual JUB_RV SerializeContract(const JUB_CONTRACT_TRX& contract,

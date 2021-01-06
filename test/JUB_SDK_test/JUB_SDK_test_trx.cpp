@@ -153,7 +153,16 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
         return;
     }
     cout << "address: " << address << endl;
+
+    char* addrInHex = nullptr;
+    rv = JUB_CheckAddressTRX(contextID, address, &addrInHex);
     JUB_FreeMemory(address);
+    cout << "JUB_CheckAddressTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "address in hex: " << addrInHex << endl;
+    JUB_FreeMemory(addrInHex);
 }
 
 void transaction_test_TRX(JUB_UINT16 contextID, Json::Value root, int choice) {

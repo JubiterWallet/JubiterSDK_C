@@ -63,6 +63,27 @@ JUB_RV JUB_GetAddressTRX(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
+ * @function name : JUB_CheckAddressTRX
+ * @in  param : contextID - context ID
+ *          : address
+ * @out param : addrInHex: base58 decode
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressTRX(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addrInHex) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_address;
+    JUB_VERIFY_RV(context->CheckAddress(address, str_address));
+    JUB_VERIFY_RV(_allocMem(addrInHex, str_address));
+
+    return JUBR_OK;
+}
+
+/*****************************************************************************
  * @function name : JUB_SetMyAddressTRX
  * @in  param : contextID - context ID
  *            : path
