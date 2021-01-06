@@ -55,6 +55,23 @@ JUB_RV JubiterBaseTRXImpl::_getAddress(const TW::Data& publicKey, std::string& a
 }
 
 
+JUB_RV JubiterBaseTRXImpl::CheckAddress(const std::string& address, std::string& hex) {
+
+    try {
+        if (!TW::Tron::Address::isValid(address)) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+
+        hex = uchar_vector(TW::Tron::Address::toHex(address)).getHex();
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterBaseTRXImpl::SerializePreimage(const std::string& packedContractInPb,
                                              uchar_vector& preimageRaw) {
 

@@ -26,6 +26,7 @@ Function list:
 * **XRP related module**
     * [JUB_SignTransactionXRP](#JUB_SignTransactionXRP)
 * **TRX related module**
+    * [JUB_CheckAddressTRX](#JUB_CheckAddressTRX)
     * [JUB_PackContractTRX](#JUB_PackContractTRX)
     * [JUB_BuildTRC20Abi](#JUB_BuildTRC20Abi)
     * [JUB_SignTransactionTRX](#JUB_SignTransactionTRX)
@@ -408,6 +409,21 @@ JUB_RV JUB_SignTransactionXRP(
 ```
 
 ## TRX related module
+### JUB_CheckAddressTRX
+* **Function:** Check address if it is valid for the specified coin.
+* **IN param:**
+contextID - context ID from JUB_CreateContextTRX.
+address - address in the specified path.
+* **OUT param:** addrInHex - base58 decoded address in HEX.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_CheckAddressTRX(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR address,
+    OUT JUB_CHAR_PTR_PTR addrInHex
+);
+```
+
 ### JUB_SignTransactionTRX
 * **Function:** Sign TRX transaction.
 * **IN param:**

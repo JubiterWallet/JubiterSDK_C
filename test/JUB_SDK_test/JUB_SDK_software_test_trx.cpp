@@ -93,9 +93,18 @@ void software_test_trx(const char* json_file) {
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressTRX(contextID, path, BOOL_FALSE, &address);
     cout << "JUB_GetAddressTRX() return " << GetErrMsg(rv) << endl;
+    std::string addr = "";
     if(JUBR_OK == rv) {
         cout << "address: " << address << endl;
+        addr = std::string(address);
         JUB_FreeMemory(address);
+    }
+
+    JUB_CHAR_PTR addrInHex = nullptr;
+    rv = JUB_CheckAddressTRX(contextID, addr.c_str(), &addrInHex);
+    if(JUBR_OK == rv) {
+        cout << "address in hex: " << addrInHex << endl;
+        JUB_FreeMemory(addrInHex);
     }
 
     for (int i=1; i<=3; ++i) {

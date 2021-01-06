@@ -146,6 +146,21 @@ JUB_RV TRXContext::SetMyAddress(const BIP48_Path& path, std::string& address) {
 }
 
 
+JUB_RV TRXContext::CheckAddress(const std::string& address, std::string& addressInHex) {
+
+    CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::TRXTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->CheckAddress(address, addressInHex));
+
+    return JUBR_OK;
+}
+
+
 JUB_RV TRXContext::GetHDNode(const JUB_BYTE format, const BIP48_Path& path, std::string& pubkey) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
