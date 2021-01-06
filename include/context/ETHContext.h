@@ -49,6 +49,14 @@ public:
                                    JUB_CHAR_CPTR valueInWei,
                                    JUB_CHAR_CPTR input,
                                    OUT std::string& raw);
+        virtual JUB_RV SignContract(const BIP44_Path& path,
+                                    const JUB_UINT32 nonce,
+                                    const JUB_UINT32 gasLimit,
+                                    JUB_CHAR_CPTR gasPriceInWei,
+                                    JUB_CHAR_CPTR to,
+                                    IN JUB_CHAR_CPTR valueInWei,
+                                    IN JUB_CHAR_CPTR input,
+                                    OUT std::string& raw);
 
     virtual JUB_RV SignBytestring(const BIP44_Path& path,
                                   const JUB_CHAR_CPTR data,

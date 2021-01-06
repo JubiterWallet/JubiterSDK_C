@@ -59,8 +59,7 @@ JUB_RV TrezorCryptoETHImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 }
 
 
-JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
-                                   const std::vector<JUB_BYTE>& vNonce,
+JUB_RV TrezorCryptoETHImpl::SignTx(const std::vector<JUB_BYTE>& vNonce,
                                    const std::vector<JUB_BYTE>& vGasPrice,
                                    const std::vector<JUB_BYTE>& vGasLimit,
                                    const std::vector<JUB_BYTE>& vTo,
@@ -91,6 +90,29 @@ JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
 }
 
 
+JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
+                                   const std::vector<JUB_BYTE>& vNonce,
+                                   const std::vector<JUB_BYTE>& vGasPrice,
+                                   const std::vector<JUB_BYTE>& vGasLimit,
+                                   const std::vector<JUB_BYTE>& vTo,
+                                   const std::vector<JUB_BYTE>& vValue,
+                                   const std::vector<JUB_BYTE>& vInput,
+                                   const std::vector<JUB_BYTE>& vPath,
+                                   const std::vector<JUB_BYTE>& vChainID,
+                                   std::vector<JUB_BYTE>& vRaw) {
+
+    return SignTx(vNonce,
+                  vGasPrice,
+                  vGasLimit,
+                  vTo,
+                  vValue,
+                  vInput,
+                  vPath,
+                  vChainID,
+                  vRaw);
+}
+
+
 JUB_RV TrezorCryptoETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                                      const std::string& path,
                                      const std::vector<JUB_BYTE>& vSigedTrans) {
@@ -117,6 +139,29 @@ JUB_RV TrezorCryptoETHImpl::SetERC20ETHToken(const std::string& tokenName,
                                              const std::string& contractAddress) {
 
     return JUBR_OK;
+}
+
+
+JUB_RV TrezorCryptoETHImpl::SignContract(const JUB_BYTE inputType,
+                                         const std::vector<JUB_BYTE>& vNonce,
+                                         const std::vector<JUB_BYTE>& vGasPrice,
+                                         const std::vector<JUB_BYTE>& vGasLimit,
+                                         const std::vector<JUB_BYTE>& vTo,
+                                         const std::vector<JUB_BYTE>& vValue,
+                                         const std::vector<JUB_BYTE>& vInput,
+                                         const std::vector<JUB_BYTE>& vPath,
+                                         const std::vector<JUB_BYTE>& vChainID,
+                                         std::vector<JUB_BYTE>& vRaw) {
+
+    return SignTx(vNonce,
+                  vGasPrice,
+                  vGasLimit,
+                  vTo,
+                  vValue,
+                  vInput,
+                  vPath,
+                  vChainID,
+                  vRaw);
 }
 
 

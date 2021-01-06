@@ -68,7 +68,7 @@ struct RLP {
 
     // JuBiter-defined
     /// Decodes a block of data.
-    static Data decode(const Data& data, uint8_t& offset) noexcept;
+    static Data decode(const Data& data, uint64_t& offset) noexcept;
 
     /// Encodes a static array.
     template <std::size_t N>
@@ -86,7 +86,7 @@ struct RLP {
     // JuBiter-defined
     /// Decodes to a static array.
     template <std::size_t N>
-    static std::array<uint8_t, N> decode(const Data& data, uint8_t& headerSize) noexcept {
+    static std::array<uint8_t, N> decode(const Data& data, uint64_t& headerSize) noexcept {
         auto array = removeHeader(data, 0x80, 0xb7, headerSize);
 
         std::array<uint8_t, N> decoded;
@@ -112,16 +112,17 @@ struct RLP {
         return encoded;
     }
 
+    // JuBiter-modified
     /// Encodes a list header.
-    static Data encodeHeader(uint64_t size, uint8_t smallTag, uint8_t largeTag) noexcept;
+    static Data encodeHeader(uint64_t size, uint64_t smallTag, uint64_t largeTag) noexcept;
 
     // JuBiter-defined
     /// Removes a list header.
-    static Data removeHeader(const Data& header, const uint8_t smallTag, const uint8_t largeTag, uint8_t& headerSize) noexcept;
+    static Data removeHeader(const Data& header, const uint64_t smallTag, const uint64_t largeTag, uint64_t& headerSize) noexcept;
 
     // JuBiter-defined
     /// Decodes a list header.
-    static uint64_t decodeHeader(const Data& header, const uint8_t smallTag, const uint8_t largeTag, uint8_t& headerSize) noexcept;
+    static uint64_t decodeHeader(const Data& header, const uint64_t smallTag, const uint64_t largeTag, uint64_t& headerSize) noexcept;
 
     /// Returns the representation of an integer using the least number of bytes
     /// needed.

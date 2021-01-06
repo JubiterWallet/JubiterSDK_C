@@ -48,9 +48,10 @@ void ETH_test(const char* json_file) {
         cout << "| 1. show_address_pubkey_test.       |" << endl;
         cout << "| 2.         transaction_test.       |" << endl;
         cout << "| 3.   transaction_ERC20_test.       |" << endl;
-        cout << "| 4.          bytestring_test.       |" << endl;
-        cout << "| 5.      set_my_address_test.       |" << endl;
-        cout << "| 6.         set_timeout_test.       |" << endl;
+        cout << "| 4.   transaction_contr_test.       |" << endl;
+        cout << "| 5.          bytestring_test.       |" << endl;
+        cout << "| 6.      set_my_address_test.       |" << endl;
+        cout << "| 7.         set_timeout_test.       |" << endl;
         cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
@@ -69,12 +70,15 @@ void ETH_test(const char* json_file) {
             transaction_test_ERC20_ETH(contextID, root);
             break;
         case 4:
-            bytestring_test_ETH(contextID, root);
+            transaction_test_contr_ETH(contextID, root);
             break;
         case 5:
-            set_my_address_test_ETH(contextID);
+            bytestring_test_ETH(contextID, root);
             break;
         case 6:
+            set_my_address_test_ETH(contextID);
+            break;
+        case 7:
             set_timeout_test(contextID);
             break;
         case 9:
@@ -277,6 +281,47 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     return rv;
 }
 
+//contract Test
+void transaction_test_contr_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = transaction_proc_contr_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+JUB_RV transaction_proc_contr_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["contract"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["contract"]["bip32_path"]["addressIndex"].asUInt();
+    uint32_t nonce = root["contract"]["nonce"].asUInt();//.asDouble();
+    uint32_t gasLimit = root["contract"]["gasLimit"].asUInt();//.asDouble();
+    char* gasPriceInWei = (char*)root["contract"]["gasPriceInWei"].asCString();
+    char* valueInWei = nullptr; //"" and "0" ara also OK
+    char* to = (char*)root["contract"]["to"].asCString();
+    char* abi = (char*)root["contract"]["data"].asCString();;
+
+    char* raw = nullptr;
+    rv = JUB_SignContractETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
+    if (JUBR_OK != rv) {
+        cout << "JUB_SignContractETH() return " << GetErrMsg(rv) << endl;
+        return rv;
+    }
+    else {
+        cout << raw << endl;
+        JUB_FreeMemory(raw);
+    }
+
+    return rv;
+}
 
 //bytestring Test
 void bytestring_test_ETH(JUB_UINT16 contextID, Json::Value root) {

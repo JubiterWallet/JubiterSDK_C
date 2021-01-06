@@ -185,6 +185,53 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
+ * @function name : JUB_SignContractETH
+ * @in  param : contextID - context ID
+ *          : path
+ *          : nonce - nonce
+ *          : gasLimit - gas limit
+ *          : gasPriceInWei - gas price in wei
+ *          : to
+ *          : valueInWei - value in wei
+ *          : input
+ * @out param : raw
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignContractETH(IN JUB_UINT16 contextID,
+                           IN BIP44_Path path,
+                           IN JUB_UINT32 nonce,
+                           IN JUB_UINT32 gasLimit,
+                           IN JUB_CHAR_PTR gasPriceInWei,
+                           IN JUB_CHAR_PTR to,
+                           IN JUB_CHAR_PTR valueInWei,
+                           IN JUB_CHAR_PTR input,
+                           OUT JUB_CHAR_PTR_PTR raw) {
+
+    CREATE_THREAD_LOCK_GUARD
+    JUB_CHECK_NULL(gasPriceInWei);
+    JUB_CHECK_NULL(to);
+//    JUB_CHECK_NULL(valueInWei);// it can be nullptr
+    JUB_CHECK_NULL(input);
+
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_raw;
+    JUB_VERIFY_RV(context->SignContract(path,
+                                        nonce,
+                                        gasLimit,
+                                        gasPriceInWei,
+                                        to,
+                                        valueInWei,
+                                        input,
+                                        str_raw));
+    JUB_VERIFY_RV(_allocMem(raw, str_raw));
+
+    return JUBR_OK;
+}
+
+/*****************************************************************************
  * @function name : JUB_SignBytestringETH
  * @in  param : contextID - context ID
  *          : path

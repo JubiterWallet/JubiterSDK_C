@@ -1,4 +1,6 @@
 #include <token/ETH/JubiterBladeETHImpl.h>
+#include <Ethereum/Transaction.h>
+#include <Ethereum/RLP.h>
 #include <token/ErrorHandler.h>
 
 namespace jub {
@@ -176,6 +178,110 @@ JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName, const
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     JUB_VERIFY_COS_ERROR(ret);
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBladeETHImpl::SignContract(const JUB_BYTE inputType,
+                                         const std::vector<JUB_BYTE>& vNonce,
+                                         const std::vector<JUB_BYTE>& vGasPrice,
+                                         const std::vector<JUB_BYTE>& vGasLimit,
+                                         const std::vector<JUB_BYTE>& vTo,
+                                         const std::vector<JUB_BYTE>& vValue,
+                                         const std::vector<JUB_BYTE>& vInput,
+                                         const std::vector<JUB_BYTE>& vPath,
+                                         const std::vector<JUB_BYTE>& vChainID,
+                                         std::vector<JUB_BYTE>& vRaw) {
+
+    constexpr JUB_UINT32 kSendOnceLen = 230;
+
+    uchar_vector apduData;
+
+    if (0x00 == vNonce[0]) {
+        apduData << (JUB_BYTE)0x41;
+        apduData << (JUB_BYTE)0x00;
+    }
+    else {
+        apduData << ToTlv(0x41, vNonce);
+    }
+
+    apduData << ToTlv(0x42, vGasPrice);
+    apduData << ToTlv(0x43, vGasLimit);
+    apduData << ToTlv(0x44, vTo);
+    apduData << ToTlv(0x45, vValue);
+    // Too length to send at here
+//    apduData << ToTlv(0x46, vInput);
+    apduData << ToTlv(0x47, vPath);
+    apduData << ToTlv(0x48, vChainID);
+
+    //  first pack
+    APDU apdu(0x00, 0xF8, 0x01, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    if (0x9000 != ret) {
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+    }
+    apduData.clear();
+
+    uchar_vector tlvInput;
+    tlvInput << ToTlv(inputType, vInput);
+    apduData << ToTlv(0x46, tlvInput);
+    unsigned long iCnt = apduData.size()/kSendOnceLen;
+    JUB_UINT32 iRemainder = apduData.size()%kSendOnceLen;
+    if (iCnt) {
+        int bOnce = false;
+        for (unsigned long i=0; i<iCnt; ++i) {
+            if (   (i+1) == iCnt
+                &&    0  == iRemainder
+                ) {
+                bOnce = true;
+            }
+            uchar_vector apduDataPart(&apduData[i*kSendOnceLen], kSendOnceLen);
+            JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, bOnce));  // last data or not.
+        }
+    }
+    if (iRemainder) {
+        uchar_vector apduDataPart(&apduData[iCnt*kSendOnceLen], iRemainder);
+        JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, true));  // last data.
+    }
+    apduData.clear();
+
+    //  sign transactions
+    JUB_BYTE ins = 0xc9;
+    apdu.SetApdu(0x00, ins, 0x00, 0x00, 0);
+    JUB_BYTE retData[2048] = {0,};
+    JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x6f09 == ret) {
+        return JUBR_USER_CANCEL;
+    }
+    if (0x9000 != ret) {
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+    }
+
+    std::vector<JUB_BYTE> signatureRaw;
+    signatureRaw.insert(signatureRaw.end(), retData, retData + ulRetDataLen);
+
+    // parse signature
+    std::vector<JUB_BYTE> r(32);
+    std::copy(signatureRaw.begin(), signatureRaw.begin()+32, r.begin());
+
+    uchar_vector s(32);
+    std::copy(signatureRaw.begin()+32, signatureRaw.begin()+32+32, s.begin());
+
+    uchar_vector v(1);
+    std::copy(signatureRaw.begin()+32+32, signatureRaw.end(), v.begin());
+    TW::Ethereum::Transaction tx(vNonce,
+                                 vGasPrice,
+                                 vGasLimit,
+                                 TW::Ethereum::Address(vTo),
+                                 vValue,
+                                 vInput,
+                                 v, r, s);
+
+    vRaw.clear();
+    vRaw = TW::Ethereum::RLP::encode(tx);
 
     return JUBR_OK;
 }

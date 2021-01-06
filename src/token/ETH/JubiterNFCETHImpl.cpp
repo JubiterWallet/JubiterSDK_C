@@ -83,8 +83,7 @@ JUB_RV JubiterNFCETHImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV,
 }
 
 
-JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
-                                 const std::vector<JUB_BYTE>& vNonce,
+JUB_RV JubiterNFCETHImpl::SignTx(const std::vector<JUB_BYTE>& vNonce,
                                  const std::vector<JUB_BYTE>& vGasPrice,
                                  const std::vector<JUB_BYTE>& vGasLimit,
                                  const std::vector<JUB_BYTE>& vTo,
@@ -147,6 +146,29 @@ JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
 }
 
 
+JUB_RV JubiterNFCETHImpl::SignTX(const bool bERC20,
+                                 const std::vector<JUB_BYTE>& vNonce,
+                                 const std::vector<JUB_BYTE>& vGasPrice,
+                                 const std::vector<JUB_BYTE>& vGasLimit,
+                                 const std::vector<JUB_BYTE>& vTo,
+                                 const std::vector<JUB_BYTE>& vValue,
+                                 const std::vector<JUB_BYTE>& vInput,
+                                 const std::vector<JUB_BYTE>& vPath,
+                                 const std::vector<JUB_BYTE>& vChainID,
+                                 std::vector<JUB_BYTE>& vRaw) {
+
+    return SignTx(vNonce,
+                  vGasPrice,
+                  vGasLimit,
+                  vTo,
+                  vValue,
+                  vInput,
+                  vPath,
+                  vChainID,
+                  vRaw);
+}
+
+
 JUB_RV JubiterNFCETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                                    const std::string& path,
                                    const std::vector<JUB_BYTE>& vSigedTrans) {
@@ -167,6 +189,29 @@ JUB_RV JubiterNFCETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 JUB_RV JubiterNFCETHImpl::SetERC20ETHToken(const std::string& tokenName, const JUB_UINT16 unitDP, const std::string& contractAddress) {
 
     return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterNFCETHImpl::SignContract(const JUB_BYTE inputType,
+                                       const std::vector<JUB_BYTE>& vNonce,
+                                       const std::vector<JUB_BYTE>& vGasPrice,
+                                       const std::vector<JUB_BYTE>& vGasLimit,
+                                       const std::vector<JUB_BYTE>& vTo,
+                                       const std::vector<JUB_BYTE>& vValue,
+                                       const std::vector<JUB_BYTE>& vInput,
+                                       const std::vector<JUB_BYTE>& vPath,
+                                       const std::vector<JUB_BYTE>& vChainID,
+                                       std::vector<JUB_BYTE>& vRaw) {
+
+    return SignTx(vNonce,
+                  vGasPrice,
+                  vGasLimit,
+                  vTo,
+                  vValue,
+                  vInput,
+                  vPath,
+                  vChainID,
+                  vRaw);
 }
 
 
