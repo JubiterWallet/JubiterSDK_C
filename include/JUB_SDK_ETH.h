@@ -117,6 +117,31 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
                               OUT JUB_CHAR_PTR_PTR raw);
 
 /*****************************************************************************
+ * @function name : JUB_SignContractETH
+ * @in  param : contextID - context ID
+ *          : path
+ *          : nonce - nonce
+ *          : gasLimit - gas limit
+ *          : gasPriceInWei - gas price in wei
+ *          : to
+ *          : valueInWei - value in wei
+ *          : input
+ * @out param : raw
+ * @last change :
+ * @note: Compatible with ERC-20.
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignContractETH(IN JUB_UINT16 contextID,
+                           IN BIP44_Path path,
+                           IN JUB_UINT32 nonce,
+                           IN JUB_UINT32 gasLimit,
+                           IN JUB_CHAR_PTR gasPriceInWei,
+                           IN JUB_CHAR_PTR to,
+                           IN JUB_CHAR_PTR valueInWei,
+                           IN JUB_CHAR_PTR input,
+                           OUT JUB_CHAR_PTR_PTR raw);
+
+/*****************************************************************************
  * @function name : JUB_SignBytestringETH
  * @in  param : contextID - context ID
  *          : path

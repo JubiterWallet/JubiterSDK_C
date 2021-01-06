@@ -28,6 +28,7 @@ public:
     virtual JUB_RV GetAppletVersion(std::string& version);
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey);
+
     virtual JUB_RV SignTX(const bool bERC20,
                           const std::vector<JUB_BYTE>& vNonce,
                           const std::vector<JUB_BYTE>& vGasPrice,
@@ -44,6 +45,18 @@ public:
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
+
+    virtual JUB_RV SignContract(const JUB_BYTE inputType,
+                                const std::vector<JUB_BYTE>& vNonce,
+                                const std::vector<JUB_BYTE>& vGasPrice,
+                                const std::vector<JUB_BYTE>& vGasLimit,
+                                const std::vector<JUB_BYTE>& vTo,
+                                const std::vector<JUB_BYTE>& vValue,
+                                const std::vector<JUB_BYTE>& vInput,
+                                const std::vector<JUB_BYTE>& vPath,
+                                const std::vector<JUB_BYTE>& vChainID,
+                                std::vector<JUB_BYTE>& vRaw);
+
     virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
                                   const std::vector<JUB_BYTE>& vPath,
                                   const std::vector<JUB_BYTE>& vChainID,
@@ -52,6 +65,17 @@ public:
                                     const std::string& path,
                                     const std::vector<JUB_BYTE>& vTypedData,
                                     const std::vector<JUB_BYTE>& vSignature);
+
+protected:
+    virtual JUB_RV SignTx(const std::vector<JUB_BYTE>& vNonce,
+                          const std::vector<JUB_BYTE>& vGasPrice,
+                          const std::vector<JUB_BYTE>& vGasLimit,
+                          const std::vector<JUB_BYTE>& vTo,
+                          const std::vector<JUB_BYTE>& vValue,
+                          const std::vector<JUB_BYTE>& vInput,
+                          const std::vector<JUB_BYTE>& vPath,
+                          const std::vector<JUB_BYTE>& vChainID,
+                          std::vector<JUB_BYTE>& vRaw);
 }; // class TrezorCryptoETHImpl end
 
 
