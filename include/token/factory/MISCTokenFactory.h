@@ -6,9 +6,9 @@
 #include "utility/xFactory.hpp"
 #include "utility/Singleton.h"
 
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
 #include "device/JubiterBridgeDevice.hpp"
-#endif // #if defined(GRPC_MODE) end
+#endif // #if defined(SIM_MODE) end
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -124,7 +124,7 @@ public:
     }
 
     std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const JUB_UINT16 deviceID) {
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
         if (dynamic_cast<jub::device::JubiterBridgeBLDDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
         ) {
@@ -140,7 +140,7 @@ public:
         ) {
             return jubiterLITEFactory.Create(type, deviceID);
         }
-#endif  // #if defined(GRPC_MODE) end
+#endif  // #if defined(SIM_MODE) end
 #if defined(HID_MODE)
         if (dynamic_cast<jub::device::JubiterHidBLDDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))

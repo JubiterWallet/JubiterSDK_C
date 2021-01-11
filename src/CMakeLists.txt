@@ -129,7 +129,7 @@ if(APPLE) #MacOS与iOS打出来的为framework
     )
 
     #framework需要codesign，证书怎么处理还没想明白，先写死，不同的人打包请先手动修改，这里指定TeamID
-    set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "PSRT22QP6C" CACHE INTERNAL "")
+    set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "S47T4UESP3" CACHE INTERNAL "")
     #动态的framework，HEADERS需要加到工程里，否则打出的framework没有头文件
     add_library (JubSDK SHARED ${SRC_LIST} ${HEADERS})
     set_target_properties(JubSDK PROPERTIES
@@ -140,7 +140,7 @@ if(APPLE) #MacOS与iOS打出来的为framework
     #PUBLIC_HEADER只能是这种格式，不能直接用${HEADERS}，WHY？？？不知道CMake还是XCode闹哪样。
     PUBLIC_HEADER "include/JUB_CORE.h;include/JUB_SDK_BTC.h;include/JUB_SDK_COMM.h;include/JUB_SDK_DEV_BIO.h;include/JUB_SDK_DEV_BLE.h;include/JUB_SDK_DEV_HID.h;include/JUB_SDK_DEV_NFC.h;include/JUB_SDK_DEV.h;include/JUB_SDK_EOS.h;include/JUB_SDK_ETH.h;include/JUB_SDK_Hcash.h;include/JUB_SDK_TRX.h;include/JUB_SDK_XRP.h;include/JUB_SDK.h"
     #这里指定签名证书，也需要手动修改
-    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development: zxckiller@163.com (BV9H9Z227X)"
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development: 敏 潘 (VA55JC6AB4)"
     )
 
     #链接静态库

@@ -1,4 +1,20 @@
 # Coin related module
+Coins implementation architecture:
+| Token Factory | Coin Type | jubiterBladeToken | jubiterBioToken | jubiterLiteToken | cryptoToken |
+| --- | --- | --- | --- | --- | --- |
+| BTC Token Factory | BTC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | LTC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | DASH | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | BCH | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | QTUM | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | USDT | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| ETH Token Factory | ETH | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| ETH Token Factory | ETC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| ETH Token Factory | FIL | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| MISC Token Factory | EOS | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| MISC Token Factory | XRP | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| MISC Token Factory | TRX | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+
 In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h), [JUB_SDK_FIL.h](../include/JUB_SDK_FIL.h).
 
 Function list:

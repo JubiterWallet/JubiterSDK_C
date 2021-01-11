@@ -97,12 +97,13 @@ JUB_RV JubiterBladeFILImpl::SignTX(const uint64_t& nonce,
                                    std::vector<JUB_BYTE>& vSignatureRaw) {
 
     try {
-        std::string from;
-        JUB_VERIFY_RV(GetAddress(path, 0, from));
-
-        TW::Filecoin::Address fromAddr = TW::Filecoin::Address(from);
+//        std::string from;
+//        JUB_VERIFY_RV(GetAddress(path, 0, from));
+//
+//        TW::Filecoin::Address fromAddr = TW::Filecoin::Address(from);
         TW::Filecoin::Transaction tx(TW::Filecoin::Address(to),
-                                     fromAddr,
+//                                     fromAddr,
+                                     TW::Filecoin::Address(to),
                                      nonce,
                                      value,
                                      gprice,

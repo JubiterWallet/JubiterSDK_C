@@ -127,7 +127,7 @@ typedef enum {
     HID = 0x02,
     BLE = 0x03,
     NFC = 0x04,
-    GRPC= 0x05,
+    SIM = 0x05, // Simulator Implementation
 } JUB_ENUM_COMMODE;
 typedef JUB_ENUM_COMMODE* JUB_ENUM_COMMODE_PTR;
 // Remove c++ features for swift framework end

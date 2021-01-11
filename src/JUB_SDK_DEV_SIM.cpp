@@ -1,12 +1,12 @@
 //
-//  JUB_SDK_DEV_GRPC.cpp
+//  JUB_SDK_DEV_SIM.cpp
 //  JubSDK
 //
 //  Created by Pan Min on 2020/12/2.
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#include "JUB_SDK_DEV_GRPC.h"
+#include "JUB_SDK_DEV_SIM.h"
 
 #include "utility/util.h"
 #include "utility/mutex.h"
@@ -15,17 +15,17 @@
 
 
 /*****************************************************************************
- * @function name : JUB_ListLiteGRPC
- * @in  param :  ip - gRPC virtual device's IP file name
+ * @function name : JUB_ListLiteSIM
+ * @in  param :  ip - PCSC virtual device's IP file name
  *         prod -  JUB_ENUM_DEVICE::LITE
  *         param - LITE_DEVICE_INIT_PARAM
  * @out param : deviceIDs - device ID list
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ListLiteGRPC(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, IN LITE_DEVICE_INIT_PARAM param, OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
+JUB_RV JUB_ListLiteSIM(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, IN LITE_DEVICE_INIT_PARAM param, OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
     CREATE_THREAD_LOCK_GUARD
 
     if (JUB_ENUM_DEVICE::LITE != prod) {
@@ -38,7 +38,7 @@ JUB_RV JUB_ListLiteGRPC(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, IN LITE_DE
     // add new key
     for (auto name : name_list) {
         //new inserted key
-        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::GRPC, prod, std::string(ip), name);
+        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::SIM, prod, std::string(ip), name);
         if (!device) {
             continue;
         }
@@ -54,23 +54,23 @@ JUB_RV JUB_ListLiteGRPC(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, IN LITE_DE
     }
 
     return JUBR_OK;
-#else   // #if defined(GRPC_MODE)
+#else   // #if defined(SIM_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif  // #if defined(GRPC_MODE) end
+#endif  // #if defined(SIM_MODE) end
 }
 
 
 /*****************************************************************************
- * @function name : JUB_ListDeviceGRPC
- * @in  param : ip - gRPC virtual device's IP file name
+ * @function name : JUB_ListDeviceSIM
+ * @in  param : ip - PCSC virtual device's IP file name
  *           prod -  JUB_ENUM_DEVICE::BLADE
  *                JUB_ENUM_DEVICE::BIO
  * @out param : deviceIDs - device ID list
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_ListDeviceGRPC(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
+JUB_RV JUB_ListDeviceSIM(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, OUT JUB_UINT16 deviceIDs[MAX_DEVICE]) {
 
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
     CREATE_THREAD_LOCK_GUARD
 
     if (   JUB_ENUM_DEVICE::BLADE != prod
@@ -85,7 +85,7 @@ JUB_RV JUB_ListDeviceGRPC(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, OUT JUB_
     // add new key
     for (auto name : name_list) {
         //new inserted key
-        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::GRPC, prod, std::string(ip), name);
+        auto device = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::SIM, prod, std::string(ip), name);
         if (!device) {
             continue;
         }
@@ -98,21 +98,21 @@ JUB_RV JUB_ListDeviceGRPC(IN JUB_CHAR_CPTR ip, IN JUB_ENUM_DEVICE prod, OUT JUB_
     }
 
     return JUBR_OK;
-#else   // #if defined(GRPC_MODE)
+#else   // #if defined(SIM_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif  // #if defined(GRPC_MODE) end
+#endif  // #if defined(SIM_MODE) end
 }
 
 
 /*****************************************************************************
- * @function name : JUB_ConnetDeviceGRPC
+ * @function name : JUB_ConnetDeviceSIM
  * @in  param : deviceID - device ID
  * @out param :
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_ConnetDeviceGRPC(IN JUB_UINT16 deviceID) {
+JUB_RV JUB_ConnetDeviceSIM(IN JUB_UINT16 deviceID) {
 
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(device);
@@ -120,21 +120,21 @@ JUB_RV JUB_ConnetDeviceGRPC(IN JUB_UINT16 deviceID) {
 	JUB_VERIFY_RV(device->Connect());
 
     return JUBR_OK;
-#else   // #if defined(GRPC_MODE)
+#else   // #if defined(SIM_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif  // #if defined(GRPC_MODE) end
+#endif  // #if defined(SIM_MODE) end
 }
 
 
 /*****************************************************************************
- * @function name : JUB_DisconnetDeviceGRPC
+ * @function name : JUB_DisconnetDeviceSIM
  * @in  param : deviceID - device ID
  * @out param :
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_DisconnetDeviceGRPC(IN JUB_UINT16 deviceID) {
+JUB_RV JUB_DisconnetDeviceSIM(IN JUB_UINT16 deviceID) {
 
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
     CREATE_THREAD_LOCK_GUARD
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(device);
@@ -142,7 +142,7 @@ JUB_RV JUB_DisconnetDeviceGRPC(IN JUB_UINT16 deviceID) {
     JUB_VERIFY_RV(device->Disconnect());
 
     return JUBR_OK;
-#else   // #if defined(GRPC_MODE)
+#else   // #if defined(SIM_MODE)
     return JUBR_IMPL_NOT_SUPPORT;
-#endif  // #if defined(GRPC_MODE) end
+#endif  // #if defined(SIM_MODE) end
 }

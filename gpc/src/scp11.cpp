@@ -12,6 +12,7 @@
 
 #include "scp11/scp11.hpp"
 #include "tlvparse.c"
+//#include "tlvparse.hpp"
 #include <TrezorCrypto/rand.h>
 #include <TrezorCrypto/aes.h>
 #include <TrezorCrypto/cmac.h>

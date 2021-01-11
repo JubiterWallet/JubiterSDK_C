@@ -11,6 +11,7 @@
 #include "Address.h"
 #include "../Cbor.h"
 //#include "../uint256.h"
+#include <uint256_t/uint256_t.h>
 #include "../BinaryCoding.h"
 
 namespace TW::Filecoin {

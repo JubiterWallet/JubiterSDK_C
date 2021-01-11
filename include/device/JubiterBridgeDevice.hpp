@@ -5,7 +5,7 @@
 //  Created by Chen ruquan on 2020/12/01.
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
 #ifndef __JubiterBridgeDevice__
 #define __JubiterBridgeDevice__
 
@@ -196,5 +196,5 @@ private:
 } // namespace jub end
 
 
-#endif  // #if defined(GRPC_MODE) end
+#endif  // #if defined(SIM_MODE) end
 #endif  // __JubiterBridgeDevice__

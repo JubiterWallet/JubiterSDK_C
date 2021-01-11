@@ -525,7 +525,6 @@
 		6763937E253464D600C41883 /* common.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6763936E253464D600C41883 /* common.pb.cc */; };
 		6763937F253464D600C41883 /* common.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6763936E253464D600C41883 /* common.pb.cc */; };
 		67639380253464D600C41883 /* asset_issue_contract.pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 6763936F253464D600C41883 /* asset_issue_contract.pb.h */; };
-		67691C8125820FFF004D90B1 /* ETHTokenFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67691C8025820FFF004D90B1 /* ETHTokenFactory.h */; };
 		676C23AD257125C6008A6297 /* JUB_SDK_FIL.h in Headers */ = {isa = PBXBuildFile; fileRef = 67F595C4256FDC4E00AB8FED /* JUB_SDK_FIL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		676C23B42571264D008A6297 /* FILContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 67F595C8256FDC6B00AB8FED /* FILContext.h */; };
 		676C23B825712657008A6297 /* JubiterBIOFILImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 67F595D2256FDC9700AB8FED /* JubiterBIOFILImpl.h */; };
@@ -674,7 +673,12 @@
 		67E0DF5F250F6D6C00D42EF0 /* TWP2PKHPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF4E250F6D6B00D42EF0 /* TWP2PKHPrefix.h */; };
 		67E0DF60250F6D6C00D42EF0 /* TWHDVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF4F250F6D6B00D42EF0 /* TWHDVersion.h */; };
 		67E0DF61250F6D6C00D42EF0 /* TWPublicKeyType.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF50250F6D6B00D42EF0 /* TWPublicKeyType.h */; };
-		67EA8E3425836658001D8809 /* ETHTokenFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8E3325836657001D8809 /* ETHTokenFactory.h */; };
+		67E25B5225921B880040A913 /* uint128_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B4E25921B870040A913 /* uint128_t.h */; };
+		67E25B5325921B880040A913 /* uint128_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E25B4F25921B870040A913 /* uint128_t.cpp */; };
+		67E25B5425921B880040A913 /* uint128_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E25B4F25921B870040A913 /* uint128_t.cpp */; };
+		67E25B5525921B880040A913 /* uint256_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B5025921B870040A913 /* uint256_t.h */; };
+		67E25B5625921B880040A913 /* uint256_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E25B5125921B870040A913 /* uint256_t.cpp */; };
+		67E25B5725921B880040A913 /* uint256_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E25B5125921B870040A913 /* uint256_t.cpp */; };
 		67EA8E4625836989001D8809 /* ETHTokenFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8E4525836989001D8809 /* ETHTokenFactory.h */; };
 		67EA8EAD256E0E3E00AD9179 /* TRXContextFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EAB256E0E3E00AD9179 /* TRXContextFactory.h */; };
 		67EA8EAE256E0E3E00AD9179 /* TRXContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EAC256E0E3E00AD9179 /* TRXContext.h */; };
@@ -1078,7 +1082,6 @@
 		6763936F253464D600C41883 /* asset_issue_contract.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = asset_issue_contract.pb.h; path = ../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core/contract/asset_issue_contract.pb.h; sourceTree = "<group>"; };
 		67676B0A2462B4EF0099E2A8 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = CMakeLists.txt; path = ../../src/CMakeLists.txt; sourceTree = "<group>"; };
 		67676B0B2462BEA80099E2A8 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = CMakeLists.txt; path = ../../CMakeLists.txt; sourceTree = "<group>"; };
-		67691C8025820FFF004D90B1 /* ETHTokenFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTokenFactory.h; path = ../../include/token/factory/ETHTokenFactory.h; sourceTree = "<group>"; };
 		676C22FA25709AE3008A6297 /* FILTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FILTokenInterface.hpp; path = ../../include/token/interface/FILTokenInterface.hpp; sourceTree = "<group>"; };
 		676C230825709E2C008A6297 /* JUB_SDK_FIL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_FIL.cpp; path = ../../src/JUB_SDK_FIL.cpp; sourceTree = "<group>"; };
 		676C23D4257126B6008A6297 /* Base32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base32.h; path = "../../deps/TrustWallet/wallet-core/src/Base32.h"; sourceTree = "<group>"; };
@@ -1182,7 +1185,10 @@
 		67E0DF4E250F6D6B00D42EF0 /* TWP2PKHPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWP2PKHPrefix.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWP2PKHPrefix.h"; sourceTree = "<group>"; };
 		67E0DF4F250F6D6B00D42EF0 /* TWHDVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWHDVersion.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWHDVersion.h"; sourceTree = "<group>"; };
 		67E0DF50250F6D6B00D42EF0 /* TWPublicKeyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWPublicKeyType.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWPublicKeyType.h"; sourceTree = "<group>"; };
-		67EA8E3325836657001D8809 /* ETHTokenFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTokenFactory.h; path = ../../include/token/factory/ETHTokenFactory.h; sourceTree = "<group>"; };
+		67E25B4E25921B870040A913 /* uint128_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint128_t.h; path = ../../deps/uint256_t/uint128_t.h; sourceTree = "<group>"; };
+		67E25B4F25921B870040A913 /* uint128_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint128_t.cpp; path = ../../deps/uint256_t/uint128_t.cpp; sourceTree = "<group>"; };
+		67E25B5025921B870040A913 /* uint256_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256_t.h; path = ../../deps/uint256_t/uint256_t.h; sourceTree = "<group>"; };
+		67E25B5125921B870040A913 /* uint256_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint256_t.cpp; path = ../../deps/uint256_t/uint256_t.cpp; sourceTree = "<group>"; };
 		67EA8E4525836989001D8809 /* ETHTokenFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTokenFactory.h; path = ../../include/token/factory/ETHTokenFactory.h; sourceTree = "<group>"; };
 		67EA8EAB256E0E3E00AD9179 /* TRXContextFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXContextFactory.h; path = ../../include/context/TRXContextFactory.h; sourceTree = "<group>"; };
 		67EA8EAC256E0E3E00AD9179 /* TRXContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXContext.h; path = ../../include/context/TRXContext.h; sourceTree = "<group>"; };
@@ -1494,6 +1500,7 @@
 		6713A85C23A07BD10083A34D /* deps */ = {
 			isa = PBXGroup;
 			children = (
+				67E25B4D25921B5F0040A913 /* uint256_t */,
 				67755DBD25406E080056F2C0 /* pbparse */,
 				6713A8CC23A07EA00083A34D /* bigint */,
 				6713A92123A094AB0083A34D /* bleTransmit */,
@@ -2292,13 +2299,15 @@
 			name = src;
 			sourceTree = "<group>";
 		};
-		67EA8E3A25836839001D8809 /* Recovered References */ = {
+		67E25B4D25921B5F0040A913 /* uint256_t */ = {
 			isa = PBXGroup;
 			children = (
-				67EA8E3325836657001D8809 /* ETHTokenFactory.h */,
-				67691C8025820FFF004D90B1 /* ETHTokenFactory.h */,
+				67E25B4F25921B870040A913 /* uint128_t.cpp */,
+				67E25B4E25921B870040A913 /* uint128_t.h */,
+				67E25B5125921B870040A913 /* uint256_t.cpp */,
+				67E25B5025921B870040A913 /* uint256_t.h */,
 			);
-			name = "Recovered References";
+			name = uint256_t;
 			sourceTree = "<group>";
 		};
 		67EA8FA3256E2A5200AD9179 /* protocol */ = {
@@ -2352,7 +2361,6 @@
 				6718A2CC23A2419600F8A5CD /* JubSDKCore */,
 				6718A13723A216AD00F8A5CD /* Frameworks */,
 				EADCCD7422A7B380008F2EF5 /* Products */,
-				67EA8E3A25836839001D8809 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2439,6 +2447,7 @@
 				674621BE23C31CCF0096DDA2 /* JubiterBladeBTCImpl.h in Headers */,
 				67E0DE3E250F19B700D42EF0 /* Action.h in Headers */,
 				67E0DF58250F6D6C00D42EF0 /* TWHcashSigHashType.h in Headers */,
+				67E25B5525921B880040A913 /* uint256_t.h in Headers */,
 				675B04F4242866EE004C62D4 /* JubiterBladeLTCImpl.h in Headers */,
 				674621BD23C31CCF0096DDA2 /* TrezorCryptoBTCImpl.h in Headers */,
 				679520312579F8A600548B5B /* JubiterLiteImpl.h in Headers */,
@@ -2513,7 +2522,6 @@
 				675B057C24286B55004C62D4 /* Signer.h in Headers */,
 				6718A3CE23A3394000F8A5CD /* pbkdf2.h in Headers */,
 				673E49892429EDD700C7F469 /* TransactionOutput.h in Headers */,
-				67EA8E3425836658001D8809 /* ETHTokenFactory.h in Headers */,
 				677DF31824DC0B71001920A9 /* FTMacro.h in Headers */,
 				67E0DF53250F6D6C00D42EF0 /* TWBitcoinSigHashType.h in Headers */,
 				325B55D7249E73E5002A0616 /* scp03.hpp in Headers */,
@@ -2560,6 +2568,7 @@
 				6718A37123A338E500F8A5CD /* Data.h in Headers */,
 				67E0DF5A250F6D6C00D42EF0 /* TWPrivateKey.h in Headers */,
 				325B55C2249E66D2002A0616 /* tag.h in Headers */,
+				67E25B5225921B880040A913 /* uint128_t.h in Headers */,
 				6718A37423A338EA00F8A5CD /* BinaryCoding.h in Headers */,
 				67639361253464A800C41883 /* Discover.pb.h in Headers */,
 				675B058024286B55004C62D4 /* Transaction.h in Headers */,
@@ -2631,7 +2640,6 @@
 				675B04DE2428665F004C62D4 /* SField.h in Headers */,
 				67E0DF52250F6D6C00D42EF0 /* TWP2SHPrefix.h in Headers */,
 				67E0DF5E250F6D6C00D42EF0 /* TWBitcoinOpCodes.h in Headers */,
-				67691C8125820FFF004D90B1 /* ETHTokenFactory.h in Headers */,
 				6718A3BE23A3394000F8A5CD /* ed25519-blake2b.h in Headers */,
 				67E0DE42250F19B700D42EF0 /* Transaction.h in Headers */,
 				67E0DE1E250F186100D42EF0 /* XXHash64.h in Headers */,
@@ -2810,6 +2818,7 @@
 				6718A35F23A338DF00F8A5CD /* HexCoding.cpp in Sources */,
 				6718A41D23A339ED00F8A5CD /* JUB_SDK_EOS.cpp in Sources */,
 				6746215F23C319A20096DDA2 /* EOSContext.cpp in Sources */,
+				67E25B5425921B880040A913 /* uint128_t.cpp in Sources */,
 				6718A3A123A3391C00F8A5CD /* base58.c in Sources */,
 				676C23DD257126E9008A6297 /* Transaction.cpp in Sources */,
 				6718A38623A3391100F8A5CD /* ed25519-donna-32bit-tables.c in Sources */,
@@ -2905,6 +2914,7 @@
 				6718A3E123A3395700F8A5CD /* bleTransmit.cpp in Sources */,
 				671E23FA23CEC197001A5F81 /* Address.cpp in Sources */,
 				6718A35D23A338DF00F8A5CD /* Hash.cpp in Sources */,
+				67E25B5725921B880040A913 /* uint256_t.cpp in Sources */,
 				67E0DE44250F19B700D42EF0 /* PackedTransaction.cpp in Sources */,
 				6718A3AC23A3391C00F8A5CD /* curves.c in Sources */,
 				673E49792429EDD700C7F469 /* TransactionOutputHcash.cpp in Sources */,
@@ -2972,6 +2982,7 @@
 				6713A90F23A083B20083A34D /* bip32.c in Sources */,
 				674F1A0D23A1080A001702DD /* curve25519-donna-scalarmult-base.c in Sources */,
 				6746215C23C319A20096DDA2 /* BTCContext.cpp in Sources */,
+				67E25B5325921B880040A913 /* uint128_t.cpp in Sources */,
 				6713A91023A083B20083A34D /* bignum.c in Sources */,
 				6713A87323A07C200083A34D /* HexCoding.cpp in Sources */,
 				6746216023C319A20096DDA2 /* BaseContext.cpp in Sources */,
@@ -3050,6 +3061,7 @@
 				6713A8AF23A07D500083A34D /* ed25519_ref10.c in Sources */,
 				67E0DE38250F19B700D42EF0 /* Signer.cpp in Sources */,
 				6713A85323A07BB80083A34D /* JUB_SDK_EOS.cpp in Sources */,
+				67E25B5625921B880040A913 /* uint256_t.cpp in Sources */,
 				6713A90123A083800083A34D /* curves.c in Sources */,
 				6746217123C31A0D0096DDA2 /* TrezorCryptoETHImpl.cpp in Sources */,
 				67807E3C249CA66100817E5D /* cmac.c in Sources */,

@@ -1,4 +1,16 @@
 # Device operation related module
+Devices implementation architecture:
+||| JuBiter Blade | JuBiter Bio | JuBiter Lite |
+| --- | --- | --- | --- | --- |
+| xHidDeviceFactory | JubiterHidBLDDevice | &#x2611; | &#x2612; | &#x2612; |
+| xHidDeviceFactory | JubiterHidBIODevice | &#x2612; | &#x2611; | &#x2612; |
+| xBLEDeviceFactory | JubiterBLEBLDDevice | &#x2611; | &#x2612; | &#x2612; |
+| xBLEDeviceFactory | JubiterBLEBIODevice | &#x2612; | &#x2611; | &#x2612; |
+| xNFCDeviceFactory | JubiterNFCDevice | &#x2612; | &#x2612; | &#x2611; |
+| xSIMDeviceFactory | JubiterBridgeBLDDevice | &#x2611; | &#x2612; | &#x2612; |
+| xSIMDeviceFactory | JubiterBridgeBIODevice | &#x2612; | &#x2611; | &#x2612; |
+| xSIMDeviceFactory | JubiterBridgeLITEDevice | &#x2612; | &#x2612; | &#x2612;(In the plan) |
+
 Function list:
 * [JUB_GetDeviceType](#JUB_GetDeviceType)
 * [JUB_GetDeviceInfo](#JUB_GetDeviceInfo)

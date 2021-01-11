@@ -1,6 +1,7 @@
 #include "token/FIL/JubiterBaseFILImpl.h"
 
-#include <bigint/BigIntegerUtils.hh>
+//#include <bigint/BigIntegerUtils.hh>
+#include <uint256_t/uint256_t.h>
 #include <TrezorCrypto/bip32.h>
 #include <Filecoin/Address.h>
 #include <Filecoin/Transaction.h>

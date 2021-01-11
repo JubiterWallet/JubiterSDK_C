@@ -13,9 +13,9 @@
 
 #include "utility/xFactory.hpp"
 
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
 #include "device/JubiterBridgeDevice.hpp"
-#endif // #if defined(GRPC_MODE) end
+#endif // #if defined(SIM_MODE) end
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -27,20 +27,20 @@ namespace jub {
 namespace device {
 
 
-#if defined(GRPC_MODE)
+#if defined(SIM_MODE)
 typedef std::shared_ptr<JubiterBridgeDevice>(*CreateBridgeDeviceFn)(const std::string&, const std::string&);
 
-class xGRPCDeviceFactory :
+class xSIMDeviceFactory :
 public xFactory<std::shared_ptr<JubiterBridgeDevice>,
                 JUB_ENUM_DEVICE,
                 CreateBridgeDeviceFn> {
 public:
-    xGRPCDeviceFactory() {
+    xSIMDeviceFactory() {
         Register(JUB_ENUM_DEVICE::BLADE, &JubiterBridgeBLDDevice::Create);
         Register(JUB_ENUM_DEVICE::BIO,   &JubiterBridgeBIODevice::Create);
         Register(JUB_ENUM_DEVICE::LITE, &JubiterBridgeLITEDevice::Create);
     }
-    ~xGRPCDeviceFactory() = default;
+    ~xSIMDeviceFactory() = default;
 
 
     static JUB_ENUM_DEVICE GetEnumDevice(const DeviceTypeBase* device) {
@@ -74,8 +74,8 @@ public:
 
         return b;
     }
-}; // class xGRPCDeviceFactory end
-#endif  // #if defined(GRPC_MODE) end
+}; // class xSIMDeviceFactory end
+#endif  // #if defined(SIM_MODE) end
 
 
 #if defined(HID_MODE)
@@ -187,7 +187,9 @@ public:
         if (std::string::npos != name.find(PREFIX_BLD)) {
             enumDevice = JUB_ENUM_DEVICE::BLADE;
         }
-        else if (std::string::npos != name.find(PREFIX_BIO)) {
+        else if (   std::string::npos != name.find(PREFIX_BIO)
+                 || std::string::npos != name.find("hpy2")
+                 ) {
             enumDevice = JUB_ENUM_DEVICE::BIO;
         }
         else {
@@ -280,9 +282,9 @@ public:
 
 class xDeviceFactory {
 protected:
-#if defined(GRPC_MODE)
-    xGRPCDeviceFactory grpcFactory;
-#endif  // #if defined(GRPC_MODE) end
+#if defined(SIM_MODE)
+    xSIMDeviceFactory simFactory;
+#endif  // #if defined(SIM_MODE) end
 #if defined(HID_MODE)
     xHidDeviceFactory hidFactory;
 #endif  // #if defined(HID_MODE) end
@@ -298,10 +300,10 @@ public:
     std::shared_ptr<DeviceTypeBase> CreateDevice(const JUB_ENUM_COMMODE& mode, const JUB_ENUM_DEVICE& type, const std::string& arg1, const std::string& arg2) {
 
         switch (mode) {
-#if defined(GRPC_MODE)
-        case JUB_ENUM_COMMODE::GRPC:
-            return grpcFactory.Create(type, arg1, arg2);
-#endif  // #if defined(GRPC_MODE) end
+#if defined(SIM_MODE)
+        case JUB_ENUM_COMMODE::SIM:
+            return simFactory.Create(type, arg1, arg2);
+#endif  // #if defined(SIM_MODE) end
         default:
             break;
         }   // switch (mode) end

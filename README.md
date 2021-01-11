@@ -11,7 +11,7 @@ JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some majo
 | 0005 | Dash | DASH | https://dash.org |
 | 0060 | Ethereum | ETH | https://ethereum.org |
 | 0061 | Ethereum Classic | ETC |https://ethereumclassic.org |
-| 0144 | XRP | XRP | https://ripple.com/xrp |
+| 0144 | Ripple | XRP | https://ripple.com/xrp |
 | 0145 | Bitcoin Cash | BCH |https://bitcoincash.org |
 | 0194 | EOS | EOS | http://eos.io |
 | 0195 | Tron | TRX | https://tron.network |
@@ -22,6 +22,16 @@ JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some majo
 # API
 JuBiter SDK supports software & hardware implementation for JuBiter wallet. Hardware support mainly JuBiter series products, including JuBiter Blade, JuBiter Bio and JuBiter Lite.
 
+
+|| JuBiter Blade | JuBiter Bio | JuBiter Lite | JuBiter Crypto |
+| --- | --- | --- | --- | --- |
+| HID | &#x2611; | &#x2611; | &#x2611; | &#x2612; |
+| BT | &#x2611; | &#x2611; | &#x2612; | &#x2612; |
+| NFC | &#x2612; | &#x2612; | &#x2611; | &#x2612; |
+| Impl in software | &#x2612; | &#x2612; | &#x2612;|  &#x2611; |
+| VM(simulator) | &#x2611; | &#x2611; | &#x2612;(In the plan) |  &#x2612; |
+
+
 Accordingly, JuBiter SDK is divided into the following modules, common module, device operation related module, Blade related module, Bio related module, Lite related module, coin related module, and software wallet module, etc.
 
 There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used to operate and connect hardware devices, and the last one is used for device-related and coin-related operations in a coin context. So, deviceID is obtained through the device operation related interface, and contextID is obtained through the coin-related interface.
@@ -30,6 +40,7 @@ There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used 
 - Device in HID mode related module (see [here](docs/README_DEV_HID.md))
 - Device in BLE mode related module (see [here](docs/README_DEV_BLE.md))
 - Device in NFC mode related module (see [here](docs/README_DEV_NFC.md))
+- Virtual Device(simulator for applet) in PCSC mode related module (see [here](docs/README_DEV_SIM.md))
 - Device operation related module (see [here](docs/README_DEV.md))
 - Coin related module (see [here](docs/README_COIN.md))
 - Software wallet module (see [here](docs/README_SW.md))
@@ -44,6 +55,10 @@ There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used 
 |  |  |  |
 | **Bluetooth communication library** for JuBiter Blade & Bio | --- | JuBiter developed. |
 | **NFC communication library** for JuBiter Lite | --- | JuBiter developed. |
+
+# Code branch management
+- 'Master' is the development line, continuously integrated development of new coins and SDK features.
+- 'v2.x.x' is the current version of Jubiter Wallet 2.0.
 
 * * *
 # Compiler Installation

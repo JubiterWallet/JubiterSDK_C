@@ -5,12 +5,17 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "Transaction.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
 
 using namespace TW;
 using namespace TW::Filecoin;
 
 // encodeVaruint encodes a 256-bit number into a big endian encoding, omitting leading zeros.
-//static Data encodeVaruint(const uint256_t& value) {
+static Data encodeVaruint(const uint256_t& value) {
+    
+    return value.export_bits();
+}
+
 static Data encodeVaruint(const uint64_t& value) {
     Data data;
 //    encode256BE(data, value, 256);
@@ -52,6 +57,10 @@ Data Transaction::getNonce() const {
 // JuBiter-defined
 Data Transaction::getValue() const {
     Data vValue = Cbor::Encode::bytes(encodeVaruint(value)).encoded();
+    //panmin
+    std::cout << "value in uint64: " << uchar_vector(vValue).getHex() << std::endl;
+    Data v = Cbor::Encode::bytes(encodeVaruint((uint256_t)value)).encoded();
+    std::cout << "value in uint256:" << uchar_vector(v).getHex() << std::endl;
     return Data(vValue.begin()+1, vValue.end());
 }
 
