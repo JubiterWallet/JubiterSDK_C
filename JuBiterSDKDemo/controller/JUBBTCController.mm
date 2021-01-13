@@ -557,10 +557,19 @@
         
         selfdefOutput = output;
     }
+    // Simulate the situation of two outputs, one showing 1/4 amount and one showing 3/4 amount.
     if (NSComparisonResult::NSOrderedSame != [amount compare:@""]) {
         selfdefOutput.stdOutput.changeAddress = JUB_ENUM_BOOL::BOOL_FALSE;
         selfdefOutput.stdOutput.amount = [amount longLongValue];
-        outputs.push_back(selfdefOutput);
+        if (selfdefOutput.stdOutput.amount%4) {
+            outputs.push_back(selfdefOutput);
+        }
+        else {
+            selfdefOutput.stdOutput.amount = [amount longLongValue]/4;
+            outputs.push_back(selfdefOutput);
+            selfdefOutput.stdOutput.amount *= 3;
+            outputs.push_back(selfdefOutput);
+        }
     }
     
     char* raw = nullptr;
