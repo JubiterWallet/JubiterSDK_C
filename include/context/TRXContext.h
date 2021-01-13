@@ -39,7 +39,6 @@ public:
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;
             _timeout = 120 * 2;
-            _appletVersion = "";
     }
     ~TRXContext() {}
 

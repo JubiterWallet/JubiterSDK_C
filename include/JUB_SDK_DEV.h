@@ -144,6 +144,14 @@ typedef JUB_ENUM_DEVICE* JUB_ENUM_DEVICE_PTR;
 // Remove c++ features for swift framework end
 
 
+typedef struct stVersion {
+    JUB_UINT8  major;   // major number
+    JUB_UINT8  minor;   // minor number
+    JUB_UINT16 patch;   // patch number
+} JUB_VERSION;
+typedef JUB_VERSION* JUB_VERSION_PTR;
+
+
 /*****************************************************************************
  * @function name : JUB_GetDeviceType
  * @in  param : deviceID - device ID
@@ -244,13 +252,13 @@ JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
  * @function name : JUB_GetAppletVersion
  * @in  param : deviceID - device ID
  *            : appID - applet ID
- * @out param : version - applet version
+ * @out param : version - applet three-part version number
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
                             IN JUB_CHAR_CPTR appID,
-                            OUT JUB_CHAR_PTR_PTR version);
+                            OUT JUB_VERSION_PTR version);
 
 #ifdef __cplusplus
 }

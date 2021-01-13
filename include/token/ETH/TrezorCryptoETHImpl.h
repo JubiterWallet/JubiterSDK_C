@@ -25,7 +25,7 @@ public:
 
     //ETH functions
     virtual JUB_RV SelectApplet();
-    virtual JUB_RV GetAppletVersion(std::string& version);
+    virtual JUB_RV GetAppletVersion(stVersion& version);
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey);
 
