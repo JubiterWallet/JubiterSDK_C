@@ -113,7 +113,7 @@ JUB_RV JubiterBladeBTCImpl::GetAddress(const JUB_BYTE addrFmt,
 
 bool JubiterBladeBTCImpl::_isSupportLegacyAddress() {
 
-    if (0 <= _appletVersion.compare(APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION)) {
+    if (_appletVersion >= stVersionExp::FromString(APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION)) {
         return true;
     }
 

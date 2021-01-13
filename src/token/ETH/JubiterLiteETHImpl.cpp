@@ -20,7 +20,7 @@ JUB_RV JubiterLiteETHImpl::SelectApplet() {
 }
 
 
-JUB_RV JubiterLiteETHImpl::GetAppletVersion(std::string &version) {
+JUB_RV JubiterLiteETHImpl::GetAppletVersion(stVersion& version) {
 
     uchar_vector appID(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE));
     JUB_VERIFY_RV(JubiterBladeToken::GetAppletVersion(CharPtr2HexStr(appID), version));

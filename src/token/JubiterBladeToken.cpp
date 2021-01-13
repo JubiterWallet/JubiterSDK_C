@@ -20,12 +20,12 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
     {
         TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "BTC",
-        "0000000"
+        "00000000"
     },
     {
         TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE))),
         "ETH",
-        "0000000"
+        "00000000"
     },
     // ETH index position fixed, start adding new apps below:
     {
@@ -277,7 +277,7 @@ JUB_RV JubiterBladeToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
     JUB_VERIFY_COS_ERROR(ret);
 
     uchar_vector vVersion(&retData[4], retData[3]);
-    _appletVersion = vVersion.getHex();
+    _appletVersion = stVersionExp::FromString(vVersion.getHex());
 
     return JUBR_OK;
 }
@@ -533,7 +533,7 @@ JUB_RV JubiterBladeToken::EnumApplet(std::string& appletList) {
 }
 
 
-JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, std::string& version) {
+JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, stVersion& version) {
 
     uchar_vector id(appID);
     if (0 == appID.length()) {
@@ -541,26 +541,25 @@ JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, std::string
     }
 
     JUB_UINT16 ret = 0;
+    //select
+    APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);
+    JUB_BYTE retData[1024] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    uchar_vector vVersion(4);
     uchar_vector FidoID(kPKIAID_FIDO, sizeof(kPKIAID_FIDO)/sizeof(JUB_BYTE));
     if (id == FidoID) {
-        //select
-        APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);
-        JUB_BYTE retData[1024] = { 0, };
-        JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-        JUB_VERIFY_COS_ERROR(ret);
-
         //get version
         uchar_vector apduData = tlv_buf(0xDFFF, uchar_vector("8001")).encode();
         APDU apduVersion(0x80, 0xE2, 0x80, 0x00, (JUB_ULONG)apduData.size(), &apduData[0], 0x00);
-        JUB_BYTE retDataVersion[1024] = { 0, };
-        JUB_ULONG ulRetVersionLen = sizeof(retDataVersion) / sizeof(JUB_BYTE);
-        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apduVersion, ret, retDataVersion, &ulRetVersionLen));
+        ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+        memset(retData, 0x00, ulRetDataLen);
+        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apduVersion, ret, retData, &ulRetDataLen));
         JUB_VERIFY_COS_ERROR(ret);
 
-        uchar_vector vVersion(&retDataVersion[6], 4);
-        version = vVersion.getHex();
-        return JUBR_OK;
+        vVersion = uchar_vector(&retData[6], 4);
     }
     else {
         APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);
@@ -569,16 +568,17 @@ JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, std::string
         JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         JUB_VERIFY_COS_ERROR(ret);
 
-        if (   0x84 == retData[2]
-            && 0x04 == retData[3]
+        if (!(0x84 == retData[2]
+           && 0x04 == retData[3])
             ) {
-            uchar_vector vVersion(&retData[4], 4);
-            version = vVersion.getHex();
-            return JUBR_OK;
+            return JUBR_ERROR;
         }
+        vVersion = uchar_vector(&retData[4], 4);
     }
 
-    return JUBR_ERROR;
+    version = stVersionExp::FromString(vVersion.getHex());
+
+    return JUBR_OK;
 }
 
 
@@ -596,7 +596,7 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
     std::vector<std::string> coinNameList;
     auto vAppList = Split(appletList, " ");
     for (auto appID : vAppList) {
-        std::string version;
+        stVersionExp version;
         rv = GetAppletVersion(appID, version);
         if (JUBR_OK != rv) {
             continue;
@@ -606,7 +606,7 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
             if (_appID.getHex() != appID) {
                 continue;
             }
-            if (appInfo.minimumAppletVersion > version) {
+            if (stVersionExp::FromString(appInfo.minimumAppletVersion) > version) {
                 continue;
             }
             if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {

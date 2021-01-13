@@ -32,7 +32,6 @@ public:
             _mainPath = cfg.mainPath;
             _chainID = cfg.chainID;
             _timeout = 120 * 2;
-            _appletVersion = "";
     }
     ~ETHContext() {}
 

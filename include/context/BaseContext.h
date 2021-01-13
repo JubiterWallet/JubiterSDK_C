@@ -49,7 +49,7 @@ protected:
 
     virtual std::string _FullBip44Path(const BIP44_Path& path);
     virtual std::string _FullBip48Path(const BIP48_Path& path);
-    std::string _appletVersion;
+    stVersionExp _appletVersion;
     std::shared_ptr<token::BaseToken> _tokenPtr;
 }; // class BaseContext end
 

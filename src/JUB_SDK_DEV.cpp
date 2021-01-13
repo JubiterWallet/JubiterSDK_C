@@ -236,12 +236,13 @@ JUB_RV JUB_EnumSupportCoins(IN JUB_UINT16 deviceID,
  * @function name : JUB_GetAppletVersion
  * @in  param : deviceID - device ID
  *            : appID - applet ID
- * @out param : version - applet version
+ * @out param : version - applet three-part version number
  * @last change :
  *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
                             IN JUB_CHAR_CPTR appID,
-                            OUT JUB_CHAR_PTR_PTR version) {
+                            OUT JUB_VERSION_PTR version) {
 
     CREATE_THREAD_LOCK_GUARD
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
@@ -252,9 +253,7 @@ JUB_RV JUB_GetAppletVersion(IN JUB_UINT16 deviceID,
         return JUBR_ARGUMENTS_BAD;
     }
 
-    std::string str_version;
-    JUB_VERIFY_RV(token->GetAppletVersion(appID,str_version));
-    JUB_VERIFY_RV(_allocMem(version, str_version));
+    JUB_VERIFY_RV(token->GetAppletVersion(appID, *version));
 
     // Clean up the session for device in order to force calling ActiveSelf().
     jub::context::ContextManager::GetInstance()->ClearLast();

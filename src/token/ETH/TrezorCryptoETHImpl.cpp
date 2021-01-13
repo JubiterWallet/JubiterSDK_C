@@ -12,7 +12,7 @@ JUB_RV TrezorCryptoETHImpl::SelectApplet() {
 }
 
 
-JUB_RV TrezorCryptoETHImpl::GetAppletVersion(std::string& version) {
+JUB_RV TrezorCryptoETHImpl::GetAppletVersion(stVersion& version) {
 
     return JUBR_OK;
 }
