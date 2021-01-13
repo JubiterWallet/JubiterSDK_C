@@ -361,15 +361,14 @@
                                                                                    encoding:[NSString defaultCStringEncoding]]]) {
             continue;
         }
-        char* version;
+        JUB_VERSION version;
         auto rv = JUB_GetAppletVersion(deviceID, [appID UTF8String], &version);
         if (JUBR_OK != rv) {
             [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAppletVersion return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
             return;
         }
         [self addMsgData:[NSString stringWithFormat:@"[JUB_GetAppletVersion() OK.]"]];
-        
-        [self addMsgData:[NSString stringWithFormat:@"Applet Version: %s.", version]];
+        [self addMsgData:[NSString stringWithFormat:@"Applet Version: %i.%i.%i", version.major, version.minor, version.patch]];
     }
     
     JUB_CHAR_PTR coinList;
