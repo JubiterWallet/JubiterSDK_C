@@ -383,6 +383,13 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
             if (output.stdOutput.changeAddress) {
                 output.stdOutput.path.change = (JUB_ENUM_BOOL)root["outputs"][i]["bip32_path"]["change"].asBool();
                 output.stdOutput.path.addressIndex = root["outputs"][i]["bip32_path"]["addressIndex"].asInt();
+
+                JUB_CHAR_PTR selfAddress;
+                rv = JUB_GetAddressBTC(contextID, output.stdOutput.path, JUB_ENUM_BOOL::BOOL_FALSE, &selfAddress);
+                if (JUBR_OK != rv) {
+                    return rv;
+                }
+                output.stdOutput.address = selfAddress;
             }
             outputs.push_back(output);
         }
@@ -392,6 +399,33 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
         if (JUBR_OK != rv) {
             cout << "JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
             return rv;
+        }
+
+        for (int i=0; i<2; ++i) {
+            switch (USDT_outputs[i].type) {
+            case JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH:
+                std::cout << "JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH:" << std::endl;
+                std::cout << "address: " << USDT_outputs[i].stdOutput.address << std::endl;
+                std::cout << "amount: " << USDT_outputs[i].stdOutput.amount << std::endl;
+                std::cout << "change: " << USDT_outputs[i].stdOutput.changeAddress << std::endl;
+                std::cout << "addressIndex: " << USDT_outputs[i].stdOutput.path.addressIndex << std::endl;
+                if (USDT_outputs[i].stdOutput.changeAddress) {
+                    JUB_CHAR_PTR selfAddress;
+                    rv = JUB_GetAddressBTC(contextID, USDT_outputs[i].stdOutput.path, JUB_ENUM_BOOL::BOOL_FALSE, &selfAddress);
+                    if (JUBR_OK != rv) {
+                        return rv;
+                    }
+                    USDT_outputs[i].stdOutput.address = selfAddress;
+                }
+                break;
+            case JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0:
+                std::cout << "JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0:" << std::endl;
+                std::cout << "return0: " << uchar_vector(USDT_outputs[i].return0.data, USDT_outputs[i].return0.dataLen).getHex() << std::endl;
+                std::cout << "amount: " << USDT_outputs[i].return0.amount << std::endl;
+                break;
+            default:
+                break;
+            }
         }
         outputs.emplace_back(USDT_outputs[0]);
         outputs.emplace_back(USDT_outputs[1]);
