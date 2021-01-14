@@ -107,7 +107,7 @@ void software_test_trx(const char* json_file) {
         JUB_FreeMemory(addrInHex);
     }
 
-    for (int i=1; i<=3; ++i) {
+    for (int i=1; i<=4; ++i) {
         switch (i) {
         case 1:
             std::cout << "transfer contract test..." << std::endl;
@@ -119,7 +119,7 @@ void software_test_trx(const char* json_file) {
             std::cout << "trigger smart contract test..." << std::endl;
             break;
         }
-        rv = transaction_proc_TRX(contextID, root, i);
+        rv = transaction_proc_TRX(contextID, root, 20+i);
         if (JUBR_OK != rv) {
             return;
         }
