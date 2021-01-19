@@ -37,6 +37,57 @@ JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& typ
 }
 
 
+JUB_RV JubiterBaseHCImpl::_pkScript(const TW::PublicKey publicKey, TW::Bitcoin::Script& script) {
+
+    // pkScript
+    script = TW::Bitcoin::Script::buildPayToPublicKeyHash(TW::Hash::ripemd(TW::Hash::blake256(publicKey.compressed().bytes)));
+    if (script.empty()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseHCImpl::_scriptCode(const TWCoinType& coin, const TW::PublicKey publicKey, TW::Bitcoin::Script& scriptCode) {
+
+    return _pkScript(publicKey, scriptCode);
+}
+
+
+JUB_RV JubiterBaseHCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
+                                                             const TW::Bitcoin::Transaction& tx,
+                                                             const size_t index, const uint32_t& hashType, const uint64_t amount,
+                                                             const TW::Data& signature,
+                                                             const TW::PublicKey publicKey,
+                                                             bool witness) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    // script code - pkScript
+    TW::Bitcoin::Script scriptCode;
+    rv = _scriptCode(coin, publicKey, scriptCode);
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
+    TW::Data preImage;
+    if (!witness) {
+        preImage = tx.getPreImage(scriptCode, index, hashType);
+    }
+    else {
+        preImage = tx.getPreImage(scriptCode, index, hashType, amount);
+    }
+    const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
+    TW::Data digest = tx.hasher(begin, preImage.size());
+    if (!publicKey.verifyAsDER(signature, digest)) {
+        rv = JUBR_ERROR;
+    }
+
+    return rv;
+}
+
+
 JUB_RV JubiterBaseHCImpl::_verifyTx(const TWCoinType& coin,
                                     const TW::Bitcoin::Transaction* tx,
                                     const uint32_t& hashType,

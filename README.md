@@ -13,6 +13,7 @@ JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some majo
 | 0061 | Ethereum Classic | ETC |https://ethereumclassic.org |
 | 0144 | Ripple | XRP | https://ripple.com/xrp |
 | 0145 | Bitcoin Cash | BCH |https://bitcoincash.org |
+| 0171 | HC | Hcash | https://h.cash/ |
 | 0194 | EOS | EOS | http://eos.io |
 | 0195 | Tron | TRX | https://tron.network |
 | 0461 | Filecoin | FIL | https://filecoin.io |

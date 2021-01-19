@@ -33,17 +33,21 @@ public:
     virtual JUB_RV CheckAddress(const std::string& address);
 
 protected:
-    JUB_RV _serializeUnsignedTx(const uint32_t coin,
-                                const std::vector<INPUT_BTC>& vInputs,
-                                const std::vector<OUTPUT_BTC>& vOutputs,
-                                TW::Bitcoin::Transaction& tx);
+    virtual JUB_RV _serializeUnsignedTx(const uint32_t coin,
+                                        const std::vector<INPUT_BTC>& vInputs,
+                                        const std::vector<OUTPUT_BTC>& vOutputs,
+                                        TW::Bitcoin::Transaction& tx);
 
-    JUB_RV _verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
-                                              const TW::Bitcoin::Transaction& tx,
-                                              const size_t index, const uint32_t& hashType, const uint64_t amount,
-                                              const TW::Data& signature,
-                                              const TW::PublicKey publicKey,
-                                              bool witness=false);
+    virtual JUB_RV _scriptPubKey(const TWCoinType& coin, const TW::PublicKey publicKey, TW::Bitcoin::Script& script);
+
+    virtual JUB_RV _scriptCode(const TWCoinType& coin, const TW::PublicKey publicKey, TW::Bitcoin::Script& scriptCode);
+
+    virtual JUB_RV _verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
+                                                      const TW::Bitcoin::Transaction& tx,
+                                                      const size_t index, const uint32_t& hashType, const uint64_t amount,
+                                                      const TW::Data& signature,
+                                                      const TW::PublicKey publicKey,
+                                                      bool witness=false);
 
     virtual TW::Data pushAll(const TW::Data& results);
 

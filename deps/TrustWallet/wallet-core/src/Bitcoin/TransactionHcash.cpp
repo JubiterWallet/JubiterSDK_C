@@ -161,6 +161,18 @@ Data HcashTransaction::getTxSerializeWitnessValueSigningHash(const Script& pkScr
 }
 
 // JuBiter-defined
+void HcashTransaction::encodeVersion(Data& data) const {
+    encode32LE((version|(TWHcashSerializeFull<<16)), data);
+}
+
+// JuBiter-defined
+void HcashTransaction::decodeVersion(const Data& data, int& index) {
+    //Cos 0 == (TWHcashSerializeFull<<16)
+    version = decode32LE(&data[0]);
+    index += (sizeof(uint32_t)/sizeof(uint8_t));
+}
+
+// JuBiter-defined
 /// Encodes the transaction into the provided buffer.
 void HcashTransaction::encode(bool witness, Data& data) const {
 

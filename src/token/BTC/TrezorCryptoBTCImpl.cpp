@@ -156,11 +156,9 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness,
         TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
 
         // script code - scriptPubKey
-        uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
-        TW::Bitcoin::Address addr(twpk, prefix);
-        TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
-        if (scriptCode.empty()) {
-            rv = JUBR_ARGUMENTS_BAD;
+        TW::Bitcoin::Script scriptCode;
+        rv = _scriptCode(_coin, twpk, scriptCode);
+        if (JUBR_OK != rv) {
             break;
         }
 

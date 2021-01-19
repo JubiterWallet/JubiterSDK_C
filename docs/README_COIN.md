@@ -14,15 +14,16 @@ Coins implementation architecture:
 | MISC Token Factory | EOS | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
 | MISC Token Factory | XRP | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
 | MISC Token Factory | TRX | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| MISC Token Factory | HC | &#x2611; | &#x2611; | &#x2612;(In the plan) | &#x2611; |
 
-In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h), [JUB_SDK_FIL.h](../include/JUB_SDK_FIL.h).
+In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_Hcash.h](../include/JUB_SDK_Hcash.h),[JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h), [JUB_SDK_FIL.h](../include/JUB_SDK_FIL.h).
 
 Function list:
-* [JUB_CreateContext](#JUB_CreateContextXXX)BTC/ETH/EOS/XRP/TRX/FIL
-* [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/ETH/EOS/XRP/TRX/FIL
-* [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/ETH/EOS/XRP/TRX/FIL
-* [JUB_GetAddress](#JUB_GetAddressXXX)BTC/ETH/EOS/XRP/TRX/FIL
-* [JUB_SetMyAddress](#JUB_SetMyAddressXXX)BTC/ETH/EOS/XRP/TRX/FIL
+* [JUB_CreateContext](#JUB_CreateContextXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetAddress](#JUB_GetAddressXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_SetMyAddress](#JUB_SetMyAddressXXX)BTC/ETH
 * **BTC series related module**
     * [JUB_CheckAddressBTC](#JUB_CheckAddressBTC)
     * [JUB_SetUnitBTC](#JUB_SetUnitBTC)
