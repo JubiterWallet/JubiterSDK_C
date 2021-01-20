@@ -14,18 +14,9 @@ JUB_RV JubiterLiteBTCImpl::SelectApplet() {
 
 JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
 
-    std::string btcXpub;
-    JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(_getSignType(_curve_name), JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, btcXpub));
-
-    const curve_info *curve = get_curve_by_name(_curve_name);
     uint8_t nodeData[128] = {0x00,};
     int nodeDatalen = sizeof(nodeData)/sizeof(uint8_t);
-    nodeDatalen = base58_decode_check(btcXpub.c_str(),
-                                      curve->hasher_base58,
-                                      nodeData, nodeDatalen);
-    if (0 == nodeDatalen) {
-        return JUBR_ERROR;
-    }
+    JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(_getSignType(SECP256K1_NAME), JUB_ENUM_BTC_TRANS_TYPE::p2pkh, get_curve_by_name(SECP256K1_NAME), path, nodeData, &nodeDatalen));
 
     // replace version
     bool witness = false;
@@ -37,7 +28,7 @@ JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const 
 
     JUB_CHAR _xpub[200] = { 0, };
     if (0 == base58_encode_check(nodeData, nodeDatalen,
-                                 curve->hasher_base58,
+                                 get_curve_by_name(_curve_name)->hasher_base58,
                                  _xpub, sizeof(_xpub)/sizeof(JUB_CHAR))) {
         return JUBR_ERROR;
     }

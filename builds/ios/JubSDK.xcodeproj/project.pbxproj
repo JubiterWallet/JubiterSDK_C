@@ -622,6 +622,9 @@
 		6795203F2579F8CD00548B5B /* JubiterLiteDashImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520392579F8CD00548B5B /* JubiterLiteDashImpl.h */; };
 		679520402579F8CD00548B5B /* JubiterLiteBCHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6795203A2579F8CD00548B5B /* JubiterLiteBCHImpl.h */; };
 		679520482579F90600548B5B /* JubiterLiteETHImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 679520472579F90600548B5B /* JubiterLiteETHImpl.h */; };
+		67974BF925B59AAA001AF4C1 /* JubiterLiteHCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 67974BF825B59AA9001AF4C1 /* JubiterLiteHCImpl.h */; };
+		67974BFD25B59AD1001AF4C1 /* JubiterLiteHCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67974BFC25B59AD1001AF4C1 /* JubiterLiteHCImpl.cpp */; };
+		67974BFE25B59AD1001AF4C1 /* JubiterLiteHCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67974BFC25B59AD1001AF4C1 /* JubiterLiteHCImpl.cpp */; };
 		67B9C0AB23BB5F9800A17638 /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67B9C0A923BB5F9800A17638 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		67D837B224A380C7004DE1D2 /* tlv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67D837B124A380C7004DE1D2 /* tlv.hpp */; };
 		67D837B424A3818A004DE1D2 /* tlv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D837B324A38189004DE1D2 /* tlv.cpp */; };
@@ -1141,6 +1144,8 @@
 		679520392579F8CD00548B5B /* JubiterLiteDashImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteDashImpl.h; path = ../../include/token/BTC/JubiterLiteDashImpl.h; sourceTree = "<group>"; };
 		6795203A2579F8CD00548B5B /* JubiterLiteBCHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteBCHImpl.h; path = ../../include/token/BTC/JubiterLiteBCHImpl.h; sourceTree = "<group>"; };
 		679520472579F90600548B5B /* JubiterLiteETHImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteETHImpl.h; path = ../../include/token/ETH/JubiterLiteETHImpl.h; sourceTree = "<group>"; };
+		67974BF825B59AA9001AF4C1 /* JubiterLiteHCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteHCImpl.h; path = ../../include/token/HC/JubiterLiteHCImpl.h; sourceTree = "<group>"; };
+		67974BFC25B59AD1001AF4C1 /* JubiterLiteHCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteHCImpl.cpp; path = ../../src/token/HC/JubiterLiteHCImpl.cpp; sourceTree = "<group>"; };
 		67B9C0A823BB5F9800A17638 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = ../../builds/apple/JubSDKCore/module.modulemap; sourceTree = "<group>"; };
 		67B9C0A923BB5F9800A17638 /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../builds/apple/JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
 		67B9C0AD23BB62FB00A17638 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../../builds/apple/JubSDKCore/Info.plist; sourceTree = "<group>"; };
@@ -1907,6 +1912,7 @@
 				675B052424286909004C62D4 /* TrezorCryptoQTUMImpl.cpp */,
 				675B0545242869AB004C62D4 /* JubiterBaseHCImpl.cpp */,
 				6746217B23C31A390096DDA2 /* JubiterBladeHCImpl.cpp */,
+				67974BFC25B59AD1001AF4C1 /* JubiterLiteHCImpl.cpp */,
 				6746217C23C31A390096DDA2 /* TrezorCryptoHCImpl.cpp */,
 			);
 			name = BTC;
@@ -1984,6 +1990,7 @@
 				675B050F2428687F004C62D4 /* JubiterBaseHCImpl.h */,
 				674621B423C31CAB0096DDA2 /* JubiterBladeHCImpl.h */,
 				677DF32724DD1CC6001920A9 /* JubiterBIOHCImpl.h */,
+				67974BF825B59AA9001AF4C1 /* JubiterLiteHCImpl.h */,
 				674621B323C31CAB0096DDA2 /* TrezorCryptoHCImpl.h */,
 			);
 			name = BTC;
@@ -2628,6 +2635,7 @@
 				67E0DF54250F6D6C00D42EF0 /* TWData.h in Headers */,
 				6718A3DC23A3394600F8A5CD /* blake256.h in Headers */,
 				6718A3D123A3394000F8A5CD /* rfc6979.h in Headers */,
+				67974BF925B59AAA001AF4C1 /* JubiterLiteHCImpl.h in Headers */,
 				6718A38C23A3391100F8A5CD /* ed25519-hash-custom.h in Headers */,
 				6718A3C823A3394000F8A5CD /* groestl.h in Headers */,
 				6718A3DB23A3394600F8A5CD /* blake2s.h in Headers */,
@@ -2855,6 +2863,7 @@
 				67755DAE253F10B70056F2C0 /* Serialization.cpp in Sources */,
 				6718A3A923A3391C00F8A5CD /* blake256.c in Sources */,
 				673E497F2429EDD700C7F469 /* TransactionInput.cpp in Sources */,
+				67974BFE25B59AD1001AF4C1 /* JubiterLiteHCImpl.cpp in Sources */,
 				676C23D125712671008A6297 /* TrezorCryptoFILImpl.cpp in Sources */,
 				671E240C23CEC220001A5F81 /* DerivationPath.cpp in Sources */,
 				675B053224286909004C62D4 /* JubiterBaseBCHImpl.cpp in Sources */,
@@ -2992,6 +3001,7 @@
 				6745C8D6254A653100D49A75 /* JubiterLiteTRXImpl.cpp in Sources */,
 				6713A87423A07C200083A34D /* Hash.cpp in Sources */,
 				6713A85423A07BB80083A34D /* JUB_core.cpp in Sources */,
+				67974BFD25B59AD1001AF4C1 /* JubiterLiteHCImpl.cpp in Sources */,
 				67F1738B2542DCA3009211A3 /* pb_basevarint.cpp in Sources */,
 				6713A87223A07C200083A34D /* PublicKey.cpp in Sources */,
 				675B052D24286909004C62D4 /* TrezorCryptoBCHImpl.cpp in Sources */,

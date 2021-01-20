@@ -9,6 +9,7 @@
 #include <Bitcoin/SegwitAddress.h>
 #include <Bitcoin/Script.h>
 #include <PrivateKey.h>
+#include <TrezorCrypto/base58.h>
 
 namespace jub {
 namespace token {
@@ -49,6 +50,35 @@ JUB_RV JubiterLiteImpl::GetHDNode(const JUB_BYTE& curveType,
     JUB_VERIFY_COS_ERROR(ret);
 
     xpub = (JUB_CHAR_PTR)retData;
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterLiteImpl::GetHDNode(const JUB_BYTE& curveType,
+                                  const JUB_BYTE& type,
+                                  const curve_info* curve,
+                                  const std::string& path,
+                                  uint8_t *data, int *datalen) {
+
+    std::string btcXpub;
+    JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(curveType, type, path, btcXpub));
+
+    uint8_t nodeData[128] = {0x00,};
+    int nodeDatalen = sizeof(nodeData)/sizeof(uint8_t);
+    nodeDatalen = base58_decode_check(btcXpub.c_str(),
+                                      curve->hasher_base58,
+                                      nodeData, nodeDatalen);
+    if (0 == nodeDatalen) {
+        return JUBR_ERROR;
+    }
+
+    if (*datalen < 128) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::memcpy(data, nodeData, nodeDatalen);
+    *datalen = nodeDatalen;
 
     return JUBR_OK;
 }
