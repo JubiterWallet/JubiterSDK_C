@@ -55,7 +55,7 @@
         BUTTON_TITLE_QTUM,
         BUTTON_TITLE_QTUM_QRC20,
         BUTTON_TITLE_USDT,
-//        BUTTON_TITLE_HCASH
+        BUTTON_TITLE_HCASH
     ];
 }
 
