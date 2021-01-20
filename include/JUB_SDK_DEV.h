@@ -76,7 +76,7 @@
 #define JUBR_KEY_INVALID                     0x400063C0UL
 
 
-#define JUBR_CUSTOM_DEFINED         0x80000000UL
+#define JUBR_CUSTOM_DEFINED         0x30000000UL
 #define JUBR_EOS_APP_INDEP_OK       JUBR_CUSTOM_DEFINED + 1
 
 #ifdef __cplusplus
