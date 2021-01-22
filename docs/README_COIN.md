@@ -27,7 +27,7 @@ Function list:
 * **BTC series related module**
     * [JUB_CheckAddressBTC](#JUB_CheckAddressBTC)
     * [JUB_SetUnitBTC](#JUB_SetUnitBTC)
-    * [JUB_SignTransactionBTC](#JUB_SignTransactionBTC)
+    * [JUB_SignTransaction](#JUB_SignTransactionXXX)BTC/HC
     * [JUB_BuildUSDTOutputs](#JUB_BuildUSDTOutputs)
     * [JUB_BuildQRC20Outputs](#JUB_BuildQRC20Outputs)
 * **ETH series related module**
@@ -51,7 +51,7 @@ Function list:
 ### JUB_CreateContextXXX
 * **Function:** Create context for the specified coin.
 * **IN param:**
-    cfg - CONTEXT_CONFIG_BTC/ETH/EOS/XRP
+    cfg - CONTEXT_CONFIG_BTC/HC/ETH/EOS/XRP/TRX/FIL
     deviceID - device ID from JUB_conneceDevice/JUB_connectNFCDevice.
 * **OUT param:**
 contextID - context ID for the specified coin.
@@ -159,16 +159,16 @@ JUB_RV JUB_SetUnitBTC(
 );
 ```
 
-### JUB_SignTransactionBTC
-* **Function:** Sign transaction for BTC.
+### JUB_SignTransactionXXX
+* **Function:** Sign transaction for BTC/HC.
 * **IN param:**
-contextID - context ID from JUB_CreateContextBTC.
-version - the version of BTC tx.
-inputs - the input array of BTC tx.
+contextID - context ID from JUB_CreateContextBTC/HC.
+version - the version of BTC/HC tx.
+inputs - the input array of BTC/HC tx.
 iCount - the count of the input array.
-outputs - the output array of BTC tx.
+outputs - the output array of BTC/HC tx.
 oCount - the count of the output array.
-lockTime - the lock time for BTC tx.
+lockTime - the lock time for BTC/HC tx.
 * **OUT param:**
 raw - signed BTC tx in binary byte stream
 * **Return:** JUB_OK or !JUB_OK for error.
