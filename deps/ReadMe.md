@@ -6,6 +6,7 @@
 | bigint | [bigint-2010.04.30](https://mattmccutchen.net/bigint/bigint-2010.04.30.tar.bz2) | C++ Big Integer Library |
 | jsoncpp | [JsonCpp](https://github.com/open-source-parsers/jsoncpp) | JsonCpp is a C++ library that allows manipulating JSON values, including serialization and deserialization to and from strings. |
 | polarssl | [PolarSSL](https://tls.mbed.org/) | now known as mbed TLS, include cryptographic and SSL/TLS capabilities. |
+| uint256_t | [uint256_t](https://github.com/calccrypto/uint256_t.git) | Filecoin used. |
 | mSIGNA | [uchar_vector.h from mSIGNA stdutils](https://github.com/ciphrex/mSIGNA/blob/master/deps/stdutils/src/uchar_vector.h) | Underlying data structure; JuBiter added some code. |
 | airbitz-core | [Data.hpp/cpp from airbitz-core util](https://github.com/EdgeApp/airbitz-core.git) | Underlying data structure; JuBiter added some code. |
 | panzi | [portable_endian.h](https://gist.github.com/panzi/6856583) | Underlying data structure |
