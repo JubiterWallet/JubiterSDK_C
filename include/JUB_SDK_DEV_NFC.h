@@ -33,6 +33,7 @@ typedef struct stNFCDeviceInitParam {
     JUB_CHAR_PTR sk;
     JUB_UINT8 keyLength;
     JUB_CHAR_PTR hostID;
+    JUB_CHAR_PTR cardGroupID;
 //
 //     stNFCDeviceInitParam();
 //    ~stNFCDeviceInitParam() = default;

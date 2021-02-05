@@ -103,7 +103,8 @@ protected:
     virtual unsigned int SetSCP11Param(const std::string& crt,
                                        const std::string& rk,
                                        const std::string& hostID,
-                                       const uint8_t keyLength);
+                                       const uint8_t keyLength,
+                                       const std::string& cardGroupID);
 
     static void NFC_ScanFuncCallBack(unsigned int errorCode,/* 错误码 */
                                      const char*  uuid,     /* tag uuid */

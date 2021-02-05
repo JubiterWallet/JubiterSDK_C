@@ -28,6 +28,7 @@ std::vector<unsigned char> scp11c::getMutualAuthData() {
 
 bool scp11c::keyDerivation(const scp11_response_msg &response_msg, scp11_session_key& session_key) {
 
+    // OCE calculates ShSss from PK.SD.ECKA and SK.OCE.ECKA
     unsigned char ShSss[SHA1_DIGEST_LENGTH] = {0x00,};
     if (!_calcShSss(response_msg.sd_pk.value.data(),
                     oce_rk.data(),
@@ -35,6 +36,7 @@ bool scp11c::keyDerivation(const scp11_response_msg &response_msg, scp11_session
         return false;
     }
 
+    // OCE calculates ShSes from PK.SD.ECKA and eSK.OCE.ECKASD
     unsigned char ShSes[SHA1_DIGEST_LENGTH] = {0x00,};
     if (!_calcShSes(response_msg.sd_pk.value.data(),
                     e_rk.data(),
@@ -48,11 +50,24 @@ bool scp11c::keyDerivation(const scp11_response_msg &response_msg, scp11_session
     memcpy(z, ShSes, SHA1_DIGEST_LENGTH);
     memcpy(z + SHA1_DIGEST_LENGTH, ShSss, SHA1_DIGEST_LENGTH);
 
-    std::vector<unsigned char> shared = scp11_sharedInfo(shared_info).encodeV(oce_crt.cakloc_id.value);
+    // Card Group ID is the content of tag '5F20' (subject identifier) in CERT.SD.ECKA.
+    std::vector<unsigned char> cardGroupID;
+    if (!sd_crt.empty()) {
+        cardGroupID = sd_crt.subject_id.value;
+    }
+    else if (!shared_info.hasCardGroupID()) {
+        cardGroupID = shared_info.getCardGroupID();
+    }
+    else {
+        return false;
+    }
+    std::vector<unsigned char> shared = scp11_sharedInfo(shared_info).encodeV(cardGroupID);
     unsigned int shared_info_len = (unsigned int)shared.size();
     if (0 == shared_info_len) {
         return false;
     }
+
+    DEBUG_LOG("scp11c::keyDerivation::scp11_sharedInfo[%d]: %s\n", shared.size(), uchar_vector(shared).getHex().c_str());
 
     unsigned int outKeyLen = scp11_session_key::size();
     unsigned char *outKey = new unsigned char[outKeyLen+1];
