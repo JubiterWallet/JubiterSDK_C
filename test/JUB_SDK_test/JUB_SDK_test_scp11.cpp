@@ -172,10 +172,12 @@ void scp11_test(const char* json_file) {
     uchar_vector keyLength;
     keyLength.push_back(root["SCP11c"]["KeyLength"].asUInt());
     uchar_vector hostID((char*)root["SCP11c"]["HostID"].asCString());
+    uchar_vector cardGroupID("6a75626974657277616c6c6574");
     scp11_sharedInfo shInfo(keyUsage,
                             keyType,
                             keyLength,
-                            hostID);
+                            hostID,
+                            cardGroupID);
     uchar_vector sharedInfo = shInfo.encodeLV();
     std::cout << "sharedInfo: " << sharedInfo.getHex() << std::endl;
     unsigned int sharedInfoLen = (unsigned int)sharedInfo.size();
