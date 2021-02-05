@@ -29,6 +29,17 @@ public:
         shared_info = info;
         curi = (curve_info *)get_curve_by_name(NIST256P1_NAME);
     }
+    gpc_scp11c(const scp11_sharedInfo& info,
+               const scp11_crt& sd,
+               const scp11_crt& crt,
+               const std::vector<unsigned char>& rk) {
+        clear();
+        sd_crt = sd;
+        oce_crt = crt;
+        oce_rk  = rk;
+        shared_info = info;
+        curi = (curve_info *)get_curve_by_name(NIST256P1_NAME);
+    }
     ~gpc_scp11c() {
         clear();
     }
