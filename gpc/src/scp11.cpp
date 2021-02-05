@@ -88,7 +88,7 @@ size_t scp11_sharedInfo::encode(std::vector<unsigned char>& code) {
 }
 
 
-std::vector<unsigned char> scp11_sharedInfo::encodeV(const std::vector<unsigned char>& ca_klocID) {
+std::vector<unsigned char> scp11_sharedInfo::encodeV(const std::vector<unsigned char>& card_groupID) {
 
     std::vector<unsigned char> out;
 
@@ -96,7 +96,7 @@ std::vector<unsigned char> scp11_sharedInfo::encodeV(const std::vector<unsigned 
         || key_type.value.empty()
         || key_length.value.empty()
         || host_cardID.value.empty()
-        || ca_klocID.empty()
+        || card_groupID.empty()
         ) {
         return out;
     }
@@ -108,16 +108,16 @@ std::vector<unsigned char> scp11_sharedInfo::encodeV(const std::vector<unsigned 
     out.insert(out.end(), keyTypeV.begin(), keyTypeV.end());
     out.insert(out.end(), keyLengthV.begin(), keyLengthV.end());
     out.insert(out.end(), hostCardIDLV.begin(), hostCardIDLV.end());
-    out.insert(out.end(), ca_klocID.begin(), ca_klocID.end());
+    out.insert(out.end(), card_groupID.begin(), card_groupID.end());
 
     return out;
 }
 
 
-size_t scp11_sharedInfo::encodeV(const std::vector<unsigned char>& ca_klocID,
+size_t scp11_sharedInfo::encodeV(const std::vector<unsigned char>& card_groupID,
                                  std::vector<unsigned char>& v) {
 
-    v = encodeV(ca_klocID);
+    v = encodeV(card_groupID);
 
     return v.size();
 }

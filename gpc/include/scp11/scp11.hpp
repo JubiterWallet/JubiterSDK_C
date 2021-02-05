@@ -39,22 +39,26 @@ public:
     gpc_scp11_sharedInfo(const std::vector<unsigned char>& keyUsage,
                          const std::vector<unsigned char>& keyType,
                          const std::vector<unsigned char>& keyLength,
-                         const std::vector<unsigned char>& hostCardID) {
+                         const std::vector<unsigned char>& hostCardID,
+                         const std::vector<unsigned char>& cardGroupID) {
         key_usage    = tlv_buf(GPC_TLV_SHAREDINFO_KEYUSAGE, keyUsage);
         key_type     = tlv_buf(GPC_TLV_SHAREDINFO_KEYTYPE, keyType);
         key_length   = tlv_buf(GPC_TLV_SHAREDINFO_KEYLENGTH, keyLength);
         host_cardID  = tlv_buf(GPC_TLV_SHAREDINFO_HOSTID, hostCardID);
+        card_groupID = tlv_buf(cardGroupID);
     }
     gpc_scp11_sharedInfo(const std::vector<unsigned char>& scpIDParam,
                          const std::vector<unsigned char>& keyUsage,
                          const std::vector<unsigned char>& keyType,
                          const std::vector<unsigned char>& keyLength,
-                         const std::vector<unsigned char>& hostCardID) {
+                         const std::vector<unsigned char>& hostCardID,
+                         const std::vector<unsigned char>& cardGroupID) {
         scp_id_param = tlv_buf(GPC_TLV_SHAREDINFO_SCP_ID_PARAM, scpIDParam);
         key_usage    = tlv_buf(GPC_TLV_SHAREDINFO_KEYUSAGE, keyUsage);
         key_type     = tlv_buf(GPC_TLV_SHAREDINFO_KEYTYPE, keyType);
         key_length   = tlv_buf(GPC_TLV_SHAREDINFO_KEYLENGTH, keyLength);
         host_cardID  = tlv_buf(GPC_TLV_SHAREDINFO_HOSTID, hostCardID);
+        card_groupID = tlv_buf(cardGroupID);
     }
     gpc_scp11_sharedInfo(const gpc_scp11_sharedInfo& sharedInfo) {
         *this = sharedInfo;
@@ -69,6 +73,7 @@ public:
         this->key_type     = rhs.key_type;
         this->key_length   = rhs.key_length;
         this->host_cardID  = rhs.host_cardID;
+        this->card_groupID = rhs.card_groupID;
         return *this;
     }
 
@@ -88,8 +93,16 @@ public:
         );
     }
 
-    std::vector<unsigned char> encodeV(const std::vector<unsigned char>& ca_klocID);
-    size_t encodeV(const std::vector<unsigned char>& ca_klocID, std::vector<unsigned char>& v);
+    bool hasCardGroupID() {
+        return card_groupID.empty();
+    }
+
+    std::vector<unsigned char> getCardGroupID() {
+        return card_groupID.value;
+    }
+
+    std::vector<unsigned char> encodeV(const std::vector<unsigned char>& card_groupID);
+    size_t encodeV(const std::vector<unsigned char>& card_groupID, std::vector<unsigned char>& v);
     std::vector<unsigned char> encodeLV();
     size_t encodeLV(std::vector<unsigned char>& lv);
     std::vector<unsigned char> encode();
@@ -101,6 +114,7 @@ private:
     tlv_buf key_type;
     tlv_buf key_length;
     tlv_buf host_cardID;
+    tlv_buf card_groupID;
 } scp11_sharedInfo;
 
 
@@ -383,6 +397,8 @@ public:
 
 public:
     void clear() {
+        sd_crt.clear();
+
         oce_crt.clear();
         oce_rk.clear();
 
@@ -439,6 +455,8 @@ public:
 protected:
     curve_info *curi;
     scp11_sharedInfo shared_info;
+
+    scp11_crt sd_crt;
 
     scp11_crt oce_crt;
     std::vector<unsigned char> oce_rk;

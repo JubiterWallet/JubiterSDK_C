@@ -131,7 +131,8 @@ unsigned int JubiterNFCDevice::Initialize(const NFC_DEVICE_INIT_PARAM& params) {
     return SetSCP11Param(params.crt,
                          params.sk,
                          params.hostID,
-                         params.keyLength);
+                         params.keyLength,
+                         params.cardGroupID);
 }
 
 
@@ -232,7 +233,8 @@ void JubiterNFCDevice::NFC_ScanFuncCallBack(unsigned int errorCode,/* 错误码 
 unsigned int JubiterNFCDevice::SetSCP11Param(const std::string& crt,
                                              const std::string& rk,
                                              const std::string& hostID,
-                                             const uint8_t keyLength) {
+                                             const uint8_t keyLength,
+                                             const std::string& cardGroupID) {
 
     scp11_crt oceCrt = scp11_crt(uchar_vector(crt));
     if (!oceCrt.decode()) {
@@ -245,7 +247,8 @@ unsigned int JubiterNFCDevice::SetSCP11Param(const std::string& crt,
                                      uchar_vector("3C"),
                                      uchar_vector("88"),
                                      kl,
-                                     uchar_vector(hostID)),
+                                     uchar_vector(hostID),
+                                     uchar_vector(cardGroupID)),
                     oceCrt,
                     uchar_vector(rk));
     if (_scp11.empty()) {

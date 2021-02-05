@@ -7,7 +7,7 @@
 #include <TrezorCrypto/bip39.h>
 #include "scp03/scp03.hpp"
 #include "scp11/scp11c.hpp"
-
+#include "utility/Debug.hpp"
 
 namespace jub {
 namespace token {
