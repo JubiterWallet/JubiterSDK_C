@@ -10,6 +10,7 @@ Function list:
 * [JUB_EnumSupportCoins](#JUB_EnumSupportCoins)
 * [JUB_GetAppletVersion](#JUB_GetAppletVersion)
 * **Common module**
+    * [JUB_ParseDeviceCert](#JUB_ParseDeviceCert)
     * [JUB_ClearContext](#JUB_ClearContext)
     * [JUB_ShowVirtualPwd](#JUB_ShowVirtualPwd)
     * [JUB_CancelVirtualPwd](#JUB_CancelVirtualPwd)
@@ -159,6 +160,21 @@ JUB_RV JUB_GetAppletVersion(
 * * *
 ## Common module
 In [JUB_SDK_COMM.h](../include/JUB_SDK_COMM.h).
+### JUB_ParseDeviceCert
+* **Function:** Parse device's certificate.
+* **IN param:**
+deviceCert - device's certificate from JUB_GetDeviceCert.
+* **OUT param:**
+sn - if OK, sn is Certificate Serial Number of the device's certificate.
+subjectID - if OK, subjectID is Subject Identifier of the device's certificate.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_ParseDeviceCert(
+    IN JUB_CHAR_CPTR deviceCert,
+    OUT JUB_CHAR_PTR_PTR sn,
+    OUT JUB_CHAR_PTR_PTR subjectID
+);
+```
 
 ### JUB_ClearContext
 * **Function:** Clear context.

@@ -10,6 +10,9 @@
 
 #include "context/BaseContext.h"
 
+#include "mSIGNA/stdutils/uchar_vector.h"
+#include "scp11/scp11.hpp"
+
 static constexpr char const *kVersionFormat = "1.1.0.%02d%02d%02d";
 static char Version[20] = {0x00,};
 
@@ -178,4 +181,31 @@ JUB_CHAR_PTR JUB_GetVersion(void) {
 	sprintf(Version, kVersionFormat, year, month, day);
 
 	return Version;
+}
+
+/*****************************************************************************
+ * @function name : JUB_ParseDeviceCert
+ * @in  param : deviceCert - certificate of a device
+ * @out param : sn - Certificate Serial Number
+ *           : subjectID - Subject Identifier
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ParseDeviceCert(IN JUB_CHAR_CPTR deviceCert,
+                           OUT JUB_CHAR_PTR_PTR sn,
+                           OUT JUB_CHAR_PTR_PTR subjectID) {
+
+    CREATE_THREAD_LOCK_GUARD
+
+    scp11_crt crt((uchar_vector(deviceCert)));
+    if (!crt.decode()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::string str_sn = std::string(crt.serial.value.begin(), crt.serial.value.end());
+    std::string str_subjectID = (uchar_vector(crt.subject_id.value)).getHex();
+    JUB_VERIFY_RV(_allocMem(sn, str_sn));
+    JUB_VERIFY_RV(_allocMem(subjectID, str_subjectID));
+
+    return JUBR_OK;
 }
