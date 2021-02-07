@@ -11,6 +11,7 @@
 #include "JUB_SDK_test_btc.hpp"
 
 #include "JUB_SDK_main.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
 
 void BTC_test(const char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
 

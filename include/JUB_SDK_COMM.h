@@ -262,6 +262,17 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr);
 JUB_COINCORE_DLL_EXPORT
 JUB_CHAR_PTR JUB_GetVersion(void);
 
+/*****************************************************************************
+ * @function name : JUB_ParseDeviceCert
+ * @in  param : deviceCert - certificate of a device
+ * @out param : sn - Certificate Serial Number
+ *           : subjectID - Subject Identifier
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ParseDeviceCert(IN JUB_CHAR_CPTR deviceCert,
+                           OUT JUB_CHAR_PTR_PTR sn,
+                           OUT JUB_CHAR_PTR_PTR subjectID);
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus

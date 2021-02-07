@@ -92,6 +92,20 @@ void get_device_info_test() {
     }
 
     cout << "device cert is :" << cert << endl;
+
+    char* sn;
+    char* subjectID;
+    rv = JUB_ParseDeviceCert(cert, &sn, &subjectID);
+    cout << "JUB_ParseDeviceCert() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "device cert sn is :" << sn << endl;
+    cout << "device cert subject ID is :" << subjectID << endl;
+
+    JUB_FreeMemory(sn);
+    JUB_FreeMemory(subjectID);
+
     JUB_FreeMemory(cert);
 
     char* coinList;
