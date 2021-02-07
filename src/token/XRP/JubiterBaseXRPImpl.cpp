@@ -4,6 +4,7 @@
 #include <PublicKey.h>
 #include "utility/util.h"
 #include <Ripple/Address.h>
+#include <Ripple/TaggedAddresses.h>
 #include <Ripple/Transaction.h>
 #include <HexCoding.h>
 
@@ -11,6 +12,34 @@
 namespace jub {
 namespace token {
 
+JUB_RV JubiterBaseXRPImpl::CheckAddress(const std::string& address, std::string& rAddress, std::string& tagged)
+{
+    try {
+        if (TW::Ripple::Address::isValid(address)) {
+            rAddress = address;
+            tagged = "";
+            return JUBR_OK;
+        }
+        if (TW::Ripple::TaggedAddresses::isValid(address))
+        {
+            TW::Ripple::TaggedAddresses tagAddresses(address);
+            std::string oAddress;
+            uint64_t oTag;
+            bool isParse = tagAddresses.parse(oAddress, oTag);
+            if (!isParse) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+            rAddress = oAddress;
+            tagged = std::to_string(oTag);
+            return JUBR_OK;
+        }
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_ARGUMENTS_BAD;
+}
 
 // without "signingPubKey"
 JUB_RV JubiterBaseXRPImpl::SerializePreimage(const JUB_TX_XRP& tx,

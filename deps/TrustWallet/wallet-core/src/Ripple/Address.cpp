@@ -38,6 +38,13 @@ Address::Address(const PublicKey& publicKey) {
     bytes[0] = 0x00;
     ecdsa_get_pubkeyhash(publicKey.bytes.data(), HASHER_SHA2_RIPEMD, bytes.data() + 1);
 }
+Address::Address(const std::array<byte, size>& data)
+{
+    if (!isValid(data)) {
+        throw std::invalid_argument("Invalid address key data");
+    }
+    std::copy(data.begin(), data.end(), bytes.begin());
+}
 
 std::string Address::string() const {
     return Base58::ripple.encodeCheck(bytes);

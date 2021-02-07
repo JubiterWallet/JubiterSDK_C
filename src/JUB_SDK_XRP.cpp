@@ -206,6 +206,30 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
+ * @function name : JUB_CheckAddressXRP
+ * @in  param : contextID - context ID
+ *          : address
+ * @out param : addr: base58 decode
+ * @out param : tag: x_address tag
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressXRP(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addr,JUB_CHAR_PTR_PTR tag)
+{
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_address;
+    std::string str_tag;
+    JUB_VERIFY_RV(context->CheckAddress(address, str_address, str_tag));
+    JUB_VERIFY_RV(_allocMem(addr, str_address));
+    JUB_VERIFY_RV(_allocMem(tag, str_tag));
+
+    return JUBR_OK;
+}
+
+/*****************************************************************************
  * @function name : JUB_GetMainHDNodeXRP
  * @in  param : contextID - context ID
  *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
