@@ -108,6 +108,20 @@ JUB_RV XRPContext::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubk
     return JUBR_OK;
 }
 
+JUB_RV XRPContext::CheckAddress(const std::string& address, std::string& addre, std::string& tag) {
+
+    CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::XRPTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->CheckAddress(address, addre, tag));
+
+    return JUBR_OK;
+}
+
 
 JUB_RV XRPContext::SignTransaction(BIP44_Path path,
                                    const JUB_TX_XRP& tx,

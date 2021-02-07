@@ -34,6 +34,7 @@ public:
 
     virtual JUB_RV SerializePreimage(const JUB_TX_XRP& tx,
                                      uchar_vector& preimageRaw) = 0;
+    virtual JUB_RV CheckAddress(const std::string& address, std::string& rAddress, std::string& tagged) = 0;
 }; // class XRPTokenInterface end
 
 
