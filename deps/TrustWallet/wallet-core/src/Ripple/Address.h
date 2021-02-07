@@ -21,6 +21,9 @@ public:
     /// Number of bytes in an address.
     static const size_t size = 21;
 
+    ///Number of bytes in an x_address.
+    static const size_t hashSize = size - 1;
+    
     /// Address data consisting of a prefix byte followed by the public key hash.
     std::array<byte, size> bytes;
 
@@ -42,8 +45,11 @@ public:
     /// Initializes a Ripple address with a public key.
     explicit Address(const PublicKey& publicKey);
 
+    ///Initializes a Ripple address with a collection of array
+    explicit Address(const std::array<byte, size>& data);
+    
     /// Returns a string representation of the address.
-    std::string string() const;
+    virtual std::string string() const;
 
     // JuBiter-defined
     /// Returns the length of the pubkey hash.
