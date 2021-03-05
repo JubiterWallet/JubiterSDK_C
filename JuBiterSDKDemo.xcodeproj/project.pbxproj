@@ -71,6 +71,7 @@
 		8BE2A70E235D89600015B9AB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A70D235D89600015B9AB /* AppDelegate.m */; };
 		8BE2A719235D89620015B9AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BE2A718235D89620015B9AB /* Assets.xcassets */; };
 		8BE2A71F235D89620015B9AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A71E235D89620015B9AB /* main.m */; };
+		C3C1FD0C25F25795009B46DD /* 42584E46433230303532353030303031_oce.settings in Resources */ = {isa = PBXBuildFile; fileRef = C3C1FD0B25F25795009B46DD /* 42584E46433230303532353030303031_oce.settings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -183,6 +184,7 @@
 		8BE2A71D235D89620015B9AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BE2A71E235D89620015B9AB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8BE2A741235D8A120015B9AB /* JuBiterSDKDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JuBiterSDKDemo.entitlements; sourceTree = "<group>"; };
+		C3C1FD0B25F25795009B46DD /* 42584E46433230303532353030303031_oce.settings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = 42584E46433230303532353030303031_oce.settings; path = settings/42584E46433230303532353030303031_oce.settings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 		674EB2ED2497440800344AD7 /* settings */ = {
 			isa = PBXGroup;
 			children = (
+				C3C1FD0B25F25795009B46DD /* 42584E46433230303532353030303031_oce.settings */,
 				674EB2EE2497442900344AD7 /* 42584E46433230303532353030303031_apk.settings */,
 				674EB2EF2497442900344AD7 /* 42584E46433230303532353030303032_apk.settings */,
 			);
@@ -468,6 +471,7 @@
 				67E9E4EF256CEAC9009ABDA7 /* testTRX.json in Resources */,
 				6774048524E4EF9300F358ED /* testEOS_stake.json in Resources */,
 				67EA8E6925839161001D8809 /* testFIL.json in Resources */,
+				C3C1FD0C25F25795009B46DD /* 42584E46433230303532353030303031_oce.settings in Resources */,
 				6774048324E4EF9300F358ED /* testEOS_unstake.json in Resources */,
 				6774048624E4EF9300F358ED /* testEOS_sellram.json in Resources */,
 				6774048924E4EF9300F358ED /* testEOS_buyram.json in Resources */,
