@@ -402,8 +402,8 @@
         return;
     }
     [self addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceCert() OK.]"]];
-    
     [self addMsgData:[NSString stringWithFormat:@"Device Cert is %s.", cert]];
+    
     rv = JUB_FreeMemory(cert);
     if (JUBR_OK != rv) {
         [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() return %@ 0x%2lx.]", [JUBErrorCode GetErrMsg:rv], rv]];

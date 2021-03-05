@@ -23,6 +23,7 @@ static JUBSharedData *_sharedDataInstance;
         
         _userPin = nil;
         _neoPin = nil;
+        _deviceCert = nil;
         
         _verifyMode = VERIFY_MODE_ITEM;
         _deviceType = SEG_NFC;

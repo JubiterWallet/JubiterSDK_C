@@ -51,6 +51,23 @@ inline void NFCScanFuncCallBack(unsigned int errorCode,
     }
     [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_isDeviceNFCConnect() OK.]"]];
     
+    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
+    if (nil == sharedData) {
+        return;
+    }
+    
+    if (![sharedData deviceCert]) {
+        JUB_CHAR_PTR cert = nullptr;
+        JUB_RV rv = JUB_GetDeviceCert(deviceID, &cert);
+        if (JUBR_OK != rv) {
+            [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceCert() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            return;
+        }
+        [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_GetDeviceCert() OK.]"]];
+        [sharedData setDeviceCert:[NSString stringWithFormat:@"%s" , cert]];
+        JUB_FreeMemory(cert);
+    }
+    
     [cSelf MenuOption:deviceID];
     
     rv = JUB_disconnectNFCDevice(deviceID);
@@ -127,6 +144,8 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
 
 - (void) beginNFCSession {
     
+    JUB_RV rv = JUBR_ERROR;
+    
     JUBSharedData *sharedData = [JUBSharedData sharedInstance];
     if (nil == sharedData) {
         return;
@@ -135,7 +154,21 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
 //    [data setSelfClass:self.selfClass];
     [sharedData setOptItem:self.optItem];
     
-    std::string fileName = "42584E46433230303532353030303031_apk";
+    if (![sharedData deviceCert]) {
+        std::string cert = "7f2181d7931042584e46433230303532353030303032420d6a75626974657277616c6c65745f200d6a75626974657277616c6c65749501825f2504202005255f24042025052453007f4946b04104b0ad102ddee0ba9e584a4f07d50273b0ccaed60f43b0f29e37784700f9a73800f25599ddf497fce3312785791222d065d5c4203bef083468b0f616aac08c2202f001005f37473045022100e08e32d4040f407a431836ee7c2453b02eded4325bc6ab1f37df70901f838ba302206800f6518d5e3cdce37edda434bddea3bbab0a59cfd5df1f16d1f74823693d02";
+        [sharedData setDeviceCert:[NSString stringWithFormat:@"%s" , cert.c_str()]];
+    }
+    JUB_CHAR_PTR subjectID = nullptr;
+    JUB_CHAR_PTR sn = nullptr;
+    rv = JUB_ParseDeviceCert((char*)[[sharedData deviceCert] UTF8String], &sn, &subjectID);
+    if (JUBR_OK != rv) {
+        [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_ParseDeviceCert() ERROR.]"]];
+        return;
+    }
+    [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_ParseDeviceCert() OK.]"]];
+    
+//    std::string fileName = "42584E46433230303532353030303031_apk";
+    std::string fileName = "42584E46433230303532353030303031_oce";
 //    std::string fileName = "42584E46433230303532353030303032_apk";
     NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%s", fileName.c_str()]
                                                          ofType:@"settings"];
@@ -148,12 +181,20 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
     param.sk  = (char*)root["SCP11c"]["OCE"][1][2].asCString();
     param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
     param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
-    JUB_RV rv = JUB_initNFCDevice(param);
+    param.cardGroupID = (char*)subjectID;
+    rv = JUB_initNFCDevice(param);
     if (JUBR_OK != rv) {
         [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() ERROR.]"]];
         return;
     }
     [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() OK.]"]];
+    
+    if (sn) {
+        JUB_FreeMemory(sn);
+    }
+    if (subjectID) {
+        JUB_FreeMemory(subjectID);
+    }
 }
 
 

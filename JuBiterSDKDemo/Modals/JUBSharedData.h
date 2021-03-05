@@ -10,6 +10,7 @@
 #import <JuBiterSDKUI/JuBiterSDKUI.h>
 
 #import <JubSDKCore/JUB_SDK_DEV.h>
+#import <JubSDKCore/JUB_SDK_COMM.h>
 #import <JubSDKCore/JUB_SDK_BTC.h>
 #import <JubSDKCore/JUB_SDK_Hcash.h>
 
@@ -40,6 +41,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString* userPin;
 @property (nonatomic, strong) NSString* neoPin;
 @property (nonatomic, strong) NSString* amount;
+@property (nonatomic, strong) NSString* deviceCert;
 @property (nonatomic, assign) JUB_NS_ENUM_VERIFY_MODE verifyMode;
 @property (nonatomic, assign) JUB_NS_ENUM_DEV_TYPE deviceType;
 @property (nonatomic, assign) JUB_ENUM_BTC_UNIT_TYPE coinUnit;
