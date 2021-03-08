@@ -73,6 +73,10 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextFIL_soft(IN CONTEXT_CONFIG_FIL cfg,
                                  IN JUB_CHAR_CPTR masterPriInXPRV,
                                  OUT JUB_UINT16* contextID);
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CreateContextDOT_soft(IN CONTEXT_CONFIG_DOT cfg,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
+                                 OUT JUB_UINT16* contextID);
 
 #ifdef __cplusplus
 }

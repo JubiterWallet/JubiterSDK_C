@@ -1,0 +1,45 @@
+#pragma once
+#include <memory>
+
+#include "token/JubiterBlade/JubiterBladeToken.h"
+#include "token/ETH/JubiterBladeETHImpl.h"
+#include "token/DOT/JubiterBaseDOTImpl.h"
+
+
+namespace jub {
+namespace token {
+
+
+class JubiterBladeDOTImpl :
+        public JubiterBladeToken,
+virtual public JubiterBaseDOTImpl {
+
+public:
+    //for Factory
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<JubiterBladeDOTImpl>(deviceID);
+    }
+
+    JubiterBladeDOTImpl(JUB_UINT16 deviceID) :
+        JubiterBladeToken(deviceID) {}
+    ~JubiterBladeDOTImpl() {}
+
+
+    //DOT functions
+    virtual JUB_RV SelectApplet() override;
+    virtual JUB_RV SetCoin() override;
+    virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) override;
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
+    virtual JUB_RV SignTX(const uint64_t& nonce,
+                          const uint64_t& gprice,
+                          const uint64_t& glimit,
+                          const std::string& to,
+                          const uint64_t& value,
+                          const std::string& input,
+                          const std::string& path,
+                          std::vector<JUB_BYTE>& vRaw) override;
+}; // class JubiterBladeDOTImpl end
+
+
+} // namespace token end
+} // namespace jub end

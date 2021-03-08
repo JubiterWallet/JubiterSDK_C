@@ -23,9 +23,10 @@ public:
 
         HDNode hdkey;
         uint32_t parentFingerprint;
+        //weijia------------------
         int rv = hdnode_deserialize(XPRVorXPUB.c_str(),
                                     xpubPrefix, xprvPrefix,
-                                    SECP256K1_NAME, &hdkey, &parentFingerprint);
+                                    ED25519_NAME, &hdkey, &parentFingerprint);
         // bad data
         if(0 != rv) {
             _type = JUB_SoftwareTokenType::NONE;

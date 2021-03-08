@@ -294,6 +294,7 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeXRP:
     case TWCoinTypeLitecoin:
     case TWCoinTypeTron:
+    case TWCoinTypePolkadot:
     case TWCoinTypeFilecoin:
         hdVersionPublic = TWHDVersionXPUB;
         if (witness) {
@@ -347,7 +348,6 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeHarmony:
     case TWCoinTypeAlgorand:
     case TWCoinTypeKusama:
-    case TWCoinTypePolkadot:
     default:
         break;
     }
@@ -371,6 +371,7 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeXRP:
     case TWCoinTypeLitecoin:
     case TWCoinTypeTron:
+    case TWCoinTypePolkadot:
     case TWCoinTypeFilecoin:
         hdVersionPrivate = TWHDVersionXPRV;
         if (witness) {
@@ -424,7 +425,6 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeHarmony:
     case TWCoinTypeAlgorand:
     case TWCoinTypeKusama:
-    case TWCoinTypePolkadot:
     default:
         break;
     }

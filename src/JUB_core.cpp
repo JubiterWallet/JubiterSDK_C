@@ -21,6 +21,7 @@
 #include "context/XRPContextFactory.h"
 #include "context/TRXContextFactory.h"
 #include "context/FILContextFactory.h"
+#include "context/DOTContextFactory.h"
 
 
 //where to place...
@@ -210,6 +211,19 @@ JUB_RV JUB_CreateContextFIL_soft(IN CONTEXT_CONFIG_FIL cfg,
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::FILseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
+    JUB_CHECK_NULL(context);
+
+    *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
+
+    return JUBR_OK;
+}
+
+JUB_RV JUB_CreateContextDOT_soft(IN CONTEXT_CONFIG_DOT cfg,
+                                 IN JUB_CHAR_CPTR masterPriInXPRV,
+                                 OUT JUB_UINT16* contextID) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::DOTseriesContextFactory::GetInstance()->CreateContext(cfg, masterPriInXPRV);
     JUB_CHECK_NULL(context);
 
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);

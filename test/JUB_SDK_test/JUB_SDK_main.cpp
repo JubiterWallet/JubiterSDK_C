@@ -16,6 +16,8 @@
 #include "JUB_SDK_software_test_xrp.hpp"
 #include "JUB_SDK_software_test_trx.hpp"
 #include "JUB_SDK_software_test_fil.hpp"
+#include "JUB_SDK_software_test_dot.hpp"
+
 #include "JUB_SDK_test_scp11.h"
 #endif
 using namespace std;
@@ -151,6 +153,7 @@ int main() {
         cout << "|194. software_test_eos.             |" << endl;
         cout << "|195. software_test_trx.             |" << endl;
         cout << "|461. software_test_fil.             |" << endl;
+        cout << "|354. software_test_dot.             |" << endl;
 #endif
         cout << "| 99. scp_test.                      |" << endl;
         cout << "|  0. exit.                          |" << endl;
@@ -184,6 +187,9 @@ int main() {
             break;
         case 461:
             software_test_fil("json/testFIL.json");
+            break;
+        case 354:
+            software_test_dot("json/testDOT.json");
             break;
         case 99:
             scp11_test("settings/42584E46433230303532353030303031_apk.settings");
