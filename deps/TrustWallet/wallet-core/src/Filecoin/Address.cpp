@@ -8,7 +8,6 @@
 
 #include "../Base32.h"
 #include "../Data.h"
-#include "mSIGNA/stdutils/uchar_vector.h"
 
 using namespace TW;
 using namespace TW::Filecoin;
