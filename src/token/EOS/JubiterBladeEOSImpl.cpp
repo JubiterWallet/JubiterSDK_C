@@ -21,7 +21,20 @@ do {				                                \
 
 JUB_RV JubiterBladeEOSImpl::SelectApplet() {
 
+    JUB_VERIFY_RV(SelectMainSecurityDomain());
+
+    JUB_BYTE fwVersion[4] = {0x00,};
+    JUB_VERIFY_RV(GetFwVersion(fwVersion));
+
     SWITCH_TO_EOS_APP;
+
+    // For COS v2.2.06 to support EOS.
+    // COS v2.0.04 do not support EOS, so here you need to pass the COS version to the applet.
+    // We don't care about the return value for forward compatibility.
+    APDU apdu(0x00, 0xFD, 0x02, 0x00, 0x00, fwVersion, sizeof(fwVersion)/sizeof(JUB_BYTE));
+    JUB_UINT16 ret = 0;
+    _SendApdu(&apdu, ret);
+
     return JUBR_OK;
 }
 
