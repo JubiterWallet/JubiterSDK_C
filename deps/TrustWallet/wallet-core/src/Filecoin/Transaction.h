@@ -10,7 +10,7 @@
 
 #include "Address.h"
 #include "../Cbor.h"
-//#include "../uint256.h"
+#include "../uint256.h"
 #include <uint256_t/uint256_t.h>
 #include "../BinaryCoding.h"
 
@@ -25,21 +25,17 @@ class Transaction {
     // Transaction nonce
     uint64_t nonce;
     // Transaction value
-//    uint256_t value;
-    uint64_t value;
+    uint256_t value;
     // Miner fee
-//    uint256_t gasPrice;
-    uint64_t gasPrice;
-    int64_t gasLimit;
+    uint256_t gasPrice;
+    uint256_t gasLimit;
     // Transaction type; 0 for simple transfers
     uint64_t method;
     // Transaction data; empty for simple transfers
     Data params;
 
-//    Transaction(Address to, Address from, uint64_t nonce, uint256_t value, uint256_t gprice,
-//                uint256_t glimit)
-    Transaction(Address to, Address from, uint64_t nonce, uint64_t value, uint64_t gprice,
-                uint64_t glimit)
+    Transaction(Address to, Address from, uint64_t nonce, uint256_t value, uint256_t gprice,
+                uint256_t glimit)
         : to(std::move(to))
         , from(std::move(from))
         , nonce(nonce)

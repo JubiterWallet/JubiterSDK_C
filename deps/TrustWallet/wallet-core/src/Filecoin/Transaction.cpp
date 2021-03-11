@@ -5,21 +5,14 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "Transaction.h"
-#include "mSIGNA/stdutils/uchar_vector.h"
 
 using namespace TW;
 using namespace TW::Filecoin;
 
 // encodeVaruint encodes a 256-bit number into a big endian encoding, omitting leading zeros.
 static Data encodeVaruint(const uint256_t& value) {
-    
-    return value.export_bits();
-}
-
-static Data encodeVaruint(const uint64_t& value) {
     Data data;
-//    encode256BE(data, value, 256);
-    encode64BE(value, data);
+    encode256BE(data, value, 256);
     size_t i = 0;
     for (i = 0; i < data.size(); ++i) {
         if (data[i] != 0) {
@@ -57,10 +50,6 @@ Data Transaction::getNonce() const {
 // JuBiter-defined
 Data Transaction::getValue() const {
     Data vValue = Cbor::Encode::bytes(encodeVaruint(value)).encoded();
-    //panmin
-    std::cout << "value in uint64: " << uchar_vector(vValue).getHex() << std::endl;
-    Data v = Cbor::Encode::bytes(encodeVaruint((uint256_t)value)).encoded();
-    std::cout << "value in uint256:" << uchar_vector(v).getHex() << std::endl;
     return Data(vValue.begin()+1, vValue.end());
 }
 
@@ -81,7 +70,6 @@ Data Transaction::getGasLimit() const {
 Cbor::Encode Transaction::message() const {
     Cbor::Encode cborGasLimit = gasLimit >= 0 ? Cbor::Encode::uint((uint64_t)gasLimit)
                                               : Cbor::Encode::negInt((uint64_t)(-gasLimit - 1));
-
     return Cbor::Encode::array({
         Cbor::Encode::uint(0),                        // version
         Cbor::Encode::bytes(to.bytes),                // to address
