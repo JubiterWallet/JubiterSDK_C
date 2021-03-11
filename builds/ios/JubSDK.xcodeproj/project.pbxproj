@@ -20,7 +20,6 @@
 		325B55D5249E73CE002A0616 /* scp03.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 325B55D3249E73CE002A0616 /* scp03.cpp */; };
 		325B55D7249E73E5002A0616 /* scp03.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 325B55D6249E73E5002A0616 /* scp03.hpp */; };
 		670B8FC92432E7AC00E8EF5C /* comm.h in Headers */ = {isa = PBXBuildFile; fileRef = 670B8FC42432E7AC00E8EF5C /* comm.h */; };
-		670B8FCB2432ED2500E8EF5C /* libFTNFCTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 670B8FCA2432ED2500E8EF5C /* libFTNFCTransmission.a */; };
 		670B8FD624332C2200E8EF5C /* JubiterNFCDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 670B8FD524332C2200E8EF5C /* JubiterNFCDevice.hpp */; };
 		670B8FDF2433390200E8EF5C /* JubiterNFCDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 670B8FDE2433390200E8EF5C /* JubiterNFCDevice.cpp */; };
 		670B8FE02433390200E8EF5C /* JubiterNFCDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 670B8FDE2433390200E8EF5C /* JubiterNFCDevice.cpp */; };
@@ -525,7 +524,6 @@
 		6763937E253464D600C41883 /* common.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6763936E253464D600C41883 /* common.pb.cc */; };
 		6763937F253464D600C41883 /* common.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6763936E253464D600C41883 /* common.pb.cc */; };
 		67639380253464D600C41883 /* asset_issue_contract.pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 6763936F253464D600C41883 /* asset_issue_contract.pb.h */; };
-		6773C76623BA2E3600DEF9F0 /* libFTTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6718A13823A216AD00F8A5CD /* libFTTransmission.a */; };
 		6773C76723BA2E3E00DEF9F0 /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EADCCD7322A7B380008F2EF5 /* libJubSDK.a */; };
 		677416C4249CD1AA002039A8 /* cmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 677416C3249CD1A9002039A8 /* cmac.h */; };
 		67742D24242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67742D23242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp */; };
@@ -653,7 +651,6 @@
 		67EA8EAD256E0E3E00AD9179 /* TRXContextFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EAB256E0E3E00AD9179 /* TRXContextFactory.h */; };
 		67EA8EAE256E0E3E00AD9179 /* TRXContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EAC256E0E3E00AD9179 /* TRXContext.h */; };
 		67EA8EB4256E0E8A00AD9179 /* TRXTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8EB3256E0E8A00AD9179 /* TRXTokenInterface.hpp */; };
-		67EA8ECE256E216800AD9179 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EA8ECD256E216800AD9179 /* libprotobuf.a */; };
 		67EA8FE0256E2E1200AD9179 /* TRXContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */; };
 		67EA8FE1256E2E1200AD9179 /* TRXContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */; };
 		67EB5BF72513763500501E9A /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EB5BF62513763500501E9A /* CoreNFC.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -669,6 +666,12 @@
 		67F173932542DCA4009211A3 /* pb_varint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F173882542DCA3009211A3 /* pb_varint.cpp */; };
 		67F173942542DCA4009211A3 /* pb_varint.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67F173892542DCA3009211A3 /* pb_varint.hpp */; };
 		67FA32CA24CAE76F00023DF9 /* DeviceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32C924CAE76E00023DF9 /* DeviceFactory.h */; };
+		7779655625FA34890022FA58 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7779655525FA34890022FA58 /* libprotobuf.a */; };
+		7779655725FA34A80022FA58 /* libFTTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6718A13823A216AD00F8A5CD /* libFTTransmission.a */; };
+		7779655825FA34B30022FA58 /* libFTNFCTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 670B8FCA2432ED2500E8EF5C /* libFTNFCTransmission.a */; };
+		7779655B25FA37390022FA58 /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7779655925FA37390022FA58 /* TaggedAddresses.cpp */; };
+		7779655C25FA37390022FA58 /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7779655925FA37390022FA58 /* TaggedAddresses.cpp */; };
+		7779655D25FA37390022FA58 /* TaggedAddresses.h in Headers */ = {isa = PBXBuildFile; fileRef = 7779655A25FA37390022FA58 /* TaggedAddresses.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1150,7 +1153,6 @@
 		67EA8EAB256E0E3E00AD9179 /* TRXContextFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXContextFactory.h; path = ../../include/context/TRXContextFactory.h; sourceTree = "<group>"; };
 		67EA8EAC256E0E3E00AD9179 /* TRXContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRXContext.h; path = ../../include/context/TRXContext.h; sourceTree = "<group>"; };
 		67EA8EB3256E0E8A00AD9179 /* TRXTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TRXTokenInterface.hpp; path = ../../include/token/interface/TRXTokenInterface.hpp; sourceTree = "<group>"; };
-		67EA8ECD256E216800AD9179 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/iOS/Release/libprotobuf.a; sourceTree = "<group>"; };
 		67EA8FDF256E2E1200AD9179 /* TRXContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TRXContext.cpp; path = ../../src/context/TRXContext.cpp; sourceTree = "<group>"; };
 		67EB5BF62513763500501E9A /* CoreNFC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreNFC.framework; path = System/Library/Frameworks/CoreNFC.framework; sourceTree = SDKROOT; };
 		67F173822542DCA2009211A3 /* pb_buf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pb_buf.hpp; path = ../../pbparse/pb_buf.hpp; sourceTree = "<group>"; };
@@ -1162,6 +1164,9 @@
 		67F173882542DCA3009211A3 /* pb_varint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pb_varint.cpp; path = ../../pbparse/pb_varint.cpp; sourceTree = "<group>"; };
 		67F173892542DCA3009211A3 /* pb_varint.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pb_varint.hpp; path = ../../pbparse/pb_varint.hpp; sourceTree = "<group>"; };
 		67FA32C924CAE76E00023DF9 /* DeviceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceFactory.h; path = ../../include/device/DeviceFactory.h; sourceTree = "<group>"; };
+		7779655525FA34890022FA58 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/iOS/Release/libprotobuf.a; sourceTree = "<group>"; };
+		7779655925FA37390022FA58 /* TaggedAddresses.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TaggedAddresses.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.cpp"; sourceTree = "<group>"; };
+		7779655A25FA37390022FA58 /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1170,11 +1175,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67EA8ECE256E216800AD9179 /* libprotobuf.a in Frameworks */,
 				67EB5BF72513763500501E9A /* CoreNFC.framework in Frameworks */,
 				6773C76723BA2E3E00DEF9F0 /* libJubSDK.a in Frameworks */,
-				670B8FCB2432ED2500E8EF5C /* libFTNFCTransmission.a in Frameworks */,
-				6773C76623BA2E3600DEF9F0 /* libFTTransmission.a in Frameworks */,
+				7779655725FA34A80022FA58 /* libFTTransmission.a in Frameworks */,
+				7779655825FA34B30022FA58 /* libFTNFCTransmission.a in Frameworks */,
+				7779655625FA34890022FA58 /* libprotobuf.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1493,6 +1498,8 @@
 				675B04DA2428665F004C62D4 /* SField.h */,
 				6713A86523A07C090083A34D /* Signer.cpp */,
 				6713A86323A07C090083A34D /* Signer.h */,
+				7779655925FA37390022FA58 /* TaggedAddresses.cpp */,
+				7779655A25FA37390022FA58 /* TaggedAddresses.h */,
 				6713A86023A07C090083A34D /* Transaction.cpp */,
 				6713A86623A07C090083A34D /* Transaction.h */,
 			);
@@ -1750,7 +1757,7 @@
 		6718A13723A216AD00F8A5CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				67EA8ECD256E216800AD9179 /* libprotobuf.a */,
+				7779655525FA34890022FA58 /* libprotobuf.a */,
 				67EB5BF62513763500501E9A /* CoreNFC.framework */,
 				670B8FCA2432ED2500E8EF5C /* libFTNFCTransmission.a */,
 				6718A13823A216AD00F8A5CD /* libFTTransmission.a */,
@@ -2494,6 +2501,7 @@
 				6718A3DC23A3394600F8A5CD /* blake256.h in Headers */,
 				6718A3D123A3394000F8A5CD /* rfc6979.h in Headers */,
 				6718A38C23A3391100F8A5CD /* ed25519-hash-custom.h in Headers */,
+				7779655D25FA37390022FA58 /* TaggedAddresses.h in Headers */,
 				6718A3C823A3394000F8A5CD /* groestl.h in Headers */,
 				6718A3DB23A3394600F8A5CD /* blake2s.h in Headers */,
 				675B058224286B55004C62D4 /* RLP.h in Headers */,
@@ -2583,7 +2591,7 @@
 		EADCCD6B22A7B380008F2EF5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = sherlockirene;
 				TargetAttributes = {
 					6718A01823A2120B00F8A5CD = {
@@ -2641,6 +2649,7 @@
 				6718A41E23A339ED00F8A5CD /* JUB_SDK_ETH.cpp in Sources */,
 				6718A38E23A3391100F8A5CD /* ed25519-sha3.c in Sources */,
 				6745C8E0254A654500D49A75 /* JUB_SDK_TRX.cpp in Sources */,
+				7779655C25FA37390022FA58 /* TaggedAddresses.cpp in Sources */,
 				67639363253464A800C41883 /* Tron.pb.cc in Sources */,
 				6746215D23C319A20096DDA2 /* BTCContext.cpp in Sources */,
 				6718A41C23A339ED00F8A5CD /* JUB_SDK_BTC.cpp in Sources */,
@@ -2999,6 +3008,7 @@
 				67639374253464D600C41883 /* smart_contract.pb.cc in Sources */,
 				6713A83623A07B8F0083A34D /* Fido.cpp in Sources */,
 				675B054A242869C0004C62D4 /* JubiterLiteImpl.cpp in Sources */,
+				7779655B25FA37390022FA58 /* TaggedAddresses.cpp in Sources */,
 				675B055E24286B30004C62D4 /* TWData.cpp in Sources */,
 				675B053724286909004C62D4 /* TrezorCryptoQTUMImpl.cpp in Sources */,
 				675B0546242869AB004C62D4 /* JubiterBaseHCImpl.cpp in Sources */,
@@ -3038,22 +3048,23 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
-					../..,
-					../../include,
-					"../../trezor-crypto/include",
-					../../gpc/include,
-					../../deps/,
-					../../deps/bleTransmit,
-					../../deps/bleTransmit/ios,
-					../../deps/nfcTransmit/ios,
-					"../../deps/TrustWallet/wallet-core/include",
-					"../../deps/TrustWallet/wallet-core/src",
-					"../../deps/TrustWallet/wallet-core/src/Bitcoin",
-					../../deps/json/include,
-					../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol,
-					../../deps/JubiterSDK_Common_pb/cpp/Tron,
-					../../deps/protobuf/src,
-					../../pbparse,
+					"\"$(SRCROOT)/../..\"",
+					"\"$(SRCROOT)/../../include\"",
+					"\"$(SRCROOT)/../../trezor-crypto/include\"",
+					"\"$(SRCROOT)/../../gpc/include\"",
+					"\"$(SRCROOT)/../../deps\"",
+					"\"$(SRCROOT)/../../deps/bleTransmit\"",
+					"\"$(SRCROOT)/../../deps/bleTransmit/ios\"",
+					"\"$(SRCROOT)/../../deps/nfcTransmit/ios\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/include\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/src\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/src/Bitcoin\"",
+					"\"$(SRCROOT)/../../deps/json/include\"",
+					"\"$(SRCROOT)/../../deps/protobuf/src\"",
+					"\"$(SRCROOT)/../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol\"",
+					"\"$(SRCROOT)/../../deps/JubiterSDK_Common_pb/cpp/Tron\"",
+					"\"$(SRCROOT)/../../deps/protobuf/src\"",
+					"\"$(SRCROOT)/../../pbparse\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -3064,9 +3075,9 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					../../deps/bleTransmit/ios,
-					../../deps/nfcTransmit/ios,
-					../../outputs/iOS/Release,
+					"\"$(SRCROOT)/../../deps/bleTransmit/ios\"",
+					"\"$(SRCROOT)/../../deps/nfcTransmit/ios\"",
+					"\"$(SRCROOT)/../../outputs/iOS/Release\"",
 				);
 				MODULEMAP_FILE = "$(SRCROOT)/../apple/JubSDKCore/module.modulemap";
 				OTHER_CFLAGS = "";
@@ -3087,10 +3098,6 @@
 		6718A01F23A2120B00F8A5CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					arm64,
-				);
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
@@ -3104,22 +3111,23 @@
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_OS_IPHONE;
 				HEADER_SEARCH_PATHS = (
-					../..,
-					../../include,
-					"../../trezor-crypto/include",
-					../../gpc/include,
-					../../deps/,
-					../../deps/bleTransmit,
-					../../deps/bleTransmit/ios,
-					../../deps/nfcTransmit/ios,
-					"../../deps/TrustWallet/wallet-core/include",
-					"../../deps/TrustWallet/wallet-core/src",
-					"../../deps/TrustWallet/wallet-core/src/Bitcoin",
-					../../deps/json/include,
-					../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol,
-					../../deps/JubiterSDK_Common_pb/cpp/Tron,
-					../../deps/protobuf/src,
-					../../pbparse,
+					"\"$(SRCROOT)/../..\"",
+					"\"$(SRCROOT)/../../include\"",
+					"\"$(SRCROOT)/../../trezor-crypto/include\"",
+					"\"$(SRCROOT)/../../gpc/include\"",
+					"\"$(SRCROOT)/../../deps\"",
+					"\"$(SRCROOT)/../../deps/bleTransmit\"",
+					"\"$(SRCROOT)/../../deps/bleTransmit/ios\"",
+					"\"$(SRCROOT)/../../deps/nfcTransmit/ios\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/include\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/src\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/src/Bitcoin\"",
+					"\"$(SRCROOT)/../../deps/json/include\"",
+					"\"$(SRCROOT)/../../deps/protobuf/src\"",
+					"\"$(SRCROOT)/../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol\"",
+					"\"$(SRCROOT)/../../deps/JubiterSDK_Common_pb/cpp/Tron\"",
+					"\"$(SRCROOT)/../../deps/protobuf/src\"",
+					"\"$(SRCROOT)/../../pbparse\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -3130,9 +3138,9 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					../../deps/bleTransmit/ios,
-					../../deps/nfcTransmit/ios,
-					../../outputs/iOS/Release,
+					"\"$(SRCROOT)/../../deps/bleTransmit/ios\"",
+					"\"$(SRCROOT)/../../deps/nfcTransmit/ios\"",
+					"\"$(SRCROOT)/../../outputs/iOS/Release\"",
 				);
 				MODULEMAP_FILE = "$(SRCROOT)/../apple/JubSDKCore/module.modulemap";
 				OTHER_CFLAGS = "";
@@ -3276,22 +3284,23 @@
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_OS_IPHONE;
 				HEADER_SEARCH_PATHS = (
-					../..,
-					../../include,
-					"../../trezor-crypto/include",
-					../../gpc/include,
-					../../deps/,
-					../../deps/bleTransmit,
-					../../deps/bleTransmit/ios,
-					"../../deps/TrustWallet/wallet-core",
-					"../../deps/TrustWallet/wallet-core/include",
-					"../../deps/TrustWallet/wallet-core/src",
-					"../../deps/TrustWallet/wallet-core/src/Bitcoin",
-					../../deps/json/include,
-					../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol,
-					../../deps/JubiterSDK_Common_pb/cpp/Tron,
-					../../deps/protobuf/src,
-					../../pbparse,
+					"\"$(SRCROOT)/../..\"",
+					"\"$(SRCROOT)/../../include\"",
+					"\"$(SRCROOT)/../../trezor-crypto/include\"",
+					"\"$(SRCROOT)/../../gpc/include\"",
+					"\"$(SRCROOT)/../../deps\"",
+					"\"$(SRCROOT)/../../deps/bleTransmit\"",
+					"\"$(SRCROOT)/../../deps/bleTransmit/ios\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/include\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/src\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/src/Bitcoin\"",
+					"\"$(SRCROOT)/../../deps/json/include\"",
+					"\"$(SRCROOT)/../../deps/protobuf/src\"",
+					"\"$(SRCROOT)/../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol\"",
+					"\"$(SRCROOT)/../../deps/JubiterSDK_Common_pb/cpp/Tron\"",
+					"\"$(SRCROOT)/../../deps/protobuf/src\"",
+					"\"$(SRCROOT)/../../pbparse\"",
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
@@ -3318,22 +3327,23 @@
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_OS_IPHONE;
 				HEADER_SEARCH_PATHS = (
-					../..,
-					../../include,
-					"../../trezor-crypto/include",
-					../../gpc/include,
-					../../deps/,
-					../../deps/bleTransmit,
-					../../deps/bleTransmit/ios,
-					"../../deps/TrustWallet/wallet-core",
-					"../../deps/TrustWallet/wallet-core/include",
-					"../../deps/TrustWallet/wallet-core/src",
-					"../../deps/TrustWallet/wallet-core/src/Bitcoin",
-					../../deps/json/include,
-					../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol,
-					../../deps/JubiterSDK_Common_pb/cpp/Tron,
-					../../deps/protobuf/src,
-					../../pbparse,
+					"\"$(SRCROOT)/../..\"",
+					"\"$(SRCROOT)/../../include\"",
+					"\"$(SRCROOT)/../../trezor-crypto/include\"",
+					"\"$(SRCROOT)/../../gpc/include\"",
+					"\"$(SRCROOT)/../../deps\"",
+					"\"$(SRCROOT)/../../deps/bleTransmit\"",
+					"\"$(SRCROOT)/../../deps/bleTransmit/ios\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/include\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/src\"",
+					"\"$(SRCROOT)/../../deps/TrustWallet/wallet-core/src/Bitcoin\"",
+					"\"$(SRCROOT)/../../deps/json/include\"",
+					"\"$(SRCROOT)/../../deps/protobuf/src\"",
+					"\"$(SRCROOT)/../../deps/JubiterSDK_Common_pb/cpp/Tron/protocol\"",
+					"\"$(SRCROOT)/../../deps/JubiterSDK_Common_pb/cpp/Tron\"",
+					"\"$(SRCROOT)/../../deps/protobuf/src\"",
+					"\"$(SRCROOT)/../../pbparse\"",
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
