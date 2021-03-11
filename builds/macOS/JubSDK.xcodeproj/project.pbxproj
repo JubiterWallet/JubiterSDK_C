@@ -769,6 +769,10 @@
 		67FA32CD24CAE77B00023DF9 /* DeviceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CB24CAE77B00023DF9 /* DeviceFactory.h */; };
 		67FA32CF24CAECED00023DF9 /* xFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CE24CAECED00023DF9 /* xFactory.hpp */; };
 		67FA32D024CAECED00023DF9 /* xFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CE24CAECED00023DF9 /* xFactory.hpp */; };
+		778105CA25FA0AA90014C1EE /* TaggedAddresses.h in Headers */ = {isa = PBXBuildFile; fileRef = 778105C825FA0AA90014C1EE /* TaggedAddresses.h */; };
+		778105CB25FA0AA90014C1EE /* TaggedAddresses.h in Headers */ = {isa = PBXBuildFile; fileRef = 778105C825FA0AA90014C1EE /* TaggedAddresses.h */; };
+		778105CC25FA0AA90014C1EE /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778105C925FA0AA90014C1EE /* TaggedAddresses.cpp */; };
+		778105CD25FA0AA90014C1EE /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778105C925FA0AA90014C1EE /* TaggedAddresses.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1161,6 +1165,8 @@
 		67ECD14E23CD74C400B7D514 /* JubSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubSDKCore.h; path = ../../builds/apple/JubSDKCore/JubSDKCore.h; sourceTree = "<group>"; };
 		67FA32CB24CAE77B00023DF9 /* DeviceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceFactory.h; path = ../../include/device/DeviceFactory.h; sourceTree = "<group>"; };
 		67FA32CE24CAECED00023DF9 /* xFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = xFactory.hpp; path = ../../include/utility/xFactory.hpp; sourceTree = "<group>"; };
+		778105C825FA0AA90014C1EE /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
+		778105C925FA0AA90014C1EE /* TaggedAddresses.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TaggedAddresses.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1428,6 +1434,8 @@
 				670B8FB62431C9C100E8EF5C /* SField.h */,
 				675C7961238B78B00015C95D /* Signer.cpp */,
 				675C7966238B78B00015C95D /* Signer.h */,
+				778105C925FA0AA90014C1EE /* TaggedAddresses.cpp */,
+				778105C825FA0AA90014C1EE /* TaggedAddresses.h */,
 				675C7965238B78B00015C95D /* Transaction.cpp */,
 				675C7964238B78B00015C95D /* Transaction.h */,
 			);
@@ -2261,6 +2269,7 @@
 				677DF33624DD39F2001920A9 /* BTCTokenFactory.h in Headers */,
 				67FA32D024CAECED00023DF9 /* xFactory.hpp in Headers */,
 				67189FEA23A211A400F8A5CD /* BinaryCoding.h in Headers */,
+				778105CB25FA0AA90014C1EE /* TaggedAddresses.h in Headers */,
 				67189F9823A2114A00F8A5CD /* groestl.h in Headers */,
 				67189F8623A2113E00F8A5CD /* bip39.h in Headers */,
 				67189FA123A2114A00F8A5CD /* rfc6979.h in Headers */,
@@ -2496,6 +2505,7 @@
 				670B8FBB2431C9C100E8EF5C /* SField.h in Headers */,
 				67A4BDCC2330A9F90059A3DB /* blake2_common.h in Headers */,
 				675C796A238B78B00015C95D /* Address.h in Headers */,
+				778105CA25FA0AA90014C1EE /* TaggedAddresses.h in Headers */,
 				674F19D323A10628001702DD /* ed25519-blake2b.h in Headers */,
 				674F19D723A10628001702DD /* ed25519-donna-portable.h in Headers */,
 				674B4A7A24A1B0570053AB2F /* scp11c.hpp in Headers */,
@@ -2720,6 +2730,7 @@
 				67189F4823A2103F00F8A5CD /* JUB_SDK_XRP.cpp in Sources */,
 				67189FBE23A2116D00F8A5CD /* blake2b.c in Sources */,
 				67189FDC23A2117500F8A5CD /* ripemd160.c in Sources */,
+				778105CD25FA0AA90014C1EE /* TaggedAddresses.cpp in Sources */,
 				6723622725525B1700E6C69D /* JubiterBaseETHImpl.cpp in Sources */,
 				6718A00923A211B600F8A5CD /* PrivateKey.cpp in Sources */,
 				67189F6C23A2111700F8A5CD /* BigIntegerUtils.cc in Sources */,
@@ -2880,6 +2891,7 @@
 				674F19B923A105F2001702DD /* ed25519-donna-32bit-tables.c in Sources */,
 				67A4BD8E2330A9220059A3DB /* schnorr.c in Sources */,
 				67A4BD8D2330A9220059A3DB /* sha2.c in Sources */,
+				778105CC25FA0AA90014C1EE /* TaggedAddresses.cpp in Sources */,
 				6723622625525B1700E6C69D /* JubiterBaseETHImpl.cpp in Sources */,
 				67A4BCF0233084B90059A3DB /* JubiterBLEDevice.cpp in Sources */,
 				676B4296240F922300EBB44D /* RLP.cpp in Sources */,
