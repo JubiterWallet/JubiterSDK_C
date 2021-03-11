@@ -21,6 +21,8 @@ do {				                                \
 
 JUB_RV JubiterBladeEOSImpl::SelectApplet() {
 
+    JUB_VERIFY_RV(SelectMainSecurityDomain());
+
     JUB_BYTE fwVersion[4] = {0x00,};
     JUB_VERIFY_RV(GetFwVersion(fwVersion));
 
