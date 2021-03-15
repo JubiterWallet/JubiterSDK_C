@@ -32,16 +32,17 @@ JUB_RV _curveToString(JUB_ENUM_CURVES enumCurve, std::string& strCurve) {
     switch(enumCurve) {
     case JUB_ENUM_CURVES::SECP256K1:
         strCurve = SECP256K1_NAME;
-        return JUBR_OK;
+        break;
     case JUB_ENUM_CURVES::ED25519:
         strCurve = ED25519_NAME;
-        return JUBR_OK;
+        break;
     case JUB_ENUM_CURVES::NIST256P1:
         strCurve = NIST256P1_NAME;
-        return JUBR_OK;
+        break;
     default:
         return JUBR_ARGUMENTS_BAD;   
     }
+    return JUBR_OK;
 }
 
 JUB_RV JUB_GenerateMnemonic_soft(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
@@ -69,6 +70,7 @@ JUB_RV JUB_CheckMnemonic(IN JUB_CHAR_CPTR mnemonic) {
     }
 }
 
+
 JUB_RV JUB_GenerateSeed_soft(IN JUB_CHAR_CPTR mnemonic,
                              IN JUB_CHAR_CPTR passphrase,
                              OUT JUB_BYTE seed[64],
@@ -78,24 +80,70 @@ JUB_RV JUB_GenerateSeed_soft(IN JUB_CHAR_CPTR mnemonic,
     JUB_CHECK_NULL(mnemonic);
     JUB_CHECK_NULL(passphrase);
     mnemonic_to_seed(mnemonic, passphrase, seed, progress_callback);
+
     return JUBR_OK;
 }
+
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GenerateMiniSecret_soft(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase,
+                                   OUT JUB_BYTE secret[32],
+                                   void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total)) {
+
+    CREATE_THREAD_LOCK_GUARD
+    JUB_CHECK_NULL(mnemonic);
+    JUB_CHECK_NULL(passphrase);
+    mnemonic_to_mini_secret(mnemonic, passphrase, secret, progress_callback);
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JUB_GenerateEntropy_soft(IN JUB_CHAR_CPTR mnemonic,
+                                OUT JUB_BYTE entropy[32+1], OUT JUB_UINT32_PTR entropyBits) {
+
+    CREATE_THREAD_LOCK_GUARD
+    JUB_CHECK_NULL(mnemonic);
+    *entropyBits = mnemonic_to_entropy(mnemonic, entropy);
+
+    return JUBR_OK;
+}
+
 
 JUB_RV JUB_SeedToMasterPrivateKey_soft(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
                                        IN JUB_ENUM_CURVES curve,
                                        OUT JUB_CHAR_PTR_PTR prikeyInXprv) {
 
     CREATE_THREAD_LOCK_GUARD
+
     JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin);
     JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin);
 
     JUB_CHECK_NULL(seed);
-    std::string curve_name;
-    JUB_VERIFY_RV(_curveToString(curve, curve_name));
 
     HDNode node;
-    if (0 == hdnode_from_seed(seed, seed_len, curve_name.c_str(), &node)) {
-        return JUBR_ERROR;
+    switch (curve) {
+    case JUB_ENUM_CURVES::SR25519:
+    {
+        /// Size of SR25519 KEYPAIR. [32 bytes key | 32 bytes nonce | 32 bytes public]
+        std::vector<uint8_t> kp(SR25519_KEYPAIR_SIZE, 0);
+        sr25519_keypair_from_seed(kp.data(),
+                                  seed);
+        memcpy(node.private_key, &kp[0], 32);
+//        memcpy(node.nonce,  &kp[0] + 32, 32);
+        memcpy(node.public_key,  &kp[0] + 32 + 32, 32);
+        break;
+    }
+    default:
+    {
+        std::string curve_name;
+        JUB_VERIFY_RV(_curveToString(curve, curve_name));
+
+        if (0 == hdnode_from_seed(seed, seed_len, curve_name.c_str(), &node)) {
+            return JUBR_ERROR;
+        }
+        break;
+    }
     }
 
     JUB_CHAR str_pri[200] = {0,};

@@ -57,6 +57,9 @@ public:
                                    OUT std::string& raw);
 
     virtual JUB_RV ActiveSelf() override;
+
+private:
+    std::string _FullBip44Path(const BIP44_Path& path) override;
 }; // class DOTContext end
 
 

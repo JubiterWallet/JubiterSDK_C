@@ -54,6 +54,9 @@ int mnemonic_to_entropy(const char *mnemonic, uint8_t *entropy);
 // passphrase must be at most 256 characters otherwise it would be truncated
 void mnemonic_to_seed(const char *mnemonic, const char *passphrase, uint8_t seed[512 / 8], void (*progress_callback)(uint32_t current, uint32_t total));
 
+// passphrase must be at most 256 characters otherwise it would be truncated
+void mnemonic_to_mini_secret(const char *mnemonic, const char *passphrase, uint8_t mini_secret[32], void (*progress_callback)(uint32_t current, uint32_t total));
+
 const char * const *mnemonic_wordlist(void);
 
 #ifdef __cplusplus

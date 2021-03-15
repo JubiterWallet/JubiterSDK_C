@@ -35,6 +35,15 @@ JUB_RV JUB_GenerateSeed_soft(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphr
                              void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total));
 
 JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GenerateMiniSecret_soft(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase,
+                                   OUT JUB_BYTE secret[32],
+                                   void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total));
+
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GenerateEntropy_soft(IN JUB_CHAR_CPTR mnemonic,
+                                OUT JUB_BYTE entropy[32+1], OUT JUB_UINT32_PTR entropyBits);
+
+JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SeedToMasterPrivateKey_soft(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
                                        IN JUB_ENUM_CURVES curve,
                                        OUT JUB_CHAR_PTR_PTR prikeyInXPRV);

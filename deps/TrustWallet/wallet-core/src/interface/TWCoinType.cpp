@@ -59,6 +59,7 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     switch (coin) {
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
+    case TWCoinTypePolkadot:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
         prefix = TWP2PKHPrefix::TWP2PKHPrefixBitcoin;
         break;
@@ -121,7 +122,6 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     case TWCoinTypeHarmony:
     case TWCoinTypeAlgorand:
     case TWCoinTypeKusama:
-    case TWCoinTypePolkadot:
     default:
         break;
     }

@@ -117,7 +117,8 @@ typedef enum {
 typedef enum {
     SECP256K1 = 0,
     NIST256P1,
-    ED25519
+    ED25519,
+    SR25519,
 } JUB_ENUM_CURVES;
 
 // Remove c++ features for swift framework

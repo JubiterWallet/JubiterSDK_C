@@ -44,6 +44,14 @@ JUB_RV DOTContext::ActiveSelf() {
 }
 
 
+std::string DOTContext::_FullBip44Path(const BIP44_Path& path) {
+
+    return _mainPath + "/"
+        + std::to_string(path.change) + "'/"
+        + std::to_string(path.addressIndex)+ "'";
+}
+
+
 JUB_RV DOTContext::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
@@ -61,7 +69,7 @@ JUB_RV DOTContext::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 
 JUB_RV DOTContext::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
 
-    CONTEXT_CHECK_TYPE_PUBLIC
+//    CONTEXT_CHECK_TYPE_PUBLIC
 
     auto token = std::dynamic_pointer_cast<jub::token::DOTTokenInterface>(_tokenPtr);
     if (!token) {
@@ -188,13 +196,6 @@ JUB_RV DOTContext::SignTransaction(BIP44_Path path,
     return JUBR_OK;
 }
 
-
-std::string DOTContext::_FullBip44Path(const BIP44_Path& path) {
-
-    return _mainPath + "/"
-        + std::to_string(path.change) + "'/"
-        + std::to_string(path.addressIndex)+ "'";
-}
 
 } // namespace context end
 } // namespace jub end

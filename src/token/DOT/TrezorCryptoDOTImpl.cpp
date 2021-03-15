@@ -34,11 +34,7 @@ JUB_RV TrezorCryptoDOTImpl::GetAddress(const std::string& path, const JUB_UINT16
     uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
     TW::Data publicKey(vPublicKey);
     publicKey.erase(publicKey.begin());
-    
-//    std::string hex = "beff0e5d6f6e6e6d573d3044f3e2bfb353400375dc281da3337468d4aa527908";
-//    uchar_vector dest(hex);
-//    TW::Data publicKey(dest);
-    
+
     return _getAddress(publicKey, address);
 }
 

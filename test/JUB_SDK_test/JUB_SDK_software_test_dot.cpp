@@ -12,7 +12,9 @@
 
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "JUB_SDK_main.h"
-
+extern "C" {
+#include <sr25519/sr25519.h>
+}
 #include "Base58.h"
 
 void software_test_dot(const char* json_file) {
@@ -21,33 +23,33 @@ void software_test_dot(const char* json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
-    JUB_CHAR_PTR mnemonic = "chief menu kingdom stereo hope hazard into island bag trick egg route";
-
+    JUB_CHAR_PTR mnemonic = (JUB_CHAR_PTR)"chief menu kingdom stereo hope hazard into island bag trick egg route";
+    JUB_CHAR_PTR password = (JUB_CHAR_PTR)"";
     rv = JUB_CheckMnemonic(mnemonic);
     cout << "JUB_CheckMnemonic() return" << GetErrMsg(rv) << endl;
-    JUB_FreeMemory(mnemonic);
+    if (JUBR_OK != rv) {
+        return;
+    }
 
-    JUB_BYTE seed[64] = {0,};
-    JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
+    JUB_BYTE secret[32] = {0,};
+    JUB_ULONG secretLen = sizeof(secret)/sizeof(JUB_BYTE);
     auto callback = [](JUB_UINT32 current, JUB_UINT32 total) -> void {
         cout << ".";
     };
 
-    rv = JUB_GenerateSeed_soft(mnemonic, "", seed, callback);
-    cout << "JUB_GenerateSeed_soft() return " << GetErrMsg(rv) << endl;
+    rv = JUB_GenerateMiniSecret_soft(mnemonic, password, secret, callback);
+    cout << "JUB_GenerateMiniSecret_soft() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
-    uchar_vector vSeed(seedLen);
-    for (int i=0; i<seedLen; ++i) {
-        vSeed[i] = seed[i];
-    }
-    cout << "seed: " << vSeed.getHex() << endl;
+    cout << "mini secret: " << uchar_vector(secret, 32).getHex() << endl;
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
-    rv = JUB_SeedToMasterPrivateKey_soft(seed, seedLen,
-                                         JUB_ENUM_CURVES::ED25519,
+    rv = JUB_SeedToMasterPrivateKey_soft(&secret[0], secretLen,
+//                                         JUB_ENUM_CURVES::ED25519,
+                                         JUB_ENUM_CURVES::SR25519,
+//                                         JUB_ENUM_CURVES::SECP256K1,
                                          &masterXprv);
     cout << "JUB_SeedToMasterPrivateKey_soft() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK == rv) {
@@ -56,7 +58,7 @@ void software_test_dot(const char* json_file) {
 
     CONTEXT_CONFIG_DOT cfg;
 //    cfg.mainPath = (char*)root["main_path"].asCString();
-    cfg.mainPath = "m/44'/354'/0'";
+    cfg.mainPath = (char*)"m/44'/354'/0'";
     JUB_UINT16 contextID;
     rv = JUB_CreateContextDOT_soft(cfg, masterXprv, &contextID);
     if (rv != JUBR_OK) {
@@ -64,7 +66,7 @@ void software_test_dot(const char* json_file) {
         return;
     }
 
-    JUB_CHAR_PTR mainXpub = nullptr;
+/*    JUB_CHAR_PTR mainXpub = nullptr;
     rv = JUB_GetMainHDNodeDOT(contextID, JUB_ENUM_PUB_FORMAT::HEX, &mainXpub);
     if (JUBR_OK != rv) {
         cout << "JUB_GetMainHDNodeDOT return " << rv << endl;
@@ -80,11 +82,11 @@ void software_test_dot(const char* json_file) {
     }
     cout << "JUB_GetMainHDNodeDOT return " << mainXpub << endl;
     JUB_FreeMemory(mainXpub);
-
+*/
     BIP44_Path path;
     path.change = JUB_ENUM_BOOL::BOOL_FALSE;
     path.addressIndex = 0;
-    JUB_CHAR_PTR pub = nullptr;
+/*    JUB_CHAR_PTR pub = nullptr;
     rv = JUB_GetHDNodeDOT(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pub);
     if (rv != JUBR_OK) {
         cout << "JUB_GetHDNodeDOT return " << rv << endl;
@@ -100,7 +102,7 @@ void software_test_dot(const char* json_file) {
     }
     cout << "JUB_GetHDNodeDOT return " << pub << endl;
     JUB_FreeMemory(pub);
-
+*/
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressDOT(contextID,
                            path,

@@ -7,6 +7,9 @@
 #include "token/factory/ETHTokenFactory.h"
 
 #include <TrustWalletCore/TWCoinType.h>
+extern "C" {
+#include <sr25519/sr25519.h>
+}
 
 
 namespace jub {
