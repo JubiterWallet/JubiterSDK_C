@@ -15,6 +15,6 @@
 
 using namespace std;
 
-void software_test_btc();
+void software_test_btc(const char* json_sw_file);
 
 #endif /* JUB_SDK_software_test_btc_hpp */

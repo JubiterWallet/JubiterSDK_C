@@ -18,11 +18,11 @@ void get_address_test_HC(JUB_UINT16 contextID, Json::Value root) {
     try {
         JUB_CHAR_PTR mainXpub;
         JUB_RV rv = JUB_GetMainHDNodeHC(contextID, &mainXpub);
-        cout << "JUB_GetMainHDNodeHC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_GetMainHDNodeHC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
         }
-        cout << "Main xpub : " << mainXpub << endl;
+        cout << "    Main xpub : " << mainXpub << endl;
         JUB_FreeMemory(mainXpub);
 
         int inputNumber = root["inputs"].size();
@@ -34,21 +34,21 @@ void get_address_test_HC(JUB_UINT16 contextID, Json::Value root) {
             path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
 
             JUB_RV rv = JUB_GetHDNodeHC(contextID, path, &xpub);
-            cout << "JUB_GetHDNodeHC() return " << GetErrMsg(rv) << endl;
+            cout << "[-] JUB_GetHDNodeHC() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
                 break;
             }
 
-            cout << "input " << i << " xpub : " << xpub << endl;
+            cout << "    input " << i << " xpub : " << xpub << endl;
             JUB_FreeMemory(xpub);
 
             JUB_CHAR_PTR address;
             rv = JUB_GetAddressHC(contextID, path, BOOL_FALSE, &address);
-            cout << "JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
+            cout << "[-] JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
                 break;
             }
-            cout << "input " << i << " address : " << address << endl;
+            cout << "    input " << i << " address : " << address << endl;
             JUB_FreeMemory(address);
         }
         if (JUBR_OK != rv) {
@@ -76,11 +76,11 @@ void show_address_test_HC(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address;
     JUB_RV rv = JUB_GetAddressHC(contextID, path, BOOL_TRUE, &address);
-    cout << "JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_GetAddressHC() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
-    cout << "show address is : " << address << endl;
+    cout << "    show address: " << address << endl;
 
     JUB_FreeMemory(address);
 }
@@ -134,7 +134,7 @@ JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
 
         char* raw = nullptr;
         rv = JUB_SignTransactionHC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), unsignedRaw, &raw);
-        cout << "JUB_SignTransactionHC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_SignTransactionHC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {
             cout << "User cancel the transaction !" << endl;
@@ -147,7 +147,7 @@ JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
             return rv;
         }
         if (raw) {
-            cout << raw;
+            cout << "    Hcash raw[" << strlen(raw) << "]: " << raw << endl;
             JUB_FreeMemory(raw);
         }
     }
@@ -170,10 +170,11 @@ void HC_test(JUB_UINT16 deviceID, const char* json_file) {
         cfg.mainPath = (char*)root["main_path"].asCString();
 
         rv = JUB_CreateContextHC(cfg, deviceID, &contextID);
-        cout << "JUB_CreateContextHC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_CreateContextHC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
         }
+        cout << endl;
     }
     catch (...) {
         error_exit("Error format json file\n");

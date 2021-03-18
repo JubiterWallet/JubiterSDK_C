@@ -14,6 +14,7 @@
 #include <sstream>      // std::istringstream
 #include <vector>
 #include "../../include/JUB_SDK.h"
+#include "../../include/JUB_SDK_DEV.h"
 
 using namespace std;
 

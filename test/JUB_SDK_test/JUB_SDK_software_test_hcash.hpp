@@ -15,6 +15,6 @@
 
 using namespace std;
 
-void software_test_hcash();
+void software_test_hcash(const char* json_sw_file, const char* json_file);
 
 #endif /* JUB_SDK_software_test_hcash_hpp */

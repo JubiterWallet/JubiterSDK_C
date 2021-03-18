@@ -13,87 +13,119 @@
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "JUB_SDK_main.h"
 
-void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=false) {
+
+void software_test_btc(const char* json_sw_file, CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=false) {
 
     JUB_RV rv = JUBR_ERROR;
+    std::string coinType = "44";
 
+    cout << "[------------------------------ Generate Mnemonic ------------------------------]" << endl;
     JUB_CHAR_PTR mnemonic = nullptr;
     rv = JUB_GenerateMnemonic_soft(STRENGTH128, &mnemonic);
-    cout << "JUB_GenerateMnemonic_soft() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_GenerateMnemonic_soft() return " << GetErrMsg(rv) << endl;
     if(JUBR_OK == rv) {
-        cout << "Generate mnemonic: " << mnemonic << endl;
+        cout << "    Generate mnemonic: " << mnemonic << endl;
     }
+    cout << endl;
 
     rv = JUB_CheckMnemonic(mnemonic);
-    cout << "JUB_CheckMnemonic() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_CheckMnemonic() return " << GetErrMsg(rv) << endl;
+    if(JUBR_OK != rv) {
+        return;
+    }
     JUB_FreeMemory(mnemonic);
+    cout << "[---------------------------- Generate Mnemonic end ----------------------------]" << endl;
+    cout << endl << endl;
+
+    cout << "[-------------------------------- Generate Seed --------------------------------]" << endl;
+    Json::Value rootSW = readJSON(json_sw_file);
+    mnemonic = (char*)rootSW["mnemonic"].asCString();
+    cout << "    Read mnemonic: " << mnemonic << endl;
+    cout << endl;
+
+    rv = JUB_CheckMnemonic(mnemonic);
+    cout << "[-] JUB_CheckMnemonic() return " << GetErrMsg(rv) << endl;
+    if(JUBR_OK != rv) {
+        return;
+    }
+    cout << endl;
 
     JUB_BYTE seed[64] = {0,};
     JUB_UINT16 seedLen = sizeof(seed)/sizeof(JUB_BYTE);
     auto callback = [](JUB_UINT32 current, JUB_UINT32 total) -> void {
         cout << ".";
     };
-
-    rv = JUB_GenerateSeed_soft("gauge hole clog property soccer idea cycle stadium utility slice hold chief", "", seed, callback);
-    cout << "JUB_GenerateSeed_soft() return " << GetErrMsg(rv) << endl;
-    if (JUBR_OK != rv) {
+    rv = JUB_GenerateSeed_soft(mnemonic, "", seed, callback);
+    cout << "[-] JUB_GenerateSeed_soft() return " << GetErrMsg(rv) << endl;
+    if (rv != JUBR_OK) {
         return;
     }
     uchar_vector vSeed(seedLen);
     for (int i=0; i<seedLen; ++i) {
         vSeed[i] = seed[i];
     }
-    cout << "seed: " << vSeed.getHex() << endl;
+    cout << "    Generate seed: " << vSeed.getHex() << endl;
+    cout << "[------------------------------ Generate Seed end ------------------------------]" << endl;
     cout << endl;
 
     JUB_CHAR_PTR masterXprv = nullptr;
     rv = JUB_SeedToMasterPrivateKey_soft(seed, seedLen,
                                          JUB_ENUM_CURVES::SECP256K1,
                                          &masterXprv);
-    cout << "JUB_SeedToMasterPrivateKey_soft() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_SeedToMasterPrivateKey_soft() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK == rv) {
-        cout << "master xprv: " << masterXprv << endl;
+        cout << "    Seed to master xprv: " << masterXprv << endl;
     }
+    cout << endl << endl;
 
-    JUB_UINT16 contextID;
+    JUB_UINT16 contextID = 0;
     rv = JUB_CreateContextBTC_soft(cfg, masterXprv, &contextID);
-    cout << "JUB_CreateContextBTC_soft() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_CreateContextBTC_soft() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         JUB_FreeMemory(masterXprv);
         return;
     }
     JUB_FreeMemory(masterXprv);
+    cout << endl << endl;
 
-    JUB_CHAR_PTR mainXpub;
-    rv = JUB_GetMainHDNodeBTC(contextID, &mainXpub);
-    cout << "JUB_GetMainHDNodeBTC() return " << GetErrMsg(rv) << endl;
+    cout << "[----------------------------------- HD Node -----------------------------------]" << endl;
+    JUB_CHAR_PTR xpub = nullptr;
+    rv = JUB_GetMainHDNodeBTC(contextID, &xpub);
+    cout << "[-] JUB_GetMainHDNodeBTC() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK == rv) {
-        JUB_FreeMemory(mainXpub);
-    }
-
-    BIP44_Path path;
-    path.change = BOOL_FALSE;
-    path.addressIndex = 0;
-    JUB_CHAR_PTR  xpub = nullptr;
-    rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
-    cout << "JUB_GetHDNodeBTC() return " << GetErrMsg(rv) << endl;
-    if (JUBR_OK == rv) {
-        cout << "xpub: " << xpub << endl;
+        cout << "    main xpub in HEX: " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
+	cout << endl;
 
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)rootSW["bip32_path"]["change"].asBool();
+    path.addressIndex = rootSW["bip32_path"]["addressIndex"].asInt();
+    rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
+    cout << "[-] JUB_GetHDNodeBTC() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "    xpub in HEX: " << xpub << endl;
+        JUB_FreeMemory(xpub);
+    }
+    cout << "[--------------------------------- HD Node end ---------------------------------]" << endl;
+    cout << endl << endl;
+
+    cout << "[----------------------------------- Address -----------------------------------]" << endl;
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
-    cout << "JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
     if(JUBR_OK == rv) {
-        cout << "address: " << address << endl;
+        cout << "    address: " << address << endl;
         rv = JUB_CheckAddressBTC(contextID, address);
-        cout << "JUB_CheckAddressBTC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_CheckAddressBTC() return " << GetErrMsg(rv) << endl;
         JUB_FreeMemory(address);
     }
+    cout << endl;
 
 //    rv = JUB_CheckAddressBTC(contextID,"bc1qwmde2qhsgvzlnmju48tp4kdvqxdaaxr0vx9g27");
 //    if(rv == JUBR_OK){cout << "check BTC segwit address success"<<endl;}
+    cout << "[--------------------------------- Address end ---------------------------------]" << endl;
+    cout << endl << endl;
 
     if (isQRC20) {
         rv = transactionQTUM_proc(contextID, root);
@@ -106,7 +138,7 @@ void software_test_btc(CONTEXT_CONFIG_BTC cfg, Json::Value root, bool isQRC20=fa
     }
 }
 
-void software_test_btc() {
+void software_test_btc(const char* json_sw_file) {
 
     while (true) {
         cout << "-------------------------------------------" << endl;
@@ -197,6 +229,6 @@ void software_test_btc() {
 
         cfg.mainPath = (char*)root["main_path"].asCString();
 
-        software_test_btc(cfg, root, isQRC20);
+        software_test_btc(json_sw_file, cfg, root, isQRC20);
     }   // while (true) end
 }

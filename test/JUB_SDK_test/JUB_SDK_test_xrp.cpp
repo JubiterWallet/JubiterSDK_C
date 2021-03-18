@@ -19,7 +19,7 @@ void XRP_test(JUB_UINT16 deviceID, const char* json_file) {
 
     char* appList;
     rv = JUB_EnumApplets(deviceID, &appList);
-    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
@@ -30,10 +30,11 @@ void XRP_test(JUB_UINT16 deviceID, const char* json_file) {
     CONTEXT_CONFIG_XRP cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
     rv = JUB_CreateContextXRP(cfg, deviceID, &contextID);
-    cout << "JUB_CreateContextXRP() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_CreateContextXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
+    cout << endl;
 
     while (true) {
         cout << "--------------------------------------" << endl;
@@ -92,18 +93,19 @@ void set_my_address_test_XRP(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_SetMyAddressXRP(contextID, path, &address);
-    cout << "JUB_SetMyAddressXRP() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_SetMyAddressXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
     else {
-        cout << "set my address is : " << address << endl;
+        cout << "    set my address is : " << address << endl;
         JUB_FreeMemory(address);
     }
 }
 
 void get_address_pubkey_XRP(JUB_UINT16 contextID) {
-    JUB_RV rv = JUBR_ERROR;
+
+    cout << "[----------------------------------- HD Node -----------------------------------]" << endl;
 
     int change = 0;
     JUB_UINT64 index = 0;
@@ -116,34 +118,41 @@ void get_address_pubkey_XRP(JUB_UINT16 contextID) {
     path.change = JUB_ENUM_BOOL(change);
     path.addressIndex = index;
 
-    char* pubkey = nullptr;
-    rv = JUB_GetMainHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
-    cout << "JUB_GetMainHDNodeXRP() return " << GetErrMsg(rv) << endl;
+    JUB_CHAR_PTR xpub = nullptr;
+    JUB_RV rv = JUB_GetMainHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, &xpub);
+    cout << "[-] JUB_GetMainHDNodeXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
 
-    cout << "MainXpub in hex format :  " << pubkey << endl;
-    JUB_FreeMemory(pubkey);
+    cout << "    Main xpub in HEX: " << xpub << endl;
+    JUB_FreeMemory(xpub);
+    cout << endl;
 
-    pubkey = nullptr;
-    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pubkey);
-    cout << "JUB_GetHDNodeXRP() return " << GetErrMsg(rv) << endl;
+    xpub = nullptr;
+    rv = JUB_GetHDNodeXRP(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &xpub);
+    cout << "[-] JUB_GetHDNodeXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
 
-    cout << "pubkey in hex format :  " << pubkey << endl;
-    JUB_FreeMemory(pubkey);
+    cout << "    xpub in HEX: " << xpub << endl;
+    JUB_FreeMemory(xpub);
+    cout << "[--------------------------------- HD Node end ---------------------------------]" << endl;
+    cout << endl << endl;
 
-    char* address = nullptr;
+    cout << "[----------------------------------- Address -----------------------------------]" << endl;
+    JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressXRP(contextID, path, BOOL_TRUE, &address);
-    cout << "JUB_GetAddressXRP() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_GetAddressXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
-    cout << "address: " << address << endl;
+    cout << "    show address: " << address << endl;
+
     JUB_FreeMemory(address);
+    cout << "[--------------------------------- Address end ---------------------------------]" << endl;
+    cout << endl << endl;
 }
 
 void transaction_test_XRP(JUB_UINT16 contextID, Json::Value root) {
@@ -233,11 +242,11 @@ JUB_RV transaction_proc_XRP(JUB_UINT16 contextID, Json::Value root) {
                                 path,
                                 xrp,
                                 &raw);
-    cout << "JUB_SignTransactionXRP() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_SignTransactionXRP() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return rv;
     }
-    cout << "JUB_SignTransactionXRP() return " << raw << endl;
+    cout << "    XRP raw[" << strlen(raw) << "]: " << raw << endl;
     JUB_FreeMemory(raw);
 
     return JUBR_OK;

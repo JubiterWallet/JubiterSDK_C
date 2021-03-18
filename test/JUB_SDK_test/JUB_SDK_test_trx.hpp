@@ -3,7 +3,7 @@
 //  JubSDKTest
 //
 //  Created by panmin on 2020/9/11.
-//  Copyright © 2020 ft. All rights reserved.
+//  Copyright © 2020 JuBiter. All rights reserved.
 //
 
 #ifndef JUB_SDK_test_trx_hpp

@@ -19,7 +19,7 @@ void EOS_test(JUB_UINT16 deviceID, const char* json_file) {
 
     char* appList;
     rv = JUB_EnumApplets(deviceID, &appList);
-    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
@@ -30,10 +30,11 @@ void EOS_test(JUB_UINT16 deviceID, const char* json_file) {
     CONTEXT_CONFIG_EOS cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
     rv = JUB_CreateContextEOS(cfg, deviceID, &contextID);
-    cout << "JUB_CreateContextEOS() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_CreateContextEOS() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
+    cout << endl;
 
     while (true) {
         cout << "--------------------------------------" << endl;
@@ -102,12 +103,12 @@ void set_my_address_test_EOS(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_SetMyAddressEOS(contextID, path, &address);
-    cout << "JUB_SetMyAddressEOS() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_SetMyAddressEOS() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
     else {
-        cout << "set my address is : " << address << endl;
+        cout << "    set my address is : " << address << endl;
         JUB_FreeMemory(address);
     }
 }
@@ -168,11 +169,11 @@ void get_address_pubkey_EOS(JUB_UINT16 contextID) {
 
     char* address = nullptr;
     rv = JUB_GetAddressEOS(contextID, path, BOOL_TRUE, &address);
-    cout << "JUB_GetAddressEOS() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_GetAddressEOS() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
-    cout << "address: " << address << endl;
+    cout << "    show address: " << address << endl;
     JUB_FreeMemory(address);
 }
 
@@ -255,9 +256,9 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
 
             JUB_CHAR_PTR memoHash;
             rv = JUB_CalculateMemoHash(action.transfer.memo, &memoHash);
-            cout << "JUB_CalculateMemoHash() return " << GetErrMsg(rv) << endl;
+            cout << "[-] JUB_CalculateMemoHash() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK == rv) {
-                cout << "memoHash: " << memoHash << std::endl;
+                cout << "    memoHash: " << memoHash << std::endl;
             }
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::DELE:
@@ -305,12 +306,12 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
     rv = JUB_BuildActionEOS(contextID,
                             pActions, actionCnt,
                             &actionsInJSON);
-    cout << "JUB_BuildActionEOS() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_BuildActionEOS() return " << GetErrMsg(rv) << endl;
     delete [] pActions; pActions = nullptr;
     if (JUBR_OK != rv) {
         return rv;
     }
-    std::cout << "JUB_BuildActionEOS return " << actionsInJSON << std::endl;
+    std::cout << "    Action is " << actionsInJSON << std::endl;
     char* chainID    = (char*)root["EOS"]["chainID"].asCString();
     char* expiration = (char*)root["EOS"]["expiration"].asCString();
     char* referenceBlockId = (char*)root["EOS"]["referenceBlockId"].asCString();
@@ -343,13 +344,13 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
                                 referenceBlockTime,
                                 actionsInJSON,
                                 &raw);
-    cout << "JUB_SignTransactionEOS() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_SignTransactionEOS() return " << GetErrMsg(rv) << endl;
     JUB_FreeMemory(actionsInJSON);
     if (JUBR_OK != rv) {
         return rv;
     }
     else {
-        cout << "raw[" << strlen(raw)/2 << "]: "  << raw << endl;
+        cout << "    EOS raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
 

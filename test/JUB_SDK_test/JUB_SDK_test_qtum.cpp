@@ -77,7 +77,7 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
                                    gasLimit, gasPrice,
                                    to, value,
                                    &QRC20_output);
-        cout << "JUB_BuildQRC20Outputs() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_BuildQRC20Outputs() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return rv;
         }
@@ -85,20 +85,20 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
 
         char* raw = nullptr;
         rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
-        cout << "JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {
-            cout << "User cancel the transaction !" << endl;
+            cout << "    User cancel the transaction !" << endl;
             return rv;
         }
         if (   JUBR_OK != rv
             || nullptr == raw
             ) {
-            cout << "error sign tx" << endl;
+            cout << "    error sign tx" << endl;
             return rv;
         }
         if (raw) {
-            cout << raw;
+            cout << "    QTUM raw[" << strlen(raw) << "]: " << raw << endl;
             JUB_FreeMemory(raw);
         }
     }
@@ -123,10 +123,11 @@ void QTUM_test(JUB_UINT16 deviceID, const char* json_file) {
         cfg.transType = p2pkh;
 
         rv = JUB_CreateContextBTC(cfg, deviceID, &contextID);
-        cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
         }
+        cout << endl;
     }
     catch (...) {
         error_exit("Error format json file\n");
