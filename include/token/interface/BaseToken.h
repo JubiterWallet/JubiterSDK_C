@@ -1,5 +1,6 @@
 #pragma once
 #include "JUB_SDK.h"
+#include <assert.h>
 #include <TrezorCrypto/curves.h>
 #include <TrustWalletCore/TWCoinType.h>
 #include "mSIGNA/stdutils/uchar_vector.h"
