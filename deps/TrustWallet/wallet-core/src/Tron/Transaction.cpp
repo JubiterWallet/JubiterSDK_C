@@ -33,8 +33,12 @@ namespace TW::Tron {
 }
 
 
-nlohmann::json Transaction::serialize() const noexcept {
+nlohmann::json Transaction::serialize() noexcept {
 
+    if (txID.empty()) {
+        auto serialized = raw_data.serialize();
+        txID = Hash::sha256(Data(serialized.begin(), serialized.end()));
+    }
     return transactionJSON(raw_data.to_internal(), txID, signature);
 }
 

@@ -54,7 +54,7 @@ public:
     // JuBiter-defined
     ::protocol::Transaction to_internal();
 
-    nlohmann::json serialize() const noexcept;
+    nlohmann::json serialize() noexcept;
 };  // class Transaction end
 
 
