@@ -24,13 +24,12 @@ using std::istringstream;
 
 void getVersion(JUB_UINT16 deviceID) {
 
-    cout << "~~~~~~~~~~~Device Version ~~~~~~~~~~~~~~" << endl;
-
     JUB_RV rv = JUBR_ERROR;
 
+    cout << "[--------------------------------- Device Info ---------------------------------]" << endl;
     JUB_DEVICE_INFO info;
     rv = JUB_GetDeviceInfo(deviceID, &info);
-    cout << "JUB_GetDeviceInfo() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_GetDeviceInfo() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
@@ -39,14 +38,15 @@ void getVersion(JUB_UINT16 deviceID) {
     JUB_BYTE  fwVersion[5] = {0,};
     memcpy(bleVersion, info.bleVersion, 4);
     memcpy( fwVersion, info.firmwareVersion, 4);
-    cout << "device bleVersion :" << bleVersion << endl;
-    cout << "device  fwVersion :" <<  fwVersion << endl;
+    cout << "    device bleVersion :" << bleVersion << endl;
+    cout << "    device  fwVersion :" <<  fwVersion << endl;
+    cout << "[------------------------------- Device Info end -------------------------------]" << endl;
+    cout << endl << endl;
 
-    cout << "~~~~~~~~~~~Applet Version ~~~~~~~~~~~~~~" << endl;
-
+    cout << "[-------------------------------- Applet Version -------------------------------]" << endl;
     char* appList;
     rv = JUB_EnumApplets(deviceID, &appList);
-    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
@@ -55,21 +55,25 @@ void getVersion(JUB_UINT16 deviceID) {
 
     auto vAppList = split(appletList, ' ');
     for (auto appID : vAppList) {
-        char* version;
+        JUB_VERSION version;
         auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
-        cout << "JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             break;
         }
         else {
-            cout << appID << " version : " << version << endl;
+            cout << appID << "    Applet Version : " << version.major << "." << version.minor << "." << version.patch << endl;
         }
     }
+    cout << "[------------------------------ Applet Version end -----------------------------]" << endl;
+    cout << endl << endl;
 
-    cout << "~~~~~~~~~~~SDK    Version ~~~~~~~~~~~~~~" << endl;
-
-    cout <<"SDK Version:"<< JUB_GetVersion() << endl;
+    cout << "[--------------------------------- SDK Version ---------------------------------]" << endl;
+    cout <<"    SDK Version:"<< JUB_GetVersion() << endl;
+    cout << "[------------------------------- SDK Version end -------------------------------]" << endl;
+    cout << endl << endl;
 }
+
 
 void main_test() {
 
@@ -113,18 +117,23 @@ void main_test() {
     }
     default:
     {
+        cout << "[----------------------------- HID device connection ---------------------------]" << endl;
         commode = JUB_ENUM_COMMODE::HID;
         rv = JUB_ListDeviceHid(deviceIDs);
-        cout << "JUB_ListDeviceHid() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_ListDeviceHid() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
         }
+        cout << endl;
+
         deviceID = deviceIDs[0];
         rv = JUB_ConnetDeviceHid(deviceID);
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
         }
+        cout << "[--------------------------- HID device connection end -------------------------]" << endl;
+        cout << endl << endl;
         break;
     }
     }
@@ -245,8 +254,11 @@ void main_test() {
         switch (commode) {
         case JUB_ENUM_COMMODE::HID:
         {
+            cout << "[---------------------------- HID device disconnection -------------------------]" << endl;
             rv = JUB_DisconnetDeviceHid(deviceID);
-            cout << "JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
+            cout << "[-] JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
+            cout << "[------------------------- HID device disconnection end ------------------------]" << endl;
+            cout << endl << endl;
             break;
         }
         case JUB_ENUM_COMMODE::GRPC:
@@ -266,7 +278,7 @@ void monitor_test() {
         fill_n(deviceIDs, MAX_DEVICE, 0xffff);
         auto count = 0;
         JUB_RV rv = JUB_ListDeviceHid(deviceIDs);
-        cout << "JUB_ListDeviceHid() return " << std::hex << rv << endl;
+        cout << "[-] JUB_ListDeviceHid() return " << std::hex << rv << endl;
         for (auto id : deviceIDs) {
             if (id != 0xffff) {
                 count++;

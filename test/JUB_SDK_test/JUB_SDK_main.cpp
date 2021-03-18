@@ -163,22 +163,22 @@ int main() {
             break;
 #if SW
         case 2:
-            software_test_btc();
+            software_test_btc("json/testSoftware.json");
             break;
         case 60:
-            software_test_eth("json/testETH.json");
+            software_test_eth("json/testSoftware.json", "json/testETH.json");
             break;
         case 144:
-            software_test_xrp("json/testXRP.json");
+            software_test_xrp("json/testSoftware.json", "json/testXRP.json");
             break;
         case 171:
-            software_test_hcash();
+            software_test_hcash("json/testSoftware.json", "json/testHCash.json");
             break;
         case 194:
-            software_test_eos("json/testEOS.json");
+            software_test_eos("json/testSoftware.json", "json/testEOS.json");
             break;
         case 195:
-            software_test_trx("json/testTRX.json");
+            software_test_trx("json/testSoftware.json", "json/testTRX.json");
             break;
         case 99:
             scp11_test("settings/42584E46433230303532353030303031_apk.settings");

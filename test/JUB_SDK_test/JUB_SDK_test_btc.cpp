@@ -19,7 +19,7 @@ void BTC_test(JUB_UINT16 deviceID, const char* json_file, JUB_ENUM_COINTYPE_BTC 
 
     char* appList;
     rv = JUB_EnumApplets(deviceID, &appList);
-    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
@@ -45,10 +45,11 @@ void BTC_test(JUB_UINT16 deviceID, const char* json_file, JUB_ENUM_COINTYPE_BTC 
         }
 
         rv = JUB_CreateContextBTC(cfg, deviceID, &contextID);
-        cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
         }
+        cout << endl;
     }
     catch (...) {
         error_exit("Error format json file\n");
@@ -98,12 +99,12 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root) {
     try {
         JUB_CHAR_PTR mainXpub;
         JUB_RV rv = JUB_GetMainHDNodeBTC(contextID, &mainXpub);
-        cout << "JUB_GetMainHDNodeBTC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_GetMainHDNodeBTC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
         }
 
-        cout << "Main xpub : " << mainXpub << endl;
+        cout << "    Main xpub : " << mainXpub << endl;
         JUB_FreeMemory(mainXpub);
 
         int inputNumber = root["inputs"].size();
@@ -115,21 +116,21 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root) {
             path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
 
             JUB_RV rv = JUB_GetHDNodeBTC(contextID, path, &xpub);
-            cout << "JUB_GetHDNodeBTC() return " << GetErrMsg(rv) << endl;
+            cout << "[-] JUB_GetHDNodeBTC() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
                 break;
             }
 
-            cout << "input " << i << " xpub : " << xpub << endl;
+            cout << "    input " << i << " xpub : " << xpub << endl;
             JUB_FreeMemory(xpub);
 
             JUB_CHAR_PTR address;
             rv = JUB_GetAddressBTC(contextID, path, BOOL_FALSE, &address);
-            cout << "JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
+            cout << "[-] JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
             if (JUBR_OK != rv) {
                 break;
             }
-            cout << "input " << i << " address : " << address << endl;
+            cout << "    input " << i << " address : " << address << endl;
             JUB_FreeMemory(address);
         }   // for (int i = 0; i < inputNumber; i++) end
         if (JUBR_OK != rv) {
@@ -156,13 +157,13 @@ void show_address_test(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address;
     JUB_RV rv = JUB_GetAddressBTC(contextID, path, BOOL_TRUE, &address);
-    cout << "JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
-    cout << "show address is : " << address << endl;
+    cout << "    show address: " << address << endl;
     rv = JUB_CheckAddressBTC(contextID, address);
-    cout << "JUB_CheckAddressBTC() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_CheckAddressBTC() return " << GetErrMsg(rv) << endl;
 
     JUB_FreeMemory(address);
 }
@@ -187,12 +188,12 @@ void set_my_address_test_BTC(JUB_UINT16 contextID) {
 
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_SetMyAddressBTC(contextID, path, &address);
-    cout << "JUB_SetMyAddressBTC() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_SetMyAddressBTC() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
     else {
-        cout << "set my address is : " << address << endl;
+        cout << "    set my address is : " << address << endl;
         JUB_FreeMemory(address);
     }
 }
@@ -233,7 +234,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
     }   // switch (choice) end
 
     rv = JUB_SetUnitBTC(contextID, unit);
-    cout << "JUB_SetUnitBTC() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_SetUnitBTC() return " << GetErrMsg(rv) << endl;
     if (   JUBR_OK               != rv
         && JUBR_IMPL_NOT_SUPPORT != rv
         ) {
@@ -305,20 +306,20 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
 
         char* raw = nullptr;
         rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
-        cout << "JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {
-            cout << "User cancel the transaction !" << endl;
+            cout << "    User cancel the transaction !" << endl;
             return rv;
         }
         if (   JUBR_OK != rv
             || nullptr == raw
             ) {
-            cout << "error sign tx" << endl;
+            cout << "    error sign tx" << endl;
             return rv;
         }
         if (raw) {
-            cout << raw;
+            cout << "    BTC/LTC/DASH/... raw[" << strlen(raw) << "]: " << raw << endl;
             JUB_FreeMemory(raw);
         }
     }
@@ -380,6 +381,7 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
 
                 JUB_CHAR_PTR selfAddress;
                 rv = JUB_GetAddressBTC(contextID, output.stdOutput.path, JUB_ENUM_BOOL::BOOL_FALSE, &selfAddress);
+                cout << "[-] JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
                 if (JUBR_OK != rv) {
                     return rv;
                 }
@@ -390,21 +392,22 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
 
         OUTPUT_BTC USDT_outputs[2] = {};
         rv = JUB_BuildUSDTOutputs(contextID, (char*)root["USDT_to"].asCString(), root["USDT_amount"].asUInt64(), USDT_outputs);
-        cout << "JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return rv;
         }
         for (int i=0; i<2; ++i) {
             switch (USDT_outputs[i].type) {
             case JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH:
-                std::cout << "JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH:" << std::endl;
-                std::cout << "address: " << USDT_outputs[i].stdOutput.address << std::endl;
-                std::cout << "amount: " << USDT_outputs[i].stdOutput.amount << std::endl;
-                std::cout << "change: " << USDT_outputs[i].stdOutput.changeAddress << std::endl;
-                std::cout << "addressIndex: " << USDT_outputs[i].stdOutput.path.addressIndex << std::endl;
+                std::cout << "    JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH:" << std::endl;
+                std::cout << "    address: " << USDT_outputs[i].stdOutput.address << std::endl;
+                std::cout << "    amount: " << USDT_outputs[i].stdOutput.amount << std::endl;
+                std::cout << "    change: " << USDT_outputs[i].stdOutput.changeAddress << std::endl;
+                std::cout << "    addressIndex: " << USDT_outputs[i].stdOutput.path.addressIndex << std::endl;
                 if (USDT_outputs[i].stdOutput.changeAddress) {
                     JUB_CHAR_PTR selfAddress;
                     rv = JUB_GetAddressBTC(contextID, USDT_outputs[i].stdOutput.path, JUB_ENUM_BOOL::BOOL_FALSE, &selfAddress);
+                    cout << "[-] JUB_GetAddressBTC() return " << GetErrMsg(rv) << endl;
                     if (JUBR_OK != rv) {
                         return rv;
                     }
@@ -412,9 +415,9 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
                 }
                 break;
             case JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0:
-                std::cout << "JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0:" << std::endl;
-                std::cout << "return0: " << uchar_vector(USDT_outputs[i].return0.data, USDT_outputs[i].return0.dataLen).getHex() << std::endl;
-                std::cout << "amount: " << USDT_outputs[i].return0.amount << std::endl;
+                std::cout << "    JUB_ENUM_SCRIPT_BTC_TYPE::RETURN0:" << std::endl;
+                std::cout << "    return0: " << uchar_vector(USDT_outputs[i].return0.data, USDT_outputs[i].return0.dataLen).getHex() << std::endl;
+                std::cout << "    amount: " << USDT_outputs[i].return0.amount << std::endl;
                 break;
             default:
                 break;
@@ -425,20 +428,20 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
 
         char* raw = nullptr;
         rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
-        cout << "JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 
         if (JUBR_USER_CANCEL == rv) {
-            cout << "User cancel the transaction !" << endl;
+            cout << "    User cancel the transaction !" << endl;
             return rv;
         }
         if (   JUBR_OK != rv
             || nullptr == raw
             ) {
-            cout << "error sign tx" << endl;
+            cout << "    error sign tx" << endl;
             return rv;
         }
         if (raw) {
-            cout << raw;
+            cout << "    USDT raw[" << strlen(raw) << "]: " << raw << endl;
             JUB_FreeMemory(raw);
         }
     }
@@ -455,7 +458,7 @@ void USDT_test(JUB_UINT16 deviceID, const char* json_file) {
 
     char* appList;
     rv = JUB_EnumApplets(deviceID, &appList);
-    cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+    cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
@@ -470,10 +473,11 @@ void USDT_test(JUB_UINT16 deviceID, const char* json_file) {
         cfg.transType = p2pkh;
 
         rv = JUB_CreateContextBTC(cfg, deviceID, &contextID);
-        cout << "JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
+        cout << "[-] JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
         }
+        cout << endl;
     }
     catch (...) {
         error_exit("Error format json file\n");

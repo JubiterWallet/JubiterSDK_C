@@ -15,9 +15,6 @@
 		67742FCF24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67742FCE24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp */; };
 		6791CE0B23968EB7000B6B16 /* JUB_SDK_test_xrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6791CE0923968EB7000B6B16 /* JUB_SDK_test_xrp.cpp */; };
 		679DA9592577954100B08471 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 679DA9582577953E00B08471 /* libprotobuf.a */; };
-		679DA95B2577957500B08471 /* libgpr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 679DA95A2577956B00B08471 /* libgpr.a */; };
-		679DA95D2577958D00B08471 /* libgrpc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 679DA95C2577958700B08471 /* libgrpc.a */; };
-		679DA95F257795A000B08471 /* libgrpc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 679DA95E2577959C00B08471 /* libgrpc++.a */; };
 		67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE652330C3CE0059A3DB /* JUB_SDK_test.cpp */; };
 		67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE782330C4B80059A3DB /* json_reader.cpp */; };
 		67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE792330C4B80059A3DB /* json_writer.cpp */; };
@@ -151,9 +148,6 @@
 			files = (
 				679DA9592577954100B08471 /* libprotobuf.a in Frameworks */,
 				67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */,
-				679DA95B2577957500B08471 /* libgpr.a in Frameworks */,
-				679DA95F257795A000B08471 /* libgrpc++.a in Frameworks */,
-				679DA95D2577958D00B08471 /* libgrpc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

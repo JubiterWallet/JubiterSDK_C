@@ -12,6 +12,6 @@
 #include <stdio.h>
 #include "../../include/JUB_CORE.h"
 
-void software_test_eos(const char* json_file);
+void software_test_eos(const char* json_sw_file, const char* json_file);
 
 #endif /* JUB_SDK_software_test_eos_hpp */
