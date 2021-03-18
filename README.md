@@ -39,7 +39,10 @@ There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used 
 | **Trust Wallet Core** | https://github.com/trustwallet/wallet-core.git | Source level integration, based on v2.2.10. The code added by JuBiter is identified as "JuBiter-defined". |
 | **trezor-crypto** | https://github.com/trezor/trezor-crypto.git| Source level integration, based on 'master'. The code added by JuBiter is identified as "JuBiter-defined". |
 | **JSON for Modern C++** | https://github.com/nlohmann/json.git | Source level integeration, based on v3.9.1. |
-| **C++ Big Integer Library** | https://mattmccutchen.net/bigint | Source level integeration, based on 'bigint-2010.04.30.tar.bz2. |
+| **C++ Big Integer Library** | https://mattmccutchen.net/bigint | Source level integeration, based on 'bigint-2010.04.30.tar.bz2'. |
+| **Protocol Buffers** | https://github.com/protocolbuffers/protobuf.git | Library level integeration, based on v3.9.1. |
+|  |  |  |
+| **JubiterSDK_Common_pb** | https://github.com/JubiterWallet/JubiterSDK_Common_pb.git | Using branch v3.9.1, Tron protocol([GreatVoyage-v4.0.0](https://github.com/tronprotocol/protocol/releases/tag/GreatVoyage-v4.0.0)) pb source files. |
 |  |  |  |
 | **Bluetooth communication library** for JuBiter Blade & Bio | --- | JuBiter developed. |
 | **NFC communication library** for JuBiter Lite | --- | JuBiter developed. |
