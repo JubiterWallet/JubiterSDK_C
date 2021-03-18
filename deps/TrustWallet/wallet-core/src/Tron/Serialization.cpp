@@ -256,11 +256,29 @@ json raw_dataJSON(const ::protocol::Transaction_raw &raw) {
 }
 
 
+// JuBiter-defined
+Data rawHex(const ::protocol::Transaction_raw& raw, const TW::Data& signature) {
+    size_t szSize = raw.ByteSizeLong();
+    auto oRaw = Data(szSize);
+    raw.SerializeToArray(&oRaw[0], (int)szSize);
+
+    Transaction tran(oRaw, signature);
+    ::protocol::Transaction tx = tran.to_internal();
+    szSize = tx.ByteSizeLong();
+    auto oTx = Data(szSize);
+    tx.SerializeToArray(&oTx[0], (int)szSize);
+
+    return oTx;
+}
+
+
+// JuBiter-modified
 json transactionJSON(const ::protocol::Transaction_raw& raw, const TW::Data& txID, const TW::Data& signature) {
     json transactionJSON;
-    transactionJSON["raw_data"] = raw_dataJSON(raw);
+//    transactionJSON["raw_data"] = raw_dataJSON(raw);
+    transactionJSON["txRawHex"] = hex(rawHex(raw, signature));
     transactionJSON["txID"] = hex(txID);
-    transactionJSON["signature"] = json::array({ hex(signature) });
+//    transactionJSON["signature"] = json::array({ hex(signature) });
 
     return transactionJSON;
 }

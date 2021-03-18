@@ -274,6 +274,7 @@ bool TransactionRaw::calculateOffset() {
                     + szContract
                     + szScripts
                     + szTimestamp;
+        feeLimIndex += pbFeeLimit.sizeTag();
     }
 
     return true;

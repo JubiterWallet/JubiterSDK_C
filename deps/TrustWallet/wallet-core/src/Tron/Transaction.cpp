@@ -8,9 +8,29 @@
 
 #include "Serialization.h"
 #include "BinaryCoding.h"
+#include "../HexCoding.h"
 
 
 namespace TW::Tron {
+
+
+// JuBiter-defined
+::protocol::Transaction Transaction::to_internal() {
+
+    ::protocol::Transaction encode;
+
+    encode.clear_raw_data();
+    if (0 < raw_data.serialize().size()) {
+        *encode.mutable_raw_data() = raw_data.to_internal();
+    }
+
+    encode.clear_signature();
+    if (0 < signature.size()) {
+        encode.add_signature(&signature[0], signature.size());
+    }
+
+    return encode;
+}
 
 
 nlohmann::json Transaction::serialize() const noexcept {
