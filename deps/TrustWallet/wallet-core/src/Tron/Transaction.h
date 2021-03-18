@@ -38,6 +38,22 @@ public:
     Data signature;
     Data txID;
 
+    // JuBiter-defined
+    Transaction() {
+        raw_data.clear();
+        signature.clear();
+        txID.clear();
+    }
+    // JuBiter-defined
+    Transaction(const Data& raw, const Data& signature)
+        : signature(signature) {
+        raw_data.deserialize(raw);
+        txID.clear();
+    }
+
+    // JuBiter-defined
+    ::protocol::Transaction to_internal();
+
     nlohmann::json serialize() const noexcept;
 };  // class Transaction end
 
