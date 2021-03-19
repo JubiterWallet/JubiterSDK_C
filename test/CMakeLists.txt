@@ -18,18 +18,28 @@ list(REMOVE_ITEM SRC_LIST "${CMAKE_SOURCE_DIR}/test/JUB_SDK_test/stdafx.cpp")
 list(REMOVE_ITEM SRC_LIST "${CMAKE_SOURCE_DIR}/test/JUB_SDK_test/targetver.h")
 endif(APPLE)
 
+add_executable(JUB_test ${SRC_LIST})
+
 FIND_LIBRARY(HID_API_LIB_STATIC
     NAMES hidapi hidapi-hidraw
 )
 MESSAGE( STATUS "hidapi = ${HID_API_LIB_STATIC}.")
 
-add_executable(JUB_test ${SRC_LIST})
-
 #user lib
 if(APPLE)
-    #MacOS与iOS链接framework
-    target_link_libraries(JUB_test PRIVATE  "-framework JubSDK" "-framework CoreFoundation" "-framework IOKit")
+    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto libprotobuf ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
 else()
-    #其他平台链接静态库
-    target_link_libraries(JUB_test PRIVATE JubSDK TrezorCrypto libprotobuf ${HID_API_LIB_STATIC})  
+    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto libprotobuf ${HID_API_LIB_STATIC})  
 endif(APPLE)
+
+
+install(TARGETS JUB_test
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        PUBLIC_HEADER DESTINATION include
+        )
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/json
+        DESTINATION bin
+)
