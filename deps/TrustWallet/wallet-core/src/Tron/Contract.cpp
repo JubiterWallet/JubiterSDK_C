@@ -24,6 +24,19 @@ bool Contract::calculateOffset() {
 }
 
 
+bool Contract::isItemExist(const size_t offset, const TW::Data &itemInpb) const {
+
+    if (pb.end() != std::search(std::begin(pb)+offset, std::end(pb),
+                                itemInpb.begin(), itemInpb.end())
+        ) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+
 pb_length_delimited Contract::getOwnerAddress() const {
 
     return pb_length_delimited(::protocol::TransferContract::kOwnerAddressFieldNumber,

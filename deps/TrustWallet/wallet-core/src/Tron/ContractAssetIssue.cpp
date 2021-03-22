@@ -13,6 +13,14 @@ namespace TW::Tron {
 
 void TransferAssetContract::from_internal(const ::protocol::TransferAssetContract& contract) {
 
+    size_t sz = contract.ByteSizeLong();
+    TW::Data o(sz);
+    bool b = contract.SerializeToArray(&o[0], (int)sz);
+    if (b) {
+        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+        save(o);
+    }
+
     asset_name    = contract.asset_name();
     owner_address = TW::Tron::Address::fromHex(contract.owner_address());
        to_address = TW::Tron::Address::fromHex(contract.to_address());
@@ -72,6 +80,8 @@ void TransferAssetContract::deserialize(const Data& o) {
     ::protocol::TransferAssetContract decode;
     bool status = decode.ParseFromArray(&o[0], (int)o.size());
     if (status) {
+        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+        save(o);
         from_internal(decode);
     }
 }
@@ -93,6 +103,9 @@ Data TransferAssetContract::serialize() {
         data.resize(szSize);
         std::copy(std::begin(ou), std::end(ou), std::begin(data));
     }
+
+    // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+    save(data);
 
     // Calculate the offset of each item
     if (!calculateOffset()) {
@@ -127,6 +140,10 @@ TW::Data TransferAssetContract::assetNameOffset(const size_t offset) const {
 
 size_t TransferAssetContract::assetNameIndex(const size_t offset) const {
 
+    if (0 == asNameIndex) {
+        return asNameIndex;
+    }
+
     return (asNameIndex + offset);
 }
 
@@ -154,6 +171,10 @@ TW::Data TransferAssetContract::toAddressOffset(const size_t offset) const {
 
 
 size_t TransferAssetContract::toAddressIndex(const size_t offset) const {
+
+    if (0 == toAddrIndex) {
+        return toAddrIndex;
+    }
 
     return (toAddrIndex + offset);
 }
@@ -183,6 +204,10 @@ TW::Data TransferAssetContract::amountOffset(const size_t offset) const {
 
 size_t TransferAssetContract::amountIndex(const size_t offset) const {
 
+    if (0 == amtIndex) {
+        return amtIndex;
+    }
+
     return (amtIndex + offset);
 }
 
@@ -201,27 +226,49 @@ bool TransferAssetContract::calculateOffset() {
         ) {
         return false;
     }
-    size_t szAssetName = pbAssetName.size();
-    size_t szOwnerAddress = pbOwnerAddress.size();
-    size_t szToAddress = pbToAddress.size();
 
-    asNameSize  = pbAssetName.sizeValue();
-    asNameIndex = pbAssetName.sizeTag() + pbAssetName.sizeLength();
+    size_t szAssetName = 0;
+    if (isItemExist(0,
+                    pbAssetName.serialize())
+        ) {
+        szAssetName = pbAssetName.size();
 
-    ownerAddrSize  = pbOwnerAddress.sizeValue();
+        asNameSize  = pbAssetName.sizeValue();
+        asNameIndex = pbAssetName.sizeTag() + pbAssetName.sizeLength();
+    }
+
+    size_t szOwnerAddress = 0;
+    if (isItemExist(szAssetName,
+                    pbOwnerAddress.serialize())
+        ) {
+        szOwnerAddress = pbOwnerAddress.size();
+
+        ownerAddrSize  = pbOwnerAddress.sizeValue();
 //    ownerAddrIndex = szAssetName
 //                   + pbOwnerAddress.sizeTag() + pbOwnerAddress.sizeLength();
+    }
 
-    toAddrSize  = pbToAddress.sizeValue();
-    toAddrIndex = szAssetName
-                + szOwnerAddress
-                + pbToAddress.sizeTag() + pbToAddress.sizeLength();
+    size_t szToAddress = 0;
+    if (isItemExist(szAssetName+szOwnerAddress,
+                    pbToAddress.serialize())
+        ) {
+        szToAddress = pbToAddress.size();
 
-    amtSize  = pbAmount.sizeValue();
-    amtIndex = szAssetName
-             + szOwnerAddress
-             + szToAddress
-             + pbAmount.sizeTag();
+        toAddrSize  = pbToAddress.sizeValue();
+        toAddrIndex = szAssetName
+                    + szOwnerAddress
+                    + pbToAddress.sizeTag() + pbToAddress.sizeLength();
+    }
+
+    if (isItemExist(szAssetName+szOwnerAddress+szToAddress,
+                    pbAmount.serialize())
+        ) {
+        amtSize  = pbAmount.sizeValue();
+        amtIndex = szAssetName
+                 + szOwnerAddress
+                 + szToAddress
+                 + pbAmount.sizeTag();
+    }
 
     return true;
 }
