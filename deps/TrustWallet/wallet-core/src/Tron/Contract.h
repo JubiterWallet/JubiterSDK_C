@@ -35,10 +35,19 @@ public:
 
 protected:
     virtual bool calculateOffset();
+    virtual bool isItemExist(const size_t offset, const TW::Data &itemInpb) const;
+
     virtual pb_length_delimited getOwnerAddress() const;
+
+    void save(const Data& o) {
+        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+        pb.clear();
+        std::copy(std::begin(o), std::end(o), std::back_inserter(pb));
+    }
 
     size_t ownerAddrSize = 0;
 //    size_t ownerAddrIndex = 0;
+    Data pb;    // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
 
 public:
     // Sender address.

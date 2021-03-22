@@ -14,6 +14,14 @@ namespace TW::Tron {
 
 void TransferContract::from_internal(const ::protocol::TransferContract& contract) {
 
+    size_t sz = contract.ByteSizeLong();
+    TW::Data o(sz);
+    bool b = contract.SerializeToArray(&o[0], (int)sz);
+    if (b) {
+        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+        save(o);
+    }
+
     owner_address = TW::Tron::Address::fromHex(contract.owner_address());
        to_address = TW::Tron::Address::fromHex(contract.to_address());
     amount = contract.amount();
@@ -66,6 +74,8 @@ void TransferContract::deserialize(const Data& o) {
     ::protocol::TransferContract decode;
     bool status = decode.ParseFromArray(&o[0], (int)o.size());
     if (status) {
+        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+        save(o);
         from_internal(decode);
     }
 }
@@ -84,6 +94,9 @@ Data TransferContract::serialize() {
         data.resize(szSize);
         std::copy(std::begin(ou), std::end(ou), std::begin(data));
     }
+
+    // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+    save(data);
 
     // Calculate the offset of each item
     if (!calculateOffset()) {
@@ -119,6 +132,10 @@ TW::Data TransferContract::toAddressOffset(const size_t offset) const {
 
 size_t TransferContract::toAddressIndex(const size_t offset) const {
 
+    if (0 == toAddrIndex) {
+        return toAddrIndex;
+    }
+
     return (toAddrIndex + offset);
 }
 
@@ -147,6 +164,10 @@ TW::Data TransferContract::amountOffset(const size_t offset) const {
 
 size_t TransferContract::amountIndex(const size_t offset) const {
 
+    if (0 == amtIndex) {
+        return amtIndex;
+    }
+
     return (amtIndex + offset);
 }
 
@@ -163,20 +184,36 @@ bool TransferContract::calculateOffset() {
         ) {
         return false;
     }
-    size_t szOwnerAddress = pbOwnerAddress.size();
-    size_t    szToAddress = pbToAddress.size();
 
-    ownerAddrSize  = pbOwnerAddress.sizeValue();
+    size_t szOwnerAddress = 0;
+    if (isItemExist(0,
+                    pbOwnerAddress.serialize())
+        ) {
+        szOwnerAddress = pbOwnerAddress.size();
+
+        ownerAddrSize  = pbOwnerAddress.sizeValue();
 //    ownerAddrIndex = pbOwnerAddress.sizeTag() + pbOwnerAddress.sizeLength();
+    }
 
-    toAddrSize  = pbToAddress.sizeValue();
-    toAddrIndex = szOwnerAddress
-                + pbToAddress.sizeTag() + pbToAddress.sizeLength();
+    size_t    szToAddress = 0;
+    if (isItemExist(szOwnerAddress,
+                    pbToAddress.serialize())
+        ) {
+        szToAddress = pbToAddress.size();
 
-    amtSize  = pbAmount.sizeValue();
-    amtIndex = szOwnerAddress
-             + szToAddress
-             + pbAmount.sizeTag();
+        toAddrSize  = pbToAddress.sizeValue();
+        toAddrIndex = szOwnerAddress
+                    + pbToAddress.sizeTag() + pbToAddress.sizeLength();
+    }
+
+    if (isItemExist(szOwnerAddress+szToAddress,
+                    pbAmount.serialize())
+        ) {
+        amtSize  = pbAmount.sizeValue();
+        amtIndex = szOwnerAddress
+                 + szToAddress
+                 + pbAmount.sizeTag();
+    }
 
     return true;
 }
