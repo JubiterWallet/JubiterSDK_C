@@ -63,6 +63,13 @@ target_include_directories(TrezorCrypto
         src
 )
 
+install(TARGETS TrezorCrypto
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        PUBLIC_HEADER DESTINATION include
+        )
+
 #if(NOT ANDROID AND NOT IOS_PLATFORM)
 #    add_subdirectory(tests)
 #endif()
