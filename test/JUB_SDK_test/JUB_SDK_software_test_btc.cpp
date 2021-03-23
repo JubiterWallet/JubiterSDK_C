@@ -57,7 +57,7 @@ void software_test_btc(const char* json_sw_file, CONTEXT_CONFIG_BTC cfg, Json::V
     };
     rv = JUB_GenerateSeed_soft(mnemonic, "", seed, callback);
     cout << "[-] JUB_GenerateSeed_soft() return " << GetErrMsg(rv) << endl;
-    if (rv != JUBR_OK) {
+    if (JUBR_OK != rv) {
         return;
     }
     uchar_vector vSeed(seedLen);
@@ -123,7 +123,7 @@ void software_test_btc(const char* json_sw_file, CONTEXT_CONFIG_BTC cfg, Json::V
     cout << endl;
 
 //    rv = JUB_CheckAddressBTC(contextID,"bc1qwmde2qhsgvzlnmju48tp4kdvqxdaaxr0vx9g27");
-//    if(rv == JUBR_OK){cout << "check BTC segwit address success"<<endl;}
+//    if(JUBR_OK == rv){cout << "check BTC segwit address success"<<endl;}
     cout << "[--------------------------------- Address end ---------------------------------]" << endl;
     cout << endl << endl;
 

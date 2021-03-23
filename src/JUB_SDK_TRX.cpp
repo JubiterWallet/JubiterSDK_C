@@ -184,6 +184,31 @@ JUB_RV JUB_SignTransactionTRX(IN JUB_UINT16 contextID,
 
 
 /*****************************************************************************
+ * @function name : JUB_SetTRC10Asset
+ * @in  param : contextID - context ID
+ *          : assetName - TRX asset name
+ *          : unitDP - unit decimal place
+ *          : assetID - asset ID
+ * @out param : abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetTRC10Asset(IN JUB_UINT16 contextID,
+                         IN JUB_CHAR_CPTR assetName,
+                         IN JUB_UINT16 unitDP,
+                         IN JUB_CHAR_CPTR assetID) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    JUB_VERIFY_RV(context->SetTRC20Token(assetName, unitDP, assetID));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
  * @function name : JUB_BuildTRC20Abi
  * @in  param : contextID - context ID
  *          : tokenName - TRX token name

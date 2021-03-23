@@ -254,6 +254,21 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
 
     JUB_RV rv = JUBR_OK;
 
+    if (2 == choice) {
+        string assetName = (char*)root["TRX"]["TRC10"]["assetName"].asCString();
+        string assetID = (char*)root["TRX"]["TRC10"]["assetID"].asCString();
+        JUB_UINT16 unitDP = root["TRX"]["TRC10"]["dp"].asUInt64();
+        rv = JUB_SetTRC10Asset(contextID,
+                               assetName.c_str(),
+                               unitDP,
+                               assetID.c_str());
+        cout << "[-] JUB_SetTRC10Asset() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return rv;
+        }
+        cout << endl;
+    }
+
     JUB_CHAR_PTR trc20Abi = nullptr;
     string contractAddress = (char*)root["TRX"]["TRC20"]["contract_address"].asCString();
     if (bERC20) {

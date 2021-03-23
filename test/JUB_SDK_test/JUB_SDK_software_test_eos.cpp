@@ -61,7 +61,7 @@ void software_test_eos(const char* json_sw_file, const char* json_file) {
     };
     rv = JUB_GenerateSeed_soft(mnemonic, "", seed, callback);
     cout << "[-] JUB_GenerateSeed_soft() return " << GetErrMsg(rv) << endl;
-    if (rv != JUBR_OK) {
+    if (JUBR_OK != rv) {
         return;
     }
     uchar_vector vSeed(seedLen);

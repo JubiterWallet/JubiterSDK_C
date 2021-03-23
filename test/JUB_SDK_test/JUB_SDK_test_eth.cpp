@@ -305,7 +305,7 @@ JUB_RV transaction_proc_contr_ETH(JUB_UINT16 contextID, Json::Value root) {
     char* abi = (char*)root["contract"]["data"].asCString();;
 
     char* raw = nullptr;
-    rv = JUB_SignContractETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
+    rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
     if (JUBR_OK != rv) {
         cout << "[-] JUB_SignContractETH() return " << GetErrMsg(rv) << endl;
         return rv;
