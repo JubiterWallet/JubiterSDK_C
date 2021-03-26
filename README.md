@@ -27,7 +27,7 @@ JuBiter SDK supports software & hardware implementation for JuBiter wallet. Hard
 || JuBiter Blade | JuBiter Bio | JuBiter Lite | JuBiter Crypto |
 | --- | --- | --- | --- | --- |
 | HID | &#x2611; | &#x2611; | &#x2611; | &#x2612; |
-| BT | &#x2611; | &#x2611; | &#x2612; | &#x2612; |
+| BLE | &#x2611; | &#x2611; | &#x2612; | &#x2612; |
 | NFC | &#x2612; | &#x2612; | &#x2611; | &#x2612; |
 | Impl in software | &#x2612; | &#x2612; | &#x2612;|  &#x2611; |
 | VM(simulator) | &#x2611; | &#x2611; | &#x2612;(In the plan) |  &#x2612; |
@@ -38,13 +38,14 @@ Accordingly, JuBiter SDK is divided into the following modules, common module, d
 There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used to operate and connect hardware devices, and the last one is used for device-related and coin-related operations in a coin context. So, deviceID is obtained through the device operation related interface, and contextID is obtained through the coin-related interface.
 
 ### API include:
-- Device in HID mode related module (see [here](docs/README_DEV_HID.md))
-- Device in BLE mode related module (see [here](docs/README_DEV_BLE.md))
-- Device in NFC mode related module (see [here](docs/README_DEV_NFC.md))
-- Virtual Device(simulator for applet) in PCSC mode related module (see [here](docs/README_DEV_SIM.md))
-- Device operation related module (see [here](docs/README_DEV.md))
-- Coin related module (see [here](docs/README_COIN.md))
-- Software wallet module (see [here](docs/README_SW.md))
+* Device in HID mode related module (see [here](docs/README_DEV_HID.md))
+* Device in BLE mode related module (see [here](docs/README_DEV_BLE.md))
+* Device in NFC mode related module (see [here](docs/README_DEV_NFC.md))
+* Virtual Device(simulator for applet) in PCSC mode related module (see [here](docs/README_DEV_SIM.md))
+* Device operation related module (see [here](docs/README_DEV.md))
+* Coin related module (see [here](docs/README_COIN.md))
+* Software wallet module (see [here](docs/README_SW.md))
+* JuBiter SDK for Production tools (see [here](docs/README_Prod.md))
 
 # Dependency
 | Name | URL | Note |
@@ -59,43 +60,45 @@ There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used 
 | **NFC communication library** for JuBiter Lite | --- | JuBiter developed. |
 
 # Code branch management
-- 'Master' is the development line, continuously integrated development of new coins and SDK features.
-- 'v2.x.x' is the current version of Jubiter Wallet 2.0.
+* 'Master' is the development line, continuously integrated development of new coins and SDK features.
+* 'v2.x.x' is the current version of Jubiter Wallet 2.0.
 
 * * *
 # Compiler Installation
-### **编译工程文件已经迁移到 CMake**
-1.  安装CMake 3+
-2.  Mac和Linux需要安装hidapi-dev
-3.  windows需要使用cygwin,不支持visual studio,需要在cygwin环境下,安装hidapi-dev
-4.  Android需要安装NDK20+
+### ** Using CMake to build JuBiter SDK project **
+1.  Install CMake 3+.
+2.  For MacOS & Linux, you need install hidapi-dev.
+3.  For Windows, we don't support using visual stutio, should install hidapi-dev in a Cygwin environment.
+4.  Android requires NDK20+ installed.
 
 ```bash
 git submodule update --init --recursive
 ```
+
 ---
-### **MacOS**
-+ 请使用3.18.4版本，brew的3.16与3.19不保证会成功，可能会出现无法找到framework的问题
-+ 暂时先不考虑M1芯片
-+ MacOS由于CMake的Bug，无法打出FatLib，需要分平台打包，具体见 https://gitlab.kitware.com/cmake/cmake/-/issues/21282
-+ 暂时关闭了RPATH，如果需要参照 https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling 进行修改
-+ 打包framework无法使用make体系，只能使用Xcode
+### **macOS**
++ Please use Brew-v3.18.4, because Brew-v3.16 and v3.19 are not guaranteed to succeed, There may be problems with not finding the framework.
++ Because of the bug of CMake, we couldn't build FatLib, packaging need points platform, [see](https://gitlab.kitware.com/cmake/cmake/-/issues/21282).
++ Temporarily closed RPATH, if you need to refer to '[RPATH handling
+](https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling)'
 ```bash
 mkdir buildMacOS & cd buildMacOS
 cmake -G Xcode -DCMAKE_OSX_ARCHITECTURES=x86_64 ..
 cmake --build . --config Release
 ```
+
 ---
-### **Linux,Cygwin**
+### **Linux, Cygwin**
 ```bash
 mkdir build & cd build
 cmake ..
 make
 ```
+
 ---
 ### **Android**
-可以直接将cmake直接引入Android Studio的项目里,也可以通过命令行进行操作
-ANDROID_ABI可以是armeabi-v7a,arm64-v8a,x86,x86_64,mips,mips64
+You can import CMake directly into your Android Studio project, or you can use it from the command line
+Android_ABI can be armeabi-v7a, arm64-v8a, x86, x86_64, MIPS, mips64.
 ```bash
 mkdir buildAndroid & cd buildAndroid
 
@@ -105,9 +108,6 @@ make
 ```
 ---
 ### **iOS**
-
-+ 由于通讯库，暂时无法打模拟器
-+ 由于通讯库，暂时无法支持BITCODE
 ```bash
 mkdir buildIOS & cd buildIOS
 cmake .. -G Xcode -DCMAKE_TOOLCHAIN_FILE=../deps/ios-cmake/ios.toolchain.cmake -DENABLE_BITCODE=0 -DPLATFORM=OS64
@@ -121,7 +121,7 @@ mkdir build & cd build
 cmake -G Xcode ..
 ```
 
-> ### Special Note for macOS
+> #### Special Note for macOS
 > Remove dot-underscore files. Merges ._* files with corresponding native files.
 > When got error like :
 ```bash
@@ -139,27 +139,25 @@ xxx/JubiterSDK_C/src/._JUB_SDK_DEV.cpp:2:3933: error:
 dot_clean <directory>
 ```
 ---
-### **JUB_SDK for Production tools**
+### **JuBiter SDK for Production tools**
 ```bash
 mkdir build & cd build
 cmake -DdevOnly=1 ..
 make
 ```
-Only the following device operation related interfaces are exported:
-> JUB_ConnetDeviceHid
-> JUB_DisconnetDeviceHid
-> JUB_ListDeviceHid
-> JUB_EnumApplets
-> JUB_GetAppletVersion
-> JUB_GetDeviceCert
-> JUB_GetDeviceInfo
-> JUB_IsBootLoader
-> JUB_IsInitialize
-> JUB_SendOneApdu
-> JUB_SetTimeOut
-
 
 * * *
+# SDK encapsulation for other languages
+* JuBiter SDK for Android integration [sample code](https://github.com/JubiterWallet/JubiterSDK_Android.git)
+* JuBiter SDK for iOS integration [sample code](https://github.com/JubiterWallet/JubiterSDK_IOS.git)
+  * For Objective-C integration in the '[ObjC](https://github.com/JubiterWallet/JubiterSDK_IOS/tree/master/ObjC)' directory.
+  * For Swift integration is not yet implemented, but it is in the plan.
+  * Other two directories are integrations using the [Jubiter Wallet protocol](https://github.com/JubiterWallet/JubiterSDK_Common_pb.git).
+
 # Demo reference
-+ [nfcDemo-Android](https://github.com/JubiterWallet/nfcDemo-Android)
-+ [JuBiterSDKDemo-iOS](https://github.com/JubiterWallet/JuBiterSDKDemo-iOS)
+* Windows, Linux & macOS
+  * see '[test](test/README.md)'
+* iOS
+  * see '[JuBiterSDKDemo-iOS](https://github.com/JubiterWallet/JuBiterSDKDemo-iOS.git)', it's UI see '[JuBiterSDKDemoUI-iOS](https://github.com/JubiterWallet/JuBiterSDKDemoUI-iOS.git)'
+* Android 
+  * see '[JuBiterSDKDemo-android](https://github.com/JubiterWallet/nfcDemo-Android.git)'
