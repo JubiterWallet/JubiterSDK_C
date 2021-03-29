@@ -43,6 +43,18 @@ protected:
                                 const std::vector<uchar_vector>& vSignatureRaw,
                                 TW::Bitcoin::Transaction* tx,
                                 uchar_vector& signedRaw) override;
+
+    virtual JUB_RV _pkScript(const TW::PublicKey publicKey, TW::Bitcoin::Script& script);
+
+    virtual JUB_RV _scriptCode(const TWCoinType& coin, const TW::PublicKey publicKey, TW::Bitcoin::Script& scriptCode) override;
+
+    virtual JUB_RV _verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
+                                                      const TW::Bitcoin::Transaction& tx,
+                                                      const size_t index, const uint32_t& hashType, const uint64_t amount,
+                                                      const TW::Data& signature,
+                                                      const TW::PublicKey publicKey,
+                                                      bool witness=false) override;
+
 }; // class JubiterBaseHCImpl end
 
 

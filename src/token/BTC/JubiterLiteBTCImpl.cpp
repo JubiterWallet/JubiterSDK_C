@@ -14,18 +14,9 @@ JUB_RV JubiterLiteBTCImpl::SelectApplet() {
 
 JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
 
-    std::string btcXpub;
-    JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(_getSignType(_curve_name), JUB_ENUM_BTC_TRANS_TYPE::p2pkh, path, btcXpub));
-
-    const curve_info *curve = get_curve_by_name(_curve_name);
     uint8_t nodeData[128] = {0x00,};
     int nodeDatalen = sizeof(nodeData)/sizeof(uint8_t);
-    nodeDatalen = base58_decode_check(btcXpub.c_str(),
-                                      curve->hasher_base58,
-                                      nodeData, nodeDatalen);
-    if (0 == nodeDatalen) {
-        return JUBR_ERROR;
-    }
+    JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(_getSignType(SECP256K1_NAME), JUB_ENUM_BTC_TRANS_TYPE::p2pkh, get_curve_by_name(SECP256K1_NAME), path, nodeData, &nodeDatalen));
 
     // replace version
     bool witness = false;
@@ -37,7 +28,7 @@ JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const 
 
     JUB_CHAR _xpub[200] = { 0, };
     if (0 == base58_encode_check(nodeData, nodeDatalen,
-                                 curve->hasher_base58,
+                                 get_curve_by_name(_curve_name)->hasher_base58,
                                  _xpub, sizeof(_xpub)/sizeof(JUB_CHAR))) {
         return JUBR_ERROR;
     }
@@ -205,6 +196,8 @@ JUB_RV JubiterLiteBTCImpl::_SignTx(bool witness,
                                    std::vector<TW::Data>& vInputPublicKey,
                                    std::vector<uchar_vector>& vSignatureRaw) {
 
+    JUB_RV rv = JUBR_ERROR;
+
     TW::Hash::Hasher halfHasher;
     JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
 
@@ -219,11 +212,10 @@ JUB_RV JubiterLiteBTCImpl::_SignTx(bool witness,
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
 
         // script code - scriptPubKey
-        uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
-        TW::Bitcoin::Address addr(twpk, prefix);
-        TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
-        if (scriptCode.empty()) {
-            return JUBR_ARGUMENTS_BAD;
+        TW::Bitcoin::Script scriptCode;
+        rv = _scriptCode(_coin, twpk, scriptCode);
+        if (JUBR_OK != rv) {
+            break;
         }
 
         TW::Data preImage;

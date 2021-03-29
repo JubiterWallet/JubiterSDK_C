@@ -191,6 +191,26 @@ JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& ty
 }
 
 
+JUB_RV JubiterBaseBTCImpl::_scriptPubKey(const TWCoinType& coin, const TW::PublicKey publicKey, TW::Bitcoin::Script& script) {
+
+    // scriptPubKey
+    uint8_t prefix = TWCoinTypeP2pkhPrefix(coin);
+    TW::Bitcoin::Address addr(publicKey, prefix);
+    script = TW::Bitcoin::Script::buildForAddress(addr.string(), coin);
+    if (script.empty()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseBTCImpl::_scriptCode(const TWCoinType& coin, const TW::PublicKey publicKey, TW::Bitcoin::Script& scriptCode) {
+
+    return _scriptPubKey(coin, publicKey, scriptCode);
+}
+
+
 JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& coin,
                                                               const TW::Bitcoin::Transaction& tx,
                                                               const size_t index, const uint32_t& hashType, const uint64_t amount,
@@ -201,11 +221,10 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& 
     JUB_RV rv = JUBR_OK;
 
     // script code - scriptPubKey
-    uint8_t prefix = TWCoinTypeP2pkhPrefix(coin);
-    TW::Bitcoin::Address addr(publicKey, prefix);
-    TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), coin);
-    if (scriptCode.empty()) {
-        return JUBR_ARGUMENTS_BAD;
+    TW::Bitcoin::Script scriptCode;
+    rv = _scriptCode(coin, publicKey, scriptCode);
+    if (JUBR_OK != rv) {
+        return rv;
     }
 
     TW::Data preImage;

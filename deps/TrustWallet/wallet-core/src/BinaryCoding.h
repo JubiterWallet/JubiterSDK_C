@@ -11,21 +11,6 @@
 #include <vector>
 #include <string>
 
-/*
- * Nullability qualifiers: currently only supported by Clang.
- */
-#if !(defined(__clang__) /*&& __has_feature(nullability)*/)
-#define	_Nonnull
-#define	_Nullable
-#define	_Null_unspecified
-#define	__NULLABILITY_PRAGMA_PUSH
-#define	__NULLABILITY_PRAGMA_POP
-#else
-#define	__NULLABILITY_PRAGMA_PUSH _Pragma("clang diagnostic push")	\
-	_Pragma("clang diagnostic ignored \"-Wnullability-completeness\"")
-#define	__NULLABILITY_PRAGMA_POP _Pragma("clang diagnostic pop")
-#endif
-
 namespace TW {
 
 /// Encodes a 16-bit little-endian value into the provided buffer.

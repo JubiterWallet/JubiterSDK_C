@@ -929,6 +929,10 @@
 		67FA32CD24CAE77B00023DF9 /* DeviceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CB24CAE77B00023DF9 /* DeviceFactory.h */; };
 		67FA32CF24CAECED00023DF9 /* xFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CE24CAECED00023DF9 /* xFactory.hpp */; };
 		67FA32D024CAECED00023DF9 /* xFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CE24CAECED00023DF9 /* xFactory.hpp */; };
+		773792692611AFB800E9BE02 /* JubiterLiteHCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 773792682611AFB800E9BE02 /* JubiterLiteHCImpl.h */; };
+		7737926A2611AFB800E9BE02 /* JubiterLiteHCImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 773792682611AFB800E9BE02 /* JubiterLiteHCImpl.h */; };
+		7737926E2611AFD800E9BE02 /* JubiterLiteHCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7737926D2611AFD700E9BE02 /* JubiterLiteHCImpl.cpp */; };
+		7737926F2611AFD800E9BE02 /* JubiterLiteHCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7737926D2611AFD700E9BE02 /* JubiterLiteHCImpl.cpp */; };
 		7779654725FA32800022FA58 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7779654625FA32800022FA58 /* libprotobuf.a */; };
 		7779654C25FA32B20022FA58 /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7779654A25FA32B10022FA58 /* TaggedAddresses.cpp */; };
 		7779654D25FA32B20022FA58 /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7779654A25FA32B10022FA58 /* TaggedAddresses.cpp */; };
@@ -1420,6 +1424,8 @@
 		67ED0FD025243216009029A7 /* AccountId.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AccountId.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/AccountId.cpp"; sourceTree = "<group>"; };
 		67FA32CB24CAE77B00023DF9 /* DeviceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceFactory.h; path = ../../include/device/DeviceFactory.h; sourceTree = "<group>"; };
 		67FA32CE24CAECED00023DF9 /* xFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = xFactory.hpp; path = ../../include/utility/xFactory.hpp; sourceTree = "<group>"; };
+		773792682611AFB800E9BE02 /* JubiterLiteHCImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JubiterLiteHCImpl.h; path = ../../include/token/HC/JubiterLiteHCImpl.h; sourceTree = "<group>"; };
+		7737926D2611AFD700E9BE02 /* JubiterLiteHCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteHCImpl.cpp; path = ../../src/token/HC/JubiterLiteHCImpl.cpp; sourceTree = "<group>"; };
 		7779654625FA32800022FA58 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
 		7779654A25FA32B10022FA58 /* TaggedAddresses.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TaggedAddresses.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.cpp"; sourceTree = "<group>"; };
 		7779654B25FA32B10022FA58 /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
@@ -1496,6 +1502,7 @@
 				677A186323F2701D003FA636 /* JubiterBaseHCImpl.h */,
 				676F02F623C8ABAF005C8032 /* JubiterBladeHCImpl.h */,
 				67E0DF7D250F761E00D42EF0 /* JubiterBIOHCImpl.h */,
+				773792682611AFB800E9BE02 /* JubiterLiteHCImpl.h */,
 				676F02F523C8ABAF005C8032 /* TrezorCryptoHCImpl.h */,
 			);
 			name = BTC;
@@ -1566,6 +1573,7 @@
 				679DA9752577B38A00B08471 /* JubiterLiteQTUMImpl.cpp */,
 				677A186623F27059003FA636 /* JubiterBaseHCImpl.cpp */,
 				674621F123C31DCC0096DDA2 /* JubiterBladeHCImpl.cpp */,
+				7737926D2611AFD700E9BE02 /* JubiterLiteHCImpl.cpp */,
 				674621F223C31DCC0096DDA2 /* TrezorCryptoHCImpl.cpp */,
 			);
 			name = BTC;
@@ -2646,6 +2654,7 @@
 				676F028923C775A6005C8032 /* Base58.h in Headers */,
 				67189F8E23A2114200F8A5CD /* ed25519-blake2b.h in Headers */,
 				67ECD13D23CD724100B7D514 /* Bech32.h in Headers */,
+				7737926A2611AFB800E9BE02 /* JubiterLiteHCImpl.h in Headers */,
 				67189F8A23A2113E00F8A5CD /* curves.h in Headers */,
 				674B4A7D24A1B0570053AB2F /* scp11.hpp in Headers */,
 				67E0DF6A250F751500D42EF0 /* TRXContext.h in Headers */,
@@ -2927,6 +2936,7 @@
 				675C796B238B78B00015C95D /* Transaction.h in Headers */,
 				674F19A023A10574001702DD /* aesopt.h in Headers */,
 				67A4BD232330A1560059A3DB /* hasher.h in Headers */,
+				773792692611AFB800E9BE02 /* JubiterLiteHCImpl.h in Headers */,
 				674B4A7C24A1B0570053AB2F /* scp11.hpp in Headers */,
 				67A4BD262330A1560059A3DB /* groestl.h in Headers */,
 				67E0DF69250F751500D42EF0 /* TRXContext.h in Headers */,
@@ -3119,6 +3129,7 @@
 				6718A00D23A211BB00F8A5CD /* Address.cpp in Sources */,
 				67E0DF37250F6CE600D42EF0 /* Address.cpp in Sources */,
 				67ECD13723CD724100B7D514 /* Bech32.cpp in Sources */,
+				7737926F2611AFD800E9BE02 /* JubiterLiteHCImpl.cpp in Sources */,
 				6746220523C31DF80096DDA2 /* JubiterBladeToken.cpp in Sources */,
 				6795A82123D854AF00F273E0 /* QTUMContext.cpp in Sources */,
 				674B4A8524A1B0D70053AB2F /* scp11.cpp in Sources */,
@@ -3315,6 +3326,7 @@
 				67ECD13623CD724100B7D514 /* Bech32.cpp in Sources */,
 				67E0DF36250F6CE600D42EF0 /* Address.cpp in Sources */,
 				6746220423C31DF80096DDA2 /* JubiterBladeToken.cpp in Sources */,
+				7737926E2611AFD800E9BE02 /* JubiterLiteHCImpl.cpp in Sources */,
 				6795A82023D854AF00F273E0 /* QTUMContext.cpp in Sources */,
 				67A4BD6C2330A3280059A3DB /* keypair.c in Sources */,
 				674B4A8424A1B0D70053AB2F /* scp11.cpp in Sources */,

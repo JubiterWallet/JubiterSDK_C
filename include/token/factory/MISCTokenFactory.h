@@ -36,6 +36,7 @@
 #include "token/XRP/TrezorCryptoXRPImpl.h"
 #include "token/TRX/TrezorCryptoTRXImpl.h"
 
+#include "token/HC/JubiterLiteHCImpl.h"
 #include "token/ETH/JubiterLiteETHImpl.h"
 #include "token/EOS/JubiterLiteEOSImpl.h"
 #include "token/XRP/JubiterLiteXRPImpl.h"
@@ -100,6 +101,7 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterMISCFn> {
 public:
     xJuBiterLITEMISCFactory() {
+        Register(TWCoinType::TWCoinTypeHcash,            &JubiterLiteHCImpl::Create);
         Register(TWCoinType::TWCoinTypeEthereum,        &JubiterLiteETHImpl::Create);
         Register(TWCoinType::TWCoinTypeEOS,             &JubiterLiteEOSImpl::Create);
         Register(TWCoinType::TWCoinTypeXRP,             &JubiterLiteXRPImpl::Create);

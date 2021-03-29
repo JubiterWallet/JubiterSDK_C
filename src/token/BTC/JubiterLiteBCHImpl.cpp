@@ -58,6 +58,8 @@ JUB_RV JubiterLiteBCHImpl::_SignTx(bool witness,
                                    std::vector<TW::Data>& vInputPublicKey,
                                    std::vector<uchar_vector>& vSignatureRaw) {
 
+    JUB_RV rv = JUBR_ERROR;
+
     TW::Hash::Hasher halfHasher;
     JUB_BYTE halfHasherType = _getHalfHasher(get_curve_by_name(_curve_name)->hasher_sign, halfHasher);
 
@@ -72,11 +74,10 @@ JUB_RV JubiterLiteBCHImpl::_SignTx(bool witness,
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
 
         // script code - scriptPubKey
-        uint8_t prefix = TWCoinTypeP2pkhPrefix(_coin);
-        TW::Bitcoin::Address addr(twpk, prefix);
-        TW::Bitcoin::Script scriptCode = TW::Bitcoin::Script::buildForAddress(addr.string(), _coin);
-        if (scriptCode.empty()) {
-            return JUBR_ARGUMENTS_BAD;
+        TW::Bitcoin::Script scriptCode;
+        rv = _scriptCode(_coin, twpk, scriptCode);
+        if (JUBR_OK != rv) {
+            break;
         }
 
         TW::Data preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);

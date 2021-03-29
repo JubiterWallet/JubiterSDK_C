@@ -1,6 +1,6 @@
 #pragma once
 #include "token/JubiterLite/JubiterLiteToken.h"
-
+#include <TrezorCrypto/bip32.h>
 
 namespace jub {
 namespace token {
@@ -21,6 +21,11 @@ public:
                              const JUB_BYTE& type,
                              const std::string& path,
                              std::string& xpub);
+    virtual JUB_RV GetHDNode(const JUB_BYTE& curveType,
+                             const JUB_BYTE& type,
+                             const curve_info* curve,
+                             const std::string& path,
+                             uint8_t *data, int *datalen);
     virtual JUB_RV GetCompPubKey(const JUB_BYTE& curveType,
                                  const JUB_BYTE& type,
                                  const std::string& path,

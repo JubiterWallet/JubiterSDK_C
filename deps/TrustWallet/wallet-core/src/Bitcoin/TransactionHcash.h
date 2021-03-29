@@ -40,6 +40,11 @@ struct HcashTransaction :
     Data getTxSerializeWitnessSigningHash(const Script& pkScript, size_t index) const;
     Data getTxSerializeWitnessValueSigningHash(const Script& pkScript, size_t index) const;
 
+    // JuBiter-defined
+    virtual void encodeVersion(Data& data) const override;
+    // JuBiter-defined
+    virtual void decodeVersion(const Data& data, int& index) override;
+
     /// Encodes the transaction into the provided buffer.
     virtual void encode(bool witness, Data& data) const override;
 
