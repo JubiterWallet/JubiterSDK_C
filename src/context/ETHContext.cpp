@@ -304,6 +304,11 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
         return JUBR_IMPL_NOT_SUPPORT;
     }
 
+    // ETH token extension apdu
+    if (_appletVersion > stVersionExp::FromString(ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+        return JUBR_OK;
+    }
+
     JUB_CHECK_NULL(pTokenName);
     JUB_CHECK_NULL(pContractAddress);
 
