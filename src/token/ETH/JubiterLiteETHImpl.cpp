@@ -186,7 +186,7 @@ JUB_RV JubiterLiteETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 
 JUB_RV JubiterLiteETHImpl::SetERC20ETHToken(const std::string& tokenName, const JUB_UINT16 unitDP, const std::string& contractAddress) {
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    return JUBR_OK;
 }
 
 
@@ -239,13 +239,23 @@ JUB_RV JubiterLiteETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDat
         vPreImageHash.push_back(half);
 
         std::vector<TW::Data> vRSV;
-        JUB_VERIFY_RV(JubiterLiteImpl::SignBytestring(vInputPath.size(),
-                                                      vInputPath,
-                                                      _getSignType(_curve_name),
-                                                      halfHasherType,
-                                                      vPreImageHash,
-                                                      vRSV));
-        std::copy(std::begin(vRSV[0]), std::end(vRSV[0]), std::begin(vSignature));
+        JUB_VERIFY_RV(JubiterLiteImpl::SignTX(vInputPath.size(),
+                                              vInputPath,
+                                              _getSignType(_curve_name),
+                                              halfHasherType,
+                                              vPreImageHash,
+                                              vRSV));
+
+        for (const auto& rsv : vRSV) {
+            TW::Ethereum::Transaction tx;
+            JUB_VERIFY_RV(_encodeRSV(rsv, vChainID,
+                                     tx.r, tx.s, tx.v));
+
+            vSignature.resize(tx.r.size()+tx.s.size()+tx.v.size());
+            std::copy(std::begin(tx.r), std::end(tx.r), std::begin(vSignature));
+            std::copy(std::begin(tx.s), std::end(tx.s), std::begin(vSignature)+tx.r.size());
+            std::copy(std::begin(tx.v), std::end(tx.v), std::begin(vSignature)+tx.r.size()+tx.s.size());
+        }
     }
     catch (...) {
         return JUBR_ERROR_ARGS;

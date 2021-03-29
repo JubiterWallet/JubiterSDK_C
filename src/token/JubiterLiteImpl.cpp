@@ -225,7 +225,13 @@ JUB_RV JubiterLiteImpl::SignBytestring(const JUB_UINT16 inputCount,
                                        const JUB_BYTE& hashType,
                                        const std::vector<TW::Data>& vPreImageHash,
                                        std::vector<TW::Data>& vRSV) {
-    return JUBR_IMPL_NOT_SUPPORT;
+
+    return SignTX(inputCount,
+                  vInputPath,
+                  signType,
+                  hashType,
+                  vPreImageHash,
+                  vRSV);
 }
 
 
