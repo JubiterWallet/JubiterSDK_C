@@ -234,7 +234,6 @@ bool TransactionRaw::calculateOffset() {
     pb_length_delimited pbContract = getContract();
     pb_length_delimited pbScripts = getScripts();
     pb_varint pbTimestamp = getTimestamp();
-
     if (  !pbRefBlockBytes.isValid()
         || !pbRefBlockHash.isValid()
         ||   !pbExpiration.isValid()

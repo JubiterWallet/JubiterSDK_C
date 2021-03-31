@@ -4,35 +4,73 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "Contract.h"
+#include "Contract.hpp"
 #include "balance_contract.pb.h"
 
 namespace TW::Tron {
 
 
+void Contract::from_internal(const google::protobuf::Message& msg) {
+
+    size_t sz = msg.ByteSizeLong();
+    TW::Data o(sz);
+    bool b = msg.SerializeToArray(&o[0], (int)sz);
+    if (b) {
+        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+        save(o);
+    }
+}
+
+
+void Contract::deserialize(const Data& o, google::protobuf::Message& decode) {
+
+    bool status = decode.ParseFromArray(&o[0], (int)o.size());
+    if (status) {
+        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
+        save(o);
+        from_internal(decode);
+    }
+}
+
+
 bool Contract::calculateOffset() {
+
+    return calculateOffset(0);
+}
+
+
+bool Contract::calculateOffset(const size_t offset) {
 
     pb_length_delimited pbOwnerAddress = getOwnerAddress();
     if (!pbOwnerAddress.isValid()) {
         return false;
     }
 
-    ownerAddrSize  = pbOwnerAddress.sizeValue();
-//    ownerAddrIndex = pbOwnerAddress.sizeTag() + pbOwnerAddress.sizeLength();
+    size_t ownerAddrIndex = 0;
+    if (search(offset,
+               pbOwnerAddress.serialize(),
+               ownerAddrIndex)
+        ) {
+        szOwnerAddress = pbOwnerAddress.size();
+
+        ownerAddrSize  = pbOwnerAddress.sizeValue();
+    }
 
     return true;
 }
 
 
-bool Contract::isItemExist(const size_t offset, const TW::Data &itemInpb) const {
+bool Contract::search(const size_t offset, const TW::Data &itemInpb, size_t& index) const {
 
-    if (pb.end() != std::search(std::begin(pb)+offset, std::end(pb),
-                                itemInpb.begin(), itemInpb.end())
-        ) {
-        return true;
+    auto it = std::search(std::begin(pb)+offset, std::end(pb),
+                          itemInpb.begin(), itemInpb.end());
+    if (pb.end() == it) {
+        index = it - pb.end();
+        return false;
     }
     else {
-        return false;
+        index = (it - pb.begin());
+        return true;
     }
 }
 

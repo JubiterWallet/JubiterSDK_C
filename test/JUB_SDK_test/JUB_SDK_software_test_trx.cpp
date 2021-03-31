@@ -98,7 +98,15 @@ void software_test_trx(const char* json_sw_file, const char* json_file) {
     rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, &xpub);
     cout << "[-] JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK == rv) {
-        cout << "    Main xpub in HEX: " << xpub << endl;
+        cout << "    Main xpub in  HEX: " << xpub << endl;
+        JUB_FreeMemory(xpub);
+    }
+    cout << endl;
+
+    rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &xpub);
+    cout << "[-] JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "    Main xpub in XPUB: " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
     cout << endl;
@@ -109,9 +117,18 @@ void software_test_trx(const char* json_sw_file, const char* json_file) {
     rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &xpub);
     cout << "[-] JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK == rv) {
-        cout << "    xpub in HEX: " << xpub << endl;
+        cout << "    xpub in  HEX: " << xpub << endl;
         JUB_FreeMemory(xpub);
     }
+    cout << endl;
+
+    rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &xpub);
+    cout << "[-] JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "    xpub in XPUB: " << xpub << endl;
+        JUB_FreeMemory(xpub);
+    }
+
     cout << "[--------------------------------- HD Node end ---------------------------------]" << endl;
     cout << endl << endl;
 
@@ -137,19 +154,31 @@ void software_test_trx(const char* json_sw_file, const char* json_file) {
     cout << "[--------------------------------- Address end ---------------------------------]" << endl;
     cout << endl << endl;
 
-    for (int i=1; i<=4; ++i) {
+    int choice = 0;
+    for (int i=1; i<=5; ++i) {
         switch (i) {
         case 1:
+            choice = JUB_ENUM_TRX_CONTRACT_TYPE::XFER_CONTRACT;
             cout << "[----------------------------- Transfer contract test --------------------------]" << endl;
             break;
         case 2:
+            choice = JUB_ENUM_TRX_CONTRACT_TYPE::XFER_ASSET_CONTRACT;
             cout << "[-------------------------- Transfer asset contract test -----------------------]" << endl;
             break;
         case 3:
+            choice = JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT;
             cout << "[-------------------------- Trigger smart contract test ------------------------]" << endl;
             break;
+        case 4:
+            choice = JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT;
+            cout << "[-------------------------- freeze balance contract test -----------------------]" << endl;
+            break;
+        case 5:
+            choice = JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT;
+            cout << "[------------------------ unfreeze balance contract test -----------------------]" << endl;
+            break;
         }
-        rv = transaction_proc_TRX(contextID, root, 20+i);
+        rv = transaction_proc_TRX(contextID, root, choice);
         if (JUBR_OK != rv) {
             return;
         }

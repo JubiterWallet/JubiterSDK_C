@@ -23,6 +23,8 @@ typedef enum {
      NS_ITEM_TRX_CONTRACT =  0,
             XFER_CONTRACT =  1, // TransferContract(balance_contract.proto)
       XFER_ASSET_CONTRACT =  2, // TransferAssetContract(asset_issue_contract.proto)
+         FRZ_BLA_CONTRACT = 11, // TransferContract(balance_contract.proto)
+       UNFRZ_BLA_CONTRACT = 12, // TransferContract(balance_contract.proto)
     CREATE_SMART_CONTRACT = 30, // CreateSmartContract(smart_contract.proto)
       TRIG_SMART_CONTRACT = 31, // TriggerSmartContract(smart_contract.proto)
 } JUB_ENUM_TRX_CONTRACT_TYPE;
@@ -52,6 +54,38 @@ typedef struct stTronTransferAssetContract {
 //    ~stTronTransferAssetContract() = default;
 } JUB_XFER_ASSET_CONTRACT_TRX;
 typedef JUB_XFER_ASSET_CONTRACT_TRX* JUB_XFER_ASSET_CONTRACT_TRX_PTR;
+// Remove c++ features for swift framework end
+
+typedef enum {
+    BANDWIDTH = 0x00,
+       ENERGY = 0x01
+} JUB_ENUM_RESOURCE_CODE;
+
+// https://cn.developers.tron.network/reference#freezebalance
+// Remove c++ features for swift framework
+typedef struct stTronFreezeBalanceContract {
+    JUB_CHAR_PTR owner_address;
+    JUB_INT64   frozen_balance;
+    JUB_INT64   frozen_duration;
+    JUB_ENUM_RESOURCE_CODE resource;
+    JUB_CHAR_PTR receiver_address;
+//
+//     stTronFreezeBalanceContract();
+//    ~stTronFreezeBalanceContract() = default;
+} JUB_FRZ_BLA_CONTRACT_TRX;
+typedef JUB_FRZ_BLA_CONTRACT_TRX* JUB_FRZ_BLA_CONTRACT_TRX_PTR;
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+typedef struct stTronUnfreezeBalanceContract {
+    JUB_CHAR_PTR owner_address;
+    JUB_ENUM_RESOURCE_CODE resource;
+    JUB_CHAR_PTR receiver_address;
+//
+//     stTronUnfreezeBalanceContract();
+//    ~stTronUnfreezeBalanceContract() = default;
+} JUB_UNFRZ_BLA_CONTRACT_TRX;
+typedef JUB_UNFRZ_BLA_CONTRACT_TRX* JUB_UNFRZ_BLA_CONTRACT_TRX_PTR;
 // Remove c++ features for swift framework end
 
 // TRC-20(https://tronprotocol.github.io/documentation-en/contracts/trc20/)
@@ -103,6 +137,8 @@ typedef struct stTronContract {
     union {
               JUB_XFER_CONTRACT_TRX transfer;
         JUB_XFER_ASSET_CONTRACT_TRX transferAsset;
+           JUB_FRZ_BLA_CONTRACT_TRX freezeBalance;
+         JUB_UNFRZ_BLA_CONTRACT_TRX unfreezeBalance;
       JUB_CREATE_SMART_CONTRACT_TRX createSmart;
         JUB_TRIG_SMART_CONTRACT_TRX triggerSmart;
     };

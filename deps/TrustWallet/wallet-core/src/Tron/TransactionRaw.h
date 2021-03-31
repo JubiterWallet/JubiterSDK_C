@@ -7,7 +7,7 @@
 #pragma once
 
 #include "Authority.h"
-#include "TransactionContract.h"
+#include "TransactionContract.hpp"
 
 
 namespace TW::Tron {

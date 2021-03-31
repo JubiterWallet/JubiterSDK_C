@@ -555,7 +555,7 @@
 		67742D24242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67742D23242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp */; };
 		67742D25242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67742D23242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp */; };
 		67755D8E253F10B70056F2C0 /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = 67755D6E253F10B40056F2C0 /* Address.h */; };
-		67755D8F253F10B70056F2C0 /* Contract.h in Headers */ = {isa = PBXBuildFile; fileRef = 67755D6F253F10B40056F2C0 /* Contract.h */; };
+		67755D8F253F10B70056F2C0 /* Contract.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67755D6F253F10B40056F2C0 /* Contract.hpp */; };
 		67755D90253F10B70056F2C0 /* ContractAssetIssue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67755D70253F10B40056F2C0 /* ContractAssetIssue.cpp */; };
 		67755D91253F10B70056F2C0 /* ContractAssetIssue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67755D70253F10B40056F2C0 /* ContractAssetIssue.cpp */; };
 		67755D92253F10B70056F2C0 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 67755D71253F10B40056F2C0 /* Transaction.h */; };
@@ -583,7 +583,7 @@
 		67755DAF253F10B70056F2C0 /* AccountId.h in Headers */ = {isa = PBXBuildFile; fileRef = 67755D83253F10B60056F2C0 /* AccountId.h */; };
 		67755DB0253F10B70056F2C0 /* ContractSmart.h in Headers */ = {isa = PBXBuildFile; fileRef = 67755D84253F10B60056F2C0 /* ContractSmart.h */; };
 		67755DB2253F10B70056F2C0 /* Serialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 67755D86253F10B60056F2C0 /* Serialization.h */; };
-		67755DB5253F10B70056F2C0 /* TransactionContract.h in Headers */ = {isa = PBXBuildFile; fileRef = 67755D88253F10B60056F2C0 /* TransactionContract.h */; };
+		67755DB5253F10B70056F2C0 /* TransactionContract.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67755D88253F10B60056F2C0 /* TransactionContract.hpp */; };
 		67755DB7253F10B70056F2C0 /* ContractBalance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67755D8A253F10B60056F2C0 /* ContractBalance.cpp */; };
 		67755DB8253F10B70056F2C0 /* ContractBalance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67755D8A253F10B60056F2C0 /* ContractBalance.cpp */; };
 		67755DB9253F10B70056F2C0 /* Signer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67755D8B253F10B60056F2C0 /* Signer.cpp */; };
@@ -1095,7 +1095,7 @@
 		677416C3249CD1A9002039A8 /* cmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmac.h; path = "../../trezor-crypto/include/TrezorCrypto/cmac.h"; sourceTree = "<group>"; };
 		67742D23242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV_NFC.cpp; path = ../../src/JUB_SDK_DEV_NFC.cpp; sourceTree = "<group>"; };
 		67755D6E253F10B40056F2C0 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Address.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/Address.h"; sourceTree = "<group>"; };
-		67755D6F253F10B40056F2C0 /* Contract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Contract.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/Contract.h"; sourceTree = "<group>"; };
+		67755D6F253F10B40056F2C0 /* Contract.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Contract.hpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/Contract.hpp"; sourceTree = "<group>"; };
 		67755D70253F10B40056F2C0 /* ContractAssetIssue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAssetIssue.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/ContractAssetIssue.cpp"; sourceTree = "<group>"; };
 		67755D71253F10B40056F2C0 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/Transaction.h"; sourceTree = "<group>"; };
 		67755D72253F10B40056F2C0 /* Authority.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Authority.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/Authority.cpp"; sourceTree = "<group>"; };
@@ -1114,7 +1114,7 @@
 		67755D83253F10B60056F2C0 /* AccountId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountId.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/AccountId.h"; sourceTree = "<group>"; };
 		67755D84253F10B60056F2C0 /* ContractSmart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractSmart.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/ContractSmart.h"; sourceTree = "<group>"; };
 		67755D86253F10B60056F2C0 /* Serialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Serialization.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/Serialization.h"; sourceTree = "<group>"; };
-		67755D88253F10B60056F2C0 /* TransactionContract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionContract.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/TransactionContract.h"; sourceTree = "<group>"; };
+		67755D88253F10B60056F2C0 /* TransactionContract.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TransactionContract.hpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/TransactionContract.hpp"; sourceTree = "<group>"; };
 		67755D8A253F10B60056F2C0 /* ContractBalance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractBalance.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/ContractBalance.cpp"; sourceTree = "<group>"; };
 		67755D8B253F10B60056F2C0 /* Signer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Signer.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/Signer.cpp"; sourceTree = "<group>"; };
 		67755D8C253F10B60056F2C0 /* TransactionContract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionContract.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/TransactionContract.cpp"; sourceTree = "<group>"; };
@@ -2239,7 +2239,7 @@
 				67755D72253F10B40056F2C0 /* Authority.cpp */,
 				67755D7A253F10B50056F2C0 /* Authority.h */,
 				67755D7D253F10B50056F2C0 /* Contract.cpp */,
-				67755D6F253F10B40056F2C0 /* Contract.h */,
+				67755D6F253F10B40056F2C0 /* Contract.hpp */,
 				67755D70253F10B40056F2C0 /* ContractAssetIssue.cpp */,
 				67755D7C253F10B50056F2C0 /* ContractAssetIssue.h */,
 				67755D8A253F10B60056F2C0 /* ContractBalance.cpp */,
@@ -2253,7 +2253,7 @@
 				67755D7B253F10B50056F2C0 /* Transaction.cpp */,
 				67755D71253F10B40056F2C0 /* Transaction.h */,
 				67755D8C253F10B60056F2C0 /* TransactionContract.cpp */,
-				67755D88253F10B60056F2C0 /* TransactionContract.h */,
+				67755D88253F10B60056F2C0 /* TransactionContract.hpp */,
 				67755D81253F10B50056F2C0 /* TransactionRaw.cpp */,
 				67755D7F253F10B50056F2C0 /* TransactionRaw.h */,
 			);
@@ -2448,7 +2448,7 @@
 				674621A823C31C720096DDA2 /* HardwareTokenInterface.hpp in Headers */,
 				674621A623C31C720096DDA2 /* SoftwareTokenInterface.h in Headers */,
 				674621A323C31C720096DDA2 /* BTCTokenInterface.hpp in Headers */,
-				67755DB5253F10B70056F2C0 /* TransactionContract.h in Headers */,
+				67755DB5253F10B70056F2C0 /* TransactionContract.hpp in Headers */,
 				67755DA1253F10B70056F2C0 /* Authority.h in Headers */,
 				675B04E0242866BD004C62D4 /* QTUMTokenInterface.hpp in Headers */,
 				674621A923C31C720096DDA2 /* ETHTokenInterface.hpp in Headers */,
@@ -2603,7 +2603,7 @@
 				6718A3B723A3393900F8A5CD /* script.h in Headers */,
 				67F173902542DCA3009211A3 /* pb_length_delimited.hpp in Headers */,
 				677DF32F24DD20D6001920A9 /* MISCTokenFactory.h in Headers */,
-				67755D8F253F10B70056F2C0 /* Contract.h in Headers */,
+				67755D8F253F10B70056F2C0 /* Contract.hpp in Headers */,
 				6718A38A23A3391100F8A5CD /* ed25519-hash-custom-keccak.h in Headers */,
 				6718A3C423A3394000F8A5CD /* ed25519-sha3.h in Headers */,
 				6718A3BD23A3394000F8A5CD /* curve25519-donna-helpers.h in Headers */,

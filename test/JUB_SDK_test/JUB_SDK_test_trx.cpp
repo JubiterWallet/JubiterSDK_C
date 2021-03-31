@@ -43,12 +43,14 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
     while (true) {
         cout << " ------------------------------------- " << endl;
         cout << "|******* Jubiter Wallet TRX  ********|" << endl;
-        cout << "| 1 . show_address_pubkey_test.      |" << endl;
+        cout << "| 0 . show_address_pubkey_test.      |" << endl;
         cout << "|                                    |" << endl;
-        cout << "| 21.       transfer_contract_test.  |" << endl;
-        cout << "| 22. transfer_asset_contract_test.  |" << endl;
-        cout << "| 23. trigger_smart_contr_erc20_test.|" << endl;
-        cout << "| 24. trigger_smart_contr_trc20_test.|" << endl;
+        cout << "|  1.       transfer_contract_test.  |" << endl;
+        cout << "|  2. transfer_asset_contract_test.  |" << endl;
+        cout << "| 11.   freeze_balance_contract_test.|" << endl;
+        cout << "| 12. unfreeze_balance_contract_test.|" << endl;
+        cout << "| 31. trigger_smart_contr_erc20_test.|" << endl;
+        cout << "| 32. trigger_smart_contr_trc20_test.|" << endl;
         cout << "|                                    |" << endl;
         cout << "| 3 . set_my_address_test.           |" << endl;
         cout << "| 4 . set_timeout_test.              |" << endl;
@@ -61,13 +63,15 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
         cin >> choice;
 
         switch (choice) {
-        case 1:
+        case 0:
             get_address_pubkey_TRX(contextID);
             break;
-        case 21:
-        case 22:
-        case 23:
-        case 24:
+        case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_CONTRACT:
+        case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_ASSET_CONTRACT:
+        case JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT:
+        case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT:
+        case JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT:
+        case 32:
             transaction_test_TRX(contextID, root, choice);
             break;
         case 3:
@@ -116,6 +120,8 @@ void set_my_address_test_TRX(JUB_UINT16 contextID) {
 
 void get_address_pubkey_TRX(JUB_UINT16 contextID) {
 
+    JUB_RV rv = JUBR_OK;
+
     cout << "[----------------------------------- HD Node -----------------------------------]" << endl;
 
     int change = 0;
@@ -130,13 +136,23 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
     path.addressIndex = index;
 
     JUB_CHAR_PTR xpub = nullptr;
-    JUB_RV rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, &xpub);
+    rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, &xpub);
     cout << "[-] JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
 
-    cout << "    Main xpub in HEX: " << xpub << endl;
+    cout << "    Main xpub in  HEX: " << xpub << endl;
+    JUB_FreeMemory(xpub);
+    cout << endl;
+
+    rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &xpub);
+    cout << "[-] JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    cout << "    Main xpub in XPUB: " << xpub << endl;
     JUB_FreeMemory(xpub);
     cout << endl;
 
@@ -147,7 +163,18 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
         return;
     }
 
-    cout << "    xpub in HEX: " << xpub << endl;
+    cout << "    xpub in  HEX: " << xpub << endl;
+    JUB_FreeMemory(xpub);
+    cout << endl;
+
+    xpub = nullptr;
+    rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &xpub);
+    cout << "[-] JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    cout << "    xpub in XPUB: " << xpub << endl;
     JUB_FreeMemory(xpub);
     cout << "[--------------------------------- HD Node end ---------------------------------]" << endl;
     cout << endl << endl;
@@ -197,25 +224,18 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) 
 
     //TRX Test
 //    typedef enum {
+//         NS_ITEM_TRX_CONTRACT =  0,
 //                XFER_CONTRACT =  1, // TransferContract(balance_contract.proto)
 //          XFER_ASSET_CONTRACT =  2, // TransferAssetContract(asset_issue_contract.proto)
+//             FRZ_BLA_CONTRACT = 11, // TransferContract(balance_contract.proto)
+//           UNFRZ_BLA_CONTRACT = 12, // TransferContract(balance_contract.proto)
 //        CREATE_SMART_CONTRACT = 30, // CreateSmartContract(smart_contract.proto)
 //          TRIG_SMART_CONTRACT = 31, // TriggerSmartContract(smart_contract.proto)
-//         NS_ITEM_TRX_CONTRACT
 //    } JUB_ENUM_TRX_CONTRACT_TYPE;
     bool bERC20 = false;
-    if (   21 == choice
-        || 22 == choice
-        ) {
-        choice -= 20;
-    }
-    else if (   23 == choice
-             || 24 == choice
-             ) {
-        if (23 == choice) {
-            bERC20 = true;
-        }
-        choice = 31;
+    if (32 == choice) {
+        bERC20 = true;
+        choice = JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT;
     }
 
     std::string packedContractInPb;
@@ -253,7 +273,7 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
 
     JUB_RV rv = JUBR_OK;
 
-    if (2 == choice) {
+    if (JUB_ENUM_TRX_CONTRACT_TYPE::XFER_ASSET_CONTRACT == choice) {
         string assetName = (char*)root["TRX"]["TRC10"]["assetName"].asCString();
         string assetID = (char*)root["TRX"]["TRC10"]["assetID"].asCString();
         JUB_UINT16 unitDP = root["TRX"]["TRC10"]["dp"].asUInt64();
@@ -314,6 +334,22 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
         contrTRX.transferAsset.owner_address = (char*)root["TRX"]["contracts"]["owner_address"].asCString();
         contrTRX.transferAsset.to_address = (char*)root["TRX"]["contracts"][sType]["to_address"].asCString();
         contrTRX.transferAsset.amount = root["TRX"]["contracts"][sType]["amount"].asUInt64();
+        break;
+    }
+    case JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT:
+    {
+        contrTRX.freezeBalance.owner_address = (char*)root["TRX"]["contracts"]["owner_address"].asCString();
+        contrTRX.freezeBalance.frozen_balance = root["TRX"]["contracts"][sType]["frozen_balance"].asUInt64();
+        contrTRX.freezeBalance.frozen_duration = root["TRX"]["contracts"][sType]["frozen_duration"].asUInt64();
+        contrTRX.freezeBalance.resource = (JUB_ENUM_RESOURCE_CODE)root["TRX"]["contracts"][sType]["resource"].asUInt64();
+        contrTRX.freezeBalance.receiver_address = (char*)root["TRX"]["contracts"][sType]["receiver_address"].asCString();
+        break;
+    }
+    case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT:
+    {
+        contrTRX.unfreezeBalance.owner_address = (char*)root["TRX"]["contracts"]["owner_address"].asCString();
+        contrTRX.unfreezeBalance.resource = (JUB_ENUM_RESOURCE_CODE)root["TRX"]["contracts"][sType]["resource"].asUInt64();
+        contrTRX.unfreezeBalance.receiver_address = (char*)root["TRX"]["contracts"][sType]["receiver_address"].asCString();
         break;
     }
     case JUB_ENUM_TRX_CONTRACT_TYPE::CREATE_SMART_CONTRACT:

@@ -27,25 +27,9 @@ void CreateSmartContract::from_internal(const ::protocol::CreateSmartContract& c
 }
 
 
-void CreateSmartContract::deserialize(const Data& o) {
-
-}
-
-
-Data CreateSmartContract::serialize() {
-    return {};
-}
-
-
 void TriggerSmartContract::from_internal(const ::protocol::TriggerSmartContract& contract) {
 
-    size_t sz = contract.ByteSizeLong();
-    TW::Data o(sz);
-    bool b = contract.SerializeToArray(&o[0], (int)sz);
-    if (b) {
-        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-        save(o);
-    }
+    Contract::from_internal(contract);
 
        owner_address = TW::Tron::Address::fromHex(contract.owner_address());
     contract_address = TW::Tron::Address::fromHex(contract.contract_address());
@@ -115,41 +99,58 @@ void TriggerSmartContract::from_internal(const ::protocol::TriggerSmartContract&
 }
 
 
-void TriggerSmartContract::deserialize(const Data& o) {
+bool TriggerSmartContract::calculateOffset() {
 
-    ::protocol::TriggerSmartContract decode;
-    bool status = decode.ParseFromArray(&o[0], (int)o.size());
-    if (status) {
-        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-        save(o);
-        from_internal(decode);
-    }
-}
-
-
-Data TriggerSmartContract::serialize() {
-
-    auto data = Data();
-
-    ::protocol::TriggerSmartContract encode = to_internal();
-    size_t szSize = encode.ByteSizeLong();
-    auto ou = Data(szSize);
-
-    bool status = encode.SerializeToArray(&ou[0], (int)szSize);
-    if (status) {
-        data.resize(szSize);
-        std::copy(std::begin(ou), std::end(ou), std::begin(data));
+    if (!Contract::calculateOffset()) {
+        return false;
     }
 
-    // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-    save(data);
-
-    // Calculate the offset of each item
-    if (!calculateOffset()) {
-        clear();
+    pb_length_delimited pbContractAddress = getContractAddress();
+    pb_varint pbCallValue = getCallValue();
+    pb_length_delimited pbData = getData();
+    pb_varint pbCallTokenValue = getCallTokenValue();
+    if (  !pbContractAddress.isValid()
+        ||      !pbCallValue.isValid()
+        ||           !pbData.isValid()
+        || !pbCallTokenValue.isValid()
+        ) {
+        return false;
     }
 
-    return data;
+    size_t szContractAddress = 0;
+    if (search(szOwnerAddress,
+               pbContractAddress.serialize(),
+               contractAddrIndex)
+        ) {
+        szContractAddress = pbContractAddress.size();
+
+        contractAddrSize  = pbContractAddress.sizeValue();
+        contractAddrIndex += pbContractAddress.sizeTag() + pbContractAddress.sizeLength();
+    }
+
+    size_t szCallValue = 0;
+    if (search(szOwnerAddress+szContractAddress,
+               pbCallValue.serialize(),
+               callVIndex)
+        ) {
+        szCallValue = pbCallValue.size();
+
+        callVSize  = pbCallValue.sizeValue();
+        callVIndex += pbCallValue.sizeTag();
+    }
+
+    size_t szData = 0;
+    if (search(szOwnerAddress+szContractAddress+szCallValue,
+               pbData.serialize(),
+               dIndex)
+        ) {
+        szData = pbData.size();
+
+        dSize  = pbData.sizeValue();
+        dIndex += pbData.sizeTag() + pbData.sizeLength();
+    }
+
+    return true;
 }
 
 
@@ -246,82 +247,6 @@ size_t TriggerSmartContract::dataIndex(const size_t offset) const {
     }
 
     return (dIndex + offset);
-}
-
-
-bool TriggerSmartContract::calculateOffset() {
-
-    pb_length_delimited pbOwnerAddress = getOwnerAddress();
-    pb_length_delimited pbContractAddress = getContractAddress();
-    pb_varint pbCallValue = getCallValue();
-    pb_length_delimited pbData = getData();
-    pb_varint pbCallTokenValue = getCallTokenValue();
-    if (      !pbOwnerAddress.isValid()
-        || !pbContractAddress.isValid()
-        ||       !pbCallValue.isValid()
-        ||            !pbData.isValid()
-        ||  !pbCallTokenValue.isValid()
-        ) {
-        return false;
-    }
-
-    size_t szOwnerAddress = 0;
-    if (isItemExist(0,
-                    pbOwnerAddress.serialize())
-        ) {
-        szOwnerAddress = pbOwnerAddress.size();
-
-//         ownerAddrIndex = pbOwnerAddress.sizeTag() + pbOwnerAddress.sizeLength();
-
-        contractAddrSize  = pbContractAddress.sizeValue();
-        contractAddrIndex = szOwnerAddress
-                          + pbContractAddress.sizeTag() + pbContractAddress.sizeLength();
-    }
-
-    size_t szContractAddress = 0;
-    if (isItemExist(szOwnerAddress,
-                    pbContractAddress.serialize())
-        ) {
-        szContractAddress = pbContractAddress.size();
-    }
-
-    size_t szCallValue = 0;
-    if (isItemExist(szOwnerAddress+szContractAddress,
-                    pbCallValue.serialize())
-        ) {
-        szCallValue = pbCallValue.size();
-
-        callVSize  = pbCallValue.sizeValue();
-        callVIndex = szOwnerAddress
-                   + szContractAddress
-                   + pbCallValue.sizeTag();
-    }
-
-    size_t szData = 0;
-    if (isItemExist(szOwnerAddress+szContractAddress+szCallValue,
-                    pbData.serialize())
-        ) {
-        szData = pbData.size();
-
-        dSize  = pbData.sizeValue();
-        dIndex = szOwnerAddress
-               + szContractAddress
-               + szCallValue
-               + pbData.sizeTag() + pbData.sizeLength();
-    }
-
-//    if (hasCallTokenValue(szOwnerAddress+szContractAddress+szData,
-//                          pbCallTokenValue.serialize())
-//        ) {
-//    callTokenVSize  = pbCallTokenValue.sizeValue();
-//    callTokenVIndex = szOwnerAddress
-//                    + szContractAddress
-//                    + szCallValue
-//                    + szData
-//                    + pbCallTokenValue.sizeTag();
-//    }
-
-    return true;
 }
 
 

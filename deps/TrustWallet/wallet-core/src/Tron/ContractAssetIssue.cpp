@@ -13,13 +13,7 @@ namespace TW::Tron {
 
 void TransferAssetContract::from_internal(const ::protocol::TransferAssetContract& contract) {
 
-    size_t sz = contract.ByteSizeLong();
-    TW::Data o(sz);
-    bool b = contract.SerializeToArray(&o[0], (int)sz);
-    if (b) {
-        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-        save(o);
-    }
+    Contract::from_internal(contract);
 
     asset_name    = contract.asset_name();
     owner_address = TW::Tron::Address::fromHex(contract.owner_address());
@@ -75,44 +69,53 @@ void TransferAssetContract::from_internal(const ::protocol::TransferAssetContrac
 }
 
 
-void TransferAssetContract::deserialize(const Data& o) {
+bool TransferAssetContract::calculateOffset() {
 
-    ::protocol::TransferAssetContract decode;
-    bool status = decode.ParseFromArray(&o[0], (int)o.size());
-    if (status) {
-        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-        save(o);
-        from_internal(decode);
-    }
-}
-
-
-Data TransferAssetContract::serialize() {
-
-    auto data = Data();
-
-    ::protocol::TransferAssetContract encode = to_internal();
-
-    size_t szSize = encode.ByteSizeLong();
-    if (0 == szSize) {
-        return data;
-    }
-    auto ou = Data(szSize);
-    bool status = encode.SerializeToArray(&ou[0], (int)szSize);
-    if (status) {
-        data.resize(szSize);
-        std::copy(std::begin(ou), std::end(ou), std::begin(data));
+    pb_length_delimited pbAssetName = getAssetName();
+    pb_length_delimited pbToAddress = getToAddress();
+    pb_varint pbAmount = getAmount();
+    if (   !pbAssetName.isValid()
+        || !pbToAddress.isValid()
+        ||    !pbAmount.isValid()
+        ) {
+        return false;
     }
 
-    // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-    save(data);
+    size_t szAssetName = 0;
+    if (search(0,
+               pbAssetName.serialize(),
+               asNameIndex)
+        ) {
+        szAssetName = pbAssetName.size();
 
-    // Calculate the offset of each item
-    if (!calculateOffset()) {
-        clear();
+        asNameSize  = pbAssetName.sizeValue();
+        asNameIndex += pbAssetName.sizeTag() + pbAssetName.sizeLength();
     }
 
-    return data;
+    if (!Contract::calculateOffset(szAssetName)) {
+        return false;
+    }
+
+    size_t szToAddress = 0;
+    if (search(szAssetName+szOwnerAddress,
+               pbToAddress.serialize(),
+               toAddrIndex)
+        ) {
+        szToAddress = pbToAddress.size();
+
+        toAddrSize  = pbToAddress.sizeValue();
+        toAddrIndex += pbAssetName.sizeTag() + pbAssetName.sizeLength();
+    }
+
+    if (search(szAssetName+szOwnerAddress+szToAddress,
+               pbAmount.serialize(),
+               amtIndex)
+        ) {
+        amtSize  = pbAmount.sizeValue();
+        amtIndex += pbAmount.sizeTag();
+    }
+
+    return true;
 }
 
 
@@ -212,68 +215,6 @@ size_t TransferAssetContract::amountIndex(const size_t offset) const {
 }
 
 
-bool TransferAssetContract::calculateOffset() {
-
-    pb_length_delimited pbAssetName = getAssetName();
-    pb_length_delimited pbOwnerAddress = getOwnerAddress();
-    pb_length_delimited pbToAddress = getToAddress();
-    pb_varint pbAmount = getAmount();
-
-    if (     !pbAssetName.isValid()
-        ||!pbOwnerAddress.isValid()
-        ||   !pbToAddress.isValid()
-        ||      !pbAmount.isValid()
-        ) {
-        return false;
-    }
-
-    size_t szAssetName = 0;
-    if (isItemExist(0,
-                    pbAssetName.serialize())
-        ) {
-        szAssetName = pbAssetName.size();
-
-        asNameSize  = pbAssetName.sizeValue();
-        asNameIndex = pbAssetName.sizeTag() + pbAssetName.sizeLength();
-    }
-
-    size_t szOwnerAddress = 0;
-    if (isItemExist(szAssetName,
-                    pbOwnerAddress.serialize())
-        ) {
-        szOwnerAddress = pbOwnerAddress.size();
-
-        ownerAddrSize  = pbOwnerAddress.sizeValue();
-//    ownerAddrIndex = szAssetName
-//                   + pbOwnerAddress.sizeTag() + pbOwnerAddress.sizeLength();
-    }
-
-    size_t szToAddress = 0;
-    if (isItemExist(szAssetName+szOwnerAddress,
-                    pbToAddress.serialize())
-        ) {
-        szToAddress = pbToAddress.size();
-
-        toAddrSize  = pbToAddress.sizeValue();
-        toAddrIndex = szAssetName
-                    + szOwnerAddress
-                    + pbToAddress.sizeTag() + pbToAddress.sizeLength();
-    }
-
-    if (isItemExist(szAssetName+szOwnerAddress+szToAddress,
-                    pbAmount.serialize())
-        ) {
-        amtSize  = pbAmount.sizeValue();
-        amtIndex = szAssetName
-                 + szOwnerAddress
-                 + szToAddress
-                 + pbAmount.sizeTag();
-    }
-
-    return true;
-}
-
-
 pb_length_delimited TransferAssetContract::getAssetName() const {
 
     return pb_length_delimited(::protocol::TransferAssetContract::kAssetNameFieldNumber,
@@ -333,42 +274,6 @@ void UnfreezeAssetContract::from_internal(const ::protocol::UnfreezeAssetContrac
     }
 
     return encode;
-}
-
-
-void UnfreezeAssetContract::deserialize(const Data& o) {
-
-    ::protocol::UnfreezeAssetContract decode;
-    bool status = decode.ParseFromArray(&o[0], (int)o.size());
-    if (status) {
-        from_internal(decode);
-    }
-}
-
-
-Data UnfreezeAssetContract::serialize() {
-
-    auto data = Data();
-
-    ::protocol::UnfreezeAssetContract encode = to_internal();
-
-    size_t szSize = encode.ByteSizeLong();
-    if (0 == szSize) {
-        return data;
-    }
-    auto ou = Data(szSize);
-    bool status = encode.SerializeToArray(&ou[0], (int)szSize);
-    if (status) {
-        data.resize(szSize);
-        std::copy(std::begin(ou), std::end(ou), std::begin(data));
-    }
-
-    // Calculate the offset of each item
-    if (!calculateOffset()) {
-        clear();
-    }
-
-    return data;
 }
 
 

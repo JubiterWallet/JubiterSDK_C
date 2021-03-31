@@ -12,15 +12,20 @@
 namespace TW::Tron {
 
 
+::protocol::ResourceCode toInternal(const int source) {
+
+   switch (source) {
+   case 1:
+       return ::protocol::ResourceCode::ENERGY;
+   default:
+       return ::protocol::ResourceCode::BANDWIDTH;
+   }
+}
+
+
 void TransferContract::from_internal(const ::protocol::TransferContract& contract) {
 
-    size_t sz = contract.ByteSizeLong();
-    TW::Data o(sz);
-    bool b = contract.SerializeToArray(&o[0], (int)sz);
-    if (b) {
-        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-        save(o);
-    }
+    Contract::from_internal(contract);
 
     owner_address = TW::Tron::Address::fromHex(contract.owner_address());
        to_address = TW::Tron::Address::fromHex(contract.to_address());
@@ -69,42 +74,40 @@ void TransferContract::from_internal(const ::protocol::TransferContract& contrac
 }
 
 
-void TransferContract::deserialize(const Data& o) {
+bool TransferContract::calculateOffset() {
 
-    ::protocol::TransferContract decode;
-    bool status = decode.ParseFromArray(&o[0], (int)o.size());
-    if (status) {
-        // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-        save(o);
-        from_internal(decode);
-    }
-}
-
-
-Data TransferContract::serialize() {
-
-    auto data = Data();
-
-    ::protocol::TransferContract encode = to_internal();
-    size_t szSize = encode.ByteSizeLong();
-    auto ou = Data(szSize);
-
-    bool status = encode.SerializeToArray(&ou[0], (int)szSize);
-    if (status) {
-        data.resize(szSize);
-        std::copy(std::begin(ou), std::end(ou), std::begin(data));
+    if (!Contract::calculateOffset()) {
+        return false;
     }
 
-    // Stores the PB serialization encoding data so that you can check the existence of each item when calculating the it's INDEX
-    save(data);
-
-    // Calculate the offset of each item
-    if (!calculateOffset()) {
-        data.clear();
-        return {};
+    pb_length_delimited    pbToAddress = getToAddress();
+    pb_varint pbAmount = getAmount();
+    if (!pbToAddress.isValid()
+        || !pbAmount.isValid()
+        ) {
+        return false;
     }
 
-    return data;
+    size_t    szToAddress = 0;
+    if (search(szOwnerAddress,
+               pbToAddress.serialize(),
+               toAddrIndex)
+        ) {
+        szToAddress = pbToAddress.size();
+
+        toAddrSize  = pbToAddress.sizeValue();
+        toAddrIndex += pbToAddress.sizeTag() + pbToAddress.sizeLength();
+    }
+
+    if (search(szOwnerAddress+szToAddress,
+               pbAmount.serialize(),
+               amtIndex)
+        ) {
+        amtSize  = pbAmount.sizeValue();
+        amtIndex += pbAmount.sizeTag();
+    }
+
+    return true;
 }
 
 
@@ -172,53 +175,6 @@ size_t TransferContract::amountIndex(const size_t offset) const {
 }
 
 
-bool TransferContract::calculateOffset() {
-
-    pb_length_delimited pbOwnerAddress = getOwnerAddress();
-    pb_length_delimited    pbToAddress = getToAddress();
-    pb_varint pbAmount = getAmount();
-
-    if (!pbOwnerAddress.isValid()
-        || !pbToAddress.isValid()
-        ||    !pbAmount.isValid()
-        ) {
-        return false;
-    }
-
-    size_t szOwnerAddress = 0;
-    if (isItemExist(0,
-                    pbOwnerAddress.serialize())
-        ) {
-        szOwnerAddress = pbOwnerAddress.size();
-
-        ownerAddrSize  = pbOwnerAddress.sizeValue();
-//    ownerAddrIndex = pbOwnerAddress.sizeTag() + pbOwnerAddress.sizeLength();
-    }
-
-    size_t    szToAddress = 0;
-    if (isItemExist(szOwnerAddress,
-                    pbToAddress.serialize())
-        ) {
-        szToAddress = pbToAddress.size();
-
-        toAddrSize  = pbToAddress.sizeValue();
-        toAddrIndex = szOwnerAddress
-                    + pbToAddress.sizeTag() + pbToAddress.sizeLength();
-    }
-
-    if (isItemExist(szOwnerAddress+szToAddress,
-                    pbAmount.serialize())
-        ) {
-        amtSize  = pbAmount.sizeValue();
-        amtIndex = szOwnerAddress
-                 + szToAddress
-                 + pbAmount.sizeTag();
-    }
-
-    return true;
-}
-
-
 pb_length_delimited TransferContract::getToAddress() const {
 
     return pb_length_delimited(::protocol::TransferContract::kToAddressFieldNumber,
@@ -236,6 +192,8 @@ pb_varint TransferContract::getAmount() const {
 
 
 void FreezeBalanceContract::from_internal(const ::protocol::FreezeBalanceContract& contract) {
+
+    Contract::from_internal(contract);
 
        owner_address  = TW::Tron::Address::fromHex(contract.owner_address());
     receiver_address  = TW::Tron::Address::fromHex(contract.receiver_address());
@@ -295,7 +253,94 @@ void FreezeBalanceContract::from_internal(const ::protocol::FreezeBalanceContrac
 }
 
 
-pb_length_delimited FreezeBalanceContract::getReceiverAddress() const {
+bool FreezeBalanceContract::calculateOffset() {
+
+    if (!Contract::calculateOffset()) {
+        return false;
+    }
+
+    pb_varint pbFrozenBalance  = getFrozenBalance();
+    pb_varint pbFrozenDuration = getFrozenDuration();
+    pb_varint pbResource = getResource();
+    pb_length_delimited pbReceiverAddress = getReceiverAddress();
+    if (     !pbFrozenBalance.isValid()
+        ||  !pbFrozenDuration.isValid()
+        ||        !pbResource.isValid()
+        || !pbReceiverAddress.isValid()
+        ) {
+        return false;
+    }
+
+    size_t szFrozenBalance = 0;
+    if (search(szOwnerAddress,
+               pbFrozenBalance.serialize(),
+               frozenBalIndex)
+        ) {
+        szFrozenBalance = pbFrozenBalance.size();
+
+        frozenBalSize  = pbFrozenBalance.sizeValue();
+        frozenBalIndex += pbFrozenBalance.sizeTag();
+    }
+
+    size_t szFrozenDuration = 0;
+    if (search(szOwnerAddress+szFrozenBalance,
+               pbFrozenDuration.serialize(),
+               frozenDIndex)
+        ) {
+        szFrozenDuration = pbFrozenDuration.size();
+
+        frozenDSize  = pbFrozenDuration.sizeValue();
+        frozenDIndex += pbFrozenDuration.sizeTag();
+    }
+
+    size_t szResource = 0;
+    if (search(szOwnerAddress+szFrozenBalance+szFrozenDuration,
+               pbResource.serialize(),
+               resIndex)
+        ) {
+        szResource = pbResource.size();
+
+        resSize = pbResource.sizeValue();
+        resIndex += pbResource.sizeTag();
+    }
+
+    if (search(szOwnerAddress+szFrozenBalance+szFrozenDuration+szResource,
+               pbReceiverAddress.serialize(),
+               rxAddrIndex)
+        ) {
+        rxAddrSize  = pbReceiverAddress.sizeValue();
+        rxAddrIndex += pbReceiverAddress.sizeTag() + pbReceiverAddress.sizeLength();
+    }
+
+    return true;
+}
+
+
+pb_varint FreezeBalanceContract::getFrozenBalance() const {
+
+    return pb_varint(::protocol::FreezeBalanceContract::kFrozenBalanceFieldNumber,
+                     WireFormatLite::FieldType::TYPE_UINT64,
+                     frozen_balance);
+}
+
+
+pb_varint FreezeBalanceContract::getFrozenDuration() const {
+
+    return pb_varint(::protocol::FreezeBalanceContract::kFrozenDurationFieldNumber,
+                     WireFormatLite::FieldType::TYPE_UINT64,
+                     frozen_duration);
+}
+
+
+pb_varint UnfreezeBalanceContract::getResource() const {
+
+    return pb_varint(::protocol::FreezeBalanceContract::kResourceFieldNumber,
+                     WireFormatLite::FieldType::TYPE_UINT64,
+                     resource);
+}
+
+
+pb_length_delimited UnfreezeBalanceContract::getReceiverAddress() const {
 
     return pb_length_delimited(::protocol::FreezeBalanceContract::kReceiverAddressFieldNumber,
                                WireFormatLite::FieldType::TYPE_STRING,
@@ -303,40 +348,137 @@ pb_length_delimited FreezeBalanceContract::getReceiverAddress() const {
 }
 
 
-void FreezeBalanceContract::deserialize(const Data& o) {
+Data FreezeBalanceContract::frozenBalanceSize() const {
 
-    ::protocol::FreezeBalanceContract decode;
-    bool status = decode.ParseFromArray(&o[0], (int)o.size());
-    if (status) {
-        from_internal(decode);
+    TW::Data o;
+    if (!pb_basevarint::encode((int64_t)frozenBalSize, o)) {
+        o.clear();
     }
+
+    return o;
 }
 
 
-Data FreezeBalanceContract::serialize() {
+Data FreezeBalanceContract::frozenBalanceOffset(const size_t offset) const {
 
-    auto data = Data();
-
-    ::protocol::FreezeBalanceContract encode = to_internal();
-    size_t szSize = encode.ByteSizeLong();
-    auto ou = Data(szSize);
-
-    bool status = encode.SerializeToArray(&ou[0], (int)szSize);
-    if (status) {
-        data.resize(szSize);
-        std::copy(std::begin(ou), std::end(ou), std::begin(data));
+    TW::Data o;
+    if (!pb_basevarint::encode((int64_t)frozenBalanceIndex(offset), o)) {
+        o.clear();
     }
 
-    // Calculate the offset of each item
-    if (!calculateOffset()) {
-        clear();
+    return o;
+}
+
+
+size_t FreezeBalanceContract::frozenBalanceIndex(const size_t offset) const {
+
+    if (0 == frozenBalIndex) {
+        return frozenBalIndex;
     }
 
-    return data;
+    return (frozenBalIndex + offset);
+}
+
+
+Data FreezeBalanceContract::frozenDurationSize() const {
+
+    TW::Data o;
+    if (!pb_basevarint::encode((int64_t)frozenDSize, o)) {
+        o.clear();
+    }
+
+    return o;
+}
+
+
+Data FreezeBalanceContract::frozenDurationOffset(const size_t offset) const {
+
+    TW::Data o;
+    if (!pb_basevarint::encode((int64_t)frozenDurationIndex(offset), o)) {
+        o.clear();
+    }
+
+    return o;
+}
+
+
+size_t FreezeBalanceContract::frozenDurationIndex(const size_t offset) const {
+
+    if (0 == frozenDIndex) {
+        return frozenDIndex;
+    }
+
+    return (frozenDIndex + offset);
+}
+
+
+Data UnfreezeBalanceContract::resourceSize() const {
+
+    TW::Data o;
+    if (!pb_basevarint::encode((uint32_t)resSize, o)) {
+        o.clear();
+    }
+
+    return o;
+}
+
+
+Data UnfreezeBalanceContract::resourceOffset(const size_t offset) const {
+
+    TW::Data o;
+    if (!pb_basevarint::encode((uint32_t)resourceIndex(offset), o)) {
+        o.clear();
+    }
+
+    return o;
+}
+
+
+size_t UnfreezeBalanceContract::resourceIndex(const size_t offset) const {
+
+    if (0 == resIndex) {
+        return resIndex;
+    }
+
+    return (resIndex + offset);
+}
+
+
+Data UnfreezeBalanceContract::receiverAddressSize() const {
+
+    TW::Data o;
+    if (!pb_basevarint::encode((uint32_t)rxAddrSize, o)) {
+        o.clear();
+    }
+
+    return o;
+}
+
+
+Data UnfreezeBalanceContract::receiverAddressOffset(const size_t offset) const {
+
+    TW::Data o;
+    if (!pb_basevarint::encode((uint32_t)receiverAddressIndex(offset), o)) {
+        o.clear();
+    }
+
+    return o;
+}
+
+
+size_t UnfreezeBalanceContract::receiverAddressIndex(const size_t offset) const {
+
+    if (0 == rxAddrIndex) {
+        return rxAddrIndex;
+    }
+
+    return (rxAddrIndex + offset);
 }
 
 
 void UnfreezeBalanceContract::from_internal(const ::protocol::UnfreezeBalanceContract& contract) {
+
+    Contract::from_internal(contract);
 
        owner_address = TW::Tron::Address::fromHex(contract.owner_address());
     receiver_address = TW::Tron::Address::fromHex(contract.receiver_address());
@@ -385,45 +527,40 @@ void UnfreezeBalanceContract::from_internal(const ::protocol::UnfreezeBalanceCon
 }
 
 
-void UnfreezeBalanceContract::deserialize(const Data& o) {
+bool UnfreezeBalanceContract::calculateOffset() {
 
-    ::protocol::UnfreezeBalanceContract decode;
-    bool status = decode.ParseFromArray(&o[0], (int)o.size());
-    if (status) {
-        from_internal(decode);
-    }
-}
-
-
-Data UnfreezeBalanceContract::serialize() {
-
-    auto data = Data();
-
-    ::protocol::UnfreezeBalanceContract encode = to_internal();
-    size_t szSize = encode.ByteSizeLong();
-    auto ou = Data(szSize);
-
-    bool status = encode.SerializeToArray(&ou[0], (int)szSize);
-    if (status) {
-        data.resize(szSize);
-        std::copy(std::begin(ou), std::end(ou), std::begin(data));
+    if (!Contract::calculateOffset()) {
+        return false;
     }
 
-    // Calculate the offset of each item
-    if (!calculateOffset()) {
-        data.clear();
-        return {};
+    pb_varint pbResource = getResource();
+    pb_length_delimited pbReceiverAddress = getReceiverAddress();
+    if (          !pbResource.isValid()
+        || !pbReceiverAddress.isValid()
+        ) {
+        return false;
     }
 
-    return data;
-}
+    size_t szResource = 0;
+    if (search(szOwnerAddress,
+               pbResource.serialize(),
+               resIndex)
+        ) {
+        szResource = pbResource.size();
 
+        resSize = pbResource.sizeValue();
+        resIndex += pbResource.sizeTag();
+    }
 
-pb_length_delimited UnfreezeBalanceContract::getReceiverAddress() const {
+    if (search(szOwnerAddress+szResource,
+               pbReceiverAddress.serialize(),
+               rxAddrIndex)
+        ) {
+        rxAddrSize  = pbReceiverAddress.sizeValue();
+        rxAddrIndex += pbReceiverAddress.sizeTag() + pbReceiverAddress.sizeLength();
+    }
 
-    return pb_length_delimited(::protocol::UnfreezeBalanceContract::kReceiverAddressFieldNumber,
-                               WireFormatLite::FieldType::TYPE_STRING,
-                               TW::Tron::Address::toHex(receiver_address));
+    return true;
 }
 
 
@@ -454,40 +591,6 @@ void WithdrawBalanceContract::from_internal(const ::protocol::WithdrawBalanceCon
     }
 
     return encode;
-}
-
-
-void WithdrawBalanceContract::deserialize(const Data& o) {
-
-    ::protocol::WithdrawBalanceContract decode;
-    bool status = decode.ParseFromArray(&o[0], (int)o.size());
-    if (status) {
-        from_internal(decode);
-    }
-}
-
-
-Data WithdrawBalanceContract::serialize() {
-
-    auto data = Data();
-
-    ::protocol::WithdrawBalanceContract encode = to_internal();
-    size_t szSize = encode.ByteSizeLong();
-    auto ou = Data(szSize);
-
-    bool status = encode.SerializeToArray(&ou[0], (int)szSize);
-    if (status) {
-        data.resize(szSize);
-        std::copy(std::begin(ou), std::end(ou), std::begin(data));
-    }
-
-    // Calculate the offset of each item
-    if (!calculateOffset()) {
-        data.clear();
-        return {};
-    }
-
-    return data;
 }
 
 

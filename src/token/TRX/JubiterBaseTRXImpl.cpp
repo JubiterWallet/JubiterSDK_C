@@ -188,6 +188,48 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                         );
             break;
         }
+        case JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT:
+        {
+            JUB_CHECK_NULL(contract.freezeBalance.owner_address);
+            JUB_CHECK_NULL(contract.freezeBalance.receiver_address);
+
+            if (   !TW::Tron::Address::isValid(contract.freezeBalance.owner_address)
+                || !TW::Tron::Address::isValid(contract.freezeBalance.receiver_address)
+                ) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+
+            parameter = TW::Tron::TransactionContract::to_parameter(
+                            TW::Tron::FreezeBalanceContract(
+                                contract.freezeBalance.owner_address,
+                                contract.freezeBalance.frozen_balance,
+                                contract.freezeBalance.frozen_duration,
+                                TW::Tron::toInternal(contract.freezeBalance.resource),
+                                contract.freezeBalance.receiver_address
+                            )
+                        );
+            break;
+        }
+        case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT:
+        {
+            JUB_CHECK_NULL(contract.unfreezeBalance.owner_address);
+            JUB_CHECK_NULL(contract.unfreezeBalance.receiver_address);
+
+            if (   !TW::Tron::Address::isValid(contract.unfreezeBalance.owner_address)
+                || !TW::Tron::Address::isValid(contract.unfreezeBalance.receiver_address)
+                ) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+
+            parameter = TW::Tron::TransactionContract::to_parameter(
+                            TW::Tron::UnfreezeBalanceContract(
+                                contract.unfreezeBalance.owner_address,
+                                TW::Tron::toInternal(contract.unfreezeBalance.resource),
+                                contract.unfreezeBalance.receiver_address
+                            )
+                        );
+            break;
+        }
         case JUB_ENUM_TRX_CONTRACT_TYPE::CREATE_SMART_CONTRACT:
         {
             JUB_CHECK_NULL(contract.createSmart.owner_address);
