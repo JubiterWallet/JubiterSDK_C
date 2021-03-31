@@ -4,7 +4,7 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "TransactionContract.h"
+#include "TransactionContract.hpp"
 #include "AccountId.h"
 
 #include "HexCoding.h"
@@ -187,102 +187,6 @@ void TransactionContract::from_internal(const ::protocol::Transaction_Contract& 
 }
 
 
-bool TransactionContract::from_parameter(TransferContract& contract) {
-
-    ::protocol::TransferContract pb;
-    bool status = parameter.UnpackTo(&pb);
-    if (!status) {
-
-        return status;
-    }
-
-    contract.from_internal(pb);
-
-    return true;
-}
-
-
-::google::protobuf::Any TransactionContract::to_parameter(const TransferContract& contract) {
-
-    ::google::protobuf::Any pb;
-    pb.PackFrom(contract.to_internal());
-
-    return pb;
-}
-
-
-bool TransactionContract::from_parameter(TransferAssetContract& contract) {
-
-    ::protocol::TransferAssetContract pb;
-    bool status = parameter.UnpackTo(&pb);
-    if (!status) {
-
-        return status;
-    }
-
-    contract.from_internal(pb);
-
-    return true;
-}
-
-
-::google::protobuf::Any TransactionContract::to_parameter(const TransferAssetContract& contract) {
-
-    ::google::protobuf::Any pb;
-    pb.PackFrom(contract.to_internal());
-
-    return pb;
-}
-
-
-bool TransactionContract::from_parameter(CreateSmartContract& contract) {
-
-    ::protocol::CreateSmartContract pb;
-    bool status = !parameter.UnpackTo(&pb);
-    if (!status) {
-
-        return status;
-    }
-
-    contract.from_internal(pb);
-
-    return true;
-}
-
-
-::google::protobuf::Any TransactionContract::to_parameter(const CreateSmartContract& contract) {
-
-    ::google::protobuf::Any pb;
-    pb.PackFrom(contract.to_internal());
-
-    return pb;
-}
-
-
-bool TransactionContract::from_parameter(TriggerSmartContract& contract) {
-
-    ::protocol::TriggerSmartContract pb;
-    bool status = parameter.UnpackTo(&pb);
-    if (!status) {
-
-        return status;
-    }
-
-    contract.from_internal(pb);
-
-    return true;
-}
-
-
-::google::protobuf::Any TransactionContract::to_parameter(const TriggerSmartContract& contract) {
-
-    ::google::protobuf::Any pb;
-    pb.PackFrom(contract.to_internal());
-
-    return pb;
-}
-
-
 void TransactionContract::deserialize(const Data& o) {
 
     ::protocol::Transaction_Contract decode;
@@ -333,21 +237,21 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferContract:
     {
         TransferContract transfer;
-        if (!from_parameter(transfer)) {
+        if (!from_parameter<::protocol::TransferContract>(transfer)) {
             o.clear();
             break;
         }
-        o = transfer.serialize();
+        o = Contract::serialize<::protocol::TransferContract>(transfer);
         break;
     }
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferAssetContract:
     {
         TransferAssetContract transferAsset;
-        if (!from_parameter(transferAsset)) {
+        if (!from_parameter<::protocol::TransferAssetContract>(transferAsset)) {
             o.clear();
             break;
         }
-        o = transferAsset.serialize();
+        o = Contract::serialize<::protocol::TransferAssetContract>(transferAsset);
         break;
     }
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_VoteAssetContract:
@@ -365,9 +269,25 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountUpdateContract:
         break;
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract:
+    {
+        FreezeBalanceContract freezeBalance;
+        if (!from_parameter<::protocol::FreezeBalanceContract>(freezeBalance)) {
+            o.clear();
+            break;
+        }
+        o = Contract::serialize<::protocol::FreezeBalanceContract>(freezeBalance);
         break;
+    }
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
+    {
+        UnfreezeBalanceContract unfreezeBalance;
+        if (!from_parameter<::protocol::UnfreezeBalanceContract>(unfreezeBalance)) {
+            o.clear();
+            break;
+        }
+        o = Contract::serialize<::protocol::UnfreezeBalanceContract>(unfreezeBalance);
         break;
+    }
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_WithdrawBalanceContract:
         break;
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeAssetContract:
@@ -389,11 +309,11 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TriggerSmartContract:
     {
         TriggerSmartContract triggerSmart;
-        if (!from_parameter(triggerSmart)) {
+        if (!from_parameter<::protocol::TriggerSmartContract>(triggerSmart)) {
             o.clear();
             break;
         }
-        o = triggerSmart.serialize();
+        o = Contract::serialize<::protocol::TriggerSmartContract>(triggerSmart);
         break;
     }
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_GetContract:

@@ -48,9 +48,6 @@ public:
     void from_internal(const ::protocol::TransferAssetContract& contract);
     ::protocol::TransferAssetContract to_internal() const;
 
-    void deserialize(const Data& o);
-    Data serialize();
-
     virtual TW::Data assetNameSize() const;
     virtual TW::Data assetNameOffset(const size_t offset) const;
 
@@ -60,9 +57,9 @@ public:
     virtual TW::Data amountSize() const override;
     virtual TW::Data amountOffset(const size_t offset) const override;
 
-private:
     virtual bool calculateOffset() override;
 
+private:
     virtual pb_length_delimited getAssetName() const;
     virtual pb_length_delimited getOwnerAddress() const override;
     virtual pb_length_delimited getToAddress() const override;
@@ -102,9 +99,6 @@ public:
 
     void from_internal(const ::protocol::UnfreezeAssetContract& contract);
     ::protocol::UnfreezeAssetContract to_internal() const;
-
-    void deserialize(const Data& o);
-    Data serialize();
 };  // class UnfreezeAssetContract end
 
 

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "Contract.h"
+#include "Contract.hpp"
 #include "smart_contract.pb.h"
 
 namespace TW::Tron {
@@ -64,7 +64,6 @@ public:
     virtual ~SmartContract() {}
 
     static void deserialize(const Data& o);
-//    Data serialize();
 }; // cleass SmartContract end
 
 
@@ -97,9 +96,6 @@ public:
 
     void from_internal(const ::protocol::CreateSmartContract& contract);
     ::protocol::CreateSmartContract to_internal() const;
-
-    void deserialize(const Data& o);
-    Data serialize();
 
 private:
     ::protocol::SmartContract new_contract;
@@ -149,8 +145,7 @@ public:
     void from_internal(const ::protocol::TriggerSmartContract& contract);
     ::protocol::TriggerSmartContract to_internal() const;
 
-    void deserialize(const Data& o);
-    Data serialize();
+    virtual bool calculateOffset() override;
 
     virtual TW::Data contractAddressSize() const;
     virtual TW::Data contractAddressOffset(const size_t offset) const;
@@ -163,8 +158,6 @@ public:
     virtual pb_length_delimited getData() const;
 
 private:
-    virtual bool calculateOffset();
-
     virtual pb_length_delimited getContractAddress() const;
     virtual pb_varint getCallValue() const;
     virtual pb_varint getCallTokenValue() const;

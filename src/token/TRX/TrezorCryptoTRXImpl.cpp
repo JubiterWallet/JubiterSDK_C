@@ -39,8 +39,6 @@ JUB_RV TrezorCryptoTRXImpl::GetAddress(const std::string& path, const JUB_UINT16
 
 JUB_RV TrezorCryptoTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
-    JUB_RV rv = JUBR_ERROR;
-
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));

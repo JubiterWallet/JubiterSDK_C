@@ -6,11 +6,14 @@
 
 #pragma once
 
-#include "Contract.h"
+#include "Contract.hpp"
 #include "balance_contract.pb.h"
 
 
 namespace TW::Tron {
+
+
+::protocol::ResourceCode toInternal(const int source);
 
 
 //message TransferContract {
@@ -47,8 +50,7 @@ public:
     void from_internal(const ::protocol::TransferContract& contract);
     ::protocol::TransferContract to_internal() const;
 
-    void deserialize(const Data& o);
-    Data serialize();
+    virtual bool calculateOffset() override;
 
     virtual TW::Data toAddressSize() const;
     virtual TW::Data toAddressOffset(const size_t offset) const;
@@ -57,8 +59,6 @@ public:
     virtual TW::Data amountOffset(const size_t offset) const;
 
 protected:
-    virtual bool calculateOffset() override;
-
     virtual pb_length_delimited getToAddress() const;
     virtual pb_varint getAmount() const;
 
@@ -77,69 +77,6 @@ public:
     // Amount to send.
     int64_t amount;
 };  // class TransferContract end
-
-
-//message FreezeBalanceContract {
-//    // Sender address.
-//    string owner_address = 1;
-//    // Frozen balance. Minimum 1
-//    int64 frozen_balance = 2;
-//    // Frozen duration
-//    int64 frozen_duration = 3;
-//    // Resource type: BANDWIDTH | ENERGY
-//    string resource = 10;
-//    // Receiver address
-//    string receiver_address = 15;
-//}
-class FreezeBalanceContract : public Contract {
-
-public:
-    FreezeBalanceContract() {}
-    FreezeBalanceContract(std::string owner_address,
-                          int64_t frozen_balance,
-                          int64_t frozen_duration,
-//                          std::string resource,
-//                          protocol_ResourceCode resource,
-                          ::protocol::ResourceCode resource,
-                          std::string receiver_address)
-        : Contract(owner_address)
-        , frozen_balance(frozen_balance)
-        , frozen_duration(frozen_duration)
-        , resource(resource)
-        , receiver_address(receiver_address)
-    {}
-    virtual ~FreezeBalanceContract() {
-        clear();
-    }
-
-    void clear() {
-        Contract::clear();
-          frozen_balance  = 0;
-          frozen_duration = 0;
-        receiver_address  = "";
-    }
-
-    void from_internal(const ::protocol::FreezeBalanceContract& contract);
-    ::protocol::FreezeBalanceContract to_internal() const;
-
-    void deserialize(const Data& o);
-    Data serialize();
-
-private:
-    virtual pb_length_delimited getReceiverAddress() const;
-
-private:
-    // Frozen balance. Minimum 1
-    int64_t frozen_balance;
-    // Frozen duration
-    int64_t frozen_duration;
-    // Resource type: BANDWIDTH | ENERGY
-//    std::string resource;
-//    protocol_ResourceCode resource;
-    ::protocol::ResourceCode resource;
-    // Receiver address
-    std::string receiver_address;
-};  // class FreezeBalanceContract end
 
 
 //message UnfreezeBalanceContract {
@@ -175,13 +112,28 @@ public:
     void from_internal(const ::protocol::UnfreezeBalanceContract& contract);
     ::protocol::UnfreezeBalanceContract to_internal() const;
 
-    void deserialize(const Data& o);
-    Data serialize();
+    virtual bool calculateOffset() override;
 
-private:
+    virtual TW::Data resourceSize() const;
+    virtual TW::Data resourceOffset(const size_t offset) const;
+
+    virtual TW::Data receiverAddressSize() const;
+    virtual TW::Data receiverAddressOffset(const size_t offset) const;
+
+    virtual size_t        resourceIndex(const size_t offset) const;
+    virtual size_t receiverAddressIndex(const size_t offset) const;
+
+protected:
+    virtual pb_varint getResource() const;
     virtual pb_length_delimited getReceiverAddress() const;
 
-private:
+    size_t resSize = 0;
+    size_t resIndex = 0;
+
+    size_t rxAddrSize = 0;
+    size_t rxAddrIndex = 0;
+
+protected:
     // Resource type: BANDWIDTH | ENERGY
 //    std::string resource;
 //    protocol_ResourceCode resource;
@@ -189,6 +141,75 @@ private:
     // Receiver address
     std::string receiver_address;
 };  // class UnfreezeBalanceContract end
+
+
+//message FreezeBalanceContract {
+//    // Sender address.
+//    string owner_address = 1;
+//    // Frozen balance. Minimum 1
+//    int64 frozen_balance = 2;
+//    // Frozen duration
+//    int64 frozen_duration = 3;
+//    // Resource type: BANDWIDTH | ENERGY
+//    string resource = 10;
+//    // Receiver address
+//    string receiver_address = 15;
+//}
+class FreezeBalanceContract : public UnfreezeBalanceContract {
+
+public:
+    FreezeBalanceContract() {}
+    FreezeBalanceContract(std::string owner_address,
+                          int64_t frozen_balance,
+                          int64_t frozen_duration,
+//                          std::string resource,
+//                          protocol_ResourceCode resource,
+                          ::protocol::ResourceCode resource,
+                          std::string receiver_address)
+        : UnfreezeBalanceContract(owner_address, resource, receiver_address)
+        , frozen_balance(frozen_balance)
+        , frozen_duration(frozen_duration)
+    {}
+    virtual ~FreezeBalanceContract() {
+        clear();
+    }
+
+    void clear() {
+        UnfreezeBalanceContract::clear();
+        frozen_balance  = 0;
+        frozen_duration = 0;
+    }
+
+    void from_internal(const ::protocol::FreezeBalanceContract& contract);
+    ::protocol::FreezeBalanceContract to_internal() const;
+
+    virtual bool calculateOffset() override;
+
+    virtual TW::Data frozenBalanceSize() const;
+    virtual TW::Data frozenBalanceOffset(const size_t offset) const;
+
+    virtual TW::Data frozenDurationSize() const;
+    virtual TW::Data frozenDurationOffset(const size_t offset) const;
+
+private:
+    virtual pb_varint getFrozenBalance() const;
+    virtual pb_varint getFrozenDuration() const;
+
+    virtual size_t   frozenBalanceIndex(const size_t offset) const;
+    virtual size_t  frozenDurationIndex(const size_t offset) const;
+
+    size_t frozenBalSize = 0;
+    size_t frozenBalIndex = 0;
+
+    size_t frozenDSize = 0;
+    size_t frozenDIndex = 0;
+
+private:
+    // Frozen balance. Minimum 1
+    int64_t frozen_balance;
+    // Frozen duration
+    int64_t frozen_duration;
+};  // class FreezeBalanceContract end
 
 
 //message WithdrawBalanceContract {
@@ -201,8 +222,13 @@ public:
     void from_internal(const ::protocol::WithdrawBalanceContract& contract);
     ::protocol::WithdrawBalanceContract to_internal() const;
 
-    void deserialize(const Data& o);
-    Data serialize();
+protected:
+    // Resource type: BANDWIDTH | ENERGY
+//    std::string resource;
+//    protocol_ResourceCode resource;
+    ::protocol::ResourceCode resource;
+    // Receiver address
+    std::string receiver_address;
 };  // class WithdrawBalanceContract end
 
 

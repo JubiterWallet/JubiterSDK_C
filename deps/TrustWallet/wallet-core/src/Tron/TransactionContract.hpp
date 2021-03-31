@@ -83,17 +83,26 @@ public:
     void from_internal(const ::protocol::Transaction_Contract& contract);
     ::protocol::Transaction_Contract to_internal() const;
 
-    bool from_parameter(TransferContract& contract);
-    static ::google::protobuf::Any to_parameter(const TransferContract& contract);
+    template<typename U, typename T>
+    bool from_parameter(T& contract) {
+        U pb;
+        bool status = parameter.UnpackTo(&pb);
+        if (!status) {
+            return status;
+        }
 
-    bool from_parameter(TransferAssetContract& contract);
-    static ::google::protobuf::Any to_parameter(const TransferAssetContract& contract);
+        contract.from_internal(pb);
 
-    bool from_parameter(CreateSmartContract& contract);
-    static ::google::protobuf::Any to_parameter(const CreateSmartContract& contract);
+        return true;
+    }
 
-    bool from_parameter(TriggerSmartContract& contract);
-    static ::google::protobuf::Any to_parameter(const TriggerSmartContract& contract);
+    template<typename T>
+    static ::google::protobuf::Any to_parameter(const T& contract) {
+        ::google::protobuf::Any pb;
+        pb.PackFrom(contract.to_internal());
+
+        return pb;
+    }
 
     void deserialize(const Data& o);
     Data serialize();

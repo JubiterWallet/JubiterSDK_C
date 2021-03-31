@@ -111,6 +111,8 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         //contractType
         //  transfer                    - 0x01
         //  transferAsset               - 0x02
+        //  freezeBalance               - 0x0B
+        //  unfreezeBalance             - 0x0C
         //  createSmart                 - 0x1E
         //  triggerSmart                - 0x1F
         //contractTLV
@@ -126,7 +128,7 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferContract:
         {
             TW::Tron::TransferContract contract;
-            if (!tx.raw_data.contracts[0].from_parameter(contract)) {
+            if (!tx.raw_data.contracts[0].from_parameter<::protocol::TransferContract>(contract)) {
                 break;
             }
 
@@ -161,7 +163,7 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferAssetContract:
         {
             TW::Tron::TransferAssetContract contract;
-            if (!tx.raw_data.contracts[0].from_parameter(contract)) {
+            if (!tx.raw_data.contracts[0].from_parameter<::protocol::TransferAssetContract>(contract)) {
                 break;
             }
 
@@ -203,6 +205,80 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
             vContractAssist << ToTlv(0x03, vItem);
             break;
         }
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract:
+        {
+            TW::Tron::FreezeBalanceContract contract;
+            if (!tx.raw_data.contracts[0].from_parameter<::protocol::FreezeBalanceContract>(contract)) {
+                break;
+            }
+
+            //freezeBalanceTLV          - freezeBalance.type = 0x0B
+            //    frozenBalance
+            //       frozenBalanceIndex
+            //       frozenBalanceLength
+            //    frozenDuration
+            //       frozenDurationIndex
+            //       frozenDurationLength
+            //    resource
+            //       resourceIndex
+            //       resourceLength
+            //    receiverAddress
+            //       receiverAddressOffset
+            //       receiverAddressLength
+            //
+            //eg. 0B020231020b0234010c02360101023815
+            //0B        - type
+            //02 02         - FreezeBalance.frozenBalance.tag
+            //      31          - frozenBalance offset
+            //      02          - frozenBalance size
+            //0b 02         - FreezeBalance.frozenDuration.tag
+            //      34          - frozenDuration offset
+            //      01          - frozenDuration size
+            //01 02         - FreezeBalance.receiverAddress.tag
+            //      38          - receiverAddress offset
+            //      15          - receiverAddress size
+            uchar_vector vItem;
+            vItem << contract.frozenBalanceOffset(contrIndex);
+            vItem << contract.frozenBalanceSize();
+            vContractAssist << ToTlv(0x02, vItem);
+
+            vItem.clear();
+            vItem << contract.frozenDurationOffset(contrIndex);
+            vItem << contract.frozenDurationSize();
+            vContractAssist << ToTlv(0x0B, vItem);
+
+            vItem.clear();
+            vItem << contract.receiverAddressOffset(contrIndex);
+            vItem << contract.receiverAddressSize();
+            vContractAssist << ToTlv(0x01, vItem);
+            break;
+        }
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
+        {
+            TW::Tron::UnfreezeBalanceContract contract;
+            if (!tx.raw_data.contracts[0].from_parameter<::protocol::UnfreezeBalanceContract>(contract)) {
+                break;
+            }
+
+            //unfreezeBalanceTLV        - unfreezeBalance.type = 0x0C
+            //    resource
+            //       resourceIndex
+            //       resourceLength
+            //    receiverAddress
+            //       receiverAddressOffset
+            //       receiverAddressLength
+            //
+            //eg. 0c0c02310101023315
+            //0C        - type
+            //01 02         - UnfreezeBalance.receiverAddress.tag
+            //      33          - receiverAddress offset
+            //      15          - receiverAddress size
+            uchar_vector vItem;
+            vItem << contract.receiverAddressOffset(contrIndex);
+            vItem << contract.receiverAddressSize();
+            vContractAssist << ToTlv(0x01, vItem);
+            break;
+        }
         case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_CreateSmartContract:
         {
             //createSmartTLV(TRC-20)    - createSmart.type = 0x1E
@@ -214,7 +290,7 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TriggerSmartContract:
         {
             TW::Tron::TriggerSmartContract contract;
-            if (!tx.raw_data.contracts[0].from_parameter(contract)) {
+            if (!tx.raw_data.contracts[0].from_parameter<::protocol::TriggerSmartContract>(contract)) {
                 break;
             }
 

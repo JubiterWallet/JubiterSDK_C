@@ -17,9 +17,19 @@
                 "amount" : 1000000000000000000
             },
             "2" : {
-                "asset_name" : "1000959",
+                "asset_name" : "1003406",
                 "to_address" : "TLb2e2uRhzxvrxMcC8VkL2N7zmxYyg3Vfc",
                 "amount" : 4
+            },
+            "11" : {
+                "frozen_balance" : 5000,
+                "frozen_duration" : 3,
+                "resource" : 1,
+                "receiver_address" : "TW6F7xUTXkv4tSqrhGBEkd5Kj6jKYmdfsz"
+            },
+            "12" : {
+                "resource" : 1,
+                "receiver_address" : "TW6F7xUTXkv4tSqrhGBEkd5Kj6jKYmdfsz"
             },
             "31" : {
                 "fee_limit": "2500000",
@@ -39,6 +49,11 @@
         "bip32_path" : {
             "change" : false,
             "addressIndex" : 0
+        },
+        "TRC10" : {
+            "assetID" : "1003406",
+            "assetName" : "PEER",
+            "dp" : 6
         },
         "TRC20" : {
             "token_to" : "TX8K7GXogXRPZnUsxmQrM3ZyHKXQwd93ZQ",
