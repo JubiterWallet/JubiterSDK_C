@@ -39,8 +39,6 @@ JUB_RV TrezorCryptoTRXImpl::GetAddress(const std::string& path, const JUB_UINT16
 
 JUB_RV TrezorCryptoTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
-    JUB_RV rv = JUBR_ERROR;
-
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
@@ -53,13 +51,7 @@ JUB_RV TrezorCryptoTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     if (0x00 == format) {//hex
         pubkey = pk.getHex();
     }
-    else if (0x01 == format) {
-        rv = _getAddress(TW::Data(pk), pubkey);
-        if (JUBR_OK != rv) {
-            return rv;
-        }
-    }
-    else { //xpub
+    else if (0x01 == format) {//xpub
         JUB_CHAR _pk[200] = { 0, };
         if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, TWHDVersion::TWHDVersionXPUB, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
             return JUBR_ERROR;

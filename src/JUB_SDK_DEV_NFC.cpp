@@ -433,5 +433,4 @@ JUB_RV JUB_ChangePIN(IN JUB_UINT16 deviceID,
     return JUBR_IMPL_NOT_SUPPORT;
 #endif  // #if defined(NFC_MODE) end
 }
-
-#endif // NFC_MODE
+#endif  // #if defined(NFC_MODE) end

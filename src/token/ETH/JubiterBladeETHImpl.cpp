@@ -1,7 +1,7 @@
-#include "token/ETH/JubiterBladeETHImpl.h"
+#include <token/ETH/JubiterBladeETHImpl.h>
 #include <Ethereum/Transaction.h>
 #include <Ethereum/RLP.h>
-#include "token/ErrorHandler.h"
+#include <token/ErrorHandler.h>
 
 namespace jub {
 namespace token {
@@ -163,23 +163,13 @@ JUB_RV JubiterBladeETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 
 JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName, const JUB_UINT16 unitDP, const std::string& contractAddress) {
 
-//    uchar_vector lvName = Tollv(tokenName);
-//    uchar_vector address;
-//    address << ETHHexStr2CharPtr(contractAddress);
-//
-//    uchar_vector data;
-//    data << (uint8_t)unitDP;
-//    data << (uint8_t)lvName.size();
-//    data << lvName;
-//    data << (uint8_t)address.size();
-//    data << address;
-//
-//    APDU apdu(0x00, 0xC7, 0x00, 0x00, (JUB_ULONG)data.size(), data.data());
-//    JUB_UINT16 ret = 0;
-//    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
-//    JUB_VERIFY_COS_ERROR(ret);
-//
-//    return JUBR_OK;
+    // ETH token extension apdu
+    if (typeid(JubiterBladeETHImpl) == typeid(*this)) {
+        if (_appletVersion < stVersionExp::FromString(ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+            return JUBR_OK;
+        }
+    }
+
     return SetERC20Token(tokenName.c_str(), unitDP, contractAddress.c_str());
 }
 
