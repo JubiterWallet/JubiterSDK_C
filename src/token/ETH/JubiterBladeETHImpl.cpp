@@ -163,7 +163,7 @@ JUB_RV JubiterBladeETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 
 JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName, const JUB_UINT16 unitDP, const std::string& contractAddress) {
 
-    // ETH token extension apdu
+    // ERC20 token extension apdu
     if (typeid(JubiterBladeETHImpl) == typeid(*this)) {
         if (_appletVersion < stVersionExp::FromString(ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
             return JUBR_OK;

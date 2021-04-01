@@ -28,6 +28,15 @@ JUB_RV JubiterLiteImpl::SelectApplet() {
 }
 
 
+JUB_RV JubiterLiteImpl::GetAppletVersion(stVersion& version) {
+
+    uchar_vector appID(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE));
+    JUB_VERIFY_RV(JubiterBladeToken::GetAppletVersion(CharPtr2HexStr(appID), version));
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterLiteImpl::GetHDNode(const JUB_BYTE& curveType,
                                   const JUB_BYTE& type,
                                   const std::string& path,

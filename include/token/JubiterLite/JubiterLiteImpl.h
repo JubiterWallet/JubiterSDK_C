@@ -17,6 +17,7 @@ public:
     virtual ~JubiterLiteImpl() = default;
 
     virtual JUB_RV SelectApplet();
+    virtual JUB_RV GetAppletVersion(stVersion& version);
     virtual JUB_RV GetHDNode(const JUB_BYTE& curveType,
                              const JUB_BYTE& type,
                              const std::string& path,

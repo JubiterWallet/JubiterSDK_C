@@ -158,6 +158,11 @@ protected:
     JUB_UINT16 _deviceID;
 
     stVersionExp _appletVersion;
+
+    // ERC20 token extension apdu
+    const std::string  ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("01040109");
+    // TRC20 token extension apdu
+    const std::string MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("01010005");
 }; // class JubiterBladeToken end
 
 

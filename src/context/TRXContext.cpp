@@ -29,6 +29,7 @@ JUB_RV TRXContext::ActiveSelf() {
     }
 
     JUB_RV rv = token->SelectApplet();
+    JUB_VERIFY_RV(token->GetAppletVersion(_appletVersion));
     JUB_VERIFY_RV(token->SetCoin());
     if (JUBR_OK != rv) {
         return rv;

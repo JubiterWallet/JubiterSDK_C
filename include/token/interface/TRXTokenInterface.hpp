@@ -27,6 +27,7 @@ public:
     virtual ~TRXTokenInterface() = default;
 
     virtual JUB_RV SelectApplet() = 0;
+    virtual JUB_RV GetAppletVersion(stVersion& version) = 0;
     virtual JUB_RV SetCoin() = 0;
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
     virtual JUB_RV CheckAddress(const std::string& address, std::string& hex) = 0;

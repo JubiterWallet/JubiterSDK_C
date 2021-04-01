@@ -7,9 +7,6 @@
 #include "token/interface/BaseToken.h"
 #include "utility/util.h"
 
-// ETH token extension apdu
-#define ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN "01040109"
-
 
 namespace jub {
 namespace token {
