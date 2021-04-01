@@ -43,7 +43,8 @@
 // see https://sourceforge.net/p/predef/mailman/message/34497133/
     #include <TargetConditionals.h>
     #if TARGET_OS_OSX // mac osx
-        #define  HID_MODE
+        #define HID_MODE
+        #define SIM_MODE
     #elif TARGET_OS_IOS // ios
         #define BLE_MODE
         #define NFC_MODE
@@ -52,7 +53,8 @@
     #define BLE_MODE
     #define NFC_MODE
 #else //other
-    #define  HID_MODE
+    #define HID_MODE
+    #define SIM_MODE
 #endif // #if defined(_WIN32)
 
 #define JUBR_OK                     0x00000000UL

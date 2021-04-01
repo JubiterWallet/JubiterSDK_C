@@ -6,6 +6,9 @@
 #include "utility/xFactory.hpp"
 #include "utility/Singleton.h"
 
+#if defined(SIM_MODE)
+#include "device/JubiterBridgeDevice.hpp"
+#endif // #if defined(SIM_MODE) end
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -123,6 +126,23 @@ public:
     }
 
     std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const JUB_UINT16 deviceID) {
+#if defined(SIM_MODE)
+        if (dynamic_cast<jub::device::JubiterBridgeBLDDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterBLDFactory.Create(type, deviceID);
+        }
+        else if (dynamic_cast<jub::device::JubiterBridgeBIODevice*>(
+                              jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterBIOFactory.Create(type, deviceID);
+        }
+        else if (dynamic_cast<jub::device::JubiterBridgeLITEDevice*>(
+                              jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return jubiterLITEFactory.Create(type, deviceID);
+        }
+#endif  // #if defined(SIM_MODE) end
 #if defined(HID_MODE)
         if (dynamic_cast<jub::device::JubiterHidBLDDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))

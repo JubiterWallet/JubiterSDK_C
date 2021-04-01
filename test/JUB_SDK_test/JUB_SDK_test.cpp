@@ -109,10 +109,41 @@ void main_test() {
     case 2:
     case 3:
     {
+        commode = JUB_ENUM_COMMODE::SIM;
+        rv = JUB_ListDeviceSIM("ip_bridge.info", (JUB_ENUM_DEVICE)choice, deviceIDs);
+        cout << "JUB_ListDeviceSIM() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+        deviceID = deviceIDs[0];
+        rv = JUB_ConnetDeviceSIM(deviceID);
+        cout << "JUB_ConnetDeviceSIM() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
         break;
     }
     case 4:
     {
+        commode = JUB_ENUM_COMMODE::SIM;
+        LITE_DEVICE_INIT_PARAM param;
+        Json::Value root = readJSON("settings/42584E46433230303532353030303031_apk.settings");
+        param.crt = (char*)root["SCP11c"]["OCE"][1][0].asCString();
+        param.sk  = (char*)root["SCP11c"]["OCE"][1][2].asCString();
+        param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
+        param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
+
+        rv = JUB_ListLiteSIM("ip_bridge.info", (JUB_ENUM_DEVICE)choice, param, deviceIDs);
+        cout << "JUB_ListDeviceSIM() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+        deviceID = deviceIDs[0];
+        rv = JUB_ConnetDeviceSIM(deviceID);
+        cout << "JUB_ConnetDeviceSIM() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
         break;
     }
     default:
@@ -261,8 +292,10 @@ void main_test() {
             cout << endl << endl;
             break;
         }
-        case JUB_ENUM_COMMODE::GRPC:
+        case JUB_ENUM_COMMODE::SIM:
         {
+            rv = JUB_DisconnetDeviceSIM(deviceID);
+            cout << "JUB_DisconnetDeviceSIM() return " << GetErrMsg(rv) << endl;
             break;
         }
         default:

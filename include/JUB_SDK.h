@@ -15,6 +15,9 @@
 #include "JUB_SDK_DEV_HID.h"
 #include "JUB_SDK_DEV_BIO.h"
 #endif // #if defined(HID_MODE) end
+#if defined(SIM_MODE)
+#include "JUB_SDK_DEV_SIM.h"
+#endif // #if defined(SIM_MODE) end
 #include "JUB_SDK_BTC.h"
 #include "JUB_SDK_Hcash.h"
 #include "JUB_SDK_ETH.h"

@@ -117,7 +117,7 @@ public JubiterBLEDevice {
 public:
     //for Factory
     static std::shared_ptr<JubiterBLEDevice> Create(const std::string& name) {
-        if (0 != name.find(PREFIX_BIO)) {
+        if (std::string::npos != name.find(PREFIX_BIO)) {
             return std::make_shared<JubiterBLEBIODevice>();
         }
 
