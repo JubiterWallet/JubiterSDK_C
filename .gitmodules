@@ -11,6 +11,6 @@
 [submodule "deps/ios-cmake"]
 	path = deps/ios-cmake
 	url = https://github.com/leetal/ios-cmake.git
-[submodule "uint256_t"]
+[submodule "deps/uint256_t"]
 	path = deps/uint256_t
 	url = https://github.com/calccrypto/uint256_t.git

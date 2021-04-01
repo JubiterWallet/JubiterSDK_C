@@ -14,7 +14,7 @@
 #include <fstream>
 #if defined(_WIN32)
 #include <WinSock2.h>
-#elif defined(__APPLE__)
+#else
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
