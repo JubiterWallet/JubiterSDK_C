@@ -997,6 +997,8 @@
 		67FA32CD24CAE77B00023DF9 /* DeviceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CB24CAE77B00023DF9 /* DeviceFactory.h */; };
 		67FA32CF24CAECED00023DF9 /* xFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CE24CAECED00023DF9 /* xFactory.hpp */; };
 		67FA32D024CAECED00023DF9 /* xFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CE24CAECED00023DF9 /* xFactory.hpp */; };
+		771856B1261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 771856B0261491D800756E99 /* JubiterBIOTRXImpl.cpp */; };
+		771856B2261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 771856B0261491D800756E99 /* JubiterBIOTRXImpl.cpp */; };
 		7781058025F9BBBA0014C1EE /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7781057F25F9BBBA0014C1EE /* libprotobuf.a */; };
 		7781058E25F9BD650014C1EE /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7781058C25F9BD650014C1EE /* TaggedAddresses.cpp */; };
 		7781058F25F9BD650014C1EE /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7781058C25F9BD650014C1EE /* TaggedAddresses.cpp */; };
@@ -1527,6 +1529,7 @@
 		67F8584525B82FDC00B1EEAE /* JubiterLiteHCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteHCImpl.cpp; path = ../../src/token/HC/JubiterLiteHCImpl.cpp; sourceTree = "<group>"; };
 		67FA32CB24CAE77B00023DF9 /* DeviceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceFactory.h; path = ../../include/device/DeviceFactory.h; sourceTree = "<group>"; };
 		67FA32CE24CAECED00023DF9 /* xFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = xFactory.hpp; path = ../../include/utility/xFactory.hpp; sourceTree = "<group>"; };
+		771856B0261491D800756E99 /* JubiterBIOTRXImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOTRXImpl.cpp; path = ../../src/token/TRX/JubiterBIOTRXImpl.cpp; sourceTree = "<group>"; };
 		7781057F25F9BBBA0014C1EE /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
 		7781058C25F9BD650014C1EE /* TaggedAddresses.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TaggedAddresses.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.cpp"; sourceTree = "<group>"; };
 		7781058D25F9BD650014C1EE /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
@@ -1718,6 +1721,7 @@
 			children = (
 				67E0DF97250F777800D42EF0 /* JubiterBaseTRXImpl.cpp */,
 				67E0DF96250F777800D42EF0 /* JubiterBladeTRXImpl.cpp */,
+				771856B0261491D800756E99 /* JubiterBIOTRXImpl.cpp */,
 				67E0DF98250F777800D42EF0 /* TrezorCryptoTRXImpl.cpp */,
 				679DA9972577B47200B08471 /* JubiterLiteTRXImpl.cpp */,
 			);
@@ -2845,7 +2849,7 @@
 				67E0DF77250F75DF00D42EF0 /* JubiterBIOEOSImpl.h in Headers */,
 				67F59555256E659300AB8FED /* JubiterBladeFILImpl.h in Headers */,
 				67189FA423A2115100F8A5CD /* schnorr.h in Headers */,
-				6763930E253167A900C41883 /* TransactionContract.h in Headers */,
+				6763930E253167A900C41883 /* TransactionContract.hpp in Headers */,
 				67189FB423A2116900F8A5CD /* aesopt.h in Headers */,
 				67189F8123A2113E00F8A5CD /* aes.h in Headers */,
 				67189F8823A2113E00F8A5CD /* blake2s.h in Headers */,
@@ -2855,7 +2859,7 @@
 				67E0DEEE250F6CA500D42EF0 /* Script.h in Headers */,
 				676393352534608B00C41883 /* balance_contract.pb.h in Headers */,
 				679DA96E2577B36E00B08471 /* JubiterLiteQTUMImpl.h in Headers */,
-				676F6D152522E5CA00491BF5 /* Contract.h in Headers */,
+				676F6D152522E5CA00491BF5 /* Contract.hpp in Headers */,
 				67E0DF8E250F764400D42EF0 /* JubiterBladeTRXImpl.h in Headers */,
 				67E0DE87250F6C1F00D42EF0 /* TWP2SHPrefix.h in Headers */,
 				67E0DE95250F6C1F00D42EF0 /* TWData.h in Headers */,
@@ -3011,7 +3015,6 @@
 				679DA9CD2578D58E00B08471 /* JUB_SDK_DEV_NFC.h in Headers */,
 				67E0DF7F250F761F00D42EF0 /* JubiterBIOHCImpl.h in Headers */,
 				67E0DFDD25106B8600D42EF0 /* Transaction.h in Headers */,
-				7779654F25FA32B20022FA58 /* TaggedAddresses.h in Headers */,
 				67E0DED4250F6CA500D42EF0 /* TransactionOutputHcash.h in Headers */,
 				67189FA523A2115100F8A5CD /* script.h in Headers */,
 				67189F9323A2114200F8A5CD /* ed25519-keccak.h in Headers */,
@@ -3031,7 +3034,6 @@
 				676F028923C775A6005C8032 /* Base58.h in Headers */,
 				67189F8E23A2114200F8A5CD /* ed25519-blake2b.h in Headers */,
 				67ECD13D23CD724100B7D514 /* Bech32.h in Headers */,
-				7737926A2611AFB800E9BE02 /* JubiterLiteHCImpl.h in Headers */,
 				67189F8A23A2113E00F8A5CD /* curves.h in Headers */,
 				674B4A7D24A1B0570053AB2F /* scp11.hpp in Headers */,
 				67E0DF6A250F751500D42EF0 /* TRXContext.h in Headers */,
@@ -3567,6 +3569,7 @@
 				670B8FBA2431C9C100E8EF5C /* Memo.cpp in Sources */,
 				67E0DEDE250F6CA500D42EF0 /* TransactionHcash.cpp in Sources */,
 				67189FC023A2116D00F8A5CD /* blake256.c in Sources */,
+				771856B2261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */,
 				67755D54253DB8020056F2C0 /* pb_varint.cpp in Sources */,
 				67E0DEA6250F6C6600D42EF0 /* TWCoinType.cpp in Sources */,
 				67F59587256E666000AB8FED /* Address.cpp in Sources */,
@@ -3779,6 +3782,7 @@
 				67E0DEDD250F6CA500D42EF0 /* TransactionHcash.cpp in Sources */,
 				676621E1234C316900AFAFA2 /* Base58.cpp in Sources */,
 				67E0DEA5250F6C6600D42EF0 /* TWCoinType.cpp in Sources */,
+				771856B1261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */,
 				67755D53253DB8020056F2C0 /* pb_varint.cpp in Sources */,
 				67E0DEF5250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */,
 				67F59586256E666000AB8FED /* Address.cpp in Sources */,

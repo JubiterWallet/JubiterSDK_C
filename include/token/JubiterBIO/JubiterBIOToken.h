@@ -35,6 +35,10 @@ public:
     virtual JUB_RV EraseFingerprint(IN JUB_UINT16 fpTimeout) override;
     virtual JUB_RV DeleteFingerprint(IN JUB_UINT16 fpTimeout,
                                      JUB_BYTE fgptID) override;
+
+protected:
+    // TRC20 token extension apdu
+    const std::string MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("05010003");  // 5.1.3
 }; // class JubiterBIOToken end
 
 

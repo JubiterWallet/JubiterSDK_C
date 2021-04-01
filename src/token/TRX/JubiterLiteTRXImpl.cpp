@@ -14,6 +14,12 @@ JUB_RV JubiterLiteTRXImpl::SelectApplet() {
 }
 
 
+JUB_RV JubiterLiteTRXImpl::GetAppletVersion(stVersion& version) {
+
+    return JubiterLiteImpl::GetAppletVersion(version);
+}
+
+
 //MISC functions
 JUB_RV JubiterLiteTRXImpl::SetCoin() {
 
