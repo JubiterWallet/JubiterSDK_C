@@ -49,4 +49,4 @@ etc.
 The test case uses configuration files in JSON, as detailed in the [json directory](testJSONScript).
 
 Test case mindmap:
-![Test case mindmap](../images/DemoTestCaseMindmap.png)
+![Test case mindmap](images/DemoTestCaseMindmap.png)
