@@ -50,3 +50,8 @@ The test case uses configuration files in JSON, as detailed in the [json directo
 
 Test case mindmap:
 ![Test case mindmap](images/DemoTestCaseMindmap.png)
+
+# Demo User Manual
+| [Instructions](docs/JuBiter_iOS_Demo_instructions(01_Homepage).key) | [BLE Device management](docs/JuBiter_iOS_Demo_instructions(02_BleDevMgr).key) | [Fingerprint management for Bio device](docs/JuBiter_iOS_Demo_instructions(03_FingerprintMgr).key) | [Device operation tests](JuBiter_iOS_Demo_instructions(04_DevOptMgr).key) | [Coin-related tests](JuBiter_iOS_Demo_instructions(05_CoinOptMgr).key) |
+| ---- | ---- | ---- | ---- | ---- |
+| ![01_Homepage](images/JuBiter_iOS_Demo_instructions(01_Homepage).gif) | ![02_BleDevMgr](images/JuBiter_iOS_Demo_instructions(02_BleDevMgr).gif) | ![03_FingerprintMgr](images/JuBiter_iOS_Demo_instructions(03_FingerprintMgr).gif) | ![04_DevOptMgr](images/JuBiter_iOS_Demo_instructions(04_DevOptMgr).gif) | ![05_CoinOptMgr](images/JuBiter_iOS_Demo_instructions(05_CoinOptMgr).gif) |
