@@ -31,13 +31,14 @@ public:
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) override;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
     virtual JUB_RV SignTX(const uint64_t& nonce,
-                          const uint64_t& gprice,
-                          const uint64_t& glimit,
+                          const uint256_t& glimit,
+                          const uint256_t& gfeeCap,
+                          const uint256_t& gpremium,
                           const std::string& to,
-                          const uint64_t& value,
+                          const uint256_t& value,
                           const std::string& input,
                           const std::string& path,
-                          std::vector<JUB_BYTE>& vRaw) override;
+                          std::vector<uchar_vector>& vSignatureRaw) override;
 }; // class JubiterBladeFILImpl end
 
 

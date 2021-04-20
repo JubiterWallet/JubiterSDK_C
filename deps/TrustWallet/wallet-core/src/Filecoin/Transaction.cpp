@@ -54,9 +54,15 @@ Data Transaction::getValue() const {
 }
 
 // JuBiter-defined
-Data Transaction::getGasPrice() const {
-    Data vGasPrice = Cbor::Encode::bytes(encodeVaruint(gasPrice)).encoded();
-    return Data(vGasPrice.begin()+1, vGasPrice.end());
+Data Transaction::getGasFeeCap() const {
+    Data vGasFeeCap = Cbor::Encode::bytes(encodeVaruint(gasFeeCap)).encoded();
+    return Data(vGasFeeCap.begin()+1, vGasFeeCap.end());
+}
+
+// JuBiter-defined
+Data Transaction::getGasPremium() const {
+    Data vGasPremium = Cbor::Encode::bytes(encodeVaruint(gasPremium)).encoded();
+    return Data(vGasPremium.begin()+1, vGasPremium.end());
 }
 
 // JuBiter-defined
@@ -76,8 +82,9 @@ Cbor::Encode Transaction::message() const {
         Cbor::Encode::bytes(from.bytes),              // from address
         Cbor::Encode::uint(nonce),                    // nonce
         Cbor::Encode::bytes(encodeVaruint(value)),    // value
-        Cbor::Encode::bytes(encodeVaruint(gasPrice)), // gas price
         cborGasLimit,                                 // gas limit
+        Cbor::Encode::bytes(encodeVaruint(gasFeeCap)), // gas fee cap
+        Cbor::Encode::bytes(encodeVaruint(gasPremium)),// gas premium
         Cbor::Encode::uint(0),                        // abi.MethodNum (0 => send)
         Cbor::Encode::bytes(Data())                   // data (empty)
     });
@@ -87,6 +94,7 @@ Data Transaction::cid() const {
     Data cid;
     cid.reserve(cidPrefix.size() + 32);
     cid.insert(cid.end(), cidPrefix.begin(), cidPrefix.end());
+
     Data hash = Hash::blake2b(message().encoded(), 32);
     cid.insert(cid.end(), hash.begin(), hash.end());
     return cid;

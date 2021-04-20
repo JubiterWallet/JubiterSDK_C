@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 /*
  * Nullability qualifiers: currently only supported by Clang.
@@ -395,4 +396,19 @@ inline uint64_t decode64BE(const uint8_t* _Nonnull src) {
     // clang-format on
 }
 
+// JuBiter-defined
+/// Encodes a 64-bit big-endian value into the provided buffer.
+template<typename T>
+std::vector<uint8_t> encodeBENoZero(T value) {
+    std::vector<uint8_t> data;
+    do {
+        uint8_t v = value%256;
+        // push v
+        data.push_back(v);
+        value /= 256;
+    } while(value > 0);
+    std::reverse(data.begin(), data.end());
+
+    return data;
+}
 } // namespace TW

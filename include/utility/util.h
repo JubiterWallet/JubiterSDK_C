@@ -11,6 +11,7 @@
 #include <iostream>
 #include <cstring>
 #include "mSIGNA/stdutils/uchar_vector.h"
+#include <bigint/BigIntegerLibrary.hh>
 #include <Data.h>
 
 namespace jub {
@@ -64,7 +65,7 @@ std::string Join(std::vector<std::string> v, std::string pattern);
  */
 std::string DecStringToHexString(std::string str);
 
-std::string numberToHexString(unsigned int val);
+std::string numberToHexString(unsigned long val);
 
 /*
  * char array<uint8_t, 32> -> Hexadecimal string conversion

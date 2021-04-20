@@ -76,13 +76,14 @@ JUB_RV JubiterLiteFILImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::ve
 
 
 JUB_RV JubiterLiteFILImpl::SignTX(const uint64_t& nonce,
-                                  const uint64_t& gprice,
-                                  const uint64_t& glimit,
+                                  const uint256_t& glimit,
+                                  const uint256_t& gfeeCap,
+                                  const uint256_t& gpremium,
                                   const std::string& to,
-                                  const uint64_t& value,
+                                  const uint256_t& value,
                                   const std::string& input,
                                   const std::string& path,
-                                  std::vector<JUB_BYTE>& vSignatureRaw) {
+                                  std::vector<uchar_vector>& vSignatureRaw) {
 
     try {
         std::string from;
@@ -92,8 +93,9 @@ JUB_RV JubiterLiteFILImpl::SignTX(const uint64_t& nonce,
                                      TW::Filecoin::Address(from),
                                      nonce,
                                      value,
-                                     gprice,
-                                     glimit);
+                                     glimit,
+                                     gfeeCap,
+                                     gpremium);
 
 //        tx.setPreImage(vUnsignedRaw);
 //
@@ -119,7 +121,7 @@ JUB_RV JubiterLiteFILImpl::SignTX(const uint64_t& nonce,
         for (const auto& rsv : vRSV) {
             TW::Data sign;
             JUB_VERIFY_RV(_encodeRSV(rsv, sign));
-            vSignatureRaw = sign;
+            vSignatureRaw.push_back(sign);
         }
     }
     catch (...) {

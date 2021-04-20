@@ -8,7 +8,6 @@ namespace jub {
 namespace token {
 
 enum JUB_ENUM_APDU_DATA_ETH : uint8_t {
-          TAG_VERSION_40 = 0x40,
             TAG_NONCE_41 = 0x41,
         TAG_GAS_PRICE_42 = 0x42,
         TAG_GAS_LIMIT_43 = 0x43,
@@ -19,8 +18,11 @@ enum JUB_ENUM_APDU_DATA_ETH : uint8_t {
          TAG_CHAIN_ID_48 = 0x48,
               TAG_MSG_49 = 0x49,
        TAG_CID_PREFIX_4A = 0x4A,
-    TAG_ABI_METHODNUM_4B = 0x4B,
-             TAG_DATA_4C = 0x4C,
+          TAG_VERSION_4B = 0x4B,
+    TAG_ABI_METHODNUM_4C = 0x4C,
+             TAG_DATA_4D = 0x4D,
+      TAG_GAS_FEE_CAP_4E = 0x4E,
+      TAG_GAS_PREMIUM_4F = 0x4F,
 };
 
 class JubiterBaseETHImpl :

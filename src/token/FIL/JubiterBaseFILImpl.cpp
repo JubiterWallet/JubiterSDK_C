@@ -1,7 +1,5 @@
 #include "token/FIL/JubiterBaseFILImpl.h"
 
-//#include <bigint/BigIntegerUtils.hh>
-#include <uint256_t/uint256_t.h>
 #include <TrezorCrypto/bip32.h>
 #include <Filecoin/Address.h>
 #include <Filecoin/Transaction.h>
@@ -40,9 +38,17 @@ JUB_RV JubiterBaseFILImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data&
 JUB_RV JubiterBaseFILImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
 
     try {
+        // https://spec.filecoin.io/appendix/address/#section-appendix.address.protocol-1-libsecpk1-elliptic-curve-public-keys
+        // Protocol 1 addresses represent secp256k1 public encryption keys. The payload field contains the Blake2b 160 hash of the uncompressed public key (65 bytes).
         TW::PublicKey twpk = TW::PublicKey(publicKey, _publicKeyType);
+        if (twpk.isCompressed()) {
+            twpk = twpk.extended();
+        }
         TW::Filecoin::Address addr(twpk);
         address = addr.string();
+        if (!TW::Filecoin::Address::isValid(address)) {
+            return JUBR_ERROR;
+        }
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;

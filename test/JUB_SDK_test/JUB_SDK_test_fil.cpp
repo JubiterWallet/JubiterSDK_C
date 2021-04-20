@@ -177,7 +177,8 @@ JUB_RV transaction_proc_FIL(JUB_UINT16 contextID, Json::Value root) {
     //FIL Test
     JUB_UINT64 nonce = root["FIL"]["nonce"].asUInt();//.asDouble();
     JUB_UINT64 gasLimit = root["FIL"]["gasLimit"].asUInt();//.asDouble();
-    char* gasPriceInAtto = (char*)root["FIL"]["gasPriceInAtto"].asCString();
+    char* gasFeeCapInAtto  = (char*)root["FIL"]["gasFeeCapInAtto"].asCString();
+    char* gasPremiumInAtto = (char*)root["FIL"]["gasPremiumInAtto"].asCString();
     char* valueInAtto = (char*)root["FIL"]["valueInAtto"].asCString();
     char* to = (char*)root["FIL"]["to"].asCString();
 
@@ -186,7 +187,8 @@ JUB_RV transaction_proc_FIL(JUB_UINT16 contextID, Json::Value root) {
                                 path,
                                 nonce,
                                 gasLimit,
-                                gasPriceInAtto,
+                                gasFeeCapInAtto,
+                                gasPremiumInAtto,
                                 to,
                                 valueInAtto,
                                 "",
