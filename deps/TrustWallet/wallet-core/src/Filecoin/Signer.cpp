@@ -55,13 +55,15 @@ Data Signer::sign(const PrivateKey& privateKey, Transaction& transaction) noexce
 bool Signer::verify(const PublicKey& publicKey, const Transaction& transaction, const Data& signature) noexcept {
 
     Transaction tempTx(transaction);
-    auto toSign = Hash::blake2b(transaction.cid(), 32);
+    auto toSign = Hash::blake2b(tempTx.cid(), 32);
 
 //    if (!publicKey.verify(signature, toSign)) {
 //        return false;
 //    }
 
-    if (Address(publicKey.recover(signature, toSign)).string() != Address(publicKey.extended()).string()) {
+    Address recover = Address(publicKey.recover(signature, toSign));
+    Address verify  = Address(publicKey.extended());
+    if (recover.string() != verify.string()) {
         return false;
     }
 

@@ -27,21 +27,28 @@ class Transaction {
     // Transaction value
     uint256_t value;
     // Miner fee
-    uint256_t gasPrice;
+    // JuBiter-removed
+//    uint256_t gasPrice;
     uint256_t gasLimit;
     // Transaction type; 0 for simple transfers
+    // JuBiter-defined
+    uint256_t gasFeeCap;
+    // JuBiter-defined
+    uint256_t gasPremium;
     uint64_t method;
     // Transaction data; empty for simple transfers
     Data params;
 
-    Transaction(Address to, Address from, uint64_t nonce, uint256_t value, uint256_t gprice,
-                uint256_t glimit)
+    // JuBiter-modified
+    Transaction(Address to, Address from, uint64_t nonce, uint256_t value,
+                uint256_t glimit, uint256_t gfeeCap, uint256_t gpremium)
         : to(std::move(to))
         , from(std::move(from))
         , nonce(nonce)
         , value(std::move(value))
-        , gasPrice(std::move(gprice))
         , gasLimit(std::move(glimit))
+        , gasFeeCap(std::move(gfeeCap))
+        , gasPremium(std::move(gpremium))
         , method(0) {}
 
   public:
@@ -52,7 +59,9 @@ class Transaction {
     // JuBiter-defined
     Data getValue() const;
     // JuBiter-defined
-    Data getGasPrice() const;
+    Data getGasFeeCap() const;
+    // JuBiter-defined
+    Data getGasPremium() const;
     // JuBiter-defined
     Data getGasLimit() const;
 

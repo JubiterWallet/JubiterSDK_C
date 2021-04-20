@@ -76,12 +76,12 @@ Asset Asset::fromString(std::string assetString) {
     if (dotPosition != string::npos) {
 //        intPart = boost::lexical_cast<int64_t>(amountString.data(), dotPosition);
 //        fractPart = boost::lexical_cast<int64_t>(amountString.data() + dotPosition + 1, decimals);
-        intPart = stringToBigInteger(amountString.substr(0, dotPosition)).toUnsignedLong();
-        fractPart = stringToBigInteger(amountString.substr(dotPosition+1, decimals)).toUnsignedLong();
+        intPart = std::strtoull(std::string(amountString.substr(0, dotPosition)).c_str(), nullptr, 10);
+        fractPart = std::strtoull(std::string(amountString.substr(dotPosition+1, decimals)).c_str(), nullptr, 10);
         if (amountString[0] == '-') fractPart *= -1;
     } else {
 //        intPart = boost::lexical_cast<int64_t>(amountString);
-        intPart = stringToBigInteger(amountString).toUnsignedLong();
+        intPart = std::strtoull(amountString.c_str(), nullptr, 10);
     }
 
     int64_t amount = intPart;

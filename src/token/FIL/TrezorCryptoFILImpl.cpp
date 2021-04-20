@@ -65,13 +65,14 @@ JUB_RV TrezorCryptoFILImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 
 
 JUB_RV TrezorCryptoFILImpl::SignTX(const uint64_t& nonce,
-                                   const uint64_t& gprice,
-                                   const uint64_t& glimit,
+                                   const uint256_t& glimit,
+                                   const uint256_t& gfeeCap,
+                                   const uint256_t& gpremium,
                                    const std::string& to,
-                                   const uint64_t& value,
+                                   const uint256_t& value,
                                    const std::string& input,
                                    const std::string& path,
-                                   std::vector<JUB_BYTE>& vSignatureRaw) {
+                                   std::vector<uchar_vector>& vSignatureRaw) {
 
     try {
         std::string from;
@@ -81,8 +82,9 @@ JUB_RV TrezorCryptoFILImpl::SignTX(const uint64_t& nonce,
                                      TW::Filecoin::Address(from),
                                      nonce,
                                      value,
-                                     gprice,
-                                     glimit);
+                                     glimit,
+                                     gfeeCap,
+                                     gpremium);
 
 //        tx.setPreImage(vUnsignedRaw);
 //
@@ -93,7 +95,7 @@ JUB_RV TrezorCryptoFILImpl::SignTX(const uint64_t& nonce,
         uchar_vector privk(hdkey.private_key, hdkey.private_key + 32);
         TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
 
-        vSignatureRaw = TW::Filecoin::Signer::sign(twprivk, tx);
+        vSignatureRaw.push_back(uchar_vector(TW::Filecoin::Signer::sign(twprivk, tx)));
     }
     catch (...) {
         return JUBR_ERROR_ARGS;
