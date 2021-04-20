@@ -17,6 +17,7 @@ JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some majo
 | 0171 | Hcash | HC | https://h.cash/ |
 | 0194 | EOS | EOS | http://eos.io |
 | 0195 | Tron | TRX | https://tron.network |
+| 0461 | Filecoin | FIL | https://filecoin.io |
 | 2301 | Qtum | QTUM | https://qtum.org |
 | ---- | USDT | USDT | https://tether.to |
 
@@ -54,6 +55,7 @@ There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used 
 | **trezor-crypto** | https://github.com/trezor/trezor-crypto.git| Source level integration, based on 'master'. The code added by JuBiter is identified as "JuBiter-defined". |
 | **JSON for Modern C++** | https://github.com/nlohmann/json.git | Source level integeration, based on v3.9.1. |
 | **C++ Big Integer Library** | https://mattmccutchen.net/bigint | Source level integeration, based on 'bigint-2010.04.30.tar.bz2. |
+| **uint256_t** | https://github.com/calccrypto/uint256_t.git | An unsigned 256 bit integer type for C++. |
 |  |  |  |
 | **Bluetooth communication library** for JuBiter Blade & Bio | --- | JuBiter developed. |
 | **NFC communication library** for JuBiter Lite | --- | JuBiter developed. |

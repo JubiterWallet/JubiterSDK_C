@@ -789,6 +789,10 @@ const curve_info *get_curve_by_name(const char *curve_name) {
     if (strcmp(curve_name, SECP256K1_TRX_NAME) == 0) {
         return &secp256k1_trx_info;
     }
+    // JuBiter-defined
+    if (strcmp(curve_name, SECP256K1_FIL_NAME) == 0) {
+        return &secp256k1_fil_info;
+    }
 	if (strcmp(curve_name, SECP256K1_DECRED_NAME) == 0) {
 		return &secp256k1_decred_info;
 	}

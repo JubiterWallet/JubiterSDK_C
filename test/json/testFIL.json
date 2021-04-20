@@ -1,0 +1,16 @@
+{
+    "main_path" : "m/44'/461'/0'",
+    "FIL" : {
+        "nonce" : 3,
+        "gasLimit" : 611585,
+        "gasFeeCapInAtto" : "31492978632",
+        "gasPremiumInAtto" : "151239",
+        "to" : "f1susdjal2rogayvfr6m7wypfhawcmuc3ny7v7osi",
+        "valueInAtto" :     "95097571699318084341",
+        "data" : "",
+        "bip32_path" : {
+          "change" : false,
+          "addressIndex" : 0
+        }
+    }
+}

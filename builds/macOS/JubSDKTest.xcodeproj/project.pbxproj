@@ -30,6 +30,8 @@
 		67F808C2235966D900DE9ECE /* JUB_SDK_software_test_eth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BC235966D800DE9ECE /* JUB_SDK_software_test_eth.cpp */; };
 		67F808C3235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808BE235966D900DE9ECE /* JUB_SDK_software_test_eos.cpp */; };
 		67F808C4235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F808C0235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp */; };
+		77974439263004A000ECFF34 /* JUB_SDK_software_test_fil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77974437263004A000ECFF34 /* JUB_SDK_software_test_fil.cpp */; };
+		7797443D2630051C00ECFF34 /* JUB_SDK_test_fil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7797443C2630051C00ECFF34 /* JUB_SDK_test_fil.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -139,6 +141,10 @@
 		67F808BF235966D900DE9ECE /* JUB_SDK_software_test_btc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_btc.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_btc.hpp; sourceTree = "<group>"; };
 		67F808C0235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_btc.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_btc.cpp; sourceTree = "<group>"; };
 		67F808C1235966D900DE9ECE /* JUB_SDK_software_test_eos.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_eos.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_eos.hpp; sourceTree = "<group>"; };
+		77974437263004A000ECFF34 /* JUB_SDK_software_test_fil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_software_test_fil.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_fil.cpp; sourceTree = "<group>"; };
+		77974438263004A000ECFF34 /* JUB_SDK_software_test_fil.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_software_test_fil.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_software_test_fil.hpp; sourceTree = "<group>"; };
+		7797443B2630051C00ECFF34 /* JUB_SDK_test_fil.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_fil.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_fil.hpp; sourceTree = "<group>"; };
+		7797443C2630051C00ECFF34 /* JUB_SDK_test_fil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_fil.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_fil.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +288,8 @@
 				6791CE0A23968EB7000B6B16 /* JUB_SDK_test_xrp.hpp */,
 				67E0DFB4250F78DA00D42EF0 /* JUB_SDK_test_trx.cpp */,
 				67E0DFB6250F78DA00D42EF0 /* JUB_SDK_test_trx.hpp */,
+				7797443C2630051C00ECFF34 /* JUB_SDK_test_fil.cpp */,
+				7797443B2630051C00ECFF34 /* JUB_SDK_test_fil.hpp */,
 				67F808C0235966D900DE9ECE /* JUB_SDK_software_test_btc.cpp */,
 				67F808BF235966D900DE9ECE /* JUB_SDK_software_test_btc.hpp */,
 				6715459723D46A6000810F16 /* JUB_SDK_software_test_hcash.cpp */,
@@ -294,6 +302,8 @@
 				675C7974238BEBFF0015C95D /* JUB_SDK_software_test_xrp.hpp */,
 				67E0DFB7250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp */,
 				67E0DFB5250F78DA00D42EF0 /* JUB_SDK_software_test_trx.hpp */,
+				77974437263004A000ECFF34 /* JUB_SDK_software_test_fil.cpp */,
+				77974438263004A000ECFF34 /* JUB_SDK_software_test_fil.hpp */,
 			);
 			name = JubSDKTest;
 			sourceTree = "<group>";
@@ -434,9 +444,11 @@
 			files = (
 				67A4BE7D2330C4B80059A3DB /* json_writer.cpp in Sources */,
 				671CDC2824971594004C0772 /* JUB_SDK_test_scp11.cpp in Sources */,
+				7797443D2630051C00ECFF34 /* JUB_SDK_test_fil.cpp in Sources */,
 				67A4BE7C2330C4B80059A3DB /* json_reader.cpp in Sources */,
 				67E0DFB9250F78DB00D42EF0 /* JUB_SDK_software_test_trx.cpp in Sources */,
 				67A4BE7E2330C4B80059A3DB /* json_value.cpp in Sources */,
+				77974439263004A000ECFF34 /* JUB_SDK_software_test_fil.cpp in Sources */,
 				67A4BE8B2330CCDF0059A3DB /* JUB_SDK_test_eth.cpp in Sources */,
 				67A4BE882330C99C0059A3DB /* JUB_SDK_test_btc.cpp in Sources */,
 				6715458D23D434BD00810F16 /* JUB_SDK_test_qtum.cpp in Sources */,
@@ -465,7 +477,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -525,7 +537,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;

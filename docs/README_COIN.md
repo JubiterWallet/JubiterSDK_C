@@ -1,16 +1,33 @@
 # Coin related module
-In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h).
+Coins implementation architecture:
+| Token Factory | Coin Type | jubiterBladeToken | jubiterBioToken | jubiterLiteToken | cryptoToken |
+| --- | --- | --- | --- | --- | --- |
+| BTC Token Factory | BTC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | LTC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | DASH | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | BCH | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | QTUM | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | USDT | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| ETH Token Factory | ETH | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| ETH Token Factory | ETC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| ETH Token Factory | FIL | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| MISC Token Factory | EOS | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| MISC Token Factory | XRP | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| MISC Token Factory | TRX | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| MISC Token Factory | HC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+
+In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_Hcash.h](../include/JUB_SDK_Hcash.h), [JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h), [JUB_SDK_FIL.h](../include/JUB_SDK_FIL.h).
 
 Function list:
-* [JUB_CreateContext](#JUB_CreateContextXXX)BTC/ETH/EOS/XRP/TRX
-* [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/ETH/EOS/XRP/TRX
-* [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/ETH/EOS/XRP/TRX
-* [JUB_GetAddress](#JUB_GetAddressXXX)BTC/ETH/EOS/XRP/TRX
-* [JUB_SetMyAddress](#JUB_SetMyAddressXXX)BTC/ETH/EOS/XRP/TRX
+* [JUB_CreateContext](#JUB_CreateContextXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_GetAddress](#JUB_GetAddressXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_SetMyAddress](#JUB_SetMyAddressXXX)BTC/ETH
 * **BTC series related module**
     * [JUB_CheckAddressBTC](#JUB_CheckAddressBTC)
     * [JUB_SetUnitBTC](#JUB_SetUnitBTC)
-    * [JUB_SignTransactionBTC](#JUB_SignTransactionBTC)
+    * [JUB_SignTransaction](#JUB_SignTransactionXXX)BTC/HC
     * [JUB_BuildUSDTOutputs](#JUB_BuildUSDTOutputs)
     * [JUB_BuildQRC20Outputs](#JUB_BuildQRC20Outputs)
 * **ETH series related module**
@@ -34,11 +51,13 @@ Function list:
     * [JUB_SetTRC721Token](#JUB_SetTRC721Token)
     * [JUB_BuildTRC721TransferAbi](#JUB_BuildTRC721TransferAbi)
     * [JUB_SignTransactionTRX](#JUB_SignTransactionTRX)
+* **FIL related module**
+    * [JUB_SignTransactionFIL](#JUB_SignTransactionFIL)
 
 ### JUB_CreateContextXXX
 * **Function:** Create context for the specified coin.
 * **IN param:**
-    cfg - CONTEXT_CONFIG_BTC/ETH/EOS/XRP
+    cfg - CONTEXT_CONFIG_BTC/HC/ETH/EOS/XRP/TRX/FIL
     deviceID - device ID from JUB_conneceDevice/JUB_connectNFCDevice.
 * **OUT param:**
 contextID - context ID for the specified coin.
@@ -146,16 +165,16 @@ JUB_RV JUB_SetUnitBTC(
 );
 ```
 
-### JUB_SignTransactionBTC
-* **Function:** Sign transaction for BTC.
+### JUB_SignTransactionXXX
+* **Function:** Sign transaction for BTC/HC.
 * **IN param:**
-contextID - context ID from JUB_CreateContextBTC.
-version - the version of BTC tx.
-inputs - the input array of BTC tx.
+contextID - context ID from JUB_CreateContextBTC/HC.
+version - the version of BTC/HC tx.
+inputs - the input array of BTC/HC tx.
 iCount - the count of the input array.
-outputs - the output array of BTC tx.
+outputs - the output array of BTC/HC tx.
 oCount - the count of the output array.
-lockTime - the lock time for BTC tx.
+lockTime - the lock time for BTC/HC tx.
 * **OUT param:**
 raw - signed BTC tx in binary byte stream
 * **Return:** JUB_OK or !JUB_OK for error.
@@ -433,7 +452,7 @@ JUB_RV JUB_SignTransactionXRP(
 ```
 
 ## TRX related module
-### JUB_CheckAddress TRX
+### JUB_CheckAddressTRX
 * **Function:** Check address if it is valid for the specified coin.
 * **IN param:**
 contextID - context ID from JUB_CreateContextTRX.
@@ -550,5 +569,34 @@ JUB_RV JUB_PackContractTRX(
     IN JUB_UINT16 contextID,
     IN JUB_TX_TRX tx,
     OUT JUB_CHAR_PTR_PTR packedContractInPB
+);
+```
+
+## FIL related module
+### JUB_SignTransactionFIL
+* **Function:** Sign FIL transaction.
+* **IN param:**
+contextID - context ID from JUB_CreateContextFIL.
+path - path in BIP44.
+nonce - nonce.
+gasLimit - gas limit.
+gasPriceInAtto - gas price in attoFIL.
+to - to address.
+valueInAtto - amount in attoFIL of FIL tx.
+input - empyt string for FIL tx or...
+* **OUT param:**
+raw - signed FIL/FIL token tx.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_SignTransactionFIL(
+    IN JUB_UINT16 contextID,
+    IN BIP44_Path path,
+    IN JUB_UINT64 nonce,
+    IN JUB_UINT64 gasLimit,
+    IN JUB_CHAR_CPTR gasPriceInAtto,
+    IN JUB_CHAR_CPTR to,
+    IN JUB_CHAR_CPTR valueInAtto,
+    IN JUB_CHAR_CPTR input,
+    OUT JUB_CHAR_PTR_PTR raw
 );
 ```

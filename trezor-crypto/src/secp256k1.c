@@ -112,6 +112,16 @@ const curve_info secp256k1_trx_info = {
     .hasher_script = HASHER_SHA2,
 };
 
+// JuBiter-defined
+const curve_info secp256k1_fil_info = {
+    .bip32_name = "Bitcoin seed",
+    .params = &secp256k1,
+    .hasher_base58 = HASHER_SHA2D,
+    .hasher_sign = HASHER_BLAKE,
+    .hasher_pubkey = HASHER_BLAKE_RIPEMD,
+    .hasher_script = HASHER_BLAKE,
+};
+
 const curve_info secp256k1_decred_info = {
 	.bip32_name = "Bitcoin seed",
 	.params = &secp256k1,
