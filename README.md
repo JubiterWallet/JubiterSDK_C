@@ -39,13 +39,14 @@ Accordingly, JuBiter SDK is divided into the following modules, common module, d
 There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used to operate and connect hardware devices, and the last one is used for device-related and coin-related operations in a coin context. So, deviceID is obtained through the device operation related interface, and contextID is obtained through the coin-related interface.
 
 ### API include:
+* Virtual Device in software implementation mode related module (see [here](docs/README_DEV_SWI.md))
 * Device in HID mode related module (see [here](docs/README_DEV_HID.md))
 * Device in BLE mode related module (see [here](docs/README_DEV_BLE.md))
 * Device in NFC mode related module (see [here](docs/README_DEV_NFC.md))
-* Virtual Device(simulator for applet) in PCSC mode related module (see [here](docs/README_DEV_SIM.md))
+* Virtual Device(simulator for applet) in socket mode related module (see [here](docs/README_DEV_SIM.md))
 * Device operation related module (see [here](docs/README_DEV.md))
 * Coin related module (see [here](docs/README_COIN.md))
-* Software wallet module (see [here](docs/README_SW.md))
+* Core module (see [here](docs/README_CORE.md))
 * JuBiter SDK for Production tools (see [here](docs/README_Prod.md))
 
 # Dependency

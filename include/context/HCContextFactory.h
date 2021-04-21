@@ -20,12 +20,7 @@ protected xFactory<HCContext*,
                     CreateHCContextFn> {
 public:
     xHCContextFactory() {
-        Register(_type, &HCContext::Create);
-    }
-
-    HCContext* CreateContext(const CONTEXT_CONFIG_HC& cfg, std::string XPRVorXPUB) {
-        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(_type, XPRVorXPUB);
-        return Create(_type, cfg, token);
+        Register(_type, &BaseContext::Create<HCContext, CONTEXT_CONFIG_HC>);
     }
 
     HCContext* CreateContext(const CONTEXT_CONFIG_HC& cfg, JUB_UINT16 deviceID) {

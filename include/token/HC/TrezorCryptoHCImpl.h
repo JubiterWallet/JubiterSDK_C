@@ -12,18 +12,16 @@ namespace token {
 class TrezorCryptoHCImpl :
         public TrezorCryptoBTCImpl,
 virtual public JubiterBaseHCImpl {
-
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
-        return std::make_shared<TrezorCryptoHCImpl>(XPRVorXPUB);
-    }
-
-    TrezorCryptoHCImpl(const std::string& xprv) :
-        TrezorCryptoBTCImpl(xprv) {
+    TrezorCryptoHCImpl(JUB_UINT16 deviceID) :
+        TrezorCryptoBTCImpl(deviceID) {
             _hashType = TWHcashSigHashAll;
     }
     ~TrezorCryptoHCImpl() {}
+
+    virtual JUB_RV MnemonicToSeed(const std::string& passphrase, const std::string& mnemonic,
+                                  uchar_vector& vSeed,
+                                  void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total)) override;
 
     virtual JUB_RV SignTX(const JUB_BYTE addrFmt,
                           const JUB_ENUM_BTC_TRANS_TYPE& type,

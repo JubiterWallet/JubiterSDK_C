@@ -1,5 +1,26 @@
 {
+    "strength" : 12,
     "mnemonic" : "gauge hole clog property soccer idea cycle stadium utility slice hold chief",
+    "coin" : 0,
+    "0" : {
+        "curves" : "secp256k1",
+        "xprv" : "xprv9s21ZrQH143K4LNQG7nQGrfhK1amLfdiy1FHjA4qz8G3fKML4MDKh1r29wSAFtfGXqdULHnafe1faon91AGqAVaPgBYTPEh3ybqyzRQmqco",
+        "xpub" : "xpub661MyMwAqRbcGpSsN9KQdzcRs3RFk8MaLEAtXYUTYTo2Y7gUbtXaEpAW1ESkDGBZDwygS2CwErkXj7AByaMsjxVmk7AAEUKYG9sQy3R9tt2"
+    },
+    "2" : {
+        "curves" : "secp256k1",
+        "xprv" : "Ltpv71G8qDifUiNeuK1yi1q2RGtSWH3dRfK4NzGqgeTGymr8g88Cvyyt3rYg7hyB8cJTSxCkQoS6piiKaJuDQHFoobwjdkVdhBk5mzTt3uFve5s",
+        "xpub" : ""
+    },
+    "145" : {
+        "curves" : "secp256k1",
+        "xprv" : "tprv8ZgxMBicQKsPf9bvvgduSWHgd8zyaBfjJZAQbaVJU6kXSv6R3iZ5CmDU57bpGG3auHAFLPQLpzbU3fKt8NcmyYqzCpkm3bR6thbQS5YdqLY",
+        "xpub" : ""
+    },
+    "171" : {
+        "xprv" : "xprv9s21ZrQH143K3cx78Mxtauh9g6Y6WA5RY7VwRAyXg7gkpJwM3rBwMnkXY5CVAnxhVW1cFPca1tErUh29kwQ9LtfqUg5GxQu1KcGUVQbDqnH",
+        "xpub" : "xpub661MyMwAqRbcG72aEPVtx3dtE8NaucoGuLRYDZP9ETDjh7GVbPWBub51PETXxwQ2KM9mL3mg6uZBrkNKZKXkojJYG84NSktPmUEqn5V67Vh"
+    },
     "bip32_path" : {
         "change" : 0,
         "addressIndex" : 0

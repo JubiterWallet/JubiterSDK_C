@@ -12,12 +12,6 @@ class JubiterBIOHCImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeHCImpl {
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterBIOHCImpl>(deviceID);
-    }
-
-public:
     JubiterBIOHCImpl(JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeHCImpl(deviceID) {}

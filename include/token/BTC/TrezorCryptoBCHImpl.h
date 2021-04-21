@@ -13,14 +13,8 @@ class TrezorCryptoBCHImpl :
         public TrezorCryptoBTCImpl,
 virtual public  JubiterBaseBCHImpl {
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
-        return std::make_shared<TrezorCryptoBCHImpl>(XPRVorXPUB);
-    }
-
-public:
-    TrezorCryptoBCHImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoBTCImpl(XPRVorXPUB) {
+    TrezorCryptoBCHImpl(JUB_UINT16 deviceID) :
+        TrezorCryptoBTCImpl(deviceID) {
             _hashType = TWBitcoinSigHashTypeForkBCH;
     }
     ~TrezorCryptoBCHImpl() {}

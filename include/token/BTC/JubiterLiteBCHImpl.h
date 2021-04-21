@@ -15,12 +15,6 @@ class JubiterLiteBCHImpl :
         public JubiterLiteBTCImpl,
 virtual public JubiterBaseBCHImpl {
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterLiteBCHImpl>(deviceID);
-    }
-
-public:
     JubiterLiteBCHImpl(JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {
             _hashType = TWBitcoinSigHashTypeForkBCH;

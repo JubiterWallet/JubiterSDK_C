@@ -17,13 +17,7 @@ constexpr JUB_BYTE kPKIAID_EOS[16] = {
 class JubiterBladeEOSImpl :
         public JubiterBladeToken,
 virtual public JubiterBaseEOSImpl {
-
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterBladeEOSImpl>(deviceID);
-    }
-
     JubiterBladeEOSImpl(JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     ~JubiterBladeEOSImpl() {}

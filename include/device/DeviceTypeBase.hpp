@@ -3,6 +3,7 @@
 
 #include "JUB_SDK.h"
 #include <string>
+#include <memory>
 
 #include "utility/Singleton.h"
 #include "utility/xManager.hpp"
@@ -16,6 +17,12 @@ namespace device {
 
 
 class DeviceTypeBase {
+public:
+    //for Factory
+    template<typename T, typename U>
+    static std::shared_ptr<T> Create(const std::string& name) {
+        return std::make_shared<U>(name);
+    }
 
 public:
     DeviceTypeBase() {

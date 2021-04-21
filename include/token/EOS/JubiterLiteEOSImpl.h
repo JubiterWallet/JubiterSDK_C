@@ -10,13 +10,7 @@ namespace token {
 class JubiterLiteEOSImpl :
         public JubiterLiteImpl,
 virtual public JubiterBaseEOSImpl {
-
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterLiteEOSImpl>(deviceID);
-    }
-
     JubiterLiteEOSImpl(JUB_UINT16 deviceID) :
         JubiterLiteImpl(deviceID) {}
     ~JubiterLiteEOSImpl() {}

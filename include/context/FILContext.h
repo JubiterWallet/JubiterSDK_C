@@ -29,12 +29,6 @@ namespace context {
 class FILContext :
     public BaseContext {
 public:
-    //for Factory
-    static FILContext* Create(const CONTEXT_CONFIG_FIL& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new FILContext(cfg, tokenPtr);
-    }
-
     FILContext(CONTEXT_CONFIG_FIL cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;

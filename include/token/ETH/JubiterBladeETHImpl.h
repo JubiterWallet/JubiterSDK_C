@@ -15,13 +15,7 @@ constexpr JUB_BYTE kPKIAID_ETH[16] = {
 class JubiterBladeETHImpl :
         public JubiterBladeToken,
 virtual public JubiterBaseETHImpl {
-
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterBladeETHImpl>(deviceID);
-    }
-
     JubiterBladeETHImpl(JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     ~JubiterBladeETHImpl() {}

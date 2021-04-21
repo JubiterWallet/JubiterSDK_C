@@ -22,7 +22,6 @@ namespace token {
 
 class XRPTokenInterface :
 virtual public BaseToken {
-
 public:
     virtual JUB_RV SelectApplet() = 0;
     virtual JUB_RV SetCoin() = 0;

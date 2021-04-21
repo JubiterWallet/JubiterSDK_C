@@ -28,6 +28,14 @@ class JubiterBridgeDevice
     : public DeviceTypeBase {
 private:
     class Impl;
+
+public:
+    //for Factory
+    template<typename T>
+    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& ip, const std::string& name) {
+        return std::make_shared<T>(ip, name);
+    }
+
 public:
     JubiterBridgeDevice(const std::string& ip, const std::string& name);
     virtual ~JubiterBridgeDevice();
@@ -53,11 +61,6 @@ private:
 class JubiterBridgeBLDDevice :
 public JubiterBridgeDevice {
 public:
-    //for Factory
-    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& ip, const std::string& name) {
-        return std::make_shared<JubiterBridgeBLDDevice>(ip, name);
-    }
-
     static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
@@ -93,11 +96,6 @@ public:
 class JubiterBridgeBIODevice :
 public JubiterBridgeDevice {
 public:
-    //for Factory
-    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& ip, const std::string& name) {
-        return std::make_shared<JubiterBridgeBIODevice>(ip, name);
-    }
-
     static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
@@ -133,12 +131,6 @@ public:
 class JubiterBridgeLITEDevice :
 public JubiterBridgeDevice {
 public:
-    //for Factory
-    //, const LITE_DEVICE_INIT_PARAM& parm
-    static std::shared_ptr<JubiterBridgeDevice> Create(const std::string& ip, const std::string& name) {
-        return std::make_shared<JubiterBridgeLITEDevice>(ip, name);
-    }
-
     static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {

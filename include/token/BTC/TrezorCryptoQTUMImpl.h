@@ -13,14 +13,8 @@ class TrezorCryptoQTUMImpl :
         public TrezorCryptoBTCImpl,
 virtual public QTUMTokenInterface {
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
-        return std::make_shared<TrezorCryptoQTUMImpl>(XPRVorXPUB);
-    }
-
-public:
-    TrezorCryptoQTUMImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoBTCImpl(XPRVorXPUB) {
+    TrezorCryptoQTUMImpl(JUB_UINT16 deviceID) :
+        TrezorCryptoBTCImpl(deviceID) {
             _coin = TWCoinType::TWCoinTypeQtum;
     }
     ~TrezorCryptoQTUMImpl() {}

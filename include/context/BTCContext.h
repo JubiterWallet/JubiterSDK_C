@@ -23,13 +23,6 @@ namespace context {
 class BTCContext :
     public BaseContext {
 public:
-    //for Factory
-    static BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new BTCContext(cfg, tokenPtr);
-    }
-
-public:
     BTCContext(const CONTEXT_CONFIG_BTC& cfg, std::shared_ptr<token::BaseToken> tokenPtr):
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;
@@ -62,13 +55,6 @@ protected:
 class BCHContext :
     public BTCContext {
 public:
-    //for Factory
-    static BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new BCHContext(cfg, tokenPtr);
-    }
-
-public:
     BCHContext(const CONTEXT_CONFIG_BTC& cfg,
                std::shared_ptr<token::BaseToken> tokenPtr):
         BTCContext(cfg, tokenPtr) {}
@@ -78,13 +64,6 @@ public:
 
 class LTCContext :
     public BTCContext {
-public:
-    //for Factory
-    static BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new LTCContext(cfg, tokenPtr);
-    }
-
 public:
     LTCContext(const CONTEXT_CONFIG_BTC& cfg,
                std::shared_ptr<token::BaseToken> tokenPtr):
@@ -96,13 +75,6 @@ public:
 class USDTContext :
     public BTCContext {
 public:
-    //for Factory
-    static BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new USDTContext(cfg, tokenPtr);
-    }
-
-public:
     USDTContext(const CONTEXT_CONFIG_BTC& cfg,
                 std::shared_ptr<token::BaseToken> tokenPtr):
         BTCContext(cfg, tokenPtr) {}
@@ -112,13 +84,6 @@ public:
 
 class QTUMContext :
     public BTCContext {
-public:
-    //for Factory
-    static BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new QTUMContext(cfg, tokenPtr);
-    }
-
 public:
     QTUMContext(const CONTEXT_CONFIG_BTC& cfg,
                 std::shared_ptr<token::BaseToken> tokenPtr):
@@ -132,13 +97,6 @@ public:
 
 class DASHContext :
     public BTCContext {
-public:
-    //for Factory
-    static BTCContext* Create(const CONTEXT_CONFIG_BTC& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new DASHContext(cfg, tokenPtr);
-    }
-
 public:
     DASHContext(const CONTEXT_CONFIG_BTC& cfg,
                 std::shared_ptr<token::BaseToken> tokenPtr):

@@ -39,12 +39,6 @@ const std::string chainIds[] = {
 class EOSContext :
     public BaseContext {
 public:
-    //for Factory
-    static EOSContext* Create(const CONTEXT_CONFIG_EOS& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new EOSContext(cfg, tokenPtr);
-    }
-
     EOSContext(CONTEXT_CONFIG_EOS cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;

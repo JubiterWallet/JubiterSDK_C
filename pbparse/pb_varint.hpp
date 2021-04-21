@@ -10,6 +10,7 @@
 #define pb_varint_hpp
 
 #include <stdio.h>
+#include <stdint.h>
 #include <vector>
 
 #include "pb_buf.hpp"

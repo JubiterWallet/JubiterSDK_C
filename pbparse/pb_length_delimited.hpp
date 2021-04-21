@@ -10,6 +10,7 @@
 #define pb_length_delimited_hpp
 
 #include <stdio.h>
+#include <stdint.h>
 #include <vector>
 
 #include "pb_buf.hpp"

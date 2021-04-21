@@ -17,11 +17,33 @@ void XRP_test(JUB_UINT16 deviceID, const char* json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
-    char* appList;
-    rv = JUB_EnumApplets(deviceID, &appList);
-    cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+    JUB_ENUM_COMMODE commode;
+    JUB_ENUM_DEVICE deviceClass;
+    rv = JUB_GetDeviceType(deviceID,
+                           &commode, &deviceClass);
+    cout << "[-] JUB_GetDeviceType() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
+    }
+
+    switch (commode) {
+    case JUB_ENUM_COMMODE::HID:
+    case JUB_ENUM_COMMODE::BLE:
+    case JUB_ENUM_COMMODE::NFC:
+    case JUB_ENUM_COMMODE::SIM:
+    {
+        char* appList;
+        rv = JUB_EnumApplets(deviceID, &appList);
+        cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+
+        break;
+    }
+    case JUB_ENUM_COMMODE::SWI:
+    default:
+        break;
     }
 
     Json::Value root = readJSON(json_file);
