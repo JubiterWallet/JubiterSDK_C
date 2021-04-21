@@ -135,7 +135,7 @@ JUB_RV JubiterHidDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSend
             vBufferSend.push_back(0x83);
 
             // first packet
-            vBufferSend.push_back((JUB_BYTE)(ulSendLen & 0xff00));
+            vBufferSend.push_back((JUB_BYTE)((ulSendLen & 0xff00)>>8));
             vBufferSend.push_back((JUB_BYTE)(ulSendLen & 0x00ff));
 
             if (kFirstPackMaxLen > ulSendLen) {
