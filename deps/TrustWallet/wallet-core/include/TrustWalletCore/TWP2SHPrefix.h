@@ -15,6 +15,7 @@ TW_EXTERN_C_BEGIN
 TW_EXPORT_ENUM(uint8_t)
 enum TWP2SHPrefix {
     TWP2SHPrefixBitcoin = 0x05,
+    TWP2SHPrefixBitcoinTestNet = 0xc4,
     TWP2SHPrefixBitcoinCash = 0x08,
     TWP2SHPrefixDash = 0x10,
     TWP2SHPrefixDecred = 0x1a,

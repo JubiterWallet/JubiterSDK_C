@@ -145,8 +145,10 @@ void software_test_btc(const char* json_sw_file) {
         cout << "|********** Jubiter Wallet Test **********|" << endl;
         cout << "|   2. LTC_test.                          |" << endl;
         cout << "|   5.DASH_test.                          |" << endl;
+        cout << "|  30. BTCTN_test.                        |" << endl;
         cout << "|  31. BTC_test.                          |" << endl;
         cout << "|  32. BTC_segwit_test.                   |" << endl;
+        cout << "|  33. BTC_segwitTN_test.                 |" << endl;
         cout << "|  39. BTC_USDT_test.                     |" << endl;
         cout << "| 145. BCH_test.                          |" << endl;
         cout << "|  88.QTUM_QRC20_test.                    |" << endl;
@@ -176,6 +178,13 @@ void software_test_btc(const char* json_sw_file) {
             json_file += "testDASH.json";
             break;
         }
+        case 30:
+        {
+            cfg.coinType = COINBTC;
+            cfg.transType = p2pkh;
+            json_file += "testBTCTN44.json";
+            break;
+        }
         case 31:
         {
             cfg.coinType = COINBTC;
@@ -188,6 +197,13 @@ void software_test_btc(const char* json_sw_file) {
             cfg.coinType = COINBTC;
             cfg.transType = p2sh_p2wpkh;
             json_file += "testBTC49.json";
+            break;
+        }
+        case 33:
+        {
+            cfg.coinType = COINBTC;
+            cfg.transType = p2sh_p2wpkh;
+            json_file += "testBTCTN49.json";
             break;
         }
         case 39:

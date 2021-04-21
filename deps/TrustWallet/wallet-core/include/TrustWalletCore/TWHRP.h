@@ -16,6 +16,7 @@ TW_EXPORT_ENUM()
 enum TWHRP {
     TWHRPUnknown     /* "" */,
     TWHRPBitcoin     /* "bc" */,
+    TWHRPBitcoinTN   /* "tb" */,
     TWHRPLitecoin    /* "ltc" */,
     TWHRPViacoin     /* "via" */,
     TWHRPBitcoinCash /* "bitcoincash" */,
@@ -29,6 +30,7 @@ enum TWHRP {
 
 static const char *_Nonnull HRP_BINANCE = "bnb";
 static const char *_Nonnull HRP_BITCOIN = "bc";
+static const char *_Nonnull HRP_BITCOINTN = "tb";
 static const char *_Nonnull HRP_BITCOINCASH = "bitcoincash";
 static const char *_Nonnull HRP_LITECOIN = "ltc";
 static const char *_Nonnull HRP_COSMOS = "cosmos";

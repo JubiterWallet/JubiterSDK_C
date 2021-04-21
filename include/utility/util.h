@@ -40,6 +40,17 @@ do {                                    \
 
 #define JUB_UNREFERENCED_PARAMETER(P) (P)
 
+// based on BIP-0032
+//https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
+//https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
+typedef struct stBip32Path {
+    char  purpose[5];
+    char  coin_type[5];
+    char  account[5];
+    bool   change;
+    unsigned int  addressIndex;
+} JUB_BIP32_PATH;
+
 template <class _Ty, size_t _Size>
 constexpr size_t array_size(const _Ty (&)[_Size]) noexcept {
     return (_Size);
@@ -106,6 +117,12 @@ std::vector<TW::Data> ParseTlv(const TW::Data &data);
 TW::Data Tollv(const std::string& strData);
 
 void decToBinary(uint8_t n, std::vector<uint8_t> &v);
+/**
+ spilt mainpth, following 5 levels in BIP32 path:
+ m / purpose' / coin_type' / account' / change / address_index
+ */
+JUB_BIP32_PATH spiltMainPath(std::string mainpath,char ch);
+
 } // namespace jub
 
 #endif

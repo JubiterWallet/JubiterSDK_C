@@ -7,6 +7,7 @@ JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some majo
 | Index | Name | Symbol | URL |
 | --- | --- | --- | --- |
 | 0000 | Bitcoin | BTC | https://bitcoin.org |
+| 0001 | Testnet(all coins) | - | https://bitcoin.org |
 | 0002 | Litecoin | LTC | https://litecoin.org |
 | 0005 | Dash | DASH | https://dash.org |
 | 0060 | Ethereum | ETH | https://ethereum.org |
