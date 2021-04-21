@@ -13,22 +13,37 @@
 #include "JUB_SDK_main.h"
 #include <time.h>
 
-void FIL_test(const char* json_file) {
+void FIL_test(JUB_UINT16 deviceID, const char* json_file) {
 
-    JUB_UINT16 deviceIDs[MAX_DEVICE] = { 0xffff, };
-    JUB_ListDeviceHid(deviceIDs);
+    JUB_RV rv = JUBR_ERROR;
 
-    JUB_RV rv = JUB_ConnetDeviceHid(deviceIDs[0]);
+    JUB_ENUM_COMMODE commode;
+    JUB_ENUM_DEVICE deviceClass;
+    rv = JUB_GetDeviceType(deviceID,
+                           &commode, &deviceClass);
+    cout << "[-] JUB_GetDeviceType() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        cout << "JUB_ConnetDeviceHid() return " << GetErrMsg(rv) << endl;
         return;
     }
 
-    char* appList;
-    rv = JUB_EnumApplets(deviceIDs[0], &appList);
-    if (JUBR_OK != rv) {
-        cout << "JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
-        return;
+    switch (commode) {
+    case JUB_ENUM_COMMODE::HID:
+    case JUB_ENUM_COMMODE::BLE:
+    case JUB_ENUM_COMMODE::NFC:
+    case JUB_ENUM_COMMODE::SIM:
+    {
+        char* appList;
+        rv = JUB_EnumApplets(deviceID, &appList);
+        cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return;
+        }
+
+        break;
+    }
+    case JUB_ENUM_COMMODE::SWI:
+    default:
+        break;
     }
 
     Json::Value root = readJSON(json_file);
@@ -36,7 +51,7 @@ void FIL_test(const char* json_file) {
 
     CONTEXT_CONFIG_XRP cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
-    rv = JUB_CreateContextFIL(cfg, deviceIDs[0], &contextID);
+    rv = JUB_CreateContextFIL(cfg, deviceID, &contextID);
     if (JUBR_OK != rv) {
         cout << "JUB_CreateContextFIL() return " << GetErrMsg(rv) << endl;
         return;

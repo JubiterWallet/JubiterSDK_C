@@ -9,6 +9,7 @@
 #if defined(SIM_MODE)
 #include "device/JubiterBridgeDevice.hpp"
 #endif // #if defined(SIM_MODE) end
+#include "device/JubiterSWIDevice.hpp"
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -36,19 +37,18 @@ namespace jub {
 namespace token {
 
 
-typedef std::shared_ptr<BaseToken>(*CreateTrezorCryptoETHFn)(const std::string&);
 typedef std::shared_ptr<BaseToken>(*CreateJubiterETHFn)(JUB_UINT16);
 
 
 class xTrezorCryptoETHFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 TWCoinType,
-                CreateTrezorCryptoETHFn> {
+                CreateJubiterETHFn> {
 public:
     xTrezorCryptoETHFactory() {
-        Register(TWCoinType::TWCoinTypeEthereum,        &TrezorCryptoETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &TrezorCryptoETHImpl::Create);
-        Register(TWCoinType::TWCoinTypeFilecoin,        &TrezorCryptoFILImpl::Create);
+        Register(TWCoinType::TWCoinTypeEthereum,        &TrezorCryptoToken::Create<TrezorCryptoETHImpl>);
+//        Register(TWCoinType::TWCoinTypeEthereumClassic, &TrezorCryptoToken::Create<TrezorCryptoETHImpl>);
+        Register(TWCoinType::TWCoinTypeFilecoin,        &TrezorCryptoToken::Create<TrezorCryptoFILImpl>);
     }
 }; // class xTrezorCryptoETHFactory end
 
@@ -59,9 +59,9 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterETHFn> {
 public:
     xJuBiterBladeETHFactory() {
-        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterBladeETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterBladeETHImpl::Create);
-        Register(TWCoinType::TWCoinTypeFilecoin,        &JubiterBladeFILImpl::Create);
+        Register(TWCoinType::TWCoinTypeEthereum,        &HardwareTokenInterface::Create<JubiterBladeETHImpl>);
+//        Register(TWCoinType::TWCoinTypeEthereumClassic, &HardwareTokenInterface::Create<JubiterBladeETHImpl>);
+        Register(TWCoinType::TWCoinTypeFilecoin,        &HardwareTokenInterface::Create<JubiterBladeFILImpl>);
     }
 }; // class xJuBiterBladeETHFactory end
 
@@ -72,9 +72,9 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterETHFn> {
 public:
     xJuBiterBIOETHFactory() {
-        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterBIOETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterBIOETHImpl::Create);
-        Register(TWCoinType::TWCoinTypeFilecoin,        &JubiterBIOFILImpl::Create);
+        Register(TWCoinType::TWCoinTypeEthereum,        &HardwareTokenInterface::Create<JubiterBIOETHImpl>);
+//        Register(TWCoinType::TWCoinTypeEthereumClassic, &HardwareTokenInterface::Create<JubiterBIOETHImpl>);
+        Register(TWCoinType::TWCoinTypeFilecoin,        &HardwareTokenInterface::Create<JubiterBIOFILImpl>);
     }
 }; // class xJuBiterBIOETHFactory end
 
@@ -86,9 +86,9 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterETHFn> {
 public:
     xJuBiterLiteETHFactory() {
-        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterLiteETHImpl::Create);
-//        Register(TWCoinType::TWCoinTypeEthereumClassic, &JubiterLiteETHImpl::Create);
-        Register(TWCoinType::TWCoinTypeFilecoin,        &JubiterLiteFILImpl::Create);
+        Register(TWCoinType::TWCoinTypeEthereum,        &HardwareTokenInterface::Create<JubiterLiteETHImpl>);
+//        Register(TWCoinType::TWCoinTypeEthereumClassic, &HardwareTokenInterface::Create<JubiterLiteETHImpl>);
+        Register(TWCoinType::TWCoinTypeFilecoin,        &HardwareTokenInterface::Create<JubiterLiteFILImpl>);
     }
 }; // class xJuBiterLiteETHFactory end
 //#endif // #if defined(NFC_MODE) end
@@ -102,10 +102,6 @@ protected:
     xJuBiterLiteETHFactory  jubiterLiteFactory;
 
 public:
-    std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const std::string& XPRVorXPUB) {
-        return trezorFactory.Create(type, XPRVorXPUB);
-    }
-
     std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const JUB_UINT16 deviceID) {
 #if defined(SIM_MODE)
         if (dynamic_cast<jub::device::JubiterBridgeBLDDevice*>(
@@ -124,6 +120,13 @@ public:
             return jubiterLiteFactory.Create(type, deviceID);
         }
 #endif  // #if defined(SIM_MODE) end
+#if defined(SWI_MODE)
+        if (dynamic_cast<jub::device::JubiterSWIImplDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return trezorFactory.Create(type, deviceID);
+        }
+#endif  // #if defined(SWI_MODE) end
 #if defined(HID_MODE)
         if (dynamic_cast<jub::device::JubiterHidBLDDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))

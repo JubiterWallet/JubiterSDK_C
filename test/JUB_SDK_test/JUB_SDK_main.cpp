@@ -9,13 +9,6 @@
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_main.h"
 #if SW
-#include "JUB_SDK_software_test_btc.hpp"
-#include "JUB_SDK_software_test_eth.hpp"
-#include "JUB_SDK_software_test_hcash.hpp"
-#include "JUB_SDK_software_test_eos.hpp"
-#include "JUB_SDK_software_test_xrp.hpp"
-#include "JUB_SDK_software_test_trx.hpp"
-#include "JUB_SDK_software_test_fil.hpp"
 #include "JUB_SDK_test_scp11.h"
 #endif
 using namespace std;
@@ -113,6 +106,7 @@ std::string GetErrMsg(JUB_RV rv) {
     return errMsg;
 }
 
+
 void error_exit(const char* message) {
 
     cout << message << endl;
@@ -121,6 +115,7 @@ void error_exit(const char* message) {
     cin >> str;
     exit(0);
 }
+
 
 Json::Value readJSON(const char* json_file) {
     Json::CharReaderBuilder builder;
@@ -137,64 +132,11 @@ Json::Value readJSON(const char* json_file) {
     return root;
 }
 
+
 int main() {
 
     while(true) {
-        cout << "--------------------------------------" << endl;
-        cout << "|******* Jubiter Wallet Test ********|" << endl;
-        cout << "|  1. hardware_test.                 |" << endl;
-#if SW
-        cout << "|  2. software_test_btc.             |" << endl;
-        cout << "| 60. software_test_eth.             |" << endl;
-        cout << "|144. software_test_xrp.             |" << endl;
-        cout << "|171. software_test_hcash.           |" << endl;
-        cout << "|194. software_test_eos.             |" << endl;
-        cout << "|195. software_test_trx.             |" << endl;
-        cout << "|461. software_test_fil.             |" << endl;
-#endif
-        cout << "| 99. scp_test.                      |" << endl;
-        cout << "|  0. exit.                          |" << endl;
-        cout << "--------------------------------------" << endl;
-        cout << "* Please enter your choice:" << endl;
-
-        int choice = 0;
-        cin >> choice;
-        switch (choice) {
-        case 1:
-            main_test();
-            break;
-#if SW
-        case 2:
-            software_test_btc("json/testSoftware.json");
-            break;
-        case 60:
-            software_test_eth("json/testSoftware.json", "json/testETH.json");
-            break;
-        case 144:
-            software_test_xrp("json/testSoftware.json", "json/testXRP.json");
-            break;
-        case 171:
-            software_test_hcash("json/testSoftware.json", "json/testHCash.json");
-            break;
-        case 194:
-            software_test_eos("json/testSoftware.json", "json/testEOS.json");
-            break;
-        case 195:
-            software_test_trx("json/testSoftware.json", "json/testTRX.json");
-            break;
-        case 461:
-            software_test_fil("json/testFIL.json");
-            break;
-        case 99:
-            scp11_test("settings/42584E46433230303532353030303031_apk.settings");
-//            scp11_test("settings/42584E46433230303532353030303032_apk.settings");
-            break;
-#endif
-        case 0:
-            exit(0);
-        default:
-            continue;
-        }   // switch (choice) end
+        main_test();
     }   // while(true) end
 
     return 0;

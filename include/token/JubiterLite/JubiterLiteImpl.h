@@ -8,7 +8,6 @@ namespace token {
 
 class JubiterLiteImpl :
     public JubiterLiteToken {
-
 public:
     JubiterLiteImpl(JUB_UINT16 deviceID) :
     JubiterLiteToken(deviceID) {

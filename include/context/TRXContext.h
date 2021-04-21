@@ -29,12 +29,6 @@ namespace context {
 class TRXContext :
     public BaseContext {
 public:
-    //for Factory
-    static TRXContext* Create(const CONTEXT_CONFIG_TRX& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new TRXContext(cfg, tokenPtr);
-    }
-
     TRXContext(CONTEXT_CONFIG_TRX cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;

@@ -18,6 +18,12 @@ namespace token {
 class HardwareTokenInterface :
 virtual public BaseToken {
 public:
+    //for Factory
+    template<typename T>
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+        return std::make_shared<T>(deviceID);
+    }
+
     /* functions */
     virtual JUB_RV ShowVirtualPwd() = 0;
     virtual JUB_RV CancelVirtualPwd() = 0;

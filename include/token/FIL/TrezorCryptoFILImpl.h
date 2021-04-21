@@ -12,15 +12,9 @@ namespace token {
 class TrezorCryptoFILImpl :
         public TrezorCryptoToken,
 virtual public JubiterBaseFILImpl {
-
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
-        return std::make_shared<TrezorCryptoFILImpl>(XPRVorXPUB);
-    }
-
-    TrezorCryptoFILImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoToken(XPRVorXPUB) {}
+    TrezorCryptoFILImpl(JUB_UINT16 deviceID) :
+        TrezorCryptoToken(deviceID) {}
     ~TrezorCryptoFILImpl() {}
 
     //FIL functions

@@ -11,13 +11,7 @@ namespace token {
 class JubiterLiteXRPImpl :
         public JubiterLiteImpl,
 virtual public JubiterBaseXRPImpl {
-
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterLiteXRPImpl>(deviceID);
-    }
-
     JubiterLiteXRPImpl(JUB_UINT16 deviceID) :
         JubiterLiteImpl(deviceID) {}
     ~JubiterLiteXRPImpl() {}

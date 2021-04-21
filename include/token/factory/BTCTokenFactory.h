@@ -9,6 +9,7 @@
 #if defined(SIM_MODE)
 #include "device/JubiterBridgeDevice.hpp"
 #endif // #if defined(SIM_MODE) end
+#include "device/JubiterSWIDevice.hpp"
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -45,22 +46,21 @@ namespace jub {
 namespace token {
 
 
-typedef std::shared_ptr<BaseToken>(*CreateTrezorCryptoBTCFn)(const std::string&);
 typedef std::shared_ptr<BaseToken>(*CreateJubiterBTCFn)(JUB_UINT16);
 
 
 class xTrezorCryptoBTCFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 JUB_ENUM_COINTYPE_BTC,
-                CreateTrezorCryptoBTCFn> {
+                CreateJubiterBTCFn> {
 public:
     xTrezorCryptoBTCFactory() {
-        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,   &TrezorCryptoBTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,   &TrezorCryptoBCHImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,   &TrezorCryptoLTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &TrezorCryptoUSDTImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &TrezorCryptoDashImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &TrezorCryptoQTUMImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,  &TrezorCryptoToken::Create<TrezorCryptoBTCImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,  &TrezorCryptoToken::Create<TrezorCryptoBCHImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,  &TrezorCryptoToken::Create<TrezorCryptoLTCImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &TrezorCryptoToken::Create<TrezorCryptoUSDTImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &TrezorCryptoToken::Create<TrezorCryptoDashImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &TrezorCryptoToken::Create<TrezorCryptoQTUMImpl>);
     }
 }; // class xTrezorCryptoBTCFactory end
 
@@ -71,12 +71,12 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterBTCFn> {
 public:
     xJuBiterBladeBTCFactory() {
-        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,   &JubiterBladeBTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,   &JubiterBladeBCHImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,   &JubiterBladeLTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &JubiterBladeUSDTImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterBladeDashImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterBladeQTUMImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,  &HardwareTokenInterface::Create<JubiterBladeBTCImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,  &HardwareTokenInterface::Create<JubiterBladeBCHImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,  &HardwareTokenInterface::Create<JubiterBladeLTCImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &HardwareTokenInterface::Create<JubiterBladeUSDTImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &HardwareTokenInterface::Create<JubiterBladeDashImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &HardwareTokenInterface::Create<JubiterBladeQTUMImpl>);
     }
 }; // class xJuBiterBladeBTCFactory end
 
@@ -87,12 +87,12 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterBTCFn> {
 public:
     xJuBiterBIOBTCFactory() {
-        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,   &JubiterBIOBTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,   &JubiterBIOBCHImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,   &JubiterBIOLTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &JubiterBIOUSDTImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterBIODashImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterBIOQTUMImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,  &HardwareTokenInterface::Create<JubiterBIOBTCImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,  &HardwareTokenInterface::Create<JubiterBIOBCHImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,  &HardwareTokenInterface::Create<JubiterBIOLTCImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &HardwareTokenInterface::Create<JubiterBIOUSDTImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &HardwareTokenInterface::Create<JubiterBIODashImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &HardwareTokenInterface::Create<JubiterBIOQTUMImpl>);
     }
 }; // class xJuBiterBIOBTCFactory end
 
@@ -103,12 +103,12 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterBTCFn> {
 public:
     xJuBiterLiteBTCFactory() {
-        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,   &JubiterLiteBTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,   &JubiterLiteBCHImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,   &JubiterLiteLTCImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &JubiterLiteUSDTImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &JubiterLiteDashImpl::Create);
-        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &JubiterLiteQTUMImpl::Create);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBTC,  &HardwareTokenInterface::Create<JubiterLiteBTCImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINBCH,  &HardwareTokenInterface::Create<JubiterLiteBCHImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINLTC,  &HardwareTokenInterface::Create<JubiterLiteLTCImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &HardwareTokenInterface::Create<JubiterLiteUSDTImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &HardwareTokenInterface::Create<JubiterLiteDashImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &HardwareTokenInterface::Create<JubiterLiteQTUMImpl>);
     }
 }; // class xJuBiterLiteBTCFactory end
 
@@ -121,10 +121,6 @@ protected:
     xJuBiterLiteBTCFactory jubiterLITEFactory;
 
 public:
-    std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const std::string& XPRVorXPUB) {
-        return trezorFactory.Create(type, XPRVorXPUB);
-    }
-
     std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const JUB_UINT16 deviceID) {
 #if defined(SIM_MODE)
         if (dynamic_cast<jub::device::JubiterBridgeBLDDevice*>(
@@ -143,6 +139,13 @@ public:
             return jubiterLITEFactory.Create(type, deviceID);
         }
 #endif  // #if defined(SIM_MODE) end
+#if defined(SWI_MODE)
+        if (dynamic_cast<jub::device::JubiterSWIImplDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return trezorFactory.Create(type, deviceID);
+        }
+#endif  // #if defined(SWI_MODE) end
 #if defined(HID_MODE)
         if (dynamic_cast<jub::device::JubiterHidBLDDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))

@@ -5,7 +5,7 @@
  */
 
 /* 
- * File:   JUB_core.h
+ * File:   JUB_CORE.h
  * Author: zxc
  *
  * Created on 2019年7月18日, 上午10:58
@@ -22,57 +22,18 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
+typedef enum {
+    STRENGTH128 = 128,
+    STRENGTH192 = 192,
+    STRENGTH256 = 256
+} JUB_ENUM_MNEMONIC_STRENGTH;
+
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GenerateMnemonic_soft(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
-                                 OUT JUB_CHAR_PTR_PTR mnemonic);
+JUB_RV JUB_GenerateMnemonic(IN JUB_ENUM_MNEMONIC_STRENGTH strength,
+                            OUT JUB_CHAR_PTR_PTR mnemonic);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CheckMnemonic(IN JUB_CHAR_CPTR mnemonic);
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GenerateSeed_soft(IN JUB_CHAR_CPTR mnemonic, IN JUB_CHAR_CPTR passphrase,
-                             OUT JUB_BYTE seed[64],
-                             void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total));
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SeedToMasterPrivateKey_soft(IN JUB_BYTE_CPTR seed, IN JUB_UINT16 seed_len,
-                                       IN JUB_ENUM_CURVES curve,
-                                       OUT JUB_CHAR_PTR_PTR prikeyInXPRV);
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextBTC_soft(IN CONTEXT_CONFIG_BTC cfg,
-                                 IN JUB_CHAR_CPTR XPRVorXPUB,
-                                 OUT JUB_UINT16* contextID);
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextHC_soft(IN CONTEXT_CONFIG_HC cfg,
-                                IN JUB_CHAR_CPTR masterPriInXPRV,
-                                OUT JUB_UINT16* contextID);
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextETH_soft(IN CONTEXT_CONFIG_ETH cfg,
-                                 IN JUB_CHAR_CPTR masterPriInXPRV,
-                                 OUT JUB_UINT16* contextID);
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextEOS_soft(IN CONTEXT_CONFIG_EOS cfg,
-                                 IN JUB_CHAR_CPTR masterPriInXPRV,
-                                 OUT JUB_UINT16* contextID);
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextXRP_soft(IN CONTEXT_CONFIG_XRP cfg,
-                                 IN JUB_CHAR_CPTR masterPriInXPRV,
-                                 OUT JUB_UINT16* contextID);
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextTRX_soft(IN CONTEXT_CONFIG_TRX cfg,
-                                 IN JUB_CHAR_CPTR masterPriInXPRV,
-                                 OUT JUB_UINT16* contextID);
-
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CreateContextFIL_soft(IN CONTEXT_CONFIG_FIL cfg,
-                                 IN JUB_CHAR_CPTR masterPriInXPRV,
-                                 OUT JUB_UINT16* contextID);
 
 #ifdef __cplusplus
 }

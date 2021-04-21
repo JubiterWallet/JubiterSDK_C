@@ -107,12 +107,6 @@ typedef enum {
 typedef JUB_ENUM_DEVICE_ROOT_KEY_STATUS JUB_PTR JUB_ENUM_DEVICE_ROOT_KEY_STATUS_PTR;
 // Remove c++ features for swift framework end
 
-typedef enum {
-    STRENGTH128 = 128,
-    STRENGTH192 = 192,
-    STRENGTH256 = 256
-} JUB_ENUM_MNEMONIC_STRENGTH;
-
 // The definition is the same as the COS definition
 typedef enum {
     SECP256K1 = 0,

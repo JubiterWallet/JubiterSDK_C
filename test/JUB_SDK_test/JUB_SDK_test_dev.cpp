@@ -10,6 +10,7 @@
 #include "JUB_SDK_test_dev.hpp"
 #include "../../include/JUB_SDK_DEV_HID.h"
 #include "../../include/JUB_SDK_DEV_BIO.h"
+#include "../../include/JUB_SDK_DEV_SWI.h"
 
 #include "JUB_SDK_main.h"
 

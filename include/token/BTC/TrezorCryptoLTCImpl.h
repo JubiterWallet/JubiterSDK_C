@@ -11,14 +11,8 @@ namespace token {
 class TrezorCryptoLTCImpl :
     public TrezorCryptoBTCImpl {
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
-        return std::make_shared<TrezorCryptoLTCImpl>(XPRVorXPUB);
-    }
-
-public:
-    TrezorCryptoLTCImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoBTCImpl(XPRVorXPUB) {
+    TrezorCryptoLTCImpl(JUB_UINT16 deviceID) :
+        TrezorCryptoBTCImpl(deviceID) {
             _coin = TWCoinType::TWCoinTypeLitecoin;
     }
     ~TrezorCryptoLTCImpl() {}

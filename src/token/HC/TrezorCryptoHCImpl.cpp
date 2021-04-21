@@ -6,6 +6,33 @@
 namespace jub {
 namespace token {
 
+
+JUB_RV TrezorCryptoHCImpl::MnemonicToSeed(const std::string& passphrase, const std::string& mnemonic,
+                                          uchar_vector& vSeed,
+                                          void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total)) {
+
+    uchar_vector v;
+    TrezorCryptoBTCImpl::MnemonicToSeed(passphrase, mnemonic,
+                                        v,
+                                        progress_callback);
+
+    JUB_UINT16 seedLen = v.size();
+    JUB_UINT16 hcSeed32Len = v.size()/2;
+    if (32 != hcSeed32Len) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+    if (0 == vSeed.size()) {
+        vSeed.resize(hcSeed32Len);
+    }
+    for (int i=0; i<hcSeed32Len; ++i) {
+        JUB_BYTE seed = ((uint16_t(v[i]) + uint16_t(v[seedLen-i-1])) >> 1);
+        vSeed[i] = seed;
+    }
+
+    return JUBR_OK;
+}
+
+
 JUB_RV TrezorCryptoHCImpl::SignTX(const JUB_BYTE addrFmt,
                                   const JUB_ENUM_BTC_TRANS_TYPE& type,
                                   const JUB_UINT16 inputCount,

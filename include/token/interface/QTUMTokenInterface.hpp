@@ -11,7 +11,6 @@ namespace token {
 class QTUMTokenInterface :
 virtual public BTCTokenInterface {
 public:
-
 //QTUM functions
 virtual JUB_RV SetQRC20ETHToken(const std::string& tokenName,
                                 const JUB_UINT16 unitDP,

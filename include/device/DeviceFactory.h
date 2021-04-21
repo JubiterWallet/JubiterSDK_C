@@ -16,6 +16,9 @@
 #if defined(SIM_MODE)
 #include "device/JubiterBridgeDevice.hpp"
 #endif // #if defined(SIM_MODE) end
+#if defined(SWI_MODE)
+#include "device/JubiterSWIDevice.hpp"
+#endif // #if defined(SWI_MODE) end
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -36,9 +39,9 @@ public xFactory<std::shared_ptr<JubiterBridgeDevice>,
                 CreateBridgeDeviceFn> {
 public:
     xSIMDeviceFactory() {
-        Register(JUB_ENUM_DEVICE::BLADE, &JubiterBridgeBLDDevice::Create);
-        Register(JUB_ENUM_DEVICE::BIO,   &JubiterBridgeBIODevice::Create);
-        Register(JUB_ENUM_DEVICE::LITE, &JubiterBridgeLITEDevice::Create);
+        Register(JUB_ENUM_DEVICE::BLADE, &JubiterBridgeDevice::Create<JubiterBridgeBLDDevice>);
+        Register(JUB_ENUM_DEVICE::BIO,   &JubiterBridgeDevice::Create<JubiterBridgeBIODevice>);
+        Register(JUB_ENUM_DEVICE::LITE,  &JubiterBridgeDevice::Create<JubiterBridgeLITEDevice>);
     }
     ~xSIMDeviceFactory() = default;
 
@@ -78,6 +81,35 @@ public:
 #endif  // #if defined(SIM_MODE) end
 
 
+#if defined(SWI_MODE)
+typedef std::shared_ptr<JubiterSWIDevice>(*CreateSWIDeviceFn)(const std::string&);
+
+class xSWIDeviceFactory :
+public xFactory<std::shared_ptr<JubiterSWIDevice>,
+                JUB_ENUM_DEVICE,
+                CreateSWIDeviceFn> {
+public:
+    xSWIDeviceFactory() {
+//        Register(JUB_ENUM_DEVICE::VD, &JubiterSWIImplDevice::Create);
+        Register(JUB_ENUM_DEVICE::VD, &DeviceTypeBase::Create<JubiterSWIDevice, JubiterSWIImplDevice>);
+    }
+    ~xSWIDeviceFactory() = default;
+
+
+    static JUB_ENUM_DEVICE GetEnumDevice(const DeviceTypeBase* device) {
+
+        JUB_ENUM_DEVICE enumDevice = DEVICE_NS_ITEM;
+
+        if (typeid(JubiterSWIImplDevice) == typeid(*device)) {
+            enumDevice = JUB_ENUM_DEVICE::VD;
+        }
+
+        return enumDevice;
+    }
+}; // class xSWIDeviceFactory end
+#endif  // #if defined(SWI_MODE) end
+
+
 #if defined(HID_MODE)
 typedef std::shared_ptr<JubiterHidDevice>(*CreateHidDeviceFn)(const std::string&);
 
@@ -87,8 +119,8 @@ public xFactory<std::shared_ptr<JubiterHidDevice>,
                 CreateHidDeviceFn> {
 public:
     xHidDeviceFactory() {
-        Register(JUB_ENUM_DEVICE::BLADE, &JubiterHidBLDDevice::Create);
-        Register(JUB_ENUM_DEVICE::BIO,   &JubiterHidBIODevice::Create);
+        Register(JUB_ENUM_DEVICE::BLADE, &DeviceTypeBase::Create<JubiterHidDevice, JubiterHidBLDDevice>);
+        Register(JUB_ENUM_DEVICE::BIO,   &DeviceTypeBase::Create<JubiterHidDevice, JubiterHidBIODevice>);
     }
     ~xHidDeviceFactory() = default;
 
@@ -285,6 +317,9 @@ protected:
 #if defined(SIM_MODE)
     xSIMDeviceFactory simFactory;
 #endif  // #if defined(SIM_MODE) end
+#if defined(SWI_MODE)
+    xSWIDeviceFactory swiFactory;
+#endif  // #if defined(SWI_MODE) end
 #if defined(HID_MODE)
     xHidDeviceFactory hidFactory;
 #endif  // #if defined(HID_MODE) end
@@ -314,6 +349,14 @@ public:
 
     std::shared_ptr<DeviceTypeBase> CreateDevice(const JUB_ENUM_DEVICE& type, const std::string& arg) {
 
+#if defined(SWI_MODE)
+        switch (type) {
+        case JUB_ENUM_DEVICE::VD:
+            return swiFactory.Create(JUB_ENUM_DEVICE::VD, arg);
+        default:
+            break;
+        }   // switch (type) end
+#endif  // #if defined(SWI_MODE) end
 #if defined(HID_MODE)
         switch (type) {
         case JUB_ENUM_DEVICE::BLADE:
@@ -363,10 +406,13 @@ public:
         return nullptr;
     }
 
-
     // for communication library
     std::shared_ptr<DeviceTypeBase> CreateDevice(const JUB_ENUM_COMMODE& mode) {
         switch (mode) {
+        case JUB_ENUM_COMMODE::SWI:
+#if defined(SWI_MODE)
+            return swiFactory.Create(JUB_ENUM_DEVICE::VD, "");
+#endif  // #if defined(SWI_MODE) end
         case JUB_ENUM_COMMODE::HID:
 #if defined(HID_MODE)
             return hidFactory.Create(JUB_ENUM_DEVICE::BLADE, "");

@@ -29,12 +29,6 @@ namespace context {
 class XRPContext :
     public BaseContext {
 public:
-    //for Factory
-    static XRPContext* Create(const CONTEXT_CONFIG_XRP& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new XRPContext(cfg, tokenPtr);
-    }
-
     XRPContext(CONTEXT_CONFIG_XRP cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;

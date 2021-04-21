@@ -37,6 +37,7 @@
 #define LCOV_EXCL_START(text)
 #define LCOV_EXCL_STOP()
 
+#define SWI_MODE
 #if defined(_WIN32)
     #define HID_MODE
 #elif defined(__APPLE__)

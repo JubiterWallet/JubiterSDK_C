@@ -60,11 +60,6 @@ protected:
 class JubiterHidBLDDevice :
 public JubiterHidDevice {
 public:
-    //for Factory
-    static std::shared_ptr<JubiterHidDevice> Create(const std::string& path) {
-        return std::make_shared<JubiterHidBLDDevice>(path);
-    }
-
     static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         switch (type) {
@@ -100,10 +95,6 @@ public:
 class JubiterHidBIODevice :
 public JubiterHidDevice {
 public:
-    //for Factory
-    static std::shared_ptr<JubiterHidDevice> Create(const std::string& path) {
-        return std::make_shared<JubiterHidBIODevice>(path);
-    }
     static DeviceTypeBase* Create(const JUB_ENUM_DEVICE& type, std::shared_ptr<device::DeviceTypeBase> devicePtr) {
 
         if (nullptr == devicePtr) {

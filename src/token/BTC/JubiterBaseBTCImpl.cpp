@@ -1,6 +1,5 @@
 #include "token/BTC/JubiterBaseBTCImpl.h"
 #include <TrezorCrypto/base58.h>
-#include <TrezorCrypto/bip32.h>
 #include <Bitcoin/Address.h>
 #include <Bitcoin/SegwitAddress.h>
 

@@ -8,6 +8,7 @@
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
 #include "JUB_SDK_test_dev_bio.hpp"
+#include "JUB_SDK_test_dev_swi.hpp"
 #include "JUB_SDK_test_btc.hpp"
 #include "JUB_SDK_test_hcash.hpp"
 #include "JUB_SDK_test_qtum.hpp"
@@ -82,21 +83,27 @@ void main_test() {
 
     int choice = 0;
     JUB_ENUM_COMMODE commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
-    cout << "-------------------------------------------" << endl;
-    cout << "|********** Jubiter Wallet Test **********|" << endl;
-    cout << "| *. device test via HID                  |" << endl;
-    cout << "|                                         |" << endl;
-    cout << "|  ------------------------------------   |" << endl;
-    cout << "| | gRPC config file (ip_bridge.info): |  |" << endl;
-    cout << "| | ip_bridge.info example:            |  |" << endl;
-    cout << "| | 192.168.17.60:5001                 |  |" << endl;
-    cout << "|   -----------------------------------   |" << endl;
-    cout << "| 2. virtual JuBiter Blade test           |" << endl;
-    cout << "| 3. virtual JuBiter Bio   test           |" << endl;
-    cout << "| 4. virtual JuBiter Lite  test           |" << endl;
-    cout << "|                                         |" << endl;
-    cout << "| 0.  exit.                               |" << endl;
-    cout << "-------------------------------------------" << endl;
+    cout << "-------------------------------------------------------------" << endl;
+    cout << "|******************* Jubiter Wallet Test *******************|" << endl;
+    cout << "|  *. device test via HID                                   |" << endl;
+    cout << "|                                                           |" << endl;
+    cout << "| 21. device test via SWI(software impl, generate mnemonic) |" << endl;
+    cout << "| 22. device test via SWI(software impl, import mnemonic)   |" << endl;
+    cout << "| 23. device test via SWI(software impl, import xpriv)      |" << endl;
+    cout << "| 24. device test via SWI(software impl, import xpub)       |" << endl;
+    cout << "|                                                           |" << endl;
+    cout << "|  -------------------------------------------------------  |" << endl;
+    cout << "| | gRPC config file (ip_bridge.info):                    | |" << endl;
+    cout << "| | ip_bridge.info example:                               | |" << endl;
+    cout << "| | 192.168.17.60:5001                                    | |" << endl;
+    cout << "|   ------------------------------------------------------  |" << endl;
+    cout << "| 31. virtual JuBiter Blade test                            |" << endl;
+    cout << "| 32. virtual JuBiter Bio   test                            |" << endl;
+    cout << "|                                                           |" << endl;
+    cout << "|  4. virtual JuBiter Lite  test                            |" << endl;
+    cout << "|                                                           |" << endl;
+    cout << "| 0.  exit.                                                 |" << endl;
+    cout << "-------------------------------------------------------------" << endl;
     cout << "* Please enter your choice:" << endl;
 
     cin >> choice;
@@ -108,7 +115,17 @@ void main_test() {
         exit(0);
         break;
     case 2:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    {
+        commode = JUB_ENUM_COMMODE::SWI;
+        rv = menu_opt_swi(choice, readJSON("json/testSoftware.json"), &deviceID);
+        break;
+    }
     case 3:
+    case 31:
     {
         commode = JUB_ENUM_COMMODE::SIM;
         rv = JUB_ListDeviceSIM("ip_bridge.info", (JUB_ENUM_DEVICE)choice, deviceIDs);
@@ -168,14 +185,16 @@ void main_test() {
         cout << endl << endl;
         break;
     }
-    }
+    } // switch (choice) end
 
     while (true) {
         cout << "-------------------------------------------" << endl;
         cout << "|********** Jubiter Wallet Test **********|" << endl;
+        if (commode != JUB_ENUM_COMMODE::SWI) {
         cout << "|   1. get_device_info_test               |" << endl;
         cout << "|  11.     device_fgpt_test               |" << endl;
         cout << "|                                         |" << endl;
+        }
         cout << "|   2.   LTC_test.                        |" << endl;
         cout << "|   5.  DASH_test.                        |" << endl;
         cout << "|  30.   BTCTN_test.                      |" << endl;
@@ -270,7 +289,7 @@ void main_test() {
             break;
         case 461:
             json_file += "testFIL.json";
-            FIL_test(json_file.c_str());
+            FIL_test(deviceID, json_file.c_str());
             break;
 
         case 144:
@@ -299,24 +318,34 @@ void main_test() {
         }   // switch (choice) end
 
         switch (commode) {
+        case JUB_ENUM_COMMODE::SWI:
+        {
+            cout << "[---------------------------- SWI device disconnection -------------------------]" << endl;
+            rv = JUB_DisconnetDeviceSWI(deviceID);
+            cout << "[-] JUB_DisconnetDeviceSWI() return " << GetErrMsg(rv) << endl;
+            cout << "[------------------------- SWI device disconnection end ------------------------]" << endl;
+            break;
+        }
         case JUB_ENUM_COMMODE::HID:
         {
             cout << "[---------------------------- HID device disconnection -------------------------]" << endl;
             rv = JUB_DisconnetDeviceHid(deviceID);
             cout << "[-] JUB_DisconnetDeviceHid() return " << GetErrMsg(rv) << endl;
             cout << "[------------------------- HID device disconnection end ------------------------]" << endl;
-            cout << endl << endl;
             break;
         }
         case JUB_ENUM_COMMODE::SIM:
         {
+            cout << "[---------------------------- SIM device disconnection -------------------------]" << endl;
             rv = JUB_DisconnetDeviceSIM(deviceID);
-            cout << "JUB_DisconnetDeviceSIM() return " << GetErrMsg(rv) << endl;
+            cout << "[-] JUB_DisconnetDeviceSIM() return " << GetErrMsg(rv) << endl;
+            cout << "[------------------------- SIM device disconnection end ------------------------]" << endl;
             break;
         }
         default:
             return;
         }
+        cout << endl << endl;
     }   // while (true) end
 }
 

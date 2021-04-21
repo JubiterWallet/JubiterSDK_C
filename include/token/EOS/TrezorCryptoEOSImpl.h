@@ -12,15 +12,9 @@ namespace token {
 class TrezorCryptoEOSImpl :
         public TrezorCryptoToken,
 virtual public JubiterBaseEOSImpl {
-
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
-        return std::make_shared<TrezorCryptoEOSImpl>(XPRVorXPUB);
-    }
-
-    TrezorCryptoEOSImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoToken(XPRVorXPUB) {}
+    TrezorCryptoEOSImpl(JUB_UINT16 deviceID) :
+        TrezorCryptoToken(deviceID) {}
     ~TrezorCryptoEOSImpl() {}
 
     //EOS functions

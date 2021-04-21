@@ -17,6 +17,7 @@
 #include "device/DeviceFactory.h"
 #include "device/DeviceTypeBase.hpp"
 
+#include "token/TrezorCrypto/TrezorCryptoToken.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
 #include "token/JubiterLite/JubiterLiteToken.h"
@@ -32,6 +33,8 @@ typedef enum {
     SIM_BLD  = (JUB_ENUM_COMMODE::SIM<<0x10)|(JUB_ENUM_DEVICE::BLADE),
     SIM_BIO  = (JUB_ENUM_COMMODE::SIM<<0x10)|(JUB_ENUM_DEVICE::BIO),
     SIM_LITE = (JUB_ENUM_COMMODE::SIM<<0x10)|(JUB_ENUM_DEVICE::LITE),
+
+    SWI_VD   = (JUB_ENUM_COMMODE::SWI<<0x10)|(JUB_ENUM_DEVICE::VD),
 
     HID_BLD  = (JUB_ENUM_COMMODE::HID<<0x10)|(JUB_ENUM_DEVICE::BLADE),
     HID_BIO  = (JUB_ENUM_COMMODE::HID<<0x10)|(JUB_ENUM_DEVICE::BIO),
@@ -69,6 +72,9 @@ public:
         Register(JUB_ENUM_PRODUCT::SIM_BIO,  &device::JubiterBridgeBIODevice::Create);
         Register(JUB_ENUM_PRODUCT::SIM_LITE, &device::JubiterBridgeLITEDevice::Create);
 #endif  // #if defined(SIM_MODE) end
+#if defined(SWI_MODE)
+        Register(JUB_ENUM_PRODUCT::SWI_VD,   &device::JubiterSWIImplDevice::Create);
+#endif  // #if defined(SWI_MODE) end
 #if defined(HID_MODE)
         Register(JUB_ENUM_PRODUCT::HID_BLD,  &device::JubiterHidBLDDevice::Create);
         Register(JUB_ENUM_PRODUCT::HID_BIO,  &device::JubiterHidBIODevice::Create);
@@ -112,6 +118,21 @@ public:
             }
         }
 #endif  // #if defined(SIM_MODE) end
+#if defined(SWI_MODE)
+        if (   JUB_ENUM_COMMODE::COMMODE_NS_ITEM == (*commode)
+            &&  JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == (*deviceClass)
+            ) {
+            *commode = JUB_ENUM_COMMODE::SWI;
+            switch (jub::device::xSWIDeviceFactory::GetEnumDevice(device)) {
+            case JUB_ENUM_DEVICE::VD:
+                *deviceClass = JUB_ENUM_DEVICE::VD;
+                break;
+            default:
+                *commode = JUB_ENUM_COMMODE::COMMODE_NS_ITEM;
+                break;
+            }
+        }
+#endif  // #if defined(SWI_MODE) end
 #if defined(HID_MODE)
         if (   JUB_ENUM_COMMODE::COMMODE_NS_ITEM == (*commode)
             &&  JUB_ENUM_DEVICE::DEVICE_NS_ITEM  == (*deviceClass)
@@ -260,6 +281,12 @@ public:
         JUB_ENUM_DEVICE         type =  JUB_ENUM_DEVICE::DEVICE_NS_ITEM;
         JUB_ENUM_PRODUCT enumProduct = JUB_ENUM_PRODUCT::PRODUCT_NS_ITEM;
         switch (mode) {
+        case JUB_ENUM_COMMODE::SWI:
+#if defined(SWI_MODE)
+            type = JUB_ENUM_DEVICE::VD;
+            enumProduct = EnumProduct2EnumDevice(mode, type);
+#endif  // #if defined(SWI_MODE) end
+            break;
         case JUB_ENUM_COMMODE::HID:
         case JUB_ENUM_COMMODE::BLE:
 #if defined(BLE_MODE)
@@ -300,6 +327,11 @@ public:
         JUB_ENUM_DEVICE         type =  JUB_ENUM_DEVICE::DEVICE_NS_ITEM;
         JUB_ENUM_PRODUCT enumProduct = JUB_ENUM_PRODUCT::PRODUCT_NS_ITEM;
         switch (mode) {
+        case JUB_ENUM_COMMODE::SWI:
+#if defined(SWI_MODE)
+            type = JUB_ENUM_DEVICE::VD;
+#endif  // #if defined(SWI_MODE) end
+            break;
         case JUB_ENUM_COMMODE::HID:
 #if defined(HID_MODE)
             type = JUB_ENUM_DEVICE::BLADE;
@@ -344,6 +376,7 @@ public:
         case JUB_ENUM_COMMODE::SIM:
             enumProduct = (JUB_ENUM_PRODUCT)((mode<<0x10)|type);
             break;
+        case JUB_ENUM_COMMODE::SWI:
         case JUB_ENUM_COMMODE::HID:
         case JUB_ENUM_COMMODE::BLE:
         case JUB_ENUM_COMMODE::NFC:

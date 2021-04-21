@@ -21,12 +21,6 @@ namespace context {
 class ETHContext :
     public BaseContext {
 public:
-    //for Factory
-    static ETHContext* Create(const CONTEXT_CONFIG_ETH& cfg,
-                              std::shared_ptr<token::BaseToken> tokenPtr) {
-        return new ETHContext(cfg, tokenPtr);
-    }
-
     ETHContext(const CONTEXT_CONFIG_ETH& cfg, std::shared_ptr<token::BaseToken> tokenPtr):
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;
@@ -48,14 +42,14 @@ public:
                                    JUB_CHAR_CPTR valueInWei,
                                    JUB_CHAR_CPTR input,
                                    OUT std::string& raw);
-        virtual JUB_RV SignContract(const BIP44_Path& path,
-                                    const JUB_UINT32 nonce,
-                                    const JUB_UINT32 gasLimit,
-                                    JUB_CHAR_CPTR gasPriceInWei,
-                                    JUB_CHAR_CPTR to,
-                                    IN JUB_CHAR_CPTR valueInWei,
-                                    IN JUB_CHAR_CPTR input,
-                                    OUT std::string& raw);
+    virtual JUB_RV SignContract(const BIP44_Path& path,
+                                const JUB_UINT32 nonce,
+                                const JUB_UINT32 gasLimit,
+                                JUB_CHAR_CPTR gasPriceInWei,
+                                JUB_CHAR_CPTR to,
+                                IN JUB_CHAR_CPTR valueInWei,
+                                IN JUB_CHAR_CPTR input,
+                                OUT std::string& raw);
 
     virtual JUB_RV SignBytestring(const BIP44_Path& path,
                                   const JUB_CHAR_CPTR data,

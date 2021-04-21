@@ -16,12 +16,6 @@ class JubiterLiteHCImpl :
         public JubiterLiteBTCImpl,
 virtual public JubiterBaseHCImpl {
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterLiteHCImpl>(deviceID);
-    }
-
-public:
     JubiterLiteHCImpl(JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {
             _hashType = TWHcashSigHashAll;

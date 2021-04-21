@@ -12,13 +12,7 @@ namespace token {
 class JubiterBladeHCImpl :
         public JubiterBladeBTCImpl,
 virtual public JubiterBaseHCImpl {
-
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-        return std::make_shared<JubiterBladeHCImpl>(deviceID);
-    }
-
     JubiterBladeHCImpl(JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
             _hashType = TWHcashSigHashAll;

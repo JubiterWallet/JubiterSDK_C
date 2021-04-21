@@ -9,7 +9,7 @@
 #define __TaggedAddresses__
 #include "Address.h"
 #include "../HexCoding.h"
-
+#include <cstring>
 
 
 namespace TW::Ripple {
@@ -44,9 +44,9 @@ public:
     std::array<byte, 8> tag;
 
     void clear() {
-        std::memset(prefixes.begin(), 0x00, prefixes.size());
-        std::memset(flags.begin(),    0x00, flags.size());
-        std::memset(tag.begin(),      0x00, tag.size());
+        memset(prefixes.begin(), 0x00, prefixes.size());
+        memset(flags.begin(),    0x00, flags.size());
+        memset(tag.begin(),      0x00, tag.size());
     }
 
     // [← 2 byte prefix →|← 160 bits of account ID →|← 8 bits of flags →|← 64 bits of tag →]

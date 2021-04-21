@@ -13,14 +13,8 @@ class TrezorCryptoDashImpl :
         public TrezorCryptoBTCImpl,
 virtual public JubiterBaseDashImpl {
 public:
-    //for Factory
-    static std::shared_ptr<BaseToken> Create(const std::string& XPRVorXPUB) {
-        return std::make_shared<TrezorCryptoDashImpl>(XPRVorXPUB);
-    }
-
-public:
-    TrezorCryptoDashImpl(const std::string& XPRVorXPUB) :
-        TrezorCryptoBTCImpl(XPRVorXPUB) {}
+    TrezorCryptoDashImpl(JUB_UINT16 deviceID) :
+        TrezorCryptoBTCImpl(deviceID) {}
     ~TrezorCryptoDashImpl() {}
 
     virtual JUB_RV SignTX(const JUB_BYTE addrFmt,

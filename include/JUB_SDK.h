@@ -3,7 +3,9 @@
 //硬件接口的头文件，外部使用，只需要包含这一个
 
 #include "JUB_SDK_COMM.h"
+#include "JUB_CORE.h"
 #include "JUB_SDK_DEV.h"
+#include "JUB_SDK_DEV_SWI.h"
 #if defined(BLE_MODE)
 #include "JUB_SDK_DEV_BLE.h"
 #include "JUB_SDK_DEV_BIO.h"

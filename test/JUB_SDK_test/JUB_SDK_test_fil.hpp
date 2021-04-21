@@ -14,7 +14,7 @@
 
 #include "../../include/JUB_SDK_FIL.h"
 
-void FIL_test(const char* json_file);
+void FIL_test(JUB_UINT16 deviceID, const char* json_file);
 
 void set_my_address_test_FIL(JUB_UINT16 contextID);
 void  get_address_pubkey_FIL(JUB_UINT16 contextID);

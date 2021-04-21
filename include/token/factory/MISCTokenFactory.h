@@ -9,6 +9,7 @@
 #if defined(SIM_MODE)
 #include "device/JubiterBridgeDevice.hpp"
 #endif // #if defined(SIM_MODE) end
+#include "device/JubiterSWIDevice.hpp"
 #include "device/JubiterHidDevice.hpp"
 #include "device/JubiterBLEDevice.hpp"
 #if defined(NFC_MODE)
@@ -52,20 +53,19 @@ namespace jub {
 namespace token {
 
 
-typedef std::shared_ptr<BaseToken>(*CreateTrezorCryptoMISCFn)(const std::string&);
 typedef std::shared_ptr<BaseToken>(*CreateJubiterMISCFn)(JUB_UINT16);
 
 
 class xTrezorCryptoMISCFactory :
 public xFactory<std::shared_ptr<BaseToken>,
                 TWCoinType,
-                CreateTrezorCryptoMISCFn> {
+                CreateJubiterMISCFn> {
 public:
     xTrezorCryptoMISCFactory() {
-        Register(TWCoinType::TWCoinTypeHcash,            &TrezorCryptoHCImpl::Create);
-        Register(TWCoinType::TWCoinTypeEOS,             &TrezorCryptoEOSImpl::Create);
-        Register(TWCoinType::TWCoinTypeXRP,             &TrezorCryptoXRPImpl::Create);
-        Register(TWCoinType::TWCoinTypeTron,            &TrezorCryptoTRXImpl::Create);
+        Register(TWCoinType::TWCoinTypeHcash,       &TrezorCryptoToken::Create<TrezorCryptoHCImpl>);
+        Register(TWCoinType::TWCoinTypeEOS,         &TrezorCryptoToken::Create<TrezorCryptoEOSImpl>);
+        Register(TWCoinType::TWCoinTypeXRP,         &TrezorCryptoToken::Create<TrezorCryptoXRPImpl>);
+        Register(TWCoinType::TWCoinTypeTron,        &TrezorCryptoToken::Create<TrezorCryptoTRXImpl>);
     }
 }; // class xTrezorCryptoMISCFactory end
 
@@ -76,10 +76,10 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterMISCFn> {
 public:
     xJuBiterBladeMISCFactory() {
-        Register(TWCoinType::TWCoinTypeHcash,            &JubiterBladeHCImpl::Create);
-        Register(TWCoinType::TWCoinTypeEOS,             &JubiterBladeEOSImpl::Create);
-        Register(TWCoinType::TWCoinTypeXRP,             &JubiterBladeXRPImpl::Create);
-        Register(TWCoinType::TWCoinTypeTron,            &JubiterBladeTRXImpl::Create);
+        Register(TWCoinType::TWCoinTypeHcash,       &HardwareTokenInterface::Create<JubiterBladeHCImpl>);
+        Register(TWCoinType::TWCoinTypeEOS,         &HardwareTokenInterface::Create<JubiterBladeEOSImpl>);
+        Register(TWCoinType::TWCoinTypeXRP,         &HardwareTokenInterface::Create<JubiterBladeXRPImpl>);
+        Register(TWCoinType::TWCoinTypeTron,        &HardwareTokenInterface::Create<JubiterBladeTRXImpl>);
     }
 }; // class xJuBiterBladeMISCFactory end
 
@@ -90,10 +90,10 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterMISCFn> {
 public:
     xJuBiterBIOMISCFactory() {
-        Register(TWCoinType::TWCoinTypeHcash,            &JubiterBIOHCImpl::Create);
-        Register(TWCoinType::TWCoinTypeEOS,             &JubiterBIOEOSImpl::Create);
-        Register(TWCoinType::TWCoinTypeXRP,             &JubiterBIOXRPImpl::Create);
-        Register(TWCoinType::TWCoinTypeTron,            &JubiterBIOTRXImpl::Create);
+        Register(TWCoinType::TWCoinTypeHcash,       &HardwareTokenInterface::Create<JubiterBIOHCImpl>);
+        Register(TWCoinType::TWCoinTypeEOS,         &HardwareTokenInterface::Create<JubiterBIOEOSImpl>);
+        Register(TWCoinType::TWCoinTypeXRP,         &HardwareTokenInterface::Create<JubiterBIOXRPImpl>);
+        Register(TWCoinType::TWCoinTypeTron,        &HardwareTokenInterface::Create<JubiterBIOTRXImpl>);
     }
 }; // class xJuBiterBIOMISCFactory end
 
@@ -104,11 +104,11 @@ public xFactory<std::shared_ptr<BaseToken>,
                 CreateJubiterMISCFn> {
 public:
     xJuBiterLITEMISCFactory() {
-        Register(TWCoinType::TWCoinTypeHcash,            &JubiterLiteHCImpl::Create);
-        Register(TWCoinType::TWCoinTypeEthereum,        &JubiterLiteETHImpl::Create);
-        Register(TWCoinType::TWCoinTypeEOS,             &JubiterLiteEOSImpl::Create);
-        Register(TWCoinType::TWCoinTypeXRP,             &JubiterLiteXRPImpl::Create);
-        Register(TWCoinType::TWCoinTypeTron,            &JubiterLiteTRXImpl::Create);
+        Register(TWCoinType::TWCoinTypeHcash,       &HardwareTokenInterface::Create<JubiterLiteHCImpl>);
+        Register(TWCoinType::TWCoinTypeEthereum,    &HardwareTokenInterface::Create<JubiterLiteETHImpl>);
+        Register(TWCoinType::TWCoinTypeEOS,         &HardwareTokenInterface::Create<JubiterLiteEOSImpl>);
+        Register(TWCoinType::TWCoinTypeXRP,         &HardwareTokenInterface::Create<JubiterLiteXRPImpl>);
+        Register(TWCoinType::TWCoinTypeTron,        &HardwareTokenInterface::Create<JubiterLiteTRXImpl>);
     }
 }; // class xJuBiterLITEMISCFactory end
 
@@ -121,10 +121,6 @@ protected:
     xJuBiterLITEMISCFactory jubiterLITEFactory;
 
 public:
-    std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const std::string& XPRVorXPUB) {
-        return trezorFactory.Create(type, XPRVorXPUB);
-    }
-
     std::shared_ptr<BaseToken> CreateToken(const TWCoinType& type, const JUB_UINT16 deviceID) {
 #if defined(SIM_MODE)
         if (dynamic_cast<jub::device::JubiterBridgeBLDDevice*>(
@@ -143,6 +139,13 @@ public:
             return jubiterLITEFactory.Create(type, deviceID);
         }
 #endif  // #if defined(SIM_MODE) end
+#if defined(SWI_MODE)
+        if (dynamic_cast<jub::device::JubiterSWIImplDevice*>(
+                         jub::device::DeviceManager::GetInstance()->GetOne(deviceID))
+        ) {
+            return trezorFactory.Create(type, deviceID);
+        }
+#endif  // #if defined(SWI_MODE) end
 #if defined(HID_MODE)
         if (dynamic_cast<jub::device::JubiterHidBLDDevice*>(
                          jub::device::DeviceManager::GetInstance()->GetOne(deviceID))

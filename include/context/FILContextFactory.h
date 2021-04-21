@@ -23,11 +23,6 @@ public:
         Register(_type, &FILContext::Create);
     }
 
-    FILContext* CreateContext(const CONTEXT_CONFIG_FIL& cfg, std::string XPRVorXPUB) {
-        auto token = jub::token::ETHseriesTokenFactory::GetInstance()->CreateToken(_type, XPRVorXPUB);
-        return Create(_type, cfg, token);
-    }
-
     FILContext* CreateContext(const CONTEXT_CONFIG_FIL& cfg, JUB_UINT16 deviceID) {
         auto token = jub::token::ETHseriesTokenFactory::GetInstance()->CreateToken(_type, deviceID);
         return Create(_type, cfg, token);
