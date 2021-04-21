@@ -71,6 +71,12 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core/contract SRC_LIST)
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core/contract/shield_contract.pb.cc")
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core/contract/shield_contract.pb.h")
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core/contract/vote_asset_contract.pb.cc")
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core/contract/vote_asset_contract.pb.h")
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core/contract/witness_contract.pb.cc")
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core/contract/witness_contract.pb.h")
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../gpc/src SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../pbparse SRC_LIST)
@@ -118,7 +124,7 @@ endif() #if(devOnly)
 
 #if(APPLE) #MacOS与iOS打出来的为framework
     #打framework时，只能添加自己这个目录下的文件，先把需要的头文件拷过来
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../include DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+    #file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../include DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
     # 把需要打包的头文件加进工程,方便打包BLE和NFC暂时先加进来，应该没有影响
     set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_CORE.h
