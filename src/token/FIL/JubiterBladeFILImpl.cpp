@@ -108,7 +108,7 @@ JUB_RV JubiterBladeFILImpl::SignTX(const uint64_t& nonce,
         // nonce
         data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_NONCE_41, TW::encodeBENoZero(nonce));
         // value
-        auto loadingZero = [](auto x) -> auto {
+        auto loadingZero = [](const uint256_t& x) -> TW::Data {
             auto bytes = TW::encodeBENoZero(x);
             bytes.insert(bytes.begin(), 0);
             return bytes;
