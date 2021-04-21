@@ -57,6 +57,9 @@ uint8_t TWCoinTypeP2pkhPrefix(enum TWCoinType coin) {
     uint8_t prefix = 0x00;
 
     switch (coin) {
+    case TWCoinTypeBitcoinTestNet:
+        prefix = TWP2PKHPrefix::TWP2PKHPrefixBitcoinTestNet;
+        break;
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
@@ -135,6 +138,9 @@ uint8_t TWCoinTypeP2shPrefix(enum TWCoinType coin) {
     uint8_t prefix = 0x00;
 
     switch (coin) {
+    case TWCoinTypeBitcoinTestNet:
+        prefix = TWP2SHPrefix::TWP2SHPrefixBitcoinTestNet;
+        break;
     case TWCoinTypeBitcoin:
         // https://en.bitcoin.it/wiki/List_of_address_prefixes
         prefix = TWP2SHPrefix::TWP2SHPrefixBitcoin;
@@ -217,6 +223,7 @@ std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin) {
         prefix = {0x09, 0x7f};  //MainNetID
         break;
     case TWCoinTypeBitcoin:
+    case TWCoinTypeBitcoinTestNet:
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeLitecoin:
     case TWCoinTypeQtum:
@@ -284,6 +291,12 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     uint32_t hdVersionPublic = TWHDVersionNone;
 
     switch (coin) {
+    case TWCoinTypeBitcoinTestNet:
+        hdVersionPublic = TWHDVersionTPUB;
+        if (witness) {
+            hdVersionPublic = TWHDVersionUPUB;
+        }
+        break;
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeQtum:
@@ -361,6 +374,12 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     uint32_t hdVersionPrivate = TWHDVersionNone;
 
     switch (coin) {
+    case TWCoinTypeBitcoinTestNet:
+        hdVersionPrivate = TWHDVersionTPRV;
+        if (witness) {
+            hdVersionPrivate = TWHDVersionUPRV;
+        }
+        break;
     case TWCoinTypeBitcoin:
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeQtum:
