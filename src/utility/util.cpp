@@ -349,4 +349,39 @@ void decToBinary(uint8_t n, std::vector<uint8_t> &v) {
         v.push_back(binaryNum[j]);
     }
 }
+
+JUB_BIP32_PATH spiltMainPath(std::string mainpath,char ch)
+{
+    int start = 0;
+    int end = 0;
+    int index = 0;
+    JUB_BIP32_PATH path;
+    mainpath.push_back(ch);
+
+    for(int i = 0;i < mainpath.size();i++)
+    {
+        if(mainpath[i]==ch)
+        {
+            index++;
+            end = i;
+            std::string temp = mainpath.substr(start,end-start);
+            start = i+1;
+            if (index == 2) {
+                memcpy(path.purpose, (char*)temp.data(), sizeof(temp.data()));
+            } else if (index == 3) {
+                memcpy(path.coin_type, (char*)temp.data(), sizeof(temp.data()));
+            } else if (index == 4) {
+                memcpy(path.account, (char*)temp.data(), sizeof(temp.data()));
+            } else if (index == 5) {
+                path.change = strcmp(temp.data(), "0") == 0 ? false: true;
+            } else if (index == 6) {
+                path.addressIndex = atoi(temp.c_str());
+            }
+
+        }
+    }
+    return path;
+}
+
+
 } // namespace jub end

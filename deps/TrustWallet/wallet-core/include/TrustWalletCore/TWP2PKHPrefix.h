@@ -15,6 +15,7 @@ TW_EXTERN_C_BEGIN
 TW_EXPORT_ENUM(uint8_t)
 enum TWP2PKHPrefix {
     TWP2PKHPrefixBitcoin = 0x00,
+    TWP2PKHPrefixBitcoinTestNet = 0x6f,
     TWP2PKHPrefixDash = 0x4C,
     TWP2PKHPrefixDecred = 0x3f,
     TWP2PKHPrefixD = 0x1e, // Dogecoin and DigiByte

@@ -178,8 +178,10 @@ void main_test() {
         cout << "|                                         |" << endl;
         cout << "|   2.   LTC_test.                        |" << endl;
         cout << "|   5.  DASH_test.                        |" << endl;
+        cout << "|  30.   BTCTN_test.                      |" << endl;
         cout << "|  31.   BTC_test.                        |" << endl;
         cout << "|  32.   BTC_segwit_test.                 |" << endl;
+        cout << "|  33.   BTC_segwitTN_test.               |" << endl;
         cout << "|  39.   BTC_USDT_test.                   |" << endl;
         cout << "|  88.  QTUM_QRC20_test.                  |" << endl;
         cout << "|2301.  QTUM_test.                        |" << endl;
@@ -225,12 +227,20 @@ void main_test() {
             json_file += "testDASH.json";
             BTC_test(deviceID, json_file.c_str(), COINDASH);
             break;
+        case 30:
+            json_file += "testBTCTN44.json";
+            BTC_test(deviceID, json_file.c_str(), COINBTC);
+            break;
         case 31:
             json_file += "testBTC44.json";
             BTC_test(deviceID, json_file.c_str(), COINBTC);
             break;
         case 32:
             json_file += "testBTC49.json";
+            BTC_test(deviceID, json_file.c_str(), COINBTC);
+            break;
+        case 33:
+            json_file += "testBTCTN49.json";
             BTC_test(deviceID, json_file.c_str(), COINBTC);
             break;
         case 39:

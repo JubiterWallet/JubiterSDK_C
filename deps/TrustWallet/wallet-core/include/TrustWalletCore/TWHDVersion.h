@@ -18,6 +18,10 @@ enum TWHDVersion {
     TWHDVersionNone = 0,
 
     // Bitcoin
+    // Bitcoin - testnet
+    // m/44'/1', P2PKH or P2SH
+    TWHDVersionTPUB = 0x043587cf,
+    TWHDVersionTPRV = 0x04358394,
     // Bitcoin - mainnet
     // m/44'/0', P2PKH or P2SH
     TWHDVersionXPUB = 0x0488b21e,
@@ -25,6 +29,10 @@ enum TWHDVersion {
     // m/49'/0', P2WPKH in P2SH
     TWHDVersionYPUB = 0x049d7cb2,
     TWHDVersionYPRV = 0x049d7878,
+    // m/49'/1', - testnet
+    // P2WPKH in P2SH
+    TWHDVersionUPUB = 0x044a5262,
+    TWHDVersionUPRV = 0x044a4e28,
     // m/84'/0', P2WPKH
     TWHDVersionZPUB = 0x04b24746,
     TWHDVersionZPRV = 0x04b2430c,
