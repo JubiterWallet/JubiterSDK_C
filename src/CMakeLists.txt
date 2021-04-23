@@ -49,9 +49,11 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/TRX SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/FIL SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/HDKey SRC_LIST)
 
-#aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint SRC_LIST)
-#list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint/sample.cc")
-#list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint/testsuite.cc")
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint SRC_LIST)
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint/sample.cc")
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint/testsuite.cc")
+
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/uint256_t SRC_LIST)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/interface SRC_LIST)
@@ -99,7 +101,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/nfcTransmit/android)
 endif() #if(IOS)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/protobuf/src)
-#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/json/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/include/TrustWalletCore)
@@ -124,7 +126,7 @@ endif() #if(devOnly)
 
 #if(APPLE) #MacOS与iOS打出来的为framework
     #打framework时，只能添加自己这个目录下的文件，先把需要的头文件拷过来
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../include DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+    #file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../include DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
     # 把需要打包的头文件加进工程,方便打包BLE和NFC暂时先加进来，应该没有影响
     set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_CORE.h
