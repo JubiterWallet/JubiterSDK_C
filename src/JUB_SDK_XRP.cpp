@@ -184,7 +184,8 @@ JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeXRP
  * @in  param : contextID - context ID
- *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
+ *                     JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
  *          : path
  * @out param : pubkey
  * @last change :

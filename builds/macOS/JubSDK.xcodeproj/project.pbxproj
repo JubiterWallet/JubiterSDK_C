@@ -1014,6 +1014,8 @@
 		7797442E262FC3E500ECFF34 /* BigUnsigned.hh in Headers */ = {isa = PBXBuildFile; fileRef = 77974419262FC3E400ECFF34 /* BigUnsigned.hh */; };
 		7797442F262FC3E500ECFF34 /* BigIntegerAlgorithms.hh in Headers */ = {isa = PBXBuildFile; fileRef = 7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */; };
 		77974430262FC3E500ECFF34 /* BigIntegerAlgorithms.hh in Headers */ = {isa = PBXBuildFile; fileRef = 7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */; };
+		77A126A82636B70400494B23 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */; };
+		77A126A92636B70400494B23 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1545,6 +1547,7 @@
 		77974418262FC3E400ECFF34 /* BigInteger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigInteger.cc; path = ../../deps/bigint/BigInteger.cc; sourceTree = "<group>"; };
 		77974419262FC3E400ECFF34 /* BigUnsigned.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsigned.hh; path = ../../deps/bigint/BigUnsigned.hh; sourceTree = "<group>"; };
 		7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerAlgorithms.hh; path = ../../deps/bigint/BigIntegerAlgorithms.hh; sourceTree = "<group>"; };
+		77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOXRPImpl.cpp; path = ../../src/token/XRP/JubiterBIOXRPImpl.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1722,6 +1725,7 @@
 			children = (
 				32E84E4A240B95DD003311B5 /* JubiterBaseXRPImpl.cpp */,
 				674621E623C31D9D0096DDA2 /* JubiterBladeXRPImpl.cpp */,
+				77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */,
 				674621E523C31D9D0096DDA2 /* TrezorCryptoXRPImpl.cpp */,
 				679DA9902577B45D00B08471 /* JubiterLiteXRPImpl.cpp */,
 			);
@@ -3560,6 +3564,7 @@
 				67E0DEAC250F6C6600D42EF0 /* TWCurve.cpp in Sources */,
 				67189F4223A2103F00F8A5CD /* JUB_SDK_DEV_HID.cpp in Sources */,
 				674621F623C31DCD0096DDA2 /* TrezorCryptoHCImpl.cpp in Sources */,
+				77A126A92636B70400494B23 /* JubiterBIOXRPImpl.cpp in Sources */,
 				67189FE123A2117C00F8A5CD /* secp256k1.c in Sources */,
 				67ECD12E23CD71B900B7D514 /* DerivationPath.cpp in Sources */,
 				67189FE323A2117C00F8A5CD /* sha3.c in Sources */,
@@ -3776,6 +3781,7 @@
 				67E0DEAB250F6C6600D42EF0 /* TWCurve.cpp in Sources */,
 				67A4BD972330A9220059A3DB /* ripemd160.c in Sources */,
 				67ECD12D23CD71B900B7D514 /* DerivationPath.cpp in Sources */,
+				77A126A82636B70400494B23 /* JubiterBIOXRPImpl.cpp in Sources */,
 				675C796C238B78B00015C95D /* Transaction.cpp in Sources */,
 				67662222234C31DC00AFAFA2 /* PublicKey.cpp in Sources */,
 				674F19E623A10735001702DD /* nist256p1.c in Sources */,

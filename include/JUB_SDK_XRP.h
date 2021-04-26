@@ -132,7 +132,8 @@ JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
 /*****************************************************************************
  * @function name : JUB_GetHDNodeXRP
  * @in  param : contextID - context ID
- *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
+ *                     JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
  *          : path
  * @out param : pubkey
  * @last change :
@@ -158,7 +159,8 @@ JUB_RV JUB_CheckAddressXRP(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OU
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeXRP
  * @in  param : contextID - context ID
- *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
+ *                     JUB_ENUM_PUB_FORMAT::XPUB(0x01) for xpub
  * @out param : xpub
  * @last change :
  *****************************************************************************/

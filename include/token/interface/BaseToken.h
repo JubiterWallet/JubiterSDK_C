@@ -8,6 +8,17 @@
 
 //extern struct stVersion;
 struct stVersionExp : stVersion {
+    stVersionExp() {
+        major = 0;
+        minor = 0;
+        patch = 0;
+    }
+    stVersionExp(JUB_UINT8 _major, JUB_UINT8 _minor, JUB_UINT16 _patch)
+    {
+        major = _major;
+        minor = _minor;
+        patch = _patch;
+    }
 
     friend bool operator<(const stVersionExp& lhs, const stVersionExp& rhs) {
 //        return  (lhs.major  < rhs.major)

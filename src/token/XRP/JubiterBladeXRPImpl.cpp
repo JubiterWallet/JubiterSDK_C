@@ -57,18 +57,12 @@ JUB_RV JubiterBladeXRPImpl::GetAddress(const std::string& path, const JUB_UINT16
 }
 
 
-JUB_RV JubiterBladeXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
+JUB_RV JubiterBladeXRPImpl::GetHDNodeBase(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
     //path = "m/44'/144'/0'";
     uchar_vector vPath;
     vPath << path;
     uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
-
-    //0x00 for hex
-    if (JUB_ENUM_PUB_FORMAT::HEX != format
-        ) {
-        return JUBR_ERROR_ARGS;
-    }
 
     APDU apdu(0x00, 0xE6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
     JUB_UINT16 ret = 0;
@@ -79,6 +73,22 @@ JUB_RV JubiterBladeXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 
     uchar_vector vPubkey(retData, (unsigned int)ulRetDataLen);
     pubkey = vPubkey.getHex();
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBladeXRPImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
+
+    //Version higher than 1.1.6 supports XPub
+    if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB == format) {
+        stVersionExp vSupportXpub(1, 1, 7);
+        if (JubiterBladeToken::_appletVersion < vSupportXpub) {
+            return JUBR_ERROR_ARGS;
+        }
+    }
+
+    JUB_VERIFY_RV(JubiterBladeXRPImpl::GetHDNodeBase(format, path, pubkey));
 
     return JUBR_OK;
 }
