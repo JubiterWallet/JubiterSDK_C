@@ -17,6 +17,10 @@ JUB_RV TrezorCryptoXRPImpl::SelectApplet() {
     return JUBR_OK;
 }
 
+JUB_RV TrezorCryptoXRPImpl::GetAppletVersion(stVersion& version) {
+
+    return JUBR_OK;
+}
 
 JUB_RV TrezorCryptoXRPImpl::SetCoin() {
 
