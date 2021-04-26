@@ -1016,6 +1016,8 @@
 		77974430262FC3E500ECFF34 /* BigIntegerAlgorithms.hh in Headers */ = {isa = PBXBuildFile; fileRef = 7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */; };
 		77A126A82636B70400494B23 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */; };
 		77A126A92636B70400494B23 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */; };
+		77A126FF2636CF1100494B23 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126FE2636CF1100494B23 /* JubiterBIOEOSImpl.cpp */; };
+		77A127002636CF1100494B23 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126FE2636CF1100494B23 /* JubiterBIOEOSImpl.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1548,6 +1550,7 @@
 		77974419262FC3E400ECFF34 /* BigUnsigned.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsigned.hh; path = ../../deps/bigint/BigUnsigned.hh; sourceTree = "<group>"; };
 		7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerAlgorithms.hh; path = ../../deps/bigint/BigIntegerAlgorithms.hh; sourceTree = "<group>"; };
 		77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOXRPImpl.cpp; path = ../../src/token/XRP/JubiterBIOXRPImpl.cpp; sourceTree = "<group>"; };
+		77A126FE2636CF1100494B23 /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1714,6 +1717,7 @@
 			children = (
 				32E84E47240B95CE003311B5 /* JubiterBaseEOSImpl.cpp */,
 				674621EC23C31DBE0096DDA2 /* JubiterBladeEOSImpl.cpp */,
+				77A126FE2636CF1100494B23 /* JubiterBIOEOSImpl.cpp */,
 				674621EB23C31DBE0096DDA2 /* TrezorCryptoEOSImpl.cpp */,
 				679DA9892577B44400B08471 /* JubiterLiteEOSImpl.cpp */,
 			);
@@ -3540,6 +3544,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67ED0FD825243217009029A7 /* AccountId.cpp in Sources */,
+				77A127002636CF1100494B23 /* JubiterBIOEOSImpl.cpp in Sources */,
 				679DA97D2577B38A00B08471 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67189FD623A2117500F8A5CD /* hmac.c in Sources */,
 				6718A00D23A211BB00F8A5CD /* Address.cpp in Sources */,
@@ -3757,6 +3762,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67ED0FD725243217009029A7 /* AccountId.cpp in Sources */,
+				77A126FF2636CF1100494B23 /* JubiterBIOEOSImpl.cpp in Sources */,
 				679DA97C2577B38A00B08471 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67A4BD8C2330A9220059A3DB /* hmac.c in Sources */,
 				67ECD13623CD724100B7D514 /* Bech32.cpp in Sources */,
