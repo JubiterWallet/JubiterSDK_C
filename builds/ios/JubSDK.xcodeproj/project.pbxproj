@@ -678,6 +678,8 @@
 		771856D7261597A300756E99 /* JubiterLiteHCImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 771856D5261597A300756E99 /* JubiterLiteHCImpl.cpp */; };
 		C32F60402636A3A70030D7A3 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C32F603F2636A3A70030D7A3 /* JubiterBIOXRPImpl.cpp */; };
 		C32F60412636A3A70030D7A3 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C32F603F2636A3A70030D7A3 /* JubiterBIOXRPImpl.cpp */; };
+		C32F604B2636BA630030D7A3 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C32F604A2636BA630030D7A3 /* JubiterBIOEOSImpl.cpp */; };
+		C32F604C2636BA630030D7A3 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C32F604A2636BA630030D7A3 /* JubiterBIOEOSImpl.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1176,6 +1178,7 @@
 		771856D1261596A700756E99 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/iOS/Release/libprotobuf.a; sourceTree = "<group>"; };
 		771856D5261597A300756E99 /* JubiterLiteHCImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterLiteHCImpl.cpp; path = ../../src/token/HC/JubiterLiteHCImpl.cpp; sourceTree = "<group>"; };
 		C32F603F2636A3A70030D7A3 /* JubiterBIOXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOXRPImpl.cpp; path = ../../src/token/XRP/JubiterBIOXRPImpl.cpp; sourceTree = "<group>"; };
+		C32F604A2636BA630030D7A3 /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1868,6 +1871,7 @@
 			children = (
 				675B053924286970004C62D4 /* JubiterBaseEOSImpl.cpp */,
 				6746217523C31A230096DDA2 /* JubiterBladeEOSImpl.cpp */,
+				C32F604A2636BA630030D7A3 /* JubiterBIOEOSImpl.cpp */,
 				675B053A24286970004C62D4 /* JubiterLiteEOSImpl.cpp */,
 				6746217623C31A230096DDA2 /* TrezorCryptoEOSImpl.cpp */,
 			);
@@ -2786,6 +2790,7 @@
 				67755DB8253F10B70056F2C0 /* ContractBalance.cpp in Sources */,
 				6718A34C23A338D800F8A5CD /* Signer.cpp in Sources */,
 				675B058624286B55004C62D4 /* ERC20Abi.cpp in Sources */,
+				C32F604C2636BA630030D7A3 /* JubiterBIOEOSImpl.cpp in Sources */,
 				6718A3E123A3395700F8A5CD /* bleTransmit.cpp in Sources */,
 				671E23FA23CEC197001A5F81 /* Address.cpp in Sources */,
 				6718A35D23A338DF00F8A5CD /* Hash.cpp in Sources */,
@@ -2881,6 +2886,7 @@
 				6713A8D923A07EB60083A34D /* BigUnsigned.cc in Sources */,
 				67E0DE20250F18E000D42EF0 /* comm.cpp in Sources */,
 				6713A8B023A07D500083A34D /* ed25519_ref10_fe_25_5.c in Sources */,
+				C32F604B2636BA630030D7A3 /* JubiterBIOEOSImpl.cpp in Sources */,
 				674F1A0723A1080A001702DD /* ed25519.c in Sources */,
 				671E240723CEC1E8001A5F81 /* Bech32.cpp in Sources */,
 				6746217923C31A240096DDA2 /* TrezorCryptoEOSImpl.cpp in Sources */,

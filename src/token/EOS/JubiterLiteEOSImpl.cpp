@@ -24,6 +24,10 @@ JUB_RV JubiterLiteEOSImpl::SetCoin() {
     return JUBR_OK;
 }
 
+JUB_RV JubiterLiteEOSImpl::GetAppletVersion(stVersion& version) {
+
+    return JubiterLiteImpl::GetAppletVersion(version);
+}
 
 JUB_RV JubiterLiteEOSImpl::GetAddress(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) {
 

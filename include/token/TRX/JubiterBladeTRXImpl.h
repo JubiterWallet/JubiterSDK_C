@@ -35,6 +35,7 @@ public:
     virtual JUB_RV SetCoin() override;
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) override;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
+    virtual JUB_RV GetHDNodeBase(const JUB_BYTE format, const std::string& path, std::string& pubkey);
     virtual JUB_RV SignTX(const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vRaw,
                           std::vector<uchar_vector>& vSignatureRaw) override;
