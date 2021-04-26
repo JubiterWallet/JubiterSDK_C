@@ -64,6 +64,9 @@ public:
         TAG_TX_HASH_07 = 0x07,
            TAG_PATH_08 = 0x08,
     };
+
+    static stAppInfos g_appInfo[];
+
 public:
     JubiterBladeToken(JUB_UINT16 deviceID);
     virtual ~JubiterBladeToken() = default;
@@ -123,8 +126,6 @@ public:
     virtual JUB_RV EraseFingerprint(IN JUB_UINT16 fpTimeout) override;
     virtual JUB_RV DeleteFingerprint(IN JUB_UINT16 fpTimeout,
                                      JUB_BYTE fgptID) override;
-
-    static stAppInfos g_appInfo[];
 
 protected:
     JUB_BYTE _HighMark(const JUB_ULONG& highMark) {

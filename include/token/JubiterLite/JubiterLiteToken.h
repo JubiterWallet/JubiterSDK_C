@@ -28,6 +28,9 @@ constexpr JUB_BYTE kPKIAID_NFC[16] = {
 class JubiterLiteToken :
     public JubiterBladeToken {
 public:
+    static stAppInfos g_appInfo[];
+
+public:
     JubiterLiteToken(JUB_UINT16 deviceID);
     virtual ~JubiterLiteToken() = default;
     //common token functions
@@ -64,8 +67,6 @@ public:
                                   const std::string& mnemonic) override;
     virtual JUB_RV ExportMnemonic(const std::string& pinMix,
                                   OUT std::string& mnemonic) override;
-
-    static stAppInfos g_appInfo[];
 
 protected:
     virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
