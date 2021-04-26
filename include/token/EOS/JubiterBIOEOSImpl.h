@@ -16,6 +16,8 @@ public:
         JubiterBIOToken(deviceID),
         JubiterBladeEOSImpl(deviceID) {}
     virtual ~JubiterBIOEOSImpl() = default;
+    
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
 }; // class JubiterBIOEOSImpl end
 
 

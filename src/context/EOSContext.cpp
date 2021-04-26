@@ -29,6 +29,7 @@ JUB_RV EOSContext::ActiveSelf() {
         return JUBR_IMPL_NOT_SUPPORT;
     }
 
+    JUB_VERIFY_RV(token->GetAppletVersion(_appletVersion));
     JUB_RV rv = token->SelectApplet();
     if (JUBR_EOS_APP_INDEP_OK != rv
         &&            JUBR_OK != rv
