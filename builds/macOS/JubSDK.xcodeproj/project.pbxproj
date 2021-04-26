@@ -950,6 +950,8 @@
 		7718571426159F1800756E99 /* jubiter_bridge.pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 7718571026159F1800756E99 /* jubiter_bridge.pb.h */; };
 		7781059125F9BD650014C1EE /* TaggedAddresses.h in Headers */ = {isa = PBXBuildFile; fileRef = 7781058D25F9BD650014C1EE /* TaggedAddresses.h */; };
 		7781059C25F9C3FB0014C1EE /* (null) in Headers */ = {isa = PBXBuildFile; };
+		C32F603426369FE90030D7A3 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C32F603326369FE90030D7A3 /* JubiterBIOXRPImpl.cpp */; };
+		C32F603526369FE90030D7A3 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C32F603326369FE90030D7A3 /* JubiterBIOXRPImpl.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1448,6 +1450,7 @@
 		7718570F26159F1800756E99 /* jubiter_bridge.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jubiter_bridge.pb.cc; path = ../../deps/JubiterSDK_Common_pb/cpp/jubiter_bridge.pb.cc; sourceTree = "<group>"; };
 		7718571026159F1800756E99 /* jubiter_bridge.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jubiter_bridge.pb.h; path = ../../deps/JubiterSDK_Common_pb/cpp/jubiter_bridge.pb.h; sourceTree = "<group>"; };
 		7781058D25F9BD650014C1EE /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
+		C32F603326369FE90030D7A3 /* JubiterBIOXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOXRPImpl.cpp; path = ../../src/token/XRP/JubiterBIOXRPImpl.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1625,6 +1628,7 @@
 			children = (
 				32E84E4A240B95DD003311B5 /* JubiterBaseXRPImpl.cpp */,
 				674621E623C31D9D0096DDA2 /* JubiterBladeXRPImpl.cpp */,
+				C32F603326369FE90030D7A3 /* JubiterBIOXRPImpl.cpp */,
 				674621E523C31D9D0096DDA2 /* TrezorCryptoXRPImpl.cpp */,
 				679DA9902577B45D00B08471 /* JubiterLiteXRPImpl.cpp */,
 			);
@@ -3514,6 +3518,7 @@
 				67189FE023A2117C00F8A5CD /* scrypt.c in Sources */,
 				678022292519DA82008142B1 /* ContractSmart.cpp in Sources */,
 				67E0DED6250F6CA500D42EF0 /* TransactionDash.cpp in Sources */,
+				C32F603526369FE90030D7A3 /* JubiterBIOXRPImpl.cpp in Sources */,
 				676393212534608B00C41883 /* asset_issue_contract.pb.cc in Sources */,
 				67E0DEF0250F6CA500D42EF0 /* CashAddress.cpp in Sources */,
 				67189FD123A2117200F8A5CD /* ed25519-sha3.c in Sources */,
@@ -3715,6 +3720,7 @@
 				674F199C23A10574001702DD /* aescrypt.c in Sources */,
 				678022282519DA82008142B1 /* ContractSmart.cpp in Sources */,
 				676393202534608B00C41883 /* asset_issue_contract.pb.cc in Sources */,
+				C32F603426369FE90030D7A3 /* JubiterBIOXRPImpl.cpp in Sources */,
 				67E0DED5250F6CA500D42EF0 /* TransactionDash.cpp in Sources */,
 				67E0DEEF250F6CA500D42EF0 /* CashAddress.cpp in Sources */,
 				67A4BCE1233084740059A3DB /* JUB_core.cpp in Sources */,
