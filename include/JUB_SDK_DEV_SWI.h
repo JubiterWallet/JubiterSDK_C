@@ -11,6 +11,8 @@
 
 #include "JUB_SDK_DEV.h"
 
+#define MAX_DEVICE                  8
+
 #ifdef __cplusplus
 extern "C" {
 #endif // #ifdef __cplusplus
@@ -37,7 +39,7 @@ JUB_RV JUB_DisconnetDeviceSWI(IN JUB_UINT16 deviceID);
 
 
 /*****************************************************************************
- * @function name : JUB_ImportMasterPrivateKey
+ * @function name : JUB_BuildFromMasterPrivateKey
  * @in  param : deviceID - device ID
  *           curve - JUB_ENUM_CURVES::SECP256K1, JUB_ENUM_CURVES::ED25519
  *           masterPrivateKey - Master PrivateKey
@@ -45,22 +47,22 @@ JUB_RV JUB_DisconnetDeviceSWI(IN JUB_UINT16 deviceID);
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ImportMasterPrivateKey(IN JUB_UINT16 deviceID,
-                                  IN JUB_ENUM_CURVES curve,
-                                  IN JUB_CHAR_CPTR masterPrivateKey);
+JUB_RV JUB_BuildFromMasterPrivateKey(IN JUB_UINT16 deviceID,
+                                     IN JUB_ENUM_CURVES curve,
+                                     IN JUB_CHAR_CPTR masterPrivateKey);
 
 
 /*****************************************************************************
- * @function name : JUB_ImportMnemonic
+ * @function name : JUB_BuildFromMnemonic
  * @in  param : deviceID - device ID
  *           mnemonic - mnemonic
  * @out param :
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
-                          IN JUB_CHAR_CPTR passphrase,
-                          IN JUB_CHAR_CPTR mnemonic);
+JUB_RV JUB_BuildFromMnemonic(IN JUB_UINT16 deviceID,
+                             IN JUB_CHAR_CPTR passphrase,
+                             IN JUB_CHAR_CPTR mnemonic);
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus

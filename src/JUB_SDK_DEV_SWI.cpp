@@ -80,16 +80,16 @@ JUB_RV JUB_DisconnetDeviceSWI(IN JUB_UINT16 deviceID) {
 
 
 /*****************************************************************************
- * @function name : JUB_ImportMasterPrivateKey
+ * @function name : JUB_BuildFromMasterPrivateKey
  * @in  param : deviceID - device ID
  *           curve - JUB_ENUM_CURVES::SECP256K1, JUB_ENUM_CURVES::ED25519
  *           masterPrivateKey - Master PrivateKey
  * @out param :
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_ImportMasterPrivateKey(IN JUB_UINT16 deviceID,
-                                  IN JUB_ENUM_CURVES curve,
-                                  IN JUB_CHAR_CPTR masterPrivateKey) {
+JUB_RV JUB_BuildFromMasterPrivateKey(IN JUB_UINT16 deviceID,
+                                     IN JUB_ENUM_CURVES curve,
+                                     IN JUB_CHAR_CPTR masterPrivateKey) {
 
 #if defined(SWI_MODE)
     CREATE_THREAD_LOCK_GUARD
@@ -108,15 +108,15 @@ JUB_RV JUB_ImportMasterPrivateKey(IN JUB_UINT16 deviceID,
 
 
 /*****************************************************************************
- * @function name : JUB_ImportMnemonic
+ * @function name : JUB_BuildFromMnemonic
  * @in  param : deviceID - device ID
  *           mnemonic - mnemonic
  * @out param :
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_ImportMnemonic(IN JUB_UINT16 deviceID,
-                          IN JUB_CHAR_CPTR passphrase,
-                          IN JUB_CHAR_CPTR mnemonic) {
+JUB_RV JUB_BuildFromMnemonic(IN JUB_UINT16 deviceID,
+                             IN JUB_CHAR_CPTR passphrase,
+                             IN JUB_CHAR_CPTR mnemonic) {
 
 #if defined(SWI_MODE)
     CREATE_THREAD_LOCK_GUARD
