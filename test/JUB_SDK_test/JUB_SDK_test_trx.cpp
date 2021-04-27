@@ -17,40 +17,16 @@ using namespace std;
 
 #include "JUB_SDK_main.h"
 
+
 void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
-    JUB_ENUM_COMMODE commode;
-    JUB_ENUM_DEVICE deviceClass;
-    rv = JUB_GetDeviceType(deviceID,
-                           &commode, &deviceClass);
-    cout << "[-] JUB_GetDeviceType() return " << GetErrMsg(rv) << endl;
-    if (JUBR_OK != rv) {
-        return;
-    }
-
-    switch (commode) {
-    case JUB_ENUM_COMMODE::HID:
-    case JUB_ENUM_COMMODE::BLE:
-    case JUB_ENUM_COMMODE::NFC:
-    case JUB_ENUM_COMMODE::SIM:
-    {
-        char* appList;
-        rv = JUB_EnumApplets(deviceID, &appList);
-        cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
-        if (JUBR_OK != rv) {
-            return;
-        }
-
-        break;
-    }
-    case JUB_ENUM_COMMODE::SWI:
-    default:
-        break;
-    }
-
     Json::Value root = readJSON(json_file);
+    if (root.empty()) {
+        return ;
+    }
+
     JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_TRX cfg;
@@ -60,12 +36,12 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
     if (JUBR_OK != rv) {
         return;
     }
-	cout << endl;
+    cout << endl;
 
     while (true) {
-        cout << " ------------------------------------- " << endl;
+        cout << "--------------------------------------" << endl;
         cout << "|******* Jubiter Wallet TRX  ********|" << endl;
-        cout << "| 0 . show_address_pubkey_test.      |" << endl;
+        cout << "|  0. show_address_pubkey_test.      |" << endl;
         cout << "|                                    |" << endl;
         cout << "|  1.       transfer_contract_test.  |" << endl;
         cout << "|  2. transfer_asset_contract_test.  |" << endl;
@@ -74,11 +50,8 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
         cout << "| 31. trigger_smart_contr_erc20_test.|" << endl;
         cout << "| 32. trigger_smart_contr_trc20_test.|" << endl;
         cout << "|                                    |" << endl;
-        cout << "| 3 . set_my_address_test.           |" << endl;
-        cout << "| 4 . set_timeout_test.              |" << endl;
-        cout << "|                                    |" << endl;
         cout << "| 9 . return.                        |" << endl;
-        cout << " ------------------------------------ " << endl;
+        cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
         int choice = 0;
@@ -96,12 +69,6 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
         case 32:
             transaction_test_TRX(contextID, root, choice);
             break;
-        case 3:
-            set_my_address_test_TRX(contextID);
-            break;
-        case 4:
-            set_timeout_test(contextID);
-            break;
         case 9:
             main_test();
         default:
@@ -110,41 +77,30 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
     }   // while (true) end
 }
 
-void set_my_address_test_TRX(JUB_UINT16 contextID) {
-
-    JUB_RV rv = verify_pin(contextID);
-    if (JUBR_OK != rv) {
-        return;
-    }
-
-    int change = 0;
-    JUB_UINT64 index = 0;
-    cout << "please input change level (non-zero means 1):" << endl;
-    cin >> change;
-    cout << "please input index " << endl;
-    cin >> index;
-
-    BIP44_Path path;
-    path.change = JUB_ENUM_BOOL(change);
-    path.addressIndex = index;
-
-    JUB_CHAR_PTR address = nullptr;
-    rv = JUB_SetMyAddressTRX(contextID, path, &address);
-    cout << "[-] JUB_SetMyAddressTRX() return " << GetErrMsg(rv) << endl;
-    if (JUBR_OK != rv) {
-        return;
-    }
-    else {
-        cout << "    set my address is : " << address << endl;
-        JUB_FreeMemory(address);
-    }
-}
 
 void get_address_pubkey_TRX(JUB_UINT16 contextID) {
 
-    JUB_RV rv = JUBR_OK;
+    JUB_RV rv = JUBR_ERROR;
 
     cout << "[----------------------------------- HD Node -----------------------------------]" << endl;
+    JUB_CHAR_PTR pubkey = nullptr;
+    rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
+    cout << "[-] JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "MainXpub in  HEX format:  " << pubkey << endl;
+    JUB_FreeMemory(pubkey);
+    cout << endl;
+
+    pubkey = nullptr;
+    rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &pubkey);
+    cout << "[-] JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK == rv) {
+        cout << "MainXpub in XPUB format:  " << pubkey << endl;
+        JUB_FreeMemory(pubkey);
+        cout << endl;
+    }
 
     int change = 0;
     JUB_UINT64 index = 0;
@@ -157,71 +113,57 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
     path.change = JUB_ENUM_BOOL(change);
     path.addressIndex = index;
 
-    JUB_CHAR_PTR xpub = nullptr;
-    rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, &xpub);
-    cout << "[-] JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
-    if (JUBR_OK != rv) {
-        return;
-    }
-
-    cout << "    Main xpub in  HEX: " << xpub << endl;
-    JUB_FreeMemory(xpub);
-    cout << endl;
-
-    rv = JUB_GetMainHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, &xpub);
-    cout << "[-] JUB_GetMainHDNodeTRX() return " << GetErrMsg(rv) << endl;
-    if (JUBR_OK != rv) {
-        return;
-    }
-
-    cout << "    Main xpub in XPUB: " << xpub << endl;
-    JUB_FreeMemory(xpub);
-    cout << endl;
-
-    xpub = nullptr;
-    rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &xpub);
+    pubkey = nullptr;
+    rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::HEX, path, &pubkey);
     cout << "[-] JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
-        return;
+        cout << "  pubkey in  HEX format :  "<< pubkey << endl;
+        JUB_FreeMemory(pubkey);
+        cout << endl;
     }
 
-    cout << "    xpub in  HEX: " << xpub << endl;
-    JUB_FreeMemory(xpub);
-    cout << endl;
-
-    xpub = nullptr;
-    rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &xpub);
+    pubkey = nullptr;
+    rv = JUB_GetHDNodeTRX(contextID, JUB_ENUM_PUB_FORMAT::XPUB, path, &pubkey);
     cout << "[-] JUB_GetHDNodeTRX() return " << GetErrMsg(rv) << endl;
-    if (JUBR_OK != rv) {
-        return;
+    if (JUBR_OK == rv) {
+        cout << "  pubkey in XPUB format :  " << pubkey << endl;
+        JUB_FreeMemory(pubkey);
     }
-
-    cout << "    xpub in XPUB: " << xpub << endl;
-    JUB_FreeMemory(xpub);
     cout << "[--------------------------------- HD Node end ---------------------------------]" << endl;
     cout << endl << endl;
 
     cout << "[----------------------------------- Address -----------------------------------]" << endl;
     JUB_CHAR_PTR address = nullptr;
+    rv = JUB_GetAddressTRX(contextID, path, BOOL_FALSE, &address);
+    cout << "[-] JUB_GetAddressTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "         address: " << address << endl;
+    JUB_FreeMemory(address);
+
+    address = nullptr;
     rv = JUB_GetAddressTRX(contextID, path, BOOL_TRUE, &address);
     cout << "[-] JUB_GetAddressTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
-    cout << "    show address: " << address << endl << endl;
+    cout << "    show address: " << address << endl;
 
-    char* addrInHex = nullptr;
+    JUB_CHAR_PTR addrInHex = nullptr;
     rv = JUB_CheckAddressTRX(contextID, address, &addrInHex);
     cout << "[-] JUB_CheckAddressTRX() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
 
-    cout << "    address in hex: " << addrInHex << endl;
+    cout << "  address in hex: " << addrInHex << endl;
+    JUB_FreeMemory(address);
     JUB_FreeMemory(addrInHex);
     cout << "[--------------------------------- Address end ---------------------------------]" << endl;
     cout << endl << endl;
 }
+
 
 void transaction_test_TRX(JUB_UINT16 contextID, Json::Value root, int choice) {
 
@@ -235,6 +177,7 @@ void transaction_test_TRX(JUB_UINT16 contextID, Json::Value root, int choice) {
         return;
     }
 }
+
 
 JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) {
 

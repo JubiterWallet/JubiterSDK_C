@@ -26,6 +26,7 @@
 		67E0DFB8250F78DB00D42EF0 /* JUB_SDK_test_trx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFB4250F78DA00D42EF0 /* JUB_SDK_test_trx.cpp */; };
 		67F595A8256E787500AB8FED /* JUB_SDK_test_fil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F595A6256E787500AB8FED /* JUB_SDK_test_fil.cpp */; };
 		7797440B262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77974409262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp */; };
+		77A127352637CC2E00494B23 /* JUB_SDK_test_usdt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A127342637CC2E00494B23 /* JUB_SDK_test_usdt.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -127,6 +128,8 @@
 		67F595A7256E787500AB8FED /* JUB_SDK_test_fil.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_fil.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_fil.hpp; sourceTree = "<group>"; };
 		77974409262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_dev_swi.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_swi.cpp; sourceTree = "<group>"; };
 		7797440A262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_dev_swi.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_swi.hpp; sourceTree = "<group>"; };
+		77A127332637CC2E00494B23 /* JUB_SDK_test_usdt.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_usdt.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_usdt.hpp; sourceTree = "<group>"; };
+		77A127342637CC2E00494B23 /* JUB_SDK_test_usdt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_usdt.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_usdt.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +263,8 @@
 				7797440A262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.hpp */,
 				67A4BE862330C99C0059A3DB /* JUB_SDK_test_btc.cpp */,
 				67A4BE872330C99C0059A3DB /* JUB_SDK_test_btc.hpp */,
+				77A127342637CC2E00494B23 /* JUB_SDK_test_usdt.cpp */,
+				77A127332637CC2E00494B23 /* JUB_SDK_test_usdt.hpp */,
 				6715458B23D434BC00810F16 /* JUB_SDK_test_qtum.cpp */,
 				6715458C23D434BD00810F16 /* JUB_SDK_test_qtum.hpp */,
 				6715459523D45AC400810F16 /* JUB_SDK_test_hcash.cpp */,
@@ -425,6 +430,7 @@
 				67A4BE842330C6440059A3DB /* JUB_SDK_test_dev.cpp in Sources */,
 				67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */,
 				67742FCF24D15B7A00A37903 /* JUB_SDK_test_dev_bio.cpp in Sources */,
+				77A127352637CC2E00494B23 /* JUB_SDK_test_usdt.cpp in Sources */,
 				67A4BE662330C3CE0059A3DB /* JUB_SDK_test.cpp in Sources */,
 				6715459623D45AC400810F16 /* JUB_SDK_test_hcash.cpp in Sources */,
 				6791CE0B23968EB7000B6B16 /* JUB_SDK_test_xrp.cpp in Sources */,

@@ -95,6 +95,7 @@ JUB_RV JUB_GetHDNodeBTC(
 ```
 
 ### JUB_GetAddressXXX
+
 * **Function:** Get address for the specified coin in the specified path.
 * **IN param:**
 contextID - context ID from JUB_CreateContextXXX.
@@ -113,7 +114,7 @@ JUB_RV JUB_GetAddressBTC(
 ```
 
 ### JUB_SetMyAddressXXX
-* **Function:** Set the default address for the specified coin.
+* **Function:** Set the default address for the specified coin(only for BTC and ETH).
 * **IN param:**
 contextID - context ID from JUB_CreateContextXXX.
 path - path in BIP44.

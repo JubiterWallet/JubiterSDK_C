@@ -52,6 +52,9 @@ public:
                                  JUB_UINT16 unitDP,
                                  JUB_CHAR_CPTR contractAddress) = 0;
 
+    virtual JUB_RV GetHDNode(const JUB_ULONG p1, const JUB_ULONG p2, const std::string& path, TW::Data& pubkey) = 0;
+    virtual JUB_RV GetAddress(const JUB_ULONG p1, const JUB_ULONG p2, const TW::Data& apduData, TW::Data& address) = 0;
+
     // NFC
     virtual JUB_RV SetLabel(const std::string& label) = 0;
     virtual JUB_RV Reset() = 0;

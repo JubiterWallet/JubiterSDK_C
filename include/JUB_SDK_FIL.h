@@ -70,18 +70,18 @@ JUB_RV JUB_GetMainHDNodeFIL(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
-/*****************************************************************************
- * @function name : JUB_SetMyAddressFIL
- * @in  param : contextID - context ID
- *          : path
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SetMyAddressFIL(IN JUB_UINT16 contextID,
-                           IN BIP44_Path path,
-                           OUT JUB_CHAR_PTR_PTR address);
-
+///*****************************************************************************
+// * @function name : JUB_SetMyAddressFIL
+// * @in  param : contextID - context ID
+// *          : path
+// * @out param : address
+// * @last change :
+// *****************************************************************************/
+//JUB_COINCORE_DLL_EXPORT
+//JUB_RV JUB_SetMyAddressFIL(IN JUB_UINT16 contextID,
+//                           IN BIP44_Path path,
+//                           OUT JUB_CHAR_PTR_PTR address);
+//
 /*****************************************************************************
  * @function name : JUB_SignTransactionFIL
  * @in  param : contextID - context ID

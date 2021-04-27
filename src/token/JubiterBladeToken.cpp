@@ -91,6 +91,44 @@ JubiterBladeToken::JubiterBladeToken(JUB_UINT16 deviceID)
 }
 
 
+JUB_RV JubiterBladeToken::GetHDNode(const JUB_ULONG p1, const JUB_ULONG p2, const std::string& path, TW::Data& pubkey) {
+
+    uchar_vector vPath;
+    vPath << path;
+    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
+
+    APDU apdu(0x00, 0xE6, p1, p2, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[2048] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    pubkey.resize(ulRetDataLen);
+    std::copy(retData, retData+ulRetDataLen, std::begin(pubkey));
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBladeToken::GetAddress(const JUB_ULONG p1, const JUB_ULONG p2, const TW::Data& apduData, TW::Data& address) {
+
+    uchar_vector data(apduData.begin(), apduData.end());
+
+    APDU apdu(0x00, 0xF6, p1, p2, (JUB_ULONG)data.size(), data.data(), data.size());
+    JUB_UINT16 ret = 0;
+    JUB_BYTE retData[2048] = { 0, };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    address.resize(ulRetDataLen);
+    std::copy(retData, retData+ulRetDataLen, std::begin(address));
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterBladeToken::_SendApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_BYTE *retData /*= nullptr*/,
     JUB_ULONG *pulRetDataLen /*= nullptr*/,
     JUB_ULONG ulMiliSecondTimeout /*= 0*/) {

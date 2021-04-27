@@ -31,16 +31,9 @@ JUB_RV JubiterBladeETHImpl::GetAppletVersion(stVersion& version) {
 
 JUB_RV JubiterBladeETHImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
 
-    uchar_vector data(path.begin(), path.end());
+    uchar_vector vAddress;
+    JUB_VERIFY_RV(JubiterBladeToken::GetAddress(0x00, tag, TW::Data(path.begin(), path.end()), vAddress));
 
-    APDU apdu(0x00, 0xF6, 0x00, (JUB_BYTE)tag, (JUB_ULONG)data.size(), data.data(), 0x14);
-    JUB_UINT16 ret = 0;
-    JUB_BYTE retData[2048] = { 0, };
-    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-    JUB_VERIFY_COS_ERROR(ret);
-
-    uchar_vector vAddress(retData, (unsigned int)ulRetDataLen);
     address = std::string(ETH_PRDFIX) + vAddress.getHex();
 
     return JUBR_OK;
@@ -49,31 +42,23 @@ JUB_RV JubiterBladeETHImpl::GetAddress(const std::string& path, const JUB_UINT16
 
 JUB_RV JubiterBladeETHImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
-    //path = "m/44'/60'/0'";
-    uchar_vector vPath;
-    vPath << path;
-    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
-
-    //0x00 for hex, 0x01 for xpub
-    if (   (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX  != format
-        && (JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB != format
-        ) {
+    switch (format) {
+    case JUB_ENUM_PUB_FORMAT::HEX:
+    case JUB_ENUM_PUB_FORMAT::XPUB:
+        break;
+    default:
         return JUBR_ERROR_ARGS;
     }
 
-    APDU apdu(0x00, 0xE6, 0x00, format, (JUB_ULONG)apduData.size(), apduData.data());
-    JUB_UINT16 ret = 0;
-    JUB_BYTE retData[2048] = { 0, };
-    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-    JUB_VERIFY_COS_ERROR(ret);
+    //path = "m/44'/60'/0'";
+    uchar_vector vPubkey;
+    JUB_VERIFY_RV(JubiterBladeToken::GetHDNode(0x00, format, path, vPubkey));
 
     if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX == format) {
-        uchar_vector vPubkey(retData, (unsigned int)ulRetDataLen);
         pubkey = std::string(ETH_PRDFIX) + vPubkey.getHex();
     }
     else if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB == format) {
-        pubkey = (JUB_CHAR_PTR)retData;
+        pubkey = std::string(vPubkey.begin(), vPubkey.end());
     }
 
     return JUBR_OK;
