@@ -36,30 +36,16 @@ void get_device_info_test(JUB_UINT16 deviceID) {
 
     JUB_RV rv = JUBR_ERROR;
 
-    cout << "[--------------------------------- Device Info ---------------------------------]" << endl;
-    char* appList;
-    rv = JUB_EnumApplets(deviceID, &appList);
-    cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
+    JUB_ENUM_COMMODE commode;
+    JUB_ENUM_DEVICE deviceClass;
+    rv = JUB_GetDeviceType(deviceID,
+                           &commode, &deviceClass);
+    cout << "[-] JUB_GetDeviceType() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return;
     }
-    std::string appletList = appList;
-    JUB_FreeMemory(appList);
-    cout << endl;
 
-    auto vAppList = split(appletList, ' ');
-
-    for (auto appID : vAppList) {
-        JUB_VERSION version;
-        auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
-        cout << "[-] JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
-        if (JUBR_OK != rv) {
-            return;
-        }
-
-        cout << appID << "    Applet Version : " << version.major << "." << version.minor << "." << version.patch << endl;
-    }
-
+    cout << "[--------------------------------- Device Info ---------------------------------]" << endl;
     JUB_DEVICE_INFO info;
     rv = JUB_GetDeviceInfo(deviceID, &info);
     cout << "[-] JUB_GetDeviceInfo() return " << GetErrMsg(rv) << endl;

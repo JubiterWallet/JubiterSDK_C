@@ -159,28 +159,28 @@ JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-/*****************************************************************************
- * @function name : JUB_SetMyAddressXRP
- * @in  param : contextID - context ID
- *          : path
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
-                           IN BIP44_Path path,
-                           OUT JUB_CHAR_PTR_PTR address) {
-
-    CREATE_THREAD_LOCK_GUARD
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
-	JUB_CHECK_NULL(context);
-
-    std::string str_address;
-    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
-    JUB_VERIFY_RV(_allocMem(address, str_address));
-
-    return JUBR_OK;
-}
-
+///*****************************************************************************
+// * @function name : JUB_SetMyAddressXRP
+// * @in  param : contextID - context ID
+// *          : path
+// * @out param : address
+// * @last change :
+// *****************************************************************************/
+//JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
+//                           IN BIP44_Path path,
+//                           OUT JUB_CHAR_PTR_PTR address) {
+//
+//    CREATE_THREAD_LOCK_GUARD
+//	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
+//	JUB_CHECK_NULL(context);
+//
+//    std::string str_address;
+//    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
+//    JUB_VERIFY_RV(_allocMem(address, str_address));
+//
+//    return JUBR_OK;
+//}
+//
 /*****************************************************************************
  * @function name : JUB_GetHDNodeXRP
  * @in  param : contextID - context ID

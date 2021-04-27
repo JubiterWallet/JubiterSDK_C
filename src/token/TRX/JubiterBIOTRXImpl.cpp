@@ -24,15 +24,32 @@ JUB_RV JubiterBIOTRXImpl::SetTRC20Token(const std::string& tokenName,
 
 JUB_RV JubiterBIOTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
-    //Version higher than 5.1.5 supports XPub
-    if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB == format) {
+    switch (format) {
+    case JUB_ENUM_PUB_FORMAT::HEX:
+        break;
+    case JUB_ENUM_PUB_FORMAT::XPUB:
+    {
+        //Version higher than 5.1.5 supports XPub
         stVersionExp vSupportXpub(5, 1, 5);
         if (JubiterBladeTRXImpl::_appletVersion < vSupportXpub) {
             return JUBR_ERROR_ARGS;
         }
+        break;
+    }
+    default:
+        return JUBR_ERROR_ARGS;
     }
 
-    JUB_VERIFY_RV(JubiterBladeTRXImpl::GetHDNodeBase(format, path, pubkey));
+    //path = "m/44'/195'/0'";
+    uchar_vector vPubkey;
+    JUB_VERIFY_RV(JubiterBIOToken::GetHDNode(0x00, format, path, vPubkey));
+
+    if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX == format) {
+        pubkey = vPubkey.getHex();
+    }
+    else if ((JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB == format) {
+        pubkey = std::string(vPubkey.begin(), vPubkey.end());
+    }
 
     return JUBR_OK;
 }

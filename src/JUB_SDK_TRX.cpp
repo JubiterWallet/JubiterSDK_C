@@ -83,29 +83,29 @@ JUB_RV JUB_CheckAddressTRX(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OU
     return JUBR_OK;
 }
 
-/*****************************************************************************
- * @function name : JUB_SetMyAddressTRX
- * @in  param : contextID - context ID
- *            : path
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_SetMyAddressTRX(IN JUB_UINT16 contextID,
-                           IN BIP44_Path path,
-//                           IN BIP48_Path path,
-                           OUT JUB_CHAR_PTR_PTR address) {
-
-    CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
-    JUB_CHECK_NULL(context);
-
-    std::string str_address;
-    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
-    JUB_VERIFY_RV(_allocMem(address, str_address));
-
-    return JUBR_OK;
-}
-
+///*****************************************************************************
+// * @function name : JUB_SetMyAddressTRX
+// * @in  param : contextID - context ID
+// *            : path
+// * @out param : address
+// * @last change :
+// *****************************************************************************/
+//JUB_RV JUB_SetMyAddressTRX(IN JUB_UINT16 contextID,
+//                           IN BIP44_Path path,
+////                           IN BIP48_Path path,
+//                           OUT JUB_CHAR_PTR_PTR address) {
+//
+//    CREATE_THREAD_LOCK_GUARD
+//    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
+//    JUB_CHECK_NULL(context);
+//
+//    std::string str_address;
+//    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
+//    JUB_VERIFY_RV(_allocMem(address, str_address));
+//
+//    return JUBR_OK;
+//}
+//
 /*****************************************************************************
  * @function name : JUB_GetHDNodeTRX
  * @in  param : contextID - context ID

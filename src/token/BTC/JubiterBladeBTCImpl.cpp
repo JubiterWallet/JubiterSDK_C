@@ -37,9 +37,6 @@ constexpr JUB_BYTE kMainnetP2SH_P2WPKH = 0x04;
 
 JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
 
-    uchar_vector vPath;
-    vPath << path;
-    uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
     JUB_BYTE p2 = 0x00;
     switch (type) {
     case p2pkh:
@@ -53,17 +50,14 @@ JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
         break;
     } // case p2sh_p2wpkh end
     default:
-        break;
+        return JUBR_ARGUMENTS_BAD;
     } // switch (type) end
 
-    APDU apdu(0x00, 0xE6, 0x00, p2, (JUB_ULONG)apduData.size(), apduData.data());
-    JUB_UINT16 ret = 0;
-    JUB_BYTE retData[2048] = { 0, };
-    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-    JUB_VERIFY_COS_ERROR(ret);
+    //path = "m/44'/X'/0'";
+    uchar_vector vPubkey;
+    JUB_VERIFY_RV(JubiterBladeToken::GetHDNode(0x00, p2, path, vPubkey));
 
-    xpub = (JUB_CHAR_PTR)retData;
+    xpub = vPubkey.getHex();
 
     return JUBR_OK;
 }
@@ -98,14 +92,11 @@ JUB_RV JubiterBladeBTCImpl::GetAddress(const JUB_BYTE addrFmt,
     uchar_vector vPath;
     vPath << path;
     uchar_vector apduData = ToTlv(JUB_ENUM_APDU_DATA::TAG_PATH_08, vPath);
-    APDU apdu(0x00, 0xF6, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
-    JUB_UINT16 ret = 0;
-    JUB_BYTE retData[2048] = { 0, };
-    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-    JUB_VERIFY_COS_ERROR(ret);
 
-    address = (JUB_CHAR_PTR)retData;
+    TW::Data vAddress;
+    JUB_VERIFY_RV(JubiterBladeToken::GetAddress(p1, sigType, apduData, vAddress));
+
+    address = std::string(vAddress.begin(), vAddress.end());
 
     return JUBR_OK;
 }

@@ -21,6 +21,8 @@
 
 #include "JUB_SDK_main.h"
 
+void USDT_test(JUB_UINT16 deviceID, const char* json_file);
+
 using std::getline;
 using std::istringstream;
 
@@ -79,6 +81,7 @@ void getVersion(JUB_UINT16 deviceID) {
 
 void main_test() {
 
+try {
     JUB_RV rv = JUBR_ERROR;
 
     int choice = 0;
@@ -347,6 +350,10 @@ void main_test() {
         }
         cout << endl << endl;
     }   // while (true) end
+}
+catch (...) {
+    error_exit("Error format json file\n");
+}
 }
 
 void monitor_test() {
