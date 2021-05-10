@@ -223,7 +223,8 @@
     switch (choice) {
     case JUB_NS_ENUM_OPT::GET_ADDRESS:
     {
-        [self get_address_pubkey:contextID];
+//        [self get_address_pubkey:contextID];
+        [self tx_get_address_pubkey:contextID];
         break;
     }
     case JUB_NS_ENUM_OPT::SHOW_ADDRESS:
@@ -263,6 +264,15 @@
     }   // switch (choice) end
 }
 
+-(void)tx_get_address_pubkey:(NSUInteger)contextID
+{
+    JUBAlertView *alertView = [JUBAlertView showMsg:@"GetAddress in progress..."];
+    {
+        [self get_address_pubkey:contextID];
+        
+        [alertView dismiss];
+    }
+}
 
 - (void) get_address_pubkey:(NSUInteger)contextID {
     

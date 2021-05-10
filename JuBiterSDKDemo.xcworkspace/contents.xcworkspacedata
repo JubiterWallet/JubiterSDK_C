@@ -2,10 +2,16 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../JubiterSDK_C/builds/ios/JubSDK.xcodeproj">
+      location = "group:../JubiterSDK_C-2.3-bak/builds/ios/JubSDK.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:../JuBiterSDKDemoUI-iOS/JuBiterSDKUI.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../JubiterSDK_IOS/objc_pb/builds/ios/JubSDKProtobuf.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../JubiterSDK_IOS/objc_pb/builds/ios/Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:JuBiterSDKDemo.xcodeproj">

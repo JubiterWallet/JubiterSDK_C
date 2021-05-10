@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger, JUB_NS_ENUM_OPT) {
           choice:(int)choice;
 
 - (void)    get_address_pubkey:(NSUInteger)contextID;
+- (void)    tx_get_address_pubkey:(NSUInteger)contextID;
 - (void)   show_address_test:(NSUInteger)contextID;
 - (void) set_my_address_test:(NSUInteger)contextID;
 - (NSUInteger) set_unit_test:(NSUInteger)contextID;
