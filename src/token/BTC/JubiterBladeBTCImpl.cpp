@@ -57,7 +57,7 @@ JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
     uchar_vector vPubkey;
     JUB_VERIFY_RV(JubiterBladeToken::GetHDNode(0x00, p2, path, vPubkey));
 
-    xpub = vPubkey.getHex();
+    xpub = std::string(vPubkey.begin(), vPubkey.end());
 
     return JUBR_OK;
 }
