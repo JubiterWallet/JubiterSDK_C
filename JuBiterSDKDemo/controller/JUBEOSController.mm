@@ -269,33 +269,6 @@
     [self addMsgData:[NSString stringWithFormat:@"[JUB_FreeMemory() OK.]"]];
 }
 
-
-- (NSUInteger) set_my_address_proc:(NSUInteger)contextID {
-    
-    JUB_RV rv = JUBR_ERROR;
-    
-    JUBSharedData *sharedData = [JUBSharedData sharedInstance];
-    if (nil == sharedData) {
-        return rv;
-    }
-    
-    BIP44_Path path;
-    path.change       = [sharedData currPath].change;
-    path.addressIndex = [sharedData currPath].addressIndex;
-    
-    JUB_CHAR_PTR address = nullptr;
-    rv = JUB_SetMyAddressEOS(contextID, path, &address);
-    if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_SetMyAddressEOS() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
-        return rv;
-    }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_SetMyAddressEOS() OK.]"]];
-    [self addMsgData:[NSString stringWithFormat:@"Set my address(%@/%u/%llu) is: %s.", [sharedData currMainPath], path.change, path.addressIndex, address]];
-    
-    return rv;
-}
-
-
 - (NSString*) inputAmount {
     
     __block
