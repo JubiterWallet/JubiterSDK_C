@@ -13,14 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #define JSON_FILE_TRX           "testTRX"
-#define JSON_FILE_TRC10         "testTRX_trc10"
-#define JSON_FILE_TRC20         "testTRX_trc20"
 
-#define BUTTON_TITLE_TRX        @"TRX"
-#define BUTTON_TITLE_TRC10      @"TRC10"
-#define BUTTON_TITLE_TRC20_TRANSFER @"TRC20(transfer)"
-#define BUTTON_TITLE_TRC20      @"TRC20"
-
+#define BUTTON_TITLE_TRX        @"TRX" //1
+#define BUTTON_TITLE_TRC10      @"TRC10" //2
+#define BUTTON_TITLE_TRCFree    @"TRC-Free" //11
+#define BUTTON_TITLE_TRCUnfreeze @"TRC-Unfreeze" //12
+#define BUTTON_TITLE_TRC20      @"TRC20" //31
+#define BUTTON_TITLE_TRC20_TRANSFER @"TRC20(transfer)"//32
 
 @interface JUBTRXController : JUBCoinController
 

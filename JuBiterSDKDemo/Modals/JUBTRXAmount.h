@@ -14,8 +14,10 @@
 typedef NS_ENUM(NSInteger, JUB_NS_ENUM_TRX_OPT) {
     BTN_TRX,
     BTN_TRC10,
-    BTN_TRC20_TRANSFER,
-    BTN_TRC20
+    BTN_TRCFree,
+    BTN_TRCUnfreeze,
+    BTN_TRC20,
+    BTN_TRC20_transfer
 };
 
 
@@ -30,6 +32,9 @@ static NSUInteger decimalTRX = 6;
 
 + (NSString*)title:(JUB_NS_ENUM_TRX_OPT)opt;
 + (NSString*)formatRules;
++(NSString*)formatResourceRules;
++(NSString*)formatDurationRules;
+
 
 + (NSString*)enumUnitToString:(JUB_NS_ENUM_TRX_OPT)opt;
 + (NSString*)enumUnitToUnitStr:(JUB_NS_ENUM_TRX_OPT)opt;
@@ -40,5 +45,8 @@ static NSUInteger decimalTRX = 6;
 
 + (NSString*)convertToProperFormat:(NSString*)amount
                                opt:(JUB_NS_ENUM_TRX_OPT)opt;
+
++ (NSString *)HexToStr: (NSData *)data;
++ (NSData *)StrToHex: (NSString *)hexstring;
 
 @end
