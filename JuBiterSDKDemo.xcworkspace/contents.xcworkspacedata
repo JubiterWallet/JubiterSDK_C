@@ -8,12 +8,6 @@
       location = "group:../JuBiterSDKDemoUI-iOS/JuBiterSDKUI.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../JubiterSDK_IOS/objc_pb/builds/ios/JubSDKProtobuf.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:../JubiterSDK_IOS/objc_pb/builds/ios/Pods/Pods.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:JuBiterSDKDemo.xcodeproj">
    </FileRef>
 </Workspace>

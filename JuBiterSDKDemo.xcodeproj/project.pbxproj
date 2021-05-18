@@ -61,8 +61,6 @@
 		67E9E4ED256CEA9E009ABDA7 /* JUBTRXController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67E9E4EC256CEA9E009ABDA7 /* JUBTRXController.mm */; };
 		67E9E4EF256CEAC9009ABDA7 /* testTRX.json in Resources */ = {isa = PBXBuildFile; fileRef = 67E9E4EE256CEAC9009ABDA7 /* testTRX.json */; };
 		67E9E4F2256CEAFB009ABDA7 /* JUBTRXAmount.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67E9E4F1256CEAFB009ABDA7 /* JUBTRXAmount.mm */; };
-		67E9E4F5256CEF63009ABDA7 /* testTRX_trc10.json in Resources */ = {isa = PBXBuildFile; fileRef = 67E9E4F3256CEF63009ABDA7 /* testTRX_trc10.json */; };
-		67E9E4F6256CEF63009ABDA7 /* testTRX_trc20.json in Resources */ = {isa = PBXBuildFile; fileRef = 67E9E4F4256CEF63009ABDA7 /* testTRX_trc20.json */; };
 		67EA8E6125838F35001D8809 /* JUBFILController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8E5F25838F34001D8809 /* JUBFILController.mm */; };
 		67EA8E6425838F54001D8809 /* JUBFILAmount.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8E6325838F54001D8809 /* JUBFILAmount.mm */; };
 		67EA8E6925839161001D8809 /* testFIL.json in Resources */ = {isa = PBXBuildFile; fileRef = 67EA8E6825839161001D8809 /* testFIL.json */; };
@@ -166,8 +164,6 @@
 		67E9E4EE256CEAC9009ABDA7 /* testTRX.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testTRX.json; path = testJSONScript/testTRX.json; sourceTree = "<group>"; };
 		67E9E4F0256CEAFB009ABDA7 /* JUBTRXAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUBTRXAmount.h; path = Modals/JUBTRXAmount.h; sourceTree = "<group>"; };
 		67E9E4F1256CEAFB009ABDA7 /* JUBTRXAmount.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = JUBTRXAmount.mm; path = Modals/JUBTRXAmount.mm; sourceTree = "<group>"; };
-		67E9E4F3256CEF63009ABDA7 /* testTRX_trc10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testTRX_trc10.json; path = testJSONScript/testTRX_trc10.json; sourceTree = "<group>"; };
-		67E9E4F4256CEF63009ABDA7 /* testTRX_trc20.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testTRX_trc20.json; path = testJSONScript/testTRX_trc20.json; sourceTree = "<group>"; };
 		67EA8E5F25838F34001D8809 /* JUBFILController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JUBFILController.mm; sourceTree = "<group>"; };
 		67EA8E6025838F34001D8809 /* JUBFILController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JUBFILController.h; sourceTree = "<group>"; };
 		67EA8E6225838F54001D8809 /* JUBFILAmount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUBFILAmount.h; path = Modals/JUBFILAmount.h; sourceTree = "<group>"; };
@@ -276,8 +272,6 @@
 				6774047224E4EF9200F358ED /* testUSDT.json */,
 				6774046924E4EF9200F358ED /* testXRP.json */,
 				67E9E4EE256CEAC9009ABDA7 /* testTRX.json */,
-				67E9E4F3256CEF63009ABDA7 /* testTRX_trc10.json */,
-				67E9E4F4256CEF63009ABDA7 /* testTRX_trc20.json */,
 				67EA8E6825839161001D8809 /* testFIL.json */,
 			);
 			name = testJSONScript;
@@ -456,8 +450,6 @@
 				6774048824E4EF9300F358ED /* testMnemonic.json in Resources */,
 				6774047D24E4EF9300F358ED /* testBTC44.json in Resources */,
 				6774047F24E4EF9300F358ED /* testBTC49.json in Resources */,
-				67E9E4F6256CEF63009ABDA7 /* testTRX_trc20.json in Resources */,
-				67E9E4F5256CEF63009ABDA7 /* testTRX_trc10.json in Resources */,
 				6774047824E4EF9300F358ED /* testLTC.json in Resources */,
 				6774048724E4EF9300F358ED /* testDASH.json in Resources */,
 				6774048424E4EF9300F358ED /* testUSDT.json in Resources */,
