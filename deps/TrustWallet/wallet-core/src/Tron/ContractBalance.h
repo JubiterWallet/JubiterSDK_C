@@ -109,12 +109,6 @@ public:
         receiver_address = "";
     }
 
-    bool isValid() {
-        return (   !Contract::isValid()
-                && !("" == receiver_address)
-        );
-    }
-
     // When resource == bandwidth, pb will not encode this item,
     // so we need to override it's serialize()
     TW::Data serialize();
