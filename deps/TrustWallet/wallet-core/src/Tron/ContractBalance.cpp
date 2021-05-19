@@ -273,7 +273,7 @@ TW::Data FreezeBalanceContract::serialize() {
         ||  !pbFrozenDuration.isValid()
         ||  !pbFrozenDuration.isValid()
         ||        !pbResource.isValid()
-        || !pbReceiverAddress.isValid()
+//        || !pbReceiverAddress.isValid()
         ) {
         {};
     }
@@ -287,8 +287,11 @@ TW::Data FreezeBalanceContract::serialize() {
     size_t sz = vOwnerAddress.size()
            +   vFrozenBalance.size()
            +  vFrozenDuration.size()
-           +        vResource.size()
-           + vReceiverAddress.size();
+           +        vResource.size();
+    if (pbReceiverAddress.isValid()) {
+        sz +=vReceiverAddress.size();
+    }
+
     TW::Data pb(sz);
     memcpy(&pb[0],                  &vOwnerAddress[0],    vOwnerAddress.size());
     memcpy(&pb[0]
@@ -300,11 +303,13 @@ TW::Data FreezeBalanceContract::serialize() {
            +  vOwnerAddress.size()
            + vFrozenBalance.size()
            +vFrozenDuration.size(), &vResource[0],        vResource.size());
+    if (pbReceiverAddress.isValid()) {
     memcpy(&pb[0]
            +  vOwnerAddress.size()
            + vFrozenBalance.size()
            +vFrozenDuration.size()
            +      vResource.size(), &vReceiverAddress[0], vReceiverAddress.size());
+    }
 
     return pb;
 }
@@ -323,7 +328,7 @@ bool FreezeBalanceContract::calculateOffset() {
     if (     !pbFrozenBalance.isValid()
         ||  !pbFrozenDuration.isValid()
         ||        !pbResource.isValid()
-        || !pbReceiverAddress.isValid()
+//        || !pbReceiverAddress.isValid()
         ) {
         return false;
     }
@@ -361,12 +366,18 @@ bool FreezeBalanceContract::calculateOffset() {
         resIndex += pbResource.sizeTag();
     }
 
+    if (pbReceiverAddress.isValid()) {
     if (search(szOwnerAddress+szFrozenBalance+szFrozenDuration+szResource,
                pbReceiverAddress.serialize(),
                rxAddrIndex)
         ) {
         rxAddrSize   = pbReceiverAddress.sizeValue();
         rxAddrIndex += pbReceiverAddress.sizeTag() + pbReceiverAddress.sizeLength();
+    }
+    }
+    else {
+        rxAddrSize  = 0;
+        rxAddrIndex = 0;
     }
 
     return true;
@@ -600,7 +611,7 @@ TW::Data UnfreezeBalanceContract::serialize() {
 
     if (      !pbOwnerAddress.isValid()
         ||        !pbResource.isValid()
-        || !pbReceiverAddress.isValid()
+//        || !pbReceiverAddress.isValid()
         ) {
         {};
     }
@@ -610,15 +621,20 @@ TW::Data UnfreezeBalanceContract::serialize() {
     TW::Data vReceiverAddress = pbReceiverAddress.serialize();
 
     size_t sz = vOwnerAddress.size()
-           +        vResource.size()
-           + vReceiverAddress.size();
+           +        vResource.size();
+    if (pbReceiverAddress.isValid()) {
+        sz +=vReceiverAddress.size();
+    }
+
     TW::Data pb(sz);
     memcpy(&pb[0],                &vOwnerAddress[0],    vOwnerAddress.size());
     memcpy(&pb[0]
            +vOwnerAddress.size(), &vResource[0],        vResource.size());
+    if (pbReceiverAddress.isValid()) {
     memcpy(&pb[0]
            +vOwnerAddress.size()
            +    vResource.size(), &vReceiverAddress[0], vReceiverAddress.size());
+    }
 
     return pb;
 }
@@ -633,7 +649,7 @@ bool UnfreezeBalanceContract::calculateOffset() {
     pb_varint pbResource = getResource();
     pb_length_delimited pbReceiverAddress = getReceiverAddress();
     if (          !pbResource.isValid()
-        || !pbReceiverAddress.isValid()
+//        || !pbReceiverAddress.isValid()
         ) {
         return false;
     }
@@ -649,12 +665,18 @@ bool UnfreezeBalanceContract::calculateOffset() {
         resIndex += pbResource.sizeTag();
     }
 
+    if (pbReceiverAddress.isValid()) {
     if (search(szOwnerAddress+szResource,
                pbReceiverAddress.serialize(),
                rxAddrIndex)
         ) {
         rxAddrSize  = pbReceiverAddress.sizeValue();
         rxAddrIndex += pbReceiverAddress.sizeTag() + pbReceiverAddress.sizeLength();
+    }
+    }
+    else {
+        rxAddrSize  = 0;
+        rxAddrIndex = 0;
     }
 
     return true;
