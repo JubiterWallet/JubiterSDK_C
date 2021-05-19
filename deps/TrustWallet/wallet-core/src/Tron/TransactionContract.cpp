@@ -135,17 +135,71 @@ namespace TW::Tron {
 void TransactionContract::from_internal(const ::protocol::Transaction_Contract& contract) {
 
     type = contract.type();
+
+    // When resource == bandwidth, pb will not encode this item,
+    // so we need to override it's serialize()
     if (contract.has_parameter()) {
         parameter = contract.parameter();
+        switch (type) {
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract:
+        {
+            ::protocol::FreezeBalanceContract encode;
+            if (!parameter.UnpackTo(&encode)) {
+                break;
+            }
+
+            TW::Tron::FreezeBalanceContract contract;
+            contract.from_internal(encode);
+            if (!contract.isValid()) {
+                break;
+            }
+
+            auto vValue = contract.serialize();
+            if (0 >= vValue.size()) {
+                break;
+            }
+
+            parameter.clear_value();
+            parameter.set_value(&vValue[0], vValue.size());
+            break;
+        }
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
+        {
+            ::protocol::UnfreezeBalanceContract encode;
+            if (!parameter.UnpackTo(&encode)) {
+                break;
+            }
+
+            TW::Tron::UnfreezeBalanceContract contract;
+            contract.from_internal(encode);
+            if (!contract.isValid()) {
+                break;
+            }
+
+            auto vValue = contract.serialize();
+            if (0 >= vValue.size()) {
+                break;
+            }
+
+            parameter.clear_value();
+            parameter.set_value(&vValue[0], vValue.size());
+            break;
+        }
+        default:
+            break;
+        }
     }
+
     if (0 < contract.provider().size()) {
         provider.resize(contract.provider().size());
         std::copy(std::begin(contract.provider()), std::end(contract.provider()), provider.begin());
     }
+
     if (0 < contract.contractname().size()) {
         contractName.resize(contract.contractname().size());
         std::copy(std::begin(contract.contractname()), std::end(contract.contractname()), contractName.begin());
     }
+
     permission_id = contract.permission_id();
 
     // Calculate the offset of each item
@@ -202,14 +256,14 @@ Data TransactionContract::serialize() {
     auto data = Data();
 
     ::protocol::Transaction_Contract encode = to_internal();
-
     size_t szSize = encode.ByteSizeLong();
     auto o = Data(szSize);
-    bool status = encode.SerializeToArray(&o[0], (int)szSize);
-    if (status) {
-        data.resize(szSize);
-        std::copy(std::begin(o), std::end(o), std::begin(data));
+    if (!encode.SerializeToArray(&o[0], (int)szSize)) {
+        return {};
     }
+
+    data.resize(szSize);
+    std::copy(std::begin(o), std::end(o), std::begin(data));
 
     // Calculate the offset of each item
     if (!calculateOffset()) {
@@ -275,7 +329,10 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
             o.clear();
             break;
         }
-        o = Contract::serialize<::protocol::FreezeBalanceContract>(freezeBalance);
+        // When resource == bandwidth, pb will not encode this item,
+        // so we need to override it's serialize()
+//        o = Contract::serialize<::protocol::FreezeBalanceContract>(freezeBalance);
+        o = freezeBalance.serialize();
         break;
     }
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
@@ -285,7 +342,10 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
             o.clear();
             break;
         }
-        o = Contract::serialize<::protocol::UnfreezeBalanceContract>(unfreezeBalance);
+        // When resource == bandwidth, pb will not encode this item,
+        // so we need to override it's serialize()
+//        o = Contract::serialize<::protocol::UnfreezeBalanceContract>(unfreezeBalance);
+        o = unfreezeBalance.serialize();
         break;
     }
     case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_WithdrawBalanceContract:
@@ -392,14 +452,65 @@ pb_varint TransactionContract::getType() const {
 }
 
 
-pb_length_delimited TransactionContract::getParameter() const {
+pb_length_delimited TransactionContract::getParameter() {
 
     pb_length_delimited pb;
 
+    // When resource == bandwidth, pb will not encode this item,
+    // so we need to override it's serialize()
+    switch (type) {
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract:
+    {
+        ::protocol::FreezeBalanceContract encode;
+        if (!parameter.UnpackTo(&encode)) {
+            break;
+        }
+
+        TW::Tron::FreezeBalanceContract contract;
+        contract.from_internal(encode);
+        if (!contract.isValid()) {
+            break;
+        }
+
+        auto vValue = contract.serialize();
+        if (0 >= vValue.size()) {
+            break;
+        }
+
+        parameter.clear_value();
+        parameter.set_value(&vValue[0], vValue.size());
+
+        break;
+    }
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
+    {
+        ::protocol::UnfreezeBalanceContract encode;
+        if (!parameter.UnpackTo(&encode)) {
+            break;
+        }
+
+        TW::Tron::UnfreezeBalanceContract contract;
+        contract.from_internal(encode);
+        if (!contract.isValid()) {
+            break;
+        }
+
+        auto vValue = contract.serialize();
+        if (0 >= vValue.size()) {
+            break;
+        }
+
+        parameter.clear_value();
+        parameter.set_value(&vValue[0], vValue.size());
+        break;
+    }
+    default:
+        break;
+    }
+
     size_t szSize = parameter.ByteSizeLong();
-    auto o = Data(szSize);
-    bool status = parameter.SerializeToArray(&o[0], (int)szSize);
-    if (!status) {
+    Data o = Data(szSize);
+    if (!parameter.SerializeToArray(&o[0], (int)szSize)) {
         return pb;
     }
 

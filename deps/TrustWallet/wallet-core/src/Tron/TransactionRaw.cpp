@@ -162,7 +162,7 @@ void TransactionRaw::deserialize(const Data& o) {
 }
 
 
-size_t TransactionRaw::contractOffset(const size_t offset) const {
+size_t TransactionRaw::contractOffset(const size_t offset) {
 
     return contractValueIndex(offset, contrIndex);
 }
@@ -196,7 +196,7 @@ size_t TransactionRaw::feeLimitIndex(const size_t offset) const {
 }
 
 
-size_t TransactionRaw::contractValueIndex(const size_t index, const size_t offset) const {
+size_t TransactionRaw::contractValueIndex(const size_t index, const size_t offset) {
 
     size_t contrValueOffset = 0;
     pb_length_delimited pbContract = getContract();
@@ -280,7 +280,7 @@ bool TransactionRaw::calculateOffset() {
 }
 
 
-bool TransactionRaw::calculateOffset(const TW::Data raw) {
+bool TransactionRaw::calculateOffset(TW::Data raw) {
 
     pb_length_delimited pbContract = getContract();
     if (!pbContract.isValid()) {
@@ -292,7 +292,7 @@ bool TransactionRaw::calculateOffset(const TW::Data raw) {
     contrIndex = 0;
     TW::Data contract = pbContract.serialize();
     Data::iterator it = std::search(rawSearch.begin(), rawSearch.end(), contract.begin(), contract.end());
-    contrIndex = it - raw.begin();
+    contrIndex = it - rawSearch.begin();
 
     feeLimSize = 0;
     feeLimIndex = 0;
@@ -380,7 +380,7 @@ pb_length_delimited TransactionRaw::getData() const {
 }
 
 
-TransactionContract TransactionRaw::getContract(const size_t index) const {
+TransactionContract TransactionRaw::getContract(const size_t index) {
 
     TransactionContract decode;
     decode.deserialize(serializeContract(index));
@@ -389,7 +389,7 @@ TransactionContract TransactionRaw::getContract(const size_t index) const {
 }
 
 
-pb_length_delimited TransactionRaw::getContract() const {
+pb_length_delimited TransactionRaw::getContract() {
 
     pb_length_delimited pb;
     if (0 < contracts.size()) {
@@ -402,24 +402,15 @@ pb_length_delimited TransactionRaw::getContract() const {
 }
 
 
-TW::Data TransactionRaw::serializeContract(const size_t index) const {
+// When resource == bandwidth, pb will not encode this item,
+// so we need to override it's serialize()
+TW::Data TransactionRaw::serializeContract(const size_t index) {
 
-    Data o;
-
-    ::protocol::Transaction_Contract encode = contracts[index].to_internal();
-    size_t szSize = encode.ByteSizeLong();
-    auto ou = Data(szSize);
-    bool status = encode.SerializeToArray(&ou[0], (int)szSize);
-    if (status) {
-        o.resize(szSize);
-        std::copy(std::begin(ou), std::end(ou), std::begin(o));
-    }
-
-    return o;
+    return contracts[index].serialize();
 }
 
 
-TW::Data TransactionRaw::serializeContract() const {
+TW::Data TransactionRaw::serializeContract() {
 
     Data o;
 

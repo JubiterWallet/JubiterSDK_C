@@ -24,11 +24,11 @@
             "11" : {
                 "frozen_balance" : 5000,
                 "frozen_duration" : 3,
-                "resource" : 1,
+                "resource" : 0,
                 "receiver_address" : "TW6F7xUTXkv4tSqrhGBEkd5Kj6jKYmdfsz"
             },
             "12" : {
-                "resource" : 1,
+                "resource" : 0,
                 "receiver_address" : "TW6F7xUTXkv4tSqrhGBEkd5Kj6jKYmdfsz"
             },
             "31" : {

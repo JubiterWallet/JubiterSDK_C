@@ -948,6 +948,8 @@
 		7718571226159F1800756E99 /* jubiter_bridge.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 7718570F26159F1800756E99 /* jubiter_bridge.pb.cc */; };
 		7718571326159F1800756E99 /* jubiter_bridge.pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 7718571026159F1800756E99 /* jubiter_bridge.pb.h */; };
 		7718571426159F1800756E99 /* jubiter_bridge.pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 7718571026159F1800756E99 /* jubiter_bridge.pb.h */; };
+		77767C3826524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77767C3726524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp */; };
+		77767C3926524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77767C3726524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp */; };
 		7781059125F9BD650014C1EE /* TaggedAddresses.h in Headers */ = {isa = PBXBuildFile; fileRef = 7781058D25F9BD650014C1EE /* TaggedAddresses.h */; };
 		7781059C25F9C3FB0014C1EE /* (null) in Headers */ = {isa = PBXBuildFile; };
 		C32F603426369FE90030D7A3 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C32F603326369FE90030D7A3 /* JubiterBIOXRPImpl.cpp */; };
@@ -1449,6 +1451,7 @@
 		7718570A26159DEA00756E99 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
 		7718570F26159F1800756E99 /* jubiter_bridge.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jubiter_bridge.pb.cc; path = ../../deps/JubiterSDK_Common_pb/cpp/jubiter_bridge.pb.cc; sourceTree = "<group>"; };
 		7718571026159F1800756E99 /* jubiter_bridge.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jubiter_bridge.pb.h; path = ../../deps/JubiterSDK_Common_pb/cpp/jubiter_bridge.pb.h; sourceTree = "<group>"; };
+		77767C3726524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
 		7781058D25F9BD650014C1EE /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
 		C32F603326369FE90030D7A3 /* JubiterBIOXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOXRPImpl.cpp; path = ../../src/token/XRP/JubiterBIOXRPImpl.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1617,6 +1620,7 @@
 			children = (
 				32E84E47240B95CE003311B5 /* JubiterBaseEOSImpl.cpp */,
 				674621EC23C31DBE0096DDA2 /* JubiterBladeEOSImpl.cpp */,
+				77767C3726524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp */,
 				674621EB23C31DBE0096DDA2 /* TrezorCryptoEOSImpl.cpp */,
 				679DA9892577B44400B08471 /* JubiterLiteEOSImpl.cpp */,
 			);
@@ -3477,6 +3481,7 @@
 				67189FDA23A2117500F8A5CD /* pbkdf2.c in Sources */,
 				67189FDF23A2117C00F8A5CD /* script.c in Sources */,
 				6746220223C31DEB0096DDA2 /* TrezorCryptoBTCImpl.cpp in Sources */,
+				77767C3926524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp in Sources */,
 				67E0DEF4250F6CA500D42EF0 /* TransactionOutput.cpp in Sources */,
 				67189FDB23A2117500F8A5CD /* rand.c in Sources */,
 				67189FD223A2117200F8A5CD /* ed25519.c in Sources */,
@@ -3679,6 +3684,7 @@
 				67A4BD8A2330A9220059A3DB /* hasher.c in Sources */,
 				67A4BD742330A8D10059A3DB /* ed25519_ref10_fe_25_5.c in Sources */,
 				674F19E423A10703001702DD /* nem.c in Sources */,
+				77767C3826524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp in Sources */,
 				67E0DEF3250F6CA500D42EF0 /* TransactionOutput.cpp in Sources */,
 				67A4BCE3233084740059A3DB /* JUB_SDK_ETH.cpp in Sources */,
 				67A4BD8B2330A9220059A3DB /* memzero.c in Sources */,
