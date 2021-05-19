@@ -193,13 +193,19 @@ pb_varint TransferContract::getAmount() const {
 
 void FreezeBalanceContract::from_internal(const ::protocol::FreezeBalanceContract& contract) {
 
-    Contract::from_internal(contract);
+    // When resource == bandwidth, pb will not encode this item,
+    // so we need to override it's serialize()
+//    Contract::from_internal(contract);
 
        owner_address  = TW::Tron::Address::fromHex(contract.owner_address());
     receiver_address  = TW::Tron::Address::fromHex(contract.receiver_address());
       frozen_balance  = contract.frozen_balance();
       frozen_duration = contract.frozen_duration();
     resource = contract.resource();
+
+    // When resource == bandwidth, pb will not encode this item,
+    // so we need to override it's serialize()
+    save(serialize());
 
     // Calculate the offset of each item
     if (!calculateOffset()) {
@@ -253,6 +259,57 @@ void FreezeBalanceContract::from_internal(const ::protocol::FreezeBalanceContrac
 }
 
 
+// When resource == bandwidth, pb will not encode this item,
+// so we need to override it's serialize()
+TW::Data FreezeBalanceContract::serialize() {
+
+    pb_length_delimited pbOwnerAddress = getOwnerAddress();
+    pb_varint pbFrozenBalance = getFrozenBalance();
+    pb_varint pbFrozenDuration = getFrozenDuration();
+    pb_varint pbResource = getResource();
+    pb_length_delimited pbReceiverAddress = getReceiverAddress();
+
+    if (      !pbOwnerAddress.isValid()
+        ||  !pbFrozenDuration.isValid()
+        ||  !pbFrozenDuration.isValid()
+        ||        !pbResource.isValid()
+        || !pbReceiverAddress.isValid()
+        ) {
+        {};
+    }
+
+    TW::Data vOwnerAddress = pbOwnerAddress.serialize();
+    TW::Data vFrozenBalance  = pbFrozenBalance.serialize();
+    TW::Data vFrozenDuration = pbFrozenDuration.serialize();
+    TW::Data vResource = pbResource.serialize();
+    TW::Data vReceiverAddress = pbReceiverAddress.serialize();
+
+    size_t sz = vOwnerAddress.size()
+           +   vFrozenBalance.size()
+           +  vFrozenDuration.size()
+           +        vResource.size()
+           + vReceiverAddress.size();
+    TW::Data pb(sz);
+    memcpy(&pb[0],                  &vOwnerAddress[0],    vOwnerAddress.size());
+    memcpy(&pb[0]
+           +  vOwnerAddress.size(), &vFrozenBalance[0],   vFrozenBalance.size());
+    memcpy(&pb[0]
+           +  vOwnerAddress.size()
+           + vFrozenBalance.size(), &vFrozenDuration[0],  vFrozenDuration.size());
+    memcpy(&pb[0]
+           +  vOwnerAddress.size()
+           + vFrozenBalance.size()
+           +vFrozenDuration.size(), &vResource[0],        vResource.size());
+    memcpy(&pb[0]
+           +  vOwnerAddress.size()
+           + vFrozenBalance.size()
+           +vFrozenDuration.size()
+           +      vResource.size(), &vReceiverAddress[0], vReceiverAddress.size());
+
+    return pb;
+}
+
+
 bool FreezeBalanceContract::calculateOffset() {
 
     if (!Contract::calculateOffset()) {
@@ -278,7 +335,7 @@ bool FreezeBalanceContract::calculateOffset() {
         ) {
         szFrozenBalance = pbFrozenBalance.size();
 
-        frozenBalSize  = pbFrozenBalance.sizeValue();
+        frozenBalSize   = pbFrozenBalance.sizeValue();
         frozenBalIndex += pbFrozenBalance.sizeTag();
     }
 
@@ -289,7 +346,7 @@ bool FreezeBalanceContract::calculateOffset() {
         ) {
         szFrozenDuration = pbFrozenDuration.size();
 
-        frozenDSize  = pbFrozenDuration.sizeValue();
+        frozenDSize   = pbFrozenDuration.sizeValue();
         frozenDIndex += pbFrozenDuration.sizeTag();
     }
 
@@ -308,7 +365,7 @@ bool FreezeBalanceContract::calculateOffset() {
                pbReceiverAddress.serialize(),
                rxAddrIndex)
         ) {
-        rxAddrSize  = pbReceiverAddress.sizeValue();
+        rxAddrSize   = pbReceiverAddress.sizeValue();
         rxAddrIndex += pbReceiverAddress.sizeTag() + pbReceiverAddress.sizeLength();
     }
 
@@ -478,12 +535,18 @@ size_t UnfreezeBalanceContract::receiverAddressIndex(const size_t offset) const 
 
 void UnfreezeBalanceContract::from_internal(const ::protocol::UnfreezeBalanceContract& contract) {
 
-    Contract::from_internal(contract);
+    // When resource == bandwidth, pb will not encode this item,
+    // so we need to override it's serialize()
+//    Contract::from_internal(contract);
 
        owner_address = TW::Tron::Address::fromHex(contract.owner_address());
     receiver_address = TW::Tron::Address::fromHex(contract.receiver_address());
 
     resource = contract.resource();
+
+    // When resource == bandwidth, pb will not encode this item,
+    // so we need to override it's serialize()
+    save(serialize());
 
     // Calculate the offset of each item
     if (!calculateOffset()) {
@@ -519,11 +582,45 @@ void UnfreezeBalanceContract::from_internal(const ::protocol::UnfreezeBalanceCon
     }
 
     encode.clear_resource();
-    if (0 < resource) {
+    if (0 <= resource) {
         encode.set_resource(resource);
     }
 
     return encode;
+}
+
+
+// When resource == bandwidth, pb will not encode this item,
+// so we need to override it's serialize()
+TW::Data UnfreezeBalanceContract::serialize() {
+
+    pb_length_delimited pbOwnerAddress = getOwnerAddress();
+    pb_varint pbResource = getResource();
+    pb_length_delimited pbReceiverAddress = getReceiverAddress();
+
+    if (      !pbOwnerAddress.isValid()
+        ||        !pbResource.isValid()
+        || !pbReceiverAddress.isValid()
+        ) {
+        {};
+    }
+
+    TW::Data vOwnerAddress = pbOwnerAddress.serialize();
+    TW::Data vResource = pbResource.serialize();
+    TW::Data vReceiverAddress = pbReceiverAddress.serialize();
+
+    size_t sz = vOwnerAddress.size()
+           +        vResource.size()
+           + vReceiverAddress.size();
+    TW::Data pb(sz);
+    memcpy(&pb[0],                &vOwnerAddress[0],    vOwnerAddress.size());
+    memcpy(&pb[0]
+           +vOwnerAddress.size(), &vResource[0],        vResource.size());
+    memcpy(&pb[0]
+           +vOwnerAddress.size()
+           +    vResource.size(), &vReceiverAddress[0], vReceiverAddress.size());
+
+    return pb;
 }
 
 

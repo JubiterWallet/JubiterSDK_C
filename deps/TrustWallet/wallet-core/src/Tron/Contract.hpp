@@ -35,6 +35,10 @@ public:
         owner_address = "";
     }
 
+    bool isValid() {
+        return !("" == owner_address);
+    }
+
     template<typename U, typename T>
     static Data serialize(T& contract) {
 

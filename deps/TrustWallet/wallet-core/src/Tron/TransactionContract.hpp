@@ -114,7 +114,9 @@ private:
     virtual bool calculateOffset();
 
     virtual pb_varint getType() const;
-    virtual pb_length_delimited getParameter() const;
+
+public:
+    virtual pb_length_delimited getParameter();
 
 public:
     // Contract Type.
