@@ -109,6 +109,16 @@ public:
         receiver_address = "";
     }
 
+    bool isValid() {
+        return (   !Contract::isValid()
+                && !("" == receiver_address)
+        );
+    }
+
+    // When resource == bandwidth, pb will not encode this item,
+    // so we need to override it's serialize()
+    TW::Data serialize();
+
     void from_internal(const ::protocol::UnfreezeBalanceContract& contract);
     ::protocol::UnfreezeBalanceContract to_internal() const;
 
@@ -179,6 +189,10 @@ public:
         frozen_balance  = 0;
         frozen_duration = 0;
     }
+
+    // When resource == bandwidth, pb will not encode this item,
+    // so we need to override it's serialize()
+    TW::Data serialize();
 
     void from_internal(const ::protocol::FreezeBalanceContract& contract);
     ::protocol::FreezeBalanceContract to_internal() const;

@@ -199,15 +199,18 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                 return JUBR_ARGUMENTS_BAD;
             }
 
-            parameter = TW::Tron::TransactionContract::to_parameter(
-                            TW::Tron::FreezeBalanceContract(
-                                contract.freezeBalance.owner_address,
-                                contract.freezeBalance.frozen_balance,
-                                contract.freezeBalance.frozen_duration,
-                                TW::Tron::toInternal(contract.freezeBalance.resource),
-                                contract.freezeBalance.receiver_address
-                            )
-                        );
+            // When resource == bandwidth, pb will not encode this item,
+            // so we need to override it's serialize()
+            TW::Tron::FreezeBalanceContract value(
+                contract.freezeBalance.owner_address,
+                contract.freezeBalance.frozen_balance,
+                contract.freezeBalance.frozen_duration,
+                TW::Tron::toInternal(contract.freezeBalance.resource),
+                contract.freezeBalance.receiver_address
+            );
+            parameter.set_type_url(TW::Tron::TransactionContract::to_parameter(value).type_url());
+            auto vValue = value.serialize();
+            parameter.set_value(&vValue[0], vValue.size());
             break;
         }
         case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT:
@@ -221,13 +224,16 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                 return JUBR_ARGUMENTS_BAD;
             }
 
-            parameter = TW::Tron::TransactionContract::to_parameter(
-                            TW::Tron::UnfreezeBalanceContract(
-                                contract.unfreezeBalance.owner_address,
-                                TW::Tron::toInternal(contract.unfreezeBalance.resource),
-                                contract.unfreezeBalance.receiver_address
-                            )
-                        );
+            // When resource == bandwidth, pb will not encode this item,
+            // so we need to override it's serialize()
+            TW::Tron::UnfreezeBalanceContract value(
+                contract.unfreezeBalance.owner_address,
+                TW::Tron::toInternal(contract.unfreezeBalance.resource),
+                contract.unfreezeBalance.receiver_address
+            );
+            parameter.set_type_url(TW::Tron::TransactionContract::to_parameter(value).type_url());
+            auto vValue = value.serialize();
+            parameter.set_value(&vValue[0], vValue.size());
             break;
         }
         case JUB_ENUM_TRX_CONTRACT_TYPE::CREATE_SMART_CONTRACT:

@@ -80,16 +80,16 @@ public:
     void deserialize(const Data& o);
     Data serialize();
 
-    virtual size_t contractOffset(const size_t offset) const;
+    virtual size_t contractOffset(const size_t offset);
 
     virtual TW::Data feeLimitSize() const;
     virtual TW::Data feeLimitOffset(const size_t offset) const;
 
 private:
-    virtual size_t contractValueIndex(const size_t index, const size_t offset) const;
+    virtual size_t contractValueIndex(const size_t index, const size_t offset);
 
     virtual bool calculateOffset();
-    virtual bool calculateOffset(const TW::Data raw);
+    virtual bool calculateOffset(TW::Data raw);
 
     virtual pb_length_delimited getRefBlockBytes() const;
     virtual pb_varint getRefBlockNum() const;
@@ -97,10 +97,12 @@ private:
     virtual pb_varint getExpiration() const;
     virtual pb_length_delimited getAuths() const;
     virtual pb_length_delimited getData() const;
-    virtual TransactionContract getContract(const size_t index) const;
-    virtual pb_length_delimited getContract() const;
-    virtual TW::Data serializeContract(const size_t index) const;
-    virtual TW::Data serializeContract() const;
+    virtual TransactionContract getContract(const size_t index);
+    virtual pb_length_delimited getContract();
+
+    virtual TW::Data serializeContract(const size_t index);
+    virtual TW::Data serializeContract();
+
     virtual pb_length_delimited getScripts() const;
     virtual pb_varint getTimestamp() const;
     virtual pb_varint getFeeLimit() const;
