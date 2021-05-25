@@ -1016,10 +1016,6 @@
 		77974430262FC3E500ECFF34 /* BigIntegerAlgorithms.hh in Headers */ = {isa = PBXBuildFile; fileRef = 7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */; };
 		77A126A82636B70400494B23 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */; };
 		77A126A92636B70400494B23 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */; };
-		77A126FF2636CF1100494B23 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126FE2636CF1100494B23 /* JubiterBIOEOSImpl.cpp */; };
-		77A127002636CF1100494B23 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A126FE2636CF1100494B23 /* JubiterBIOEOSImpl.cpp */; };
-		77A1272A2636DAE100494B23 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A127292636DAE100494B23 /* JubiterBIOEOSImpl.cpp */; };
-		77A1272B2636DAE100494B23 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A127292636DAE100494B23 /* JubiterBIOEOSImpl.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1552,8 +1548,6 @@
 		77974419262FC3E400ECFF34 /* BigUnsigned.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsigned.hh; path = ../../deps/bigint/BigUnsigned.hh; sourceTree = "<group>"; };
 		7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerAlgorithms.hh; path = ../../deps/bigint/BigIntegerAlgorithms.hh; sourceTree = "<group>"; };
 		77A126A72636B70400494B23 /* JubiterBIOXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOXRPImpl.cpp; path = ../../src/token/XRP/JubiterBIOXRPImpl.cpp; sourceTree = "<group>"; };
-		77A126FE2636CF1100494B23 /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
-		77A127292636DAE100494B23 /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2072,7 +2066,6 @@
 				6718A33523A3369B00F8A5CD /* JubSDKCore */,
 				67A4BC7D233082130059A3DB /* Products */,
 				6763938325347F1100C41883 /* Frameworks */,
-				77A127282636DA5D00494B23 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2670,15 +2663,6 @@
 				77974411262FC3E300ECFF34 /* BigUnsignedInABase.hh */,
 			);
 			name = bigint;
-			sourceTree = "<group>";
-		};
-		77A127282636DA5D00494B23 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				77A126FE2636CF1100494B23 /* JubiterBIOEOSImpl.cpp */,
-				77A127292636DAE100494B23 /* JubiterBIOEOSImpl.cpp */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3554,7 +3538,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				67ED0FD825243217009029A7 /* AccountId.cpp in Sources */,
-				77A127002636CF1100494B23 /* JubiterBIOEOSImpl.cpp in Sources */,
 				679DA97D2577B38A00B08471 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67189FD623A2117500F8A5CD /* hmac.c in Sources */,
 				6718A00D23A211BB00F8A5CD /* Address.cpp in Sources */,
@@ -3631,7 +3614,6 @@
 				7788F7682654E10500F9F8D8 /* TrezorCryptoToken.cpp in Sources */,
 				679DA9922577B45D00B08471 /* JubiterLiteXRPImpl.cpp in Sources */,
 				67E0DFAD250F783800D42EF0 /* Address.cpp in Sources */,
-				77A1272B2636DAE100494B23 /* JubiterBIOEOSImpl.cpp in Sources */,
 				67189FC623A2117200F8A5CD /* curve25519-donna-scalarmult-base.c in Sources */,
 				67189FDA23A2117500F8A5CD /* pbkdf2.c in Sources */,
 				67189FDF23A2117C00F8A5CD /* script.c in Sources */,
@@ -3774,7 +3756,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				67ED0FD725243217009029A7 /* AccountId.cpp in Sources */,
-				77A126FF2636CF1100494B23 /* JubiterBIOEOSImpl.cpp in Sources */,
 				679DA97C2577B38A00B08471 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67A4BD8C2330A9220059A3DB /* hmac.c in Sources */,
 				67ECD13623CD724100B7D514 /* Bech32.cpp in Sources */,
@@ -3851,7 +3832,6 @@
 				7788F7672654E10500F9F8D8 /* TrezorCryptoToken.cpp in Sources */,
 				679DA9912577B45D00B08471 /* JubiterLiteXRPImpl.cpp in Sources */,
 				67E0DFAC250F783800D42EF0 /* Address.cpp in Sources */,
-				77A1272A2636DAE100494B23 /* JubiterBIOEOSImpl.cpp in Sources */,
 				6766221F234C31DC00AFAFA2 /* HexCoding.cpp in Sources */,
 				67A4BD8A2330A9220059A3DB /* hasher.c in Sources */,
 				67A4BD742330A8D10059A3DB /* ed25519_ref10_fe_25_5.c in Sources */,

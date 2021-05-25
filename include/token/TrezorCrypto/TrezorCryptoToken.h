@@ -26,9 +26,9 @@ public:
 
 
 public:
-    TrezorCryptoToken(JUB_UINT16 deviceID)
-        : _deviceID(deviceID) {
-        _curves = JUB_ENUM_CURVES::SECP256K1;
+    TrezorCryptoToken(JUB_UINT16 deviceID, JUB_ENUM_CURVES curves)
+        : _deviceID(deviceID),
+          _curves(curves) {
     }
     ~TrezorCryptoToken() {}
 

@@ -14,7 +14,7 @@ class TrezorCryptoFILImpl :
 virtual public JubiterBaseFILImpl {
 public:
     TrezorCryptoFILImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoToken(deviceID) {}
+        TrezorCryptoToken(deviceID, JUB_ENUM_CURVES::SECP256K1) {}
     ~TrezorCryptoFILImpl() {}
 
     //FIL functions
