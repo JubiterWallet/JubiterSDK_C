@@ -213,6 +213,7 @@ void HC_test(JUB_UINT16 deviceID, const char* json_file) {
             transactionHC_test(contextID, root);
             break;
         case 9:
+            JUB_ClearContext(contextID);
             main_test();
         default:
             continue;

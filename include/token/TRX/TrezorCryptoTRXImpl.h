@@ -14,7 +14,7 @@ class TrezorCryptoTRXImpl :
 virtual public JubiterBaseTRXImpl {
 public:
     TrezorCryptoTRXImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoToken(deviceID) {}
+        TrezorCryptoToken(deviceID, JUB_ENUM_CURVES::SECP256K1) {}
     ~TrezorCryptoTRXImpl() {}
 
     //TRX functions

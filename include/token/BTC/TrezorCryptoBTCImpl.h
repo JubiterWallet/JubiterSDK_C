@@ -14,7 +14,7 @@ class TrezorCryptoBTCImpl :
 virtual public JubiterBaseBTCImpl {
 public:
     TrezorCryptoBTCImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoToken(deviceID) {}
+        TrezorCryptoToken(deviceID, JUB_ENUM_CURVES::SECP256K1) {}
     ~TrezorCryptoBTCImpl() {}
 
     //BTC functions

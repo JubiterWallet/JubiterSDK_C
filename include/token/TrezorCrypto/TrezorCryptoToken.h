@@ -26,8 +26,9 @@ public:
 
 
 public:
-    TrezorCryptoToken(JUB_UINT16 deviceID)
-        : _deviceID(deviceID) {
+    TrezorCryptoToken(JUB_UINT16 deviceID, JUB_ENUM_CURVES curves)
+        : _deviceID(deviceID),
+          _curves(curves) {
     }
     ~TrezorCryptoToken() {}
 
