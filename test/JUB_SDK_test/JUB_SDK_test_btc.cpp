@@ -83,6 +83,7 @@ void BTC_test(JUB_UINT16 deviceID, const char* json_file, JUB_ENUM_COINTYPE_BTC 
             set_timeout_test(contextID);
             break;
         case 9:
+            JUB_ClearContext(contextID);
             main_test();
         default:
             continue;

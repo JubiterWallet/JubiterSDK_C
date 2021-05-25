@@ -70,6 +70,7 @@ void TRX_test(JUB_UINT16 deviceID, const char* json_file) {
             transaction_test_TRX(contextID, root, choice);
             break;
         case 9:
+            JUB_ClearContext(contextID);
             main_test();
         default:
             continue;
