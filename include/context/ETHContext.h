@@ -59,6 +59,11 @@ public:
     virtual JUB_RV SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
                                     JUB_UINT16 unitDP,
                                     JUB_CHAR_CPTR pContractAddress);
+
+    virtual JUB_RV BuildERC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi);
+    virtual JUB_RV SetERC721ETHToken(JUB_CHAR_CPTR pTokenName,
+                                     JUB_CHAR_CPTR pContractAddress);
+
     virtual JUB_RV ActiveSelf() override;
 
 private:

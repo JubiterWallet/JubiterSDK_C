@@ -65,7 +65,7 @@ JUB_RV JubiterBladeETHImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 }
 
 
-JUB_RV JubiterBladeETHImpl::SignTX(const bool bERC20,
+JUB_RV JubiterBladeETHImpl::SignTX(const int erc,
                                    const std::vector<JUB_BYTE>& vNonce,
                                    const std::vector<JUB_BYTE>& vGasPrice,
                                    const std::vector<JUB_BYTE>& vGasLimit,
@@ -105,12 +105,20 @@ JUB_RV JubiterBladeETHImpl::SignTX(const bool bERC20,
     data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_CHAIN_ID_48, vChainID);
 
     JUB_BYTE ins = JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A;
-    if (bERC20) {
+    JUB_BYTE p1  = JUB_ENUM_APDU_ERC_P1::ERC20;
+    switch (erc) {
+    case JUB_ENUM_APDU_ERC_ETH::ERC_721:
+        p1  = JUB_ENUM_APDU_ERC_P1::ERC721;
+    case JUB_ENUM_APDU_ERC_ETH::ERC_20:
         ins = JUB_ENUM_APDU_CMD::INS_SIGN_ERC20_C8;
+        break;
+    case JUB_ENUM_APDU_ERC_ETH::ERC_INVALID:
+    default:
+        break;
     }
 
     //one pack can do it
-    APDU apdu(0x00, ins, 0x01, 0x00, (JUB_ULONG)data.size(), data.data());
+    APDU apdu(0x00, ins, p1, 0x00, (JUB_ULONG)data.size(), data.data());
     JUB_UINT16 ret = 0;
     JUB_BYTE retData[2048] = { 0, };
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
@@ -156,6 +164,20 @@ JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName, const
     }
 
     return SetERC20Token(tokenName.c_str(), unitDP, contractAddress.c_str());
+}
+
+
+JUB_RV JubiterBladeETHImpl::SetERC721ETHToken(const std::string& tokenName,
+                                              const std::string& contractAddress) {
+
+    // ERC20 token extension apdu
+    if (typeid(JubiterBladeETHImpl) == typeid(*this)) {
+        if (_appletVersion < stVersionExp::FromString(ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+            return JUBR_OK;
+        }
+    }
+
+    return SetERC721Token(tokenName.c_str(), contractAddress.c_str());
 }
 
 
@@ -246,7 +268,7 @@ JUB_RV JubiterBladeETHImpl::SignContract(const JUB_BYTE inputType,
     uchar_vector s(32);
     std::copy(signatureRaw.begin()+32, signatureRaw.begin()+32+32, s.begin());
 
-    uchar_vector v(1);
+    uchar_vector v(ulRetDataLen-32-32);
     std::copy(signatureRaw.begin()+32+32, signatureRaw.end(), v.begin());
     TW::Ethereum::Transaction tx(vNonce,
                                  vGasPrice,

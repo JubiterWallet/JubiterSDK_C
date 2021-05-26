@@ -386,7 +386,7 @@
 		67A4BE522330C3870059A3DB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = ft;
 				TargetAttributes = {
 					67A4BE592330C3870059A3DB = {
@@ -400,6 +400,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 67A4BE512330C3870059A3DB;
 			productRefGroup = 67A4BE5B2330C3870059A3DB /* Products */;
@@ -556,11 +557,12 @@
 		67A4BE622330C3870059A3DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PL9NCP8CG6;
+				DEVELOPMENT_TEAM = S47T4UESP3;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../trezor-crypto/include\"",
@@ -590,11 +592,12 @@
 		67A4BE632330C3870059A3DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PL9NCP8CG6;
+				DEVELOPMENT_TEAM = S47T4UESP3;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../trezor-crypto/include\"",

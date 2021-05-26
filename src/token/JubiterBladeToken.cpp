@@ -305,7 +305,7 @@ JUB_RV JubiterBladeToken::_TranPackApdu(const JUB_ULONG ncla, const JUB_ULONG ni
 }
 
 
-JUB_RV JubiterBladeToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
+JUB_RV JubiterBladeToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length, uchar_vector& version) {
 
     APDU apdu(0x00, 0xA4, 0x04, 0x00, length, PKIAID);
     JUB_UINT16 ret = 0;
@@ -314,8 +314,17 @@ JUB_RV JubiterBladeToken::_SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) {
     JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     JUB_VERIFY_COS_ERROR(ret);
 
-    uchar_vector vVersion(&retData[4], retData[3]);
-    _appletVersion = stVersionExp::FromString(vVersion.getHex());
+    version = uchar_vector(&retData[4], retData[3]);
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBladeToken::_SelectApp(const JUB_BYTE PKIAID[], const JUB_BYTE length) {
+
+    uchar_vector vVersion;
+    JUB_VERIFY_RV(JubiterBladeToken::_SelectApp(PKIAID, length, vVersion));
+    JubiterBladeToken::_appletVersion = stVersionExp::FromString(vVersion.getHex());
 
     return JUBR_OK;
 }
@@ -766,7 +775,28 @@ JUB_RV JubiterBladeToken::SetERC20Token(JUB_CHAR_CPTR tokenName,
     data << (uint8_t)address.size();
     data << address;
 
-    APDU apdu(0x00, 0xC7, 0x00, 0x00, (JUB_ULONG)data.size(), data.data());
+    APDU apdu(0x00, 0xC7, JUB_ENUM_APDU_ERC_P1::ERC20, 0x00, (JUB_ULONG)data.size(), data.data());
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBladeToken::SetERC721Token(JUB_CHAR_CPTR tokenName,
+                                         JUB_CHAR_CPTR contractAddress) {
+
+    uchar_vector lvName = Tollv(tokenName);
+    uchar_vector address = HexStr2CharPtr(contractAddress);
+
+    uchar_vector data;
+    data << (uint8_t)lvName.size();
+    data << lvName;
+    data << (uint8_t)address.size();
+    data << address;
+
+    APDU apdu(0x00, 0xC7, JUB_ENUM_APDU_ERC_P1::ERC721, 0x00, (JUB_ULONG)data.size(), data.data());
     JUB_UINT16 ret = 0;
     JUB_VERIFY_RV(_SendApdu(&apdu, ret));
     JUB_VERIFY_COS_ERROR(ret);

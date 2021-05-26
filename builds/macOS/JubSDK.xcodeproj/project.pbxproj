@@ -672,8 +672,6 @@
 		67A4BDE82330AC9E0059A3DB /* hid.c in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BDE72330AC9E0059A3DB /* hid.c */; };
 		67A4BDEA2330AD090059A3DB /* hidapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BDE92330AD090059A3DB /* hidapi.h */; };
 		67A4BDFE2330AE1A0059A3DB /* uchar_vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BDFD2330AE1A0059A3DB /* uchar_vector.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		67B83184257738C8002EB306 /* JubiterBridgeDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67B83183257738C8002EB306 /* JubiterBridgeDevice.hpp */; };
-		67B83185257738C8002EB306 /* JubiterBridgeDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67B83183257738C8002EB306 /* JubiterBridgeDevice.hpp */; };
 		67B8318B257738E2002EB306 /* JubiterBridgeDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67B8318A257738E2002EB306 /* JubiterBridgeDevice.cpp */; };
 		67B8318C257738E2002EB306 /* JubiterBridgeDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67B8318A257738E2002EB306 /* JubiterBridgeDevice.cpp */; };
 		67B8319425773AE0002EB306 /* jubiter_bridge.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 67B8319225773AE0002EB306 /* jubiter_bridge.pb.cc */; };
@@ -890,14 +888,6 @@
 		67E0DFDB25106B8600D42EF0 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFD825106B8600D42EF0 /* Transaction.cpp */; };
 		67E0DFDC25106B8600D42EF0 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DFD925106B8600D42EF0 /* Transaction.h */; };
 		67E0DFDD25106B8600D42EF0 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DFD925106B8600D42EF0 /* Transaction.h */; };
-		67E25B43259206430040A913 /* uint128_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E25B3F259206430040A913 /* uint128_t.cpp */; };
-		67E25B44259206430040A913 /* uint128_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E25B3F259206430040A913 /* uint128_t.cpp */; };
-		67E25B45259206430040A913 /* uint256_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E25B40259206430040A913 /* uint256_t.cpp */; };
-		67E25B46259206430040A913 /* uint256_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E25B40259206430040A913 /* uint256_t.cpp */; };
-		67E25B47259206430040A913 /* uint128_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B41259206430040A913 /* uint128_t.h */; };
-		67E25B48259206430040A913 /* uint128_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B41259206430040A913 /* uint128_t.h */; };
-		67E25B49259206430040A913 /* uint256_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B42259206430040A913 /* uint256_t.h */; };
-		67E25B4A259206430040A913 /* uint256_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B42259206430040A913 /* uint256_t.h */; };
 		67EA8E4125836954001D8809 /* ETHTokenFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8E4025836953001D8809 /* ETHTokenFactory.h */; };
 		67EA8E4225836954001D8809 /* ETHTokenFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 67EA8E4025836953001D8809 /* ETHTokenFactory.h */; };
 		67ECD12D23CD71B900B7D514 /* DerivationPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67ECD12B23CD71B900B7D514 /* DerivationPath.cpp */; };
@@ -975,22 +965,37 @@
 		67FA32D024CAECED00023DF9 /* xFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67FA32CE24CAECED00023DF9 /* xFactory.hpp */; };
 		771856B1261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 771856B0261491D800756E99 /* JubiterBIOTRXImpl.cpp */; };
 		771856B2261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 771856B0261491D800756E99 /* JubiterBIOTRXImpl.cpp */; };
-		774CE8D0261C2BEE001F5FB9 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 774CE8CF261C2BED001F5FB9 /* libprotobuf.a */; };
-		774CE8D4261C2C12001F5FB9 /* JUB_SDK_DEV_SWI.h in Headers */ = {isa = PBXBuildFile; fileRef = 774CE8D3261C2C12001F5FB9 /* JUB_SDK_DEV_SWI.h */; };
-		774CE8D5261C2C12001F5FB9 /* JUB_SDK_DEV_SWI.h in Headers */ = {isa = PBXBuildFile; fileRef = 774CE8D3261C2C12001F5FB9 /* JUB_SDK_DEV_SWI.h */; };
-		774CE8DB261C2C24001F5FB9 /* JUB_SDK_DEV_SWI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774CE8DA261C2C24001F5FB9 /* JUB_SDK_DEV_SWI.cpp */; };
-		774CE8DC261C2C24001F5FB9 /* JUB_SDK_DEV_SWI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774CE8DA261C2C24001F5FB9 /* JUB_SDK_DEV_SWI.cpp */; };
-		774CE922261EC98D001F5FB9 /* JubiterSWIDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 774CE921261EC98D001F5FB9 /* JubiterSWIDevice.hpp */; };
-		774CE923261EC98D001F5FB9 /* JubiterSWIDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 774CE921261EC98D001F5FB9 /* JubiterSWIDevice.hpp */; };
-		774CE929261ECF04001F5FB9 /* JubiterSWIDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774CE928261ECF04001F5FB9 /* JubiterSWIDevice.cpp */; };
-		774CE92A261ECF04001F5FB9 /* JubiterSWIDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774CE928261ECF04001F5FB9 /* JubiterSWIDevice.cpp */; };
-		7766501F262D52D500FA0B78 /* TrezorCryptoToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7766501E262D52D500FA0B78 /* TrezorCryptoToken.cpp */; };
-		77665020262D52D500FA0B78 /* TrezorCryptoToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7766501E262D52D500FA0B78 /* TrezorCryptoToken.cpp */; };
-		77767C3826524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77767C3726524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp */; };
-		77767C3926524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77767C3726524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp */; };
-		7781058E25F9BD650014C1EE /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7781058C25F9BD650014C1EE /* TaggedAddresses.cpp */; };
-		7781058F25F9BD650014C1EE /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7781058C25F9BD650014C1EE /* TaggedAddresses.cpp */; };
-		7781059025F9BD650014C1EE /* TaggedAddresses.h in Headers */ = {isa = PBXBuildFile; fileRef = 7781058D25F9BD650014C1EE /* TaggedAddresses.h */; };
+		772FB72326648B3500DA6C3D /* JubiterBridgeDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 772FB72226648B3500DA6C3D /* JubiterBridgeDevice.hpp */; };
+		772FB72426648B3500DA6C3D /* JubiterBridgeDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 772FB72226648B3500DA6C3D /* JubiterBridgeDevice.hpp */; };
+		772FB72726648C2000DA6C3D /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772FB72626648C2000DA6C3D /* TaggedAddresses.cpp */; };
+		772FB72826648C2000DA6C3D /* TaggedAddresses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772FB72626648C2000DA6C3D /* TaggedAddresses.cpp */; };
+		772FB72A266491F600DA6C3D /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 772FB729266491F600DA6C3D /* libprotobuf.a */; };
+		772FB72C2664925100DA6C3D /* BigIntegerUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 772FB72B2664925000DA6C3D /* BigIntegerUtils.cc */; };
+		772FB72D2664925100DA6C3D /* BigIntegerUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 772FB72B2664925000DA6C3D /* BigIntegerUtils.cc */; };
+		772FB75D2664B35600DA6C3D /* TrezorCryptoToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772FB75C2664B35600DA6C3D /* TrezorCryptoToken.cpp */; };
+		772FB75E2664B35600DA6C3D /* TrezorCryptoToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772FB75C2664B35600DA6C3D /* TrezorCryptoToken.cpp */; };
+		772FB7602664B41600DA6C3D /* JubiterSWIDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772FB75F2664B41600DA6C3D /* JubiterSWIDevice.cpp */; };
+		772FB7612664B41600DA6C3D /* JubiterSWIDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772FB75F2664B41600DA6C3D /* JubiterSWIDevice.cpp */; };
+		772FB7632664B42F00DA6C3D /* JubiterSWIDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 772FB7622664B42F00DA6C3D /* JubiterSWIDevice.hpp */; };
+		772FB7642664B42F00DA6C3D /* JubiterSWIDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 772FB7622664B42F00DA6C3D /* JubiterSWIDevice.hpp */; };
+		772FB7662664B45400DA6C3D /* JUB_SDK_DEV_SWI.h in Headers */ = {isa = PBXBuildFile; fileRef = 772FB7652664B45400DA6C3D /* JUB_SDK_DEV_SWI.h */; };
+		772FB7672664B45400DA6C3D /* JUB_SDK_DEV_SWI.h in Headers */ = {isa = PBXBuildFile; fileRef = 772FB7652664B45400DA6C3D /* JUB_SDK_DEV_SWI.h */; };
+		772FB7692664B46500DA6C3D /* JUB_SDK_DEV_SWI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772FB7682664B46500DA6C3D /* JUB_SDK_DEV_SWI.cpp */; };
+		772FB76A2664B46500DA6C3D /* JUB_SDK_DEV_SWI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772FB7682664B46500DA6C3D /* JUB_SDK_DEV_SWI.cpp */; };
+		774D4540264E5AF80002562C /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774D453F264E5AF80002562C /* JubiterBIOEOSImpl.cpp */; };
+		774D4541264E5AF80002562C /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774D453F264E5AF80002562C /* JubiterBIOEOSImpl.cpp */; };
+		774D454A264E72310002562C /* ERC721Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 774D4548264E72310002562C /* ERC721Abi.h */; };
+		774D454B264E72310002562C /* ERC721Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 774D4548264E72310002562C /* ERC721Abi.h */; };
+		774D454C264E72310002562C /* ERC721Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774D4549264E72310002562C /* ERC721Abi.cpp */; };
+		774D454D264E72310002562C /* ERC721Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774D4549264E72310002562C /* ERC721Abi.cpp */; };
+		774D4556264E82D60002562C /* uint256_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 774D4552264E82D50002562C /* uint256_t.h */; };
+		774D4557264E82D60002562C /* uint256_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 774D4552264E82D50002562C /* uint256_t.h */; };
+		774D4558264E82D60002562C /* uint128_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774D4553264E82D50002562C /* uint128_t.cpp */; };
+		774D4559264E82D60002562C /* uint128_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774D4553264E82D50002562C /* uint128_t.cpp */; };
+		774D455A264E82D60002562C /* uint128_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 774D4554264E82D50002562C /* uint128_t.h */; };
+		774D455B264E82D60002562C /* uint128_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 774D4554264E82D50002562C /* uint128_t.h */; };
+		774D455C264E82D60002562C /* uint256_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774D4555264E82D50002562C /* uint256_t.cpp */; };
+		774D455D264E82D60002562C /* uint256_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774D4555264E82D50002562C /* uint256_t.cpp */; };
 		7781059125F9BD650014C1EE /* TaggedAddresses.h in Headers */ = {isa = PBXBuildFile; fileRef = 7781058D25F9BD650014C1EE /* TaggedAddresses.h */; };
 		7781059925F9C3FB0014C1EE /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B352591F9790040A913 /* uint256.h */; };
 		7781059C25F9C3FB0014C1EE /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B352591F9790040A913 /* uint256.h */; };
@@ -1000,8 +1005,6 @@
 		7797441E262FC3E500ECFF34 /* BigUnsignedInABase.hh in Headers */ = {isa = PBXBuildFile; fileRef = 77974411262FC3E300ECFF34 /* BigUnsignedInABase.hh */; };
 		7797441F262FC3E500ECFF34 /* BigUnsignedInABase.cc in Sources */ = {isa = PBXBuildFile; fileRef = 77974412262FC3E300ECFF34 /* BigUnsignedInABase.cc */; };
 		77974420262FC3E500ECFF34 /* BigUnsignedInABase.cc in Sources */ = {isa = PBXBuildFile; fileRef = 77974412262FC3E300ECFF34 /* BigUnsignedInABase.cc */; };
-		77974421262FC3E500ECFF34 /* BigIntegerUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 77974413262FC3E300ECFF34 /* BigIntegerUtils.cc */; };
-		77974422262FC3E500ECFF34 /* BigIntegerUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 77974413262FC3E300ECFF34 /* BigIntegerUtils.cc */; };
 		77974423262FC3E500ECFF34 /* BigIntegerUtils.hh in Headers */ = {isa = PBXBuildFile; fileRef = 77974414262FC3E300ECFF34 /* BigIntegerUtils.hh */; };
 		77974424262FC3E500ECFF34 /* BigIntegerUtils.hh in Headers */ = {isa = PBXBuildFile; fileRef = 77974414262FC3E300ECFF34 /* BigIntegerUtils.hh */; };
 		77974425262FC3E500ECFF34 /* BigInteger.hh in Headers */ = {isa = PBXBuildFile; fileRef = 77974415262FC3E300ECFF34 /* BigInteger.hh */; };
@@ -1375,7 +1378,6 @@
 		67A4BDE72330AC9E0059A3DB /* hid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hid.c; path = ../../deps/hidapi/mac/hid.c; sourceTree = "<group>"; };
 		67A4BDE92330AD090059A3DB /* hidapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hidapi.h; path = ../../deps/hidapi/hidapi/hidapi.h; sourceTree = "<group>"; };
 		67A4BDFD2330AE1A0059A3DB /* uchar_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uchar_vector.h; path = ../../deps/mSIGNA/stdutils/uchar_vector.h; sourceTree = "<group>"; };
-		67B83183257738C8002EB306 /* JubiterBridgeDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JubiterBridgeDevice.hpp; path = ../../include/device/JubiterBridgeDevice.hpp; sourceTree = "<group>"; };
 		67B8318A257738E2002EB306 /* JubiterBridgeDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBridgeDevice.cpp; path = ../../src/device/JubiterBridgeDevice.cpp; sourceTree = "<group>"; };
 		67B8319225773AE0002EB306 /* jubiter_bridge.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jubiter_bridge.pb.cc; path = ../../deps/JubiterSDK_Common_pb/cpp/jubiter_bridge.pb.cc; sourceTree = "<group>"; };
 		67B8319325773AE0002EB306 /* jubiter_bridge.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jubiter_bridge.pb.h; path = ../../deps/JubiterSDK_Common_pb/cpp/jubiter_bridge.pb.h; sourceTree = "<group>"; };
@@ -1485,10 +1487,6 @@
 		67E0DFD825106B8600D42EF0 /* Transaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transaction.cpp; path = "../../deps/TrustWallet/wallet-core/src/Tron/Transaction.cpp"; sourceTree = "<group>"; };
 		67E0DFD925106B8600D42EF0 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Tron/Transaction.h"; sourceTree = "<group>"; };
 		67E25B352591F9790040A913 /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256.h; path = "../../deps/TrustWallet/wallet-core/src/uint256.h"; sourceTree = "<group>"; };
-		67E25B3F259206430040A913 /* uint128_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint128_t.cpp; path = ../../deps/uint256_t/uint128_t.cpp; sourceTree = "<group>"; };
-		67E25B40259206430040A913 /* uint256_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint256_t.cpp; path = ../../deps/uint256_t/uint256_t.cpp; sourceTree = "<group>"; };
-		67E25B41259206430040A913 /* uint128_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint128_t.h; path = ../../deps/uint256_t/uint128_t.h; sourceTree = "<group>"; };
-		67E25B42259206430040A913 /* uint256_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256_t.h; path = ../../deps/uint256_t/uint256_t.h; sourceTree = "<group>"; };
 		67EA8E4025836953001D8809 /* ETHTokenFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTokenFactory.h; path = ../../include/token/factory/ETHTokenFactory.h; sourceTree = "<group>"; };
 		67ECD12B23CD71B900B7D514 /* DerivationPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DerivationPath.cpp; path = "../../deps/TrustWallet/wallet-core/src/DerivationPath.cpp"; sourceTree = "<group>"; };
 		67ECD12C23CD71B900B7D514 /* DerivationPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DerivationPath.h; path = "../../deps/TrustWallet/wallet-core/src/DerivationPath.h"; sourceTree = "<group>"; };
@@ -1530,19 +1528,27 @@
 		67FA32CB24CAE77B00023DF9 /* DeviceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceFactory.h; path = ../../include/device/DeviceFactory.h; sourceTree = "<group>"; };
 		67FA32CE24CAECED00023DF9 /* xFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = xFactory.hpp; path = ../../include/utility/xFactory.hpp; sourceTree = "<group>"; };
 		771856B0261491D800756E99 /* JubiterBIOTRXImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOTRXImpl.cpp; path = ../../src/token/TRX/JubiterBIOTRXImpl.cpp; sourceTree = "<group>"; };
-		774CE8CF261C2BED001F5FB9 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
-		774CE8D3261C2C12001F5FB9 /* JUB_SDK_DEV_SWI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DEV_SWI.h; path = ../../include/JUB_SDK_DEV_SWI.h; sourceTree = "<group>"; };
-		774CE8DA261C2C24001F5FB9 /* JUB_SDK_DEV_SWI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV_SWI.cpp; path = ../../src/JUB_SDK_DEV_SWI.cpp; sourceTree = "<group>"; };
-		774CE921261EC98D001F5FB9 /* JubiterSWIDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JubiterSWIDevice.hpp; path = ../../include/device/JubiterSWIDevice.hpp; sourceTree = "<group>"; };
-		774CE928261ECF04001F5FB9 /* JubiterSWIDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterSWIDevice.cpp; path = ../../src/device/JubiterSWIDevice.cpp; sourceTree = "<group>"; };
-		7766501E262D52D500FA0B78 /* TrezorCryptoToken.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TrezorCryptoToken.cpp; path = ../../src/token/TrezorCryptoToken.cpp; sourceTree = "<group>"; };
-		77767C3726524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
-		7781058C25F9BD650014C1EE /* TaggedAddresses.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TaggedAddresses.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.cpp"; sourceTree = "<group>"; };
+		772FB72226648B3500DA6C3D /* JubiterBridgeDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JubiterBridgeDevice.hpp; path = ../../include/device/JubiterBridgeDevice.hpp; sourceTree = "<group>"; };
+		772FB72626648C2000DA6C3D /* TaggedAddresses.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TaggedAddresses.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.cpp"; sourceTree = "<group>"; };
+		772FB729266491F600DA6C3D /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
+		772FB72B2664925000DA6C3D /* BigIntegerUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerUtils.cc; path = ../../deps/bigint/BigIntegerUtils.cc; sourceTree = "<group>"; };
+		772FB75C2664B35600DA6C3D /* TrezorCryptoToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrezorCryptoToken.cpp; path = ../../src/token/TrezorCryptoToken.cpp; sourceTree = "<group>"; };
+		772FB75F2664B41600DA6C3D /* JubiterSWIDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterSWIDevice.cpp; path = ../../src/device/JubiterSWIDevice.cpp; sourceTree = "<group>"; };
+		772FB7622664B42F00DA6C3D /* JubiterSWIDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JubiterSWIDevice.hpp; path = ../../include/device/JubiterSWIDevice.hpp; sourceTree = "<group>"; };
+		772FB7652664B45400DA6C3D /* JUB_SDK_DEV_SWI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DEV_SWI.h; path = ../../include/JUB_SDK_DEV_SWI.h; sourceTree = "<group>"; };
+		772FB7682664B46500DA6C3D /* JUB_SDK_DEV_SWI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV_SWI.cpp; path = ../../src/JUB_SDK_DEV_SWI.cpp; sourceTree = "<group>"; };
+		774D453F264E5AF80002562C /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
+		774D4548264E72310002562C /* ERC721Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC721Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.h"; sourceTree = "<group>"; };
+		774D4549264E72310002562C /* ERC721Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC721Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.cpp"; sourceTree = "<group>"; };
+		774D4552264E82D50002562C /* uint256_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256_t.h; path = ../../deps/uint256_t/uint256_t.h; sourceTree = "<group>"; };
+		774D4553264E82D50002562C /* uint128_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint128_t.cpp; path = ../../deps/uint256_t/uint128_t.cpp; sourceTree = "<group>"; };
+		774D4554264E82D50002562C /* uint128_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint128_t.h; path = ../../deps/uint256_t/uint128_t.h; sourceTree = "<group>"; };
+		774D4555264E82D50002562C /* uint256_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint256_t.cpp; path = ../../deps/uint256_t/uint256_t.cpp; sourceTree = "<group>"; };
+		774D4561264E8B6E0002562C /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256.h; path = "../../deps/TrustWallet/wallet-core/src/uint256.h"; sourceTree = "<group>"; };
 		7781058D25F9BD650014C1EE /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
 		77974410262FC3E200ECFF34 /* BigUnsigned.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigUnsigned.cc; path = ../../deps/bigint/BigUnsigned.cc; sourceTree = "<group>"; };
 		77974411262FC3E300ECFF34 /* BigUnsignedInABase.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsignedInABase.hh; path = ../../deps/bigint/BigUnsignedInABase.hh; sourceTree = "<group>"; };
 		77974412262FC3E300ECFF34 /* BigUnsignedInABase.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigUnsignedInABase.cc; path = ../../deps/bigint/BigUnsignedInABase.cc; sourceTree = "<group>"; };
-		77974413262FC3E300ECFF34 /* BigIntegerUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerUtils.cc; path = ../../deps/bigint/BigIntegerUtils.cc; sourceTree = "<group>"; };
 		77974414262FC3E300ECFF34 /* BigIntegerUtils.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigIntegerUtils.hh; path = ../../deps/bigint/BigIntegerUtils.hh; sourceTree = "<group>"; };
 		77974415262FC3E300ECFF34 /* BigInteger.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigInteger.hh; path = ../../deps/bigint/BigInteger.hh; sourceTree = "<group>"; };
 		77974416262FC3E400ECFF34 /* BigIntegerAlgorithms.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerAlgorithms.cc; path = ../../deps/bigint/BigIntegerAlgorithms.cc; sourceTree = "<group>"; };
@@ -1558,7 +1564,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				774CE8D0261C2BEE001F5FB9 /* libprotobuf.a in Frameworks */,
+				772FB72A266491F600DA6C3D /* libprotobuf.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1717,7 +1723,7 @@
 			children = (
 				32E84E47240B95CE003311B5 /* JubiterBaseEOSImpl.cpp */,
 				674621EC23C31DBE0096DDA2 /* JubiterBladeEOSImpl.cpp */,
-				77767C3726524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp */,
+				774D453F264E5AF80002562C /* JubiterBIOEOSImpl.cpp */,
 				679DA9892577B44400B08471 /* JubiterLiteEOSImpl.cpp */,
 				674621EB23C31DBE0096DDA2 /* TrezorCryptoEOSImpl.cpp */,
 			);
@@ -1862,7 +1868,7 @@
 				670B8FB62431C9C100E8EF5C /* SField.h */,
 				675C7961238B78B00015C95D /* Signer.cpp */,
 				675C7966238B78B00015C95D /* Signer.h */,
-				7781058C25F9BD650014C1EE /* TaggedAddresses.cpp */,
+				772FB72626648C2000DA6C3D /* TaggedAddresses.cpp */,
 				7781058D25F9BD650014C1EE /* TaggedAddresses.h */,
 				675C7965238B78B00015C95D /* Transaction.cpp */,
 				675C7964238B78B00015C95D /* Transaction.h */,
@@ -1873,7 +1879,7 @@
 		6763938325347F1100C41883 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				774CE8CF261C2BED001F5FB9 /* libprotobuf.a */,
+				772FB729266491F600DA6C3D /* libprotobuf.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1937,7 +1943,7 @@
 				676B4286240F920200EBB44D /* Ethereum */,
 				675C7960238B78910015C95D /* Ripple */,
 				67E0DFA1250F781A00D42EF0 /* Tron */,
-				67F5957D256E661200AB8FED /* Filecoin */,
+				772FB72526648B6700DA6C3D /* Filecoin */,
 				67F59592256E66A600AB8FED /* Base32.h */,
 				676621DE234C316900AFAFA2 /* Base58.cpp */,
 				676F028623C775A6005C8032 /* Base58.h */,
@@ -1954,12 +1960,13 @@
 				67ECD12C23CD71B900B7D514 /* DerivationPath.h */,
 				67662216234C31DB00AFAFA2 /* Hash.cpp */,
 				67662219234C31DB00AFAFA2 /* Hash.h */,
-				67662217234C31DB00AFAFA2 /* HexCoding.cpp */,
 				6766221C234C31DC00AFAFA2 /* HexCoding.h */,
 				6766221B234C31DC00AFAFA2 /* PrivateKey.cpp */,
 				67662218234C31DB00AFAFA2 /* PrivateKey.h */,
 				6766221A234C31DC00AFAFA2 /* PublicKey.cpp */,
 				6766221D234C31DC00AFAFA2 /* PublicKey.h */,
+				774D4561264E8B6E0002562C /* uint256.h */,
+				67662217234C31DB00AFAFA2 /* HexCoding.cpp */,
 				67E0DE1A250F10F100D42EF0 /* XXHash64.h */,
 				67E25B352591F9790040A913 /* uint256.h */,
 			);
@@ -1999,6 +2006,8 @@
 				676B4288240F922200EBB44D /* AddressChecksum.h */,
 				676B42EB2410A22900EBB44D /* ERC20Abi.cpp */,
 				676B42EA2410A22900EBB44D /* ERC20Abi.h */,
+				774D4549264E72310002562C /* ERC721Abi.cpp */,
+				774D4548264E72310002562C /* ERC721Abi.h */,
 				676B4289240F922200EBB44D /* RLP.cpp */,
 				676B4290240F922300EBB44D /* RLP.h */,
 				676B42BF240FA30600EBB44D /* Signer.cpp */,
@@ -2100,7 +2109,7 @@
 				67A4BCAE233083730059A3DB /* JUB_CORE.h */,
 				67A4BCAC233083730059A3DB /* JUB_SDK_COMM.h */,
 				67A4BCAA233083730059A3DB /* JUB_SDK_DEV.h */,
-				774CE8D3261C2C12001F5FB9 /* JUB_SDK_DEV_SWI.h */,
+				772FB7652664B45400DA6C3D /* JUB_SDK_DEV_SWI.h */,
 				67A4BCB1233083730059A3DB /* JUB_SDK_DEV_BLE.h */,
 				67CE944624C9342200AE59B4 /* JUB_SDK_DEV_BIO.h */,
 				67A4BCAB233083730059A3DB /* JUB_SDK_DEV_HID.h */,
@@ -2152,11 +2161,11 @@
 				67A4BC92233082CA0059A3DB /* DeviceIOLogHelper.hpp */,
 				67A4BC90233082CA0059A3DB /* Fido.h */,
 				67A4BC91233082CA0059A3DB /* DeviceTypeBase.hpp */,
-				774CE921261EC98D001F5FB9 /* JubiterSWIDevice.hpp */,
+				772FB7622664B42F00DA6C3D /* JubiterSWIDevice.hpp */,
 				67A4BC94233082CA0059A3DB /* JubiterBLEDevice.hpp */,
 				67A4BC8F233082CA0059A3DB /* JubiterHidDevice.hpp */,
-				67B83183257738C8002EB306 /* JubiterBridgeDevice.hpp */,
 				67A4BC93233082CA0059A3DB /* ApduBuilder.hpp */,
+				772FB72226648B3500DA6C3D /* JubiterBridgeDevice.hpp */,
 			);
 			name = device;
 			sourceTree = "<group>";
@@ -2167,12 +2176,17 @@
 				676F02E623C8AB58005C8032 /* ErrorHandler.h */,
 				677DF33224DD39DE001920A9 /* factory */,
 				67A4BC8E233082B00059A3DB /* interface */,
+				676F02E923C8AB76005C8032 /* JubiterBladeToken.h */,
+				67CE944D24C9346700AE59B4 /* JubiterBIOToken.h */,
+				679520132579DC9900548B5B /* JubiterLiteToken.h */,
+				679520142579DC9900548B5B /* JubiterLiteImpl.h */,
+				676F02F223C8ABA1005C8032 /* TrezorCryptoToken.h */,
 				6729ED8D2542FF2200AAF115 /* BTC */,
 				6729ED8E2542FF5100AAF115 /* ETH */,
 				6729ED8F2542FF6700AAF115 /* EOS */,
 				6729ED902542FF7C00AAF115 /* XRP */,
 				6729ED912542FF9400AAF115 /* TRX */,
-				67F5954E256E657A00AB8FED /* FIL */,
+				772FB72026648A7F00DA6C3D /* FIL */,
 			);
 			name = token;
 			sourceTree = "<group>";
@@ -2182,12 +2196,7 @@
 			children = (
 				676F02DE23C8AB0E005C8032 /* BaseToken.h */,
 				676F02DD23C8AB0E005C8032 /* HardwareTokenInterface.hpp */,
-				676F02E923C8AB76005C8032 /* JubiterBladeToken.h */,
-				67CE944D24C9346700AE59B4 /* JubiterBIOToken.h */,
-				679520132579DC9900548B5B /* JubiterLiteToken.h */,
-				679520142579DC9900548B5B /* JubiterLiteImpl.h */,
 				676F02DF23C8AB0E005C8032 /* SoftwareTokenInterface.hpp */,
-				676F02F223C8ABA1005C8032 /* TrezorCryptoToken.h */,
 				67A4BCA4233083480059A3DB /* BTCTokenInterface.hpp */,
 				6795A82223D8598500F273E0 /* QTUMTokenInterface.hpp */,
 				67A4BCA5233083480059A3DB /* ETHTokenInterface.hpp */,
@@ -2210,14 +2219,14 @@
 		67A4BCC8233083F20059A3DB /* utility */ = {
 			isa = PBXGroup;
 			children = (
-				67416537246CF64800DFAC28 /* mutex.h */,
-				67A4BCD1233084470059A3DB /* xManager.hpp */,
-				67FA32CE24CAECED00023DF9 /* xFactory.hpp */,
 				67A4BCCC233084200059A3DB /* Apdu.hpp */,
 				67A4BCC9233084200059A3DB /* Debug.hpp */,
+				67416537246CF64800DFAC28 /* mutex.h */,
 				67A4BCCA233084200059A3DB /* Singleton.h */,
-				67A4BCCB233084200059A3DB /* util.h */,
 				6755ED31233C590F00B418C7 /* trim.hpp */,
+				67A4BCCB233084200059A3DB /* util.h */,
+				67FA32CE24CAECED00023DF9 /* xFactory.hpp */,
+				67A4BCD1233084470059A3DB /* xManager.hpp */,
 			);
 			name = utility;
 			sourceTree = "<group>";
@@ -2229,7 +2238,7 @@
 				67A4BCD9233084740059A3DB /* JUB_core.cpp */,
 				67A4BCD8233084740059A3DB /* JUB_SDK_COMM.cpp */,
 				67A4BCD7233084740059A3DB /* JUB_SDK_DEV.cpp */,
-				774CE8DA261C2C24001F5FB9 /* JUB_SDK_DEV_SWI.cpp */,
+				772FB7682664B46500DA6C3D /* JUB_SDK_DEV_SWI.cpp */,
 				67A4BCD4233084740059A3DB /* JUB_SDK_DEV_BLE.cpp */,
 				67CE945824C989B500AE59B4 /* JUB_SDK_DEV_BIO.cpp */,
 				67A4BCD5233084740059A3DB /* JUB_SDK_DEV_HID.cpp */,
@@ -2256,8 +2265,8 @@
 				674621D723C31D820096DDA2 /* BaseContext.cpp */,
 				674621D623C31D820096DDA2 /* BTCContext.cpp */,
 				674621D523C31D810096DDA2 /* ETHContext.cpp */,
-				674621D423C31D810096DDA2 /* HCContext.cpp */,
 				6795A81F23D854AF00F273E0 /* QTUMContext.cpp */,
+				674621D423C31D810096DDA2 /* HCContext.cpp */,
 				674621D823C31D820096DDA2 /* EOSContext.cpp */,
 				674621D323C31D810096DDA2 /* XRPContext.cpp */,
 				67E0DF92250F775200D42EF0 /* TRXContext.cpp */,
@@ -2271,7 +2280,7 @@
 			children = (
 				67A4BCEE233084B90059A3DB /* ApduBuilder.cpp */,
 				67A4BCED233084B90059A3DB /* Fido.cpp */,
-				774CE928261ECF04001F5FB9 /* JubiterSWIDevice.cpp */,
+				772FB75F2664B41600DA6C3D /* JubiterSWIDevice.cpp */,
 				67A4BCEC233084B90059A3DB /* JubiterBLEDevice.cpp */,
 				67A4BCEF233084B90059A3DB /* JubiterHidDevice.cpp */,
 				67B8318A257738E2002EB306 /* JubiterBridgeDevice.cpp */,
@@ -2300,13 +2309,13 @@
 		67A4BD03233086E70059A3DB /* deps */ = {
 			isa = PBXGroup;
 			children = (
-				67E25B3E259206070040A913 /* uint256_t */,
-				775FD4F62626E75000D12DDC /* bigint */,
-				67B8319125773ACA002EB306 /* proto */,
-				67DDD44925394611002B4C98 /* pbparse */,
+				772FB71F26648A2000DA6C3D /* bigint */,
+				774D4551264E828D0002562C /* uint256_t */,
+				674B4A6F24A1AF8C0053AB2F /* gpc */,
 				67A4BDFC2330ADE00059A3DB /* mSIGNA */,
 				67A4BDE62330AC7C0059A3DB /* hidapi */,
-				674B4A6F24A1AF8C0053AB2F /* gpc */,
+				67DDD44925394611002B4C98 /* pbparse */,
+				67B8319125773ACA002EB306 /* proto */,
 				67A4BD042330A09B0059A3DB /* trezor-crypto */,
 				676621C5234C30BF00AFAFA2 /* TrustWallet */,
 			);
@@ -2502,13 +2511,13 @@
 				67CE945224C934A800AE59B4 /* JubiterBIOToken.cpp */,
 				679DA9B12578D2DC00B08471 /* JubiterLiteImpl.cpp */,
 				679DA9B02578D2DC00B08471 /* JubiterLiteToken.cpp */,
-				7766501E262D52D500FA0B78 /* TrezorCryptoToken.cpp */,
+				772FB75C2664B35600DA6C3D /* TrezorCryptoToken.cpp */,
 				6729ED942543001100AAF115 /* BTC */,
 				6729ED952543003C00AAF115 /* ETH */,
 				6729ED962543004B00AAF115 /* EOS */,
 				6729ED972543005D00AAF115 /* XRP */,
 				6729ED982543006D00AAF115 /* TRX */,
-				67F5956E256E65DB00AB8FED /* FIL */,
+				772FB72126648AB000DA6C3D /* FIL */,
 			);
 			name = token;
 			sourceTree = "<group>";
@@ -2568,17 +2577,6 @@
 			name = Tron;
 			sourceTree = "<group>";
 		};
-		67E25B3E259206070040A913 /* uint256_t */ = {
-			isa = PBXGroup;
-			children = (
-				67E25B3F259206430040A913 /* uint128_t.cpp */,
-				67E25B41259206430040A913 /* uint128_t.h */,
-				67E25B40259206430040A913 /* uint256_t.cpp */,
-				67E25B42259206430040A913 /* uint256_t.h */,
-			);
-			name = uint256_t;
-			sourceTree = "<group>";
-		};
 		67ECD09723CC913300B7D514 /* Bitcoin */ = {
 			isa = PBXGroup;
 			children = (
@@ -2616,19 +2614,37 @@
 			name = Bitcoin;
 			sourceTree = "<group>";
 		};
-		67F5954E256E657A00AB8FED /* FIL */ = {
+		772FB71F26648A2000DA6C3D /* bigint */ = {
+			isa = PBXGroup;
+			children = (
+				77974418262FC3E400ECFF34 /* BigInteger.cc */,
+				77974415262FC3E300ECFF34 /* BigInteger.hh */,
+				77974416262FC3E400ECFF34 /* BigIntegerAlgorithms.cc */,
+				7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */,
+				772FB72B2664925000DA6C3D /* BigIntegerUtils.cc */,
+				77974414262FC3E300ECFF34 /* BigIntegerUtils.hh */,
+				77974417262FC3E400ECFF34 /* BigIntegerLibrary.hh */,
+				77974419262FC3E400ECFF34 /* BigUnsigned.hh */,
+				77974410262FC3E200ECFF34 /* BigUnsigned.cc */,
+				77974411262FC3E300ECFF34 /* BigUnsignedInABase.hh */,
+				77974412262FC3E300ECFF34 /* BigUnsignedInABase.cc */,
+			);
+			name = bigint;
+			sourceTree = "<group>";
+		};
+		772FB72026648A7F00DA6C3D /* FIL */ = {
 			isa = PBXGroup;
 			children = (
 				67F59551256E659200AB8FED /* JubiterBaseFILImpl.h */,
-				67F59550256E659200AB8FED /* JubiterBIOFILImpl.h */,
 				67F5954F256E659200AB8FED /* JubiterBladeFILImpl.h */,
 				670C450725821924007F19DF /* JubiterLiteFILImpl.h */,
+				67F59550256E659200AB8FED /* JubiterBIOFILImpl.h */,
 				67F59553256E659300AB8FED /* TrezorCryptoFILImpl.h */,
 			);
 			name = FIL;
 			sourceTree = "<group>";
 		};
-		67F5956E256E65DB00AB8FED /* FIL */ = {
+		772FB72126648AB000DA6C3D /* FIL */ = {
 			isa = PBXGroup;
 			children = (
 				67F59571256E65F300AB8FED /* JubiterBaseFILImpl.cpp */,
@@ -2639,7 +2655,7 @@
 			name = FIL;
 			sourceTree = "<group>";
 		};
-		67F5957D256E661200AB8FED /* Filecoin */ = {
+		772FB72526648B6700DA6C3D /* Filecoin */ = {
 			isa = PBXGroup;
 			children = (
 				67F5957F256E665F00AB8FED /* Address.cpp */,
@@ -2652,22 +2668,15 @@
 			name = Filecoin;
 			sourceTree = "<group>";
 		};
-		775FD4F62626E75000D12DDC /* bigint */ = {
+		774D4551264E828D0002562C /* uint256_t */ = {
 			isa = PBXGroup;
 			children = (
-				77974418262FC3E400ECFF34 /* BigInteger.cc */,
-				77974415262FC3E300ECFF34 /* BigInteger.hh */,
-				77974416262FC3E400ECFF34 /* BigIntegerAlgorithms.cc */,
-				7797441A262FC3E400ECFF34 /* BigIntegerAlgorithms.hh */,
-				77974417262FC3E400ECFF34 /* BigIntegerLibrary.hh */,
-				77974413262FC3E300ECFF34 /* BigIntegerUtils.cc */,
-				77974414262FC3E300ECFF34 /* BigIntegerUtils.hh */,
-				77974410262FC3E200ECFF34 /* BigUnsigned.cc */,
-				77974419262FC3E400ECFF34 /* BigUnsigned.hh */,
-				77974412262FC3E300ECFF34 /* BigUnsignedInABase.cc */,
-				77974411262FC3E300ECFF34 /* BigUnsignedInABase.hh */,
+				774D4553264E82D50002562C /* uint128_t.cpp */,
+				774D4554264E82D50002562C /* uint128_t.h */,
+				774D4555264E82D50002562C /* uint256_t.cpp */,
+				774D4552264E82D50002562C /* uint256_t.h */,
 			);
-			name = bigint;
+			name = uint256_t;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2679,7 +2688,6 @@
 			files = (
 				67189F1123A20FED00F8A5CD /* JUB_CORE.h in Headers */,
 				67189F1223A20FED00F8A5CD /* JUB_SDK_COMM.h in Headers */,
-				774CE8D5261C2C12001F5FB9 /* JUB_SDK_DEV_SWI.h in Headers */,
 				67189F1323A20FED00F8A5CD /* JUB_SDK_DEV.h in Headers */,
 				679DA92A25778C9400B08471 /* JUB_SDK_DEV_SIM.h in Headers */,
 				67189F1423A20FED00F8A5CD /* JUB_SDK_DEV_BLE.h in Headers */,
@@ -2687,7 +2695,6 @@
 				67189F1523A20FED00F8A5CD /* JUB_SDK_DEV_HID.h in Headers */,
 				67E0DF64250F750100D42EF0 /* JUB_SDK_TRX.h in Headers */,
 				67189F1623A20FED00F8A5CD /* JUB_SDK_BTC.h in Headers */,
-				67E25B4A259206430040A913 /* uint256_t.h in Headers */,
 				67189F1823A20FED00F8A5CD /* JUB_SDK_Hcash.h in Headers */,
 				67189F1723A20FED00F8A5CD /* JUB_SDK_ETH.h in Headers */,
 				67189F1A23A20FED00F8A5CD /* JUB_SDK_XRP.h in Headers */,
@@ -2698,7 +2705,6 @@
 				67189F3B23A2103800F8A5CD /* Debug.hpp in Headers */,
 				67189F3A23A2103800F8A5CD /* Apdu.hpp in Headers */,
 				67189F1B23A20FF100F8A5CD /* xManager.hpp in Headers */,
-				67E25B48259206430040A913 /* uint128_t.h in Headers */,
 				67416539246CF64800DFAC28 /* mutex.h in Headers */,
 				676F030623C8ABC8005C8032 /* TrezorCryptoEOSImpl.h in Headers */,
 				676F030423C8ABC8005C8032 /* JubiterBladeEOSImpl.h in Headers */,
@@ -2721,11 +2727,13 @@
 				67E0DE81250F6C1F00D42EF0 /* TWBitcoinOpCodes.h in Headers */,
 				67F5959A256E66BF00AB8FED /* Cbor.h in Headers */,
 				67E0DE99250F6C1F00D42EF0 /* TWPublicKey.h in Headers */,
+				772FB7642664B42F00DA6C3D /* JubiterSWIDevice.hpp in Headers */,
 				67E0DF68250F751500D42EF0 /* TRXContextFactory.h in Headers */,
 				67189FA723A2115100F8A5CD /* secp256k1.h in Headers */,
 				674B4A7B24A1B0570053AB2F /* scp11c.hpp in Headers */,
 				67189FA123A2114A00F8A5CD /* rfc6979.h in Headers */,
 				67189F8623A2113E00F8A5CD /* bip39.h in Headers */,
+				774D4557264E82D60002562C /* uint256_t.h in Headers */,
 				6780222B2519DA82008142B1 /* ContractSmart.h in Headers */,
 				67189F9823A2114A00F8A5CD /* groestl.h in Headers */,
 				67189FEA23A211A400F8A5CD /* BinaryCoding.h in Headers */,
@@ -2851,6 +2859,7 @@
 				678022252519D9DD008142B1 /* ContractBalance.h in Headers */,
 				67189FCE23A2117200F8A5CD /* ed25519-hash-custom-sha3.h in Headers */,
 				67189FBB23A2116D00F8A5CD /* bip39_english.h in Headers */,
+				772FB72426648B3500DA6C3D /* JubiterBridgeDevice.hpp in Headers */,
 				67189FA223A2114A00F8A5CD /* ripemd160.h in Headers */,
 				6730669224CE9A72008EE92C /* ProductFactory.h in Headers */,
 				673E880624AC3CF400578781 /* tag.h in Headers */,
@@ -2862,6 +2871,7 @@
 				67E0DF8A250F764400D42EF0 /* JubiterBaseTRXImpl.h in Headers */,
 				67E0DE7F250F6C1F00D42EF0 /* TWCurve.h in Headers */,
 				67E0DE9D250F6C1F00D42EF0 /* TWBase.h in Headers */,
+				774D454B264E72310002562C /* ERC721Abi.h in Headers */,
 				67189F8723A2113E00F8A5CD /* blake2b.h in Headers */,
 				67189F9223A2114200F8A5CD /* ed25519-donna-portable.h in Headers */,
 				676B42ED2410A22900EBB44D /* ERC20Abi.h in Headers */,
@@ -2889,7 +2899,6 @@
 				67F59542256E654100AB8FED /* FILContextFactory.h in Headers */,
 				67E0DE7D250F6C1F00D42EF0 /* TWBitcoinSigHashType.h in Headers */,
 				67E0DF6D250F757E00D42EF0 /* TRXTokenInterface.hpp in Headers */,
-				67B83185257738C8002EB306 /* JubiterBridgeDevice.hpp in Headers */,
 				67E0DE8D250F6C1F00D42EF0 /* TWHDVersion.h in Headers */,
 				67E0DEDA250F6CA500D42EF0 /* SignatureVersion.h in Headers */,
 				67E0DEE8250F6CA500D42EF0 /* OutPointHcash.h in Headers */,
@@ -2911,6 +2920,7 @@
 				6795A82D23D868B400F273E0 /* JubiterBaseBTCImpl.h in Headers */,
 				67189F3023A2100600F8A5CD /* EOSTokenInterface.hpp in Headers */,
 				67189F3123A2100600F8A5CD /* XRPTokenInterface.hpp in Headers */,
+				774D455B264E82D60002562C /* uint128_t.h in Headers */,
 				67189F2E23A2100600F8A5CD /* ETHTokenInterface.hpp in Headers */,
 				6795A82423D8598500F273E0 /* QTUMTokenInterface.hpp in Headers */,
 				67189F2D23A2100600F8A5CD /* BTCTokenInterface.hpp in Headers */,
@@ -2963,189 +2973,12 @@
 				67E0DF1F250F6CE600D42EF0 /* Name.h in Headers */,
 				671545AC23D58B7500810F16 /* TrezorCryptoQTUMImpl.h in Headers */,
 				677A186523F2701D003FA636 /* JubiterBaseHCImpl.h in Headers */,
-				676F02FA23C8ABAF005C8032 /* JubiterBladeHCImpl.h in Headers */,
-				676F02F823C8ABAF005C8032 /* TrezorCryptoHCImpl.h in Headers */,
-				328D10B9240B922500AB723D /* JubiterBaseETHImpl.h in Headers */,
-				676F02FE23C8ABBC005C8032 /* JubiterBladeETHImpl.h in Headers */,
-				676F030023C8ABBC005C8032 /* TrezorCryptoETHImpl.h in Headers */,
-				677DF34A24DD455B001920A9 /* XRPContextFactory.h in Headers */,
-				32E84E46240B95AF003311B5 /* JubiterBaseXRPImpl.h in Headers */,
-				676F02F123C8AB90005C8032 /* JubiterBladeXRPImpl.h in Headers */,
-				676F02EF23C8AB90005C8032 /* TrezorCryptoXRPImpl.h in Headers */,
-				32E84E43240B959E003311B5 /* JubiterBaseEOSImpl.h in Headers */,
-				676F030423C8ABC8005C8032 /* JubiterBladeEOSImpl.h in Headers */,
-				676F030623C8ABC8005C8032 /* TrezorCryptoEOSImpl.h in Headers */,
-				67416539246CF64800DFAC28 /* mutex.h in Headers */,
-				67E0DF2D250F6CE600D42EF0 /* Prefixes.h in Headers */,
-				67E0DE95250F6C1F00D42EF0 /* TWData.h in Headers */,
-				67189F1B23A20FF100F8A5CD /* xManager.hpp in Headers */,
-				67E0DE87250F6C1F00D42EF0 /* TWP2SHPrefix.h in Headers */,
-				67189F3A23A2103800F8A5CD /* Apdu.hpp in Headers */,
-				67E0DF8E250F764400D42EF0 /* JubiterBladeTRXImpl.h in Headers */,
-				676F6D152522E5CA00491BF5 /* Contract.hpp in Headers */,
-				679DA96E2577B36E00B08471 /* JubiterLiteQTUMImpl.h in Headers */,
-				676393352534608B00C41883 /* balance_contract.pb.h in Headers */,
-				67189F3B23A2103800F8A5CD /* Debug.hpp in Headers */,
-				67E0DEEE250F6CA500D42EF0 /* Script.h in Headers */,
-				67FA32CD24CAE77B00023DF9 /* DeviceFactory.h in Headers */,
-				679DA96C2577B36E00B08471 /* JubiterLiteLTCImpl.h in Headers */,
-				67189F3C23A2103800F8A5CD /* Singleton.h in Headers */,
-				67189F3D23A2103800F8A5CD /* util.h in Headers */,
-				67E0DF88250F764400D42EF0 /* JubiterLiteTRXImpl.h in Headers */,
-				774CE923261EC98D001F5FB9 /* JubiterSWIDevice.hpp in Headers */,
-				67189F7D23A2113300F8A5CD /* uchar_vector.h in Headers */,
-				67189F8823A2113E00F8A5CD /* blake2s.h in Headers */,
-				67189F8123A2113E00F8A5CD /* aes.h in Headers */,
-				67189FB423A2116900F8A5CD /* aesopt.h in Headers */,
-				6763930E253167A900C41883 /* TransactionContract.hpp in Headers */,
-				67189FA423A2115100F8A5CD /* schnorr.h in Headers */,
-				67E0DF77250F75DF00D42EF0 /* JubiterBIOEOSImpl.h in Headers */,
-				67E0DF0A250F6CA500D42EF0 /* TransactionHcash.h in Headers */,
-				676B42ED2410A22900EBB44D /* ERC20Abi.h in Headers */,
-				67189F9223A2114200F8A5CD /* ed25519-donna-portable.h in Headers */,
-				67189F8723A2113E00F8A5CD /* blake2b.h in Headers */,
-				67E0DE9D250F6C1F00D42EF0 /* TWBase.h in Headers */,
-				67E0DE7F250F6C1F00D42EF0 /* TWCurve.h in Headers */,
-				67E0DF8A250F764400D42EF0 /* JubiterBaseTRXImpl.h in Headers */,
-				67189F8523A2113E00F8A5CD /* bip32.h in Headers */,
-				67189F8023A2113E00F8A5CD /* address.h in Headers */,
-				6718A00A23A211B600F8A5CD /* PrivateKey.h in Headers */,
-				67189FA823A2115100F8A5CD /* sha2.h in Headers */,
-				67189F8C23A2114200F8A5CD /* curve25519-donna-32bit.h in Headers */,
-				673E880624AC3CF400578781 /* tag.h in Headers */,
-				6730669224CE9A72008EE92C /* ProductFactory.h in Headers */,
-				67189FA223A2114A00F8A5CD /* ripemd160.h in Headers */,
-				67189FBB23A2116D00F8A5CD /* bip39_english.h in Headers */,
-				67189FCE23A2117200F8A5CD /* ed25519-hash-custom-sha3.h in Headers */,
-				678022252519D9DD008142B1 /* ContractBalance.h in Headers */,
-				67189F8D23A2114200F8A5CD /* curve25519-donna-helpers.h in Headers */,
-				67E0DF25250F6CE600D42EF0 /* Transaction.h in Headers */,
-				676B42BD240F9C9500EBB44D /* Address.h in Headers */,
-				67E0DF06250F6CA500D42EF0 /* OutPoint.h in Headers */,
-				67189F8B23A2113E00F8A5CD /* ecdsa.h in Headers */,
-				67189F9C23A2114A00F8A5CD /* nem.h in Headers */,
-				677DF33824DD39F2001920A9 /* MISCTokenFactory.h in Headers */,
-				679DA9702577B36E00B08471 /* JubiterLiteUSDTImpl.h in Headers */,
-				67189F7F23A2113700F8A5CD /* hidapi.h in Headers */,
-				677DF34824DD455B001920A9 /* HCContextFactory.h in Headers */,
-				67189F8223A2113E00F8A5CD /* base32.h in Headers */,
-				67BFDE7A2522010B00E718BA /* Signer.h in Headers */,
-				6718A01123A211BB00F8A5CD /* Signer.h in Headers */,
-				67E0DF08250F6CA500D42EF0 /* Transaction.h in Headers */,
-				679DA9CD2578D58E00B08471 /* JUB_SDK_DEV_NFC.h in Headers */,
-				67E0DF7F250F761F00D42EF0 /* JubiterBIOHCImpl.h in Headers */,
-				67E0DFDD25106B8600D42EF0 /* Transaction.h in Headers */,
-				67E0DED4250F6CA500D42EF0 /* TransactionOutputHcash.h in Headers */,
-				67189FA523A2115100F8A5CD /* script.h in Headers */,
-				67189F9323A2114200F8A5CD /* ed25519-keccak.h in Headers */,
-				67189F3E23A2103800F8A5CD /* trim.hpp in Headers */,
-				67E0DF02250F6CA500D42EF0 /* SegwitAddress.h in Headers */,
-				67189FAA23A2115400F8A5CD /* keypair.h in Headers */,
-				67755D56253DB8020056F2C0 /* pb_buf.hpp in Headers */,
-				67E0DEFE250F6CA500D42EF0 /* TransactionOutput.h in Headers */,
-				67189FC723A2117200F8A5CD /* curve25519-donna-scalarmult-base.h in Headers */,
-				67189F9B23A2114A00F8A5CD /* memzero.h in Headers */,
-				67189F8323A2113E00F8A5CD /* base58.h in Headers */,
-				67755D50253DB8020056F2C0 /* pb_tag.hpp in Headers */,
-				67189FA923A2115100F8A5CD /* sha3.h in Headers */,
-				67189F9023A2114200F8A5CD /* ed25519-donna-basepoint-table.h in Headers */,
-				67E0DF3F250F6CE600D42EF0 /* Address.h in Headers */,
 				77974430262FC3E500ECFF34 /* BigIntegerAlgorithms.hh in Headers */,
-				676F028923C775A6005C8032 /* Base58.h in Headers */,
-				67189F8E23A2114200F8A5CD /* ed25519-blake2b.h in Headers */,
-				67ECD13D23CD724100B7D514 /* Bech32.h in Headers */,
-				67189F8A23A2113E00F8A5CD /* curves.h in Headers */,
-				674B4A7D24A1B0570053AB2F /* scp11.hpp in Headers */,
-				67E0DF6A250F751500D42EF0 /* TRXContext.h in Headers */,
-				67189FF723A211B000F8A5CD /* Data.h in Headers */,
-				6718A00F23A211BB00F8A5CD /* BinaryCoding.h in Headers */,
 				7797442E262FC3E500ECFF34 /* BigUnsigned.hh in Headers */,
-				674C28502520452600EC8037 /* TransactionRaw.h in Headers */,
-				67E0DF86250F764400D42EF0 /* JubiterBIOTRXImpl.h in Headers */,
-				67E0DF3D250F6CE600D42EF0 /* PackedTransaction.h in Headers */,
 				77974424262FC3E500ECFF34 /* BigIntegerUtils.hh in Headers */,
-				67189F9D23A2114A00F8A5CD /* nist256p1.h in Headers */,
-				67189F9A23A2114A00F8A5CD /* hmac.h in Headers */,
-				676B42C1240FA30600EBB44D /* Signer.h in Headers */,
-				67ECD13B23CD724100B7D514 /* Base58Address.h in Headers */,
-				6718A00823A211B600F8A5CD /* HexCoding.h in Headers */,
-				67E0DFAB250F783800D42EF0 /* Address.h in Headers */,
-				67189F9623A2114A00F8A5CD /* ed25519-donna.h in Headers */,
-				67189F9523A2114200F8A5CD /* modm-donna-32bit.h in Headers */,
-				67189FAF23A2116000F8A5CD /* TrezorCrypto.h in Headers */,
-				676B429F240F922300EBB44D /* Transaction.h in Headers */,
-				67189F9123A2114200F8A5CD /* ed25519-donna-impl-base.h in Headers */,
-				670B8FB82431C9C100E8EF5C /* Memo.h in Headers */,
-				67E0DF71250F759400D42EF0 /* JubiterLiteXRPImpl.h in Headers */,
-				67189F8923A2113E00F8A5CD /* blake256.h in Headers */,
-				673E880424AC3CF400578781 /* tlv.hpp in Headers */,
-				67E0DF3B250F6CE600D42EF0 /* Deserialization.h in Headers */,
-				67189FB623A2116900F8A5CD /* aestab.h in Headers */,
-				67189F9423A2114200F8A5CD /* ed25519-sha3.h in Headers */,
-				677DF30E24DBDBF7001920A9 /* tlvparse.hpp in Headers */,
-				6718A00623A211B600F8A5CD /* Hash.h in Headers */,
-				67E0DEEA250F6CA500D42EF0 /* SigHashType.h in Headers */,
-				67E0DF7C250F75FC00D42EF0 /* JubiterLiteETHImpl.h in Headers */,
-				67E0DE8B250F6C1F00D42EF0 /* TWPublicKeyType.h in Headers */,
-				67E0DEFA250F6CA500D42EF0 /* TransactionInputHcash.h in Headers */,
-				67E0DEE4250F6CA500D42EF0 /* TransactionDash.h in Headers */,
-				6718A00E23A211BB00F8A5CD /* Address.h in Headers */,
-				67189FCC23A2117200F8A5CD /* ed25519-hash-custom-blake2b.h in Headers */,
-				674B4A7724A1B04C0053AB2F /* scp03.hpp in Headers */,
-				67ECD13023CD71B900B7D514 /* DerivationPath.h in Headers */,
-				67189FBD23A2116D00F8A5CD /* blake2_common.h in Headers */,
-				67189FA323A2114D00F8A5CD /* base58.h in Headers */,
-				679DA96A2577B36E00B08471 /* JubiterLiteDashImpl.h in Headers */,
-				679520182579DC9A00548B5B /* JubiterLiteImpl.h in Headers */,
-				67E0DF73250F759400D42EF0 /* JubiterBIOXRPImpl.h in Headers */,
-				67E0DF35250F6CE600D42EF0 /* Asset.h in Headers */,
-				67189F9F23A2114A00F8A5CD /* rand.h in Headers */,
-				6718A01323A211BB00F8A5CD /* Transaction.h in Headers */,
-				67E0DE91250F6C1F00D42EF0 /* TWP2PKHPrefix.h in Headers */,
-				67E0DEF2250F6CA500D42EF0 /* CashAddress.h in Headers */,
-				67189FCF23A2117200F8A5CD /* ed25519-hash-custom.h in Headers */,
-				676B42A5240F922300EBB44D /* RLP.h in Headers */,
-				67E0DF2F250F6CE600D42EF0 /* Serialization.h in Headers */,
-				67189F8F23A2114200F8A5CD /* ed25519-donna-32bit-tables.h in Headers */,
-				674B4A8C24A1B2F00053AB2F /* cmac.h in Headers */,
-				67E0DE9B250F6C1F00D42EF0 /* TWHcashSigHashType.h in Headers */,
-				67189FCD23A2117200F8A5CD /* ed25519-hash-custom-keccak.h in Headers */,
-				67ECD13923CD724100B7D514 /* Bech32Address.h in Headers */,
-				676393252534608B00C41883 /* smart_contract.pb.h in Headers */,
-				676393332534608B00C41883 /* common.pb.h in Headers */,
-				67189FA623A2115100F8A5CD /* scrypt.h in Headers */,
-				679520162579DC9A00548B5B /* JubiterLiteToken.h in Headers */,
-				67189F8423A2113E00F8A5CD /* bignum.h in Headers */,
-				67E0DE89250F6C1F00D42EF0 /* TWHcash.h in Headers */,
-				676B4295240F922300EBB44D /* AddressChecksum.h in Headers */,
-				67189FA023A2114A00F8A5CD /* rc4.h in Headers */,
-				67E0DE93250F6C1F00D42EF0 /* TWHRP.h in Headers */,
-				67189F9723A2114A00F8A5CD /* ed25519.h in Headers */,
-				6718A00C23A211B600F8A5CD /* PublicKey.h in Headers */,
-				67189FAB23A2115800F8A5CD /* ed25519_ref10_fe_25_5.h in Headers */,
-				67189FAC23A2115800F8A5CD /* ed25519_ref10.h in Headers */,
-				670B8FBC2431C9C100E8EF5C /* SField.h in Headers */,
-				677DF33624DD39F2001920A9 /* BTCTokenFactory.h in Headers */,
+				772FB7672664B45400DA6C3D /* JUB_SDK_DEV_SWI.h in Headers */,
 				7797442A262FC3E500ECFF34 /* BigIntegerLibrary.hh in Headers */,
-				67FA32D024CAECED00023DF9 /* xFactory.hpp in Headers */,
-				67189FEA23A211A400F8A5CD /* BinaryCoding.h in Headers */,
-				67189F9823A2114A00F8A5CD /* groestl.h in Headers */,
-				6780222B2519DA82008142B1 /* ContractSmart.h in Headers */,
-				67189F8623A2113E00F8A5CD /* bip39.h in Headers */,
-				67189FA123A2114A00F8A5CD /* rfc6979.h in Headers */,
-				674B4A7B24A1B0570053AB2F /* scp11c.hpp in Headers */,
-				67189FA723A2115100F8A5CD /* secp256k1.h in Headers */,
-				67E0DF68250F751500D42EF0 /* TRXContextFactory.h in Headers */,
-				67E0DE99250F6C1F00D42EF0 /* TWPublicKey.h in Headers */,
-				67E0DE81250F6C1F00D42EF0 /* TWBitcoinOpCodes.h in Headers */,
-				67E0DE8F250F6C1F00D42EF0 /* TWPurpose.h in Headers */,
-				67BFDE702521E7CC00E718BA /* Serialization.h in Headers */,
-				67189FAD23A2115D00F8A5CD /* constants.h in Headers */,
-				679DA9682577B36E00B08471 /* JubiterLiteBTCImpl.h in Headers */,
-				67189FAE23A2115D00F8A5CD /* fe.h in Headers */,
-				67189F9923A2114A00F8A5CD /* hasher.h in Headers */,
 				67189F9E23A2114A00F8A5CD /* pbkdf2.h in Headers */,
-				67EA8E4225836954001D8809 /* ETHTokenFactory.h in Headers */,
 				67EA8E4225836954001D8809 /* ETHTokenFactory.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3197,6 +3030,7 @@
 				67A4BC98233082CA0059A3DB /* DeviceIOLogHelper.hpp in Headers */,
 				67E0DE1B250F10F100D42EF0 /* XXHash64.h in Headers */,
 				67A4BC97233082CA0059A3DB /* DeviceTypeBase.hpp in Headers */,
+				772FB7632664B42F00DA6C3D /* JubiterSWIDevice.hpp in Headers */,
 				67A4BC96233082CA0059A3DB /* Fido.h in Headers */,
 				67A4BC9A233082CA0059A3DB /* JubiterBLEDevice.hpp in Headers */,
 				7797441D262FC3E500ECFF34 /* BigUnsignedInABase.hh in Headers */,
@@ -3224,7 +3058,6 @@
 				67E0DF28250F6CE600D42EF0 /* Signer.h in Headers */,
 				67E0DF0B250F6CA500D42EF0 /* SigHashTypeHcash.h in Headers */,
 				676F030923C8ABD4005C8032 /* JubiterBladeBTCImpl.h in Headers */,
-				67E25B49259206430040A913 /* uint256_t.h in Headers */,
 				676F030B23C8ABD4005C8032 /* TrezorCryptoBTCImpl.h in Headers */,
 				671545B523D58B7500810F16 /* JubiterBladeLTCImpl.h in Headers */,
 				77974429262FC3E500ECFF34 /* BigIntegerLibrary.hh in Headers */,
@@ -3242,7 +3075,6 @@
 				67E0DE7C250F6C1F00D42EF0 /* TWBitcoinSigHashType.h in Headers */,
 				671545B123D58B7500810F16 /* TrezorCryptoBCHImpl.h in Headers */,
 				32F0FA0923EDB2C300E90501 /* JubiterBladeUSDTImpl.h in Headers */,
-				67B83184257738C8002EB306 /* JubiterBridgeDevice.hpp in Headers */,
 				67E0DF6C250F757E00D42EF0 /* TRXTokenInterface.hpp in Headers */,
 				32F0FA0B23EDB2C300E90501 /* TrezorCryptoUSDTImpl.h in Headers */,
 				67E0DE96250F6C1F00D42EF0 /* TWCoinType.h in Headers */,
@@ -3282,6 +3114,7 @@
 				67A4BDFE2330AE1A0059A3DB /* uchar_vector.h in Headers */,
 				67E0DF87250F764400D42EF0 /* JubiterLiteTRXImpl.h in Headers */,
 				67A4BD152330A12D0059A3DB /* TrezorCrypto.h in Headers */,
+				774D454A264E72310002562C /* ERC721Abi.h in Headers */,
 				676B42EC2410A22900EBB44D /* ERC20Abi.h in Headers */,
 				674F19C423A105F2001702DD /* ed25519-hash-custom.h in Headers */,
 				676F028823C775A6005C8032 /* Base58.h in Headers */,
@@ -3291,13 +3124,13 @@
 				67E0DF76250F75DF00D42EF0 /* JubiterBIOEOSImpl.h in Headers */,
 				67E0DF09250F6CA500D42EF0 /* TransactionHcash.h in Headers */,
 				674F19E823A1074C001702DD /* nist256p1.h in Headers */,
-				774CE8D4261C2C12001F5FB9 /* JUB_SDK_DEV_SWI.h in Headers */,
 				67E0DE9C250F6C1F00D42EF0 /* TWBase.h in Headers */,
 				67E0DE7E250F6C1F00D42EF0 /* TWCurve.h in Headers */,
 				673E880524AC3CF400578781 /* tag.h in Headers */,
 				67A4BD382330A1720059A3DB /* ripemd160.h in Headers */,
 				674F19D523A10628001702DD /* ed25519-donna-impl-base.h in Headers */,
 				67E0DF89250F764400D42EF0 /* JubiterBaseTRXImpl.h in Headers */,
+				774D4556264E82D60002562C /* uint256_t.h in Headers */,
 				67A4BD3B2330A1720059A3DB /* script.h in Headers */,
 				67A4BD362330A1720059A3DB /* rfc6979.h in Headers */,
 				67A4BD0D2330A0F70059A3DB /* ed25519_ref10.h in Headers */,
@@ -3347,7 +3180,6 @@
 				670C450825821925007F19DF /* JubiterLiteFILImpl.h in Headers */,
 				67F5958C256E666000AB8FED /* Address.h in Headers */,
 				67A4BD232330A1560059A3DB /* hasher.h in Headers */,
-				67E25B47259206430040A913 /* uint128_t.h in Headers */,
 				674B4A7C24A1B0570053AB2F /* scp11.hpp in Headers */,
 				67A4BD262330A1560059A3DB /* groestl.h in Headers */,
 				67E0DF69250F751500D42EF0 /* TRXContext.h in Headers */,
@@ -3376,7 +3208,6 @@
 				67A4BD5F2330A1D10059A3DB /* blake256.h in Headers */,
 				670B8FB72431C9C100E8EF5C /* Memo.h in Headers */,
 				67E0DF3A250F6CE600D42EF0 /* Deserialization.h in Headers */,
-				7781059025F9BD650014C1EE /* TaggedAddresses.h in Headers */,
 				67F59535256E64CF00AB8FED /* JUB_SDK_FIL.h in Headers */,
 				675C7969238B78B00015C95D /* BinaryCoding.h in Headers */,
 				674F19D123A10628001702DD /* ed25519-donna-32bit-tables.h in Headers */,
@@ -3384,6 +3215,7 @@
 				677DF30D24DBDBF7001920A9 /* tlvparse.hpp in Headers */,
 				67E0DEE9250F6CA500D42EF0 /* SigHashType.h in Headers */,
 				67E0DF7B250F75FC00D42EF0 /* JubiterLiteETHImpl.h in Headers */,
+				774D455A264E82D60002562C /* uint128_t.h in Headers */,
 				67E0DE8A250F6C1F00D42EF0 /* TWPublicKeyType.h in Headers */,
 				67E0DEF9250F6CA500D42EF0 /* TransactionInputHcash.h in Headers */,
 				67A4BD372330A1720059A3DB /* sha3.h in Headers */,
@@ -3407,7 +3239,6 @@
 				67E0DE90250F6C1F00D42EF0 /* TWP2PKHPrefix.h in Headers */,
 				67E0DEF1250F6CA500D42EF0 /* CashAddress.h in Headers */,
 				674F19A123A10574001702DD /* aestab.h in Headers */,
-				774CE922261EC98D001F5FB9 /* JubiterSWIDevice.hpp in Headers */,
 				77974425262FC3E500ECFF34 /* BigInteger.hh in Headers */,
 				67662224234C31DC00AFAFA2 /* HexCoding.h in Headers */,
 				67E0DF2E250F6CE600D42EF0 /* Serialization.h in Headers */,
@@ -3419,6 +3250,8 @@
 				67A4BC99233082CA0059A3DB /* ApduBuilder.hpp in Headers */,
 				67A4BD352330A1720059A3DB /* scrypt.h in Headers */,
 				676393242534608B00C41883 /* smart_contract.pb.h in Headers */,
+				772FB72326648B3500DA6C3D /* JubiterBridgeDevice.hpp in Headers */,
+				772FB7662664B45400DA6C3D /* JUB_SDK_DEV_SWI.h in Headers */,
 				676393322534608B00C41883 /* common.pb.h in Headers */,
 				676B4294240F922300EBB44D /* AddressChecksum.h in Headers */,
 				679520152579DC9A00548B5B /* JubiterLiteToken.h in Headers */,
@@ -3497,7 +3330,7 @@
 		67A4BC74233082130059A3DB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = ft;
 				TargetAttributes = {
 					67189F0723A20C7D00F8A5CD = {
@@ -3515,7 +3348,6 @@
 			knownRegions = (
 				en,
 				Base,
-				English,
 			);
 			mainGroup = 67A4BC73233082130059A3DB;
 			productRefGroup = 67A4BC7D233082130059A3DB /* Products */;
@@ -3547,6 +3379,7 @@
 				679DA97D2577B38A00B08471 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67189FD623A2117500F8A5CD /* hmac.c in Sources */,
 				6718A00D23A211BB00F8A5CD /* Address.cpp in Sources */,
+				772FB72826648C2000DA6C3D /* TaggedAddresses.cpp in Sources */,
 				67E0DF37250F6CE600D42EF0 /* Address.cpp in Sources */,
 				67ECD13723CD724100B7D514 /* Bech32.cpp in Sources */,
 				6746220523C31DF80096DDA2 /* JubiterBladeToken.cpp in Sources */,
@@ -3591,6 +3424,7 @@
 				67189FC023A2116D00F8A5CD /* blake256.c in Sources */,
 				771856B2261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */,
 				67755D54253DB8020056F2C0 /* pb_varint.cpp in Sources */,
+				774D4559264E82D60002562C /* uint128_t.cpp in Sources */,
 				67E0DEA6250F6C6600D42EF0 /* TWCoinType.cpp in Sources */,
 				67F59587256E666000AB8FED /* Address.cpp in Sources */,
 				67E0DEF6250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */,
@@ -3605,9 +3439,6 @@
 				673E880924AC3D0200578781 /* tlv.cpp in Sources */,
 				67E0DEAA250F6C6600D42EF0 /* TWHcash.cpp in Sources */,
 				676F6D172522E5CA00491BF5 /* Contract.cpp in Sources */,
-				774CE92A261ECF04001F5FB9 /* JubiterSWIDevice.cpp in Sources */,
-				7781058F25F9BD650014C1EE /* TaggedAddresses.cpp in Sources */,
-				67E25B44259206430040A913 /* uint128_t.cpp in Sources */,
 				67F5957A256E65F400AB8FED /* TrezorCryptoFILImpl.cpp in Sources */,
 				67189F5323A2104E00F8A5CD /* HDKey.cpp in Sources */,
 				67E0DFA0250F777900D42EF0 /* TrezorCryptoTRXImpl.cpp in Sources */,
@@ -3621,10 +3452,11 @@
 				679DA9922577B45D00B08471 /* JubiterLiteXRPImpl.cpp in Sources */,
 				67E0DFAD250F783800D42EF0 /* Address.cpp in Sources */,
 				67189FC623A2117200F8A5CD /* curve25519-donna-scalarmult-base.c in Sources */,
+				772FB76A2664B46500DA6C3D /* JUB_SDK_DEV_SWI.cpp in Sources */,
 				67189FDA23A2117500F8A5CD /* pbkdf2.c in Sources */,
 				67189FDF23A2117C00F8A5CD /* script.c in Sources */,
 				6746220223C31DEB0096DDA2 /* TrezorCryptoBTCImpl.cpp in Sources */,
-				77767C3926524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp in Sources */,
+				774D4541264E5AF80002562C /* JubiterBIOEOSImpl.cpp in Sources */,
 				67E0DEF4250F6CA500D42EF0 /* TransactionOutput.cpp in Sources */,
 				67189FDB23A2117500F8A5CD /* rand.c in Sources */,
 				679DA93125778D6800B08471 /* JUB_SDK_DEV_SIM.cpp in Sources */,
@@ -3648,12 +3480,14 @@
 				67E0DF39250F6CE600D42EF0 /* Action.cpp in Sources */,
 				67189F5223A2104A00F8A5CD /* JubiterHidDevice.cpp in Sources */,
 				67189FBC23A2116D00F8A5CD /* bip39.c in Sources */,
+				772FB7612664B41600DA6C3D /* JubiterSWIDevice.cpp in Sources */,
 				674B4A8924A1B0D70053AB2F /* scp11c.cpp in Sources */,
 				67E0DEDC250F6CA500D42EF0 /* Address.cpp in Sources */,
 				67F59562256E65B400AB8FED /* JUB_SDK_FIL.cpp in Sources */,
 				7797441C262FC3E500ECFF34 /* BigUnsigned.cc in Sources */,
 				67746C3425417C27007A1901 /* pb_basevarint.cpp in Sources */,
 				67E0DEF8250F6CA500D42EF0 /* OutPoint.cpp in Sources */,
+				772FB72D2664925100DA6C3D /* BigIntegerUtils.cc in Sources */,
 				676B42A3240F922300EBB44D /* AddressChecksum.cpp in Sources */,
 				674621F023C31DBE0096DDA2 /* JubiterBladeEOSImpl.cpp in Sources */,
 				67189FB523A2116900F8A5CD /* aestab.c in Sources */,
@@ -3666,7 +3500,6 @@
 				67189FB023A2116500F8A5CD /* address.c in Sources */,
 				67416536246CF63700DFAC28 /* mutext.cpp in Sources */,
 				67189FE023A2117C00F8A5CD /* scrypt.c in Sources */,
-				67E25B46259206430040A913 /* uint256_t.cpp in Sources */,
 				678022292519DA82008142B1 /* ContractSmart.cpp in Sources */,
 				67E0DED6250F6CA500D42EF0 /* TransactionDash.cpp in Sources */,
 				676393212534608B00C41883 /* asset_issue_contract.pb.cc in Sources */,
@@ -3701,6 +3534,7 @@
 				67189FE923A211A400F8A5CD /* Base58.cpp in Sources */,
 				67189F4823A2103F00F8A5CD /* JUB_SDK_XRP.cpp in Sources */,
 				67189FBE23A2116D00F8A5CD /* blake2b.c in Sources */,
+				774D454D264E72310002562C /* ERC721Abi.cpp in Sources */,
 				677A185623F1252C003FA636 /* JubiterBaseDashImpl.cpp in Sources */,
 				67189FDC23A2117500F8A5CD /* ripemd160.c in Sources */,
 				77974420262FC3E500ECFF34 /* BigUnsignedInABase.cc in Sources */,
@@ -3712,7 +3546,6 @@
 				6718A00523A211B600F8A5CD /* Hash.cpp in Sources */,
 				674C284E2520452600EC8037 /* TransactionRaw.cpp in Sources */,
 				6795A83023D93EBD00F273E0 /* JubiterBaseBTCImpl.cpp in Sources */,
-				774CE8DC261C2C24001F5FB9 /* JUB_SDK_DEV_SWI.cpp in Sources */,
 				67189FB723A2116D00F8A5CD /* base32.c in Sources */,
 				67189F4123A2103F00F8A5CD /* JUB_SDK_DEV_BLE.cpp in Sources */,
 				676B42EF2410A22900EBB44D /* ERC20Abi.cpp in Sources */,
@@ -3724,6 +3557,7 @@
 				67E0DED8250F6CA500D42EF0 /* Script.cpp in Sources */,
 				67189FB123A2116900F8A5CD /* aes_modes.c in Sources */,
 				328D10BC240B928300AB723D /* JubiterBaseETHImpl.cpp in Sources */,
+				772FB75E2664B35600DA6C3D /* TrezorCryptoToken.cpp in Sources */,
 				67189F4423A2103F00F8A5CD /* JUB_SDK_BTC.cpp in Sources */,
 				674621E023C31D820096DDA2 /* BTCContext.cpp in Sources */,
 				67E0DFDB25106B8600D42EF0 /* Transaction.cpp in Sources */,
@@ -3740,12 +3574,11 @@
 				67E0DF9C250F777900D42EF0 /* JubiterBladeTRXImpl.cpp in Sources */,
 				6795A81C23D8549300F273E0 /* JubiterBladeQTUMImpl.cpp in Sources */,
 				67189FDE23A2117C00F8A5CD /* schnorr.c in Sources */,
-				77974422262FC3E500ECFF34 /* BigIntegerUtils.cc in Sources */,
+				774D455D264E82D60002562C /* uint256_t.cpp in Sources */,
 				67189FE623A2118400F8A5CD /* ed25519_ref10.c in Sources */,
 				6779951E23F6980800F06E94 /* JubiterBaseBCHImpl.cpp in Sources */,
 				67E0DF27250F6CE600D42EF0 /* PackedTransaction.cpp in Sources */,
 				67189FC823A2117200F8A5CD /* ed25519-blake2b.c in Sources */,
-				77665020262D52D500FA0B78 /* TrezorCryptoToken.cpp in Sources */,
 				676393232534608B00C41883 /* balance_contract.pb.cc in Sources */,
 				674621FA23C31DDC0096DDA2 /* TrezorCryptoETHImpl.cpp in Sources */,
 				6718A00723A211B600F8A5CD /* HexCoding.cpp in Sources */,
@@ -3765,6 +3598,7 @@
 				679DA97C2577B38A00B08471 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67A4BD8C2330A9220059A3DB /* hmac.c in Sources */,
 				67ECD13623CD724100B7D514 /* Bech32.cpp in Sources */,
+				772FB72726648C2000DA6C3D /* TaggedAddresses.cpp in Sources */,
 				67E0DF36250F6CE600D42EF0 /* Address.cpp in Sources */,
 				6746220423C31DF80096DDA2 /* JubiterBladeToken.cpp in Sources */,
 				6795A82023D854AF00F273E0 /* QTUMContext.cpp in Sources */,
@@ -3808,6 +3642,7 @@
 				67E0DEA5250F6C6600D42EF0 /* TWCoinType.cpp in Sources */,
 				771856B1261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */,
 				67755D53253DB8020056F2C0 /* pb_varint.cpp in Sources */,
+				774D4558264E82D60002562C /* uint128_t.cpp in Sources */,
 				67E0DEF5250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */,
 				67F59586256E666000AB8FED /* Address.cpp in Sources */,
 				674F19BB23A105F2001702DD /* curve25519-donna-helpers.c in Sources */,
@@ -3822,10 +3657,7 @@
 				67E0DEA9250F6C6600D42EF0 /* TWHcash.cpp in Sources */,
 				677A185823F14ACA003FA636 /* TrezorCryptoDashImpl.cpp in Sources */,
 				676F6D162522E5CA00491BF5 /* Contract.cpp in Sources */,
-				774CE929261ECF04001F5FB9 /* JubiterSWIDevice.cpp in Sources */,
-				7781058E25F9BD650014C1EE /* TaggedAddresses.cpp in Sources */,
 				67A4BD02233086AB0059A3DB /* util.cpp in Sources */,
-				67E25B43259206430040A913 /* uint128_t.cpp in Sources */,
 				67F59579256E65F400AB8FED /* TrezorCryptoFILImpl.cpp in Sources */,
 				674F199D23A10574001702DD /* aeskey.c in Sources */,
 				67E0DF9F250F777900D42EF0 /* TrezorCryptoTRXImpl.cpp in Sources */,
@@ -3839,10 +3671,11 @@
 				679DA9912577B45D00B08471 /* JubiterLiteXRPImpl.cpp in Sources */,
 				67E0DFAC250F783800D42EF0 /* Address.cpp in Sources */,
 				6766221F234C31DC00AFAFA2 /* HexCoding.cpp in Sources */,
+				772FB7692664B46500DA6C3D /* JUB_SDK_DEV_SWI.cpp in Sources */,
 				67A4BD8A2330A9220059A3DB /* hasher.c in Sources */,
 				67A4BD742330A8D10059A3DB /* ed25519_ref10_fe_25_5.c in Sources */,
 				674F19E423A10703001702DD /* nem.c in Sources */,
-				77767C3826524E7B00A2DEFA /* JubiterBIOEOSImpl.cpp in Sources */,
+				774D4540264E5AF80002562C /* JubiterBIOEOSImpl.cpp in Sources */,
 				67E0DEF3250F6CA500D42EF0 /* TransactionOutput.cpp in Sources */,
 				67A4BCE3233084740059A3DB /* JUB_SDK_ETH.cpp in Sources */,
 				679DA93025778D6800B08471 /* JUB_SDK_DEV_SIM.cpp in Sources */,
@@ -3866,12 +3699,14 @@
 				674B4A8824A1B0D70053AB2F /* scp11c.cpp in Sources */,
 				67E0DF38250F6CE600D42EF0 /* Action.cpp in Sources */,
 				676B42A2240F922300EBB44D /* AddressChecksum.cpp in Sources */,
+				772FB7602664B41600DA6C3D /* JubiterSWIDevice.cpp in Sources */,
 				675C7972238B83A40015C95D /* JUB_SDK_XRP.cpp in Sources */,
 				67A4BDCD2330A9F90059A3DB /* blake2b.c in Sources */,
 				67E0DEDB250F6CA500D42EF0 /* Address.cpp in Sources */,
 				7797441B262FC3E500ECFF34 /* BigUnsigned.cc in Sources */,
 				67F59561256E65B400AB8FED /* JUB_SDK_FIL.cpp in Sources */,
 				67746C3325417C27007A1901 /* pb_basevarint.cpp in Sources */,
+				772FB72C2664925100DA6C3D /* BigIntegerUtils.cc in Sources */,
 				67E0DEF7250F6CA500D42EF0 /* OutPoint.cpp in Sources */,
 				67A4587E23336DAB00CEB712 /* HDKey.cpp in Sources */,
 				674621FB23C31DDC0096DDA2 /* JubiterBladeETHImpl.cpp in Sources */,
@@ -3885,7 +3720,6 @@
 				67416535246CF63700DFAC28 /* mutext.cpp in Sources */,
 				674621FF23C31DEB0096DDA2 /* JubiterBladeBTCImpl.cpp in Sources */,
 				674F199C23A10574001702DD /* aescrypt.c in Sources */,
-				67E25B45259206430040A913 /* uint256_t.cpp in Sources */,
 				678022282519DA82008142B1 /* ContractSmart.cpp in Sources */,
 				676393202534608B00C41883 /* asset_issue_contract.pb.cc in Sources */,
 				67E0DED5250F6CA500D42EF0 /* TransactionDash.cpp in Sources */,
@@ -3919,6 +3753,7 @@
 				677A185523F1252C003FA636 /* JubiterBaseDashImpl.cpp in Sources */,
 				674F19C023A105F2001702DD /* ed25519.c in Sources */,
 				674F19B923A105F2001702DD /* ed25519-donna-32bit-tables.c in Sources */,
+				774D454C264E72310002562C /* ERC721Abi.cpp in Sources */,
 				67A4BD8E2330A9220059A3DB /* schnorr.c in Sources */,
 				67A4BD8D2330A9220059A3DB /* sha2.c in Sources */,
 				7797441F262FC3E500ECFF34 /* BigUnsignedInABase.cc in Sources */,
@@ -3931,7 +3766,6 @@
 				674621DD23C31D820096DDA2 /* ETHContext.cpp in Sources */,
 				674C284D2520452600EC8037 /* TransactionRaw.cpp in Sources */,
 				67ECD13E23CD724100B7D514 /* Bech32Address.cpp in Sources */,
-				774CE8DB261C2C24001F5FB9 /* JUB_SDK_DEV_SWI.cpp in Sources */,
 				676B42EE2410A22900EBB44D /* ERC20Abi.cpp in Sources */,
 				67A4BD01233086AB0059A3DB /* Debug.cpp in Sources */,
 				67A4BDE52330AAE30059A3DB /* address.c in Sources */,
@@ -3942,6 +3776,7 @@
 				675C796E238B78B00015C95D /* Address.cpp in Sources */,
 				675C7968238B78B00015C95D /* Signer.cpp in Sources */,
 				67E0DED7250F6CA500D42EF0 /* Script.cpp in Sources */,
+				772FB75D2664B35600DA6C3D /* TrezorCryptoToken.cpp in Sources */,
 				32E84E4B240B95DD003311B5 /* JubiterBaseXRPImpl.cpp in Sources */,
 				67E0DFDA25106B8600D42EF0 /* Transaction.cpp in Sources */,
 				67A4BDCA2330A9F90059A3DB /* cash_addr.c in Sources */,
@@ -3958,12 +3793,11 @@
 				67E0DF9B250F777900D42EF0 /* JubiterBladeTRXImpl.cpp in Sources */,
 				6795A81B23D8549300F273E0 /* JubiterBladeQTUMImpl.cpp in Sources */,
 				674F19B823A105F2001702DD /* modm-donna-32bit.c in Sources */,
-				77974421262FC3E500ECFF34 /* BigIntegerUtils.cc in Sources */,
+				774D455C264E82D60002562C /* uint256_t.cpp in Sources */,
 				67A4BDD22330A9F90059A3DB /* blake256.c in Sources */,
 				674F19EA23A1078B001702DD /* pbkdf2.c in Sources */,
 				67E0DF26250F6CE600D42EF0 /* PackedTransaction.cpp in Sources */,
 				6779951D23F6980800F06E94 /* JubiterBaseBCHImpl.cpp in Sources */,
-				7766501F262D52D500FA0B78 /* TrezorCryptoToken.cpp in Sources */,
 				676393222534608B00C41883 /* balance_contract.pb.cc in Sources */,
 				67A4BDD52330A9F90059A3DB /* base58.c in Sources */,
 				674621F923C31DDC0096DDA2 /* TrezorCryptoETHImpl.cpp in Sources */,

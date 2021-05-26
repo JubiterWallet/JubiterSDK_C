@@ -15,6 +15,7 @@
 extern "C" {
 #endif // #ifdef __cplusplus
 
+
 // Remove c++ features for swift framework
 //typedef struct stContextCfgETH : stContextCfg {
 typedef struct stContextCfgETH {
@@ -25,6 +26,7 @@ typedef struct stContextCfgETH {
 //    virtual ~stContextCfgETH() {}
 } CONTEXT_CONFIG_ETH;
 // Remove c++ features for swift framework end
+
 
 /*****************************************************************************
  * @function name : JUB_CreateContextETH
@@ -37,6 +39,7 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID);
+
 
 /*****************************************************************************
  * @function name : JUB_GetAddressETH
@@ -51,6 +54,7 @@ JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
                          IN BIP44_Path path,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address);
+
 
 /*****************************************************************************
  * @function name : JUB_GetHDNodeETH
@@ -67,6 +71,7 @@ JUB_RV JUB_GetHDNodeETH(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
 
+
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeETH
  * @in  param : contextID - context ID
@@ -80,6 +85,7 @@ JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
+
 /*****************************************************************************
  * @function name : JUB_SetMyAddressETH
  * @in  param : contextID - context ID
@@ -91,6 +97,7 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
                            IN BIP44_Path path,
                            OUT JUB_CHAR_PTR_PTR address);
+
 
 /*****************************************************************************
  * @function name : JUB_SignTransactionETH
@@ -115,6 +122,7 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
                               IN JUB_CHAR_CPTR valueInWei,
                               IN JUB_CHAR_CPTR input,
                               OUT JUB_CHAR_PTR_PTR raw);
+
 
 /*****************************************************************************
  * @function name : JUB_SignContractETH
@@ -141,6 +149,7 @@ JUB_RV JUB_SignContractETH(IN JUB_UINT16 contextID,
                            IN JUB_CHAR_PTR input,
                            OUT JUB_CHAR_PTR_PTR raw);
 
+
 /*****************************************************************************
  * @function name : JUB_SignBytestringETH
  * @in  param : contextID - context ID
@@ -154,6 +163,7 @@ JUB_RV JUB_SignBytestringETH(IN JUB_UINT16 contextID,
                              IN BIP44_Path path,
                              IN JUB_CHAR_CPTR data,
                              OUT JUB_CHAR_PTR_PTR raw);
+
 
 /*****************************************************************************
  * @function name : JUB_BuildERC20AbiETH
@@ -173,6 +183,26 @@ JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
                             IN JUB_CHAR_CPTR contractAddress,
                             IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
                             OUT JUB_CHAR_PTR_PTR abi);
+
+
+/*****************************************************************************
+ * @function name : JUB_BuildERC721AbiETH
+ * @in  param : contextID - context ID
+ *          : nfTokenName - ERC-721 Non-Fungible Token Name
+ *          : contractAddress - ERC-721 Non-Fungible Token contract address
+ *          : tokenFrom - The current owner of the NFT
+ *          : tokenTo - The new owner
+ *          : tokenID - The NFT to transfer
+ * @out param : abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildERC721AbiETH(IN JUB_UINT16 contextID,
+                             IN JUB_CHAR_CPTR nfTokenName,
+                             IN JUB_CHAR_CPTR contractAddress,
+                             IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenID,
+                             OUT JUB_CHAR_PTR_PTR abi);
+
 
 #ifdef __cplusplus
 }

@@ -12,6 +12,17 @@ namespace jub {
 namespace token {
 
 
+enum JUB_ENUM_APDU_ERC_ETH : uint16_t {
+    ERC_INVALID = 0,
+    ERC_20   = 0x0014,
+    ERC_721  = 0x02D1,
+};
+enum JUB_ENUM_APDU_ERC_P1 : uint8_t {
+    ERC20  = 0x00,
+    ERC721 = 0x01,
+};
+
+
 typedef enum {
     CREATE_CONTRACT = 0,
     WITH_ADDRESS = 1,           // abandon
@@ -30,7 +41,7 @@ public:
     virtual JUB_RV GetAppletVersion(stVersion& version) = 0;
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
-    virtual JUB_RV SignTX(const bool bERC20,
+    virtual JUB_RV SignTX(const int erc,
                           const std::vector<JUB_BYTE>& vNonce,
                           const std::vector<JUB_BYTE>& vGasPrice,
                           const std::vector<JUB_BYTE>& vGasLimit,
@@ -46,6 +57,8 @@ public:
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress) = 0;
+    virtual JUB_RV SetERC721ETHToken(const std::string& tokenName,
+                                     const std::string& contractAddress) = 0;
 
     virtual JUB_RV SignContract(const JUB_BYTE inputType,
                                 const std::vector<JUB_BYTE>& vNonce,

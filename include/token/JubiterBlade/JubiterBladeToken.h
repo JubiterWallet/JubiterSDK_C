@@ -98,6 +98,8 @@ public:
     virtual JUB_RV SetERC20Token(JUB_CHAR_CPTR tokenName,
                                  JUB_UINT16 unitDP,
                                  JUB_CHAR_CPTR contractAddress) override;
+    virtual JUB_RV SetERC721Token(JUB_CHAR_CPTR tokenName,
+                                  JUB_CHAR_CPTR contractAddress) override;
 
     virtual JUB_RV GetHDNode(const JUB_ULONG p1, const JUB_ULONG p2, const std::string& path, TW::Data& pubkey) override;
     virtual JUB_RV GetAddress(const JUB_ULONG p1, const JUB_ULONG p2, const TW::Data& apduData, TW::Data& address) override;
@@ -156,8 +158,8 @@ protected:
                          int finalData = false,
                          int bOnce = false);
 
-    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
-                              JUB_BYTE length);
+    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length, uchar_vector& version) override;
+    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length);
 
     std::shared_ptr<ApduBuilder> _apduBuilder;
     JUB_UINT16 _deviceID;

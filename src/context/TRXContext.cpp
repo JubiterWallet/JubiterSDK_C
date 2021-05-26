@@ -12,8 +12,11 @@
 #include "token/JubiterBIO/JubiterBIOToken.h"
 #include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/TRXTokenInterface.hpp"
+#include <uint256_t/uint256_t.h>
+#include <uint256.h>
 #include <Tron/Signer.h>
 #include <Ethereum/ERC20Abi.h>
+#include <Ethereum/ERC721Abi.h>
 #include "utility/util.h"
 
 
@@ -263,6 +266,52 @@ JUB_RV TRXContext::SetTRC20Token(JUB_CHAR_CPTR pTokenName,
     JUB_VERIFY_RV(token->SetTRC20Token(tokenName,
                                        unitDP,
                                        contractAddress));
+
+    return JUBR_OK;
+}
+
+
+JUB_RV TRXContext::BuildTRC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
+
+    CONTEXT_CHECK_TYPE_NONE
+
+    std::vector<JUB_BYTE> vFrom = TW::Tron::Address::toHexWithoutPrefix(from);
+    std::vector<JUB_BYTE> vTo   = TW::Tron::Address::toHexWithoutPrefix(to);
+    if (   0 == vFrom.size()
+        || 0 ==   vTo.size()
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    uint256_t tokenID(pTokenID, 10);
+    TW::Data vTokenID;
+    TW::encode256BE(vTokenID, tokenID, 256);
+
+    uchar_vector vAbi = jub::eth::ERC721Abi::serialize(vFrom, vTo, vTokenID);
+    abi = vAbi.getHex();
+
+    return JUBR_OK;
+}
+
+
+JUB_RV TRXContext::SetTRC721Token(JUB_CHAR_CPTR pTokenName,
+                                  JUB_CHAR_CPTR pContractAddress) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::TRXTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_CHECK_NULL(pTokenName);
+    JUB_CHECK_NULL(pContractAddress);
+
+    std::string tokenName = std::string(pTokenName);
+    std::string contractAddress = uchar_vector(TW::Tron::Address::toHex(std::string(pContractAddress))).getHex();
+
+    JUB_VERIFY_RV(token->SetTRC721Token(tokenName,
+                                        contractAddress));
 
     return JUBR_OK;
 }
