@@ -37,17 +37,17 @@ void ETH_test(JUB_UINT16 deviceID, const char* json_file) {
     while (true) {
         cout << "--------------------------------------" << endl;
         cout << "|******* Jubiter Wallet ETH  ********|" << endl;
-        cout << "|  0. show_address_pubkey_test.      |" << endl;
+        cout << "| 0. show_address_pubkey_test.       |" << endl;
         cout << "|                                    |" << endl;
-        cout << "|  2.       transaction_test.        |" << endl;
-        cout << "|  3. transaction_ERC20_test.        |" << endl;
-        cout << "|  4.  transaction_contr_test.       |" << endl;
-        cout << "|  5.         bytestring_test.       |" << endl;
+        cout << "| 2.         transaction_test.       |" << endl;
+        cout << "| 3.   transaction_ERC20_test.       |" << endl;
+        cout << "| 4.   transaction_ERC721_test.      |" << endl;
+        cout << "| 5.   transaction_contr_test.       |" << endl;
+        cout << "| 6.          bytestring_test.       |" << endl;
+        cout << "| 7.      set_my_address_test.       |" << endl;
+        cout << "| 8.         set_timeout_test.       |" << endl;
         cout << "|                                    |" << endl;
-        cout << "|  6.     set_my_address_test.       |" << endl;
-        cout << "|  7.        set_timeout_test.       |" << endl;
-        cout << "|                                    |" << endl;
-        cout << "|  9. return.                        |" << endl;
+        cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -65,15 +65,18 @@ void ETH_test(JUB_UINT16 deviceID, const char* json_file) {
             transaction_test_ERC20_ETH(contextID, root);
             break;
         case 4:
-            transaction_test_contr_ETH(contextID, root);
+            transaction_test_ERC721_ETH(contextID, root);
             break;
         case 5:
-            bytestring_test_ETH(contextID, root);
+            transaction_test_contr_ETH(contextID, root);
             break;
         case 6:
-            set_my_address_test_ETH(contextID);
+            bytestring_test_ETH(contextID, root);
             break;
         case 7:
+            set_my_address_test_ETH(contextID);
+            break;
+        case 8:
             set_timeout_test(contextID);
             break;
         case 9:
@@ -285,6 +288,73 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     char* gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
     char* valueInWei = nullptr; //"" and "0" ara also OK
     char* raw = nullptr;
+    rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
+    cout << "[-] JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
+    JUB_FreeMemory(abi);
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+    else {
+        cout << raw << endl;
+        JUB_FreeMemory(raw);
+    }
+
+    return rv;
+}
+
+
+//ERC-20 Test
+void transaction_test_ERC721_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = transaction_proc_ERC721_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+
+JUB_RV transaction_proc_ERC721_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+//    rv = JUB_GetAddressETH(contextID, path, JUB_ENUM_BOOL::BOOL_FALSE, &token_from);
+//    cout << "[-] JUB_GetAddressETH() return " << GetErrMsg(rv) << endl;
+//    if (JUBR_OK != rv) {
+//        return rv;
+//    }
+
+    JUB_CHAR_PTR tokenName = (JUB_CHAR_PTR)root["ERC721"]["tokenName"].asCString();
+    JUB_CHAR_PTR contractAddress = (JUB_CHAR_PTR)root["ERC721"]["contract_address"].asCString();
+    JUB_CHAR_PTR token_from = (JUB_CHAR_PTR)root["ERC721"]["token_from"].asCString();
+    JUB_CHAR_PTR to = (JUB_CHAR_PTR)root["ERC721"]["contract_address"].asCString();
+    JUB_CHAR_PTR token_to = (JUB_CHAR_PTR)root["ERC721"]["token_to"].asCString();
+    JUB_CHAR_PTR tokenID = (JUB_CHAR_PTR)root["ERC721"]["tokenID"].asCString();
+
+    JUB_CHAR_PTR abi = nullptr;
+    rv = JUB_BuildERC721AbiETH(contextID,
+                               tokenName, contractAddress,
+                               token_from, token_to, tokenID,
+                               &abi);
+    cout << "[-] JUB_BuildERC721AbiETH() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+    cout << "ERC-721 abi[" << strlen(abi)/2 << "]: " << abi << std::endl;
+
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["ERC721"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["ERC721"]["bip32_path"]["addressIndex"].asUInt();
+
+    uint32_t nonce = root["ERC721"]["nonce"].asUInt();//.asDouble();
+    uint32_t gasLimit = root["ERC721"]["gasLimit"].asUInt();//.asDouble();
+    JUB_CHAR_PTR gasPriceInWei = (JUB_CHAR_PTR)root["ERC721"]["gasPriceInWei"].asCString();
+    JUB_CHAR_PTR valueInWei = nullptr; //"" and "0" ara also OK
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
     cout << "[-] JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
     JUB_FreeMemory(abi);

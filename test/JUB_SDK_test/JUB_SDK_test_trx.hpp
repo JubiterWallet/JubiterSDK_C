@@ -14,6 +14,9 @@
 
 #include "../../include/JUB_SDK_TRX.h"
 
+#define TRC_20       20
+#define TRC_721     721
+
 
 void TRX_test(JUB_UINT16 deviceID, const char* json_file);
 
@@ -24,6 +27,6 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice);
 JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
                           int choice,
                           std::string& packedContract,
-                          bool bERC20=false);
+                          int trc = TRC_20);
 
 #endif /* JUB_SDK_test_trx_hpp */

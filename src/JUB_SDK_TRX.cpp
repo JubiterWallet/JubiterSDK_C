@@ -242,6 +242,38 @@ JUB_RV JUB_BuildTRC20Abi(IN JUB_UINT16 contextID,
 
 
 /*****************************************************************************
+ * @function name : JUB_BuildTRC721Abi
+ * @in  param : contextID - context ID
+ *          : nfTokenName - ERC-721 Non-Fungible Token Name
+ *          : contractAddress - ERC-721 Non-Fungible Token contract address
+ *          : tokenFrom - The current owner of the NFT
+ *          : tokenTo - The new owner
+ *          : tokenID - The NFT to transfer
+ * @out param : abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildTRC721Abi(IN JUB_UINT16 contextID,
+                          IN JUB_CHAR_CPTR nfTokenName,
+                          IN JUB_CHAR_CPTR contractAddress,
+                          IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenID,
+                          OUT JUB_CHAR_PTR_PTR abi) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    JUB_VERIFY_RV(context->SetTRC721Token(nfTokenName, contractAddress));
+
+    std::string strAbi;
+    JUB_VERIFY_RV(context->BuildTRC721Abi(tokenFrom, tokenTo, tokenID, strAbi));
+    JUB_VERIFY_RV(_allocMem(abi, strAbi));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
  * @function name : JUB_PackContractTRX
  * @in  param : contextID - context ID
  *          : tx - transaction

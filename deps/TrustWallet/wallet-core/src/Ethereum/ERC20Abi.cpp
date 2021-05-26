@@ -1,39 +1,11 @@
 #include "ERC20Abi.h"
+#include "utility/util.h"
 
 #include <vector>
 #include <array>
 
 namespace jub {
 namespace eth {
-
-
-const size_t kETHEREUM_SIZE_VARIABLE_FUNCTION_CONTRACT = 32;
-const size_t kETH_METHOD_HASH_SIZE = 4;
-typedef std::array<uint8_t, kETH_METHOD_HASH_SIZE> EthereumContractMethodHash;
-
-
-struct EthereumContractPayloadStream {
-public:
-    EthereumContractPayloadStream()
-        : m_data() {
-        m_data.reserve(256);
-    }
-
-    void write_data(const void* data, size_t size) {
-        const uint8_t* d = reinterpret_cast<const uint8_t*>(data);
-        m_data.insert(m_data.end(), d, d + size);
-    }
-
-    std::vector<std::uint8_t> get_data() {
-        return m_data;
-    }
-
-    ~EthereumContractPayloadStream() {
-    }
-
-protected:
-    std::vector<std::uint8_t> m_data;
-}; // struct EthereumContractPayloadStream end
 
 
 EthereumContractPayloadStream& operator<<(EthereumContractPayloadStream& stream, const std::vector<std::uint8_t>& data) {
@@ -56,8 +28,12 @@ EthereumContractPayloadStream& operator<<(EthereumContractPayloadStream& stream,
 
 std::vector<uint8_t> ERC20Abi::serialize(const std::vector<uint8_t>& address, const std::vector<uint8_t>& value) {
 
+    TW::Data vMethodID = HexStr2CharPtr(ERC20_ABI_METHOD_ID_TRANSFER);
+
+    EthereumContractMethodHash hash;
+    std::memcpy(&hash[0], &vMethodID[0], vMethodID.size());
+
     EthereumContractPayloadStream stream;
-    EthereumContractMethodHash hash = { 0xa9, 0x05, 0x9c, 0xbb };
     stream << hash;
     stream << address;
     stream << value;

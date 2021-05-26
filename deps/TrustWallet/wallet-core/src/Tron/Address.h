@@ -38,6 +38,14 @@ class Address : public TW::Base58Address<21> {
     static std::string fromHex(const Data& decoded);
     // JuBiter-defined
     static Data toHex(const std::string& string);
+    // JuBiter-defined
+    static Data toHexWithoutPrefix(const std::string& string) {
+        Data hex = toHex(string);
+        if (prefix == hex[0]) {
+            hex[0] = 0;
+        }
+        return hex;
+    }
 };
 
 } // namespace TW::Tron end

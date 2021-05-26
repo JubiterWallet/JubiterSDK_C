@@ -20,6 +20,9 @@ public:
     virtual JUB_RV SetTRC20Token(const std::string& tokenName,
                                  const JUB_UINT16 unitDP,
                                  const std::string& contractAddress) override;
+    virtual JUB_RV SetTRC721Token(const std::string& tokenName,
+                                  const std::string& contractAddress) override;
+
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
 
 }; // class JubiterBIOTRXImpl end

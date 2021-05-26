@@ -11,6 +11,8 @@
 
 #include "JUB_SDK_DEV.h"
 
+#define MAX_DEVICE                  8
+
 #ifdef __cplusplus
 extern "C" {
 #endif // #ifdef __cplusplus

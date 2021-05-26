@@ -3,7 +3,10 @@
 #include "token/JubiterBIO/JubiterBIOToken.h"
 #include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/ETHTokenInterface.hpp"
+#include <uint256_t/uint256_t.h>
+#include <uint256.h>
 #include <Ethereum/ERC20Abi.h>
+#include <Ethereum/ERC721Abi.h>
 #include "utility/util.h"
 
 
@@ -152,15 +155,20 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
     std::vector<JUB_BYTE> vChainID;
     vChainID.push_back(_chainID);
 
-    bool bERC20 = false;
+    int erc = token::JUB_ENUM_APDU_ERC_ETH::ERC_INVALID;
     if (0 == memcmp(uchar_vector(vInput).getHex().c_str(),
-                    ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))
+                    ERC20_ABI_METHOD_ID_TRANSFER, strlen(ERC20_ABI_METHOD_ID_TRANSFER))
         ) { // erc20 function sign
-        bERC20 = true;
+        erc = token::JUB_ENUM_APDU_ERC_ETH::ERC_20;
+    }
+    else if (0 == memcmp(uchar_vector(vInput).getHex().c_str(),
+                         ERC721_ABI_METHOD_ID_TRANSFER_FROM, strlen(ERC721_ABI_METHOD_ID_TRANSFER_FROM))
+             ) {
+        erc = token::JUB_ENUM_APDU_ERC_ETH::ERC_721;
     }
 
     uchar_vector raw;
-    JUB_VERIFY_RV(token->SignTX(bERC20,
+    JUB_VERIFY_RV(token->SignTX(erc,
                                 vNonce,
                                 vGasPriceInWei,
                                 vGasLimit,
@@ -237,7 +245,7 @@ JUB_RV ETHContext::SignContract(const BIP44_Path& path,
 
     bool bERC20 = false;
     if (0 == memcmp(uchar_vector(vInput).getHex().c_str(),
-                    ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))
+                    ERC20_ABI_METHOD_ID_TRANSFER, strlen(ERC20_ABI_METHOD_ID_TRANSFER))
         ) { // erc20 function sign
         bERC20 = true;
     }
@@ -312,6 +320,46 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
     JUB_VERIFY_RV(token->SetERC20ETHToken(tokenName,
                                           unitDP,
                                           contractAddress));
+
+    return JUBR_OK;
+}
+
+
+JUB_RV ETHContext::BuildTRC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
+
+    CONTEXT_CHECK_TYPE_NONE
+
+    std::vector<JUB_BYTE> vFrom = jub::ETHHexStr2CharPtr(from);
+    std::vector<JUB_BYTE> vTo   = jub::ETHHexStr2CharPtr(to);
+
+    uint256_t tokenID(pTokenID, 10);
+    TW::Data vTokenID;
+    TW::encode256BE(vTokenID, tokenID, 256);
+
+    uchar_vector vAbi = jub::eth::ERC721Abi::serialize(vFrom, vTo, vTokenID);
+    abi = std::string(ETH_PRDFIX) + vAbi.getHex();
+
+    return JUBR_OK;
+}
+
+
+JUB_RV ETHContext::SetERC721ETHToken(JUB_CHAR_CPTR pTokenName,
+                                     JUB_CHAR_CPTR pContractAddress) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::ETHTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_CHECK_NULL(pTokenName);
+    JUB_CHECK_NULL(pContractAddress);
+
+    std::string tokenName = std::string(pTokenName);
+    std::string contractAddress = uchar_vector(ETHHexStr2CharPtr(pContractAddress)).getHex();
+    JUB_VERIFY_RV(token->SetERC721ETHToken(tokenName,
+                                           contractAddress));
 
     return JUBR_OK;
 }

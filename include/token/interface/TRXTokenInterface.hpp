@@ -38,6 +38,8 @@ public:
     virtual JUB_RV SetTRC20Token(const std::string& tokenName,
                                  const JUB_UINT16 unitDP,
                                  const std::string& contractAddress) = 0;
+    virtual JUB_RV SetTRC721Token(const std::string& tokenName,
+                                  const std::string& contractAddress) = 0;
 
     virtual JUB_RV SerializeContract(const JUB_CONTRACT_TRX& contract,
                                      ::google::protobuf::Any& parameter) = 0;

@@ -20,10 +20,11 @@ public:
     //ETH functions
     virtual JUB_RV SelectApplet();
     virtual JUB_RV GetAppletVersion(stVersion& version);
+
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey);
 
-    virtual JUB_RV SignTX(const bool bERC20,
+    virtual JUB_RV SignTX(const int erc,
                           const std::vector<JUB_BYTE>& vNonce,
                           const std::vector<JUB_BYTE>& vGasPrice,
                           const std::vector<JUB_BYTE>& vGasLimit,
@@ -36,9 +37,12 @@ public:
     virtual JUB_RV VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                             const std::string& path,
                             const std::vector<JUB_BYTE>& vSigedTrans);
+
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress);
+    virtual JUB_RV SetERC721ETHToken(const std::string& tokenName,
+                                     const std::string& contractAddress);
 
     virtual JUB_RV SignContract(const JUB_BYTE inputType,
                                 const std::vector<JUB_BYTE>& vNonce,

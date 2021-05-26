@@ -141,7 +141,7 @@ JUB_RV JubiterLiteETHImpl::SignTx(const std::vector<JUB_BYTE>& vNonce,
 }
 
 
-JUB_RV JubiterLiteETHImpl::SignTX(const bool bERC20,
+JUB_RV JubiterLiteETHImpl::SignTX(const int erc,
                                   const std::vector<JUB_BYTE>& vNonce,
                                   const std::vector<JUB_BYTE>& vGasPrice,
                                   const std::vector<JUB_BYTE>& vGasLimit,
@@ -182,6 +182,13 @@ JUB_RV JubiterLiteETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 
 
 JUB_RV JubiterLiteETHImpl::SetERC20ETHToken(const std::string& tokenName, const JUB_UINT16 unitDP, const std::string& contractAddress) {
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterLiteETHImpl::SetERC721ETHToken(const std::string& tokenName,
+                                             const std::string& contractAddress) {
 
     return JUBR_OK;
 }

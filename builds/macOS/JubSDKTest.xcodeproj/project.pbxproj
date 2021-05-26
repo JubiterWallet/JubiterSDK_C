@@ -386,7 +386,7 @@
 		67A4BE522330C3870059A3DB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = ft;
 				TargetAttributes = {
 					67A4BE592330C3870059A3DB = {
@@ -400,6 +400,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 67A4BE512330C3870059A3DB;
 			productRefGroup = 67A4BE5B2330C3870059A3DB /* Products */;
@@ -561,6 +562,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PL9NCP8CG6;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../trezor-crypto/include\"",
@@ -595,6 +597,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PL9NCP8CG6;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../trezor-crypto/include\"",
