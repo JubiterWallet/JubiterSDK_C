@@ -8,7 +8,7 @@
 
 #include "TaggedAddresses.h"
 #include "../Base58.h"
-#include "utility/util.h"
+#include "../BinaryCoding.h"
 
 using namespace TW::Ripple;
 std::string g_addreStr;

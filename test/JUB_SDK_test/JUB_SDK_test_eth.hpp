@@ -23,10 +23,16 @@ void  get_address_pubkey_ETH(JUB_UINT16 contextID);
 
 void   transaction_test_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root);
+
 void   transaction_test_ERC20_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root);
+
+void   transaction_test_ERC721_ETH(JUB_UINT16 contextID, Json::Value root);
+JUB_RV transaction_proc_ERC721_ETH(JUB_UINT16 contextID, Json::Value root);
+
 void   transaction_test_contr_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transaction_proc_contr_ETH(JUB_UINT16 contextID, Json::Value root);
+
 void   bytestring_test_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root);
 

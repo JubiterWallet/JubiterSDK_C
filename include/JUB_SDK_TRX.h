@@ -314,6 +314,26 @@ JUB_RV JUB_BuildTRC20Abi(IN JUB_UINT16 contextID,
                          IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
                          OUT JUB_CHAR_PTR_PTR abi);
 
+
+/*****************************************************************************
+ * @function name : JUB_BuildTRC721Abi
+ * @in  param : contextID - context ID
+ *          : nfTokenName - ERC-721 Non-Fungible Token Name
+ *          : contractAddress - ERC-721 Non-Fungible Token contract address
+ *          : tokenFrom - The current owner of the NFT
+ *          : tokenTo - The new owner
+ *          : tokenID - The NFT to transfer
+ * @out param : abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildTRC721Abi(IN JUB_UINT16 contextID,
+                          IN JUB_CHAR_CPTR nfTokenName,
+                          IN JUB_CHAR_CPTR contractAddress,
+                          IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenID,
+                          OUT JUB_CHAR_PTR_PTR abi);
+
+
 /*****************************************************************************
  * @function name : JUB_PackContractTRX
  * @in  param : contextID - context ID

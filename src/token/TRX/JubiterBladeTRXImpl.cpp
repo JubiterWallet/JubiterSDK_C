@@ -1,8 +1,10 @@
 #include "token/TRX/JubiterBladeTRXImpl.h"
+#include "token/interface/ETHTokenInterface.hpp"
 #include "utility/util.h"
 
 #include <Tron/Transaction.h>
 #include <Ethereum/ERC20Abi.h>
+#include <Ethereum/ERC721Abi.h>
 #include "token/ErrorHandler.h"
 
 namespace jub {
@@ -317,11 +319,16 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
                 break;
             }
 
-            bool bERC20 = false;
+            int erc = JUB_ENUM_APDU_ERC_ETH::ERC_INVALID;
             if (0 == memcmp(uchar_vector(contract.getData().getValue()).getHex().c_str(),
-                            ABI_METHOD_ID_TRANSFER, strlen(ABI_METHOD_ID_TRANSFER))
+                            ERC20_ABI_METHOD_ID_TRANSFER, strlen(ERC20_ABI_METHOD_ID_TRANSFER))
                 ) { // erc20 function sign
-                bERC20 = true;
+                erc = JUB_ENUM_APDU_ERC_ETH::ERC_20;
+            }
+            else if (0 == memcmp(uchar_vector(contract.getData().getValue()).getHex().c_str(),
+                                 ERC721_ABI_METHOD_ID_TRANSFER_FROM, strlen(ERC721_ABI_METHOD_ID_TRANSFER_FROM))
+                     ) { // erc20 function sign
+                erc = JUB_ENUM_APDU_ERC_ETH::ERC_721;
             }
 
             //triggerSmartTLV(TRC-20)   - triggerSmart.type = 0x1F
@@ -359,7 +366,9 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
             //      8601        - feeLimit offset
             //      01          - feeLimit size
             uchar_vector vItem;
-            if (!bERC20) {
+            if (!( 0 == JUB_ENUM_APDU_ERC_ETH::ERC_20
+                || 0 == JUB_ENUM_APDU_ERC_ETH::ERC_721)
+                ) {
                 vItem << contract.callValueOffset(contrIndex);
                 vItem << contract.callValueSize();
                 vContractAssist << ToTlv(0x05, vItem);
@@ -463,6 +472,20 @@ JUB_RV JubiterBladeTRXImpl::SetTRC20Token(const std::string& tokenName,
     }
 
     return JubiterBladeToken::SetERC20Token(tokenName.c_str(), unitDP, contractAddress.c_str());
+}
+
+
+JUB_RV JubiterBladeTRXImpl::SetTRC721Token(const std::string& tokenName,
+                                           const std::string& contractAddress) {
+
+    // TRC721 token extension apdu
+    if (typeid(JubiterBladeTRXImpl) == typeid(*this)) {
+        if (JubiterBladeToken::_appletVersion < stVersionExp::FromString(JubiterBladeToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+            return JUBR_OK;
+        }
+    }
+
+    return JubiterBladeToken::SetERC721Token(tokenName.c_str(), contractAddress.c_str());
 }
 } // namespace token end
 } // namespace jub end

@@ -37,6 +37,8 @@ public:
                                      JUB_BYTE fgptID) override;
 
 protected:
+    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) override;
+
     // TRC20 token extension apdu
     const std::string MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("05010003");  // 5.1.3
 }; // class JubiterBIOToken end

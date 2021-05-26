@@ -167,6 +167,13 @@ void software_test_trx(const char* json_sw_file, const char* json_file) {
             break;
         case 3:
             choice = JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT;
+            for (int j=2; j>0; --j) {
+                rv = transaction_proc_TRX(contextID, root, choice+j);
+                if (JUBR_OK != rv) {
+                    return;
+                }
+                cout << endl << endl;
+            }
             cout << "[-------------------------- Trigger smart contract test ------------------------]" << endl;
             break;
         case 4:

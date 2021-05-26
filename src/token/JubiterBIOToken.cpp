@@ -16,6 +16,16 @@ JubiterBIOToken::JubiterBIOToken(JUB_UINT16 deviceID)
 }
 
 
+JUB_RV JubiterBIOToken::_SelectApp(const JUB_BYTE PKIAID[], const JUB_BYTE length) {
+
+    uchar_vector vVersion;
+    JUB_VERIFY_RV(JubiterBladeToken::_SelectApp(PKIAID, length, vVersion));
+    JubiterBIOToken::_appletVersion = stVersionExp::FromString(vVersion.getHex());
+
+    return JUBR_OK;
+}
+
+
 bool JubiterBIOToken::IsBootLoader() {
 
     APDU apdu(0x00, 0xa4, 0x04, 0x00, 0x00);

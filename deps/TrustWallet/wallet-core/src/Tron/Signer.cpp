@@ -14,7 +14,6 @@
 #include <nlohmann/json.hpp>
 
 #include "Transaction.h"
-#include "mSIGNA/stdutils/uchar_vector.h"
 
 #include <chrono>
 #include <cassert>

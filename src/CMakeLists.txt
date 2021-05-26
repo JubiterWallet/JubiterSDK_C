@@ -48,6 +48,9 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/XRP SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/TRX SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/HDKey SRC_LIST)
 
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/uint256_t SRC_LIST)
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/uint256_t/tests")
+
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint SRC_LIST)
 list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint/sample.cc")
 list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/bigint/testsuite.cc")

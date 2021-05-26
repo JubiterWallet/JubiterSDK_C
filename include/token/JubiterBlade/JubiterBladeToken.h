@@ -97,6 +97,8 @@ public:
     virtual JUB_RV SetERC20Token(JUB_CHAR_CPTR tokenName,
                                  JUB_UINT16 unitDP,
                                  JUB_CHAR_CPTR contractAddress) override;
+    virtual JUB_RV SetERC721Token(JUB_CHAR_CPTR tokenName,
+                                  JUB_CHAR_CPTR contractAddress) override;
 
     // NFC
     virtual JUB_RV SetLabel(const std::string& label) override;
@@ -152,8 +154,8 @@ protected:
                          int finalData = false,
                          int bOnce = false);
 
-    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
-                              JUB_BYTE length);
+    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length, uchar_vector& version) override;
+    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length);
 
     std::shared_ptr<ApduBuilder> _apduBuilder;
     JUB_UINT16 _deviceID;

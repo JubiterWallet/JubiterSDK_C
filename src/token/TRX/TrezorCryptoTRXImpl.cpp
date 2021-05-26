@@ -109,5 +109,12 @@ JUB_RV TrezorCryptoTRXImpl::SetTRC20Token(const std::string& tokenName,
 
     return JUBR_OK;
 }
+
+
+JUB_RV TrezorCryptoTRXImpl::SetTRC721Token(const std::string& tokenName,
+                                           const std::string& contractAddress) {
+
+    return JUBR_OK;
+}
 } // namespace token end
 } // namespace jub end

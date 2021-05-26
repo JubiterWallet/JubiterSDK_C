@@ -90,7 +90,7 @@ JUB_RV TrezorCryptoETHImpl::SignTx(const std::vector<JUB_BYTE>& vNonce,
 }
 
 
-JUB_RV TrezorCryptoETHImpl::SignTX(const bool bERC20,
+JUB_RV TrezorCryptoETHImpl::SignTX(const int erc,
                                    const std::vector<JUB_BYTE>& vNonce,
                                    const std::vector<JUB_BYTE>& vGasPrice,
                                    const std::vector<JUB_BYTE>& vGasLimit,
@@ -137,6 +137,13 @@ JUB_RV TrezorCryptoETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 JUB_RV TrezorCryptoETHImpl::SetERC20ETHToken(const std::string& tokenName,
                                              const JUB_UINT16 unitDP,
                                              const std::string& contractAddress) {
+
+    return JUBR_OK;
+}
+
+
+JUB_RV TrezorCryptoETHImpl::SetERC721ETHToken(const std::string& tokenName,
+                                              const std::string& contractAddress) {
 
     return JUBR_OK;
 }

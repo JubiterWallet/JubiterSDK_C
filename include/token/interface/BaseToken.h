@@ -45,7 +45,7 @@ struct stVersionExp : stVersion {
         return !(lhs < rhs);
     }
 
-    static stVersionExp FromString(std::string versionStr) {
+    static stVersionExp FromString(const std::string& versionStr) {
         stVersionExp v;
         // versionStr is hex string of 4 bytes
         assert(versionStr.size() == 8);

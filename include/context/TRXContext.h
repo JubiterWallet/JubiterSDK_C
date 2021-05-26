@@ -60,6 +60,10 @@ public:
                                  JUB_UINT16 unitDP,
                                  JUB_CHAR_CPTR pContractAddress);
 
+    virtual JUB_RV BuildTRC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi);
+    virtual JUB_RV SetTRC721Token(JUB_CHAR_CPTR pTokenName,
+                                  JUB_CHAR_CPTR pContractAddress);
+
     virtual JUB_RV PackTransactionRaw(const JUB_TX_TRX& tx,
                                       std::string& packedContractInPB);
 

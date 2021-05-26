@@ -8,6 +8,13 @@
 namespace jub {
 namespace token {
 
+
+JUB_RV JubiterBIOTRXImpl::SelectApplet() {
+
+    return JubiterBIOToken::_SelectApp(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE));
+}
+
+
 JUB_RV JubiterBIOTRXImpl::SetTRC20Token(const std::string& tokenName,
                                           const JUB_UINT16 unitDP,
                                           const std::string& contractAddress) {
@@ -21,6 +28,21 @@ JUB_RV JubiterBIOTRXImpl::SetTRC20Token(const std::string& tokenName,
 
     return JubiterBIOToken::SetERC20Token(tokenName.c_str(), unitDP, contractAddress.c_str());
 }
+
+
+JUB_RV JubiterBIOTRXImpl::SetTRC721Token(const std::string& tokenName,
+                                         const std::string& contractAddress) {
+
+    // TRC721 token extension apdu
+    if (typeid(JubiterBIOTRXImpl) == typeid(*this)) {
+        if (JubiterBIOToken::_appletVersion < stVersionExp::FromString(JubiterBIOToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+            return JUBR_OK;
+        }
+    }
+
+    return JubiterBIOToken::SetERC721Token(tokenName.c_str(), contractAddress.c_str());
+}
+
 
 JUB_RV JubiterBIOTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
 
