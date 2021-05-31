@@ -90,7 +90,6 @@ public:
                               std::shared_ptr<token::BaseToken> tokenPtr) {
         return new QTUMContext(cfg, tokenPtr);
     }
-
 public:
     QTUMContext(const CONTEXT_CONFIG_BTC& cfg,
                 std::shared_ptr<token::BaseToken> tokenPtr):

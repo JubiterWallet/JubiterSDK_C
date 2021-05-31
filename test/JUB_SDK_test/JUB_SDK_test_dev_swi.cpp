@@ -77,8 +77,8 @@ JUB_RV menu_opt_swi(const int choice, const Json::Value& root, JUB_UINT16_PTR pD
             return rv;
         }
 
-        rv = JUB_ImportMnemonic((*pDeviceID), "", mnemonic);
-        cout << "[-] JUB_ImportMnemonic() return " << GetErrMsg(rv) << endl;
+        rv = JUB_BuildFromMnemonic((*pDeviceID), "", mnemonic);
+        cout << "[-] JUB_BuildFromMnemonic() return " << GetErrMsg(rv) << endl;
         if(JUBR_OK != rv) {
             return rv;
         }
@@ -104,8 +104,8 @@ JUB_RV menu_opt_swi(const int choice, const Json::Value& root, JUB_UINT16_PTR pD
         else { rv = JUBR_ARGUMENTS_BAD; break;}
 
         cout << "[----------------------------- Import xprv or xpub -----------------------------]" << endl;
-        rv = JUB_ImportMasterPrivateKey((*pDeviceID), curve, xprvOrXpub);
-        cout << "[-] JUB_ImportMasterPrivateKey() return " << GetErrMsg(rv) << endl;
+        rv = JUB_BuildFromMasterPrivateKey((*pDeviceID), curve, xprvOrXpub);
+        cout << "[-] JUB_BuildFromMasterPrivateKey() return " << GetErrMsg(rv) << endl;
         if(JUBR_OK != rv) {
             return rv;
         }

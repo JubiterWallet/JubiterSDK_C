@@ -69,8 +69,7 @@ public:
                                   OUT std::string& mnemonic) override;
 
 protected:
-    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[],
-                              JUB_BYTE length) override;
+    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) override;
 
     virtual bool _isOpenSecureChannel();
 

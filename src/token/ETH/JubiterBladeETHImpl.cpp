@@ -268,7 +268,7 @@ JUB_RV JubiterBladeETHImpl::SignContract(const JUB_BYTE inputType,
     uchar_vector s(32);
     std::copy(signatureRaw.begin()+32, signatureRaw.begin()+32+32, s.begin());
 
-    uchar_vector v(1);
+    uchar_vector v(ulRetDataLen-32-32);
     std::copy(signatureRaw.begin()+32+32, signatureRaw.end(), v.begin());
     TW::Ethereum::Transaction tx(vNonce,
                                  vGasPrice,

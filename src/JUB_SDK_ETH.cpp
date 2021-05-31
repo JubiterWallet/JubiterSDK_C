@@ -327,7 +327,7 @@ JUB_RV JUB_BuildERC721AbiETH(IN JUB_UINT16 contextID,
     JUB_VERIFY_RV(context->SetERC721ETHToken(nfTokenName, contractAddress));
 
     std::string strAbi;
-    JUB_VERIFY_RV(context->BuildTRC721Abi(tokenFrom, tokenTo, tokenID, strAbi));
+    JUB_VERIFY_RV(context->BuildERC721Abi(tokenFrom, tokenTo, tokenID, strAbi));
     JUB_VERIFY_RV(_allocMem(abi, strAbi));
 
     return JUBR_OK;

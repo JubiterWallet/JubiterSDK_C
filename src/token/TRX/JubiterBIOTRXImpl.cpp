@@ -8,6 +8,13 @@
 namespace jub {
 namespace token {
 
+
+JUB_RV JubiterBIOTRXImpl::SelectApplet() {
+
+    return JubiterBIOToken::_SelectApp(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE));
+}
+
+
 JUB_RV JubiterBIOTRXImpl::SetTRC20Token(const std::string& tokenName,
                                           const JUB_UINT16 unitDP,
                                           const std::string& contractAddress) {

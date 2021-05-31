@@ -22,6 +22,15 @@ JUB_RV JubiterBladeXRPImpl::SelectApplet() {
 }
 
 
+JUB_RV JubiterBladeXRPImpl::GetAppletVersion(stVersion& version) {
+
+    uchar_vector appID(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE));
+    JUB_VERIFY_RV(JubiterBladeToken::GetAppletVersion(CharPtr2HexStr(appID), version));
+
+    return JUBR_OK;
+}
+
+
 //MISC functions
 JUB_RV JubiterBladeXRPImpl::SetCoin() {
     APDU apdu(0x00, 0xF5, (JUB_BYTE)JUB_ENUM_COINTYPE_MISC::COINXRP, 0x00, 0x00);

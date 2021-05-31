@@ -325,7 +325,7 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
 }
 
 
-JUB_RV ETHContext::BuildTRC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
+JUB_RV ETHContext::BuildERC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
 
     CONTEXT_CHECK_TYPE_NONE
 

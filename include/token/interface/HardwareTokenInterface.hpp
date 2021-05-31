@@ -84,6 +84,9 @@ public:
     virtual JUB_RV EraseFingerprint(IN JUB_UINT16 fpTimeout) = 0;
     virtual JUB_RV DeleteFingerprint(IN JUB_UINT16 fpTimeout,
                                      JUB_BYTE fgptID) = 0;
+
+protected:
+    virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length, uchar_vector& version) = 0;
 }; // class HardwareTokenInterface end
 
 
