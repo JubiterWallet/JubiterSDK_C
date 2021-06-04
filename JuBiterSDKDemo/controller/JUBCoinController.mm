@@ -110,7 +110,9 @@
             if (!(  (JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC721 == self.selectedMenuIndex
                       && JUB_NS_ENUM_MAIN::OPT_ETH        == sharedData.currCoinType)
                   || (JUB_NS_ENUM_TRX_OPT::BTN_TRC721     == self.selectedMenuIndex
-                      && JUB_NS_ENUM_MAIN::OPT_TRX        == sharedData.currCoinType))
+                      && JUB_NS_ENUM_MAIN::OPT_TRX        == sharedData.currCoinType)
+                  || (JUB_NS_ENUM_TRX_OPT::BTN_TRC20 == self.selectedMenuIndex
+                      && JUB_NS_ENUM_MAIN::OPT_TRX == sharedData.currCoinType))
                 ) {
                 [self EnterAmount];
             }
