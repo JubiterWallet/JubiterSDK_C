@@ -553,6 +553,9 @@
         }
         contrTRX.triggerSmart.call_value = root["TRX"]["contracts"][sType]["call_value"].asUInt64();
         contrTRX.triggerSmart.call_token_value = root["TRX"]["contracts"][sType]["call_token_value"].asUInt64();
+        if (NSComparisonResult::NSOrderedSame != [amount compare:@""]) {
+            contrTRX.triggerSmart.call_token_value = [amount integerValue];
+        }
         contrTRX.triggerSmart.token_id = root["TRX"]["contracts"][sType]["token_id"].asUInt64();
         break;
     }
