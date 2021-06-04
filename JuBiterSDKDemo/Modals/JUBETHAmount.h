@@ -14,9 +14,10 @@
 typedef NS_ENUM(NSInteger, JUB_NS_ENUM_ETH_COIN) {
     BTN_ETH,
     BTN_ETH_ERC20,
+    BTN_ETH_ERC721,
     BTN_ETH_UNISWAP,
     BTN_ETH_BYTESTR,
-    BTN_ETC
+    BTN_ETC,
 };
 
 

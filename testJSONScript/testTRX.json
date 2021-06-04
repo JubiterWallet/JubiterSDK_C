@@ -61,6 +61,14 @@
             "tokenName" : "JST",
             "dp" : 18,
             "contract_address" : "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
+        },
+        "TRC721" : {
+            "token_from" : "TR1D93WMkqjhFSxDsLTedzXVPHQXsGdGQi",
+            "token_to" : "TV6tnwwWAbRxnYZ5TnSdLbibznWZLY4vXf",
+            "token_value" : "0",
+            "tokenID" : "7600",
+            "tokenName" : "DWARF",
+            "contract_address" : "TLwu6VYaVBc5fsaTCWRHSdk71DNrZ6Vsj6"
         }
     }
 }

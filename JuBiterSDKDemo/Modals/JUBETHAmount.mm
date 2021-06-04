@@ -28,6 +28,7 @@
     NSString* strUnit = TITLE_ETH;
     switch (opt) {
     case JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC20:
+    case JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC721:
         strUnit = TITLE_ETH_TOKEN;
         break;
     case JUB_NS_ENUM_ETH_COIN::BTN_ETH:
@@ -45,6 +46,7 @@
     switch (opt) {
     case JUB_NS_ENUM_ETH_COIN::BTN_ETH:
     case JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC20:
+    case JUB_NS_ENUM_ETH_COIN::BTN_ETH_ERC721:
     case JUB_NS_ENUM_ETH_COIN::BTN_ETC:
     default:
         break;

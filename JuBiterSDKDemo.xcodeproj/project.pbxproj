@@ -61,11 +61,11 @@
 		67E9E4ED256CEA9E009ABDA7 /* JUBTRXController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67E9E4EC256CEA9E009ABDA7 /* JUBTRXController.mm */; };
 		67E9E4EF256CEAC9009ABDA7 /* testTRX.json in Resources */ = {isa = PBXBuildFile; fileRef = 67E9E4EE256CEAC9009ABDA7 /* testTRX.json */; };
 		67E9E4F2256CEAFB009ABDA7 /* JUBTRXAmount.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67E9E4F1256CEAFB009ABDA7 /* JUBTRXAmount.mm */; };
-		67EA8E6125838F35001D8809 /* JUBFILController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8E5F25838F34001D8809 /* JUBFILController.mm */; };
-		67EA8E6425838F54001D8809 /* JUBFILAmount.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8E6325838F54001D8809 /* JUBFILAmount.mm */; };
 		67EA8E6925839161001D8809 /* testFIL.json in Resources */ = {isa = PBXBuildFile; fileRef = 67EA8E6825839161001D8809 /* testFIL.json */; };
 		687BCEDD245866BD00CD1780 /* JUBBTCController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 687BCECB245866BC00CD1780 /* JUBBTCController.mm */; };
 		68B860F824239FEF0009F474 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68B860F724239FEF0009F474 /* LaunchScreen.storyboard */; };
+		774EF0D9266A208A0036B3F6 /* JUBFILController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8E5F25838F34001D8809 /* JUBFILController.mm */; };
+		774EF0DA266A20970036B3F6 /* JUBFILAmount.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67EA8E6325838F54001D8809 /* JUBFILAmount.mm */; };
 		8BE2A70E235D89600015B9AB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A70D235D89600015B9AB /* AppDelegate.m */; };
 		8BE2A719235D89620015B9AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BE2A718235D89620015B9AB /* Assets.xcassets */; };
 		8BE2A71F235D89620015B9AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE2A71E235D89620015B9AB /* main.m */; };
@@ -481,11 +481,11 @@
 				67317CB62506036900860877 /* JUBErrorCode.m in Sources */,
 				67B151CC2500D5C900D244DC /* JUBTimeOut.mm in Sources */,
 				67B151C325008E7100D244DC /* JUBRegEx.m in Sources */,
-				67EA8E6125838F35001D8809 /* JUBFILController.mm in Sources */,
+				774EF0D9266A208A0036B3F6 /* JUBFILController.mm in Sources */,
 				67B151C425008E7100D244DC /* JUBSharedData.m in Sources */,
 				67676B082462AB620099E2A8 /* JUBDeviceController.mm in Sources */,
 				67B151C9250096C800D244DC /* JUBAmount.mm in Sources */,
-				67EA8E6425838F54001D8809 /* JUBFILAmount.mm in Sources */,
+				774EF0DA266A20970036B3F6 /* JUBFILAmount.mm in Sources */,
 				67B151D4250251EC00D244DC /* JUBBTCAmount.mm in Sources */,
 				67317CB02504AC1B00860877 /* JUBETHAmount.mm in Sources */,
 				67B151D5250251EC00D244DC /* JUBEOSAmount.mm in Sources */,
@@ -641,7 +641,7 @@
 				CODE_SIGN_ENTITLEMENTS = JuBiterSDKDemo/JuBiterSDKDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PL9NCP8CG6;
+				DEVELOPMENT_TEAM = S47T4UESP3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -667,7 +667,7 @@
 					"$(SRCROOT)/",
 				);
 				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JubSDKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jubiterwallet.JubWalletSDKDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -684,7 +684,7 @@
 				CODE_SIGN_ENTITLEMENTS = JuBiterSDKDemo/JuBiterSDKDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PL9NCP8CG6;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

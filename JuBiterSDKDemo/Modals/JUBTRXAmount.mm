@@ -48,24 +48,27 @@
     
     NSString* strUnit = TITLE_UNIT_TRX;
     switch (opt) {
-        case JUB_NS_ENUM_TRX_OPT::BTN_TRX:
-                strUnit = @"TRX";
-                break;
-        case JUB_NS_ENUM_TRX_OPT::BTN_TRC10:
-                strUnit = @"TRC10";
-                break;
-        case JUB_NS_ENUM_TRX_OPT::BTN_TRCFree:
-                strUnit = @"TRCFree";
-                break;
-        case JUB_NS_ENUM_TRX_OPT::BTN_TRCUnfreeze:
-                strUnit = @"TRCUnfreeze";
-                break;
-        case JUB_NS_ENUM_TRX_OPT::BTN_TRC20:
-                strUnit = @"TRC20";
-                break;
-        case JUB_NS_ENUM_TRX_OPT::BTN_TRC20_transfer:
-                strUnit = @"TRC20_transfer";
-                break;
+    case JUB_NS_ENUM_TRX_OPT::BTN_TRX:
+        strUnit = @"TRX";
+        break;
+    case JUB_NS_ENUM_TRX_OPT::BTN_TRC10:
+        strUnit = @"TRC10";
+        break;
+    case JUB_NS_ENUM_TRX_OPT::BTN_TRCFree:
+        strUnit = @"TRCFree";
+        break;
+    case JUB_NS_ENUM_TRX_OPT::BTN_TRCUnfreeze:
+        strUnit = @"TRCUnfreeze";
+        break;
+    case JUB_NS_ENUM_TRX_OPT::BTN_TRC20:
+        strUnit = @"TRC20";
+        break;
+    case JUB_NS_ENUM_TRX_OPT::BTN_TRC20_transfer:
+        strUnit = @"TRC20_transfer";
+        break;
+    case JUB_NS_ENUM_TRX_OPT::BTN_TRC721:
+        strUnit = @"TRC721";
+        break;
     default:
         break;
     }

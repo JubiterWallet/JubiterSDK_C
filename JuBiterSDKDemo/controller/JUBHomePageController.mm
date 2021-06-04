@@ -347,6 +347,7 @@
     if (nil == sharedData) {
         return;
     }
+    [sharedData setCurrCoinType:optType];
     
     if (JUB_NS_ENUM_DEV_TYPE::SEG_BLE == [sharedData deviceType]
         &&                          0 == [sharedData currDeviceID]

@@ -69,7 +69,7 @@
         JUB_UINT16 contextID = [sharedData currContextID];
         if (0 != contextID) {
             [sharedData setCurrMainPath:nil];
-            [sharedData setCurrCoinType:-1];
+//            [sharedData setCurrCoinType:-1];
             rv = JUB_ClearContext(contextID);
             if (JUBR_OK != rv) {
                 [self addMsgData:[NSString stringWithFormat:@"[JUB_ClearContext() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
