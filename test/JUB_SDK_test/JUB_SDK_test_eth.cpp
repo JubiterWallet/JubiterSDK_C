@@ -267,15 +267,21 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     char* tokenName = (char*)root["ERC20"]["tokenName"].asCString();
     JUB_UINT16 unitDP = root["ERC20"]["dp"].asUInt();
     char* contractAddress = (char*)root["ERC20"]["contract_address"].asCString();
+
+    rv = JUB_SetERC20TokenETH(contextID,
+                              tokenName, unitDP, contractAddress);
+    cout << "[-] JUB_SetERC20TokenETH() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
     char* to = (char*)root["ERC20"]["contract_address"].asCString();
     char* token_to = (char*)root["ERC20"]["token_to"].asCString();
     char* token_value = (char*)root["ERC20"]["token_value"].asCString();
-
     char* abi = nullptr;
-    rv = JUB_BuildERC20AbiETH(contextID,
-                              tokenName, unitDP, contractAddress,
-                              token_to, token_value, &abi);
-    cout << "[-] JUB_BuildERC20AbiETH() return " << GetErrMsg(rv) << endl;
+    rv = JUB_BuildERC20TransferAbiETH(contextID,
+                                      token_to, token_value, &abi);
+    cout << "[-] JUB_BuildERC20TransferAbiETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return rv;
     }
@@ -330,17 +336,22 @@ JUB_RV transaction_proc_ERC721_ETH(JUB_UINT16 contextID, Json::Value root) {
 
     JUB_CHAR_PTR tokenName = (JUB_CHAR_PTR)root["ERC721"]["tokenName"].asCString();
     JUB_CHAR_PTR contractAddress = (JUB_CHAR_PTR)root["ERC721"]["contract_address"].asCString();
+    rv = JUB_SetERC721TokenETH(contextID,
+                               tokenName, contractAddress);
+    cout << "[-] JUB_SetERC721TokenETH() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
     JUB_CHAR_PTR token_from = (JUB_CHAR_PTR)root["ERC721"]["token_from"].asCString();
     JUB_CHAR_PTR to = (JUB_CHAR_PTR)root["ERC721"]["contract_address"].asCString();
     JUB_CHAR_PTR token_to = (JUB_CHAR_PTR)root["ERC721"]["token_to"].asCString();
     JUB_CHAR_PTR tokenID = (JUB_CHAR_PTR)root["ERC721"]["tokenID"].asCString();
-
     JUB_CHAR_PTR abi = nullptr;
-    rv = JUB_BuildERC721AbiETH(contextID,
-                               tokenName, contractAddress,
-                               token_from, token_to, tokenID,
-                               &abi);
-    cout << "[-] JUB_BuildERC721AbiETH() return " << GetErrMsg(rv) << endl;
+    rv = JUB_BuildERC721TransferAbiETH(contextID,
+                                       token_from, token_to, tokenID,
+                                       &abi);
+    cout << "[-] JUB_BuildERC721TransferAbiETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return rv;
     }

@@ -55,12 +55,12 @@ public:
                                   const JUB_CHAR_CPTR data,
                                   OUT std::string& signature);
 
-    virtual JUB_RV BuildERC20Abi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi);
+    virtual JUB_RV BuildERC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi);
     virtual JUB_RV SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
                                     JUB_UINT16 unitDP,
                                     JUB_CHAR_CPTR pContractAddress);
 
-    virtual JUB_RV BuildERC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi);
+    virtual JUB_RV BuildERC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi);
     virtual JUB_RV SetERC721ETHToken(JUB_CHAR_CPTR pTokenName,
                                      JUB_CHAR_CPTR pContractAddress);
 
