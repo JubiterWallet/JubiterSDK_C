@@ -15,7 +15,10 @@ Function list:
     * [JUB_BuildQRC20Outputs](#JUB_BuildQRC20Outputs)
 * **ETH series related module**
     * [JUB_SignTransactionETH](#JUB_SignTransactionETH)
-    * [JUB_BuildERC20AbiETH](#JUB_BuildERC20AbiETH)
+    * [JUB_SetERC20TokenETH](#JUB_SetERC20TokenETH)
+    * [JUB_BuildERC20TransferAbiETH](#JUB_BuildERC20TransferAbiETH)
+    * [JUB_SetERC721TokenETH](#JUB_SetERC721TokenETH)
+    * [JUB_BuildERC721TransferAbiETH](#JUB_BuildERC721TransferAbiETH)
     * [JUB_SignContractETH](#JUB_SignContractETH)
 * **EOS related module**
     * [JUB_SignTransactionEOS](#JUB_SignTransactionEOS)
@@ -26,7 +29,10 @@ Function list:
 * **TRX related module**
     * [JUB_CheckAddressTRX](#JUB_CheckAddressTRX)
     * [JUB_PackContractTRX](#JUB_PackContractTRX)
-    * [JUB_BuildTRC20Abi](#JUB_BuildTRC20Abi)
+    * [JUB_SetTRC20Token](#JUB_SetTRC20Token)
+    * [JUB_BuildTRC20TransferAbi](#JUB_BuildTRC20TransferAbi)
+    * [JUB_SetTRC721Token](#JUB_SetTRC721Token)
+    * [JUB_BuildTRC721TransferAbi](#JUB_BuildTRC721TransferAbi)
     * [JUB_SignTransactionTRX](#JUB_SignTransactionTRX)
 
 ### JUB_CreateContextXXX
@@ -225,7 +231,7 @@ gasLimit - gas limit.
 gasPriceInWei - gas price in Wei.
 to - to address.
 valueInWei - amount in Wei of ETH tx.
-input - empyt string for ETH tx or ERC-20 ABI from JUB_BuildERC20AbiETH.
+input - empyt string for ETH tx or ERC-20 ABI from JUB_BuildERC20TransferAbiETH.
 * **OUT param:**
 raw - signed ETH/ETH token tx.
 * **Return:** JUB_OK or !JUB_OK for error.
@@ -243,13 +249,28 @@ JUB_RV JUB_SignTransactionETH(
 );
 ```
 
-### JUB_BuildERC20AbiETH
-* **Function:** Build ETH ERC-20 ABI.
+### JUB_SetERC20TokenETH
+* **Function:** Set ETH ERC-20 Token into Device.
 * **IN param:**
 contextID - context ID from JUB_CreateContextETH.
 tokenName - ERC-20 token name.
 unitDP - unit.
 contractAddress - contract address for ERC-20.
+* **OUT param:** none.
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-20 token transactions.
+```
+JUB_RV JUB_SetERC20TokenETH(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR tokenName,
+    IN JUB_UINT16 unitDP,
+    IN JUB_CHAR_CPTR contractAddress);
+```
+
+### JUB_BuildERC20TransferAbiETH
+* **Function:** Build ETH ERC-20 ABI.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
 tokenTo - ERC-20 token to address.
 tokenValue - ERC-20 token amount.
 * **OUT param:**
@@ -258,13 +279,47 @@ abi - ERC-20 ABI.
 **Return:** JUB_OK or !JUB_OK for error.
 **Note:** Used in conjunction with JUB_SignTransactionETH for ERC-20 token transactions.
 ```
-JUB_RV JUB_BuildERC20AbiETH(
+JUB_RV JUB_BuildERC20TransferAbiETH(
     IN JUB_UINT16 contextID,
-    IN JUB_CHAR_CPTR tokenName,
-    IN JUB_UINT16 unitDP,
-    IN JUB_CHAR_CPTR contractAddress,
     IN JUB_CHAR_CPTR tokenTo,
     IN JUB_CHAR_CPTR tokenValue,
+    OUT JUB_CHAR_PTR_PTR abi);
+```
+
+### JUB_SetERC721TokenETH
+* **Function:** Set ETH ERC-721 Token into Device.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
+nfTokenName - ERC-721 token name.
+contractAddress - contract address for ERC-721.
+* **OUT param:** none.
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-721 token transactions.
+```
+JUB_RV JUB_SetERC721TokenETH(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR nfTokenName,
+    IN JUB_CHAR_CPTR contractAddress);
+```
+
+### JUB_BuildERC721TransferAbiETH
+* **Function:** Build ETH ERC-721 ABI.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
+tokenFrom - ERC-721 token from address.
+tokenTo - ERC-721 token to address.
+tokenID - ERC-721 token ID.
+* **OUT param:**
+abi - ERC-721 ABI.
+
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-721 token transactions.
+```
+JUB_RV JUB_BuildERC20TransferAbiETH(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR tokenFrom,
+    IN JUB_CHAR_CPTR tokenTo,
+    IN JUB_CHAR_CPTR tokenID,
     OUT JUB_CHAR_PTR_PTR abi);
 ```
 
@@ -278,7 +333,7 @@ gasLimit - gas limit.
 gasPriceInWei - gas price in Wei.
 to - to address.
 valueInWei - amount in Wei of ETH tx.
-input - ERC-20 ABI from JUB_BuildERC20AbiETH, otherwise using other API to build contract.
+input - ERC-20 ABI from JUB_BuildERC20TransferAbiETH, otherwise using other API to build contract.
 * **OUT param:**
 raw - signed ETH contract.
 * **Return:** JUB_OK or !JUB_OK for error.
@@ -411,13 +466,28 @@ JUB_RV JUB_SignTransactionTRX(
 );
 ```
 
-### JUB_BuildTRC20Abi
-* **Function:** Build TRC20(transfer) ABI.
+### JUB_SetTRC20Token
+* **Function:** Set TRC20 Token.
 * **IN param:**
 contextID - context ID from JUB_CreateContextTRX.
 tokenName - TRC-20 token name.
 unitDP - unit.
 contractAddress - contract address for TRC-20.
+* **OUT param:** none.
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionTRX for TRC-20 token transactions.
+```
+JUB_RV JUB_SetTRC20Token(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR tokenName,
+    IN JUB_UINT16 unitDP,
+    IN JUB_CHAR_CPTR contractAddress);
+```
+
+### JUB_BuildTRC20TransferAbi
+* **Function:** Build TRC20(transfer) ABI.
+* **IN param:**
+contextID - context ID from JUB_CreateContextTRX.
 tokenTo - TRC-20 token to address.
 tokenValue - TRC-20 token amount.
 * **OUT param:**
@@ -426,12 +496,44 @@ abi - TRC-20 ABI.
 **Return:** JUB_OK or !JUB_OK for error.
 **Note:** Used in conjunction with JUB_SignTransactionTRX/JUB_PackContractTRX for TRC-20 token transactions.
 ```
-JUB_RV JUB_BuildTRC20Abi(
+JUB_RV JUB_BuildTRC20TransferAbi(
     IN JUB_UINT16 contextID,
-    IN JUB_CHAR_CPTR tokenName,
-    IN JUB_UINT16 unitDP,
-    IN JUB_CHAR_CPTR contractAddress,
     IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
+    OUT JUB_CHAR_PTR_PTR abi);
+```
+
+### JUB_SetTRC721Token
+* **Function:** Set TRC721 Token.
+* **IN param:**
+contextID - context ID from JUB_CreateContextTRX.
+nfTokenName - TRC-721 token name.
+contractAddress - contract address for TRC-721.
+* **OUT param:** none.
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionTRX for TRC-721 token transactions.
+```
+JUB_RV JUB_SetTRC721Token(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR nfTokenName,
+    IN JUB_CHAR_CPTR contractAddress);
+```
+
+### JUB_BuildTRC721TransferAbi
+* **Function:** Build TRC721(transfer) ABI.
+* **IN param:**
+contextID - context ID from JUB_CreateContextTRX.
+tokenFrom - TRC-721 token to address.
+tokenTo - TRC-721 token to address.
+tokenID - TRC-721 token ID.
+* **OUT param:**
+abi - TRC-721 ABI.
+
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionTRX/JUB_PackContractTRX for TRC-721 token transactions.
+```
+JUB_RV JUB_BuildTRC721TransferAbi(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenID,
     OUT JUB_CHAR_PTR_PTR abi);
 ```
 

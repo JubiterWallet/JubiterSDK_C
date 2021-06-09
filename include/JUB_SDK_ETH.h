@@ -166,30 +166,52 @@ JUB_RV JUB_SignBytestringETH(IN JUB_UINT16 contextID,
 
 
 /*****************************************************************************
- * @function name : JUB_BuildERC20AbiETH
+ * @function name : JUB_SetERC20TokenETH
  * @in  param : contextID - context ID
  *          : tokenName - ETH token name
  *          : unitDP - unit decimal place
  *          : contractAddress - contract address
- *          : tokenTo - token to
- *          : tokenValue - value for token transaction
- * @out param : abi
+ * @out param : none.
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
+JUB_RV JUB_SetERC20TokenETH(IN JUB_UINT16 contextID,
                             IN JUB_CHAR_CPTR tokenName,
                             IN JUB_UINT16 unitDP,
-                            IN JUB_CHAR_CPTR contractAddress,
-                            IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
-                            OUT JUB_CHAR_PTR_PTR abi);
+                            IN JUB_CHAR_CPTR contractAddress);
 
 
 /*****************************************************************************
- * @function name : JUB_BuildERC721AbiETH
+ * @function name : JUB_BuildERC20TransferAbiETH
+ * @in  param : contextID - context ID
+ *          : tokenTo - token to
+ *          : tokenValue - value for token transaction
+ * @out param : ERC20 abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildERC20TransferAbiETH(IN JUB_UINT16 contextID,
+                                    IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
+                                    OUT JUB_CHAR_PTR_PTR abi);
+
+
+/*****************************************************************************
+ * @function name : JUB_SetERC721TokenETH
  * @in  param : contextID - context ID
  *          : nfTokenName - ERC-721 Non-Fungible Token Name
  *          : contractAddress - ERC-721 Non-Fungible Token contract address
+ * @out param : none,
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetERC721TokenETH(IN JUB_UINT16 contextID,
+                             IN JUB_CHAR_CPTR nfTokenName,
+                             IN JUB_CHAR_CPTR contractAddress);
+
+
+/*****************************************************************************
+ * @function name : JUB_BuildERC721TransferAbiETH
+ * @in  param : contextID - context ID
  *          : tokenFrom - The current owner of the NFT
  *          : tokenTo - The new owner
  *          : tokenID - The NFT to transfer
@@ -197,11 +219,9 @@ JUB_RV JUB_BuildERC20AbiETH(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_BuildERC721AbiETH(IN JUB_UINT16 contextID,
-                             IN JUB_CHAR_CPTR nfTokenName,
-                             IN JUB_CHAR_CPTR contractAddress,
-                             IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenID,
-                             OUT JUB_CHAR_PTR_PTR abi);
+JUB_RV JUB_BuildERC721TransferAbiETH(IN JUB_UINT16 contextID,
+                                     IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenID,
+                                     OUT JUB_CHAR_PTR_PTR abi);
 
 
 #ifdef __cplusplus

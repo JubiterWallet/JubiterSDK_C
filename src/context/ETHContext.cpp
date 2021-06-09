@@ -289,7 +289,7 @@ JUB_RV ETHContext::SignContract(const BIP44_Path& path,
 }
 
 
-JUB_RV ETHContext::BuildERC20Abi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
+JUB_RV ETHContext::BuildERC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
 
     CONTEXT_CHECK_TYPE_NONE
     std::vector<JUB_BYTE> vTo = jub::ETHHexStr2CharPtr(to);
@@ -325,7 +325,7 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
 }
 
 
-JUB_RV ETHContext::BuildERC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
+JUB_RV ETHContext::BuildERC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
 
     CONTEXT_CHECK_TYPE_NONE
 

@@ -302,16 +302,23 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
         contractAddress   = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["contract_address"].asCString();
         string tokenName  = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["tokenName"].asCString();
         JUB_UINT16 unitDP = root["TRX"]["TRC20"]["dp"].asUInt64();
-        string tokenTo    = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["token_to"].asCString();
-        string tokenValue = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["token_value"].asCString();
 
-        rv = JUB_BuildTRC20Abi(contextID,
+        rv = JUB_SetTRC20Token(contextID,
                                tokenName.c_str(),
                                unitDP,
-                               contractAddress.c_str(),
-                               tokenTo.c_str(), tokenValue.c_str(),
-                               &trcAbi);
-        cout << "[-] JUB_BuildTRC20Abi() return " << GetErrMsg(rv) << endl;
+                               contractAddress.c_str());
+        cout << "[-] JUB_SetTRC20Token() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return rv;
+        }
+        cout << endl;
+
+        string tokenTo    = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["token_to"].asCString();
+        string tokenValue = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["token_value"].asCString();
+        rv = JUB_BuildTRC20TransferAbi(contextID,
+                                       tokenTo.c_str(), tokenValue.c_str(),
+                                       &trcAbi);
+        cout << "[-] JUB_BuildTRC20TransferAbi() return " << GetErrMsg(rv) << endl;
         cout << "TRC-20  [" << strlen(trcAbi)/2 << "]: " << trcAbi << std::endl;
         break;
     }
@@ -319,16 +326,22 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
     {
         contractAddress   = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["contract_address"].asCString();
         string tokenName  = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["tokenName"].asCString();
+        rv = JUB_SetTRC721Token(contextID,
+                               tokenName.c_str(),
+                               contractAddress.c_str());
+        cout << "[-] JUB_SetTRC721Token() return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK != rv) {
+            return rv;
+        }
+        cout << endl;
+
         string tokenFrom  = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["token_from"].asCString();
         string tokenTo    = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["token_to"].asCString();
         string tokenID    = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["tokenID"].asCString();
-
-        rv = JUB_BuildTRC721Abi(contextID,
-                               tokenName.c_str(),
-                               contractAddress.c_str(),
-                               tokenFrom.c_str(), tokenTo.c_str(), tokenID.c_str(),
-                               &trcAbi);
-        cout << "[-] JUB_BuildTRC721Abi() return " << GetErrMsg(rv) << endl;
+        rv = JUB_BuildTRC721TransferAbi(contextID,
+                                        tokenFrom.c_str(), tokenTo.c_str(), tokenID.c_str(),
+                                        &trcAbi);
+        cout << "[-] JUB_BuildTRC721TransferAbi() return " << GetErrMsg(rv) << endl;
         cout << "TRC-721 [" << strlen(trcAbi)/2 << "]: " << trcAbi << std::endl;
         break;
     }

@@ -233,7 +233,7 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
 }
 
 
-JUB_RV TRXContext::BuildTRC20Abi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
+JUB_RV TRXContext::BuildTRC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
 
     CONTEXT_CHECK_TYPE_NONE
     TW::Tron::Address toAddr(to);
@@ -271,7 +271,7 @@ JUB_RV TRXContext::SetTRC20Token(JUB_CHAR_CPTR pTokenName,
 }
 
 
-JUB_RV TRXContext::BuildTRC721Abi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
+JUB_RV TRXContext::BuildTRC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
 
     CONTEXT_CHECK_TYPE_NONE
 
