@@ -16,7 +16,7 @@
 
 #include "JUB_SDK_test_usdt.hpp"
 
-void BTC_test(JUB_UINT16 deviceID, const char* json_file, JUB_ENUM_COINTYPE_BTC coinType);
+void BTC_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file, JUB_ENUM_COINTYPE_BTC coinType);
 
 void  get_address_test(JUB_UINT16 contextID, Json::Value root);
 void show_address_test(JUB_UINT16 contextID);

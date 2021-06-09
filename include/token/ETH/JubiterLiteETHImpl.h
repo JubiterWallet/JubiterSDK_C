@@ -38,6 +38,8 @@ public:
                             const std::string& path,
                             const std::vector<JUB_BYTE>& vSigedTrans) override;
 
+    virtual JUB_RV SetERC20ETHTokens(const ERC20_TOKEN_INFO tokens[],
+                                     const JUB_UINT16 iCount) override;
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress) override;

@@ -181,6 +181,12 @@ JUB_RV JubiterLiteETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 }
 
 
+JUB_RV JubiterLiteETHImpl::SetERC20ETHTokens(const ERC20_TOKEN_INFO tokens[], const JUB_UINT16 iCount) {
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterLiteETHImpl::SetERC20ETHToken(const std::string& tokenName, const JUB_UINT16 unitDP, const std::string& contractAddress) {
 
     return JUBR_OK;

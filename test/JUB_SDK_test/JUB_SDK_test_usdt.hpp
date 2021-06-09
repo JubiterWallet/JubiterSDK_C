@@ -14,7 +14,7 @@
 
 #include "../../include/JUB_SDK_BTC.h"
 
-void USDT_test(JUB_UINT16 deviceID, const char* json_file);
+void USDT_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file);
 
 void   transactionUSDT_test(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root);

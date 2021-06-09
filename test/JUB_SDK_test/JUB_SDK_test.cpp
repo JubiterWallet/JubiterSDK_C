@@ -21,7 +21,7 @@
 
 #include "JUB_SDK_main.h"
 
-void USDT_test(JUB_UINT16 deviceID, const char* json_file);
+void USDT_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file);
 
 using std::getline;
 using std::istringstream;
@@ -48,7 +48,7 @@ void getVersion(JUB_UINT16 deviceID) {
     cout << endl << endl;
 
     cout << "[-------------------------------- Applet Version -------------------------------]" << endl;
-    char* appList;
+    JUB_CHAR_PTR appList;
     rv = JUB_EnumApplets(deviceID, &appList);
     cout << "[-] JUB_EnumApplets() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -60,7 +60,7 @@ void getVersion(JUB_UINT16 deviceID) {
     auto vAppList = split(appletList, ' ');
     for (auto appID : vAppList) {
         JUB_VERSION version;
-        auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
+        auto rv = JUB_GetAppletVersion(deviceID, (JUB_CHAR_PTR)appID.c_str(), &version);
         cout << "[-] JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             break;
@@ -129,9 +129,14 @@ try {
     }
     case 3:
     case 31:
+    case 32:
     {
         commode = JUB_ENUM_COMMODE::SIM;
-        rv = JUB_ListDeviceSIM("ip_bridge.info", (JUB_ENUM_DEVICE)choice, deviceIDs);
+        JUB_ENUM_DEVICE prod = (JUB_ENUM_DEVICE)(choice-29);
+        if (3 == choice) {
+            prod = JUB_ENUM_DEVICE::BLADE;
+        }
+        rv = JUB_ListDeviceSIM("ip_bridge.info", prod, deviceIDs);
         cout << "JUB_ListDeviceSIM() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;
@@ -149,9 +154,9 @@ try {
         commode = JUB_ENUM_COMMODE::SIM;
         LITE_DEVICE_INIT_PARAM param;
         Json::Value root = readJSON("settings/42584E46433230303532353030303031_apk.settings");
-        param.crt = (char*)root["SCP11c"]["OCE"][1][0].asCString();
-        param.sk  = (char*)root["SCP11c"]["OCE"][1][2].asCString();
-        param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
+        param.crt = (JUB_CHAR_PTR)root["SCP11c"]["OCE"][1][0].asCString();
+        param.sk  = (JUB_CHAR_PTR)root["SCP11c"]["OCE"][1][2].asCString();
+        param.hostID = (JUB_CHAR_PTR)root["SCP11c"]["HostID"].asCString();
         param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
 
         rv = JUB_ListLiteSIM("ip_bridge.info", (JUB_ENUM_DEVICE)choice, param, deviceIDs);
@@ -197,28 +202,36 @@ try {
         cout << "|   1. get_device_info_test               |" << endl;
         cout << "|  11.     device_fgpt_test               |" << endl;
         cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
         }
         cout << "|   2.   LTC_test.                        |" << endl;
         cout << "|   5.  DASH_test.                        |" << endl;
-        cout << "|  30.   BTCTN_test.                      |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|  30. BTCTN_test.                        |" << endl;
         cout << "|  31.   BTC_test.                        |" << endl;
         cout << "|  32.   BTC_segwit_test.                 |" << endl;
-        cout << "|  33.   BTC_segwitTN_test.               |" << endl;
-        cout << "|  39.   BTC_USDT_test.                   |" << endl;
+        cout << "|  33. BTC_segwitTN_test.                 |" << endl;
+        cout << "|  39.     BTC_USDT_test.                 |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|  88.  QTUM_QRC20_test.                  |" << endl;
         cout << "|2301.  QTUM_test.                        |" << endl;
         cout << "| 145.   BCH_test.                        |" << endl;
         cout << "| 171. Hcash_test.                        |" << endl;
         cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|  60.   ETH_test & ETC_test.             |" << endl;
+        cout << "|  61.   ETH_Uniswap_test.                |" << endl;
         cout << "| 461.   FIL_test.                        |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "| 144.   XRP_test.                        |" << endl;
         cout << "| 194.   EOS_test.                        |" << endl;
         cout << "| 195.   TRX_test.                        |" << endl;
         cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|  98.  send_apdu_test.                   |" << endl;
         cout << "|  99.  get_version.                      |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|   0.  exit.                             |" << endl;
         cout << "-------------------------------------------" << endl;
@@ -282,12 +295,16 @@ try {
             BTC_test(deviceID, json_file.c_str(), COINBCH);
             break;
         case 171:
-            json_file += "testHCash.json";
+            json_file += "testHcash.json";
             HC_test(deviceID, json_file.c_str());
             break;
 
         case 60:
             json_file += "testETH.json";
+            ETH_test(deviceID, json_file.c_str());
+            break;
+        case 61:
+            json_file += "testETH_Uniswap.json";
             ETH_test(deviceID, json_file.c_str());
             break;
         case 461:

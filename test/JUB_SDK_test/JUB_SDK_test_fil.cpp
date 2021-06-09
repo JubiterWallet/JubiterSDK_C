@@ -14,7 +14,7 @@
 #include <time.h>
 
 
-void FIL_test(JUB_UINT16 deviceID, const char* json_file) {
+void FIL_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -26,7 +26,7 @@ void FIL_test(JUB_UINT16 deviceID, const char* json_file) {
     JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_FIL cfg;
-    cfg.mainPath = (char*)root["main_path"].asCString();
+    cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
     rv = JUB_CreateContextFIL(cfg, deviceID, &contextID);
     cout << "[-] JUB_CreateContextFIL() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -183,12 +183,12 @@ JUB_RV transaction_proc_FIL(JUB_UINT16 contextID, Json::Value root) {
     //FIL Test
     JUB_UINT64 nonce = root["FIL"]["nonce"].asUInt();//.asDouble();
     JUB_UINT64 gasLimit = root["FIL"]["gasLimit"].asUInt();//.asDouble();
-    char* gasFeeCapInAtto  = (char*)root["FIL"]["gasFeeCapInAtto"].asCString();
-    char* gasPremiumInAtto = (char*)root["FIL"]["gasPremiumInAtto"].asCString();
-    char* valueInAtto = (char*)root["FIL"]["valueInAtto"].asCString();
-    char* to = (char*)root["FIL"]["to"].asCString();
+    JUB_CHAR_PTR gasFeeCapInAtto  = (JUB_CHAR_PTR)root["FIL"]["gasFeeCapInAtto"].asCString();
+    JUB_CHAR_PTR gasPremiumInAtto = (JUB_CHAR_PTR)root["FIL"]["gasPremiumInAtto"].asCString();
+    JUB_CHAR_PTR valueInAtto = (JUB_CHAR_PTR)root["FIL"]["valueInAtto"].asCString();
+    JUB_CHAR_PTR to = (JUB_CHAR_PTR)root["FIL"]["to"].asCString();
 
-    char* raw = nullptr;
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionFIL(contextID,
                                 path,
                                 nonce,

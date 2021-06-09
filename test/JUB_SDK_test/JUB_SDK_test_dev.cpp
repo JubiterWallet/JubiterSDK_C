@@ -64,7 +64,7 @@ void get_device_info_test(JUB_UINT16 deviceID) {
     cout << "    device bleVersion :" << bleVersion << endl;
     cout << "    device fwVersion :" << fwVersion << endl;
 
-    char* coinList;
+    JUB_CHAR_PTR coinList;
     rv = JUB_EnumSupportCoins(deviceID, &coinList);
     cout << "[-] JUB_EnumSupportCoins() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -75,7 +75,7 @@ void get_device_info_test(JUB_UINT16 deviceID) {
     JUB_FreeMemory(coinList);
     cout << endl;
 
-    char* cert;
+    JUB_CHAR_PTR cert;
     rv = JUB_GetDeviceCert(deviceID, &cert);
     cout << "[-] JUB_GetDeviceCert() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -83,8 +83,8 @@ void get_device_info_test(JUB_UINT16 deviceID) {
     }
     cout << "    device cert is :" << cert << endl << endl;;
 
-    char* sn;
-    char* subjectID;
+    JUB_CHAR_PTR sn;
+    JUB_CHAR_PTR subjectID;
     rv = JUB_ParseDeviceCert(cert, &sn, &subjectID);
     cout << "[-] JUB_ParseDeviceCert() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -187,7 +187,7 @@ void send_apdu_test(JUB_UINT16 deviceID) {
     char apdu[4096+6] = {0,};
     cin >> apdu;
 
-    char* response = nullptr;
+    JUB_CHAR_PTR response = nullptr;
     rv = JUB_SendOneApdu(deviceID, apdu, &response);
     cout << "[-] JUB_SendOneApdu() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {

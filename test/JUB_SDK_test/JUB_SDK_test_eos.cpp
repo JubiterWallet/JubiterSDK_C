@@ -14,7 +14,7 @@
 #include <time.h>
 
 
-void EOS_test(JUB_UINT16 deviceID, const char* json_file) {
+void EOS_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -26,7 +26,7 @@ void EOS_test(JUB_UINT16 deviceID, const char* json_file) {
     JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_EOS cfg;
-    cfg.mainPath = (char*)root["main_path"].asCString();
+    cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
     rv = JUB_CreateContextEOS(cfg, deviceID, &contextID);
     cout << "[-] JUB_CreateContextEOS() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -227,16 +227,16 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
         JUB_ACTION_EOS action;
 
         action.type = (JUB_ENUM_EOS_ACTION_TYPE)(*it)["type"].asUInt();
-        action.currency = (char*)(*it)["currency"].asCString();
-        action.name     = (char*)(*it)["name"].asCString();
+        action.currency = (JUB_CHAR_PTR)(*it)["currency"].asCString();
+        action.name     = (JUB_CHAR_PTR)(*it)["name"].asCString();
 
         std::string sType = std::to_string((unsigned int)action.type);
         switch (action.type) {
         case JUB_ENUM_EOS_ACTION_TYPE::XFER:
-            action.transfer.from  = (char*)(*it)[sType]["from"].asCString();
-            action.transfer.to    = (char*)(*it)[sType]["to"].asCString();
-            action.transfer.asset = (char*)(*it)[sType]["asset"].asCString();
-            action.transfer.memo  = (char*)(*it)[sType]["memo"].asCString();
+            action.transfer.from  = (JUB_CHAR_PTR)(*it)[sType]["from"].asCString();
+            action.transfer.to    = (JUB_CHAR_PTR)(*it)[sType]["to"].asCString();
+            action.transfer.asset = (JUB_CHAR_PTR)(*it)[sType]["asset"].asCString();
+            action.transfer.memo  = (JUB_CHAR_PTR)(*it)[sType]["memo"].asCString();
 
             JUB_CHAR_PTR memoHash;
             rv = JUB_CalculateMemoHash(action.transfer.memo, &memoHash);
@@ -246,29 +246,29 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
             }
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::DELE:
-            action.delegate.from     = (char*)(*it)[sType]["from"].asCString();
-            action.delegate.receiver = (char*)(*it)[sType]["receiver"].asCString();
-            action.delegate.netQty   = (char*)(*it)[sType]["stake_net_quantity"].asCString();
-            action.delegate.cpuQty   = (char*)(*it)[sType]["stake_cpu_quantity"].asCString();
+            action.delegate.from     = (JUB_CHAR_PTR)(*it)[sType]["from"].asCString();
+            action.delegate.receiver = (JUB_CHAR_PTR)(*it)[sType]["receiver"].asCString();
+            action.delegate.netQty   = (JUB_CHAR_PTR)(*it)[sType]["stake_net_quantity"].asCString();
+            action.delegate.cpuQty   = (JUB_CHAR_PTR)(*it)[sType]["stake_cpu_quantity"].asCString();
             action.delegate.transfer = (*it)[sType]["transfer"].asBool();
             action.delegate.bStake = true;
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::UNDELE:
-            action.delegate.from     = (char*)(*it)[sType]["from"].asCString();
-            action.delegate.receiver = (char*)(*it)[sType]["receiver"].asCString();
-            action.delegate.netQty   = (char*)(*it)[sType]["unstake_net_quantity"].asCString();
-            action.delegate.cpuQty   = (char*)(*it)[sType]["unstake_cpu_quantity"].asCString();
+            action.delegate.from     = (JUB_CHAR_PTR)(*it)[sType]["from"].asCString();
+            action.delegate.receiver = (JUB_CHAR_PTR)(*it)[sType]["receiver"].asCString();
+            action.delegate.netQty   = (JUB_CHAR_PTR)(*it)[sType]["unstake_net_quantity"].asCString();
+            action.delegate.cpuQty   = (JUB_CHAR_PTR)(*it)[sType]["unstake_cpu_quantity"].asCString();
             action.delegate.transfer = (*it)[sType]["transfer"].asBool();
             action.delegate.bStake = false;
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::BUYRAM:
-            action.buyRam.payer    = (char*)(*it)[sType]["payer"].asCString();
-            action.buyRam.quant    = (char*)(*it)[sType]["quant"].asCString();
-            action.buyRam.receiver = (char*)(*it)[sType]["receiver"].asCString();
+            action.buyRam.payer    = (JUB_CHAR_PTR)(*it)[sType]["payer"].asCString();
+            action.buyRam.quant    = (JUB_CHAR_PTR)(*it)[sType]["quant"].asCString();
+            action.buyRam.receiver = (JUB_CHAR_PTR)(*it)[sType]["receiver"].asCString();
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::SELLRAM:
-            action.sellRam.account = (char*)(*it)[sType]["account"].asCString();
-            action.sellRam.bytes   = (char*)(*it)[sType]["bytes"].asCString();
+            action.sellRam.account = (JUB_CHAR_PTR)(*it)[sType]["account"].asCString();
+            action.sellRam.bytes   = (JUB_CHAR_PTR)(*it)[sType]["bytes"].asCString();
             break;
         case JUB_ENUM_EOS_ACTION_TYPE::NS_ITEM_EOS_ACTION_TYPE:
         default:
@@ -296,11 +296,11 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
         return rv;
     }
     std::cout << "    Action is " << actionsInJSON << std::endl;
-    char* chainID    = (char*)root["EOS"]["chainID"].asCString();
-    char* expiration = (char*)root["EOS"]["expiration"].asCString();
-    char* referenceBlockId = (char*)root["EOS"]["referenceBlockId"].asCString();
+    JUB_CHAR_PTR chainID    = (JUB_CHAR_PTR)root["EOS"]["chainID"].asCString();
+    JUB_CHAR_PTR expiration = (JUB_CHAR_PTR)root["EOS"]["expiration"].asCString();
+    JUB_CHAR_PTR referenceBlockId = (JUB_CHAR_PTR)root["EOS"]["referenceBlockId"].asCString();
 
-    char* refBlockT = (char*)root["EOS"]["referenceBlockTime"].asCString();
+    JUB_CHAR_PTR refBlockT = (JUB_CHAR_PTR)root["EOS"]["referenceBlockTime"].asCString();
     int yy, month, dd, hh, mm, ss;
     sscanf(refBlockT, "%d-%d-%d %d:%d:%d",
            &yy, &month, &dd,
@@ -317,7 +317,7 @@ JUB_RV transaction_proc_EOS(JUB_UINT16 contextID, Json::Value root, int choice) 
 
     time_t localTime;
     tRefblocktime += localtime(&localTime)->tm_gmtoff;
-    char* referenceBlockTime = (char*)std::to_string(tRefblocktime).c_str();
+    JUB_CHAR_PTR referenceBlockTime = (JUB_CHAR_PTR)std::to_string(tRefblocktime).c_str();
 
     JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionEOS(contextID,

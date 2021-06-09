@@ -48,6 +48,8 @@ public:
     virtual JUB_RV ChangePIN(const std::string &pinMix, const std::string &pinNew) = 0;
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) = 0;
 
+    virtual JUB_RV SetERC20Tokens(const ERC20_TOKEN_INFO tokens[],
+                                  const JUB_UINT16 iCount) = 0;
     virtual JUB_RV SetERC20Token(JUB_CHAR_CPTR tokenName,
                                  JUB_UINT16 unitDP,
                                  JUB_CHAR_CPTR contractAddress) = 0;

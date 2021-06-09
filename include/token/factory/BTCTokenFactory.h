@@ -115,10 +115,10 @@ public:
 
 class xBTCTokenFactory {
 protected:
-    xTrezorCryptoBTCFactory     trezorFactory;
-    xJuBiterBladeBTCFactory jubiterBLDFactory;
-    xJuBiterBIOBTCFactory   jubiterBIOFactory;
-    xJuBiterLiteBTCFactory jubiterLITEFactory;
+    xTrezorCryptoBTCFactory      trezorFactory;
+    xJuBiterBladeBTCFactory  jubiterBLDFactory;
+      xJuBiterBIOBTCFactory  jubiterBIOFactory;
+     xJuBiterLiteBTCFactory jubiterLITEFactory;
 
 public:
     std::shared_ptr<BaseToken> CreateToken(const JUB_ENUM_COINTYPE_BTC& type, const JUB_UINT16 deviceID) {

@@ -1010,6 +1010,8 @@
 		7731ABB2267386B300C23EEC /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7731ABAE267386B200C23EEC /* ContractAbi.cpp */; };
 		7731ABE52673922000C23EEC /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67ECD14E23CD74C400B7D514 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7731ABE82673925B00C23EEC /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7731ABE72673925B00C23EEC /* libprotobuf.a */; };
+		778009342689D64100B90059 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778009332689D64100B90059 /* JubiterBIOETHImpl.cpp */; };
+		778009352689D64100B90059 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778009332689D64100B90059 /* JubiterBIOETHImpl.cpp */; };
 		7781059C25F9C3FB0014C1EE /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E25B352591F9790040A913 /* uint256.h */; };
 		7788F7582654E03E00F9F8D8 /* JUB_SDK_DEV_SWI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7788F7572654E03E00F9F8D8 /* JUB_SDK_DEV_SWI.h */; };
 		7788F7592654E03E00F9F8D8 /* JUB_SDK_DEV_SWI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7788F7572654E03E00F9F8D8 /* JUB_SDK_DEV_SWI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1559,6 +1561,7 @@
 		7731ABAD267386B100C23EEC /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7731ABAE267386B200C23EEC /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
 		7731ABE72673925B00C23EEC /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
+		778009332689D64100B90059 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
 		7788F7572654E03E00F9F8D8 /* JUB_SDK_DEV_SWI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DEV_SWI.h; path = ../../include/JUB_SDK_DEV_SWI.h; sourceTree = "<group>"; };
 		7788F75A2654E05800F9F8D8 /* JUB_SDK_DEV_SWI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV_SWI.cpp; path = ../../src/JUB_SDK_DEV_SWI.cpp; sourceTree = "<group>"; };
 		7788F7602654E0A600F9F8D8 /* JubiterSWIDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterSWIDevice.cpp; path = ../../src/device/JubiterSWIDevice.cpp; sourceTree = "<group>"; };
@@ -1723,6 +1726,7 @@
 			children = (
 				328D10BA240B928300AB723D /* JubiterBaseETHImpl.cpp */,
 				674621F823C31DDC0096DDA2 /* JubiterBladeETHImpl.cpp */,
+				778009332689D64100B90059 /* JubiterBIOETHImpl.cpp */,
 				679DA9822577B42E00B08471 /* JubiterLiteETHImpl.cpp */,
 				674621F723C31DDC0096DDA2 /* TrezorCryptoETHImpl.cpp */,
 			);
@@ -3449,6 +3453,7 @@
 				67E0DEF6250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */,
 				32E84E49240B95CE003311B5 /* JubiterBaseEOSImpl.cpp in Sources */,
 				67E0DF91250F773900D42EF0 /* JUB_SDK_TRX.cpp in Sources */,
+				778009352689D64100B90059 /* JubiterBIOETHImpl.cpp in Sources */,
 				677A186823F27059003FA636 /* JubiterBaseHCImpl.cpp in Sources */,
 				67CE945A24C989B500AE59B4 /* JUB_SDK_DEV_BIO.cpp in Sources */,
 				67E0DF23250F6CE600D42EF0 /* Signer.cpp in Sources */,
@@ -3669,6 +3674,7 @@
 				67A4BDD32330A9F90059A3DB /* curves.c in Sources */,
 				67E0DF90250F773900D42EF0 /* JUB_SDK_TRX.cpp in Sources */,
 				67CE945924C989B500AE59B4 /* JUB_SDK_DEV_BIO.cpp in Sources */,
+				778009342689D64100B90059 /* JubiterBIOETHImpl.cpp in Sources */,
 				674F19B723A105F2001702DD /* ed25519-keccak.c in Sources */,
 				67E0DF22250F6CE600D42EF0 /* Signer.cpp in Sources */,
 				674621DB23C31D820096DDA2 /* HCContext.cpp in Sources */,

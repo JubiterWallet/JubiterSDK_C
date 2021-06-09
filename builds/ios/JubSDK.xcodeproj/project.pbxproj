@@ -727,6 +727,8 @@
 		7731ABD526738A1400C23EEC /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7731ABD326738A1400C23EEC /* JubiterBIOEOSImpl.cpp */; };
 		7731ABD726738A8C00C23EEC /* xManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7731ABD626738A8C00C23EEC /* xManager.hpp */; };
 		7731ABD926738AA000C23EEC /* mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7731ABD826738AA000C23EEC /* mutex.h */; };
+		778009372689D70F00B90059 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778009362689D70E00B90059 /* JubiterBIOETHImpl.cpp */; };
+		778009382689D70F00B90059 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778009362689D70E00B90059 /* JubiterBIOETHImpl.cpp */; };
 		77B1C502265FB8250093E7A9 /* JUB_SDK_DEV_SWI.h in Headers */ = {isa = PBXBuildFile; fileRef = 77B1C501265FB8250093E7A9 /* JUB_SDK_DEV_SWI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -1261,6 +1263,7 @@
 		7731ABD326738A1400C23EEC /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
 		7731ABD626738A8C00C23EEC /* xManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = xManager.hpp; path = ../../include/utility/xManager.hpp; sourceTree = "<group>"; };
 		7731ABD826738AA000C23EEC /* mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mutex.h; path = ../../include/utility/mutex.h; sourceTree = "<group>"; };
+		778009362689D70E00B90059 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
 		77B1C501265FB8250093E7A9 /* JUB_SDK_DEV_SWI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DEV_SWI.h; path = ../../include/JUB_SDK_DEV_SWI.h; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1940,6 +1943,7 @@
 			isa = PBXGroup;
 			children = (
 				675B05402428698C004C62D4 /* JubiterBaseETHImpl.cpp */,
+				778009362689D70E00B90059 /* JubiterBIOETHImpl.cpp */,
 				6746217023C31A0D0096DDA2 /* JubiterBladeETHImpl.cpp */,
 				675B053F2428698C004C62D4 /* JubiterLiteETHImpl.cpp */,
 				6746216F23C31A0D0096DDA2 /* TrezorCryptoETHImpl.cpp */,
@@ -3027,6 +3031,7 @@
 				6718A38123A3391100F8A5CD /* curve25519-donna-32bit.c in Sources */,
 				67755DAC253F10B70056F2C0 /* TransactionRaw.cpp in Sources */,
 				67E0DE21250F18E000D42EF0 /* comm.cpp in Sources */,
+				778009382689D70F00B90059 /* JubiterBIOETHImpl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3230,6 +3235,7 @@
 				675B054A242869C0004C62D4 /* JubiterLiteImpl.cpp in Sources */,
 				675B055E24286B30004C62D4 /* TWData.cpp in Sources */,
 				772FB7942664B7F600DA6C3D /* JubiterSWIDevice.cpp in Sources */,
+				778009372689D70F00B90059 /* JubiterBIOETHImpl.cpp in Sources */,
 				675B053724286909004C62D4 /* TrezorCryptoQTUMImpl.cpp in Sources */,
 				675B0546242869AB004C62D4 /* JubiterBaseHCImpl.cpp in Sources */,
 				6713A86923A07C090083A34D /* Signer.cpp in Sources */,

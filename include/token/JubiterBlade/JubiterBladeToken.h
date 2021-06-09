@@ -95,6 +95,8 @@ public:
 
     virtual JUB_RV SetTimeout(const JUB_UINT16 timeout) override;
 
+    virtual JUB_RV SetERC20Tokens(const ERC20_TOKEN_INFO tokens[],
+                                  const JUB_UINT16 iCount) override;
     virtual JUB_RV SetERC20Token(JUB_CHAR_CPTR tokenName,
                                  JUB_UINT16 unitDP,
                                  JUB_CHAR_CPTR contractAddress) override;
@@ -168,6 +170,7 @@ protected:
 
     // ERC20 token extension apdu
     const std::string  ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("01040109");
+    const std::string  ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS= std::string("01080000");
     // TRC20 token extension apdu
     const std::string MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("01010005");
 }; // class JubiterBladeToken end

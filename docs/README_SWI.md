@@ -31,8 +31,8 @@ JUB_RV JUB_DisconnetDeviceSWI(
 );
 ```
 
-### JUB_ImportMasterPrivateKey
-* **Function:** Import master xprv or xpub to the software interface.
+### JUB_BuildFromMasterPrivateKey
+* **Function:** Build SWI device from master xprv or xpub.
 * **IN param:**
 deviceID - device ID.
 curve - JUB_ENUM_CURVES::SECP256K1/NIST256P1/ED25519
@@ -41,15 +41,15 @@ masterPrivateKey - master xprv or xpub.
 prikeyInXPRV - private key in xprv format.
 * **Return:** JUB_OK or !JUB_OK for error.
 ```
-JUB_RV JUB_ImportMasterPrivateKey(
+JUB_RV JUB_BuildFromMasterPrivateKey(
     IN JUB_UINT16 deviceID,
     IN JUB_ENUM_CURVES curve,
     IN JUB_CHAR_CPTR masterPrivateKey
 );
 ```
 
-### JUB_ImportMnemonic
-* **Function:** Import mnemonic to the software interface
+### JUB_BuildFromMnemonic
+* **Function:** Build SWI device from mnemonic.
 * **IN param:**
 deviceID - device ID.
 passphrase - passphrase.
@@ -58,7 +58,7 @@ mnemonic - mnemonic.
 contextID - context ID for the specific coin.
 * **Return:** JUB_OK or !JUB_OK for error.
 ```
-JUB_RV JUB_ImportMnemonic(
+JUB_RV JUB_BuildFromMnemonic(
     IN JUB_UINT16 deviceID,
     IN JUB_CHAR_CPTR passphrase,
     IN JUB_CHAR_CPTR mnemonic

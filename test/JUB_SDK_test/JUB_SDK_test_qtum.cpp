@@ -40,7 +40,7 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
     for (int i = 0; i < inputNumber; i++) {
         INPUT_BTC input;
         input.type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
-        input.preHash = (char*)root["inputs"][i]["preHash"].asCString();
+        input.preHash = (JUB_CHAR_PTR)root["inputs"][i]["preHash"].asCString();
         input.preIndex = root["inputs"][i]["preIndex"].asInt();
         input.path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
         input.path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
@@ -53,7 +53,7 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
     for (int i = 0; i < outputNumber; i++) {
         OUTPUT_BTC output;
         output.type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
-        output.stdOutput.address = (char*)root["outputs"][i]["address"].asCString();
+        output.stdOutput.address = (JUB_CHAR_PTR)root["outputs"][i]["address"].asCString();
         output.stdOutput.amount = root["outputs"][i]["amount"].asUInt64();
         output.stdOutput.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
         if (output.stdOutput.changeAddress) {
@@ -64,13 +64,13 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
     }
 
     OUTPUT_BTC QRC20_output;
-    JUB_CHAR_CPTR contractAddress = (char*)root["QRC20_contractAddr"].asCString();
+    JUB_CHAR_CPTR contractAddress = (JUB_CHAR_PTR)root["QRC20_contractAddr"].asCString();
     JUB_UINT8 decimal = root["QRC20_decimal"].asUInt64();
-    JUB_CHAR_CPTR symbol = (char*)root["QRC20_symbol"].asCString();
+    JUB_CHAR_CPTR symbol = (JUB_CHAR_PTR)root["QRC20_symbol"].asCString();
     JUB_UINT64 gasLimit = root["gasLimit"].asUInt64();
     JUB_UINT64 gasPrice = root["gasPrice"].asUInt64();
-    JUB_CHAR_CPTR to = (char*)root["QRC20_to"].asCString();
-    JUB_CHAR_CPTR value = (char*)root["QRC20_amount"].asCString();
+    JUB_CHAR_CPTR to = (JUB_CHAR_PTR)root["QRC20_to"].asCString();
+    JUB_CHAR_CPTR value = (JUB_CHAR_PTR)root["QRC20_amount"].asCString();
     rv = JUB_BuildQRC20Outputs(contextID,
                                contractAddress, decimal, symbol,
                                gasLimit, gasPrice,
@@ -82,7 +82,7 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
     }
     outputs.emplace_back(QRC20_output);
 
-    char* raw = nullptr;
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
     cout << "[-] JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 
@@ -104,7 +104,7 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
     return rv;
 }
 
-void QTUM_test(JUB_UINT16 deviceID, const char* json_file) {
+void QTUM_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -116,7 +116,7 @@ void QTUM_test(JUB_UINT16 deviceID, const char* json_file) {
     JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_BTC cfg;
-    cfg.mainPath = (char*)root["main_path"].asCString();
+    cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
     cfg.coinType = COINQTUM;
     cfg.transType = p2pkh;
 
@@ -130,10 +130,10 @@ void QTUM_test(JUB_UINT16 deviceID, const char* json_file) {
     while (true) {
         cout << "--------------------------------------" << endl;
         cout << "|******* Jubiter Wallet QTUM ********|" << endl;
-        cout << "| 1. get_address_test.               |" << endl;
-        cout << "| 2. show_address_test.              |" << endl;
+        cout << "| 1.    get_address_test.            |" << endl;
+        cout << "| 2.   show_address_test.            |" << endl;
         cout << "|                                    |" << endl;
-        cout << "| 3. transaction_test.               |" << endl;
+        cout << "| 3.    transaction_test.            |" << endl;
         cout << "|                                    |" << endl;
         cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;

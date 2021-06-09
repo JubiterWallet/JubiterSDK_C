@@ -270,6 +270,29 @@ JUB_RV JUB_SignBytestringETH(IN JUB_UINT16 contextID,
 
 
 /*****************************************************************************
+ * @function name : JUB_SetERC20TokensETH
+ * @in  param : contextID - context ID
+ *          : tokens - token info list
+ *          : iCount - token info count
+ * @out param : ERC20 abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetERC20TokensETH(IN JUB_UINT16 contextID,
+                             IN ERC20_TOKEN_INFO tokens[],
+                             IN JUB_UINT16 iCount) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    JUB_VERIFY_RV(context->SetERC20ETHTokens(tokens, iCount));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
  * @function name : JUB_SetERC20TokenETH
  * @in  param : contextID - context ID
  *          : tokenName - ETH token name
