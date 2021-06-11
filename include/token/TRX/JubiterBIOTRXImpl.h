@@ -13,17 +13,18 @@ class JubiterBIOTRXImpl :
 virtual public JubiterBladeTRXImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBIOTRXImpl>(deviceID);
     }
 
 public:
-    JubiterBIOTRXImpl(JUB_UINT16 deviceID) :
+    JubiterBIOTRXImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeTRXImpl(deviceID) {}
     virtual ~JubiterBIOTRXImpl() = default;
 
     virtual JUB_RV SelectApplet() override;
+
     virtual JUB_RV SetTRC20Token(const std::string& tokenName,
                                  const JUB_UINT16 unitDP,
                                  const std::string& contractAddress) override;

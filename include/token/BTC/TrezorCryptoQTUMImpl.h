@@ -27,8 +27,8 @@ public:
 
 	//QTUM functions
 	virtual JUB_RV SetQRC20ETHToken(const std::string& tokenName,
-		const JUB_UINT16 unitDP,
-		const std::string& contractAddress) override;
+                                    const JUB_UINT16 unitDP,
+                                    const std::string& contractAddress) override;
 }; // class TrezorCryptoQTUMImpl end
 
 

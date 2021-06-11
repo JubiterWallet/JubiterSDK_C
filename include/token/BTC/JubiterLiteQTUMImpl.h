@@ -14,12 +14,12 @@ class JubiterLiteQTUMImpl :
 virtual public QTUMTokenInterface {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterLiteQTUMImpl>(deviceID);
     }
 
 public:
-    JubiterLiteQTUMImpl(JUB_UINT16 deviceID) :
+    JubiterLiteQTUMImpl(const JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {
             _coin = TWCoinType::TWCoinTypeQtum;
     }

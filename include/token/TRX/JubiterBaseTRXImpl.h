@@ -15,14 +15,14 @@ public:
         _curve_name = (char*)SECP256K1_TRX_NAME;
     };
 
-    virtual JUB_RV CheckAddress(const std::string& address, std::string& hex);
+    virtual JUB_RV CheckAddress(const std::string& address, std::string& hex) override;
 
     virtual JUB_RV PackTransactionRaw(const JUB_TX_TRX& tx,
-                                      std::string& packedContractInPB);
+                                      std::string& packedContractInPB) override;
     virtual JUB_RV SerializeContract(const JUB_CONTRACT_TRX& contract,
-                                     ::google::protobuf::Any& parameter);
+                                     ::google::protobuf::Any& parameter) override;
     virtual JUB_RV SerializePreimage(const std::string& packedContractInPb,
-                                     uchar_vector& preimageRaw);
+                                     uchar_vector& preimageRaw) override;
 
 protected:
     virtual JUB_RV _getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,

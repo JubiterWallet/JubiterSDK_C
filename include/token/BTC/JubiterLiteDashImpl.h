@@ -14,12 +14,12 @@ class JubiterLiteDashImpl :
 virtual public JubiterBaseDashImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterLiteDashImpl>(deviceID);
     }
 
 public:
-    JubiterLiteDashImpl(JUB_UINT16 deviceID) :
+    JubiterLiteDashImpl(const JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {}
     ~JubiterLiteDashImpl() {}
 }; // class JubiterLiteDashImpl end

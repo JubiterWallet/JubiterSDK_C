@@ -247,7 +247,7 @@ JUB_RV TRXContext::BuildTRC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, 
 
 
 JUB_RV TRXContext::SetTRC20Token(JUB_CHAR_CPTR pTokenName,
-                                 JUB_UINT16 unitDP,
+                                 const JUB_UINT16 unitDP,
                                  JUB_CHAR_CPTR pContractAddress) {
 
     CONTEXT_CHECK_TYPE_PRIVATE

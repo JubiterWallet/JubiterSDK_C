@@ -15,16 +15,16 @@ public:
         _curve_name = (char*)SECP256K1_EOS_NAME;
     };
 
-    virtual nlohmann::json SerializeAction(const JUB_ACTION_EOS& action);
+    virtual nlohmann::json SerializeAction(const JUB_ACTION_EOS& action) override;
     virtual JUB_RV SerializeActions(const JUB_ACTION_EOS_PTR actions, JUB_UINT16 actionCount,
-                                    std::string& actionsInJSON);
+                                    std::string& actionsInJSON) override;
 
     virtual JUB_RV SerializePreimage(const std::string& expiration,
                                      const std::string& referenceBlockId,
                                      const std::string& referenceBlockTime,
                                      const std::string& actionsInJSON,
                                      uchar_vector& preimageRaw,
-                                     const bool bWithType);
+                                     const bool bWithType) override;
 
 protected:
     virtual JUB_RV _getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,

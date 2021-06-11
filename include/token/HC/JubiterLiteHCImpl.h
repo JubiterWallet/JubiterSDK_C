@@ -17,12 +17,12 @@ class JubiterLiteHCImpl :
 virtual public JubiterBaseHCImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterLiteHCImpl>(deviceID);
     }
 
 public:
-    JubiterLiteHCImpl(JUB_UINT16 deviceID) :
+    JubiterLiteHCImpl(const JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {
             _hashType = TWHcashSigHashAll;
 	}

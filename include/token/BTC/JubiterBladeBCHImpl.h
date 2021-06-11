@@ -14,12 +14,12 @@ class JubiterBladeBCHImpl :
 virtual public JubiterBaseBCHImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBladeBCHImpl>(deviceID);
     }
 
 public:
-    JubiterBladeBCHImpl(JUB_UINT16 deviceID) :
+    JubiterBladeBCHImpl(const JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
             _hashType = TWBitcoinSigHashTypeForkBCH;
 	}

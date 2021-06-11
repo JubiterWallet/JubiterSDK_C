@@ -20,22 +20,23 @@ virtual public JubiterBaseEOSImpl {
 
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBladeEOSImpl>(deviceID);
     }
 
-    JubiterBladeEOSImpl(JUB_UINT16 deviceID) :
+    JubiterBladeEOSImpl(const JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     ~JubiterBladeEOSImpl() {}
-
 
     //EOS functions
     virtual JUB_RV SelectApplet() override;
     virtual JUB_RV SetCoin() override;
     virtual JUB_RV GetAppletVersion(stVersion& version) override;
+
     virtual JUB_RV GetAddress(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) override;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
     virtual JUB_RV GetHDNodeBase(const JUB_BYTE format, const std::string& path, std::string& pubkey);
+
     virtual JUB_RV SignTX(const TW::EOS::Type& type,
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainId,

@@ -58,7 +58,7 @@ class AutoContextManager :
     public xManager<BaseContext> {
 public:
 	template<typename T>
-    T* GetOneSafe(JUB_UINT16 ID) {
+    T* GetOneSafe(const JUB_UINT16 ID) {
 		BaseContext* pContext= GetOne(ID);
 		T* t = dynamic_cast<T*>(pContext); 
 		if (t != nullptr) {

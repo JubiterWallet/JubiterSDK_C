@@ -19,12 +19,12 @@ class JubiterBladeBTCImpl :
 virtual public JubiterBaseBTCImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBladeBTCImpl>(deviceID);
     }
 
 public:
-    JubiterBladeBTCImpl(JUB_UINT16 deviceID) :
+    JubiterBladeBTCImpl(const JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     virtual ~JubiterBladeBTCImpl() = default;
 

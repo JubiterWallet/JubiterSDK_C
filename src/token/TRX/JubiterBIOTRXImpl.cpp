@@ -16,8 +16,8 @@ JUB_RV JubiterBIOTRXImpl::SelectApplet() {
 
 
 JUB_RV JubiterBIOTRXImpl::SetTRC20Token(const std::string& tokenName,
-                                          const JUB_UINT16 unitDP,
-                                          const std::string& contractAddress) {
+                                        const JUB_UINT16 unitDP,
+                                        const std::string& contractAddress) {
 
     // TRC20 token extension apdu
     if (typeid(JubiterBIOTRXImpl) == typeid(*this)) {

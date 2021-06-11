@@ -14,12 +14,12 @@ class JubiterBIOBTCImpl :
         public JubiterBladeBTCImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBIOBTCImpl>(deviceID);
     }
 
 public:
-    JubiterBIOBTCImpl(JUB_UINT16 deviceID) :
+    JubiterBIOBTCImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeBTCImpl(deviceID) {}
     virtual ~JubiterBIOBTCImpl() = default;
@@ -31,12 +31,12 @@ class JubiterBIOBCHImpl :
 virtual public JubiterBladeBCHImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBIOBCHImpl>(deviceID);
     }
 
 public:
-    JubiterBIOBCHImpl(JUB_UINT16 deviceID) :
+    JubiterBIOBCHImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeBCHImpl(deviceID) {}
     virtual ~JubiterBIOBCHImpl() = default;
@@ -48,12 +48,12 @@ class JubiterBIOLTCImpl :
 virtual public JubiterBladeLTCImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBIOLTCImpl>(deviceID);
     }
 
 public:
-    JubiterBIOLTCImpl(JUB_UINT16 deviceID) :
+    JubiterBIOLTCImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeLTCImpl(deviceID) {}
     virtual ~JubiterBIOLTCImpl() = default;
@@ -65,12 +65,12 @@ class JubiterBIOUSDTImpl :
 virtual public JubiterBladeUSDTImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBIOUSDTImpl>(deviceID);
     }
 
 public:
-    JubiterBIOUSDTImpl(JUB_UINT16 deviceID) :
+    JubiterBIOUSDTImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeUSDTImpl(deviceID) {}
     virtual ~JubiterBIOUSDTImpl() = default;
@@ -82,12 +82,12 @@ class JubiterBIODashImpl :
 virtual public JubiterBladeDashImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBIODashImpl>(deviceID);
     }
 
 public:
-    JubiterBIODashImpl(JUB_UINT16 deviceID) :
+    JubiterBIODashImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeDashImpl(deviceID) {}
     virtual ~JubiterBIODashImpl() = default;
@@ -99,12 +99,12 @@ class JubiterBIOQTUMImpl :
 virtual public JubiterBladeQTUMImpl {
 public:
     //for Factory
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(const JUB_UINT16 deviceID) {
         return std::make_shared<JubiterBIOQTUMImpl>(deviceID);
     }
 
 public:
-    JubiterBIOQTUMImpl(JUB_UINT16 deviceID) :
+    JubiterBIOQTUMImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeQTUMImpl(deviceID) {}
     virtual ~JubiterBIOQTUMImpl() = default;
