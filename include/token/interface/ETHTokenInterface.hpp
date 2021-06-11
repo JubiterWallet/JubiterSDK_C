@@ -70,6 +70,16 @@ public:
                                 const std::vector<JUB_BYTE>& vPath,
                                 const std::vector<JUB_BYTE>& vChainID,
                                 std::vector<JUB_BYTE>& vRaw) = 0;
+    virtual JUB_RV SignContractHash(const JUB_BYTE inputType,
+                                    const std::vector<JUB_BYTE>& vNonce,
+                                    const std::vector<JUB_BYTE>& vGasPrice,
+                                    const std::vector<JUB_BYTE>& vGasLimit,
+                                    const std::vector<JUB_BYTE>& vTo,
+                                    const std::vector<JUB_BYTE>& vValue,
+                                    const std::vector<JUB_BYTE>& vInput,
+                                    const std::vector<JUB_BYTE>& vPath,
+                                    const std::vector<JUB_BYTE>& vChainID,
+                                    std::vector<JUB_BYTE>& vRaw) = 0;
 
     virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
                                   const std::vector<JUB_BYTE>& vPath,
