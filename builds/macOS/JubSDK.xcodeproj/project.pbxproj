@@ -924,6 +924,10 @@
 		775FD5162626E76400D12DDC /* BigUnsigned.hh in Headers */ = {isa = PBXBuildFile; fileRef = 775FD5012626E76400D12DDC /* BigUnsigned.hh */; };
 		775FD5172626E76400D12DDC /* BigUnsigned.hh in Headers */ = {isa = PBXBuildFile; fileRef = 775FD5012626E76400D12DDC /* BigUnsigned.hh */; };
 		7781059C25F9C3FB0014C1EE /* (null) in Headers */ = {isa = PBXBuildFile; };
+		7788318B267356A5004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77883189267356A5004FDA80 /* ContractAbi.h */; };
+		7788318C267356A5004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77883189267356A5004FDA80 /* ContractAbi.h */; };
+		7788318D267356A5004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788318A267356A5004FDA80 /* ContractAbi.cpp */; };
+		7788318E267356A6004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788318A267356A5004FDA80 /* ContractAbi.cpp */; };
 		779744512630062E00ECFF34 /* FILTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 779744502630062E00ECFF34 /* FILTokenInterface.hpp */; };
 		779744522630062E00ECFF34 /* FILTokenInterface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 779744502630062E00ECFF34 /* FILTokenInterface.hpp */; };
 		779744852630071200ECFF34 /* uint256_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779744812630071200ECFF34 /* uint256_t.cpp */; };
@@ -1450,6 +1454,8 @@
 		775FD4FF2626E76300D12DDC /* BigIntegerUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerUtils.cc; path = ../../deps/bigint/BigIntegerUtils.cc; sourceTree = "<group>"; };
 		775FD5002626E76300D12DDC /* BigUnsigned.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigUnsigned.cc; path = ../../deps/bigint/BigUnsigned.cc; sourceTree = "<group>"; };
 		775FD5012626E76400D12DDC /* BigUnsigned.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BigUnsigned.hh; path = ../../deps/bigint/BigUnsigned.hh; sourceTree = "<group>"; };
+		77883189267356A5004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
+		7788318A267356A5004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
 		779744502630062E00ECFF34 /* FILTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FILTokenInterface.hpp; path = ../../include/token/interface/FILTokenInterface.hpp; sourceTree = "<group>"; };
 		779744812630071200ECFF34 /* uint256_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint256_t.cpp; path = ../../deps/uint256_t/uint256_t.cpp; sourceTree = "<group>"; };
 		779744822630071200ECFF34 /* uint256_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256_t.h; path = ../../deps/uint256_t/uint256_t.h; sourceTree = "<group>"; };
@@ -1917,6 +1923,8 @@
 				676B42EA2410A22900EBB44D /* ERC20Abi.h */,
 				77B1C4EA265F80B80093E7A9 /* ERC721Abi.cpp */,
 				77B1C4E9265F80B80093E7A9 /* ERC721Abi.h */,
+				7788318A267356A5004FDA80 /* ContractAbi.cpp */,
+				77883189267356A5004FDA80 /* ContractAbi.h */,
 				676B4289240F922200EBB44D /* RLP.cpp */,
 				676B4290240F922300EBB44D /* RLP.h */,
 				676B42BF240FA30600EBB44D /* Signer.cpp */,
@@ -2561,6 +2569,7 @@
 				779744882630071200ECFF34 /* uint256_t.h in Headers */,
 				677DF33B24DD3A10001920A9 /* ETHContextFactory.h in Headers */,
 				67189F1523A20FED00F8A5CD /* JUB_SDK_DEV_HID.h in Headers */,
+				7788318C267356A5004FDA80 /* ContractAbi.h in Headers */,
 				67E0DF64250F750100D42EF0 /* JUB_SDK_TRX.h in Headers */,
 				67189F1623A20FED00F8A5CD /* JUB_SDK_BTC.h in Headers */,
 				67189F1823A20FED00F8A5CD /* JUB_SDK_Hcash.h in Headers */,
@@ -3322,6 +3331,7 @@
 				6780222A2519DA82008142B1 /* ContractSmart.h in Headers */,
 				674F19D723A10628001702DD /* ed25519-donna-portable.h in Headers */,
 				674B4A7A24A1B0570053AB2F /* scp11c.hpp in Headers */,
+				7788318B267356A5004FDA80 /* ContractAbi.h in Headers */,
 				674F19C523A105F2001702DD /* ed25519-hash-custom-blake2b.h in Headers */,
 				67A4BD612330A1D10059A3DB /* base58.h in Headers */,
 				67E0DF67250F751500D42EF0 /* TRXContextFactory.h in Headers */,
@@ -3533,6 +3543,7 @@
 				67E0DEDC250F6CA500D42EF0 /* Address.cpp in Sources */,
 				67746C3425417C27007A1901 /* pb_basevarint.cpp in Sources */,
 				67E0DEF8250F6CA500D42EF0 /* OutPoint.cpp in Sources */,
+				7788318E267356A6004FDA80 /* ContractAbi.cpp in Sources */,
 				676B42A3240F922300EBB44D /* AddressChecksum.cpp in Sources */,
 				674621F023C31DBE0096DDA2 /* JubiterBladeEOSImpl.cpp in Sources */,
 				67189FB523A2116900F8A5CD /* aestab.c in Sources */,
@@ -3739,6 +3750,7 @@
 				67E0DEDB250F6CA500D42EF0 /* Address.cpp in Sources */,
 				67746C3325417C27007A1901 /* pb_basevarint.cpp in Sources */,
 				779744C926300F0000ECFF34 /* JubiterLiteTRXImpl.cpp in Sources */,
+				7788318D267356A5004FDA80 /* ContractAbi.cpp in Sources */,
 				67E0DEF7250F6CA500D42EF0 /* OutPoint.cpp in Sources */,
 				67A4587E23336DAB00CEB712 /* HDKey.cpp in Sources */,
 				674621FB23C31DDC0096DDA2 /* JubiterBladeETHImpl.cpp in Sources */,

@@ -243,16 +243,15 @@ JUB_RV ETHContext::SignContract(const BIP44_Path& path,
     std::vector<JUB_BYTE> vChainID;
     vChainID.push_back(_chainID);
 
-    bool bERC20 = false;
-    if (0 == memcmp(uchar_vector(vInput).getHex().c_str(),
-                    ERC20_ABI_METHOD_ID_TRANSFER, strlen(ERC20_ABI_METHOD_ID_TRANSFER))
-        ) { // erc20 function sign
-        bERC20 = true;
+    // parse input
+    JUB_BYTE inputType = (JUB_BYTE)jub::eth::ENUM_CONTRACT_ABI::CREATE_CONTRACT;
+    if (0 < vTo.size()) {
+        inputType = _getInputType(std::string(std::string(ETH_PRDFIX)+jub::eth::ContractAbi::parseMethodID(vInput)));
     }
 
     uchar_vector raw;
-    if (!bERC20) {
-        JUB_VERIFY_RV(token->SignContract(jub::token::ENUM_CONTRACT_ABI::NS_ITEM,
+    if (jub::eth::ENUM_CONTRACT_ABI::CREATE_CONTRACT != inputType) {
+        JUB_VERIFY_RV(token->SignContract(inputType,
                                           vNonce,
                                           vGasPriceInWei,
                                           vGasLimit,
@@ -264,16 +263,16 @@ JUB_RV ETHContext::SignContract(const BIP44_Path& path,
                                           raw));
     }
     else {
-        JUB_VERIFY_RV(token->SignTX(bERC20,
-                                    vNonce,
-                                    vGasPriceInWei,
-                                    vGasLimit,
-                                    vTo,
-                                    vValueInWei,
-                                    vInput,
-                                    vPath,
-                                    vChainID,
-                                    raw));
+        JUB_VERIFY_RV(token->SignContractHash(inputType,
+                                              vNonce,
+                                              vGasPriceInWei,
+                                              vGasLimit,
+                                              vTo,
+                                              vValueInWei,
+                                              vInput,
+                                              vPath,
+                                              vChainID,
+                                              raw));
     }
 
 #if defined(DEBUG)
