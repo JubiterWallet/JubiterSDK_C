@@ -13,7 +13,7 @@ class JubiterLiteQTUMImpl :
         public JubiterLiteBTCImpl,
 virtual public QTUMTokenInterface {
 public:
-    JubiterLiteQTUMImpl(JUB_UINT16 deviceID) :
+    JubiterLiteQTUMImpl(const JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {
             _coin = TWCoinType::TWCoinTypeQtum;
     }

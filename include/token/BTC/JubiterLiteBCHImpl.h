@@ -15,7 +15,7 @@ class JubiterLiteBCHImpl :
         public JubiterLiteBTCImpl,
 virtual public JubiterBaseBCHImpl {
 public:
-    JubiterLiteBCHImpl(JUB_UINT16 deviceID) :
+    JubiterLiteBCHImpl(const JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {
             _hashType = TWBitcoinSigHashTypeForkBCH;
 	}

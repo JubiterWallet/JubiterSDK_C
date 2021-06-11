@@ -12,11 +12,11 @@ class JubiterBIOEOSImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeEOSImpl {
 public:
-    JubiterBIOEOSImpl(JUB_UINT16 deviceID) :
+    JubiterBIOEOSImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeEOSImpl(deviceID) {}
     virtual ~JubiterBIOEOSImpl() = default;
-    
+
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
 }; // class JubiterBIOEOSImpl end
 

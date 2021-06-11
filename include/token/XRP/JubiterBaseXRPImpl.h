@@ -16,8 +16,8 @@ public:
     };
 
     JUB_RV SerializePreimage(const JUB_TX_XRP& tx,
-                             uchar_vector& preimageRaw);
-    JUB_RV CheckAddress(const std::string& address, std::string& rAddress, std::string& tagged);
+                             uchar_vector& preimageRaw) override;
+    JUB_RV CheckAddress(const std::string& address, std::string& rAddress, std::string& tagged) override;
 
 protected:
     virtual JUB_RV _getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,

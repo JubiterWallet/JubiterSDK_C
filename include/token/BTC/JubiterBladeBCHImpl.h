@@ -13,7 +13,7 @@ class JubiterBladeBCHImpl :
         public JubiterBladeBTCImpl,
 virtual public JubiterBaseBCHImpl {
 public:
-    JubiterBladeBCHImpl(JUB_UINT16 deviceID) :
+    JubiterBladeBCHImpl(const JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
             _hashType = TWBitcoinSigHashTypeForkBCH;
 	}

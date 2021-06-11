@@ -12,7 +12,7 @@ class JubiterBIOHCImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeHCImpl {
 public:
-    JubiterBIOHCImpl(JUB_UINT16 deviceID) :
+    JubiterBIOHCImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeHCImpl(deviceID) {}
     virtual ~JubiterBIOHCImpl() = default;

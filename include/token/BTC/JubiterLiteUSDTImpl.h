@@ -11,7 +11,7 @@ namespace token {
 class JubiterLiteUSDTImpl :
     public JubiterLiteBTCImpl {
 public:
-    JubiterLiteUSDTImpl(JUB_UINT16 deviceID) :
+    JubiterLiteUSDTImpl(const JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {}
     ~JubiterLiteUSDTImpl() {}
 }; // class JubiterLiteUSDTImpl end

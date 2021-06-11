@@ -29,7 +29,7 @@ public:
                             const uchar_vector& signedRaw,
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<TW::Data>& vInputPublicKey);
-    
+
     virtual JUB_RV CheckAddress(const std::string& address) override;
 
 protected:

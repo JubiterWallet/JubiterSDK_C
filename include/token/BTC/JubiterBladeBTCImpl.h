@@ -18,7 +18,7 @@ class JubiterBladeBTCImpl :
         public JubiterBladeToken,
 virtual public JubiterBaseBTCImpl {
 public:
-    JubiterBladeBTCImpl(JUB_UINT16 deviceID) :
+    JubiterBladeBTCImpl(const JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     virtual ~JubiterBladeBTCImpl() = default;
 

@@ -11,7 +11,7 @@ namespace token {
 class JubiterLiteLTCImpl :
     public JubiterLiteBTCImpl {
 public:
-    JubiterLiteLTCImpl(JUB_UINT16 deviceID) :
+    JubiterLiteLTCImpl(const JUB_UINT16 deviceID) :
         JubiterLiteBTCImpl(deviceID) {
             _coin = TWCoinType::TWCoinTypeLitecoin;
     }
