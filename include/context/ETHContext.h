@@ -13,6 +13,8 @@
 #include "context/BaseContext.h"
 #include "token/interface/BaseToken.h"
 
+#include <Ethereum/ContractAbi.h>
+
 
 namespace jub {
 namespace context {
@@ -67,7 +69,25 @@ public:
     virtual JUB_RV ActiveSelf() override;
 
 private:
+    void _addContrFunc(const std::string& methodID, const jub::eth::ENUM_CONTRACT_ABI& type) {
+        if (_contrFuncList.end() == _contrFuncList.find(methodID)) {
+            _contrFuncList.insert({methodID, (int)type});
+        }
+    }
+    jub::eth::ENUM_CONTRACT_ABI _getInputType(const std::string& methodID) {
+        std::map<std::string, int>::iterator it = _contrFuncList.find(methodID);
+        if (_contrFuncList.end() != it) {
+            return (jub::eth::ENUM_CONTRACT_ABI)(it->second);
+        }
+
+        //Enforce to use the "Signning Hash" mode
+//        return jub::eth::ENUM_CONTRACT_ABI::NS_ITEM;
+        return jub::eth::ENUM_CONTRACT_ABI::CREATE_CONTRACT;
+    }
+
     int _chainID;
+    // "methodID" - input type
+    std::map<std::string, int> _contrFuncList;
 }; // class ETHContext end
 
 

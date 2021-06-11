@@ -2,7 +2,6 @@
 #include "utility/util.h"
 
 #include <vector>
-#include <array>
 
 namespace jub {
 namespace eth {

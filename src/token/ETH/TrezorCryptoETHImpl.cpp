@@ -172,6 +172,30 @@ JUB_RV TrezorCryptoETHImpl::SignContract(const JUB_BYTE inputType,
 }
 
 
+JUB_RV TrezorCryptoETHImpl::SignContractHash(const JUB_BYTE inputType,
+                                             const std::vector<JUB_BYTE>& vNonce,
+                                             const std::vector<JUB_BYTE>& vGasPrice,
+                                             const std::vector<JUB_BYTE>& vGasLimit,
+                                             const std::vector<JUB_BYTE>& vTo,
+                                             const std::vector<JUB_BYTE>& vValue,
+                                             const std::vector<JUB_BYTE>& vInput,
+                                             const std::vector<JUB_BYTE>& vPath,
+                                             const std::vector<JUB_BYTE>& vChainID,
+                                             std::vector<JUB_BYTE>& vRaw) {
+
+    return SignContract(inputType,
+                        vNonce,
+                        vGasPrice,
+                        vGasLimit,
+                        vTo,
+                        vValue,
+                        vInput,
+                        vPath,
+                        vChainID,
+                        vRaw);
+}
+
+
 JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
                                            const std::vector<JUB_BYTE>& vPath,
                                            const std::vector<JUB_BYTE>& vChainID,
