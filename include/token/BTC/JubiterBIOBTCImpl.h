@@ -13,7 +13,7 @@ class JubiterBIOBTCImpl :
         public JubiterBIOToken,
         public JubiterBladeBTCImpl {
 public:
-    JubiterBIOBTCImpl(JUB_UINT16 deviceID) :
+    JubiterBIOBTCImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeBTCImpl(deviceID) {}
     virtual ~JubiterBIOBTCImpl() = default;
@@ -24,7 +24,7 @@ class JubiterBIOBCHImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeBCHImpl {
 public:
-    JubiterBIOBCHImpl(JUB_UINT16 deviceID) :
+    JubiterBIOBCHImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeBCHImpl(deviceID) {}
     virtual ~JubiterBIOBCHImpl() = default;
@@ -35,7 +35,7 @@ class JubiterBIOLTCImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeLTCImpl {
 public:
-    JubiterBIOLTCImpl(JUB_UINT16 deviceID) :
+    JubiterBIOLTCImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeLTCImpl(deviceID) {}
     virtual ~JubiterBIOLTCImpl() = default;
@@ -46,7 +46,7 @@ class JubiterBIOUSDTImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeUSDTImpl {
 public:
-    JubiterBIOUSDTImpl(JUB_UINT16 deviceID) :
+    JubiterBIOUSDTImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeUSDTImpl(deviceID) {}
     virtual ~JubiterBIOUSDTImpl() = default;
@@ -57,7 +57,7 @@ class JubiterBIODashImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeDashImpl {
 public:
-    JubiterBIODashImpl(JUB_UINT16 deviceID) :
+    JubiterBIODashImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeDashImpl(deviceID) {}
     virtual ~JubiterBIODashImpl() = default;
@@ -68,7 +68,7 @@ class JubiterBIOQTUMImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeQTUMImpl {
 public:
-    JubiterBIOQTUMImpl(JUB_UINT16 deviceID) :
+    JubiterBIOQTUMImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeQTUMImpl(deviceID) {}
     virtual ~JubiterBIOQTUMImpl() = default;

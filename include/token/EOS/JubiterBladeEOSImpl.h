@@ -18,17 +18,18 @@ class JubiterBladeEOSImpl :
         public JubiterBladeToken,
 virtual public JubiterBaseEOSImpl {
 public:
-    JubiterBladeEOSImpl(JUB_UINT16 deviceID) :
+    JubiterBladeEOSImpl(const JUB_UINT16 deviceID) :
         JubiterBladeToken(deviceID) {}
     ~JubiterBladeEOSImpl() {}
-
 
     //EOS functions
     virtual JUB_RV SelectApplet() override;
     virtual JUB_RV SetCoin() override;
     virtual JUB_RV GetAppletVersion(stVersion& version) override;
+
     virtual JUB_RV GetAddress(const TW::EOS::Type& type, const std::string& path, const JUB_UINT16 tag, std::string& address) override;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
+
     virtual JUB_RV SignTX(const TW::EOS::Type& type,
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainId,

@@ -51,7 +51,7 @@ public:
 
     virtual JUB_RV BuildTRC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi);
     virtual JUB_RV SetTRC20Token(JUB_CHAR_CPTR pTokenName,
-                                 JUB_UINT16 unitDP,
+                                 const JUB_UINT16 unitDP,
                                  JUB_CHAR_CPTR pContractAddress);
 
     virtual JUB_RV BuildTRC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi);

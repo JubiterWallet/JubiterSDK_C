@@ -13,7 +13,7 @@ class JubiterBladeDashImpl :
         public JubiterBladeBTCImpl,
 virtual public JubiterBaseDashImpl {
 public:
-    JubiterBladeDashImpl(JUB_UINT16 deviceID) :
+    JubiterBladeDashImpl(const JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {}
     ~JubiterBladeDashImpl() {}
 }; // class JubiterBladeDashImpl end

@@ -428,7 +428,7 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         //  sign transactions
         JUB_BYTE retData[2048] = { 0, };
         JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-        apdu.SetApdu(0x00, 0x2A, 0x00, 0x00, 0);
+        apdu.SetApdu(0x00, JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A, 0x00, 0x00, 0);
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
         if (0x6f09 == ret) {
             return JUBR_USER_CANCEL;

@@ -154,7 +154,9 @@ JUB_RV JubiterBladeETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 }
 
 
-JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName, const JUB_UINT16 unitDP, const std::string& contractAddress) {
+JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName,
+                                             const JUB_UINT16 unitDP,
+                                             const std::string& contractAddress) {
 
     // ERC20 token extension apdu
     if (typeid(JubiterBladeETHImpl) == typeid(*this)) {
@@ -167,8 +169,7 @@ JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName, const
 }
 
 
-JUB_RV JubiterBladeETHImpl::SetERC721ETHToken(const std::string& tokenName,
-                                              const std::string& contractAddress) {
+JUB_RV JubiterBladeETHImpl::SetERC721ETHToken(const std::string& tokenName, const std::string& contractAddress) {
 
     // ERC20 token extension apdu
     if (typeid(JubiterBladeETHImpl) == typeid(*this)) {

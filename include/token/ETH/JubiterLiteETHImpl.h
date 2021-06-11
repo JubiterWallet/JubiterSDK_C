@@ -18,11 +18,11 @@ public:
     ~JubiterLiteETHImpl() {}
 
     //ETH functions
-    virtual JUB_RV SelectApplet();
-    virtual JUB_RV GetAppletVersion(stVersion& version);
+    virtual JUB_RV SelectApplet() override;
+    virtual JUB_RV GetAppletVersion(stVersion& version) override;
 
-    virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey);
+    virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) override;
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
 
     virtual JUB_RV SignTX(const int erc,
                           const std::vector<JUB_BYTE>& vNonce,
@@ -33,16 +33,16 @@ public:
                           const std::vector<JUB_BYTE>& vData,
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainID,
-                          std::vector<JUB_BYTE>& vRaw);
+                          std::vector<JUB_BYTE>& vRaw) override;
     virtual JUB_RV VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                             const std::string& path,
-                            const std::vector<JUB_BYTE>& vSigedTrans);
+                            const std::vector<JUB_BYTE>& vSigedTrans) override;
 
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
-                                    const std::string& contractAddress);
+                                    const std::string& contractAddress) override;
     virtual JUB_RV SetERC721ETHToken(const std::string& tokenName,
-                                     const std::string& contractAddress);
+                                     const std::string& contractAddress) override;
 
     virtual JUB_RV SignContract(const JUB_BYTE inputType,
                                 const std::vector<JUB_BYTE>& vNonce,
@@ -53,16 +53,16 @@ public:
                                 const std::vector<JUB_BYTE>& vInput,
                                 const std::vector<JUB_BYTE>& vPath,
                                 const std::vector<JUB_BYTE>& vChainID,
-                                std::vector<JUB_BYTE>& vRaw);
+                                std::vector<JUB_BYTE>& vRaw) override;
 
     virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
                                   const std::vector<JUB_BYTE>& vPath,
                                   const std::vector<JUB_BYTE>& vChainID,
-                                  std::vector<JUB_BYTE>& vSignature);
+                                  std::vector<JUB_BYTE>& vSignature) override;
     virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
                                     const std::string& path,
                                     const std::vector<JUB_BYTE>& vTypedData,
-                                    const std::vector<JUB_BYTE>& vSignature);
+                                    const std::vector<JUB_BYTE>& vSignature) override;
 
 protected:
     virtual JUB_RV _encodeRSV(const std::vector<JUB_BYTE>& vRSV,

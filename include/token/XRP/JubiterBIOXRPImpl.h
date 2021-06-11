@@ -12,7 +12,7 @@ class JubiterBIOXRPImpl :
         public JubiterBIOToken,
 virtual public JubiterBladeXRPImpl {
 public:
-    JubiterBIOXRPImpl(JUB_UINT16 deviceID) :
+    JubiterBIOXRPImpl(const JUB_UINT16 deviceID) :
         JubiterBIOToken(deviceID),
         JubiterBladeXRPImpl(deviceID) {}
     virtual ~JubiterBIOXRPImpl() = default;

@@ -14,7 +14,7 @@ class JubiterLiteBTCImpl :
         public JubiterLiteImpl,
 virtual public JubiterBaseBTCImpl {
 public:
-    JubiterLiteBTCImpl(JUB_UINT16 deviceID) :
+    JubiterLiteBTCImpl(const JUB_UINT16 deviceID) :
         JubiterLiteImpl(deviceID) {}
     virtual ~JubiterLiteBTCImpl() = default;
 

@@ -13,7 +13,7 @@ class JubiterBladeHCImpl :
         public JubiterBladeBTCImpl,
 virtual public JubiterBaseHCImpl {
 public:
-    JubiterBladeHCImpl(JUB_UINT16 deviceID) :
+    JubiterBladeHCImpl(const JUB_UINT16 deviceID) :
         JubiterBladeBTCImpl(deviceID) {
             _hashType = TWHcashSigHashAll;
     }
