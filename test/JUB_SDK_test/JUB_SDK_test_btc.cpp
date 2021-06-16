@@ -14,7 +14,7 @@
 #include "mSIGNA/stdutils/uchar_vector.h"
 
 
-void BTC_test(JUB_UINT16 deviceID, const char* json_file, JUB_ENUM_COINTYPE_BTC coinType) {
+void BTC_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file, JUB_ENUM_COINTYPE_BTC coinType) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -26,7 +26,7 @@ void BTC_test(JUB_UINT16 deviceID, const char* json_file, JUB_ENUM_COINTYPE_BTC 
     JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_BTC cfg;
-    cfg.mainPath = (char*)root["main_path"].asCString();
+    cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
     cfg.coinType = coinType;
 
     if (COINBCH == coinType) {
@@ -299,7 +299,7 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
     for (int i = 0; i < inputNumber; i++) {
         INPUT_BTC input;
         input.type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
-        input.preHash = (char*)root["inputs"][i]["preHash"].asCString();
+        input.preHash = (JUB_CHAR_PTR)root["inputs"][i]["preHash"].asCString();
         input.preIndex = root["inputs"][i]["preIndex"].asInt();
         input.path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
         input.path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
@@ -313,7 +313,7 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
     for (int i = 0; i < outputNumber; i++) {
         OUTPUT_BTC output;
         output.type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
-        output.stdOutput.address = (char*)root["outputs"][i]["address"].asCString();
+        output.stdOutput.address = (JUB_CHAR_PTR)root["outputs"][i]["address"].asCString();
         output.stdOutput.amount = root["outputs"][i]["amount"].asUInt64();
         output.stdOutput.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
         if (output.stdOutput.changeAddress) {
@@ -323,7 +323,7 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
         outputs.push_back(output);
     }
 
-    char* raw = nullptr;
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
     cout << "[-] JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 

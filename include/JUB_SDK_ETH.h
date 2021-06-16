@@ -28,6 +28,20 @@ typedef struct stContextCfgETH {
 // Remove c++ features for swift framework end
 
 
+// Remove c++ features for swift framework
+typedef struct stERC20TokenInfo {
+    JUB_CHAR_PTR tokenName;
+    JUB_UINT16 unitDP;
+    JUB_CHAR_PTR contractAddress;
+
+//    stERC20TokenInfo() {
+//        unitDP = 0;
+//    }
+//    virtual ~stERC20TokenInfo() {}
+} ERC20_TOKEN_INFO;
+// Remove c++ features for swift framework end
+
+
 /*****************************************************************************
  * @function name : JUB_CreateContextETH
  * @in  param : cfg
@@ -163,6 +177,20 @@ JUB_RV JUB_SignBytestringETH(IN JUB_UINT16 contextID,
                              IN BIP44_Path path,
                              IN JUB_CHAR_CPTR data,
                              OUT JUB_CHAR_PTR_PTR raw);
+
+
+/*****************************************************************************
+ * @function name : JUB_SetERC20TokensETH
+ * @in  param : contextID - context ID
+ *          : tokens - token info list
+ *          : iCount - token info count
+ * @out param : ERC20 abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetERC20TokensETH(IN JUB_UINT16 contextID,
+                             IN ERC20_TOKEN_INFO tokens[],
+                             IN JUB_UINT16 iCount);
 
 
 /*****************************************************************************

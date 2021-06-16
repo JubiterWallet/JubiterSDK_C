@@ -39,6 +39,8 @@ public:
 protected:
     virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) override;
 
+    // ERC20 token extension apdu
+    const std::string  ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS= std::string("05050000");  // 5.5.0
     // TRC20 token extension apdu
     const std::string MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("05010003");  // 5.1.3
 }; // class JubiterBIOToken end

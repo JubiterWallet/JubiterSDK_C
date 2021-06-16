@@ -52,7 +52,7 @@ void getSharedInfo(unsigned int keyUsage,
 }
 
 
-void scp11_test(const char* json_file) {
+void scp11_test(JUB_CHAR_CPTR json_file) {
 
     Json::Value root = readJSON(json_file);
 
@@ -84,7 +84,7 @@ void scp11_test(const char* json_file) {
     //        B0 41 048FD3FAB3907C5CC8CD193EB2B653EA179115B7F305C9E21DE6D29C0736A3B82025B219F24BDA86D80F5AE262521E124F4C6691A0C47B1FB72D95895E9312CB0D           - public_key_q(67)
     //        F0 01 00                       - key_parameter_reference(3)
     //5F37 46 304402204D75EAA2F09604A9597DA905D680EB619B8ADCF080E5AD6950E1DBF26195C9E2022067649AFB4A8BC380B382520499C6F2BB350A8519B0ECDBE0B7374AA898826D0E(73)
-    char* p = (char*)root["SCP11c"]["OCE"][0][0].asCString();
+    JUB_CHAR_PTR p = (JUB_CHAR_PTR)root["SCP11c"]["OCE"][0][0].asCString();
     uchar_vector vOCECert(p);
     scp11_crt oce_crt(vOCECert);
     if (!oce_crt.decode()) {
@@ -113,20 +113,20 @@ void scp11_test(const char* json_file) {
 
     // OCE key pair(SK.OCE.ECKA, PK.OCE.ECKA)
     unsigned char oce_priv_key[32] = {0x00,};
-    uchar_vector privKey((char*)root["SCP11c"]["OCE"][1][2].asCString());
+    uchar_vector privKey((JUB_CHAR_PTR)root["SCP11c"]["OCE"][1][2].asCString());
     std::copy(privKey.begin(), privKey.end(), std::begin(oce_priv_key));
     unsigned char oce_pub_key[65] = {0x00,};
-    uchar_vector pubKey((char*)root["SCP11c"]["OCE"][1][1].asCString());
+    uchar_vector pubKey((JUB_CHAR_PTR)root["SCP11c"]["OCE"][1][1].asCString());
     std::copy(pubKey.begin(), pubKey.end(), std::begin(oce_pub_key));
 //    ecdsa_get_public_key65(curi->params, oce_priv_key, oce_pub_key);
 
     // OCE generates ephemeral key pair(eSK.OCE.ECKA, ePK.OCE.ECKA)
     unsigned char oce_e_priv_key[32] = {0x00,};
-    uchar_vector eprivKey((char*)root["SCP11c"]["eKeyPair"][1].asCString());
+    uchar_vector eprivKey((JUB_CHAR_PTR)root["SCP11c"]["eKeyPair"][1].asCString());
     std::copy(eprivKey.begin(), eprivKey.end(), std::begin(oce_e_priv_key));
 //    random_buffer(oce_e_priv_key, sizeof(oce_e_priv_key)/sizeof(uint8_t));
     unsigned char oce_e_pub_key[65] = {0x00,};
-    uchar_vector epubKey((char*)root["SCP11c"]["eKeyPair"][0].asCString());
+    uchar_vector epubKey((JUB_CHAR_PTR)root["SCP11c"]["eKeyPair"][0].asCString());
     std::copy(epubKey.begin(), epubKey.end(), std::begin(oce_e_pub_key));
 //    ecdsa_get_public_key65(curi->params, oce_e_priv_key, oce_e_pub_key);
 
@@ -171,7 +171,7 @@ void scp11_test(const char* json_file) {
     keyType.push_back(0x88);
     uchar_vector keyLength;
     keyLength.push_back(root["SCP11c"]["KeyLength"].asUInt());
-    uchar_vector hostID((char*)root["SCP11c"]["HostID"].asCString());
+    uchar_vector hostID((JUB_CHAR_PTR)root["SCP11c"]["HostID"].asCString());
     uchar_vector cardGroupID("6a75626974657277616c6c6574");
     scp11_sharedInfo shInfo(keyUsage,
                             keyType,
@@ -181,7 +181,7 @@ void scp11_test(const char* json_file) {
     uchar_vector sharedInfo = shInfo.encodeLV();
     std::cout << "sharedInfo: " << sharedInfo.getHex() << std::endl;
     unsigned int sharedInfoLen = (unsigned int)sharedInfo.size();
-    unsigned char* pSharedInfo = new unsigned char[sharedInfoLen+1];
+    JUB_BYTE_PTR pSharedInfo = new JUB_BYTE[sharedInfoLen+1];
     memset(pSharedInfo, 0x00, sharedInfoLen+1);
     std::copy(sharedInfo.begin(), sharedInfo.end(), pSharedInfo);
     unsigned char outKey[0x10*5] = {0x00,};

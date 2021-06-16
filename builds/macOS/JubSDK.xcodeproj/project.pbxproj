@@ -1020,7 +1020,6 @@
 		772B685726738255007D789B /* uint128_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 772B684E26738254007D789B /* uint128_t.cpp */; };
 		772B685826738255007D789B /* uint256_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 772B684F26738255007D789B /* uint256_t.h */; };
 		772B685926738255007D789B /* uint256_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 772B684F26738255007D789B /* uint256_t.h */; };
-		7731ABCF2673894D00C23EEC /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7731ABCB2673891C00C23EEC /* libprotobuf.a */; };
 		7731ABDE26738D9500C23EEC /* JUB_SDK_FIL.h in Headers */ = {isa = PBXBuildFile; fileRef = 67F59534256E64CF00AB8FED /* JUB_SDK_FIL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7731ABDF26738E3800C23EEC /* JUB_SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAD233083730059A3DB /* JUB_SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7731ABE026738EE000C23EEC /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67ECD14E23CD74C400B7D514 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1028,6 +1027,8 @@
 		7788318C267356A5004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77883189267356A5004FDA80 /* ContractAbi.h */; };
 		7788318D267356A5004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788318A267356A5004FDA80 /* ContractAbi.cpp */; };
 		7788318E267356A6004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788318A267356A5004FDA80 /* ContractAbi.cpp */; };
+		77AD321E2679E15A00888326 /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A4BC7C233082130059A3DB /* libJubSDK.a */; };
+		77AD32212679E43500888326 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7731ABCB2673891C00C23EEC /* libprotobuf.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1564,6 +1565,7 @@
 		7731ABCB2673891C00C23EEC /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
 		77883189267356A5004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7788318A267356A5004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
+		77AD321F2679E17000888326 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = "../../../../../git.FT-JubiterWallet/HyperPay-Jub_SDK_CXX/outputs/Darwin/Release/libprotobuf.a"; sourceTree = "<group>"; };
 		77B1C4E9265F80B80093E7A9 /* ERC721Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC721Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.h"; sourceTree = "<group>"; };
 		77B1C4EA265F80B80093E7A9 /* ERC721Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC721Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1573,7 +1575,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7731ABCF2673894D00C23EEC /* libprotobuf.a in Frameworks */,
+				77AD321E2679E15A00888326 /* libJubSDK.a in Frameworks */,
+				77AD32212679E43500888326 /* libprotobuf.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1888,6 +1891,7 @@
 		6763938325347F1100C41883 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77AD321F2679E17000888326 /* libprotobuf.a */,
 				7731ABCB2673891C00C23EEC /* libprotobuf.a */,
 			);
 			name = Frameworks;

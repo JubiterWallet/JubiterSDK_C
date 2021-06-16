@@ -27,7 +27,7 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
     for (int i = 0; i < inputNumber; i++) {
         INPUT_BTC input;
         input.type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
-        input.preHash = (char*)root["inputs"][i]["preHash"].asCString();
+        input.preHash = (JUB_CHAR_PTR)root["inputs"][i]["preHash"].asCString();
         input.preIndex = root["inputs"][i]["preIndex"].asInt();
         input.path.change = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
         input.path.addressIndex = root["inputs"][i]["bip32_path"]["addressIndex"].asInt();
@@ -41,7 +41,7 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
     for (int i = 0; i < outputNumber; i++) {
         OUTPUT_BTC output;
         output.type = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
-        output.stdOutput.address = (char*)root["outputs"][i]["address"].asCString();
+        output.stdOutput.address = (JUB_CHAR_PTR)root["outputs"][i]["address"].asCString();
         output.stdOutput.amount = root["outputs"][i]["amount"].asUInt64();
         output.stdOutput.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
         if (output.stdOutput.changeAddress) {
@@ -60,7 +60,7 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
     }
 
     OUTPUT_BTC USDT_outputs[2] = {};
-    rv = JUB_BuildUSDTOutputs(contextID, (char*)root["USDT_to"].asCString(), root["USDT_amount"].asUInt64(), USDT_outputs);
+    rv = JUB_BuildUSDTOutputs(contextID, (JUB_CHAR_PTR)root["USDT_to"].asCString(), root["USDT_amount"].asUInt64(), USDT_outputs);
     cout << "[-] JUB_BuildUSDTOutputs() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
         return rv;
@@ -95,7 +95,7 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
     outputs.emplace_back(USDT_outputs[0]);
     outputs.emplace_back(USDT_outputs[1]);
 
-    char* raw = nullptr;
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionBTC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), 0, &raw);
     cout << "[-] JUB_SignTransactionBTC() return " << GetErrMsg(rv) << endl;
 
@@ -132,7 +132,7 @@ void transactionUSDT_test(JUB_UINT16 contextID, Json::Value root) {
 }
 
 
-void USDT_test(JUB_UINT16 deviceID, const char* json_file) {
+void USDT_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -144,7 +144,7 @@ void USDT_test(JUB_UINT16 deviceID, const char* json_file) {
     JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_BTC cfg;
-    cfg.mainPath = (char*)root["main_path"].asCString();
+    cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
     cfg.coinType = COINUSDT;
     cfg.transType = p2pkh;
 

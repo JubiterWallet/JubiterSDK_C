@@ -134,6 +134,12 @@ JUB_RV TrezorCryptoETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 }
 
 
+JUB_RV TrezorCryptoETHImpl::SetERC20ETHTokens(const ERC20_TOKEN_INFO tokens[], const JUB_UINT16 iCount) {
+
+    return JUBR_OK;
+}
+
+
 JUB_RV TrezorCryptoETHImpl::SetERC20ETHToken(const std::string& tokenName,
                                              const JUB_UINT16 unitDP,
                                              const std::string& contractAddress) {

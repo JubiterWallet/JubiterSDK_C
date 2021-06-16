@@ -15,7 +15,7 @@
 
 using namespace std;
 
-void scp11_test(const char* json_file);
+void scp11_test(JUB_CHAR_CPTR json_file);
     
 
 #endif /* JUB_SDK_test_scp11_h */

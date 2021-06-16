@@ -13,7 +13,7 @@
 #include "JUB_SDK_main.h"
 
 
-void ETH_test(JUB_UINT16 deviceID, const char* json_file) {
+void ETH_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -25,7 +25,7 @@ void ETH_test(JUB_UINT16 deviceID, const char* json_file) {
     JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_ETH cfg;
-    cfg.mainPath = (char*)root["main_path"].asCString();
+    cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
     cfg.chainID = root["chainID"].asInt();
     rv = JUB_CreateContextETH(cfg, deviceID, &contextID);
     cout << "[-] JUB_CreateContextETH() return " << GetErrMsg(rv) << endl;
@@ -44,8 +44,9 @@ void ETH_test(JUB_UINT16 deviceID, const char* json_file) {
         cout << "| 4.   transaction_ERC721_test.      |" << endl;
         cout << "| 5.   transaction_contr_test.       |" << endl;
         cout << "| 6.          bytestring_test.       |" << endl;
-        cout << "| 7.      set_my_address_test.       |" << endl;
-        cout << "| 8.         set_timeout_test.       |" << endl;
+        cout << "| 7. transaction_uniswap_test.       |" << endl;
+        cout << "| 8.      set_my_address_test.       |" << endl;
+//        cout << "| 8.         set_timeout_test.       |" << endl;
         cout << "|                                    |" << endl;
         cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
@@ -74,11 +75,14 @@ void ETH_test(JUB_UINT16 deviceID, const char* json_file) {
             bytestring_test_ETH(contextID, root);
             break;
         case 7:
-            set_my_address_test_ETH(contextID);
+            uniswap_test_ETH(contextID, root);
             break;
         case 8:
-            set_timeout_test(contextID);
+            set_my_address_test_ETH(contextID);
             break;
+//        case 8:
+//            set_timeout_test(contextID);
+//            break;
         case 9:
             JUB_ClearContext(contextID);
             main_test();
@@ -223,14 +227,14 @@ JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
     path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
 
     //ETH Test
-    uint32_t nonce = root["ETH"]["nonce"].asUInt();//.asDouble();
+    uint32_t    nonce = root["ETH"]["nonce"].asUInt();//.asDouble();
     uint32_t gasLimit = root["ETH"]["gasLimit"].asUInt();//.asDouble();
-    char* gasPriceInWei = (char*)root["ETH"]["gasPriceInWei"].asCString();
-    char* valueInWei = (char*)root["ETH"]["valueInWei"].asCString();
-    char* to = (char*)root["ETH"]["to"].asCString();
-    char* data = (char*)root["ETH"]["data"].asCString();
+    JUB_CHAR_PTR gasPriceInWei = (JUB_CHAR_PTR)root["ETH"]["gasPriceInWei"].asCString();
+    JUB_CHAR_PTR    valueInWei = (JUB_CHAR_PTR)root["ETH"]["valueInWei"].asCString();
+    JUB_CHAR_PTR   to = (JUB_CHAR_PTR)root["ETH"]["to"].asCString();
+    JUB_CHAR_PTR data = (JUB_CHAR_PTR)root["ETH"]["data"].asCString();
 
-    char* raw = nullptr;
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
     cout << "[-] JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -264,9 +268,9 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
 
     JUB_RV rv = JUBR_ERROR;
 
-    char* tokenName = (char*)root["ERC20"]["tokenName"].asCString();
+    JUB_CHAR_PTR tokenName = (JUB_CHAR_PTR)root["ERC20"]["tokenName"].asCString();
     JUB_UINT16 unitDP = root["ERC20"]["dp"].asUInt();
-    char* contractAddress = (char*)root["ERC20"]["contract_address"].asCString();
+    JUB_CHAR_PTR contractAddress = (JUB_CHAR_PTR)root["ERC20"]["contract_address"].asCString();
 
     rv = JUB_SetERC20TokenETH(contextID,
                               tokenName, unitDP, contractAddress);
@@ -275,10 +279,10 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
 
-    char* to = (char*)root["ERC20"]["contract_address"].asCString();
-    char* token_to = (char*)root["ERC20"]["token_to"].asCString();
-    char* token_value = (char*)root["ERC20"]["token_value"].asCString();
-    char* abi = nullptr;
+    JUB_CHAR_PTR to = (JUB_CHAR_PTR)root["ERC20"]["contract_address"].asCString();
+    JUB_CHAR_PTR token_to = (JUB_CHAR_PTR)root["ERC20"]["token_to"].asCString();
+    JUB_CHAR_PTR token_value = (JUB_CHAR_PTR)root["ERC20"]["token_value"].asCString();
+    JUB_CHAR_PTR abi = nullptr;
     rv = JUB_BuildERC20TransferAbiETH(contextID,
                                       token_to, token_value, &abi);
     cout << "[-] JUB_BuildERC20TransferAbiETH() return " << GetErrMsg(rv) << endl;
@@ -291,9 +295,9 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root) {
     path.addressIndex = root["ERC20"]["bip32_path"]["addressIndex"].asUInt();
     uint32_t nonce = root["ERC20"]["nonce"].asUInt();//.asDouble();
     uint32_t gasLimit = root["ERC20"]["gasLimit"].asUInt();//.asDouble();
-    char* gasPriceInWei = (char*)root["ERC20"]["gasPriceInWei"].asCString();
-    char* valueInWei = nullptr; //"" and "0" ara also OK
-    char* raw = nullptr;
+    JUB_CHAR_PTR gasPriceInWei = (JUB_CHAR_PTR)root["ERC20"]["gasPriceInWei"].asCString();
+    JUB_CHAR_PTR valueInWei = nullptr; //"" and "0" ara also OK
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
     cout << "[-] JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
     JUB_FreeMemory(abi);
@@ -403,14 +407,15 @@ JUB_RV transaction_proc_contr_ETH(JUB_UINT16 contextID, Json::Value root) {
     BIP44_Path path;
     path.change = (JUB_ENUM_BOOL)root["contract"]["bip32_path"]["change"].asBool();
     path.addressIndex = root["contract"]["bip32_path"]["addressIndex"].asUInt();
+
     uint32_t nonce = root["contract"]["nonce"].asUInt();//.asDouble();
     uint32_t gasLimit = root["contract"]["gasLimit"].asUInt();//.asDouble();
-    char* gasPriceInWei = (char*)root["contract"]["gasPriceInWei"].asCString();
-    char* valueInWei = nullptr; //"" and "0" ara also OK
-    char* to = (char*)root["contract"]["to"].asCString();
-    char* abi = (char*)root["contract"]["data"].asCString();;
+    JUB_CHAR_PTR gasPriceInWei = (JUB_CHAR_PTR)root["contract"]["gasPriceInWei"].asCString();
+    JUB_CHAR_PTR valueInWei = nullptr; //"" and "0" ara also OK
+    JUB_CHAR_PTR to   = (JUB_CHAR_PTR)root["contract"]["to"].asCString();
+    JUB_CHAR_PTR abi  = (JUB_CHAR_PTR)root["contract"]["data"].asCString();;
 
-    char* raw = nullptr;
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignContractETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, abi, &raw);
     if (JUBR_OK != rv) {
         cout << "[-] JUB_SignContractETH() return " << GetErrMsg(rv) << endl;
@@ -449,9 +454,9 @@ JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
     path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
 
     //ETH Test
-    char* data = (char*)root["Bytestring"]["data"].asCString();
+    JUB_CHAR_PTR data = (JUB_CHAR_PTR)root["Bytestring"]["data"].asCString();
 
-    char* raw = nullptr;
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignBytestringETH(contextID, path, data, &raw);
     cout << "[-] JUB_SignBytestringETH() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -460,6 +465,87 @@ JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
     else {
         cout << "    raw[" << strlen(raw) << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
+    }
+
+    return rv;
+}
+
+
+//uniswap Test
+void uniswap_test_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = uniswap_proc_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+
+JUB_RV uniswap_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    JUB_CHAR_PTR uniswip = (JUB_CHAR_PTR)root["Uniswap"]["method"].asCString();
+
+    JUB_UINT16 count = root["Uniswap"][uniswip]["tokens"].size();
+    ERC20_TOKEN_INFO* tokens = new ERC20_TOKEN_INFO[count];
+    memset(tokens, 0, count);
+    for (JUB_UINT16 i=0; i<count; ++i) {
+        tokens[i].contractAddress = (JUB_CHAR_PTR)root["Uniswap"][uniswip]["tokens"][i]["contract_address"].asCString();
+        tokens[i].unitDP          = root["Uniswap"][uniswip]["tokens"][i]["dp"].asUInt();
+        tokens[i].tokenName       = (JUB_CHAR_PTR)root["Uniswap"][uniswip]["tokens"][i]["tokenName"].asCString();
+    }
+    if (1 == count) {
+        rv = JUB_SetERC20TokenETH(contextID,
+                                  tokens[0].tokenName, tokens[0].unitDP, tokens[0].contractAddress);
+        cout << "[-] JUB_SetERC20TokenETH() return " << GetErrMsg(rv) << endl;
+    }
+    else {
+        rv = JUB_SetERC20TokensETH(contextID,
+                                   tokens, count);
+        cout << "[-] JUB_SetERC20TokensETH() return " << GetErrMsg(rv) << endl;
+    }
+    if (JUBR_OK != rv) {
+        delete [] tokens; tokens = nullptr;
+        return rv;
+    }
+    delete [] tokens; tokens = nullptr;
+
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["Uniswap"][uniswip]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["Uniswap"][uniswip]["bip32_path"]["addressIndex"].asUInt();
+
+    uint32_t nonce    = root["Uniswap"][uniswip]["nonce"].asUInt();//.asDouble();
+    uint32_t gasLimit = root["Uniswap"][uniswip]["gasLimit"].asUInt();//.asDouble();
+    JUB_CHAR_PTR gasPriceInWei = (JUB_CHAR_PTR)root["Uniswap"][uniswip]["gasPriceInWei"].asCString();
+    JUB_CHAR_PTR valueInWei = (JUB_CHAR_PTR)root["Uniswap"][uniswip]["valueInWei"].asCString();
+    JUB_CHAR_PTR to   = (JUB_CHAR_PTR)root["Uniswap"][uniswip]["to"].asCString();
+    JUB_CHAR_PTR abi  = (JUB_CHAR_PTR)root["Uniswap"][uniswip]["data"].asCString();
+
+    JUB_CHAR_PTR raw = nullptr;
+    try {
+    rv = JUB_SignTransactionETH(contextID, path,
+                                nonce, gasLimit, gasPriceInWei,
+                                to, valueInWei, abi,
+                                &raw);
+    cout << "[-] JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+    else {
+        cout << "    raw[" << strlen(raw) << "]: "  << raw << endl;
+        JUB_FreeMemory(raw);
+    }
+    }
+    catch (...) {
+        int ii = 0;
     }
 
     return rv;
