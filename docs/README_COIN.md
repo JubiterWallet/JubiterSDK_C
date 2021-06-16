@@ -32,6 +32,7 @@ Function list:
     * [JUB_BuildQRC20Outputs](#JUB_BuildQRC20Outputs)
 * **ETH series related module**
     * [JUB_SignTransactionETH](#JUB_SignTransactionETH)
+    * [JUB_SetERC20TokensETH](#JUB_SetERC20TokensETH)
     * [JUB_SetERC20TokenETH](#JUB_SetERC20TokenETH)
     * [JUB_BuildERC20TransferAbiETH](#JUB_BuildERC20TransferAbiETH)
     * [JUB_SetERC721TokenETH](#JUB_SetERC721TokenETH)
@@ -267,6 +268,22 @@ JUB_RV JUB_SignTransactionETH(
     IN JUB_CHAR_CPTR input,
     OUT JUB_CHAR_PTR_PTR raw
 );
+```
+
+### JUB_SetERC20TokensETH
+* **Function:** Set ETH ERC-20 Token into Device.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
+tokens - token info list.
+iCount - token info list count.
+* **OUT param:** none.
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionETH for uniswap transactions.
+```
+JUB_RV JUB_SetERC20TokensETH(
+    IN JUB_UINT16 contextID,
+    IN ERC20_TOKEN_INFO tokens[],
+    IN JUB_UINT16 iCount);
 ```
 
 ### JUB_SetERC20TokenETH

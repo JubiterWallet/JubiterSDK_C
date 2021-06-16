@@ -609,12 +609,6 @@ JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, stVersion& 
         vVersion = uchar_vector(&retData[6], 4);
     }
     else {
-        APDU apdu(0x00, 0xA4, 0x04, 0x00, (JUB_ULONG)id.size(), &id[0]);
-        JUB_BYTE retData[1024] = { 0, };
-        JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
-        JUB_VERIFY_RV(JubiterBladeToken::_SendApdu(&apdu, ret, retData, &ulRetDataLen));
-        JUB_VERIFY_COS_ERROR(ret);
-
         if (!(0x84 == retData[2]
            && 0x04 == retData[3])
             ) {
@@ -758,6 +752,38 @@ JUB_RV JubiterBladeToken::SetTimeout(const JUB_UINT16 timeout) {
     }
 
     return JUBR_ERROR;
+}
+
+
+JUB_RV JubiterBladeToken::SetERC20Tokens(const ERC20_TOKEN_INFO tokens[],
+                                         const JUB_UINT16 iCount) {
+
+    if (2 < iCount) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    uchar_vector data;
+    data << (uint8_t)iCount;
+    for (JUB_UINT16 i=0; i<iCount; ++i) {
+        uchar_vector lvName = Tollv(tokens[i].tokenName);
+        uchar_vector address;
+        address << ETHHexStr2CharPtr(tokens[i].contractAddress);
+
+        data << (uint8_t)tokens[i].unitDP;
+        data << (uint8_t)lvName.size();
+        data << lvName;
+        data << (uint8_t)address.size();
+        data << address;
+    }
+
+    APDU apdu(0x00, 0xc7, JUB_ENUM_APDU_ERC_P1::TOKENS_INFO, 0x00, (JUB_ULONG)data.size(), data.data());
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    if (0x9000 != ret) {
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+    }
+
+    return JUBR_OK;
 }
 
 

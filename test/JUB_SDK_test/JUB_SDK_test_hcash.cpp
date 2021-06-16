@@ -140,10 +140,10 @@ JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
         outputs.push_back(output);
     }
 
-    char* unsignedRaw = (char*)root["unsigned_tx"].asCString();
-    //NSString* unsignedTx = [NSString stringWithUTF8String:(char*)root["unsigned_tx"].asCString()];
+    JUB_CHAR_PTR unsignedRaw = (JUB_CHAR_PTR)root["unsigned_tx"].asCString();
+    //NSString* unsignedTx = [NSString stringWithUTF8String:(JUB_CHAR_PTR)root["unsigned_tx"].asCString()];
 
-    char* raw = nullptr;
+    JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionHC(contextID, version, &inputs[0], (JUB_UINT16)inputs.size(), &outputs[0], (JUB_UINT16)outputs.size(), unsignedRaw, &raw);
     cout << "[-] JUB_SignTransactionHC() return " << GetErrMsg(rv) << endl;
 
@@ -166,7 +166,7 @@ JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
 }
 
 
-void HC_test(JUB_UINT16 deviceID, const char* json_file) {
+void HC_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -178,7 +178,7 @@ void HC_test(JUB_UINT16 deviceID, const char* json_file) {
     JUB_UINT16 contextID = 0;
 
     CONTEXT_CONFIG_HC cfg;
-    cfg.mainPath = (char*)root["main_path"].asCString();
+    cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
 
     rv = JUB_CreateContextHC(cfg, deviceID, &contextID);
     cout << "[-] JUB_CreateContextHC() return " << GetErrMsg(rv) << endl;

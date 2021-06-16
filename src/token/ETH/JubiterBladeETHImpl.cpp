@@ -157,6 +157,21 @@ JUB_RV JubiterBladeETHImpl::VerifyTX(const std::vector<JUB_BYTE>& vChainID,
 }
 
 
+JUB_RV JubiterBladeETHImpl::SetERC20ETHTokens(const ERC20_TOKEN_INFO tokens[],
+                                              const JUB_UINT16 iCount) {
+
+    // ETH token extension apdu
+    if (JubiterBladeETHImpl::_appletVersion >= stVersionExp::FromString(JubiterBladeETHImpl::ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS)) {
+        return SetERC20Tokens(tokens, iCount);
+    }
+    else if (1 == iCount) {
+        return SetERC20ETHToken(tokens[0].tokenName, tokens[0].unitDP, tokens[0].contractAddress);
+    }
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterBladeETHImpl::SetERC20ETHToken(const std::string& tokenName,
                                              const JUB_UINT16 unitDP,
                                              const std::string& contractAddress) {

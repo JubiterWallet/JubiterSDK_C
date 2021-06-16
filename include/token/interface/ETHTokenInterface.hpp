@@ -20,6 +20,7 @@ enum JUB_ENUM_APDU_ERC_ETH : uint16_t {
 enum JUB_ENUM_APDU_ERC_P1 : uint8_t {
     ERC20  = 0x00,
     ERC721 = 0x01,
+    TOKENS_INFO = 0x02,  // Compatible with both ERC20 & ERC721
 };
 
 
@@ -54,6 +55,8 @@ public:
     virtual JUB_RV VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                             const std::string& path,
                             const std::vector<JUB_BYTE>& vSigedTrans) = 0;
+    virtual JUB_RV SetERC20ETHTokens(const ERC20_TOKEN_INFO tokens[],
+                                     const JUB_UINT16 iCount) = 0;
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
                                     const JUB_UINT16 unitDP,
                                     const std::string& contractAddress) = 0;

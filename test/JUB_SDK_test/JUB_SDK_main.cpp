@@ -107,7 +107,7 @@ std::string GetErrMsg(JUB_RV rv) {
 }
 
 
-void error_exit(const char* message) {
+void error_exit(JUB_CHAR_CPTR message) {
 
     cout << message << endl;
     cout << "press any key to exit" << endl;
@@ -117,7 +117,7 @@ void error_exit(const char* message) {
 }
 
 
-Json::Value readJSON(const char* json_file) {
+Json::Value readJSON(JUB_CHAR_CPTR json_file) {
     Json::CharReaderBuilder builder;
     Json::Value root;
     ifstream in(json_file, ios::binary);

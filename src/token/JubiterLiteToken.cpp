@@ -17,59 +17,59 @@ stAppInfos JubiterLiteToken::g_appInfo[] = {
 //    {
 //        TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
 //        "NFC",
-//        "0000000"
+//        "00000000"
 //    },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "BTC",
-        "0000000"
+        "00000000"
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "ETH",
-        "0000000"
+        "00000000"
     },
     // BTC and ETH index position fixed, start adding new apps below:
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "ETC",
-        "0000000"
+        "00000000"
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "BCH",
-        "0000000"
+        "00000000"
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "LTC",
-        "0000000",
+        "00000000",
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "DASH",
-        "0000000"
+        "00000000"
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "USDT",
-        "0000000"
+        "00000000"
     },
     // MISC applet, start adding new apps below:
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "EOS",
-        "0000000"
+        "00000000"
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "XRP",
-        "0000000"
+        "00000000"
     },
     {
         TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC)/sizeof(JUB_BYTE))),
         "TRX",
-        "0000000"
+        "00000000"
     },
 };
 

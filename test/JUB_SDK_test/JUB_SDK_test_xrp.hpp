@@ -14,7 +14,7 @@
 
 #include "../../include/JUB_SDK_XRP.h"
 
-void XRP_test(JUB_UINT16 deviceID, const char* json_file);
+void XRP_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file);
 
 void  get_address_pubkey_XRP(JUB_UINT16 contextID);
 

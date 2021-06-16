@@ -16,7 +16,7 @@
 #include "../../include/JUB_SDK_BTC.h"
 
 
-void ETH_test(JUB_UINT16 deviceID, const char* json_file);
+void ETH_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file);
 
 void set_my_address_test_ETH(JUB_UINT16 contextID);
 void  get_address_pubkey_ETH(JUB_UINT16 contextID);
@@ -35,5 +35,8 @@ JUB_RV transaction_proc_contr_ETH(JUB_UINT16 contextID, Json::Value root);
 
 void   bytestring_test_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root);
+
+void   uniswap_test_ETH(JUB_UINT16 contextID, Json::Value root);
+JUB_RV uniswap_proc_ETH(JUB_UINT16 contextID, Json::Value root);
 
 #endif /* JUB_SDK_test_eth_hpp */

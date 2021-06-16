@@ -15,7 +15,7 @@
 #include "../../include/JUB_SDK_EOS.h"
 
 
-void EOS_test(JUB_UINT16 deviceID, const char* json_file);
+void EOS_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file);
 
 void  get_address_pubkey_EOS(JUB_UINT16 contextID);
 

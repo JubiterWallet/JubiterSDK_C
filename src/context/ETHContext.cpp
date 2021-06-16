@@ -324,6 +324,28 @@ JUB_RV ETHContext::SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,
 }
 
 
+JUB_RV ETHContext::SetERC20ETHTokens(ERC20_TOKEN_INFO tokens[],
+                                     JUB_UINT16 iCount) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::ETHTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    if ((nullptr == tokens)
+        ||    (0 >= iCount)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    JUB_VERIFY_RV(token->SetERC20ETHTokens(tokens, iCount));
+
+    return JUBR_OK;
+}
+
+
 JUB_RV ETHContext::BuildERC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
 
     CONTEXT_CHECK_TYPE_NONE
