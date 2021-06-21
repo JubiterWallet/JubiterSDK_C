@@ -27,12 +27,7 @@ add_executable(JUB_test ${SRC_LIST})
 
 #user lib
 if(APPLE)
-<<<<<<< HEAD
     target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto libprotobuf ${HID_API_LIB_STATIC}" -framework CoreFoundation" "-framework IOKit")
-=======
-    #MacOS与iOS链接framework
-    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto libprotobuf ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
->>>>>>> 52d29dc (FIL done.)
 else()
     #其他平台链接静态库
     target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto libprotobuf ${HID_API_LIB_STATIC})  
