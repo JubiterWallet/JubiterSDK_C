@@ -732,6 +732,10 @@
 		7788319126736633004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 7788318F26736633004FDA80 /* ContractAbi.h */; };
 		7788319226736633004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788319026736633004FDA80 /* ContractAbi.cpp */; };
 		7788319326736633004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788319026736633004FDA80 /* ContractAbi.cpp */; };
+		77AD324A2680725E00888326 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD32482680725D00888326 /* Base64.h */; };
+		77AD324B2680725E00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32492680725D00888326 /* Base64.cpp */; };
+		77AD324C2680725E00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32492680725D00888326 /* Base64.cpp */; };
+		77AD324E2680728200888326 /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD324D2680728200888326 /* uint256.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1269,6 +1273,9 @@
 		7731ABDA26738B5900C23EEC /* mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mutex.h; path = ../../include/utility/mutex.h; sourceTree = "<group>"; };
 		7788318F26736633004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7788319026736633004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
+		77AD32482680725D00888326 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
+		77AD32492680725D00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
+		77AD324D2680728200888326 /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256.h; path = "../../deps/TrustWallet/wallet-core/src/uint256.h"; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1583,6 +1590,8 @@
 				6713A89E23A07C8B0083A34D /* Base58.cpp */,
 				6713A89F23A07C8B0083A34D /* Base58.h */,
 				671E23FF23CEC1E8001A5F81 /* Base58Address.h */,
+				77AD32492680725D00888326 /* Base64.cpp */,
+				77AD32482680725D00888326 /* Base64.h */,
 				671E240123CEC1E8001A5F81 /* Bech32.cpp */,
 				671E23FE23CEC1E8001A5F81 /* Bech32.h */,
 				671E23FD23CEC1E8001A5F81 /* Bech32Address.cpp */,
@@ -1601,6 +1610,7 @@
 				6713A86E23A07C200083A34D /* PrivateKey.h */,
 				6713A86B23A07C200083A34D /* PublicKey.cpp */,
 				6713A86A23A07C200083A34D /* PublicKey.h */,
+				77AD324D2680728200888326 /* uint256.h */,
 				67E0DE1D250F186100D42EF0 /* XXHash64.h */,
 			);
 			name = src;
@@ -2603,6 +2613,7 @@
 				6718A39F23A3391C00F8A5CD /* aestab.h in Headers */,
 				6718A3B323A3392F00F8A5CD /* ed25519_ref10.h in Headers */,
 				6718A3CB23A3394000F8A5CD /* memzero.h in Headers */,
+				77AD324A2680725E00888326 /* Base64.h in Headers */,
 				676C23B42571264D008A6297 /* FILContext.h in Headers */,
 				673E498C2429EDD700C7F469 /* TransactionDash.h in Headers */,
 				6718A37323A338EA00F8A5CD /* Base58.h in Headers */,
@@ -2708,6 +2719,7 @@
 				67E0DF5E250F6D6C00D42EF0 /* TWBitcoinOpCodes.h in Headers */,
 				6718A3BE23A3394000F8A5CD /* ed25519-blake2b.h in Headers */,
 				67E0DE42250F19B700D42EF0 /* Transaction.h in Headers */,
+				77AD324E2680728200888326 /* uint256.h in Headers */,
 				67E0DE1E250F186100D42EF0 /* XXHash64.h in Headers */,
 				6763935E253464A800C41883 /* Tron.pb.h in Headers */,
 				6718A3BF23A3394000F8A5CD /* ed25519-donna-32bit-tables.h in Headers */,
@@ -2843,6 +2855,7 @@
 				67E0DE37250F19B700D42EF0 /* Name.cpp in Sources */,
 				675B056124286B30004C62D4 /* TWHcash.cpp in Sources */,
 				6718A41E23A339ED00F8A5CD /* JUB_SDK_ETH.cpp in Sources */,
+				77AD324C2680725E00888326 /* Base64.cpp in Sources */,
 				6718A38E23A3391100F8A5CD /* ed25519-sha3.c in Sources */,
 				6745C8E0254A654500D49A75 /* JUB_SDK_TRX.cpp in Sources */,
 				67639363253464A800C41883 /* Tron.pb.cc in Sources */,
@@ -3151,6 +3164,7 @@
 				67755DAB253F10B70056F2C0 /* TransactionRaw.cpp in Sources */,
 				6713A86723A07C090083A34D /* Transaction.cpp in Sources */,
 				673E497E2429EDD700C7F469 /* TransactionInput.cpp in Sources */,
+				77AD324B2680725E00888326 /* Base64.cpp in Sources */,
 				6713A8ED23A082770083A34D /* secp256k1.c in Sources */,
 				675B053124286909004C62D4 /* JubiterBaseBCHImpl.cpp in Sources */,
 				671E240B23CEC220001A5F81 /* DerivationPath.cpp in Sources */,
@@ -3268,7 +3282,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -3304,7 +3318,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3335,7 +3349,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -3367,7 +3381,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3513,8 +3527,8 @@
 		EADCCD7D22A7B380008F2EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MD27BY8JFU;
 				ENABLE_BITCODE = NO;
@@ -3556,8 +3570,8 @@
 		EADCCD7E22A7B380008F2EF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MD27BY8JFU;
 				ENABLE_BITCODE = NO;

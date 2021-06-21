@@ -40,6 +40,7 @@ Function list:
     * [JUB_SignContractETH](#JUB_SignContractETH)
 * **FIL related module**
     * [JUB_SignTransactionFIL](#JUB_SignTransactionFIL)
+    * [JUB_CalculateTransactionCIDFIL](#JUB_CalculateTransactionCIDFIL)
 * **EOS related module**
     * [JUB_SignTransactionEOS](#JUB_SignTransactionEOS)
     * [JUB_BuildActionEOS](#JUB_BuildActionEOS)
@@ -389,6 +390,34 @@ JUB_RV JUB_SignContractETH(
 ```
 
 ## FIL related module
+### JUB_CalculateTransactionCIDFIL
+* **Function:** Calculate the CID of FIL transaction.
+* **IN param:**
+contextID - context ID from JUB_CreateContextFIL.
+path - path in BIP44.
+nonce - nonce.
+gasLimit - gas limit.
+gasPriceInAtto - gas price in attoFIL.
+to - to address.
+valueInAtto - amount in attoFIL of FIL tx.
+input - empyt string for FIL tx or...
+* **OUT param:**
+cid -  FIL/FIL token tx's CID.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_CalculateTransactionCIDFIL(
+    IN JUB_UINT16 contextID,
+    IN BIP44_Path path,
+    IN JUB_UINT64 nonce,
+    IN JUB_UINT64 gasLimit,
+    IN JUB_CHAR_CPTR gasPriceInAtto,
+    IN JUB_CHAR_CPTR to,
+    IN JUB_CHAR_CPTR valueInAtto,
+    IN JUB_CHAR_CPTR input,
+    OUT JUB_CHAR_PTR_PTR cid
+);
+```
+
 ### JUB_SignTransactionFIL
 * **Function:** Sign FIL transaction.
 * **IN param:**

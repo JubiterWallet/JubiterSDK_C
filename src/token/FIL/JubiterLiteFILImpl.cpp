@@ -76,7 +76,7 @@ JUB_RV JubiterLiteFILImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV, std::ve
 
 
 JUB_RV JubiterLiteFILImpl::SignTX(const uint64_t& nonce,
-                                  const uint256_t& glimit,
+                                  const  int64_t& glimit,
                                   const uint256_t& gfeeCap,
                                   const uint256_t& gpremium,
                                   const std::string& to,

@@ -107,7 +107,34 @@ JUB_RV JUB_SignTransactionFIL(IN JUB_UINT16 contextID,
                               IN JUB_CHAR_CPTR input,
                               OUT JUB_CHAR_PTR_PTR raw);
 
+
+/*****************************************************************************
+ * @function name : JUB_CalculateTransactionCIDFIL
+ * @in  param : contextID - context ID
+ *          : path
+ *          : nonce - nonce
+ *          : gasLimit - gas limit
+ *          : gasPriceInAtto - gas price in attoFIL
+ *          : to
+ *          : valueInAtto - value in attoFIL
+ *          : input
+ * @out param : cid
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CalculateTransactionCIDFIL(IN JUB_UINT16 contextID,
+                                      IN BIP44_Path path,
+                                      IN JUB_UINT64 nonce,
+                                      IN JUB_UINT64 gasLimit,
+                                      IN JUB_CHAR_CPTR gasFeeCapInAtto,
+                                      IN JUB_CHAR_CPTR gasPremiumInAtto,
+                                      IN JUB_CHAR_CPTR to,
+                                      IN JUB_CHAR_CPTR valueInAtto,
+                                      IN JUB_CHAR_CPTR input,
+                                      OUT JUB_CHAR_PTR_PTR cid);
+
+
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus
-#endif /* JUB_SDK_XRP_h */
+#endif /* JUB_SDK_FIL_h */

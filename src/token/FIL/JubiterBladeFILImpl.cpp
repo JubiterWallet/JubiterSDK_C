@@ -76,7 +76,7 @@ JUB_RV JubiterBladeFILImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 
 
 JUB_RV JubiterBladeFILImpl::SignTX(const uint64_t& nonce,
-                                   const uint256_t& glimit,
+                                   const  int64_t& glimit,
                                    const uint256_t& gfeeCap,
                                    const uint256_t& gpremium,
                                    const std::string& to,

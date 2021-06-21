@@ -1029,6 +1029,10 @@
 		7788318E267356A6004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788318A267356A5004FDA80 /* ContractAbi.cpp */; };
 		77AD321E2679E15A00888326 /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A4BC7C233082130059A3DB /* libJubSDK.a */; };
 		77AD32212679E43500888326 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7731ABCB2673891C00C23EEC /* libprotobuf.a */; };
+		77AD323E26806EEF00888326 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD323C26806EEF00888326 /* Base64.h */; };
+		77AD323F26806EEF00888326 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD323C26806EEF00888326 /* Base64.h */; };
+		77AD324026806EEF00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD323D26806EEF00888326 /* Base64.cpp */; };
+		77AD324126806EEF00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD323D26806EEF00888326 /* Base64.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1566,6 +1570,8 @@
 		77883189267356A5004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7788318A267356A5004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
 		77AD321F2679E17000888326 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = "../../../../../git.FT-JubiterWallet/HyperPay-Jub_SDK_CXX/outputs/Darwin/Release/libprotobuf.a"; sourceTree = "<group>"; };
+		77AD323C26806EEF00888326 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
+		77AD323D26806EEF00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
 		77B1C4E9265F80B80093E7A9 /* ERC721Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC721Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.h"; sourceTree = "<group>"; };
 		77B1C4EA265F80B80093E7A9 /* ERC721Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC721Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1961,6 +1967,8 @@
 				676621DE234C316900AFAFA2 /* Base58.cpp */,
 				676F028623C775A6005C8032 /* Base58.h */,
 				67ECD13323CD724100B7D514 /* Base58Address.h */,
+				77AD323D26806EEF00888326 /* Base64.cpp */,
+				77AD323C26806EEF00888326 /* Base64.h */,
 				67ECD13123CD724100B7D514 /* Bech32.cpp */,
 				67ECD13423CD724100B7D514 /* Bech32.h */,
 				67ECD13523CD724100B7D514 /* Bech32Address.cpp */,
@@ -1979,8 +1987,8 @@
 				6766221A234C31DC00AFAFA2 /* PublicKey.cpp */,
 				6766221D234C31DC00AFAFA2 /* PublicKey.h */,
 				67662217234C31DB00AFAFA2 /* HexCoding.cpp */,
-				67E0DE1A250F10F100D42EF0 /* XXHash64.h */,
 				67E25B352591F9790040A913 /* uint256.h */,
+				67E0DE1A250F10F100D42EF0 /* XXHash64.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -2990,6 +2998,7 @@
 				6780223D2519DCD8008142B1 /* ContractAssetIssue.h in Headers */,
 				67E0DF21250F6CE600D42EF0 /* Action.h in Headers */,
 				677DF33B24DD3A10001920A9 /* ETHContextFactory.h in Headers */,
+				77AD323F26806EEF00888326 /* Base64.h in Headers */,
 				67ED0FD625243217009029A7 /* AccountId.h in Headers */,
 				67E0DE83250F6C1F00D42EF0 /* TWPrivateKey.h in Headers */,
 				67755D58253DB8020056F2C0 /* pb_varint.hpp in Headers */,
@@ -3294,6 +3303,7 @@
 				67A4BD612330A1D10059A3DB /* base58.h in Headers */,
 				67E0DF67250F751500D42EF0 /* TRXContextFactory.h in Headers */,
 				67E0DE98250F6C1F00D42EF0 /* TWPublicKey.h in Headers */,
+				77AD323E26806EEF00888326 /* Base64.h in Headers */,
 				67F59599256E66BF00AB8FED /* Cbor.h in Headers */,
 				67E0DE80250F6C1F00D42EF0 /* TWBitcoinOpCodes.h in Headers */,
 				67E0DE8E250F6C1F00D42EF0 /* TWPurpose.h in Headers */,
@@ -3559,6 +3569,7 @@
 				677A185623F1252C003FA636 /* JubiterBaseDashImpl.cpp in Sources */,
 				67189FDC23A2117500F8A5CD /* ripemd160.c in Sources */,
 				6718A00923A211B600F8A5CD /* PrivateKey.cpp in Sources */,
+				77AD324126806EEF00888326 /* Base64.cpp in Sources */,
 				67189F4723A2103F00F8A5CD /* JUB_SDK_EOS.cpp in Sources */,
 				67E0DEB2250F6C6600D42EF0 /* TWHDVersion.cpp in Sources */,
 				67F59589256E666000AB8FED /* Signer.cpp in Sources */,
@@ -3779,6 +3790,7 @@
 				67A4BD8E2330A9220059A3DB /* schnorr.c in Sources */,
 				67A4BD8D2330A9220059A3DB /* sha2.c in Sources */,
 				772B68182673817F007D789B /* JubiterBIOXRPImpl.cpp in Sources */,
+				77AD324026806EEF00888326 /* Base64.cpp in Sources */,
 				67A4BCF0233084B90059A3DB /* JubiterBLEDevice.cpp in Sources */,
 				676B4296240F922300EBB44D /* RLP.cpp in Sources */,
 				6795A82F23D93EBD00F273E0 /* JubiterBaseBTCImpl.cpp in Sources */,
