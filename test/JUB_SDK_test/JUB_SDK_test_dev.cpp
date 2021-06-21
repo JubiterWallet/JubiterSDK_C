@@ -50,7 +50,7 @@ void get_device_info_test(JUB_UINT16 deviceID) {
 
     for (auto appID : vAppList) {
         JUB_VERSION version;
-        auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
+        auto rv = JUB_GetAppletVersion(deviceID, (JUB_CHAR_PTR)appID.c_str(), &version);
         cout << "[-] JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             return;

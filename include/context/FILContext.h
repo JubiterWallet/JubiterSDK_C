@@ -56,6 +56,15 @@ public:
                                    JUB_CHAR_CPTR valueInAtto,
                                    JUB_CHAR_CPTR input,
                                    OUT std::string& raw);
+    virtual JUB_RV CalculateTransactionCID(BIP44_Path path,
+                                           const JUB_UINT64 nonce,
+                                           const JUB_UINT64 gasLimit,
+                                           JUB_CHAR_CPTR gasFeeCapInAtto,
+                                           JUB_CHAR_CPTR gasPremiumInAtto,
+                                           JUB_CHAR_CPTR to,
+                                           JUB_CHAR_CPTR valueInAtto,
+                                           JUB_CHAR_CPTR input,
+                                           OUT std::string& cid);
 
     virtual JUB_RV ActiveSelf() override;
 }; // class FILContext end

@@ -18,6 +18,8 @@ namespace TW::Filecoin {
 
 class Transaction {
   public:
+    // Transaction version
+    uint64_t version;
     // Recipient address
     Address to;
     // Sender address
@@ -26,53 +28,53 @@ class Transaction {
     uint64_t nonce;
     // Transaction value
     uint256_t value;
-    // Miner fee
-    // JuBiter-removed
-//    uint256_t gasPrice;
-    uint256_t gasLimit;
-    // Transaction type; 0 for simple transfers
-    // JuBiter-defined
+    // Fee settings
+    int64_t gasLimit;
     uint256_t gasFeeCap;
-    // JuBiter-defined
     uint256_t gasPremium;
+    // Transaction type; 0 for simple transfers
     uint64_t method;
     // Transaction data; empty for simple transfers
     Data params;
 
-    // JuBiter-modified
-    Transaction(Address to, Address from, uint64_t nonce, uint256_t value,
-                uint256_t glimit, uint256_t gfeeCap, uint256_t gpremium)
-        : to(std::move(to))
+    Transaction(Address to, Address from, uint64_t nonce, uint256_t value, int64_t gasLimit,
+                uint256_t gasFeeCap, uint256_t gasPremium)
+        : version(0)
+        , to(std::move(to))
         , from(std::move(from))
         , nonce(nonce)
         , value(std::move(value))
-        , gasLimit(std::move(glimit))
-        , gasFeeCap(std::move(gfeeCap))
-        , gasPremium(std::move(gpremium))
+        , gasLimit(gasLimit)
+        , gasFeeCap(std::move(gasFeeCap))
+        , gasPremium(std::move(gasPremium))
         , method(0) {}
 
   public:
     // JuBiter-defined
     static Data getCidPrefix();
-    // JuBiter-defined
-    Data getNonce() const;
-    // JuBiter-defined
-    Data getValue() const;
-    // JuBiter-defined
-    Data getGasFeeCap() const;
-    // JuBiter-defined
-    Data getGasPremium() const;
-    // JuBiter-defined
-    Data getGasLimit() const;
-
+//    // JuBiter-defined
+//    Data getNonce() const;
+//    // JuBiter-defined
+//    Data getValue() const;
+//    // JuBiter-defined
+//    Data getGasFeeCap() const;
+//    // JuBiter-defined
+//    Data getGasPremium() const;
+//    // JuBiter-defined
+//    Data getGasLimit() const;
+//
     // message returns the CBOR encoding of the Filecoin Message to be signed.
     Cbor::Encode message() const;
 
     // cid returns the raw Filecoin message CID (excluding the signature).
     Data cid() const;
+    // JuBiter-defined
+    static std::string cid(const Data& cid);
+    // JuBiter-defined
+    static std::string cid(const Transaction& tx);
 
-    // serialize returns the CBOR encoding of the Filecoin SignedMessage.
-    Data serialize(Data& signature) const;
+    // serialize returns json ready for MpoolPush rpc
+    std::string serialize(Data& signature) const;
 };
 
 } // namespace TW::Filecoin

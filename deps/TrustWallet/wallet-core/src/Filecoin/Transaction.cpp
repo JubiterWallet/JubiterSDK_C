@@ -5,7 +5,12 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "Transaction.h"
+#include <algorithm>
+#include "../Base32.h"
+#include "../Base64.h"
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 using namespace TW;
 using namespace TW::Filecoin;
 
@@ -41,43 +46,43 @@ Data Transaction::getCidPrefix() {
     return cidPrefix;
 }
 
-// JuBiter-defined
-Data Transaction::getNonce() const {
-    Data vNonce = Cbor::Encode::uint(nonce).encoded();
-    return Data(vNonce.begin()+1, vNonce.end());
-}
-
-// JuBiter-defined
-Data Transaction::getValue() const {
-    Data vValue = Cbor::Encode::bytes(encodeVaruint(value)).encoded();
-    return Data(vValue.begin()+1, vValue.end());
-}
-
-// JuBiter-defined
-Data Transaction::getGasFeeCap() const {
-    Data vGasFeeCap = Cbor::Encode::bytes(encodeVaruint(gasFeeCap)).encoded();
-    return Data(vGasFeeCap.begin()+1, vGasFeeCap.end());
-}
-
-// JuBiter-defined
-Data Transaction::getGasPremium() const {
-    Data vGasPremium = Cbor::Encode::bytes(encodeVaruint(gasPremium)).encoded();
-    return Data(vGasPremium.begin()+1, vGasPremium.end());
-}
-
-// JuBiter-defined
-Data Transaction::getGasLimit() const {
-    Cbor::Encode cborGasLimit = gasLimit >= 0 ? Cbor::Encode::uint((uint64_t)gasLimit)
-                                              : Cbor::Encode::negInt((uint64_t)(-gasLimit - 1));
-    Data vGasLimit = cborGasLimit.encoded();
-    return Data(vGasLimit.begin()+1, vGasLimit.end());
-}
-
+//// JuBiter-defined
+//Data Transaction::getNonce() const {
+//    Data vNonce = Cbor::Encode::uint(nonce).encoded();
+//    return Data(vNonce.begin()+1, vNonce.end());
+//}
+//
+//// JuBiter-defined
+//Data Transaction::getValue() const {
+//    Data vValue = Cbor::Encode::bytes(encodeVaruint(value)).encoded();
+//    return Data(vValue.begin()+1, vValue.end());
+//}
+//
+//// JuBiter-defined
+//Data Transaction::getGasFeeCap() const {
+//    Data vGasFeeCap = Cbor::Encode::bytes(encodeVaruint(gasFeeCap)).encoded();
+//    return Data(vGasFeeCap.begin()+1, vGasFeeCap.end());
+//}
+//
+//// JuBiter-defined
+//Data Transaction::getGasPremium() const {
+//    Data vGasPremium = Cbor::Encode::bytes(encodeVaruint(gasPremium)).encoded();
+//    return Data(vGasPremium.begin()+1, vGasPremium.end());
+//}
+//
+//// JuBiter-defined
+//Data Transaction::getGasLimit() const {
+//    Cbor::Encode cborGasLimit = gasLimit >= 0 ? Cbor::Encode::uint((uint64_t)gasLimit)
+//                                              : Cbor::Encode::negInt((uint64_t)(-gasLimit - 1));
+//    Data vGasLimit = cborGasLimit.encoded();
+//    return Data(vGasLimit.begin()+1, vGasLimit.end());
+//}
+//
 Cbor::Encode Transaction::message() const {
     Cbor::Encode cborGasLimit = gasLimit >= 0 ? Cbor::Encode::uint((uint64_t)gasLimit)
                                               : Cbor::Encode::negInt((uint64_t)(-gasLimit - 1));
     return Cbor::Encode::array({
-        Cbor::Encode::uint(0),                        // version
+        Cbor::Encode::uint(version),                  // version
         Cbor::Encode::bytes(to.bytes),                // to address
         Cbor::Encode::bytes(from.bytes),              // from address
         Cbor::Encode::uint(nonce),                    // nonce
@@ -100,12 +105,54 @@ Data Transaction::cid() const {
     return cid;
 }
 
-Data Transaction::serialize(Data& signature) const {
-    // Wrap signature in object.
-    Data sigObject;
-    TW::append(sigObject, 0x01); // Prepend IKTSecp256k1 type
-    TW::append(sigObject, signature);
-    // Create Filecoin SignedMessage
-    auto signedMessage = Cbor::Encode::array({message(), Cbor::Encode::bytes(sigObject)});
-    return signedMessage.encoded();
+// JuBiter-defined
+std::string str_tolower(std::string s) {
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c){ return std::tolower(c); }
+    );
+    return s;
+}
+
+// JuBiter-defined
+std::string Transaction::cid(const Data& cid) {
+    std::string multibase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+    std::string upper = TW::Base32::encode(cid, multibase.c_str());
+    std::string lower = str_tolower(upper);
+
+    return ("b"+lower);
+}
+
+// JuBiter-defined
+std::string Transaction::cid(const Transaction& tx) {
+    return Transaction::cid(tx.cid());
+}
+
+std::string Transaction::serialize(Data& signature) const {
+    json tx = {
+        {"Message", json{
+                {"To", to.string()},
+                {"From", from.string()},
+                {"Nonce", nonce},
+                {"Value", toString(value)},
+                {"GasPremium", toString(gasPremium)},
+                {"GasFeeCap", toString(gasFeeCap)},
+                {"GasLimit", gasLimit},
+                {"CID", json{
+                        {"/", Transaction::cid(cid())},
+                    }
+                }
+            }
+        },
+        {"Signature", json{
+                {"Type", 1},    // Prepend IKTSecp256k1 type
+                {"Data", Base64::encode(signature)},
+            }
+        },
+        {"CID", json{
+                {"/", Transaction::cid(cid())},
+            }
+        },
+    };
+    return tx.dump();
 }

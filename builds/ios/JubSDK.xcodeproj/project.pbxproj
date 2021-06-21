@@ -718,6 +718,9 @@
 		77974568263021D200ECFF34 /* uint128_t.h in Headers */ = {isa = PBXBuildFile; fileRef = 77974562263021D200ECFF34 /* uint128_t.h */; };
 		7797456B2630221200ECFF34 /* libFTTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6718A13823A216AD00F8A5CD /* libFTTransmission.a */; };
 		7797456E2630222A00ECFF34 /* libFTNFCTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 670B8FCA2432ED2500E8EF5C /* libFTNFCTransmission.a */; };
+		77AD32392680659F00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32372680659E00888326 /* Base64.cpp */; };
+		77AD323A2680659F00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32372680659E00888326 /* Base64.cpp */; };
+		77AD323B2680659F00888326 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD32382680659E00888326 /* Base64.h */; };
 		77B1C4E6265F809E0093E7A9 /* ERC721Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B1C4E4265F809D0093E7A9 /* ERC721Abi.cpp */; };
 		77B1C4E7265F809E0093E7A9 /* ERC721Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B1C4E4265F809D0093E7A9 /* ERC721Abi.cpp */; };
 		77B1C4E8265F809E0093E7A9 /* ERC721Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77B1C4E5265F809D0093E7A9 /* ERC721Abi.h */; };
@@ -1251,6 +1254,8 @@
 		77974560263021D100ECFF34 /* uint256_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256_t.h; path = ../../deps/uint256_t/uint256_t.h; sourceTree = "<group>"; };
 		77974561263021D200ECFF34 /* uint128_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint128_t.cpp; path = ../../deps/uint256_t/uint128_t.cpp; sourceTree = "<group>"; };
 		77974562263021D200ECFF34 /* uint128_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint128_t.h; path = ../../deps/uint256_t/uint128_t.h; sourceTree = "<group>"; };
+		77AD32372680659E00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
+		77AD32382680659E00888326 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
 		77B1C4E4265F809D0093E7A9 /* ERC721Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC721Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.cpp"; sourceTree = "<group>"; };
 		77B1C4E5265F809D0093E7A9 /* ERC721Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC721Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.h"; sourceTree = "<group>"; };
 		77B1C4F5265F81D00093E7A9 /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
@@ -1563,6 +1568,8 @@
 				6713A89E23A07C8B0083A34D /* Base58.cpp */,
 				6713A89F23A07C8B0083A34D /* Base58.h */,
 				671E23FF23CEC1E8001A5F81 /* Base58Address.h */,
+				77AD32372680659E00888326 /* Base64.cpp */,
+				77AD32382680659E00888326 /* Base64.h */,
 				671E240123CEC1E8001A5F81 /* Bech32.cpp */,
 				671E23FE23CEC1E8001A5F81 /* Bech32.h */,
 				671E23FD23CEC1E8001A5F81 /* Bech32Address.cpp */,
@@ -2498,6 +2505,7 @@
 				679520312579F8A600548B5B /* JubiterLiteImpl.h in Headers */,
 				675B0502242866EE004C62D4 /* TrezorCryptoLTCImpl.h in Headers */,
 				6763937B253464D600C41883 /* common.pb.h in Headers */,
+				77AD323B2680659F00888326 /* Base64.h in Headers */,
 				67E0DF5D250F6D6C00D42EF0 /* TWHcash.h in Headers */,
 				7771CC80267899C700081F28 /* TrezorCryptoFILImpl.h in Headers */,
 				67755DA8253F10B70056F2C0 /* TransactionRaw.h in Headers */,
@@ -2936,6 +2944,7 @@
 				6718A37223A338EA00F8A5CD /* Base58.cpp in Sources */,
 				6718A37E23A3390900F8A5CD /* secp256k1.c in Sources */,
 				6763937F253464D600C41883 /* common.pb.cc in Sources */,
+				77AD323A2680659F00888326 /* Base64.cpp in Sources */,
 				675B056324286B30004C62D4 /* TWHRP.cpp in Sources */,
 				6746216C23C319FA0096DDA2 /* JubiterBladeBTCImpl.cpp in Sources */,
 				6718A38223A3391100F8A5CD /* curve25519-donna-helpers.c in Sources */,
@@ -3150,6 +3159,7 @@
 				6713A82F23A07B760083A34D /* HDKey.cpp in Sources */,
 				675B05432428698C004C62D4 /* JubiterBaseETHImpl.cpp in Sources */,
 				670B8FDF2433390200E8EF5C /* JubiterNFCDevice.cpp in Sources */,
+				77AD32392680659F00888326 /* Base64.cpp in Sources */,
 				7771CC8D26789A2A00081F28 /* TrezorCryptoFILImpl.cpp in Sources */,
 				67E0DE33250F19B700D42EF0 /* Transaction.cpp in Sources */,
 				775FD4E22626DDA300D12DDC /* BigUnsignedInABase.cc in Sources */,
@@ -3276,7 +3286,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3339,7 +3349,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../builds/apple/JubSDKCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

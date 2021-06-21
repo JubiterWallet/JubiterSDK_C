@@ -57,7 +57,7 @@ void getVersion(JUB_UINT16 deviceID) {
     auto vAppList = split(appletList, ' ');
     for (auto appID : vAppList) {
         JUB_VERSION version;
-        auto rv = JUB_GetAppletVersion(deviceID, (char*)appID.c_str(), &version);
+        auto rv = JUB_GetAppletVersion(deviceID, (JUB_CHAR_PTR)appID.c_str(), &version);
         cout << "[-] JUB_GetAppletVersion() return " << GetErrMsg(rv) << endl;
         if (JUBR_OK != rv) {
             break;
@@ -129,9 +129,9 @@ void main_test() {
         commode = JUB_ENUM_COMMODE::SIM;
         LITE_DEVICE_INIT_PARAM param;
         Json::Value root = readJSON("settings/42584E46433230303532353030303031_apk.settings");
-        param.crt = (char*)root["SCP11c"]["OCE"][1][0].asCString();
-        param.sk  = (char*)root["SCP11c"]["OCE"][1][2].asCString();
-        param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
+        param.crt = (JUB_CHAR_PTR)root["SCP11c"]["OCE"][1][0].asCString();
+        param.sk  = (JUB_CHAR_PTR)root["SCP11c"]["OCE"][1][2].asCString();
+        param.hostID = (JUB_CHAR_PTR)root["SCP11c"]["HostID"].asCString();
         param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
 
         rv = JUB_ListLiteSIM("ip_bridge.info", (JUB_ENUM_DEVICE)choice, param, deviceIDs);

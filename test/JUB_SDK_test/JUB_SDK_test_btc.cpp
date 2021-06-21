@@ -29,7 +29,7 @@ void BTC_test(JUB_UINT16 deviceID, const char* json_file, JUB_ENUM_COINTYPE_BTC 
 
     try {
         CONTEXT_CONFIG_BTC cfg;
-        cfg.mainPath = (char*)root["main_path"].asCString();
+        cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
         cfg.coinType = coinType;
 
         if (COINBCH == coinType) {
