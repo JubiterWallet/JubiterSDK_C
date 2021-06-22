@@ -30,15 +30,16 @@ static Data encodeVaruint(const uint256_t& value) {
 }
 
 // cidPrefix is the CID + Multihash prefix of transaction CIDs.
+// https://github.com/multiformats/multicodec/blob/master/table.csv
 const Data cidPrefix = {
     // CIDv1 with CBOR codec
-    0x01,
-    0x71,
+    0x01,   // version = 1
+    0x71,   // codecType = dag-cbor
     // Blake2b-256 with 32 byte output
-    0xa0,
+    0xa0,   // Blake2b-256 = 0xB220(45600) in Base128 varint
     0xe4,
     0x02,
-    0x20,
+    0x20,   // hash length
 };
 
 // JuBiter-defined
@@ -106,21 +107,16 @@ Data Transaction::cid() const {
 }
 
 // JuBiter-defined
-std::string str_tolower(std::string s) {
-    std::transform(s.begin(), s.end(), s.begin(),
-                   [](unsigned char c){ return std::tolower(c); }
-    );
-    return s;
-}
-
-// JuBiter-defined
+// https://cid.ipfs.io/#
+// https://github.com/multiformats/go-multibase/blob/master/multibase.go
+// https://github.com/multiformats/go-multibase/blob/master/base32.go
 std::string Transaction::cid(const Data& cid) {
-    std::string multibase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+    std::string base32StdLowerPad = "abcdefghijklmnopqrstuvwxyz234567";
 
-    std::string upper = TW::Base32::encode(cid, multibase.c_str());
-    std::string lower = str_tolower(upper);
+    std::string lower = TW::Base32::encode(cid, base32StdLowerPad.c_str());
 
-    return ("b"+lower);
+    // Base32            = 'b'
+    return ('b'+lower);
 }
 
 // JuBiter-defined

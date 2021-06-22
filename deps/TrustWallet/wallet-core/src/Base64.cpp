@@ -130,7 +130,7 @@ void convertFromBase64Url(string& b) {
     // '-' and '_' (Base64URL format) are changed to '+' and '/'
     // in-place replace
     size_t n = b.length();
-    char* start = b.data();
+    char* start = (char*)b.data();
     char* end = start + n;
     for(auto p = start; p < end; ++p) {
         if (*p == '-') { *p = '+'; }
@@ -143,7 +143,7 @@ void convertToBase64Url(string& b) {
     // '+' and '/' are changed to '-' and '_' (Base64URL format)
     // in-place replace
     size_t n = b.length();
-    char* start = b.data();
+    char* start = (char*)b.data();
     char* end = start + n;
     for(auto p = start; p < end; ++p) {
         if (*p == '+') { *p = '-'; }
