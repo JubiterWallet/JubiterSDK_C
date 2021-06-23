@@ -15,6 +15,7 @@ public:
         _curve_name = (char*)SECP256K1_TRX_NAME;
     };
 
+    static JUB_RV IsValidAddress(const std::string& address, std::string& hex);
     virtual JUB_RV CheckAddress(const std::string& address, std::string& hex) override;
 
     virtual JUB_RV PackTransactionRaw(const JUB_TX_TRX& tx,

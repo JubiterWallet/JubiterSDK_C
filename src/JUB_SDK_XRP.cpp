@@ -12,6 +12,7 @@
 #include "utility/mutex.h"
 
 #include "context/XRPContextFactory.h"
+#include "token/XRP/JubiterBaseXRPImpl.h"
 
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
@@ -114,6 +115,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 //}
 // Remove c++ features for swift framework end
 
+
 /*****************************************************************************
  * @function name : JUB_CreateContextXRP
  * @in  param : cfg
@@ -135,52 +137,7 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
     return JUBR_OK;
 }
 
-/*****************************************************************************
- * @function name : JUB_GetAddressXRP
- * @in  param : contextID - context ID
- *          : path
- *          : bShow
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
-                         IN BIP44_Path    path,
-                         IN JUB_ENUM_BOOL bShow,
-                         OUT JUB_CHAR_PTR_PTR address) {
 
-    CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
-    JUB_CHECK_NULL(context);
-
-    std::string str_address;
-    JUB_VERIFY_RV(context->GetAddress(path, bShow, str_address));
-    JUB_VERIFY_RV(_allocMem(address, str_address));
-
-    return JUBR_OK;
-}
-
-///*****************************************************************************
-// * @function name : JUB_SetMyAddressXRP
-// * @in  param : contextID - context ID
-// *          : path
-// * @out param : address
-// * @last change :
-// *****************************************************************************/
-//JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
-//                           IN BIP44_Path path,
-//                           OUT JUB_CHAR_PTR_PTR address) {
-//
-//    CREATE_THREAD_LOCK_GUARD
-//	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
-//	JUB_CHECK_NULL(context);
-//
-//    std::string str_address;
-//    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
-//    JUB_VERIFY_RV(_allocMem(address, str_address));
-//
-//    return JUBR_OK;
-//}
-//
 /*****************************************************************************
  * @function name : JUB_GetHDNodeXRP
  * @in  param : contextID - context ID
@@ -206,6 +163,55 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
+
+/*****************************************************************************
+ * @function name : JUB_GetMainHDNodeXRP
+ * @in  param : contextID - context ID
+ *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
+ * @out param : xpub
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
+                            IN JUB_ENUM_PUB_FORMAT format,
+                            OUT JUB_CHAR_PTR_PTR xpub) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_xpub;
+    JUB_VERIFY_RV(context->GetMainHDNode((JUB_BYTE)format, str_xpub));
+    JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_GetAddressXRP
+ * @in  param : contextID - context ID
+ *          : path
+ *          : bShow
+ * @out param : address
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
+                         IN BIP44_Path    path,
+                         IN JUB_ENUM_BOOL bShow,
+                         OUT JUB_CHAR_PTR_PTR address) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_address;
+    JUB_VERIFY_RV(context->GetAddress(path, bShow, str_address));
+    JUB_VERIFY_RV(_allocMem(address, str_address));
+
+    return JUBR_OK;
+}
+
+
 /*****************************************************************************
  * @function name : JUB_CheckAddressXRP
  * @in  param : contextID - context ID
@@ -215,7 +221,7 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CheckAddressXRP(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addr,JUB_CHAR_PTR_PTR tag)
+JUB_RV JUB_CheckAddressXRP(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addr, JUB_CHAR_PTR_PTR tag)
 {
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
@@ -230,28 +236,30 @@ JUB_RV JUB_CheckAddressXRP(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OU
     return JUBR_OK;
 }
 
-/*****************************************************************************
- * @function name : JUB_GetMainHDNodeXRP
- * @in  param : contextID - context ID
- *          : format - JUB_ENUM_PUB_FORMAT::HEX(0x00) for hex;
- * @out param : xpub
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
-                            IN JUB_ENUM_PUB_FORMAT format,
-                            OUT JUB_CHAR_PTR_PTR xpub) {
 
-    CREATE_THREAD_LOCK_GUARD
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
-	JUB_CHECK_NULL(context);
-
-    std::string str_xpub;
-    JUB_VERIFY_RV(context->GetMainHDNode((JUB_BYTE)format, str_xpub));
-    JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
-
-    return JUBR_OK;
-}
-
+///*****************************************************************************
+// * @function name : JUB_SetMyAddressXRP
+// * @in  param : contextID - context ID
+// *          : path
+// * @out param : address
+// * @last change :
+// *****************************************************************************/
+//JUB_RV JUB_SetMyAddressXRP(IN JUB_UINT16 contextID,
+//                           IN BIP44_Path path,
+//                           OUT JUB_CHAR_PTR_PTR address) {
+//
+//    CREATE_THREAD_LOCK_GUARD
+//    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::XRPContext>(contextID);
+//    JUB_CHECK_NULL(context);
+//
+//    std::string str_address;
+//    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
+//    JUB_VERIFY_RV(_allocMem(address, str_address));
+//
+//    return JUBR_OK;
+//}
+//
+//
 /*****************************************************************************
  * @function name : JUB_SignTransactionXRP
  * @in  param : contextID - context ID
@@ -275,6 +283,28 @@ JUB_RV JUB_SignTransactionXRP(IN JUB_UINT16 contextID,
                                            tx,
                                            str_raw));
     JUB_VERIFY_RV(_allocMem(raw, str_raw));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_IsValidAddressXRP
+ * @in  param : address
+ * @out param : addr: base58 decode
+ * @out param : tag: x_address tag
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IsValidAddressXRP(IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addr, OUT JUB_CHAR_PTR_PTR tag) {
+
+    CREATE_THREAD_LOCK_GUARD
+
+    std::string str_addr, str_tagged;
+    JUB_VERIFY_RV(jub::token::JubiterBaseXRPImpl::IsValidAddress(address,
+                                                                 str_addr, str_tagged));
+    JUB_VERIFY_RV(_allocMem(addr, str_addr));
+    JUB_VERIFY_RV(_allocMem(tag, str_tagged));
 
     return JUBR_OK;
 }

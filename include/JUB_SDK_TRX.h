@@ -197,30 +197,6 @@ JUB_RV JUB_CreateContextTRX(IN CONTEXT_CONFIG_TRX cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID);
 
-/*****************************************************************************
- * @function name : JUB_GetAddressTRX
- * @in  param : contextID - context ID
- *            : path
- *            : bShow
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetAddressTRX(IN JUB_UINT16 contextID,
-                         IN BIP44_Path path,
-//                         IN BIP48_Path path,
-                         IN JUB_ENUM_BOOL bShow,
-                         OUT JUB_CHAR_PTR_PTR address);
-
-/*****************************************************************************
- * @function name : JUB_CheckAddressTRX
- * @in  param : contextID - context ID
- *          : address
- * @out param : addrInHex: base58 decode
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CheckAddressTRX(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addrInHex);
 
 /*****************************************************************************
  * @function name : JUB_GetHDNodeTRX
@@ -238,6 +214,7 @@ JUB_RV JUB_GetHDNodeTRX(IN JUB_UINT16 contextID,
 //                        IN BIP48_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
 
+
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeTRX
  * @in  param : contextID - context ID
@@ -251,6 +228,34 @@ JUB_RV JUB_GetMainHDNodeTRX(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
+
+/*****************************************************************************
+ * @function name : JUB_GetAddressTRX
+ * @in  param : contextID - context ID
+ *            : path
+ *            : bShow
+ * @out param : address
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetAddressTRX(IN JUB_UINT16 contextID,
+                         IN BIP44_Path path,
+//                         IN BIP48_Path path,
+                         IN JUB_ENUM_BOOL bShow,
+                         OUT JUB_CHAR_PTR_PTR address);
+
+
+/*****************************************************************************
+ * @function name : JUB_CheckAddressTRX
+ * @in  param : contextID - context ID
+ *          : address
+ * @out param : addrInHex: base58 decode
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressTRX(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addrInHex);
+
+
 ///*****************************************************************************
 // * @function name : JUB_SetMyAddressTRX
 // * @in  param : contextID - context ID
@@ -263,6 +268,7 @@ JUB_RV JUB_GetMainHDNodeTRX(IN JUB_UINT16 contextID,
 //                           IN BIP44_Path path,
 ////                           IN BIP48_Path path,
 //                           OUT JUB_CHAR_PTR_PTR address);
+//
 //
 /*****************************************************************************
  * @function name : JUB_SignTransactionTRX
@@ -365,6 +371,16 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_PackContractTRX(IN JUB_UINT16 contextID,
                            IN JUB_TX_TRX tx,
                            OUT JUB_CHAR_PTR_PTR packedContractInPB);
+
+
+/*****************************************************************************
+ * @function name : JUB_IsValidAddressTRX
+ * @in  param : address
+ * @out param : addrInHex: base58 decode
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IsValidAddressTRX(IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addrInHex);
 
 
 #ifdef __cplusplus

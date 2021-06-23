@@ -15,6 +15,9 @@ public:
         _curve_name = (char*)SECP256K1_EOS_NAME;
     };
 
+    static JUB_RV IsValidAddress(const std::string& address);
+    virtual JUB_RV CheckAddress(const TW::EOS::Type& type, const std::string& address) override;
+
     virtual nlohmann::json SerializeAction(const JUB_ACTION_EOS& action) override;
     virtual JUB_RV SerializeActions(const JUB_ACTION_EOS_PTR actions, JUB_UINT16 actionCount,
                                     std::string& actionsInJSON) override;

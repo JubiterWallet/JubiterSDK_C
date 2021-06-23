@@ -15,9 +15,11 @@ public:
         _curve_name = (char*)SECP256K1_XRP_NAME;
     };
 
+    static JUB_RV IsValidAddress(const std::string& address, std::string& rAddress, std::string& tagged);
+    virtual JUB_RV CheckAddress(const std::string& address, std::string& rAddress, std::string& tagged) override;
+
     JUB_RV SerializePreimage(const JUB_TX_XRP& tx,
                              uchar_vector& preimageRaw) override;
-    JUB_RV CheckAddress(const std::string& address, std::string& rAddress, std::string& tagged) override;
 
 protected:
     virtual JUB_RV _getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,

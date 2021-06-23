@@ -162,10 +162,19 @@ void get_address_pubkey_TRX(JUB_UINT16 contextID) {
     if (JUBR_OK != rv) {
         return;
     }
-
     cout << "  address in hex: " << addrInHex << endl;
-    JUB_FreeMemory(address);
     JUB_FreeMemory(addrInHex);
+
+    addrInHex = nullptr;
+    rv = JUB_IsValidAddressTRX(address, &addrInHex);
+    cout << "[-] JUB_IsValidAddressTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "  address in hex: " << addrInHex << endl;
+    JUB_FreeMemory(addrInHex);
+
+    JUB_FreeMemory(address);
     cout << "[--------------------------------- Address end ---------------------------------]" << endl;
     cout << endl << endl;
 }

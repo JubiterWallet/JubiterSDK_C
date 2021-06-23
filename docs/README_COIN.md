@@ -23,9 +23,10 @@ Function list:
 * [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
 * [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
 * [JUB_GetAddress](#JUB_GetAddressXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
+* [JUB_CheckAddress](#JUB_CheckAddressXXX)BTC/EOS/FIL
+* [JUB_IsValidAddress](#JUB_IsValidAddressXXX)EOS/FIL
 * [JUB_SetMyAddress](#JUB_SetMyAddressXXX)BTC/ETH
 * **BTC series related module**
-    * [JUB_CheckAddressBTC](#JUB_CheckAddressBTC)
     * [JUB_SetUnitBTC](#JUB_SetUnitBTC)
     * [JUB_SignTransaction](#JUB_SignTransactionXXX)BTC/HC
     * [JUB_BuildUSDTOutputs](#JUB_BuildUSDTOutputs)
@@ -46,9 +47,12 @@ Function list:
     * [JUB_BuildActionEOS](#JUB_BuildActionEOS)
     * [JUB_CalculateMemoHash](#JUB_CalculateMemoHash)
 * **XRP related module**
+    * [JUB_CheckAddressXRP](#JUB_CheckAddressXRP)
+    * [JUB_IsValidAddressXRP](#JUB_IsValidAddressXRP)
     * [JUB_SignTransactionXRP](#JUB_SignTransactionXRP)
 * **TRX related module**
     * [JUB_CheckAddressTRX](#JUB_CheckAddressTRX)
+    * [JUB_IsValidAddressTRX](#JUB_IsValidAddressTRX)
     * [JUB_PackContractTRX](#JUB_PackContractTRX)
     * [JUB_SetTRC20Token](#JUB_SetTRC20Token)
     * [JUB_BuildTRC20TransferAbi](#JUB_BuildTRC20TransferAbi)
@@ -121,6 +125,32 @@ JUB_RV JUB_GetAddressBTC(
 );
 ```
 
+### JUB_CheckAddressXXX
+* **Function:** Check address for the specified coin(only for BTC, EOS and FIL).
+* **IN param:**
+contextID - context ID from JUB_CreateContextXXX.
+address - address in the specified path.
+* **OUT param:** none.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_CheckAddressBTC(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_PTR address
+);
+```
+
+### JUB_IsValidAddressXXX
+* **Function:** Check address for the specified coin(only for EOS and FIL) without contextID.
+* **IN param:**
+address - address in the specified path.
+* **OUT param:** none.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_IsValidAddressEOS(
+    IN JUB_CHAR_PTR address
+);
+```
+
 ### JUB_SetMyAddressXXX
 * **Function:** Set the default address for the specified coin(only for BTC and ETH).
 * **IN param:**
@@ -139,20 +169,6 @@ JUB_RV JUB_SetMyAddressBTC(
 ```
 
 ## BTC series related module
-### JUB_CheckAddressBTC
-* **Function:** Check address if it is valid for the specified coin.
-* **IN param:**
-contextID - context ID from JUB_CreateContextBTC.
-address - address in the specified path.
-* **OUT param:** none.
-* **Return:** JUB_OK or !JUB_OK for error.
-```
-JUB_RV JUB_CheckAddressBTC(
-    IN JUB_UINT16 contextID,
-    IN JUB_CHAR_CPTR address
-);
-```
-
 ### JUB_SetUnitBTC
 * **Function:** Set unit for BTC.
 * **IN param:**
@@ -509,6 +525,38 @@ JUB_RV JUB_CalculateMemoHash(
 ```
 
 ## XRP related module
+### JUB_CheckAddressXRP
+* **Function:** Check address for XRP.
+* **IN param:**
+contextID - context ID from JUB_CreateContextXRP.
+address - address.
+* **OUT param:**
+addr - XRP address.
+tag - the tag of tagged address, if there's a normal address, then tag is empty.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_CheckAddressXRP(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR address,
+    OUT JUB_CHAR_PTR_PTR addr,
+    OUT JUB_CHAR_PTR_PTR tag);
+```
+
+### JUB_IsValidAddressXRP
+* **Function:** Check address for XRP without contextID.
+* **IN param:**
+address - address.
+* **OUT param:**
+addr - XRP address.
+tag - the tag of tagged address, if there's a normal address, then tag is empty.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_IsValidAddressXRP(
+    IN JUB_CHAR_CPTR address,
+    OUT JUB_CHAR_PTR_PTR addr,
+    OUT JUB_CHAR_PTR_PTR tag);
+```
+
 ### JUB_SignTransactionXRP
 * **Function:** Sign XRP transaction.
 * **IN param:**
@@ -538,6 +586,19 @@ address - address in the specified path.
 ```
 JUB_RV JUB_CheckAddressTRX(
     IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR address,
+    OUT JUB_CHAR_PTR_PTR addrInHex
+);
+```
+
+### JUB_IsValidAddressTRX
+* **Function:** Check address if it is valid for the specified coin without contextID.
+* **IN param:**
+address - address in the specified path.
+* **OUT param:** addrInHex - base58 decoded address in HEX.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_IsValidAddressTRX(
     IN JUB_CHAR_CPTR address,
     OUT JUB_CHAR_PTR_PTR addrInHex
 );

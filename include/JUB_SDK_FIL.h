@@ -30,19 +30,6 @@ JUB_RV JUB_CreateContextFIL(IN CONTEXT_CONFIG_FIL cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID);
 
-/*****************************************************************************
- * @function name : JUB_GetAddressFIL
- * @in  param : contextID - context ID
- *          : path
- *          : bShow
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetAddressFIL(IN JUB_UINT16 contextID,
-                         IN BIP44_Path path,
-                         IN JUB_ENUM_BOOL bShow,
-                         OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
  * @function name : JUB_GetHDNodeFIL
@@ -58,6 +45,7 @@ JUB_RV JUB_GetHDNodeFIL(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
 
+
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeFIL
  * @in  param : contextID - context ID
@@ -70,6 +58,33 @@ JUB_RV JUB_GetMainHDNodeFIL(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
+
+/*****************************************************************************
+ * @function name : JUB_GetAddressFIL
+ * @in  param : contextID - context ID
+ *          : path
+ *          : bShow
+ * @out param : address
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetAddressFIL(IN JUB_UINT16 contextID,
+                         IN BIP44_Path path,
+                         IN JUB_ENUM_BOOL bShow,
+                         OUT JUB_CHAR_PTR_PTR address);
+
+
+/*****************************************************************************
+ * @function name : JUB_CheckAddressFIL
+ * @in  param :  contextID - context ID
+ *          : address
+ * @out param : none
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_CheckAddressFIL(IN JUB_UINT16 contextID,
+                           IN JUB_CHAR_CPTR address);
+
+
 ///*****************************************************************************
 // * @function name : JUB_SetMyAddressFIL
 // * @in  param : contextID - context ID
@@ -81,6 +96,7 @@ JUB_RV JUB_GetMainHDNodeFIL(IN JUB_UINT16 contextID,
 //JUB_RV JUB_SetMyAddressFIL(IN JUB_UINT16 contextID,
 //                           IN BIP44_Path path,
 //                           OUT JUB_CHAR_PTR_PTR address);
+//
 //
 /*****************************************************************************
  * @function name : JUB_SignTransactionFIL
@@ -132,6 +148,15 @@ JUB_RV JUB_CalculateTransactionCIDFIL(IN JUB_UINT16 contextID,
                                       IN JUB_CHAR_CPTR valueInAtto,
                                       IN JUB_CHAR_CPTR input,
                                       OUT JUB_CHAR_PTR_PTR cid);
+
+
+/*****************************************************************************
+ * @function name : JUB_IsValidAddressFIL
+ * @in  param : address
+ * @out param : none
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_IsValidAddressFIL(IN JUB_CHAR_CPTR address);
 
 
 #ifdef __cplusplus

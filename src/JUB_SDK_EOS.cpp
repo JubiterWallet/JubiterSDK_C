@@ -16,6 +16,7 @@
 #include <TrustWallet/wallet-core/src/EOS/Deserialization.h>
 #include <TrezorCrypto/hasher.h>
 
+#include "token/EOS/JubiterBaseEOSImpl.h"
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -87,54 +88,7 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
     return JUBR_OK;
 }
 
-/*****************************************************************************
- * @function name : JUB_GetAddressEOS
- * @in  param : contextID - context ID
- *          : path
- *          : bShow
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
-                         IN BIP44_Path    path,
-//                         IN BIP48_Path    path,
-                         IN JUB_ENUM_BOOL bShow,
-                         OUT JUB_CHAR_PTR_PTR address) {
 
-    CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
-    JUB_CHECK_NULL(context);
-
-    std::string str_address;
-    JUB_VERIFY_RV(context->GetAddress(path, bShow, str_address));
-    JUB_VERIFY_RV(_allocMem(address, str_address));
-
-    return JUBR_OK;
-}
-
-///*****************************************************************************
-// * @function name : JUB_SetMyAddressEOS
-// * @in  param : contextID - context ID
-// *          : path
-// * @out param : address
-// * @last change :
-// *****************************************************************************/
-//JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
-//                           IN BIP44_Path path,
-////                           IN BIP48_Path path,
-//                           OUT JUB_CHAR_PTR_PTR address) {
-//
-//    CREATE_THREAD_LOCK_GUARD
-//    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
-//    JUB_CHECK_NULL(context);
-//
-//    std::string str_address;
-//    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
-//    JUB_VERIFY_RV(_allocMem(address, str_address));
-//
-//    return JUBR_OK;
-//}
-//
 /*****************************************************************************
  * @function name : JUB_GetHDNodeEOS
  * @in  param : contextID - context ID
@@ -161,6 +115,7 @@ JUB_RV JUB_GetHDNodeEOS(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeEOS
  * @in  param : contextID - context ID
@@ -184,6 +139,77 @@ JUB_RV JUB_GetMainHDNodeEOS(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
+
+/*****************************************************************************
+ * @function name : JUB_GetAddressEOS
+ * @in  param : contextID - context ID
+ *          : path
+ *          : bShow
+ * @out param : address
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_GetAddressEOS(IN JUB_UINT16 contextID,
+                         IN BIP44_Path    path,
+//                         IN BIP48_Path    path,
+                         IN JUB_ENUM_BOOL bShow,
+                         OUT JUB_CHAR_PTR_PTR address) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_address;
+    JUB_VERIFY_RV(context->GetAddress(path, bShow, str_address));
+    JUB_VERIFY_RV(_allocMem(address, str_address));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_CheckAddressEOS
+ * @in  param : contextID - context ID
+ *            : address
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressEOS(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    JUB_VERIFY_RV(context->CheckAddress(address));
+
+    return JUBR_OK;
+}
+
+
+///*****************************************************************************
+// * @function name : JUB_SetMyAddressEOS
+// * @in  param : contextID - context ID
+// *          : path
+// * @out param : address
+// * @last change :
+// *****************************************************************************/
+//JUB_RV JUB_SetMyAddressEOS(IN JUB_UINT16 contextID,
+//                           IN BIP44_Path path,
+////                           IN BIP48_Path path,
+//                           OUT JUB_CHAR_PTR_PTR address) {
+//
+//    CREATE_THREAD_LOCK_GUARD
+//    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::EOSContext>(contextID);
+//    JUB_CHECK_NULL(context);
+//
+//    std::string str_address;
+//    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
+//    JUB_VERIFY_RV(_allocMem(address, str_address));
+//
+//    return JUBR_OK;
+//}
+//
+//
 /*****************************************************************************
  * @function name : JUB_SignTransactionEOS
  * @in  param : contextID - context ID
@@ -223,6 +249,7 @@ JUB_RV JUB_SignTransactionEOS(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
+
 /*****************************************************************************
  * @function name : JUB_BuildActionEOS
  * @in  param : contextID - context ID
@@ -249,6 +276,7 @@ JUB_RV JUB_BuildActionEOS(IN JUB_UINT16 contextID,
 
     return JUBR_OK;
 }
+
 
 /*****************************************************************************
  * @function name : JUB_CalculateMemoHash
@@ -280,6 +308,23 @@ JUB_RV JUB_CalculateMemoHash(IN JUB_CHAR_CPTR memo,
     uchar_vector memoh = uchar_vector(hash.begin(), hash.begin()+4);
     std::string str_memoHash = memoh.getHex();
     JUB_VERIFY_RV(_allocMem(memoHash, str_memoHash));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_IsValidAddressEOS
+ * @in  param : address
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IsValidAddressEOS(IN JUB_CHAR_CPTR address) {
+
+    CREATE_THREAD_LOCK_GUARD
+
+    JUB_VERIFY_RV(jub::token::JubiterBaseEOSImpl::IsValidAddress(address));
 
     return JUBR_OK;
 }
