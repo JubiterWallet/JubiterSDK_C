@@ -108,22 +108,6 @@ JUB_RV EOSContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
 }
 
 
-JUB_RV EOSContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
-
-    CONTEXT_CHECK_TYPE_PUBLIC
-
-    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
-    if (!token) {
-        return JUBR_IMPL_NOT_SUPPORT;
-    }
-
-    std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetHDNode(format, strPath, pubkey));
-
-    return JUBR_OK;
-}
-
-
 JUB_RV EOSContext::GetAddress(const BIP48_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
@@ -151,6 +135,37 @@ JUB_RV EOSContext::SetMyAddress(const BIP48_Path& path, std::string& address) {
 
     std::string strPath = _FullBip48Path(path);
     JUB_VERIFY_RV(token->GetAddress(_eosType, strPath, 0x02, address));
+
+    return JUBR_OK;
+}
+
+
+JUB_RV EOSContext::CheckAddress(const std::string& address) {
+
+    CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->CheckAddress(_eosType, address));
+
+    return JUBR_OK;
+}
+
+
+JUB_RV EOSContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
+
+    CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::EOSTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    std::string strPath = _FullBip44Path(path);
+    JUB_VERIFY_RV(token->GetHDNode(format, strPath, pubkey));
 
     return JUBR_OK;
 }

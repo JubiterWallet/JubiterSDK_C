@@ -13,7 +13,6 @@
 
 #include <vector>
 #include "token/interface/BaseToken.h"
-#include "mSIGNA/stdutils/uchar_vector.h"
 
 
 namespace jub {

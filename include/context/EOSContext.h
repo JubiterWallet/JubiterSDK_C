@@ -48,9 +48,13 @@ public:
 
     virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
+
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey);
     virtual JUB_RV GetAddress(const BIP48_Path& path, const JUB_UINT16 tag, std::string& address);
     virtual JUB_RV SetMyAddress(const BIP48_Path& path, std::string& address);
+
+    virtual JUB_RV CheckAddress(const std::string& address);
+
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const BIP48_Path& path, std::string& pubkey);
     virtual JUB_RV GetMainHDNode(const JUB_BYTE format, std::string& xpub);
 

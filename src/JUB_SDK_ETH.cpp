@@ -46,54 +46,6 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
 
 
 /*****************************************************************************
- * @function name : JUB_GetAddressETH
- * @in  param : contextID - context ID
- *          : path
- *          : bShow
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
-                         IN BIP44_Path    path,
-                         IN JUB_ENUM_BOOL bShow,
-                         OUT JUB_CHAR_PTR_PTR address) {
-
-    CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
-    JUB_CHECK_NULL(context);
-
-    std::string str_address;
-    JUB_VERIFY_RV(context->GetAddress(path, bShow, str_address));
-    JUB_VERIFY_RV(_allocMem(address, str_address));
-
-    return JUBR_OK;
-}
-
-
-/*****************************************************************************
- * @function name : JUB_SetMyAddressETH
- * @in  param : contextID - context ID
- *          : path
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
-                           IN BIP44_Path path,
-                           OUT JUB_CHAR_PTR_PTR address) {
-
-    CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
-    JUB_CHECK_NULL(context);
-
-    std::string str_address;
-    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
-    JUB_VERIFY_RV(_allocMem(address, str_address));
-
-    return JUBR_OK;
-}
-
-
-/*****************************************************************************
  * @function name : JUB_GetHDNodeETH
  * @in  param : contextID - context ID
  *          : format - JUB_ENUM_PUB_FORMAT::HEX (0x00) for hex;
@@ -138,6 +90,54 @@ JUB_RV JUB_GetMainHDNodeETH(IN JUB_UINT16 contextID,
     std::string str_xpub;
     JUB_VERIFY_RV(context->GetMainHDNode((JUB_BYTE)format, str_xpub));
     JUB_VERIFY_RV(_allocMem(xpub, str_xpub));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_GetAddressETH
+ * @in  param : contextID - context ID
+ *          : path
+ *          : bShow
+ * @out param : address
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_GetAddressETH(IN JUB_UINT16 contextID,
+                         IN BIP44_Path    path,
+                         IN JUB_ENUM_BOOL bShow,
+                         OUT JUB_CHAR_PTR_PTR address) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_address;
+    JUB_VERIFY_RV(context->GetAddress(path, bShow, str_address));
+    JUB_VERIFY_RV(_allocMem(address, str_address));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_SetMyAddressETH
+ * @in  param : contextID - context ID
+ *          : path
+ * @out param : address
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_SetMyAddressETH(IN JUB_UINT16 contextID,
+                           IN BIP44_Path path,
+                           OUT JUB_CHAR_PTR_PTR address) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_address;
+    JUB_VERIFY_RV(context->SetMyAddress(path, str_address));
+    JUB_VERIFY_RV(_allocMem(address, str_address));
 
     return JUBR_OK;
 }

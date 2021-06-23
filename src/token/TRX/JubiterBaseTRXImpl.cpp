@@ -55,7 +55,7 @@ JUB_RV JubiterBaseTRXImpl::_getAddress(const TW::Data& publicKey, std::string& a
 }
 
 
-JUB_RV JubiterBaseTRXImpl::CheckAddress(const std::string& address, std::string& hex) {
+JUB_RV JubiterBaseTRXImpl::IsValidAddress(const std::string& address, std::string& hex) {
 
     try {
         if (!TW::Tron::Address::isValid(address)) {
@@ -69,6 +69,12 @@ JUB_RV JubiterBaseTRXImpl::CheckAddress(const std::string& address, std::string&
     }
 
     return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseTRXImpl::CheckAddress(const std::string& address, std::string& hex) {
+
+    return JubiterBaseTRXImpl::IsValidAddress(address, hex);
 }
 
 

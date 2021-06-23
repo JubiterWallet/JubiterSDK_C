@@ -12,6 +12,18 @@ namespace jub {
 namespace token {
 
 
+JUB_RV JubiterBaseEOSImpl::IsValidAddress(const std::string& address) {
+
+    return !TW::EOS::Address::isValid(address);
+}
+
+
+JUB_RV JubiterBaseEOSImpl::CheckAddress(const TW::EOS::Type& type, const std::string& address) {
+
+    return JubiterBaseEOSImpl::IsValidAddress(address);
+}
+
+
 JUB_RV JubiterBaseEOSImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
                                               uint32_t hdVersionPub, uint32_t hdVersionPrv) {
 

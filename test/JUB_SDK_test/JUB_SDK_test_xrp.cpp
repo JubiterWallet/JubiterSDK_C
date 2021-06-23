@@ -137,6 +137,31 @@ void get_address_pubkey_XRP(JUB_UINT16 contextID) {
         return;
     }
     cout << "    show address: " << address << endl;
+
+    JUB_CHAR_PTR addr = nullptr, tag = nullptr;
+    rv = JUB_CheckAddressXRP(contextID, address,
+                             &addr, &tag);
+    cout << "[-] JUB_CheckAddressXRP() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "    show    addr: " << addr << endl;
+    cout << "    show     tag: " << tag << endl;
+    JUB_FreeMemory(addr);
+    JUB_FreeMemory(tag);
+
+    rv = JUB_IsValidAddressXRP(address,
+                               &addr, &tag);
+    cout << "[-] JUB_IsValidAddressXRP() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << "    show    addr: " << addr << endl;
+    cout << "    show     tag: " << tag << endl;
+    JUB_FreeMemory(addr);
+    JUB_FreeMemory(tag);
+
+    cout << "    show address: " << address << endl;
     JUB_FreeMemory(address);
     cout << "[--------------------------------- Address end ---------------------------------]" << endl;
     cout << endl << endl;

@@ -103,6 +103,7 @@ typedef struct stTxXRP {
 } JUB_TX_XRP;
 // Remove c++ features for swift framework end
 
+
 /*****************************************************************************
  * @function name : JUB_CreateContextXRP
  * @in  param : cfg
@@ -115,19 +116,6 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             IN JUB_UINT16 deviceID,
                             OUT JUB_UINT16* contextID);
 
-/*****************************************************************************
- * @function name : JUB_GetAddressXRP
- * @in  param : contextID - context ID
- *          : path
- *          : bShow
- * @out param : address
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
-                         IN BIP44_Path path,
-                         IN JUB_ENUM_BOOL bShow,
-                         OUT JUB_CHAR_PTR_PTR address);
 
 /*****************************************************************************
  * @function name : JUB_GetHDNodeXRP
@@ -144,17 +132,6 @@ JUB_RV JUB_GetHDNodeXRP(IN JUB_UINT16 contextID,
                         IN BIP44_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
 
-/*****************************************************************************
- * @function name : JUB_CheckAddressXRP
- * @in  param : contextID - context ID
- *          : address
- * @out param : addr: base58 decode
- * @out param : tag: x_address tag
- * @last change :
- *****************************************************************************/
-JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_CheckAddressXRP(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addr,JUB_CHAR_PTR_PTR tag);
-
 
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeXRP
@@ -168,6 +145,37 @@ JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetMainHDNodeXRP(IN JUB_UINT16 contextID,
                             IN JUB_ENUM_PUB_FORMAT format,
                             OUT JUB_CHAR_PTR_PTR xpub);
+
+
+/*****************************************************************************
+ * @function name : JUB_GetAddressXRP
+ * @in  param : contextID - context ID
+ *          : path
+ *          : bShow
+ * @out param : address
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetAddressXRP(IN JUB_UINT16 contextID,
+                         IN BIP44_Path path,
+                         IN JUB_ENUM_BOOL bShow,
+                         OUT JUB_CHAR_PTR_PTR address);
+
+
+/*****************************************************************************
+ * @function name : JUB_CheckAddressXRP
+ * @in  param : contextID - context ID
+ *          : address
+ * @out param : addr: base58 decode
+ * @out param : tag: x_address tag
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressXRP(IN JUB_UINT16 contextID,
+                           IN JUB_CHAR_CPTR address,
+                           OUT JUB_CHAR_PTR_PTR addr,
+                           OUT JUB_CHAR_PTR_PTR tag);
+
 
 ///*****************************************************************************
 // * @function name : JUB_SetMyAddressXRP
@@ -194,6 +202,21 @@ JUB_RV JUB_SignTransactionXRP(IN JUB_UINT16 contextID,
                               IN BIP44_Path path,
                               IN JUB_TX_XRP tx,
                               OUT JUB_CHAR_PTR_PTR raw);
+
+
+/*****************************************************************************
+ * @function name : JUB_IsValidAddressXRP
+ * @in  param : contextID - context ID
+ *          : address
+ * @out param : addr: base58 decode
+ * @out param : tag: x_address tag
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IsValidAddressXRP(IN JUB_CHAR_CPTR address,
+                             OUT JUB_CHAR_PTR_PTR addr,
+                             OUT JUB_CHAR_PTR_PTR tag);
+
 
 #ifdef __cplusplus
 }

@@ -147,6 +147,13 @@ void get_address_pubkey_EOS(JUB_UINT16 contextID) {
         return;
     }
     cout << "    show address: " << address << endl;
+
+    rv = JUB_CheckAddressEOS(contextID, address);
+    cout << "[-] JUB_CheckAddressEOS() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+
     JUB_FreeMemory(address);
     cout << "[--------------------------------- Address end ---------------------------------]" << endl;
     cout << endl << endl;

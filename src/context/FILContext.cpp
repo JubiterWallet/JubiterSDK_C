@@ -75,6 +75,21 @@ JUB_RV FILContext::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& addr
 }
 
 
+JUB_RV FILContext::CheckAddress(const std::string& address) {
+
+    CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::FILTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->CheckAddress(address));
+
+    return JUBR_OK;
+}
+
+
 JUB_RV FILContext::SetMyAddress(BIP44_Path path, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC

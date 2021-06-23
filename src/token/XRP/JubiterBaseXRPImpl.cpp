@@ -12,8 +12,9 @@
 namespace jub {
 namespace token {
 
-JUB_RV JubiterBaseXRPImpl::CheckAddress(const std::string& address, std::string& rAddress, std::string& tagged)
-{
+
+JUB_RV JubiterBaseXRPImpl::IsValidAddress(const std::string& address, std::string& rAddress, std::string& tagged) {
+
     try {
         if (TW::Ripple::Address::isValid(address)) {
             rAddress = address;
@@ -40,6 +41,13 @@ JUB_RV JubiterBaseXRPImpl::CheckAddress(const std::string& address, std::string&
 
     return JUBR_ARGUMENTS_BAD;
 }
+
+
+JUB_RV JubiterBaseXRPImpl::CheckAddress(const std::string& address, std::string& rAddress, std::string& tagged) {
+
+    return JubiterBaseXRPImpl::IsValidAddress(address, rAddress, tagged);
+}
+
 
 // without "signingPubKey"
 JUB_RV JubiterBaseXRPImpl::SerializePreimage(const JUB_TX_XRP& tx,
