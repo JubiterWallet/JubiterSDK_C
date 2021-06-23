@@ -65,24 +65,24 @@ JUB_RV QTUMContext::BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, 
     CONTEXT_CHECK_TYPE_NONE
     outputs[0].type = JUB_ENUM_SCRIPT_BTC_TYPE::QRC20;
 
-    uchar_vector data;
+    uchar_vector apduData;
 
     // 4 250000 40
     // 4
     uchar_vector vFour;
     encodeInteger(0x04, vFour);
-    data << (JUB_UINT8)vFour.size();
-    data << vFour;
+    apduData << (JUB_UINT8)vFour.size();
+    apduData << vFour;
     // 250000
     uchar_vector vGasLimit;
     encodeInteger(gasLimit, vGasLimit);
-    data << (JUB_UINT8)vGasLimit.size();
-    data << vGasLimit;
+    apduData << (JUB_UINT8)vGasLimit.size();
+    apduData << vGasLimit;
     // 40
     uchar_vector vGasPrice;
     encodeInteger(gasPrice, vGasPrice);
-    data << (JUB_UINT8)vGasPrice.size();
-    data << vGasPrice;
+    apduData << (JUB_UINT8)vGasPrice.size();
+    apduData << vGasPrice;
 
     TW::Bitcoin::Address contractAddr((std::string(contractAddress)));
     TW::Data vContractAddress;
@@ -97,13 +97,13 @@ JUB_RV QTUMContext::BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, 
     std::vector<JUB_BYTE> vValue = jub::HexStr2CharPtr(DecStringToHexString(std::string(value)));
     uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vToAddress, vValue);
 
-    data && vAbi;
-    data && vContractAddress;
-    data << (JUB_UINT8)0xc2;//OP_CALL
+    apduData && vAbi;
+    apduData && vContractAddress;
+    apduData << (JUB_UINT8)0xc2;//OP_CALL
 
     //build qrc20 here
-    outputs[0].qrc20.dataLen = data.size();
-    memcpy(outputs[0].qrc20.data, &data[0], data.size());
+    outputs[0].qrc20.dataLen = apduData.size();
+    memcpy(outputs[0].qrc20.data, &apduData[0], apduData.size());
 
     return JUBR_OK;
 }

@@ -736,6 +736,8 @@
 		77AD324B2680725E00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32492680725D00888326 /* Base64.cpp */; };
 		77AD324C2680725E00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32492680725D00888326 /* Base64.cpp */; };
 		77AD324E2680728200888326 /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD324D2680728200888326 /* uint256.h */; };
+		77CFBAD12682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */; };
+		77CFBAD22682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1276,6 +1278,7 @@
 		77AD32482680725D00888326 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
 		77AD32492680725D00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
 		77AD324D2680728200888326 /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256.h; path = "../../deps/TrustWallet/wallet-core/src/uint256.h"; sourceTree = "<group>"; };
+		77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1958,6 +1961,7 @@
 			children = (
 				675B05402428698C004C62D4 /* JubiterBaseETHImpl.cpp */,
 				6746217023C31A0D0096DDA2 /* JubiterBladeETHImpl.cpp */,
+				77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */,
 				675B053F2428698C004C62D4 /* JubiterLiteETHImpl.cpp */,
 				6746216F23C31A0D0096DDA2 /* TrezorCryptoETHImpl.cpp */,
 			);
@@ -3039,6 +3043,7 @@
 				675B058424286B55004C62D4 /* AddressChecksum.cpp in Sources */,
 				6718A38D23A3391100F8A5CD /* ed25519-keccak.c in Sources */,
 				772B689E2673841E007D789B /* JubiterBIOXRPImpl.cpp in Sources */,
+				77CFBAD22682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */,
 				675B054B242869C0004C62D4 /* JubiterLiteImpl.cpp in Sources */,
 				67F1738C2542DCA3009211A3 /* pb_basevarint.cpp in Sources */,
 				675B055F24286B30004C62D4 /* TWData.cpp in Sources */,
@@ -3147,6 +3152,7 @@
 				6746216223C319A20096DDA2 /* ETHContext.cpp in Sources */,
 				677B329924C85EF500D4EAFB /* JUB_SDK_DEV_BIO.cpp in Sources */,
 				67755DA9253F10B70056F2C0 /* AccountId.cpp in Sources */,
+				77CFBAD12682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */,
 				674F1A0B23A1080A001702DD /* ed25519-keccak.c in Sources */,
 				6713A8B223A07D600083A34D /* keypair.c in Sources */,
 				6746216D23C319FA0096DDA2 /* TrezorCryptoBTCImpl.cpp in Sources */,

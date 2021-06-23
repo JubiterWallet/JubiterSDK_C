@@ -86,36 +86,36 @@ JUB_RV JubiterBladeFILImpl::SignTX(const uint64_t& nonce,
                                    std::vector<uchar_vector>& vSignatureRaw) {
 
     try {
-        uchar_vector data;
+        uchar_vector apduData;
 
         // cidPrefix
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_CID_PREFIX_4A, TW::Filecoin::Transaction::getCidPrefix());
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_CID_PREFIX_4A, TW::Filecoin::Transaction::getCidPrefix());
         // version
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_VERSION_4B, {0x00});
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_VERSION_4B, {0x00});
         // to address
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_TO_44, TW::Filecoin::Address(to).bytes);
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_TO_44, TW::Filecoin::Address(to).bytes);
         // from address
         std::vector<JUB_BYTE> vPath(path.begin(), path.end());
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_PATH_47, vPath);
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_PATH_47, vPath);
         // nonce
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_NONCE_41, TW::encodeBENoZero(nonce));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_NONCE_41, TW::encodeBENoZero(nonce));
         // value
         auto loadingZero = [](const uint256_t& x) -> TW::Data {
             auto bytes = TW::encodeBENoZero(x);
             bytes.insert(bytes.begin(), 0);
             return bytes;
         };
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_VALUE_45, loadingZero(value));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_VALUE_45, loadingZero(value));
         // gas limit
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_LIMIT_43, loadingZero(glimit));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_LIMIT_43, loadingZero(glimit));
         // gas fee cap
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_FEE_CAP_4E, loadingZero(gfeeCap));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_FEE_CAP_4E, loadingZero(gfeeCap));
         // gas premium
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_PREMIUM_4F, loadingZero(gpremium));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_PREMIUM_4F, loadingZero(gpremium));
         // abi.MethodNum (0 => send)
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_ABI_METHODNUM_4C, {0x00});
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_ABI_METHODNUM_4C, {0x00});
         // data (empty)
-        data << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_DATA_4D, TW::Data());
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_DATA_4D, TW::Data());
 
         JUB_BYTE ins = JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A;
 //        if (bERC20) {
@@ -123,7 +123,7 @@ JUB_RV JubiterBladeFILImpl::SignTX(const uint64_t& nonce,
 //        }
 
         //one pack can do it
-        APDU apdu(0x00, ins, 0x01, 0x00, (JUB_ULONG)data.size(), data.data());
+        APDU apdu(0x00, ins, 0x01, 0x00, (JUB_ULONG)apduData.size(), apduData.data());
         JUB_UINT16 ret = 0;
         JUB_BYTE retData[2048] = { 0, };
         JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
