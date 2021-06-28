@@ -188,6 +188,26 @@ JUB_RV transaction_proc_FIL(JUB_UINT16 contextID, Json::Value root) {
     JUB_CHAR_PTR valueInAtto = (JUB_CHAR_PTR)root["FIL"]["valueInAtto"].asCString();
     JUB_CHAR_PTR to = (JUB_CHAR_PTR)root["FIL"]["to"].asCString();
 
+    JUB_CHAR_PTR cid = nullptr;
+    rv = JUB_CalculateTransactionCIDFIL(contextID,
+                                        path,
+                                        nonce,
+                                        gasLimit,
+                                        gasFeeCapInAtto,
+                                        gasPremiumInAtto,
+                                        to,
+                                        valueInAtto,
+                                        "",
+                                        &cid);
+    if (JUBR_OK != rv) {
+        cout << "JUB_CalculateTransactionCIDFIL() return " << GetErrMsg(rv) << endl;
+        return rv;
+    }
+    else {
+        cout << "cid[" << strlen(cid) << "]: "  << cid << endl;
+        JUB_FreeMemory(cid);
+    }
+
     JUB_CHAR_PTR raw = nullptr;
     rv = JUB_SignTransactionFIL(contextID,
                                 path,

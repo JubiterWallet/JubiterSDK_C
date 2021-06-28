@@ -729,6 +729,9 @@
 		7731ABD926738AA000C23EEC /* mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7731ABD826738AA000C23EEC /* mutex.h */; };
 		778009372689D70F00B90059 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778009362689D70E00B90059 /* JubiterBIOETHImpl.cpp */; };
 		778009382689D70F00B90059 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 778009362689D70E00B90059 /* JubiterBIOETHImpl.cpp */; };
+		7780093B2689DE4600B90059 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 778009392689DE4600B90059 /* Base64.h */; };
+		7780093C2689DE4600B90059 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7780093A2689DE4600B90059 /* Base64.cpp */; };
+		7780093D2689DE4600B90059 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7780093A2689DE4600B90059 /* Base64.cpp */; };
 		77B1C502265FB8250093E7A9 /* JUB_SDK_DEV_SWI.h in Headers */ = {isa = PBXBuildFile; fileRef = 77B1C501265FB8250093E7A9 /* JUB_SDK_DEV_SWI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -1264,6 +1267,8 @@
 		7731ABD626738A8C00C23EEC /* xManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = xManager.hpp; path = ../../include/utility/xManager.hpp; sourceTree = "<group>"; };
 		7731ABD826738AA000C23EEC /* mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mutex.h; path = ../../include/utility/mutex.h; sourceTree = "<group>"; };
 		778009362689D70E00B90059 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
+		778009392689DE4600B90059 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
+		7780093A2689DE4600B90059 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
 		77B1C501265FB8250093E7A9 /* JUB_SDK_DEV_SWI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DEV_SWI.h; path = ../../include/JUB_SDK_DEV_SWI.h; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1579,6 +1584,8 @@
 				6713A89E23A07C8B0083A34D /* Base58.cpp */,
 				6713A89F23A07C8B0083A34D /* Base58.h */,
 				671E23FF23CEC1E8001A5F81 /* Base58Address.h */,
+				7780093A2689DE4600B90059 /* Base64.cpp */,
+				778009392689DE4600B90059 /* Base64.h */,
 				671E240123CEC1E8001A5F81 /* Bech32.cpp */,
 				671E23FE23CEC1E8001A5F81 /* Bech32.h */,
 				671E23FD23CEC1E8001A5F81 /* Bech32Address.cpp */,
@@ -2513,6 +2520,7 @@
 				6763937B253464D600C41883 /* common.pb.h in Headers */,
 				772FB7AB2664BA9F00DA6C3D /* BigIntegerAlgorithms.hh in Headers */,
 				67E0DF5D250F6D6C00D42EF0 /* TWHcash.h in Headers */,
+				7780093B2689DE4600B90059 /* Base64.h in Headers */,
 				67755DA8253F10B70056F2C0 /* TransactionRaw.h in Headers */,
 				675B0504242866EE004C62D4 /* JubiterBaseDashImpl.h in Headers */,
 				675B0506242866EE004C62D4 /* JubiterBladeDashImpl.h in Headers */,
@@ -2835,6 +2843,7 @@
 				675B056124286B30004C62D4 /* TWHcash.cpp in Sources */,
 				6718A41E23A339ED00F8A5CD /* JUB_SDK_ETH.cpp in Sources */,
 				6718A38E23A3391100F8A5CD /* ed25519-sha3.c in Sources */,
+				7780093D2689DE4600B90059 /* Base64.cpp in Sources */,
 				6745C8E0254A654500D49A75 /* JUB_SDK_TRX.cpp in Sources */,
 				67639363253464A800C41883 /* Tron.pb.cc in Sources */,
 				7731ABD526738A1400C23EEC /* JubiterBIOEOSImpl.cpp in Sources */,
@@ -3143,6 +3152,7 @@
 				6713A8ED23A082770083A34D /* secp256k1.c in Sources */,
 				675B053124286909004C62D4 /* JubiterBaseBCHImpl.cpp in Sources */,
 				671E240B23CEC220001A5F81 /* DerivationPath.cpp in Sources */,
+				7780093C2689DE4600B90059 /* Base64.cpp in Sources */,
 				675B056624286B30004C62D4 /* TWCurve.cpp in Sources */,
 				675B056824286B30004C62D4 /* TWCoinType.cpp in Sources */,
 				673E49852429EDD700C7F469 /* OutPoint.cpp in Sources */,

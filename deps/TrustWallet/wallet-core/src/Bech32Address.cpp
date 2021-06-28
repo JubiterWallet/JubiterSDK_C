@@ -1,4 +1,4 @@
-// Copyright © 2017-2020 Trust Wallet.
+// Copyright © 2017-2021 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -8,6 +8,7 @@
 #include "Bech32.h"
 #include "Data.h"
 #include <TrezorCrypto/ecdsa.h>
+#include <iostream>
 
 using namespace TW;
 

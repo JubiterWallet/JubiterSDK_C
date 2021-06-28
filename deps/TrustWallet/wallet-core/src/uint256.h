@@ -83,8 +83,9 @@ inline void encode256BE(Data& data, const uint256_t& value, uint32_t digit) {
 }
 
 /// Return string representation of uint256_t
-//inline std::string toString(uint256_t value) {
+inline std::string toString(uint256_t value) {
 //    return boost::lexical_cast<std::string>(value);
-//}
+    return value.str();
+}
 
 } // namespace TW

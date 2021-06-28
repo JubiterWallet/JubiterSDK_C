@@ -10,6 +10,7 @@
 
 #include <string>
 #include <memory>
+#include <stdexcept>
 
 namespace TW::Cbor {
 
@@ -52,7 +53,7 @@ public:
     /// Create from raw content, must be valid CBOR data, may throw
     static Encode fromRaw(const TW::Data& rawData);
 
-//private:
+private:
     Encode() {}
     Encode(const TW::Data& rawData) : data(rawData) {}
     /// Append types + value, on variable number of bytes (1..8). Return object to support chain syntax.

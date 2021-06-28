@@ -31,7 +31,7 @@ public:
     virtual JUB_RV CheckAddress(const std::string& address) = 0;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
     virtual JUB_RV SignTX(const uint64_t& nonce,
-                          const uint256_t& glimit,
+                          const  int64_t& glimit,
                           const uint256_t& gfeeCap,
                           const uint256_t& gpremium,
                           const std::string& to,

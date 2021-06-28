@@ -196,7 +196,58 @@ JUB_RV FILContext::SignTransaction(BIP44_Path path,
         }
 #endif
 
-        raw = uchar_vector(tx.serialize(vSignature[0])).getHex();
+        raw = tx.serialize(vSignature[0]);
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV FILContext::CalculateTransactionCID(BIP44_Path path,
+                                           const JUB_UINT64 nonce,
+                                           const JUB_UINT64 gasLimit,
+                                           JUB_CHAR_CPTR gasFeeCapInAtto,
+                                           JUB_CHAR_CPTR gasPremiumInAtto,
+                                           JUB_CHAR_CPTR to,
+                                           JUB_CHAR_CPTR valueInAtto,
+                                           JUB_CHAR_CPTR input,
+                                           OUT std::string& cid) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::FILTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_CHECK_NULL(gasFeeCapInAtto);
+    JUB_CHECK_NULL(gasPremiumInAtto);
+    JUB_CHECK_NULL(to);
+    JUB_CHECK_NULL(valueInAtto);
+
+    std::string strPath = _FullBip44Path(path);
+
+    uint256_t gasFeeCap(gasFeeCapInAtto, 10);
+    uint256_t gasPremium(gasPremiumInAtto, 10);
+    uint256_t value(valueInAtto, 10);
+
+    try {
+        std::string from;
+        JUB_VERIFY_RV(GetAddress(path, 0, from));
+
+        TW::Filecoin::Address fromAddr = TW::Filecoin::Address(from);
+        TW::Filecoin::Transaction tx(TW::Filecoin::Address(to),
+                                     fromAddr,
+                                     nonce,
+                                     value,
+                                     gasLimit,
+                                     gasFeeCap,
+                                     gasPremium);
+
+        cid = TW::Filecoin::Transaction::cid(tx);
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;
