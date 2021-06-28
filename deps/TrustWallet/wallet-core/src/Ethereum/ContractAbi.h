@@ -3,7 +3,8 @@
 #include <vector>
 #include <stdint.h>
 #include <cstdint>
-#include <array>
+#include <string>
+#include <vector>
 
 namespace jub {
 namespace eth {

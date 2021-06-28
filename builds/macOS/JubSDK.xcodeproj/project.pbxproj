@@ -967,6 +967,10 @@
 		7771CCEE26789C6200081F28 /* Cbor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7771CCEB26789C6100081F28 /* Cbor.cpp */; };
 		7771CCEF26789C6200081F28 /* Cbor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7771CCEC26789C6100081F28 /* Cbor.h */; };
 		7771CCF026789C6200081F28 /* Cbor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7771CCEC26789C6100081F28 /* Cbor.h */; };
+		7780092F2689BD0F00B90059 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7780092D2689BD0E00B90059 /* Base64.cpp */; };
+		778009302689BD0F00B90059 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7780092D2689BD0E00B90059 /* Base64.cpp */; };
+		778009312689BD0F00B90059 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 7780092E2689BD0E00B90059 /* Base64.h */; };
+		778009322689BD0F00B90059 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 7780092E2689BD0E00B90059 /* Base64.h */; };
 		7781059C25F9C3FB0014C1EE /* (null) in Headers */ = {isa = PBXBuildFile; };
 		7788318B267356A5004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77883189267356A5004FDA80 /* ContractAbi.h */; };
 		7788318C267356A5004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77883189267356A5004FDA80 /* ContractAbi.h */; };
@@ -1007,10 +1011,6 @@
 		779744E82630106900ECFF34 /* JUB_SDK_DEV_SIM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779744E62630106900ECFF34 /* JUB_SDK_DEV_SIM.cpp */; };
 		77AD322F267B3B0300888326 /* Base32.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD322E267B3B0300888326 /* Base32.h */; };
 		77AD3230267B3B0300888326 /* Base32.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD322E267B3B0300888326 /* Base32.h */; };
-		77AD323226803C5A00888326 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD3229267B2F7900888326 /* Base64.h */; };
-		77AD323426803C6600888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD3228267B2F7900888326 /* Base64.cpp */; };
-		77AD32352680510700888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD3228267B2F7900888326 /* Base64.cpp */; };
-		77AD32362680510A00888326 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD3229267B2F7900888326 /* Base64.h */; };
 		77B1C4EB265F80B80093E7A9 /* ERC721Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77B1C4E9265F80B80093E7A9 /* ERC721Abi.h */; };
 		77B1C4EC265F80B80093E7A9 /* ERC721Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77B1C4E9265F80B80093E7A9 /* ERC721Abi.h */; };
 		77B1C4ED265F80B80093E7A9 /* ERC721Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B1C4EA265F80B80093E7A9 /* ERC721Abi.cpp */; };
@@ -1526,6 +1526,8 @@
 		7771CCDE26789C5100081F28 /* Signer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Signer.h; path = "../../deps/TrustWallet/wallet-core/src/Filecoin/Signer.h"; sourceTree = "<group>"; };
 		7771CCEB26789C6100081F28 /* Cbor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cbor.cpp; path = "../../deps/TrustWallet/wallet-core/src/Cbor.cpp"; sourceTree = "<group>"; };
 		7771CCEC26789C6100081F28 /* Cbor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cbor.h; path = "../../deps/TrustWallet/wallet-core/src/Cbor.h"; sourceTree = "<group>"; };
+		7780092D2689BD0E00B90059 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
+		7780092E2689BD0E00B90059 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
 		77883189267356A5004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7788318A267356A5004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
 		779744502630062E00ECFF34 /* FILTokenInterface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FILTokenInterface.hpp; path = ../../include/token/interface/FILTokenInterface.hpp; sourceTree = "<group>"; };
@@ -1545,8 +1547,6 @@
 		779744D82630101500ECFF34 /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
 		779744DF2630104700ECFF34 /* JUB_SDK_DEV_SIM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DEV_SIM.h; path = ../../include/JUB_SDK_DEV_SIM.h; sourceTree = "<group>"; };
 		779744E62630106900ECFF34 /* JUB_SDK_DEV_SIM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_DEV_SIM.cpp; path = ../../src/JUB_SDK_DEV_SIM.cpp; sourceTree = "<group>"; };
-		77AD3228267B2F7900888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../../../../git/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
-		77AD3229267B2F7900888326 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../../../../git/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
 		77AD322E267B3B0300888326 /* Base32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base32.h; path = "../../deps/TrustWallet/wallet-core/src/Base32.h"; sourceTree = "<group>"; };
 		77B1C4E9265F80B80093E7A9 /* ERC721Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC721Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.h"; sourceTree = "<group>"; };
 		77B1C4EA265F80B80093E7A9 /* ERC721Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC721Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.cpp"; sourceTree = "<group>"; };
@@ -1943,8 +1943,8 @@
 				676621DE234C316900AFAFA2 /* Base58.cpp */,
 				676F028623C775A6005C8032 /* Base58.h */,
 				67ECD13323CD724100B7D514 /* Base58Address.h */,
-				77AD3229267B2F7900888326 /* Base64.h */,
-				77AD3228267B2F7900888326 /* Base64.cpp */,
+				7780092D2689BD0E00B90059 /* Base64.cpp */,
+				7780092E2689BD0E00B90059 /* Base64.h */,
 				67ECD13123CD724100B7D514 /* Bech32.cpp */,
 				67ECD13423CD724100B7D514 /* Bech32.h */,
 				67ECD13523CD724100B7D514 /* Bech32Address.cpp */,
@@ -2885,7 +2885,7 @@
 				67E0DF88250F764400D42EF0 /* JubiterLiteTRXImpl.h in Headers */,
 				679DA96C2577B36E00B08471 /* JubiterLiteLTCImpl.h in Headers */,
 				67FA32CD24CAE77B00023DF9 /* DeviceFactory.h in Headers */,
-				77AD323226803C5A00888326 /* Base64.h in Headers */,
+				778009322689BD0F00B90059 /* Base64.h in Headers */,
 				67E0DEEE250F6CA500D42EF0 /* Script.h in Headers */,
 				676393352534608B00C41883 /* balance_contract.pb.h in Headers */,
 				679DA96E2577B36E00B08471 /* JubiterLiteQTUMImpl.h in Headers */,
@@ -3412,7 +3412,7 @@
 				676B42C0240FA30600EBB44D /* Signer.h in Headers */,
 				775FD5162626E76400D12DDC /* BigUnsigned.hh in Headers */,
 				674F19E223A106D6001702DD /* nem.h in Headers */,
-				77AD32362680510A00888326 /* Base64.h in Headers */,
+				778009312689BD0F00B90059 /* Base64.h in Headers */,
 				67ECD13C23CD724100B7D514 /* Bech32.h in Headers */,
 				674F19DD23A10639001702DD /* ed25519.h in Headers */,
 				67A4BD5E2330A1D10059A3DB /* blake2s.h in Headers */,
@@ -3643,7 +3643,7 @@
 				67E0DEF6250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */,
 				32E84E49240B95CE003311B5 /* JubiterBaseEOSImpl.cpp in Sources */,
 				67E0DF91250F773900D42EF0 /* JUB_SDK_TRX.cpp in Sources */,
-				77AD323426803C6600888326 /* Base64.cpp in Sources */,
+				778009302689BD0F00B90059 /* Base64.cpp in Sources */,
 				677A186823F27059003FA636 /* JubiterBaseHCImpl.cpp in Sources */,
 				67CE945A24C989B500AE59B4 /* JUB_SDK_DEV_BIO.cpp in Sources */,
 				67E0DF23250F6CE600D42EF0 /* Signer.cpp in Sources */,
@@ -3861,7 +3861,7 @@
 				67A4BDD32330A9F90059A3DB /* curves.c in Sources */,
 				67E0DF90250F773900D42EF0 /* JUB_SDK_TRX.cpp in Sources */,
 				67CE945924C989B500AE59B4 /* JUB_SDK_DEV_BIO.cpp in Sources */,
-				77AD32352680510700888326 /* Base64.cpp in Sources */,
+				7780092F2689BD0F00B90059 /* Base64.cpp in Sources */,
 				674F19B723A105F2001702DD /* ed25519-keccak.c in Sources */,
 				67E0DF22250F6CE600D42EF0 /* Signer.cpp in Sources */,
 				674621DB23C31D820096DDA2 /* HCContext.cpp in Sources */,
@@ -4033,7 +4033,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -4090,7 +4090,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
