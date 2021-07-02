@@ -78,7 +78,7 @@ JUB_RV TrezorCryptoHCImpl::SignTX(const JUB_BYTE addrFmt,
 }
 
 
-JUB_RV TrezorCryptoHCImpl::_HdnodeCkd(std::string path, HDNode* node, JUB_UINT32* parentFingerprint) {
+JUB_RV TrezorCryptoHCImpl::_HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint) {
 
     JUB_RV rv = JUBR_ERROR;
 

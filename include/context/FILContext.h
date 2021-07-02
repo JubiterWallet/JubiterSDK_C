@@ -29,21 +29,21 @@ namespace context {
 class FILContext :
     public BaseContext {
 public:
-    FILContext(CONTEXT_CONFIG_FIL cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
+    FILContext(const CONTEXT_CONFIG_FIL& cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;
             _timeout = 120 * 2;
     }
     ~FILContext() {}
 
-    virtual JUB_RV GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(BIP44_Path path, std::string& address);
+    virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
     virtual JUB_RV CheckAddress(const std::string& address);
 
-    virtual JUB_RV GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey);
-    virtual JUB_RV GetMainHDNode(JUB_BYTE format, std::string& xpub);
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey);
+    virtual JUB_RV GetMainHDNode(const JUB_BYTE format, std::string& xpub);
 
-    virtual JUB_RV SignTransaction(BIP44_Path path,
+    virtual JUB_RV SignTransaction(const BIP44_Path& path,
                                    const JUB_UINT64 nonce,
                                    const JUB_UINT64 gasLimit,
                                    JUB_CHAR_CPTR gasFeeCapInAtto,
@@ -52,7 +52,7 @@ public:
                                    JUB_CHAR_CPTR valueInAtto,
                                    JUB_CHAR_CPTR input,
                                    OUT std::string& raw);
-    virtual JUB_RV CalculateTransactionCID(BIP44_Path path,
+    virtual JUB_RV CalculateTransactionCID(const BIP44_Path& path,
                                            const JUB_UINT64 nonce,
                                            const JUB_UINT64 gasLimit,
                                            JUB_CHAR_CPTR gasFeeCapInAtto,

@@ -39,7 +39,7 @@ const std::string chainIds[] = {
 class EOSContext :
     public BaseContext {
 public:
-    EOSContext(const CONTEXT_CONFIG_EOS cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
+    EOSContext(const CONTEXT_CONFIG_EOS& cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;
             _timeout = 120 * 2;

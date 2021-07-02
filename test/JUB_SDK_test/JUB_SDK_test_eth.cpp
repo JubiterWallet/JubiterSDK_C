@@ -474,9 +474,7 @@ JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
 //uniswap Test
 void uniswap_test_ETH(JUB_UINT16 contextID, Json::Value root) {
 
-    JUB_RV rv = JUBR_ERROR;
-
-    rv = verify_pin(contextID);
+    JUB_RV rv = verify_pin(contextID);
     if (JUBR_OK != rv) {
         return;
     }

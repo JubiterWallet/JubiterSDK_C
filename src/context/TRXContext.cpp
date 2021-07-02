@@ -214,7 +214,7 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
 #if defined(DEBUG)
         //verify
         std::string pubkey;
-        JUB_VERIFY_RV(token->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
+        JUB_VERIFY_RV(token->GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
 
         TW::Tron::Signer signer;
         if (!signer.verify(TW::PublicKey(TW::Data(uchar_vector(pubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1),

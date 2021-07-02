@@ -105,6 +105,24 @@ void get_device_info_test(JUB_UINT16 deviceID) {
 JUB_RV verify_pin(JUB_UINT16 contextID) {
 
     JUB_RV rv = JUBR_ERROR;
+
+    JUB_ENUM_DEVICE deviceClass;
+    rv = JUB_GetContextType(contextID, &deviceClass);
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
+    switch (deviceClass) {
+    case JUB_ENUM_DEVICE::BLADE:
+    case JUB_ENUM_DEVICE::BIO:
+    case JUB_ENUM_DEVICE::LITE:
+        break;
+    case JUB_ENUM_DEVICE::VD:
+        return rv;
+    default:
+        return JUBR_ARGUMENTS_BAD;
+    }
+
     while (rv) {
         //����pin��λ�ã�������123456789
         cout << "1 2 3" << endl;

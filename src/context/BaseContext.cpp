@@ -1,11 +1,37 @@
 #include "utility/util.h"
 
 #include "context/BaseContext.h"
+#include "token/TrezorCrypto/TrezorCryptoToken.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
+#include "token/JubiterLite/JubiterLiteToken.h"
+
 
 namespace jub {
 namespace context {
+
+
+JUB_RV BaseContext::GetDeviceClass(OUT JUB_ENUM_DEVICE_PTR deviceClass) {
+
+    JUB_RV rv = JUBR_OK;
+
+    *deviceClass = JUB_ENUM_DEVICE::DEVICE_NS_ITEM;
+
+    if (std::dynamic_pointer_cast<token::TrezorCryptoToken>(_tokenPtr)) {
+        *deviceClass = JUB_ENUM_DEVICE::VD;
+    }
+    else if (std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)) {
+        *deviceClass = JUB_ENUM_DEVICE::BLADE;
+    }
+    else if (std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)) {
+        *deviceClass = JUB_ENUM_DEVICE::BIO;
+    }
+    else if (std::dynamic_pointer_cast<token::JubiterLiteToken>(_tokenPtr)) {
+        *deviceClass = JUB_ENUM_DEVICE::LITE;
+    }
+
+    return rv;
+}
 
 
 JUB_RV BaseContext::ShowVirtualPwd() {

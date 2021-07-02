@@ -23,12 +23,12 @@ public:
                                        const JUB_UINT32 lockTime,
                                        uchar_vector& unsignedRaw) override;
 
-    virtual JUB_RV VerifyTx(const bool witness,
+protected:
+    virtual JUB_RV _verifyTx(const bool witness,
                             const uchar_vector& signedRaw,
                             const std::vector<JUB_UINT64>& vInputAmount,
                             const std::vector<TW::Data>& vInputPublicKey) override;
 
-protected:
     virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address) override;
 
     virtual JUB_RV _verifyTx(const TWCoinType& coin,

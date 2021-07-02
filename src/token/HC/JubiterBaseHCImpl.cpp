@@ -129,10 +129,10 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const TWCoinType& coin,
 }
 
 
-JUB_RV JubiterBaseHCImpl::VerifyTx(const bool witness,
-                                   const uchar_vector& signedRaw,
-                                   const std::vector<JUB_UINT64>& vInputAmount,
-                                   const std::vector<TW::Data>& vInputPublicKey) {
+JUB_RV JubiterBaseHCImpl::_verifyTx(const bool witness,
+                                    const uchar_vector& signedRaw,
+                                    const std::vector<JUB_UINT64>& vInputAmount,
+                                    const std::vector<TW::Data>& vInputPublicKey) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
@@ -147,11 +147,11 @@ JUB_RV JubiterBaseHCImpl::VerifyTx(const bool witness,
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return _verifyTx(_coin,
-                         &tx,
-                         _hashType,
-                         vInputAmount,
-                         vInputPubkey);
+        return JubiterBaseBTCImpl::_verifyTx(_coin,
+                                             &tx,
+                                             _hashType,
+                                             vInputAmount,
+                                             vInputPubkey);
     }
     catch (...) {
         rv = JUBR_ERROR;

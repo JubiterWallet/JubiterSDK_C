@@ -29,7 +29,7 @@ namespace context {
 class TRXContext :
     public BaseContext {
 public:
-    TRXContext(CONTEXT_CONFIG_TRX cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
+    TRXContext(const CONTEXT_CONFIG_TRX& cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;
             _timeout = 120 * 2;

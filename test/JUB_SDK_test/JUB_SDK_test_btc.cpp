@@ -260,6 +260,13 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
         return;
     }
 
+    JUB_ENUM_DEVICE deviceClass = JUB_ENUM_DEVICE::DEVICE_NS_ITEM;
+    rv = JUB_GetContextType(contextID, &deviceClass);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    if (JUB_ENUM_DEVICE::VD != deviceClass) {
     cout << "Please chose the way of verify PIN:" << endl;
     cout << "1: PIN" << endl;
     cout << "2: Fingerprint" << endl;
@@ -277,6 +284,7 @@ void transaction_test(JUB_UINT16 contextID, Json::Value root) {
     }   // switch (choice) end
     if (JUBR_OK != rv) {
         return;
+    }
     }
 
     rv = transaction_proc(contextID, root);

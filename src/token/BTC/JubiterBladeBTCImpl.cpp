@@ -333,10 +333,10 @@ JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
         return rv;
     }
 
-    return VerifyTx(witness,
-                    vSigedTrans,
-                    vInputAmount,
-                    vInputPublicKey);
+    return _verifyTx(witness,
+                     vSigedTrans,
+                     vInputAmount,
+                     vInputPublicKey);
 }
 
 

@@ -250,7 +250,7 @@ JUB_RV EOSContext::SignTransaction(const BIP44_Path& path,
 #if defined(DEBUG)
             //verify
             std::string strPubkey;
-            JUB_VERIFY_RV(token->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, strPubkey));
+            JUB_VERIFY_RV(token->GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, strPath, strPubkey));
             TW::EOS::Signer signer{ vChainIds };
             TW::PublicKey pubkey = TW::PublicKey(TW::Data(uchar_vector(strPubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
             if (!signer.recover(pubkey, _eosType, tx)) {

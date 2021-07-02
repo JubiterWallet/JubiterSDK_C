@@ -302,7 +302,6 @@ JUB_RV JUB_CalculateMemoHash(IN JUB_CHAR_CPTR memo,
     TW::Data toHash(encode.begin()+varIntByteSize, encode.end());
 
     const auto begin = reinterpret_cast<const uint8_t*>(toHash.data());
-    TW::Hash::Hasher hasher;
     TW::Data hash = TW::Hash::sha256(begin, toHash.size());
 
     uchar_vector memoh = uchar_vector(hash.begin(), hash.begin()+4);
