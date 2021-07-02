@@ -44,7 +44,7 @@ JUB_RV FILContext::ActiveSelf() {
 }
 
 
-JUB_RV FILContext::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
+JUB_RV FILContext::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -59,7 +59,7 @@ JUB_RV FILContext::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 }
 
 
-JUB_RV FILContext::GetAddress(BIP44_Path path, JUB_UINT16 tag, std::string& address) {
+JUB_RV FILContext::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -90,7 +90,7 @@ JUB_RV FILContext::CheckAddress(const std::string& address) {
 }
 
 
-JUB_RV FILContext::SetMyAddress(BIP44_Path path, std::string& address) {
+JUB_RV FILContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -106,7 +106,7 @@ JUB_RV FILContext::SetMyAddress(BIP44_Path path, std::string& address) {
 }
 
 
-JUB_RV FILContext::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubkey) {
+JUB_RV FILContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -122,7 +122,7 @@ JUB_RV FILContext::GetHDNode(JUB_BYTE format, BIP44_Path path, std::string& pubk
 }
 
 
-JUB_RV FILContext::SignTransaction(BIP44_Path path,
+JUB_RV FILContext::SignTransaction(const BIP44_Path& path,
                                    const JUB_UINT64 nonce,
                                    const JUB_UINT64 gasLimit,
                                    JUB_CHAR_CPTR gasFeeCapInAtto,
@@ -178,7 +178,7 @@ JUB_RV FILContext::SignTransaction(BIP44_Path path,
 #if defined(DEBUG)
         // Verify
         std::string pubkey;
-        JUB_VERIFY_RV(token->GetHDNode(JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
+        JUB_VERIFY_RV(token->GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
 
         TW::PublicKey verifyPubk(TW::Data(uchar_vector(pubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1);
         TW::Filecoin::Address verifyAddr = TW::Filecoin::Address(verifyPubk);
@@ -206,7 +206,7 @@ JUB_RV FILContext::SignTransaction(BIP44_Path path,
 }
 
 
-JUB_RV FILContext::CalculateTransactionCID(BIP44_Path path,
+JUB_RV FILContext::CalculateTransactionCID(const BIP44_Path& path,
                                            const JUB_UINT64 nonce,
                                            const JUB_UINT64 gasLimit,
                                            JUB_CHAR_CPTR gasFeeCapInAtto,

@@ -147,6 +147,17 @@ typedef JUB_VERSION* JUB_VERSION_PTR;
 
 
 /*****************************************************************************
+ * @function name : JUB_GetContextType
+ * @in  param : contextID - context ID
+ * @out param : deviceClass - device class
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_GetContextType(IN JUB_UINT16 contextID,
+                          OUT JUB_ENUM_DEVICE_PTR deviceClass);
+
+
+/*****************************************************************************
  * @function name : JUB_GetDeviceType
  * @in  param : deviceID - device ID
  * @out param : commode - device communication mode

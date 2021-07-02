@@ -33,10 +33,10 @@ JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& t
     return JUBR_OK;
 }
 
-JUB_RV JubiterBaseDashImpl::VerifyTx(const bool witness,
-                                     const uchar_vector& signedRaw,
-                                     const std::vector<JUB_UINT64>& vInputAmount,
-                                     const std::vector<TW::Data>& vInputPublicKey) {
+JUB_RV JubiterBaseDashImpl::_verifyTx(const bool witness,
+                                      const uchar_vector& signedRaw,
+                                      const std::vector<JUB_UINT64>& vInputAmount,
+                                      const std::vector<TW::Data>& vInputPublicKey) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
@@ -51,11 +51,11 @@ JUB_RV JubiterBaseDashImpl::VerifyTx(const bool witness,
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return _verifyTx(_coin,
-                         &tx,
-                         _hashType,
-                         vInputAmount,
-                         vInputPubkey);
+        return JubiterBaseBTCImpl::_verifyTx(_coin,
+                                             &tx,
+                                             _hashType,
+                                             vInputAmount,
+                                             vInputPubkey);
     }
     catch (...) {
         rv = JUBR_ERROR;

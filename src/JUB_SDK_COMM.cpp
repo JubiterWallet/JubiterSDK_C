@@ -74,6 +74,23 @@ JUB_RV JUB_FreeMemory(IN JUB_CHAR_CPTR memPtr) {
 }
 
 /*****************************************************************************
+ * @function name : JUB_GetContextType
+ * @in  param : contextID - context ID
+ * @out param : deviceClass - device class
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_GetContextType(IN JUB_UINT16 contextID, OUT JUB_ENUM_DEVICE_PTR deviceClass) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOne(contextID);
+    JUB_CHECK_NULL(context);
+
+    JUB_VERIFY_RV(context->GetDeviceClass(deviceClass));
+
+    return JUBR_OK;
+}
+
+/*****************************************************************************
  * @function name : JUB_ClearContext
  * @in  param : contextID - context ID
  * @out param :

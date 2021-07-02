@@ -62,17 +62,19 @@ JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data& publicKey, std::string& a
     return JUBR_OK;
 }
 
+
 JUB_RV JubiterBaseBTCImpl::CheckAddress(const std::string& address) {
     //check legacy address
     std::vector<TW::Data> prefixs;
     prefixs.push_back({TWCoinTypeP2pkhPrefix(_coin)});
     prefixs.push_back({TWCoinTypeP2shPrefix(_coin)});
-    JUB_RV rvLegacy = !(TW::Bitcoin::Address::isValid(address,prefixs));
+    JUB_RV rvLegacy = !(TW::Bitcoin::Address::isValid(address, prefixs));
     //check segwit address
     JUB_RV rvSegwit = !(TW::Bitcoin::SegwitAddress::isValid(address,std::string(stringForHRP(TWCoinTypeHRP(_coin)))));
 
     return rvLegacy&rvSegwit;
 }
+
 
 JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data& publicKey, std::string& address) {
 
@@ -337,10 +339,10 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType& coin,
 }
 
 
-JUB_RV JubiterBaseBTCImpl::VerifyTx(const bool witness,
-                                    const uchar_vector& signedRaw,
-                                    const std::vector<JUB_UINT64>& vInputAmount,
-                                    const std::vector<TW::Data>& vInputPublicKey) {
+JUB_RV JubiterBaseBTCImpl::_verifyTx(const bool witness,
+                                     const uchar_vector& signedRaw,
+                                     const std::vector<JUB_UINT64>& vInputAmount,
+                                     const std::vector<TW::Data>& vInputPublicKey) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
@@ -355,11 +357,11 @@ JUB_RV JubiterBaseBTCImpl::VerifyTx(const bool witness,
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return _verifyTx(_coin,
-                         &tx,
-                         _hashType,
-                         vInputAmount,
-                         vInputPubkey);
+        return JubiterBaseBTCImpl::_verifyTx(_coin,
+                                             &tx,
+                                             _hashType,
+                                             vInputAmount,
+                                             vInputPubkey);
     }
     catch (...) {
         rv = JUBR_ERROR;

@@ -230,10 +230,10 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
     }
 
     // verify signature
-    return VerifyTx(witness,
-                    vSigedTrans,
-                    vInputAmount,
-                    vInputPublicKey);
+    return _verifyTx(witness,
+                     vSigedTrans,
+                     vInputAmount,
+                     vInputPublicKey);
 }
 
 

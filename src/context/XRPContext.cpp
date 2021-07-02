@@ -46,7 +46,7 @@ JUB_RV XRPContext::ActiveSelf() {
 }
 
 
-JUB_RV XRPContext::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
+JUB_RV XRPContext::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -61,7 +61,7 @@ JUB_RV XRPContext::GetMainHDNode(JUB_BYTE format, std::string& xpub) {
 }
 
 
-JUB_RV XRPContext::GetAddress(const BIP44_Path path, const JUB_UINT16 tag, std::string& address) {
+JUB_RV XRPContext::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -77,7 +77,7 @@ JUB_RV XRPContext::GetAddress(const BIP44_Path path, const JUB_UINT16 tag, std::
 }
 
 
-JUB_RV XRPContext::SetMyAddress(const BIP44_Path path, std::string& address) {
+JUB_RV XRPContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -93,7 +93,7 @@ JUB_RV XRPContext::SetMyAddress(const BIP44_Path path, std::string& address) {
 }
 
 
-JUB_RV XRPContext::GetHDNode(const JUB_BYTE format, const BIP44_Path path, std::string& pubkey) {
+JUB_RV XRPContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -107,6 +107,7 @@ JUB_RV XRPContext::GetHDNode(const JUB_BYTE format, const BIP44_Path path, std::
 
     return JUBR_OK;
 }
+
 
 JUB_RV XRPContext::CheckAddress(const std::string& address, std::string& addre, std::string& tag) {
 
@@ -123,7 +124,7 @@ JUB_RV XRPContext::CheckAddress(const std::string& address, std::string& addre, 
 }
 
 
-JUB_RV XRPContext::SignTransaction(const BIP44_Path path,
+JUB_RV XRPContext::SignTransaction(const BIP44_Path& path,
                                    const JUB_TX_XRP& tx,
                                    std::string& signedRaw) {
 

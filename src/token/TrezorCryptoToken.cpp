@@ -34,6 +34,60 @@ namespace jub {
 namespace token {
 
 
+JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint) {
+    TWCoinType _coinNet = TWCoinType::TWCoinTypeBitcoin;
+
+    JUB_BIP32_PATH spiltPath = spiltMainPath(path, '/');
+    if (0 == strcmp(spiltPath.coin_type, "1'")) {
+        _coinNet = TWCoinType::TWCoinTypeBitcoinTestNet;
+    }
+    bool witness = false;
+    if (0 == strcmp(spiltPath.purpose, "49'")) {
+        witness = true;
+    }
+
+    if (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) {
+        HDNode masterNode;
+        JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin);
+        JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic( TWCoinType::TWCoinTypeBitcoin);
+        std::string curve_name = SECP256K1_NAME;
+        if (0 == hdnode_deserialize(_MasterKey_XPRV.data(), hdVersionPub, hdVersionPrv, curve_name.c_str(), &masterNode, 0x00)) {
+            hdnode_fill_public_key(&masterNode);
+
+            JUB_CHAR str_pri[200] = {0,};
+            JUB_CHAR str_pub[200] = {0,};
+
+            hdVersionPrv = TWCoinType2HDVersionPrivate(_coinNet, witness);
+            hdVersionPub = TWCoinType2HDVersionPublic( _coinNet, witness);
+            if (0 == hdnode_serialize_private(&masterNode, 0x00, hdVersionPrv, str_pri, sizeof(str_pri) / sizeof(JUB_CHAR))) {
+                return JUBR_ERROR;
+            }
+            if (0 == hdnode_serialize_public( &masterNode, 0x00, hdVersionPub, str_pub, sizeof(str_pub) / sizeof(JUB_CHAR))) {
+                return JUBR_ERROR;
+            }
+
+            _MasterKey_XPRV = str_pri;
+            _MasterKey_XPUB = str_pub;
+            _coin = TWCoinType::TWCoinTypeBitcoinTestNet;
+        }
+    }
+
+    if(JUB_SoftwareTokenType::PRIVATE == _type) {
+        return hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name,
+                               TWCoinType2HDVersionPublic( _coin, witness),
+                               TWCoinType2HDVersionPrivate(_coin, witness),
+                               node, parentFingerprint);
+    }
+
+    return hdnode_pub_ckd(_MasterKey_XPUB, path, _curve_name,
+                          TWCoinType2HDVersionPublic( _coin, witness),
+                          TWCoinType2HDVersionPrivate(_coin, witness),
+                          node, parentFingerprint);
+
+    return JUBR_ERROR;
+}
+
+
 JUB_RV TrezorCryptoToken::ToMasterKey(const JUB_ENUM_CURVES& curve, const std::string& privOrPub,
                                       const JUB_UINT32 xpubPrefix,
                                       const JUB_UINT32 xprvPrefix) {
@@ -168,6 +222,8 @@ JUB_RV TrezorCryptoToken::SeedToMasterPrivateKey(const uchar_vector& seed,
                               &node)) {
         return JUBR_ERROR;
     }
+
+    hdnode_fill_public_key(&node);
 
     JUB_CHAR str_pri[200] = {0,};
     if (0 == hdnode_serialize_private(&node, 0x00, hdVersionPrv, str_pri, sizeof(str_pri) / sizeof(JUB_CHAR))) {

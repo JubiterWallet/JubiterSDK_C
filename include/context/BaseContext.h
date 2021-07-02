@@ -44,6 +44,8 @@ public:
     BaseContext(std::shared_ptr<token::BaseToken> tokenPtr) :_tokenPtr(tokenPtr) {}
     virtual ~BaseContext() {}
 
+    virtual JUB_RV GetDeviceClass(OUT JUB_ENUM_DEVICE_PTR deviceClass);
+
     virtual JUB_RV ShowVirtualPwd();
     virtual JUB_RV CancelVirtualPwd();
     virtual JUB_RV VerifyPIN(JUB_CHAR_CPTR pinMix, OUT JUB_ULONG &retry);

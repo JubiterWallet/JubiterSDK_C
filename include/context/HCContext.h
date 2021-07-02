@@ -26,7 +26,7 @@ class HCContext :
     public BTCContext,
     public HCContextBase {
 public:
-    HCContext(CONTEXT_CONFIG_HC cfg,
+    HCContext(const CONTEXT_CONFIG_HC& cfg,
               std::shared_ptr<token::BaseToken> tokenPtr):
     BTCContext(CONTEXT_CONFIG_BTC{cfg.mainPath, COINBTC, p2pkh}, tokenPtr) {
         _timeout = 120 * 2;

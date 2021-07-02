@@ -12,6 +12,7 @@ Devices implementation architecture:
 | xSIMDeviceFactory | JubiterBridgeLITEDevice | &#x2612; | &#x2612; | &#x2612;(In the plan) |
 
 Function list:
+* [JUB_GetContextType](#JUB_GetContextType)
 * [JUB_GetDeviceType](#JUB_GetDeviceType)
 * [JUB_GetDeviceInfo](#JUB_GetDeviceInfo)
 * [JUB_GetDeviceCert](#JUB_GetDeviceCert)
@@ -33,6 +34,24 @@ Function list:
 * * *
 
 In [JUB_SDK_DEV.h](../include/JUB_SDK_DEV.h).
+### JUB_GetContextType
+* **Function:** Get context type.
+* **IN param:**
+contextID - context ID for the specified coin.
+* **OUT param:**
+deviceClass - device class, including
+            JUB_ENUM_DEVICE::VD (Virtual hardware)
+            JUB_ENUM_DEVICE::BLADE (JuBiter Blade)
+            JUB_ENUM_DEVICE::BIO (JuBiter Bio)
+            JUB_ENUM_DEVICE::LITE (JuBiter Lite)
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_GetContextType(
+    IN JUB_UINT16 contextID,
+    OUT JUB_ENUM_DEVICE_PTR deviceClass
+);
+```
+
 ### JUB_GetDeviceType
 * **Function:** Get device type.
 * **IN param:**

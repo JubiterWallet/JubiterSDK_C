@@ -29,21 +29,21 @@ namespace context {
 class XRPContext :
     public BaseContext {
 public:
-    XRPContext(const CONTEXT_CONFIG_XRP cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
+    XRPContext(const CONTEXT_CONFIG_XRP& cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;
             _timeout = 120 * 2;
     }
     ~XRPContext() {}
 
-    virtual JUB_RV GetAddress(const BIP44_Path path, const JUB_UINT16 tag, std::string& address);
-    virtual JUB_RV SetMyAddress(const BIP44_Path path, std::string& address);
-    virtual JUB_RV GetHDNode(const JUB_BYTE format, const BIP44_Path path, std::string& pubkey);
+    virtual JUB_RV GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address);
+    virtual JUB_RV SetMyAddress(const BIP44_Path& path, std::string& address);
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey);
     virtual JUB_RV CheckAddress(const std::string& address, std::string& addre, std::string& tag);
 
     virtual JUB_RV GetMainHDNode(const JUB_BYTE format, std::string& xpub);
 
-    virtual JUB_RV SignTransaction(const BIP44_Path path,
+    virtual JUB_RV SignTransaction(const BIP44_Path& path,
                                    const JUB_TX_XRP& tx,
                                    std::string& signedRaw);
 
