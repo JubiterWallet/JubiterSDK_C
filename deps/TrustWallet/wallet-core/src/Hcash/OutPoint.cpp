@@ -4,29 +4,29 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "OutPointHcash.h"
+#include "../Hcash/OutPoint.h"
 
 #include "../BinaryCoding.h"
 
-using namespace TW::Bitcoin;
+using namespace TW::Hcash;
 
 // JuBiter-defined
-void HcashOutPoint::encode(std::vector<uint8_t>& data) const {
-    OutPoint::encode(data);
+void OutPoint::encode(std::vector<uint8_t>& data) const {
+    TW::Bitcoin::OutPoint::encode(data);
     data.push_back(outputTree);
 }
 
 // JuBiter-defined
 /// Decodes the out-point into the provided buffer.
-bool HcashOutPoint::decode(const std::vector<uint8_t>& data) {
-    OutPoint::decode(data);
-    size_t index = OutPoint::size();
+bool OutPoint::decode(const std::vector<uint8_t>& data) {
+    TW::Bitcoin::OutPoint::decode(data);
+    size_t index = TW::Bitcoin::OutPoint::size();
     outputTree = data[index];
 
     return true;
 }
 
 // JuBiter-defined
-size_t HcashOutPoint::size() {
-    return (sizeof(outputTree)/sizeof(uint8_t)+OutPoint::size());
+size_t OutPoint::size() {
+    return (sizeof(outputTree)/sizeof(uint8_t)+TW::Bitcoin::OutPoint::size());
 }

@@ -4,19 +4,19 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "TransactionInputHcash.h"
+#include "../Hcash/TransactionInput.h"
 #include "../BinaryCoding.h"
 
-using namespace TW::Bitcoin;
+using namespace TW::Hcash;
 
 // JuBiter-defined
-void HcashTransactionInput::encode(Data& data) const {
-    HcashTransactionInput::previousOutput.encode(data);
+void TransactionInput::encode(Data& data) const {
+    TransactionInput::previousOutput.encode(data);
     encode32LE(sequence, data);
 }
 
 // JuBiter-defined
-void HcashTransactionInput::encodeWitness(Data& data) const {
+void TransactionInput::encodeWitness(Data& data) const {
     if (0 == scriptWitness.size()) {
         return;
     }
@@ -33,7 +33,7 @@ void HcashTransactionInput::encodeWitness(Data& data) const {
 
 // JuBiter-defined
 /// Decodes the provided buffer into the transactionInput.
-bool HcashTransactionInput::decode(const Data& data) {
+bool TransactionInput::decode(const Data& data) {
     size_t index = 0;
 
     if (!previousOutput.decode(data)) {
@@ -48,7 +48,7 @@ bool HcashTransactionInput::decode(const Data& data) {
 
 // JuBiter-defined
 /// Decodes the provided buffer into the witness data.
-bool HcashTransactionInput::decodeWitness(const Data& data) {
+bool TransactionInput::decodeWitness(const Data& data) {
     size_t index = 0;
 
     value = decode64LE(&data[index]);
@@ -91,12 +91,12 @@ bool HcashTransactionInput::decodeWitness(const Data& data) {
 }
 
 // JuBiter-defined
-size_t HcashTransactionInput::size() {
+size_t TransactionInput::size() {
     return (previousOutput.size() + sizeof(sequence)/sizeof(uint8_t));
 }
 
 // JuBiter-defined
-size_t HcashTransactionInput::sizeWitness() {
+size_t TransactionInput::sizeWitness() {
     Data script;
     encodeWitness(script);
     return (sizeof(value)/sizeof(uint8_t) +

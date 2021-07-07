@@ -19,7 +19,7 @@ JUB_RV TrezorCryptoDashImpl::SignTX(const JUB_BYTE addrFmt,
         witness = true;
     }
 
-    TW::Bitcoin::DashTransaction tx;
+    TW::Dash::Transaction tx;
     if (!tx.decode(witness, vUnsigedTrans)) {
         return JUBR_ARGUMENTS_BAD;
     }

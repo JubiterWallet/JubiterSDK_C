@@ -6,24 +6,24 @@
 
 #pragma once
 
-#include "TransactionOutput.h"
+#include "../Bitcoin/TransactionOutput.h"
 
 //#include <memory>
 
-namespace TW::Bitcoin {
+namespace TW::Hcash {
 
 // JuBiter-defined
 /// Hcash transaction output.
-struct HcashTransactionOutput :
-     public TransactionOutput {
+struct TransactionOutput :
+    public TW::Bitcoin::TransactionOutput {
     /// Transaction version.
     int16_t version = 0;
 
     /// Initializes an empty transaction output.
-    HcashTransactionOutput() : TransactionOutput() {};
+    TransactionOutput() : TW::Bitcoin::TransactionOutput() {};
 
     /// Initializes a transaction output with a value and a script.
-    HcashTransactionOutput(Amount value, int16_t version, Script script) : version(version), TransactionOutput(value, script) {}
+    TransactionOutput(TW::Bitcoin::Amount value, int16_t version, TW::Bitcoin::Script script) : version(version), TW::Bitcoin::TransactionOutput(value, script) {}
 
     /// Encodes the output into the provided buffer.
     virtual void encode(std::vector<uint8_t>& data) const override;
@@ -33,11 +33,11 @@ struct HcashTransactionOutput :
 
     ///
     virtual size_t size() override;
-}; // struct HcashTransactionOutput end
+}; // struct TransactionOutput end
 
-} // namespace TW::Bitcoin
+} // namespace TW::Hcash
 
 /// Wrapper for C interface.
 struct TWHcashTransactionOutput {
-    TW::Bitcoin::HcashTransactionOutput impl;
+    TW::Hcash::TransactionOutput impl;
 };

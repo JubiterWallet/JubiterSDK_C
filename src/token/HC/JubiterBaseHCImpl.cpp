@@ -22,7 +22,7 @@ JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& typ
         witness = true;
     }
 
-    TW::Bitcoin::HcashTransaction tx(version, lockTime);
+    TW::Hcash::Transaction tx(version, lockTime);
     rv = _serializeUnsignedTx(_coin,
                               vInputs,
                               vOutputs,
@@ -137,7 +137,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const bool witness,
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
     try {
-        TW::Bitcoin::HcashTransaction tx;
+        TW::Hcash::Transaction tx;
         if (!tx.decode(!witness, signedRaw)) {
             return rv;
         }
@@ -170,7 +170,7 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
     JUB_RV rv = JUBR_OK;
 
     for (size_t index=0; index<tx->inputs.size(); ++index) {
-        dynamic_cast<TW::Bitcoin::HcashTransactionInput*>(tx->inputs[index])->value = TW::Bitcoin::Amount(vInputAmount[index]);
+        dynamic_cast<TW::Hcash::TransactionInput*>(tx->inputs[index])->value = TW::Bitcoin::Amount(vInputAmount[index]);
 
         if (!witness) {
             // P2PKH

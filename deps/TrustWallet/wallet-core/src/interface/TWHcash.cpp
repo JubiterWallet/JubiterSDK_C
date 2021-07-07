@@ -5,9 +5,9 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include <TrustWalletCore/TWHcashSigHashType.h>
-#include "../Bitcoin/SigHashTypeHcash.h"
+#include "../Hcash/SigHashType.h"
 
 // JuBiter-defined
 bool TWHcashSigHashTypeIsAll(enum TWHcashSigHashType type) {
-    return TW::Bitcoin::hashTypeIsAll(type);
+    return TW::Hcash::hashTypeIsAll(type);
 }
