@@ -50,6 +50,8 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid);
 #pragma mark - ETH 通讯库寻卡回调
 - (void)CoinETHOpt:(NSUInteger)deviceID;
 
+#pragma mark - ETH-UNISWAP 通讯库寻卡回调
+- (void)CoinETHUNISWAPOpt:(NSUInteger)deviceID;
 
 #pragma mark - EOS 通讯库寻卡回调
 - (void)CoinEOSOpt:(NSUInteger)deviceID;

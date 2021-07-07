@@ -429,17 +429,24 @@
         string tokenTo    = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["token_to"].asCString();
         string tokenValue = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["token_value"].asCString();
         
-        rv = JUB_BuildTRC20Abi(contextID,
+        rv = JUB_SetTRC20Token(contextID,
                                tokenName.c_str(),
                                unitDP,
-                               contractAddress.c_str(),
-                               tokenTo.c_str(), tokenValue.c_str(),
-                               &trcAbi);
+                               contractAddress.c_str());
         if (JUBR_OK != rv) {
-            [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildTRC20Abi() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_SetTRC20Token() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
             return rv;
         }
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildTRC20Abi() OK.]"]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_SetTRC20Token() OK.]"]];
+        
+        rv = JUB_BuildTRC20TransferAbi(contextID,
+                                       tokenTo.c_str(), tokenValue.c_str(),
+                                       &trcAbi);
+        if (JUBR_OK != rv) {
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildTRC20TransferAbi() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            return rv;
+        }
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildTRC20TransferAbi() OK.]"]];
         if (trcAbi) {
             [self addMsgData:[NSString stringWithFormat:@"TRC-20  Abi: %s.", trcAbi]];
         }
@@ -452,17 +459,23 @@
         string tokenFrom  = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["token_from"].asCString();
         string tokenTo    = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["token_to"].asCString();
         string tokenID    = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["tokenID"].asCString();
-        
-        rv = JUB_BuildTRC721Abi(contextID,
+        rv = JUB_SetTRC721Token(contextID,
                                tokenName.c_str(),
-                               contractAddress.c_str(),
-                               tokenFrom.c_str(), tokenTo.c_str(), tokenID.c_str(),
-                               &trcAbi);
+                               contractAddress.c_str());
         if (JUBR_OK != rv) {
-            [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildTRC721Abi() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_SetTRC721Token() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
             return rv;
         }
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildTRC721Abi() OK.]"]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_SetTRC721Token() OK.]"]];
+        
+        rv = JUB_BuildTRC721TransferAbi(contextID,
+                                        tokenFrom.c_str(), tokenTo.c_str(), tokenID.c_str(),
+                                        &trcAbi);
+        if (JUBR_OK != rv) {
+            [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildTRC721TransferAbi() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+            return rv;
+        }
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildTRC721TransferAbi() OK.]"]];
         if (trcAbi) {
             [self addMsgData:[NSString stringWithFormat:@"TRC-721 Abi: %s.", trcAbi]];
         }

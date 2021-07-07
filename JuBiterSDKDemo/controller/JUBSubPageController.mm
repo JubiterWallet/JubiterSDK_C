@@ -227,6 +227,11 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
         [self CoinETHOpt:deviceID];
         break;
     }
+    case JUB_NS_ENUM_MAIN::OPT_ETH_UNISWAP:
+    {
+        [self CoinETHUNISWAPOpt:deviceID];
+        break;
+    }
     case JUB_NS_ENUM_MAIN::OPT_EOS:
     {
         [self CoinEOSOpt:deviceID];
@@ -267,6 +272,10 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
 
 #pragma mark - ETH 通讯库寻卡回调
 - (void) CoinETHOpt:(NSUInteger)deviceID {
+    
+}
+#pragma mark - ETH-UNISWAP 通讯库寻卡回调
+- (void) CoinETHUNISWAPOpt:(NSUInteger)deviceID {
     
 }
 

@@ -447,14 +447,22 @@
     }
     
     char* abi = nullptr;
-    rv = JUB_BuildERC20AbiETH(contextID,
-                              tokenName, unitDP, contractAddress,
-                              token_to, token_value, &abi);
+    
+    rv = JUB_SetERC20TokenETH(contextID,
+                              tokenName, unitDP, contractAddress);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC20AbiETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_SetERC20TokenETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
     }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC20AbiETH() OK.]"]];
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_SetERC20TokenETH() OK.]"]];
+    
+    rv = JUB_BuildERC20TransferAbiETH(contextID,
+                                      token_to, token_value, &abi);
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC20TransferAbiETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return rv;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC20TransferAbiETH() OK.]"]];
     
     if (abi) {
         size_t abiLen = strlen(abi)/2;
@@ -517,15 +525,25 @@
     JUB_CHAR_PTR tokenID = (JUB_CHAR_PTR)root["ERC721"]["tokenID"].asCString();
     
     JUB_CHAR_PTR abi = nullptr;
-    rv = JUB_BuildERC721AbiETH(contextID,
-                               tokenName, contractAddress,
-                               token_from, token_to, tokenID,
-                               &abi);
+    
+    rv = JUB_SetERC721TokenETH(contextID,
+                               tokenName, contractAddress);
     if (JUBR_OK != rv) {
-        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC721AbiETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_SetERC721TokenETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
         return rv;
     }
-    [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC721AbiETH() OK.]"]];
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_SetERC721TokenETH() OK.]"]];
+
+
+    rv = JUB_BuildERC721TransferAbiETH(contextID,
+                                       token_from, token_to, tokenID,
+                                       &abi);
+    
+    if (JUBR_OK != rv) {
+        [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC721TransferAbiETH() return %@ (0x%2lx).]", [JUBErrorCode GetErrMsg:rv], rv]];
+        return rv;
+    }
+    [self addMsgData:[NSString stringWithFormat:@"[JUB_BuildERC721TransferAbiETH() OK.]"]];
     
     if (abi) {
         size_t abiLen = strlen(abi)/2;

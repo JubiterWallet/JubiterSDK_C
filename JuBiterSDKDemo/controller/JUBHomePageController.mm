@@ -19,6 +19,7 @@
 #import "JUBDeviceController.h"
 #import "JUBBTCController.h"
 #import "JUBETHController.h"
+#import "JUBUNISWAPController.h"
 #import "JUBEOSController.h"
 #import "JUBXRPController.h"
 #import "JUBTRXController.h"
@@ -270,6 +271,7 @@
         BUTTON_TITLE_DEVICE,
         BUTTON_TITLE_BTC,
         BUTTON_TITLE_ETH,
+        BUTTON_TITLE_UNISWAP,
         BUTTON_TITLE_EOS,
         BUTTON_TITLE_XRP,
         BUTTON_TITLE_TRX,
@@ -392,6 +394,11 @@
     case JUB_NS_ENUM_MAIN::OPT_ETH:
     {
         vc = [[JUBETHController alloc] init];
+        break;
+    }
+    case JUB_NS_ENUM_MAIN::OPT_ETH_UNISWAP:
+    {
+        vc = [[JUBUNISWAPController alloc] init];
         break;
     }
     case JUB_NS_ENUM_MAIN::OPT_EOS:
