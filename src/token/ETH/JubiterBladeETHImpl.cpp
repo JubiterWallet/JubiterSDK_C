@@ -185,6 +185,7 @@ JUB_RV JubiterBladeETHImpl::_SignTXUpgrade(const int erc,
                                           const std::vector<JUB_BYTE>& vChainID,
                                           std::vector<JUB_BYTE>& vRaw) {
 
+    // COS subpackage size 512 Byte
     uchar_vector apduData;
 
     if (0x00 == vNonce[0]) {
