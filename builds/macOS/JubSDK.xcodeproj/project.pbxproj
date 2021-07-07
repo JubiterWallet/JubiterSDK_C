@@ -748,28 +748,16 @@
 		67E0DEB2250F6C6600D42EF0 /* TWHDVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEA4250F6C6600D42EF0 /* TWHDVersion.cpp */; };
 		67E0DED1250F6CA500D42EF0 /* SegwitAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB3250F6CA100D42EF0 /* SegwitAddress.cpp */; };
 		67E0DED2250F6CA500D42EF0 /* SegwitAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB3250F6CA100D42EF0 /* SegwitAddress.cpp */; };
-		67E0DED3250F6CA500D42EF0 /* TransactionOutputHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEB4250F6CA100D42EF0 /* TransactionOutputHcash.h */; };
-		67E0DED4250F6CA500D42EF0 /* TransactionOutputHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEB4250F6CA100D42EF0 /* TransactionOutputHcash.h */; };
-		67E0DED5250F6CA500D42EF0 /* TransactionDash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB5250F6CA100D42EF0 /* TransactionDash.cpp */; };
-		67E0DED6250F6CA500D42EF0 /* TransactionDash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB5250F6CA100D42EF0 /* TransactionDash.cpp */; };
 		67E0DED7250F6CA500D42EF0 /* Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB6250F6CA100D42EF0 /* Script.cpp */; };
 		67E0DED8250F6CA500D42EF0 /* Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB6250F6CA100D42EF0 /* Script.cpp */; };
 		67E0DED9250F6CA500D42EF0 /* SignatureVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEB7250F6CA100D42EF0 /* SignatureVersion.h */; };
 		67E0DEDA250F6CA500D42EF0 /* SignatureVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEB7250F6CA100D42EF0 /* SignatureVersion.h */; };
 		67E0DEDB250F6CA500D42EF0 /* Address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB8250F6CA100D42EF0 /* Address.cpp */; };
 		67E0DEDC250F6CA500D42EF0 /* Address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB8250F6CA100D42EF0 /* Address.cpp */; };
-		67E0DEDD250F6CA500D42EF0 /* TransactionHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB9250F6CA100D42EF0 /* TransactionHcash.cpp */; };
-		67E0DEDE250F6CA500D42EF0 /* TransactionHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEB9250F6CA100D42EF0 /* TransactionHcash.cpp */; };
 		67E0DEDF250F6CA500D42EF0 /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBA250F6CA100D42EF0 /* Address.h */; };
 		67E0DEE0250F6CA500D42EF0 /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBA250F6CA100D42EF0 /* Address.h */; };
 		67E0DEE1250F6CA500D42EF0 /* Amount.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBB250F6CA200D42EF0 /* Amount.h */; };
 		67E0DEE2250F6CA500D42EF0 /* Amount.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBB250F6CA200D42EF0 /* Amount.h */; };
-		67E0DEE3250F6CA500D42EF0 /* TransactionDash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBC250F6CA200D42EF0 /* TransactionDash.h */; };
-		67E0DEE4250F6CA500D42EF0 /* TransactionDash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBC250F6CA200D42EF0 /* TransactionDash.h */; };
-		67E0DEE5250F6CA500D42EF0 /* TransactionOutputHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEBD250F6CA200D42EF0 /* TransactionOutputHcash.cpp */; };
-		67E0DEE6250F6CA500D42EF0 /* TransactionOutputHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEBD250F6CA200D42EF0 /* TransactionOutputHcash.cpp */; };
-		67E0DEE7250F6CA500D42EF0 /* OutPointHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBE250F6CA200D42EF0 /* OutPointHcash.h */; };
-		67E0DEE8250F6CA500D42EF0 /* OutPointHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBE250F6CA200D42EF0 /* OutPointHcash.h */; };
 		67E0DEE9250F6CA500D42EF0 /* SigHashType.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBF250F6CA200D42EF0 /* SigHashType.h */; };
 		67E0DEEA250F6CA500D42EF0 /* SigHashType.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEBF250F6CA200D42EF0 /* SigHashType.h */; };
 		67E0DEEB250F6CA500D42EF0 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC0250F6CA200D42EF0 /* Transaction.cpp */; };
@@ -782,14 +770,8 @@
 		67E0DEF2250F6CA500D42EF0 /* CashAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEC3250F6CA300D42EF0 /* CashAddress.h */; };
 		67E0DEF3250F6CA500D42EF0 /* TransactionOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC4250F6CA300D42EF0 /* TransactionOutput.cpp */; };
 		67E0DEF4250F6CA500D42EF0 /* TransactionOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC4250F6CA300D42EF0 /* TransactionOutput.cpp */; };
-		67E0DEF5250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC5250F6CA300D42EF0 /* OutPointHcash.cpp */; };
-		67E0DEF6250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC5250F6CA300D42EF0 /* OutPointHcash.cpp */; };
 		67E0DEF7250F6CA500D42EF0 /* OutPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC6250F6CA300D42EF0 /* OutPoint.cpp */; };
 		67E0DEF8250F6CA500D42EF0 /* OutPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC6250F6CA300D42EF0 /* OutPoint.cpp */; };
-		67E0DEF9250F6CA500D42EF0 /* TransactionInputHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEC7250F6CA300D42EF0 /* TransactionInputHcash.h */; };
-		67E0DEFA250F6CA500D42EF0 /* TransactionInputHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEC7250F6CA300D42EF0 /* TransactionInputHcash.h */; };
-		67E0DEFB250F6CA500D42EF0 /* TransactionInputHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC8250F6CA300D42EF0 /* TransactionInputHcash.cpp */; };
-		67E0DEFC250F6CA500D42EF0 /* TransactionInputHcash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DEC8250F6CA300D42EF0 /* TransactionInputHcash.cpp */; };
 		67E0DEFD250F6CA500D42EF0 /* TransactionOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEC9250F6CA400D42EF0 /* TransactionOutput.h */; };
 		67E0DEFE250F6CA500D42EF0 /* TransactionOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DEC9250F6CA400D42EF0 /* TransactionOutput.h */; };
 		67E0DEFF250F6CA500D42EF0 /* TransactionInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DECA250F6CA400D42EF0 /* TransactionInput.cpp */; };
@@ -802,10 +784,6 @@
 		67E0DF06250F6CA500D42EF0 /* OutPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DECD250F6CA400D42EF0 /* OutPoint.h */; };
 		67E0DF07250F6CA500D42EF0 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DECE250F6CA500D42EF0 /* Transaction.h */; };
 		67E0DF08250F6CA500D42EF0 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DECE250F6CA500D42EF0 /* Transaction.h */; };
-		67E0DF09250F6CA500D42EF0 /* TransactionHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DECF250F6CA500D42EF0 /* TransactionHcash.h */; };
-		67E0DF0A250F6CA500D42EF0 /* TransactionHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DECF250F6CA500D42EF0 /* TransactionHcash.h */; };
-		67E0DF0B250F6CA500D42EF0 /* SigHashTypeHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DED0250F6CA500D42EF0 /* SigHashTypeHcash.h */; };
-		67E0DF0C250F6CA500D42EF0 /* SigHashTypeHcash.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DED0250F6CA500D42EF0 /* SigHashTypeHcash.h */; };
 		67E0DF1E250F6CE600D42EF0 /* Name.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF0D250F6CE300D42EF0 /* Name.h */; };
 		67E0DF1F250F6CE600D42EF0 /* Name.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF0D250F6CE300D42EF0 /* Name.h */; };
 		67E0DF20250F6CE600D42EF0 /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF0E250F6CE300D42EF0 /* Action.h */; };
@@ -1023,6 +1001,28 @@
 		7731ABDE26738D9500C23EEC /* JUB_SDK_FIL.h in Headers */ = {isa = PBXBuildFile; fileRef = 67F59534256E64CF00AB8FED /* JUB_SDK_FIL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7731ABDF26738E3800C23EEC /* JUB_SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAD233083730059A3DB /* JUB_SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7731ABE026738EE000C23EEC /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67ECD14E23CD74C400B7D514 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		777B85E226955DA3003F7CF1 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85E026955DA2003F7CF1 /* Transaction.cpp */; };
+		777B85E326955DA3003F7CF1 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85E026955DA2003F7CF1 /* Transaction.cpp */; };
+		777B85E426955DA3003F7CF1 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85E126955DA2003F7CF1 /* Transaction.h */; };
+		777B85E526955DA3003F7CF1 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85E126955DA2003F7CF1 /* Transaction.h */; };
+		777B85E9269570B4003F7CF1 /* OutPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85E7269570B4003F7CF1 /* OutPoint.h */; };
+		777B85EA269570B4003F7CF1 /* OutPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85E7269570B4003F7CF1 /* OutPoint.h */; };
+		777B85EB269570B4003F7CF1 /* OutPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85E8269570B4003F7CF1 /* OutPoint.cpp */; };
+		777B85EC269570B4003F7CF1 /* OutPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85E8269570B4003F7CF1 /* OutPoint.cpp */; };
+		777B85F12695783D003F7CF1 /* TransactionOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85ED2695783C003F7CF1 /* TransactionOutput.cpp */; };
+		777B85F22695783D003F7CF1 /* TransactionOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85ED2695783C003F7CF1 /* TransactionOutput.cpp */; };
+		777B85F32695783D003F7CF1 /* TransactionInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85EE2695783C003F7CF1 /* TransactionInput.h */; };
+		777B85F42695783D003F7CF1 /* TransactionInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85EE2695783C003F7CF1 /* TransactionInput.h */; };
+		777B85F52695783D003F7CF1 /* TransactionOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85EF2695783C003F7CF1 /* TransactionOutput.h */; };
+		777B85F62695783D003F7CF1 /* TransactionOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85EF2695783C003F7CF1 /* TransactionOutput.h */; };
+		777B85F72695783D003F7CF1 /* TransactionInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85F02695783C003F7CF1 /* TransactionInput.cpp */; };
+		777B85F82695783D003F7CF1 /* TransactionInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85F02695783C003F7CF1 /* TransactionInput.cpp */; };
+		777B85FB269579B7003F7CF1 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85F9269579B7003F7CF1 /* Transaction.cpp */; };
+		777B85FC269579B7003F7CF1 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85F9269579B7003F7CF1 /* Transaction.cpp */; };
+		777B85FD269579B7003F7CF1 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85FA269579B7003F7CF1 /* Transaction.h */; };
+		777B85FE269579B7003F7CF1 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85FA269579B7003F7CF1 /* Transaction.h */; };
+		777B860026957AD9003F7CF1 /* SigHashType.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85FF26957AD8003F7CF1 /* SigHashType.h */; };
+		777B860126957AD9003F7CF1 /* SigHashType.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B85FF26957AD8003F7CF1 /* SigHashType.h */; };
 		7788318B267356A5004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77883189267356A5004FDA80 /* ContractAbi.h */; };
 		7788318C267356A5004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77883189267356A5004FDA80 /* ContractAbi.h */; };
 		7788318D267356A5004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788318A267356A5004FDA80 /* ContractAbi.cpp */; };
@@ -1430,35 +1430,24 @@
 		67E0DEA3250F6C6500D42EF0 /* TWHRP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TWHRP.cpp; path = "../../deps/TrustWallet/wallet-core/src/interface/TWHRP.cpp"; sourceTree = "<group>"; };
 		67E0DEA4250F6C6600D42EF0 /* TWHDVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TWHDVersion.cpp; path = "../../deps/TrustWallet/wallet-core/src/interface/TWHDVersion.cpp"; sourceTree = "<group>"; };
 		67E0DEB3250F6CA100D42EF0 /* SegwitAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SegwitAddress.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/SegwitAddress.cpp"; sourceTree = "<group>"; };
-		67E0DEB4250F6CA100D42EF0 /* TransactionOutputHcash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionOutputHcash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionOutputHcash.h"; sourceTree = "<group>"; };
-		67E0DEB5250F6CA100D42EF0 /* TransactionDash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionDash.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionDash.cpp"; sourceTree = "<group>"; };
 		67E0DEB6250F6CA100D42EF0 /* Script.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Script.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Script.cpp"; sourceTree = "<group>"; };
 		67E0DEB7250F6CA100D42EF0 /* SignatureVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignatureVersion.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/SignatureVersion.h"; sourceTree = "<group>"; };
 		67E0DEB8250F6CA100D42EF0 /* Address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Address.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Address.cpp"; sourceTree = "<group>"; };
-		67E0DEB9250F6CA100D42EF0 /* TransactionHcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionHcash.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionHcash.cpp"; sourceTree = "<group>"; };
 		67E0DEBA250F6CA100D42EF0 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Address.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Address.h"; sourceTree = "<group>"; };
 		67E0DEBB250F6CA200D42EF0 /* Amount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Amount.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Amount.h"; sourceTree = "<group>"; };
-		67E0DEBC250F6CA200D42EF0 /* TransactionDash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionDash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionDash.h"; sourceTree = "<group>"; };
-		67E0DEBD250F6CA200D42EF0 /* TransactionOutputHcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionOutputHcash.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionOutputHcash.cpp"; sourceTree = "<group>"; };
-		67E0DEBE250F6CA200D42EF0 /* OutPointHcash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutPointHcash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/OutPointHcash.h"; sourceTree = "<group>"; };
 		67E0DEBF250F6CA200D42EF0 /* SigHashType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SigHashType.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/SigHashType.h"; sourceTree = "<group>"; };
 		67E0DEC0250F6CA200D42EF0 /* Transaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transaction.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Transaction.cpp"; sourceTree = "<group>"; };
 		67E0DEC1250F6CA200D42EF0 /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Script.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Script.h"; sourceTree = "<group>"; };
 		67E0DEC2250F6CA200D42EF0 /* CashAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CashAddress.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/CashAddress.cpp"; sourceTree = "<group>"; };
 		67E0DEC3250F6CA300D42EF0 /* CashAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CashAddress.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/CashAddress.h"; sourceTree = "<group>"; };
 		67E0DEC4250F6CA300D42EF0 /* TransactionOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionOutput.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionOutput.cpp"; sourceTree = "<group>"; };
-		67E0DEC5250F6CA300D42EF0 /* OutPointHcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OutPointHcash.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/OutPointHcash.cpp"; sourceTree = "<group>"; };
 		67E0DEC6250F6CA300D42EF0 /* OutPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OutPoint.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/OutPoint.cpp"; sourceTree = "<group>"; };
-		67E0DEC7250F6CA300D42EF0 /* TransactionInputHcash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionInputHcash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionInputHcash.h"; sourceTree = "<group>"; };
-		67E0DEC8250F6CA300D42EF0 /* TransactionInputHcash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionInputHcash.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionInputHcash.cpp"; sourceTree = "<group>"; };
 		67E0DEC9250F6CA400D42EF0 /* TransactionOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionOutput.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionOutput.h"; sourceTree = "<group>"; };
 		67E0DECA250F6CA400D42EF0 /* TransactionInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionInput.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionInput.cpp"; sourceTree = "<group>"; };
 		67E0DECB250F6CA400D42EF0 /* SegwitAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SegwitAddress.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/SegwitAddress.h"; sourceTree = "<group>"; };
 		67E0DECC250F6CA400D42EF0 /* TransactionInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionInput.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionInput.h"; sourceTree = "<group>"; };
 		67E0DECD250F6CA400D42EF0 /* OutPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutPoint.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/OutPoint.h"; sourceTree = "<group>"; };
 		67E0DECE250F6CA500D42EF0 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Transaction.h"; sourceTree = "<group>"; };
-		67E0DECF250F6CA500D42EF0 /* TransactionHcash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionHcash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/TransactionHcash.h"; sourceTree = "<group>"; };
-		67E0DED0250F6CA500D42EF0 /* SigHashTypeHcash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SigHashTypeHcash.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/SigHashTypeHcash.h"; sourceTree = "<group>"; };
 		67E0DF0D250F6CE300D42EF0 /* Name.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Name.h; path = "../../deps/TrustWallet/wallet-core/src/EOS/Name.h"; sourceTree = "<group>"; };
 		67E0DF0E250F6CE300D42EF0 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = "../../deps/TrustWallet/wallet-core/src/EOS/Action.h"; sourceTree = "<group>"; };
 		67E0DF0F250F6CE300D42EF0 /* Signer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Signer.cpp; path = "../../deps/TrustWallet/wallet-core/src/EOS/Signer.cpp"; sourceTree = "<group>"; };
@@ -1569,6 +1558,17 @@
 		772B684E26738254007D789B /* uint128_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint128_t.cpp; path = ../../deps/uint256_t/uint128_t.cpp; sourceTree = "<group>"; };
 		772B684F26738255007D789B /* uint256_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256_t.h; path = ../../deps/uint256_t/uint256_t.h; sourceTree = "<group>"; };
 		7731ABCB2673891C00C23EEC /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
+		777B85E026955DA2003F7CF1 /* Transaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transaction.cpp; path = "../../deps/TrustWallet/wallet-core/src/Dash/Transaction.cpp"; sourceTree = "<group>"; };
+		777B85E126955DA2003F7CF1 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Dash/Transaction.h"; sourceTree = "<group>"; };
+		777B85E7269570B4003F7CF1 /* OutPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutPoint.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/OutPoint.h"; sourceTree = "<group>"; };
+		777B85E8269570B4003F7CF1 /* OutPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OutPoint.cpp; path = "../../deps/TrustWallet/wallet-core/src/Hcash/OutPoint.cpp"; sourceTree = "<group>"; };
+		777B85ED2695783C003F7CF1 /* TransactionOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionOutput.cpp; path = "../../deps/TrustWallet/wallet-core/src/Hcash/TransactionOutput.cpp"; sourceTree = "<group>"; };
+		777B85EE2695783C003F7CF1 /* TransactionInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionInput.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/TransactionInput.h"; sourceTree = "<group>"; };
+		777B85EF2695783C003F7CF1 /* TransactionOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionOutput.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/TransactionOutput.h"; sourceTree = "<group>"; };
+		777B85F02695783C003F7CF1 /* TransactionInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionInput.cpp; path = "../../deps/TrustWallet/wallet-core/src/Hcash/TransactionInput.cpp"; sourceTree = "<group>"; };
+		777B85F9269579B7003F7CF1 /* Transaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transaction.cpp; path = "../../deps/TrustWallet/wallet-core/src/Hcash/Transaction.cpp"; sourceTree = "<group>"; };
+		777B85FA269579B7003F7CF1 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/Transaction.h"; sourceTree = "<group>"; };
+		777B85FF26957AD8003F7CF1 /* SigHashType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SigHashType.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/SigHashType.h"; sourceTree = "<group>"; };
 		77883189267356A5004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7788318A267356A5004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
 		77AD321F2679E17000888326 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = "../../../../../git.FT-JubiterWallet/HyperPay-Jub_SDK_CXX/outputs/Darwin/Release/libprotobuf.a"; sourceTree = "<group>"; };
@@ -1962,6 +1962,8 @@
 				6780221F2519BD81008142B1 /* proto */,
 				6715452423D1AADC00810F16 /* interface */,
 				67ECD09723CC913300B7D514 /* Bitcoin */,
+				777B85DF26955D4A003F7CF1 /* Dash */,
+				777B85E62695704F003F7CF1 /* Hcash */,
 				676621DD234C313E00AFAFA2 /* EOS */,
 				676B4286240F920200EBB44D /* Ethereum */,
 				675C7960238B78910015C95D /* Ripple */,
@@ -2612,29 +2614,18 @@
 				67E0DEC3250F6CA300D42EF0 /* CashAddress.h */,
 				67E0DEC6250F6CA300D42EF0 /* OutPoint.cpp */,
 				67E0DECD250F6CA400D42EF0 /* OutPoint.h */,
-				67E0DEC5250F6CA300D42EF0 /* OutPointHcash.cpp */,
-				67E0DEBE250F6CA200D42EF0 /* OutPointHcash.h */,
 				67E0DEB6250F6CA100D42EF0 /* Script.cpp */,
 				67E0DEC1250F6CA200D42EF0 /* Script.h */,
 				67E0DEB3250F6CA100D42EF0 /* SegwitAddress.cpp */,
 				67E0DECB250F6CA400D42EF0 /* SegwitAddress.h */,
 				67E0DEBF250F6CA200D42EF0 /* SigHashType.h */,
-				67E0DED0250F6CA500D42EF0 /* SigHashTypeHcash.h */,
 				67E0DEB7250F6CA100D42EF0 /* SignatureVersion.h */,
 				67E0DEC0250F6CA200D42EF0 /* Transaction.cpp */,
 				67E0DECE250F6CA500D42EF0 /* Transaction.h */,
-				67E0DEB5250F6CA100D42EF0 /* TransactionDash.cpp */,
-				67E0DEBC250F6CA200D42EF0 /* TransactionDash.h */,
-				67E0DEB9250F6CA100D42EF0 /* TransactionHcash.cpp */,
-				67E0DECF250F6CA500D42EF0 /* TransactionHcash.h */,
 				67E0DECA250F6CA400D42EF0 /* TransactionInput.cpp */,
 				67E0DECC250F6CA400D42EF0 /* TransactionInput.h */,
-				67E0DEC8250F6CA300D42EF0 /* TransactionInputHcash.cpp */,
-				67E0DEC7250F6CA300D42EF0 /* TransactionInputHcash.h */,
 				67E0DEC4250F6CA300D42EF0 /* TransactionOutput.cpp */,
 				67E0DEC9250F6CA400D42EF0 /* TransactionOutput.h */,
-				67E0DEBD250F6CA200D42EF0 /* TransactionOutputHcash.cpp */,
-				67E0DEB4250F6CA100D42EF0 /* TransactionOutputHcash.h */,
 			);
 			name = Bitcoin;
 			sourceTree = "<group>";
@@ -2706,6 +2697,31 @@
 			name = uint256_t;
 			sourceTree = "<group>";
 		};
+		777B85DF26955D4A003F7CF1 /* Dash */ = {
+			isa = PBXGroup;
+			children = (
+				777B85E026955DA2003F7CF1 /* Transaction.cpp */,
+				777B85E126955DA2003F7CF1 /* Transaction.h */,
+			);
+			name = Dash;
+			sourceTree = "<group>";
+		};
+		777B85E62695704F003F7CF1 /* Hcash */ = {
+			isa = PBXGroup;
+			children = (
+				777B85E8269570B4003F7CF1 /* OutPoint.cpp */,
+				777B85E7269570B4003F7CF1 /* OutPoint.h */,
+				777B85FF26957AD8003F7CF1 /* SigHashType.h */,
+				777B85F9269579B7003F7CF1 /* Transaction.cpp */,
+				777B85FA269579B7003F7CF1 /* Transaction.h */,
+				777B85F02695783C003F7CF1 /* TransactionInput.cpp */,
+				777B85EE2695783C003F7CF1 /* TransactionInput.h */,
+				777B85ED2695783C003F7CF1 /* TransactionOutput.cpp */,
+				777B85EF2695783C003F7CF1 /* TransactionOutput.h */,
+			);
+			name = Hcash;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2741,6 +2757,7 @@
 				67189F3B23A2103800F8A5CD /* Debug.hpp in Headers */,
 				67189F3A23A2103800F8A5CD /* Apdu.hpp in Headers */,
 				67189F1B23A20FF100F8A5CD /* xManager.hpp in Headers */,
+				777B860126957AD9003F7CF1 /* SigHashType.h in Headers */,
 				67416539246CF64800DFAC28 /* mutex.h in Headers */,
 				676F030623C8ABC8005C8032 /* TrezorCryptoEOSImpl.h in Headers */,
 				772B68362673823A007D789B /* NumberlikeArray.hh in Headers */,
@@ -2752,6 +2769,7 @@
 				676F030023C8ABBC005C8032 /* TrezorCryptoETHImpl.h in Headers */,
 				676F02FE23C8ABBC005C8032 /* JubiterBladeETHImpl.h in Headers */,
 				328D10B9240B922500AB723D /* JubiterBaseETHImpl.h in Headers */,
+				777B85E526955DA3003F7CF1 /* Transaction.h in Headers */,
 				676F02F823C8ABAF005C8032 /* TrezorCryptoHCImpl.h in Headers */,
 				676F02FA23C8ABAF005C8032 /* JubiterBladeHCImpl.h in Headers */,
 				67189F9923A2114A00F8A5CD /* hasher.h in Headers */,
@@ -2816,8 +2834,6 @@
 				67189FCC23A2117200F8A5CD /* ed25519-hash-custom-blake2b.h in Headers */,
 				6718A00E23A211BB00F8A5CD /* Address.h in Headers */,
 				67F5954B256E656E00AB8FED /* FILTokenInterface.hpp in Headers */,
-				67E0DEE4250F6CA500D42EF0 /* TransactionDash.h in Headers */,
-				67E0DEFA250F6CA500D42EF0 /* TransactionInputHcash.h in Headers */,
 				67E0DE8B250F6C1F00D42EF0 /* TWPublicKeyType.h in Headers */,
 				67E0DF7C250F75FC00D42EF0 /* JubiterLiteETHImpl.h in Headers */,
 				67E0DEEA250F6CA500D42EF0 /* SigHashType.h in Headers */,
@@ -2825,6 +2841,7 @@
 				677DF30E24DBDBF7001920A9 /* tlvparse.hpp in Headers */,
 				67189F9423A2114200F8A5CD /* ed25519-sha3.h in Headers */,
 				67189FB623A2116900F8A5CD /* aestab.h in Headers */,
+				777B85EA269570B4003F7CF1 /* OutPoint.h in Headers */,
 				67E0DF3B250F6CE600D42EF0 /* Deserialization.h in Headers */,
 				673E880424AC3CF400578781 /* tlv.hpp in Headers */,
 				67189F8923A2113E00F8A5CD /* blake256.h in Headers */,
@@ -2873,7 +2890,6 @@
 				67189F3E23A2103800F8A5CD /* trim.hpp in Headers */,
 				67189F9323A2114200F8A5CD /* ed25519-keccak.h in Headers */,
 				67189FA523A2115100F8A5CD /* script.h in Headers */,
-				67E0DED4250F6CA500D42EF0 /* TransactionOutputHcash.h in Headers */,
 				67E0DFDD25106B8600D42EF0 /* Transaction.h in Headers */,
 				67E0DF7F250F761F00D42EF0 /* JubiterBIOHCImpl.h in Headers */,
 				67E0DF08250F6CA500D42EF0 /* Transaction.h in Headers */,
@@ -2909,7 +2925,6 @@
 				67189F8723A2113E00F8A5CD /* blake2b.h in Headers */,
 				67189F9223A2114200F8A5CD /* ed25519-donna-portable.h in Headers */,
 				676B42ED2410A22900EBB44D /* ERC20Abi.h in Headers */,
-				67E0DF0A250F6CA500D42EF0 /* TransactionHcash.h in Headers */,
 				67E0DF77250F75DF00D42EF0 /* JubiterBIOEOSImpl.h in Headers */,
 				67F59555256E659300AB8FED /* JubiterBladeFILImpl.h in Headers */,
 				772B683A2673823A007D789B /* BigUnsignedInABase.hh in Headers */,
@@ -2936,11 +2951,11 @@
 				67E0DF6D250F757E00D42EF0 /* TRXTokenInterface.hpp in Headers */,
 				67E0DE8D250F6C1F00D42EF0 /* TWHDVersion.h in Headers */,
 				67E0DEDA250F6CA500D42EF0 /* SignatureVersion.h in Headers */,
-				67E0DEE8250F6CA500D42EF0 /* OutPointHcash.h in Headers */,
 				6763933F253460A800C41883 /* Discover.pb.h in Headers */,
 				67ED0FD225243217009029A7 /* Authority.h in Headers */,
 				671545B423D58B7500810F16 /* JubiterBladeQTUMImpl.h in Headers */,
 				671545B223D58B7500810F16 /* TrezorCryptoBCHImpl.h in Headers */,
+				777B85F42695783D003F7CF1 /* TransactionInput.h in Headers */,
 				671545BA23D58B7500810F16 /* JubiterBladeBCHImpl.h in Headers */,
 				6779951B23F696E600F06E94 /* JubiterBaseBCHImpl.h in Headers */,
 				32F0FA0C23EDB2C300E90501 /* TrezorCryptoUSDTImpl.h in Headers */,
@@ -2951,6 +2966,7 @@
 				671545B023D58B7500810F16 /* TrezorCryptoLTCImpl.h in Headers */,
 				676F030A23C8ABD4005C8032 /* JubiterBladeBTCImpl.h in Headers */,
 				671545B623D58B7500810F16 /* JubiterBladeLTCImpl.h in Headers */,
+				777B85FE269579B7003F7CF1 /* Transaction.h in Headers */,
 				6795A82D23D868B400F273E0 /* JubiterBaseBTCImpl.h in Headers */,
 				67189F3023A2100600F8A5CD /* EOSTokenInterface.hpp in Headers */,
 				67189F3123A2100600F8A5CD /* XRPTokenInterface.hpp in Headers */,
@@ -2979,7 +2995,6 @@
 				674621CC23C31D670096DDA2 /* BTCContext.h in Headers */,
 				674621D223C31D670096DDA2 /* BaseContext.h in Headers */,
 				6795A82723D85A3B00F273E0 /* BTCContextFactory.h in Headers */,
-				67E0DF0C250F6CA500D42EF0 /* SigHashTypeHcash.h in Headers */,
 				67E0DF29250F6CE600D42EF0 /* Signer.h in Headers */,
 				67639343253460A800C41883 /* Tron.pb.h in Headers */,
 				67746C2F25417648007A1901 /* pb_basevarint.hpp in Headers */,
@@ -2994,6 +3009,7 @@
 				67F5955D256E659300AB8FED /* TrezorCryptoFILImpl.h in Headers */,
 				677DF32424DD1C4B001920A9 /* JubiterBIOETHImpl.h in Headers */,
 				772B68382673823A007D789B /* BigIntegerAlgorithms.hh in Headers */,
+				777B85F62695783D003F7CF1 /* TransactionOutput.h in Headers */,
 				679DA9722577B36E00B08471 /* JubiterLiteBCHImpl.h in Headers */,
 				67E0DF8C250F764400D42EF0 /* TrezorCryptoTRXImpl.h in Headers */,
 				6763932B2534608B00C41883 /* asset_issue_contract.pb.h in Headers */,
@@ -3046,6 +3062,7 @@
 				67E0DF8B250F764400D42EF0 /* TrezorCryptoTRXImpl.h in Headers */,
 				674621CB23C31D670096DDA2 /* BTCContext.h in Headers */,
 				677DF32324DD1C4B001920A9 /* JubiterBIOETHImpl.h in Headers */,
+				777B860026957AD9003F7CF1 /* SigHashType.h in Headers */,
 				674621C723C31D670096DDA2 /* HCContext.h in Headers */,
 				674621C923C31D670096DDA2 /* XRPContext.h in Headers */,
 				674621CF23C31D670096DDA2 /* ETHContext.h in Headers */,
@@ -3057,6 +3074,7 @@
 				674621D123C31D670096DDA2 /* BaseContext.h in Headers */,
 				677DF34524DD455B001920A9 /* EOSContextFactory.h in Headers */,
 				67B8319625773AE0002EB306 /* jubiter_bridge.pb.h in Headers */,
+				777B85E426955DA3003F7CF1 /* Transaction.h in Headers */,
 				67A4BC98233082CA0059A3DB /* DeviceIOLogHelper.hpp in Headers */,
 				67E0DE1B250F10F100D42EF0 /* XXHash64.h in Headers */,
 				67A4BC97233082CA0059A3DB /* DeviceTypeBase.hpp in Headers */,
@@ -3085,7 +3103,6 @@
 				675C797B238BF2AB0015C95D /* XRPTokenInterface.hpp in Headers */,
 				6795A82C23D868B400F273E0 /* JubiterBaseBTCImpl.h in Headers */,
 				67E0DF28250F6CE600D42EF0 /* Signer.h in Headers */,
-				67E0DF0B250F6CA500D42EF0 /* SigHashTypeHcash.h in Headers */,
 				676F030923C8ABD4005C8032 /* JubiterBladeBTCImpl.h in Headers */,
 				676F030B23C8ABD4005C8032 /* TrezorCryptoBTCImpl.h in Headers */,
 				671545B523D58B7500810F16 /* JubiterBladeLTCImpl.h in Headers */,
@@ -3097,7 +3114,6 @@
 				67E0DE8C250F6C1F00D42EF0 /* TWHDVersion.h in Headers */,
 				671545AD23D58B7500810F16 /* TrezorCryptoDashImpl.h in Headers */,
 				671545B923D58B7500810F16 /* JubiterBladeBCHImpl.h in Headers */,
-				67E0DEE7250F6CA500D42EF0 /* OutPointHcash.h in Headers */,
 				67E0DED9250F6CA500D42EF0 /* SignatureVersion.h in Headers */,
 				6779951A23F696E600F06E94 /* JubiterBaseBCHImpl.h in Headers */,
 				67E0DE7C250F6C1F00D42EF0 /* TWBitcoinSigHashType.h in Headers */,
@@ -3130,6 +3146,7 @@
 				67A4BCD2233084470059A3DB /* xManager.hpp in Headers */,
 				67A4BCD0233084200059A3DB /* Apdu.hpp in Headers */,
 				67E0DF8D250F764400D42EF0 /* JubiterBladeTRXImpl.h in Headers */,
+				777B85E9269570B4003F7CF1 /* OutPoint.h in Headers */,
 				676F6D142522E5CA00491BF5 /* Contract.hpp in Headers */,
 				676393342534608B00C41883 /* balance_contract.pb.h in Headers */,
 				67A4BCCE233084200059A3DB /* Singleton.h in Headers */,
@@ -3151,7 +3168,6 @@
 				67662229234C412900AFAFA2 /* Data.h in Headers */,
 				67F59554256E659300AB8FED /* JubiterBladeFILImpl.h in Headers */,
 				67E0DF76250F75DF00D42EF0 /* JubiterBIOEOSImpl.h in Headers */,
-				67E0DF09250F6CA500D42EF0 /* TransactionHcash.h in Headers */,
 				674F19E823A1074C001702DD /* nist256p1.h in Headers */,
 				67E0DE9C250F6C1F00D42EF0 /* TWBase.h in Headers */,
 				772B685826738255007D789B /* uint256_t.h in Headers */,
@@ -3190,7 +3206,6 @@
 				67E0DF7E250F761F00D42EF0 /* JubiterBIOHCImpl.h in Headers */,
 				679DA9CC2578D58E00B08471 /* JUB_SDK_DEV_NFC.h in Headers */,
 				67E0DFDC25106B8600D42EF0 /* Transaction.h in Headers */,
-				67E0DED3250F6CA500D42EF0 /* TransactionOutputHcash.h in Headers */,
 				679DA92925778C9400B08471 /* JUB_SDK_DEV_SIM.h in Headers */,
 				674F19DE23A10639001702DD /* ed25519-donna.h in Headers */,
 				67ECD13A23CD724100B7D514 /* Base58Address.h in Headers */,
@@ -3245,18 +3260,18 @@
 				675C7969238B78B00015C95D /* BinaryCoding.h in Headers */,
 				674F19D123A10628001702DD /* ed25519-donna-32bit-tables.h in Headers */,
 				673E880324AC3CF400578781 /* tlv.hpp in Headers */,
+				777B85F32695783D003F7CF1 /* TransactionInput.h in Headers */,
 				677DF30D24DBDBF7001920A9 /* tlvparse.hpp in Headers */,
 				67E0DEE9250F6CA500D42EF0 /* SigHashType.h in Headers */,
 				772B68352673823A007D789B /* NumberlikeArray.hh in Headers */,
 				67E0DF7B250F75FC00D42EF0 /* JubiterLiteETHImpl.h in Headers */,
 				67E0DE8A250F6C1F00D42EF0 /* TWPublicKeyType.h in Headers */,
-				67E0DEF9250F6CA500D42EF0 /* TransactionInputHcash.h in Headers */,
 				67A4BD372330A1720059A3DB /* sha3.h in Headers */,
-				67E0DEE3250F6CA500D42EF0 /* TransactionDash.h in Headers */,
 				67F5954A256E656E00AB8FED /* FILTokenInterface.hpp in Headers */,
 				67ECD13823CD724100B7D514 /* Bech32Address.h in Headers */,
 				67A4BDEA2330AD090059A3DB /* hidapi.h in Headers */,
 				674F19D623A10628001702DD /* ed25519-donna-basepoint-table.h in Headers */,
+				777B85FD269579B7003F7CF1 /* Transaction.h in Headers */,
 				67F59558256E659300AB8FED /* JubiterBaseFILImpl.h in Headers */,
 				674B4A7624A1B04C0053AB2F /* scp03.hpp in Headers */,
 				674F1A2823A10918001702DD /* base58.h in Headers */,
@@ -3299,6 +3314,7 @@
 				675C796A238B78B00015C95D /* Address.h in Headers */,
 				674F19D323A10628001702DD /* ed25519-blake2b.h in Headers */,
 				772B680C26738089007D789B /* JubiterSWIDevice.hpp in Headers */,
+				777B85F52695783D003F7CF1 /* TransactionOutput.h in Headers */,
 				6780222A2519DA82008142B1 /* ContractSmart.h in Headers */,
 				674F19D723A10628001702DD /* ed25519-donna-portable.h in Headers */,
 				674B4A7A24A1B0570053AB2F /* scp11c.hpp in Headers */,
@@ -3422,6 +3438,7 @@
 				67E0DF31250F6CE600D42EF0 /* Name.cpp in Sources */,
 				679DA98B2577B44400B08471 /* JubiterLiteEOSImpl.cpp in Sources */,
 				674621DA23C31D820096DDA2 /* XRPContext.cpp in Sources */,
+				777B85F22695783D003F7CF1 /* TransactionOutput.cpp in Sources */,
 				67189FD723A2117500F8A5CD /* memzero.c in Sources */,
 				67189FB823A2116D00F8A5CD /* base58.c in Sources */,
 				67F59578256E65F400AB8FED /* JubiterBaseFILImpl.cpp in Sources */,
@@ -3452,17 +3469,16 @@
 				67E0DF94250F775200D42EF0 /* TRXContext.cpp in Sources */,
 				67189FC223A2116D00F8A5CD /* curves.c in Sources */,
 				67189FC523A2117200F8A5CD /* curve25519-donna-helpers.c in Sources */,
+				777B85EC269570B4003F7CF1 /* OutPoint.cpp in Sources */,
 				679DA97B2577B38A00B08471 /* JubiterLiteBCHImpl.cpp in Sources */,
 				772B68262673820A007D789B /* JubiterSWIDevice.cpp in Sources */,
 				67189FD023A2117200F8A5CD /* ed25519-keccak.c in Sources */,
 				670B8FBA2431C9C100E8EF5C /* Memo.cpp in Sources */,
-				67E0DEDE250F6CA500D42EF0 /* TransactionHcash.cpp in Sources */,
 				67189FC023A2116D00F8A5CD /* blake256.c in Sources */,
 				771856B2261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */,
 				67755D54253DB8020056F2C0 /* pb_varint.cpp in Sources */,
 				67E0DEA6250F6C6600D42EF0 /* TWCoinType.cpp in Sources */,
 				67F59587256E666000AB8FED /* Address.cpp in Sources */,
-				67E0DEF6250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */,
 				32E84E49240B95CE003311B5 /* JubiterBaseEOSImpl.cpp in Sources */,
 				67E0DF91250F773900D42EF0 /* JUB_SDK_TRX.cpp in Sources */,
 				677A186823F27059003FA636 /* JubiterBaseHCImpl.cpp in Sources */,
@@ -3506,7 +3522,6 @@
 				6795A81E23D8549300F273E0 /* TrezorCryptoQTUMImpl.cpp in Sources */,
 				67E0DEA8250F6C6600D42EF0 /* TWBitcoin.cpp in Sources */,
 				674B4A8724A1B0D70053AB2F /* scp03.cpp in Sources */,
-				67E0DEFC250F6CA500D42EF0 /* TransactionInputHcash.cpp in Sources */,
 				67189FBA23A2116D00F8A5CD /* bip32.c in Sources */,
 				67189FD323A2117200F8A5CD /* modm-donna-32bit.c in Sources */,
 				67E0DF39250F6CE600D42EF0 /* Action.cpp in Sources */,
@@ -3515,6 +3530,7 @@
 				674B4A8924A1B0D70053AB2F /* scp11c.cpp in Sources */,
 				67E0DEDC250F6CA500D42EF0 /* Address.cpp in Sources */,
 				67F59562256E65B400AB8FED /* JUB_SDK_FIL.cpp in Sources */,
+				777B85F82695783D003F7CF1 /* TransactionInput.cpp in Sources */,
 				67746C3425417C27007A1901 /* pb_basevarint.cpp in Sources */,
 				67E0DEF8250F6CA500D42EF0 /* OutPoint.cpp in Sources */,
 				7788318E267356A6004FDA80 /* ContractAbi.cpp in Sources */,
@@ -3535,12 +3551,11 @@
 				67189FE023A2117C00F8A5CD /* scrypt.c in Sources */,
 				678022292519DA82008142B1 /* ContractSmart.cpp in Sources */,
 				772B681026738106007D789B /* JUB_SDK_DEV_SWI.cpp in Sources */,
-				67E0DED6250F6CA500D42EF0 /* TransactionDash.cpp in Sources */,
 				676393212534608B00C41883 /* asset_issue_contract.pb.cc in Sources */,
 				67E0DEF0250F6CA500D42EF0 /* CashAddress.cpp in Sources */,
 				67189FD123A2117200F8A5CD /* ed25519-sha3.c in Sources */,
-				67E0DEE6250F6CA500D42EF0 /* TransactionOutputHcash.cpp in Sources */,
 				67189FDD23A2117900F8A5CD /* base58.c in Sources */,
+				777B85E326955DA3003F7CF1 /* Transaction.cpp in Sources */,
 				6763932D2534608B00C41883 /* smart_contract.pb.cc in Sources */,
 				676B42BB240F9C9500EBB44D /* Address.cpp in Sources */,
 				676393312534608B00C41883 /* common.pb.cc in Sources */,
@@ -3573,6 +3588,7 @@
 				677A185623F1252C003FA636 /* JubiterBaseDashImpl.cpp in Sources */,
 				67189FDC23A2117500F8A5CD /* ripemd160.c in Sources */,
 				6718A00923A211B600F8A5CD /* PrivateKey.cpp in Sources */,
+				777B85FC269579B7003F7CF1 /* Transaction.cpp in Sources */,
 				77AD324126806EEF00888326 /* Base64.cpp in Sources */,
 				67189F4723A2103F00F8A5CD /* JUB_SDK_EOS.cpp in Sources */,
 				67E0DEB2250F6C6600D42EF0 /* TWHDVersion.cpp in Sources */,
@@ -3644,6 +3660,7 @@
 				67E0DF30250F6CE600D42EF0 /* Name.cpp in Sources */,
 				679DA98A2577B44400B08471 /* JubiterLiteEOSImpl.cpp in Sources */,
 				674621D923C31D820096DDA2 /* XRPContext.cpp in Sources */,
+				777B85F12695783D003F7CF1 /* TransactionOutput.cpp in Sources */,
 				6766221E234C31DC00AFAFA2 /* Hash.cpp in Sources */,
 				67662223234C31DC00AFAFA2 /* PrivateKey.cpp in Sources */,
 				67F59577256E65F400AB8FED /* JubiterBaseFILImpl.cpp in Sources */,
@@ -3672,12 +3689,11 @@
 				32E84E48240B95CE003311B5 /* JubiterBaseEOSImpl.cpp in Sources */,
 				679DA97A2577B38A00B08471 /* JubiterLiteBCHImpl.cpp in Sources */,
 				670B8FB92431C9C100E8EF5C /* Memo.cpp in Sources */,
-				67E0DEDD250F6CA500D42EF0 /* TransactionHcash.cpp in Sources */,
 				676621E1234C316900AFAFA2 /* Base58.cpp in Sources */,
+				777B85EB269570B4003F7CF1 /* OutPoint.cpp in Sources */,
 				67E0DEA5250F6C6600D42EF0 /* TWCoinType.cpp in Sources */,
 				771856B1261491D800756E99 /* JubiterBIOTRXImpl.cpp in Sources */,
 				67755D53253DB8020056F2C0 /* pb_varint.cpp in Sources */,
-				67E0DEF5250F6CA500D42EF0 /* OutPointHcash.cpp in Sources */,
 				67F59586256E666000AB8FED /* Address.cpp in Sources */,
 				674F19BB23A105F2001702DD /* curve25519-donna-helpers.c in Sources */,
 				67A4BDD32330A9F90059A3DB /* curves.c in Sources */,
@@ -3727,7 +3743,6 @@
 				67F5959B256E66BF00AB8FED /* Cbor.cpp in Sources */,
 				67E0DEA7250F6C6600D42EF0 /* TWBitcoin.cpp in Sources */,
 				674B4A8624A1B0D70053AB2F /* scp03.cpp in Sources */,
-				67E0DEFB250F6CA500D42EF0 /* TransactionInputHcash.cpp in Sources */,
 				772B685426738255007D789B /* uint256_t.cpp in Sources */,
 				772B6820267381DC007D789B /* ERC721Abi.cpp in Sources */,
 				674621EF23C31DBE0096DDA2 /* JubiterBladeEOSImpl.cpp in Sources */,
@@ -3737,6 +3752,7 @@
 				676B42A2240F922300EBB44D /* AddressChecksum.cpp in Sources */,
 				675C7972238B83A40015C95D /* JUB_SDK_XRP.cpp in Sources */,
 				67A4BDCD2330A9F90059A3DB /* blake2b.c in Sources */,
+				777B85F72695783D003F7CF1 /* TransactionInput.cpp in Sources */,
 				67E0DEDB250F6CA500D42EF0 /* Address.cpp in Sources */,
 				67F59561256E65B400AB8FED /* JUB_SDK_FIL.cpp in Sources */,
 				67746C3325417C27007A1901 /* pb_basevarint.cpp in Sources */,
@@ -3756,13 +3772,12 @@
 				674F199C23A10574001702DD /* aescrypt.c in Sources */,
 				678022282519DA82008142B1 /* ContractSmart.cpp in Sources */,
 				676393202534608B00C41883 /* asset_issue_contract.pb.cc in Sources */,
-				67E0DED5250F6CA500D42EF0 /* TransactionDash.cpp in Sources */,
 				67E0DEEF250F6CA500D42EF0 /* CashAddress.cpp in Sources */,
 				772B681226738130007D789B /* TrezorCryptoToken.cpp in Sources */,
 				67A4BCE1233084740059A3DB /* JUB_core.cpp in Sources */,
 				676B42BA240F9C9400EBB44D /* Address.cpp in Sources */,
-				67E0DEE5250F6CA500D42EF0 /* TransactionOutputHcash.cpp in Sources */,
 				6763932C2534608B00C41883 /* smart_contract.pb.cc in Sources */,
+				777B85E226955DA3003F7CF1 /* Transaction.cpp in Sources */,
 				6713A92B23A0BD350083A34D /* groestl.c in Sources */,
 				772B68412673823A007D789B /* BigInteger.cc in Sources */,
 				676393302534608B00C41883 /* common.pb.cc in Sources */,
@@ -3795,6 +3810,7 @@
 				67A4BD8E2330A9220059A3DB /* schnorr.c in Sources */,
 				67A4BD8D2330A9220059A3DB /* sha2.c in Sources */,
 				772B68182673817F007D789B /* JubiterBIOXRPImpl.cpp in Sources */,
+				777B85FB269579B7003F7CF1 /* Transaction.cpp in Sources */,
 				77AD324026806EEF00888326 /* Base64.cpp in Sources */,
 				67A4BCF0233084B90059A3DB /* JubiterBLEDevice.cpp in Sources */,
 				676B4296240F922300EBB44D /* RLP.cpp in Sources */,
@@ -3861,7 +3877,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3919,7 +3935,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

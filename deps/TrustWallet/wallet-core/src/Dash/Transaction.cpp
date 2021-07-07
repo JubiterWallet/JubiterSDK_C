@@ -4,23 +4,23 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "TransactionDash.h"
+#include "../Dash/Transaction.h"
 #include "../BinaryCoding.h"
 #include "../Hash.h"
 
 #include <cassert>
 
 using namespace TW;
-using namespace TW::Bitcoin;
+using namespace TW::Dash;
 
 // JuBiter-defined
-void DashTransaction::encodeVersion(Data& data) const {
+void Transaction::encodeVersion(Data& data) const {
     encode16LE(version, data);
     encode16LE(type, data);
 }
 
 // JuBiter-defined
-void DashTransaction::decodeVersion(const Data& data, int& index) {
+void Transaction::decodeVersion(const Data& data, int& index) {
     version = decode16LE(&data[index]);
     index += (sizeof(version)/sizeof(uint8_t));
     type = decode32LE(&data[index]);

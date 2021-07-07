@@ -7,11 +7,11 @@
 #pragma once
 
 #include <TrustWalletCore/TWHcashSigHashType.h>
-#include "SigHashType.h"
+#include "../Bitcoin/SigHashType.h"
 
-namespace TW::Bitcoin {
+namespace TW::Hcash {
 
 // JuBiter-defined
-inline bool hashTypeIsAll(enum TWHcashSigHashType type) { return (type & SigHashMask) == TWHcashSigHashAll; }
+inline bool hashTypeIsAll(enum TWHcashSigHashType type) { return (type & TW::Bitcoin::SigHashMask) == TWHcashSigHashAll; }
 
 } // namespace TW::Bitcoin

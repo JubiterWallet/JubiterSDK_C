@@ -6,22 +6,22 @@
 
 #pragma once
 
-#include "TransactionInput.h"
-#include "OutPointHcash.h"
+#include "../Bitcoin/TransactionInput.h"
+#include "../Hcash/OutPoint.h"
 #include "Amount.h"
 
-namespace TW::Bitcoin {
+namespace TW::Hcash {
 
 // JuBiter-defined
 /// Hcash transaction input.
-class HcashTransactionInput :
-    public TransactionInput {
+class TransactionInput :
+    public TW::Bitcoin::TransactionInput {
 public:
     /// Reference to the previous transaction's output.
-    HcashOutPoint previousOutput;
+    TW::Hcash::OutPoint previousOutput;
 
     /// Transaction amount.
-    Amount value;
+    TW::Bitcoin::Amount value;
 
     /// Reference to the previous transaction's block height
     uint32_t blockHeight = 0;
@@ -29,17 +29,17 @@ public:
     /// Reference to the previous transaction's block index
     uint32_t blockIndex = 0xffffffff;
 
-    HcashTransactionInput() : TransactionInput() {
-        //previousOutput = static_cast<TW::Bitcoin::HcashOutPoint>;
-        //static_cast<TW::Bitcoin::HcashOutPoint&>(previousOutput);
+    TransactionInput() : TW::Bitcoin::TransactionInput() {
+        //previousOutput = static_cast<TW::Hcash::OutPoint>;
+        //static_cast<TW::Hcash::OutPoint&>(previousOutput);
     }
 
     /// Initializes a transaction input with a previous output, a script and a
     /// sequence number.
-    HcashTransactionInput(HcashOutPoint previousOutput, Script script, uint32_t sequence)
-        : TransactionInput(previousOutput, script, sequence) {}
-    HcashTransactionInput(HcashOutPoint previousOutput, uint32_t sequence)
-        : TransactionInput(previousOutput, Script(), sequence) {}
+    TransactionInput(TW::Hcash::OutPoint previousOutput, TW::Bitcoin::Script script, uint32_t sequence)
+        : TW::Bitcoin::TransactionInput(previousOutput, script, sequence) {}
+    TransactionInput(TW::Hcash::OutPoint previousOutput, uint32_t sequence)
+        : TW::Bitcoin::TransactionInput(previousOutput, TW::Bitcoin::Script(), sequence) {}
 
     /// Encodes the transaction into the provided buffer.
     virtual void encode(Data& data) const override;
@@ -56,12 +56,12 @@ public:
     virtual size_t size() override;
 
     virtual size_t sizeWitness() override;
-}; // class HcashTransactionInput end
+}; // class TransactionInput end
 
-} // namespace TW::Bitcoin
+} // namespace TW::Hcash
 
 // JuBiter-defined
 /// Wrapper for C interface.
 struct TWHcashTransactionInput {
-    TW::Bitcoin::HcashTransactionInput impl;
+    TW::Hcash::TransactionInput impl;
 };

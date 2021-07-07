@@ -6,23 +6,23 @@
 
 #pragma once
 
-#include "Script.h"
-#include "Transaction.h"
-#include "TransactionInput.h"
-#include "TransactionOutput.h"
+#include "../Bitcoin/Script.h"
+#include "../Bitcoin/Transaction.h"
+#include "../Bitcoin/TransactionInput.h"
+#include "../Bitcoin/TransactionOutput.h"
 #include "../Hash.h"
 
 #include <vector>
 
-namespace TW::Bitcoin {
+namespace TW::Dash {
 
 // JuBiter-defined
-struct DashTransaction :
-    public Transaction {
-    DashTransaction() : Transaction() {};
-    DashTransaction(int32_t version, uint32_t lockTime, TW::Hash::Hasher hasher = TW::Hash::sha256d) :
-    Transaction(version, lockTime, hasher) {};
-    virtual ~DashTransaction() = default;
+struct Transaction :
+    public TW::Bitcoin::Transaction {
+    Transaction() : TW::Bitcoin::Transaction() {};
+    Transaction(int32_t version, uint32_t lockTime, TW::Hash::Hasher hasher = TW::Hash::sha256d) :
+    TW::Bitcoin::Transaction(version, lockTime, hasher) {};
+    virtual ~Transaction() = default;
 
     /// Transaction data format version (note, this is signed)
     int16_t version = 1;
@@ -36,10 +36,10 @@ struct DashTransaction :
     void decodeVersion(const Data& data, int& index) override;
 }; // struct DashTransaction end
 
-} // namespace TW::Bitcoin
+} // namespace TW::Dash
 
 // JuBiter-defined
 /// Wrapper for C interface.
 struct TWBitcoinDashTransaction {
-    TW::Bitcoin::DashTransaction impl;
+    TW::Dash::Transaction impl;
 }; // struct TWBitcoinDashTransaction end
