@@ -48,7 +48,7 @@ JUB_RV TrezorCryptoHCImpl::SignTX(const JUB_BYTE addrFmt,
         witness = true;
     }
 
-    TW::Bitcoin::HcashTransaction tx;
+    TW::Hcash::Transaction tx;
     if (!tx.decode(!witness, vUnsigedTrans)) {
         return JUBR_ARGUMENTS_BAD;
     }

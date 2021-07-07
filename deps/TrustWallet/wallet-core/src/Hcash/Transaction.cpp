@@ -4,21 +4,21 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "TransactionHcash.h"
+#include "../Hcash/Transaction.h"
 #include "../BinaryCoding.h"
 #include "../Hash.h"
 
 #include <TrustWalletCore/TWHcash.h>
-#include "SigHashTypeHcash.h"
+#include "../Hcash/SigHashType.h"
 
 #include <cassert>
 
 
 using namespace TW;
-using namespace TW::Bitcoin;
+using namespace TW::Hcash;
 
 // JuBiter-defined
-Data HcashTransaction::getPreImage(const Script& scriptCode, size_t index, uint32_t hashType, uint64_t amount) const {
+Data Transaction::getPreImage(const TW::Bitcoin::Script& scriptCode, size_t index, uint32_t hashType, uint64_t amount) const {
     assert(index < inputs.size());
 
     auto data = std::vector<uint8_t>{};
@@ -50,7 +50,7 @@ Data HcashTransaction::getPreImage(const Script& scriptCode, size_t index, uint3
 }
 
 // JuBiter-defined
-Data HcashTransaction::txSerializeNoWitness() const {
+Data Transaction::txSerializeNoWitness() const {
     auto data = std::vector<uint8_t>{};
 
     // Version
@@ -75,7 +75,7 @@ Data HcashTransaction::txSerializeNoWitness() const {
 }
 
 // JuBiter-defined
-Data HcashTransaction::txSerializeOnlyWitness(const Script& signScript, size_t index) const {
+Data Transaction::txSerializeOnlyWitness(const TW::Bitcoin::Script& signScript, size_t index) const {
     auto data = std::vector<uint8_t>{};
 
     // Version
@@ -84,9 +84,9 @@ Data HcashTransaction::txSerializeOnlyWitness(const Script& signScript, size_t i
     //not support many inputs
     encodeVarInt(inputs.size(), data);
     for (size_t i=0; i<inputs.size(); ++i) {
-        encode64LE(dynamic_cast<HcashTransactionInput*>(inputs[i])->value, data);
-        encode32BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->blockHeight, data);
-        encode32BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->blockIndex, data);
+        encode64LE(dynamic_cast<TW::Hcash::TransactionInput*>(inputs[i])->value, data);
+        encode32BE(dynamic_cast<TW::Hcash::TransactionInput*>(inputs[i])->blockHeight, data);
+        encode32BE(dynamic_cast<TW::Hcash::TransactionInput*>(inputs[i])->blockIndex, data);
         if (i == index) {
             signScript.encode(data);
         }
@@ -99,7 +99,7 @@ Data HcashTransaction::txSerializeOnlyWitness(const Script& signScript, size_t i
 }
 
 // JuBiter-defined
-Data HcashTransaction::txSerializeWitnessSigning(const Script& pkScript, size_t index) const {
+Data Transaction::txSerializeWitnessSigning(const TW::Bitcoin::Script& pkScript, size_t index) const {
     auto data = std::vector<uint8_t>{};
 
     // Version
@@ -119,7 +119,7 @@ Data HcashTransaction::txSerializeWitnessSigning(const Script& pkScript, size_t 
 }
 
 // JuBiter-defined
-Data HcashTransaction::txSerializeWitnessValueSigning(const Script& pkScript, size_t index) const {
+Data Transaction::txSerializeWitnessValueSigning(const TW::Bitcoin::Script& pkScript, size_t index) const {
     auto data = std::vector<uint8_t>{};
 
     // Version
@@ -127,7 +127,7 @@ Data HcashTransaction::txSerializeWitnessValueSigning(const Script& pkScript, si
 
     encodeVarInt(inputs.size(), data);
     for (size_t i=0; i<inputs.size(); ++i) {
-        encode64BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->value, data);
+        encode64BE(dynamic_cast<TW::Hcash::TransactionInput*>(inputs[i])->value, data);
         if (i == index) {
             pkScript.encode(data);
         }
@@ -140,33 +140,33 @@ Data HcashTransaction::txSerializeWitnessValueSigning(const Script& pkScript, si
 }
 
 // JuBiter-defined
-Data HcashTransaction::getTxSerializeNoWitnessHash() const {
+Data Transaction::getTxSerializeNoWitnessHash() const {
     auto data = txSerializeNoWitness();
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
 }
 
 // JuBiter-defined
-Data HcashTransaction::getTxSerializeWitnessSigningHash(const Script& pkScript, size_t index) const {
+Data Transaction::getTxSerializeWitnessSigningHash(const TW::Bitcoin::Script& pkScript, size_t index) const {
     auto data = txSerializeWitnessSigning(pkScript, index);
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
 }
 
 // JuBiter-defined
-Data HcashTransaction::getTxSerializeWitnessValueSigningHash(const Script& pkScript, size_t index) const {
+Data Transaction::getTxSerializeWitnessValueSigningHash(const TW::Bitcoin::Script& pkScript, size_t index) const {
     auto data = txSerializeWitnessValueSigning(pkScript, index);
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
 }
 
 // JuBiter-defined
-void HcashTransaction::encodeVersion(Data& data) const {
+void Transaction::encodeVersion(Data& data) const {
     encode32LE((version|(TWHcashSerializeFull<<16)), data);
 }
 
 // JuBiter-defined
-void HcashTransaction::decodeVersion(const Data& data, int& index) {
+void Transaction::decodeVersion(const Data& data, int& index) {
     //Cos 0 == (TWHcashSerializeFull<<16)
     version = decode32LE(&data[0]);
     index += (sizeof(uint32_t)/sizeof(uint8_t));
@@ -174,7 +174,7 @@ void HcashTransaction::decodeVersion(const Data& data, int& index) {
 
 // JuBiter-defined
 /// Encodes the transaction into the provided buffer.
-void HcashTransaction::encode(bool witness, Data& data) const {
+void Transaction::encode(bool witness, Data& data) const {
 
     encodeVersion(data);
 
@@ -197,9 +197,9 @@ void HcashTransaction::encode(bool witness, Data& data) const {
         // TxSerializeOnlyWitness: [nInputCount][amount][InputBlockHeight][InputBlockIndex][SignatureScript]
         encodeVarInt(inputs.size(), data);
         for (size_t i=0; i<inputs.size(); ++i) {
-            encode64LE(dynamic_cast<HcashTransactionInput*>(inputs[i])->value, data);
-            encode32BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->blockHeight, data);
-            encode32BE(dynamic_cast<HcashTransactionInput*>(inputs[i])->blockIndex, data);
+            encode64LE(dynamic_cast<TW::Hcash::TransactionInput*>(inputs[i])->value, data);
+            encode32BE(dynamic_cast<TW::Hcash::TransactionInput*>(inputs[i])->blockHeight, data);
+            encode32BE(dynamic_cast<TW::Hcash::TransactionInput*>(inputs[i])->blockIndex, data);
             inputs[i]->encodeWitness(data);
         }
     }
@@ -207,7 +207,7 @@ void HcashTransaction::encode(bool witness, Data& data) const {
 
 // JuBiter-defined
 /// Decodes the provided buffer into the transaction.
-bool HcashTransaction::decode(bool witness, const Data& data) {
+bool Transaction::decode(bool witness, const Data& data) {
 
     bool bSuccess = true;
 
@@ -229,7 +229,7 @@ bool HcashTransaction::decode(bool witness, const Data& data) {
     for(size_t i=0; i<nInputCount; ++i) {
         indexInc = 0;
         std::vector<uint8_t> tempInput(std::begin(data)+index+indexInc, std::end(data));
-        HcashTransactionInput *input = new HcashTransactionInput();
+        TW::Hcash::TransactionInput *input = new TW::Hcash::TransactionInput();
         if (!input->decode(tempInput)) {
             bSuccess = false;
             break;
@@ -252,7 +252,7 @@ bool HcashTransaction::decode(bool witness, const Data& data) {
     for(size_t i=0; i<nOutputCount; ++i) {
         indexInc = 0;
         std::vector<uint8_t> tempOutput(std::begin(data)+index+indexInc, std::end(data));
-        HcashTransactionOutput *output = new HcashTransactionOutput();
+        TW::Hcash::TransactionOutput *output = new TW::Hcash::TransactionOutput();
         if (!output->decode(tempOutput)) {
             bSuccess = false;
             break;

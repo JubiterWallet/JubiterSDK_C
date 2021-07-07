@@ -1,7 +1,7 @@
 #pragma once
 #include "token/interface/BTCTokenInterface.hpp"
 #include "token/BTC/JubiterBaseBTCImpl.h"
-#include <Bitcoin/TransactionDash.h>
+#include <Dash/Transaction.h>
 
 namespace jub {
 namespace token {

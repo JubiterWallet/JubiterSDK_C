@@ -19,7 +19,7 @@ JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& t
         witness = true;
     }
 
-    TW::Bitcoin::DashTransaction tx(version, lockTime);
+    TW::Dash::Transaction tx(version, lockTime);
     rv = _serializeUnsignedTx(_coin,
                               vInputs,
                               vOutputs,
@@ -41,7 +41,7 @@ JUB_RV JubiterBaseDashImpl::_verifyTx(const bool witness,
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
     try {
-        TW::Bitcoin::DashTransaction tx;
+        TW::Dash::Transaction tx;
         if (!tx.decode(witness, signedRaw)) {
             return rv;
         }

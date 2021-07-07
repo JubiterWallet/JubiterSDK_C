@@ -4,14 +4,14 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "TransactionOutputHcash.h"
+#include "../Hcash/TransactionOutput.h"
 
 #include "../BinaryCoding.h"
 
-using namespace TW::Bitcoin;
+using namespace TW::Hcash;
 
 // JuBiter-defined
-void HcashTransactionOutput::encode(std::vector<uint8_t>& data) const {
+void TransactionOutput::encode(std::vector<uint8_t>& data) const {
     encode64LE(value, data);
     encode16LE(version, data);
     script.encode(data);
@@ -19,7 +19,7 @@ void HcashTransactionOutput::encode(std::vector<uint8_t>& data) const {
 
 // JuBiter-defined
 /// Decodes the provided buffer into the output.
-bool HcashTransactionOutput::decode(const std::vector<uint8_t>& data) {
+bool TransactionOutput::decode(const std::vector<uint8_t>& data) {
     size_t index = 0;
 
     value = decode64LE(&data[index]);
@@ -33,6 +33,6 @@ bool HcashTransactionOutput::decode(const std::vector<uint8_t>& data) {
 }
 
 // JuBiter-defined
-size_t HcashTransactionOutput::size() {
-    return ((sizeof(version)/sizeof(uint8_t))+TransactionOutput::size());
+size_t TransactionOutput::size() {
+    return ((sizeof(version)/sizeof(uint8_t))+TW::Bitcoin::TransactionOutput::size());
 }
