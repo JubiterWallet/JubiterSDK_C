@@ -15,7 +15,7 @@
 namespace jub {
 
 JubiterHidDevice::JubiterHidDevice():
-    pid(PID),
+    pid(PID), // not used
     vid(VID),
     m_handle(NULL),
     firstCmd(true) {
@@ -27,25 +27,21 @@ JubiterHidDevice::~JubiterHidDevice() { hid_exit(); }
 std::vector<std::string> JubiterHidDevice::enumDevice() {
 
 	std::vector<std::string> token_list;
+    for (const auto pid : { PID, PID_G2 }) {
+        auto hid_dev = hid_enumerate(VID, pid);
+        auto hid_dev_head = hid_dev;
+        while (hid_dev) {
+            token_list.push_back(hid_dev->path);
+            hid_dev = hid_dev->next;
+        }
 
-	auto hid_dev = hid_enumerate(VID, PID);
-	auto hid_dev_head = hid_dev;
-	while (hid_dev) {
-		token_list.push_back(hid_dev->path);
-		hid_dev = hid_dev->next;
-	}
-
-	hid_free_enumeration(hid_dev_head);
+        hid_free_enumeration(hid_dev_head);
+    }
 
 	return token_list;
 }
 
 JUB_RV JubiterHidDevice::connect(const std::string path) {
-
-	if (0 != hid_init()) {
-		return JUBR_INIT_DEVICE_LIB_ERROR;
-	}
-
 	// vid, pid can be parsed from params
 	m_handle = hid_open_path(path.c_str());
 	if (NULL == m_handle) {
@@ -63,10 +59,6 @@ JUB_RV JubiterHidDevice::disconnect() {
     if (NULL != m_handle) {
         hid_close(m_handle);
         m_handle = NULL;
-
-        if (0 != hid_exit()) {
-            return JUBR_ERROR;
-        }
     }
 
     return JUBR_OK;
@@ -134,7 +126,7 @@ JUB_RV JubiterHidDevice::sendData(IN JUB_BYTE_CPTR sendData,
 			bufferSend.push_back(0x83);
 
             // first packet
-            bufferSend.push_back((JUB_BYTE)(sendLen & 0xff00));
+            bufferSend.push_back((JUB_BYTE)((sendLen & 0xff00) >> 8));
             bufferSend.push_back((JUB_BYTE)(sendLen & 0x00ff));
 
             if (first_pack_max_len > sendLen) {

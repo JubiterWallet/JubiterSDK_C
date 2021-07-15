@@ -13,6 +13,7 @@ namespace jub {
 
 #define VID 0x096e
 #define PID 0x0891
+#define PID_G2 0x0893
 
 #define HID_PACKET_SIZE 65
 #define HID_PACKET_HEAD_FRIST 8

@@ -151,7 +151,7 @@ JUB_RV JUB_DisconnetDeviceHid(IN JUB_UINT16 deviceID) {
     JUB_CHECK_NULL(token);
 
     JUB_VERIFY_RV(token->disconnectToken());
-
+    jub::TokenManager::GetInstance()->clearOne(deviceID);
     return JUBR_OK;
 #else
     return JUBR_IMPL_NOT_SUPPORT;
