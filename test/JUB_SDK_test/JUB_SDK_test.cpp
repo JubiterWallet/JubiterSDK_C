@@ -82,7 +82,7 @@ void get_device_info_test() {
 	cout << "device pinRetry :" << info.pin_retry << endl;
 	cout << "device pinMaxRetry :" << info.pin_max_retry << endl;
 	JUB_BYTE ble_version[5] = {0,};
-	JUB_BYTE fw_version[5] = {0.};
+	JUB_BYTE fw_version[5] = {0,};
 	memcpy(ble_version, info.ble_version, 4);
 	memcpy(fw_version, info.firmware_version, 4);
 	cout << "device ble_version :" << ble_version << endl;

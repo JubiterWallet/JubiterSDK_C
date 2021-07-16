@@ -19,10 +19,9 @@ JubiterHidDevice::JubiterHidDevice():
     vid(VID),
     m_handle(NULL),
     firstCmd(true) {
-        hid_init();
 }
 
-JubiterHidDevice::~JubiterHidDevice() { hid_exit(); }
+JubiterHidDevice::~JubiterHidDevice() { }
 
 std::vector<std::string> JubiterHidDevice::enumDevice() {
 
