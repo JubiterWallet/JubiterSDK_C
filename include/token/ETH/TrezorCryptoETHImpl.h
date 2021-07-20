@@ -13,8 +13,8 @@ class TrezorCryptoETHImpl :
         public TrezorCryptoToken,
 virtual public JubiterBaseETHImpl {
 public:
-    TrezorCryptoETHImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoToken(deviceID, JUB_ENUM_CURVES::SECP256K1) {}
+    TrezorCryptoETHImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoToken(deviceID, curve) {}
     ~TrezorCryptoETHImpl() {}
 
     //ETH functions

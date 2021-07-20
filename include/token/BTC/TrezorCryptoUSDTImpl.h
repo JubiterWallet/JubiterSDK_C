@@ -11,8 +11,8 @@ namespace token {
 class TrezorCryptoUSDTImpl :
     public TrezorCryptoBTCImpl{
 public:
-    TrezorCryptoUSDTImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoBTCImpl(deviceID) {}
+    TrezorCryptoUSDTImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoBTCImpl(deviceID, curve) {}
     ~TrezorCryptoUSDTImpl() {}
 }; // class TrezorCryptoUSDTImpl end
 

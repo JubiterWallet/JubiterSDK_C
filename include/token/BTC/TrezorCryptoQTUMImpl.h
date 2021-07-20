@@ -13,8 +13,8 @@ class TrezorCryptoQTUMImpl :
         public TrezorCryptoBTCImpl,
 virtual public QTUMTokenInterface {
 public:
-    TrezorCryptoQTUMImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoBTCImpl(deviceID) {
+    TrezorCryptoQTUMImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoBTCImpl(deviceID, curve) {
             _coin = TWCoinType::TWCoinTypeQtum;
     }
     ~TrezorCryptoQTUMImpl() {}

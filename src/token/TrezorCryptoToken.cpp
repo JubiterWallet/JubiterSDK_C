@@ -10,6 +10,12 @@
 #include <TrezorCrypto/bip39.h>
 #include "token/TrezorCrypto/TrezorCryptoToken.h"
 #include "utility/util.h"
+#include <string>
+#include "PrivateKey.h"
+
+extern "C" {
+#include "sr25519.h"
+}
 
 
 JUB_RV _curveToString(JUB_ENUM_CURVES enumCurve, std::string& strCurve) {
@@ -125,11 +131,87 @@ JUB_RV TrezorCryptoToken::MnemonicToMasterPrivateKey(const JUB_ENUM_CURVES& curv
         break;
     }
     case JUB_ENUM_CURVES::ED25519:
+    {
+        uchar_vector vSeed;
+        JUB_VERIFY_RV(MnemonicToMiniSecret(passphrase, mnemonic, vSeed, nullptr));
+        
+        uchar_vector prvData(vSeed.begin(),vSeed.begin()+32);
+        auto privateKey = TW::PrivateKey(prvData);
+        TW::PublicKey publicKey = privateKey.getPublicKey(TWPublicKeyTypeED25519);
+
+        std::string xpub = uchar_vector(publicKey.bytes).getHex() ;
+        std::string xprv = uchar_vector(privateKey.bytes).getHex();
+
+        _MasterKey_XPUB = xpub;
+        _MasterKey_XPRV = xprv;
+        
+        
+        if ("" != _MasterKey_XPUB) {
+            _type = JUB_SoftwareTokenType::PUBLIC;
+        }
+        if ("" != _MasterKey_XPRV) {
+            _type = JUB_SoftwareTokenType::PRIVATE;
+        }
+        
+        rv = JUBR_OK;
+        
+        break;
+    }
+    case JUB_ENUM_CURVES::SR25519:
+    {
+        /// Size of SR25519 KEYPAIR. [32 bytes key | 32 bytes nonce | 32 bytes public]
+        uchar_vector vSeed;
+        uint8_t privateKey[96];
+        uint8_t publiKey[32];
+
+        JUB_VERIFY_RV(MnemonicToMiniSecret(passphrase, mnemonic, vSeed, nullptr));
+        std::vector<uint8_t> kp(SR25519_KEYPAIR_SIZE, 0);
+        ///* Size of SR25519 PRIVATE (SECRET) KEY, which consists of [32 bytes key | 32 bytes nonce]
+        sr25519_keypair_from_seed(kp.data(), vSeed.data());
+        memcpy(privateKey, &kp[0], 96);
+
+        //memcpy(node.nonce,  &kp[0] + 32, 32);
+        memcpy(publiKey,  &kp[0] + 32 + 32, 32);
+        uchar_vector vPublicKey(publiKey, sizeof(publiKey)/sizeof(uint8_t));
+        uchar_vector vprivateKey(privateKey, sizeof(privateKey)/sizeof(uint8_t));
+
+        std::string xpub = vPublicKey.getHex() ;
+        std::string xprv = vprivateKey.getHex();
+        
+
+        _MasterKey_XPUB = xpub;
+        _MasterKey_XPRV = xprv;
+
+        if ("" != _MasterKey_XPUB) {
+            _type = JUB_SoftwareTokenType::PUBLIC;
+        }
+        if ("" != _MasterKey_XPRV) {
+            _type = JUB_SoftwareTokenType::PRIVATE;
+        }
+        break;
+    }
     default:
         break;
     }
 
     return rv;
+}
+
+JUB_RV TrezorCryptoToken::MnemonicToMiniSecret(const std::string& passphrase, const std::string& mnemonic,
+                                 uchar_vector& vSeed,
+
+                                 void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total))
+{
+    JUB_BYTE seed[64] = {0x00,};
+
+    mnemonic_to_mini_secret(mnemonic.c_str(), passphrase.c_str(), seed, progress_callback);
+    if (0 == vSeed.size()) {
+        vSeed.resize(64);
+    }
+
+    std::copy(std::begin(seed), std::end(seed), std::begin(vSeed));
+
+    return JUBR_OK;
 }
 
 

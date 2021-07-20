@@ -78,6 +78,60 @@ std::vector<JUB_UINT32> parsePath(const std::string& path) {
     return path_vector;
 }
 
+bool chainCodeFromPolkadotPath(std::string path,JUB_ENUM_CURVES curve, std::vector<std::string>& pathSeveralVer, std::vector<bool>& isHardVer)
+{
+    if (path.empty()) {
+        return true;
+    }
+    std::string::size_type idx = path.find("//");
+    std::string::size_type idx1 = path.find("/");
+    if('/' != path[0] || (idx == std::string::npos && idx1 == std::string::npos))
+    {
+        return false;
+    }
+    int start = 1;
+    if ('/' == path[1]) {
+        start = 2;
+        isHardVer.push_back(true);
+    } else {
+        isHardVer.push_back(false);
+    }
+    int end = 0;
+    
+    path.push_back('/');
+    for (int i = 2; i < path.size(); i++) {
+        end = i;
+        std::string temp;
+        
+        if (path[i] == '/' && path[i + 1] == '/') {
+            
+            temp = path.substr(start,end - start);
+            if (!isString(temp) && !isNumber(temp)) return false;
+            
+            start = i + 2;
+            pathSeveralVer.push_back(temp);
+            isHardVer.push_back(true);
+            
+        } else if(path[i] == '/' && path[i + 1] != '/' && path[i - 1] != '/') {
+            if (JUB_ENUM_CURVES::ED25519 == curve && i != path.size() -1) {
+                return false;//ed25519 not support
+            }
+            temp = path.substr(start,end - start);
+            if (!isString(temp) && !isNumber(temp)) return false;
+
+            start = i + 1;
+            pathSeveralVer.push_back(temp);
+            isHardVer.push_back(false);
+        } else {
+            //noting code
+        }
+    }
+    isHardVer.pop_back();
+    
+    return true;
+}
+
+
 
 JUB_RV hdnode_pub_ckd(std::string xpub, std::string path, std::string curve, JUB_UINT32 xpubPrefix ,JUB_UINT32 xprvPrefix,HDNode* node, JUB_UINT32* parentFingerprint) {
     HDNode hdkey;

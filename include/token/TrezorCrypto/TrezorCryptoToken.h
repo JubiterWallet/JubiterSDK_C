@@ -15,26 +15,22 @@ class TrezorCryptoToken :
 public:
    //for Factory
    template<typename T>
-   static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-       auto token = std::make_shared<T>(deviceID);
+   static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) {
+       auto token = std::make_shared<T>(deviceID, curve);
        if (nullptr == token) {
            return nullptr;
        }
 
-       return SoftwareTokenInterface::Create<T>(deviceID, token->getCurves());
+       return SoftwareTokenInterface::Create<T>(deviceID, curve);
    }
 
 
 public:
-    TrezorCryptoToken(JUB_UINT16 deviceID, JUB_ENUM_CURVES curves)
+    TrezorCryptoToken(JUB_UINT16 deviceID, JUB_ENUM_CURVES curve)
         : _deviceID(deviceID),
-          _curves(curves) {
+          _curve(curve) {
     }
     ~TrezorCryptoToken() {}
-
-    virtual JUB_ENUM_CURVES getCurves() {
-        return _curves;
-    }
 
     virtual JUB_RV ToMasterKey(const JUB_ENUM_CURVES& curve, const std::string& privOrPub,
                                const JUB_UINT32 xpubPrefix = TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
@@ -46,6 +42,10 @@ public:
     virtual JUB_RV MnemonicToSeed(const std::string& passphrase, const std::string& mnemonic,
                                   uchar_vector& vSeed,
                                   void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total)) override;
+    virtual JUB_RV MnemonicToMiniSecret(const std::string& passphrase, const std::string& mnemonic,
+                                        uchar_vector& vSeed,
+
+                                        void (*progress_callback)(JUB_UINT32 current, JUB_UINT32 total));
     virtual JUB_RV SeedToMasterPrivateKey(const uchar_vector& seed,
                                           const JUB_ENUM_CURVES& curve,
                                           std::string& xpub, std::string& xprv) override;
@@ -105,7 +105,7 @@ protected:
             if (   0 == strcmp(spiltPath.purpose, "49'")
                 && 0 == strcmp(spiltPath.coin_type, "1'")
                 ) {
-                return hdnode_priv_ckd(_MasterKey_XPUB, path, _curve_name,
+                return hdnode_pub_ckd(_MasterKey_XPUB, path, _curve_name,
                                        TWCoinType2HDVersionPublic(_coin, true),
                                        TWCoinType2HDVersionPrivate(_coin,true),
                                        node, parentFingerprint);
@@ -122,7 +122,7 @@ protected:
 
 protected:
     JUB_UINT16 _deviceID;
-    JUB_ENUM_CURVES _curves;
+    JUB_ENUM_CURVES _curve;
 
     std::string _MasterKey_XPRV{""};
     std::string _MasterKey_XPUB{""};

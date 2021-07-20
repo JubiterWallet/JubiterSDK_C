@@ -9,6 +9,7 @@
 #include "PublicKey.h"
 
 #include <TrezorCrypto/bignum.h>
+#include <TrezorCrypto/curves.h>
 #include <TrezorCrypto/ecdsa.h>
 #include <TrezorCrypto/ed25519-donna/ed25519-blake2b.h>
 #include <TrezorCrypto/memzero.h>
@@ -131,6 +132,21 @@ PublicKey PrivateKey::getPublicKey(TWPublicKeyType type) const {
     case TWPublicKeyTypeED25519Blake2b:
         result.resize(PublicKey::ed25519Size);
         ed25519_publickey_blake2b(bytes.data(), result.data());
+        break;
+    case TWPublicKeyTypeED25519Extended:
+        // must be extended key
+        if (bytes.size() + extensionBytes.size() + chainCodeBytes.size() != extendedSize) {
+            throw std::invalid_argument("Invalid extended key");
+        }
+        result.resize(PublicKey::ed25519ExtendedSize);
+        ed25519_publickey_ext(bytes.data(), extensionBytes.data(), result.data());
+        // append chainCode to the end of the public key
+        std::copy(chainCodeBytes.begin(), chainCodeBytes.end(), result.begin() + 32);
+        break;
+    case TWPublicKeyTypeCURVE25519:
+        result.resize(PublicKey::ed25519Size);
+        PublicKey ed25519PublicKey = getPublicKey(TWPublicKeyTypeED25519);
+        ed25519_pk_to_curve25519(result.data(), ed25519PublicKey.bytes.data());
         break;
     }
     return PublicKey(result, type);

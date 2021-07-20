@@ -17,6 +17,17 @@ namespace TW {
 //using int256_t = boost::multiprecision::int256_t;
 //using uint256_t = boost::multiprecision::uint256_t;
 
+// JuBiter-defined
+inline uint256_t load(const Data& data) {
+    if (data.empty()) {
+        return uint256_t(0);
+    }
+    uint256_t result;
+
+//    std::copy(std::begin(data), std::end(data),std::back_inserter(result));
+    return result;
+}
+
 /// Loads a `uint256_t` from a collection of bytes.
 /// The rightmost bytes are taken from data
 //inline uint256_t load(const Data& data) {
@@ -42,6 +53,16 @@ namespace TW {
 //    import_bits(result, data.begin() + offset, data.begin() + offset + 256 / 8);
 //    return result;
 //}
+
+// JuBiter-defined
+inline uint256_t load(const std::string& data, uint8_t base=10) {
+//    using boost::multiprecision::cpp_int;
+    if (data.empty()) {
+        return uint256_t(0);
+    }
+    
+    return uint256_t(data, base);
+}
 
 /// Loads a `uint256_t` from Protobuf bytes (which are wrongly represented as
 /// std::string).

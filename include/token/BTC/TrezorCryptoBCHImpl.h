@@ -13,8 +13,8 @@ class TrezorCryptoBCHImpl :
         public TrezorCryptoBTCImpl,
 virtual public  JubiterBaseBCHImpl {
 public:
-    TrezorCryptoBCHImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoBTCImpl(deviceID) {
+    TrezorCryptoBCHImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoBTCImpl(deviceID, curve) {
             _hashType = TWBitcoinSigHashTypeForkBCH;
     }
     ~TrezorCryptoBCHImpl() {}
