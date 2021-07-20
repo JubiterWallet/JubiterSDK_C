@@ -24,8 +24,8 @@ public:
 //        Register(TWCoinType::TWCoinTypeEthereumClassic, &ETHContext::Create);
     }
 
-    ETHContext* CreateContext(const CONTEXT_CONFIG_ETH& cfg, JUB_UINT16 deviceID) {
-        auto token = jub::token::ETHseriesTokenFactory::GetInstance()->CreateToken(_type, deviceID);
+    ETHContext* CreateContext(const JUB_UINT16 deviceID, const CONTEXT_CONFIG_ETH& cfg) {
+        auto token = jub::token::ETHseriesTokenFactory::GetInstance()->CreateToken(deviceID, _type);
         return Create(_type, cfg, token);
     }
 

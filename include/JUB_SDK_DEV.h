@@ -111,7 +111,8 @@ typedef JUB_ENUM_DEVICE_ROOT_KEY_STATUS JUB_PTR JUB_ENUM_DEVICE_ROOT_KEY_STATUS_
 typedef enum {
     SECP256K1 = 0,
     NIST256P1,
-    ED25519
+    ED25519,
+    SR25519
 } JUB_ENUM_CURVES;
 
 // Remove c++ features for swift framework

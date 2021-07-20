@@ -13,6 +13,8 @@
 #include <TrezorCrypto/secp256k1.h>
 #include <TrezorCrypto/sodium/keypair.h>
 #include "mSIGNA/stdutils/uchar_vector.h"
+#include <TrezorCrypto/ed25519-donna/ed25519-donna.h>
+
 
 namespace TW {
 
@@ -26,8 +28,11 @@ bool PublicKey::isValid(const Data& data, enum TWPublicKeyType type) {
     switch (type) {
     case TWPublicKeyTypeED25519:
         return size == ed25519Size || (size == ed25519Size + 1 && data[0] == 0x01);
+    case TWPublicKeyTypeCURVE25519:
     case TWPublicKeyTypeED25519Blake2b:
         return size == ed25519Size;
+    case TWPublicKeyTypeED25519Extended:
+        return size == ed25519ExtendedSize;
     case TWPublicKeyTypeSECP256k1:
     case TWPublicKeyTypeNIST256p1:
         return size == secp256k1Size && (data[0] == 0x02 || data[0] == 0x03);
@@ -56,6 +61,7 @@ PublicKey::PublicKey(const Data& data, enum TWPublicKeyType type) : type(type) {
         break;
 
     case TWPublicKeyTypeED25519:
+    case TWPublicKeyTypeCURVE25519:
         bytes.reserve(ed25519Size);
         if (data.size() == ed25519Size + 1) {
             std::copy(std::begin(data) + 1, std::end(data), std::back_inserter(bytes));
@@ -68,6 +74,9 @@ PublicKey::PublicKey(const Data& data, enum TWPublicKeyType type) : type(type) {
         assert(data.size() == ed25519Size); // ensured by isValid() above
         std::copy(std::begin(data), std::end(data), std::back_inserter(bytes));
         break;
+    case TWPublicKeyTypeED25519Extended:
+        bytes.reserve(ed25519ExtendedSize);
+        std::copy(std::begin(data), std::end(data), std::back_inserter(bytes));
     }
 }
 
@@ -107,7 +116,9 @@ PublicKey PublicKey::extended() const {
     case TWPublicKeyTypeNIST256p1Extended:
         return *this;
     case TWPublicKeyTypeED25519:
+    case TWPublicKeyTypeCURVE25519:
     case TWPublicKeyTypeED25519Blake2b:
+    case TWPublicKeyTypeED25519Extended:
        return *this;
     }
 }
@@ -143,6 +154,23 @@ bool PublicKey::verify(const Data& signature, const Data& message) const {
         return ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
     case TWPublicKeyTypeED25519Blake2b:
         return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeED25519Extended:
+        throw std::logic_error("Not yet implemented");
+        //ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeCURVE25519:
+        auto ed25519PublicKey = Data();
+        ed25519PublicKey.resize(PublicKey::ed25519Size);
+        curve25519_pk_to_ed25519(ed25519PublicKey.data(), bytes.data());
+
+        ed25519PublicKey[31] &= 0x7F;
+        ed25519PublicKey[31] |= signature[63] & 0x80;
+
+        // remove sign bit
+        auto verifyBuffer = Data();
+        append(verifyBuffer, signature);
+        verifyBuffer[63] &= 127;
+        return ed25519_sign_open(message.data(), message.size(), ed25519PublicKey.data(),
+                                 verifyBuffer.data()) == 0;
     }
 }
 
@@ -201,6 +229,12 @@ bool PublicKey::verify(const Data& signature, const Data& message, const int rec
         return ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
     case TWPublicKeyTypeED25519Blake2b:
         return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeCURVE25519:
+        throw std::logic_error("Not yet implemented");
+        return false;
+    case TWPublicKeyTypeED25519Extended:
+        throw std::logic_error("Not yet implemented");
+        return false;
     }
 }
 
@@ -291,6 +325,12 @@ bool PublicKey::recover(const Data& signature, const Data& message, int *recid) 
         return ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
     case TWPublicKeyTypeED25519Blake2b:
         return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeCURVE25519:
+        throw std::logic_error("Not yet implemented");
+        return false;
+    case TWPublicKeyTypeED25519Extended:
+        throw std::logic_error("Not yet implemented");
+        return false;
     }
 }
 
@@ -307,6 +347,15 @@ PublicKey PublicKey::recover(const Data& signature, const Data& message) {
         throw std::invalid_argument("recover failed");
     }
     return PublicKey(result, TWPublicKeyTypeSECP256k1Extended);
+}
+
+bool PublicKey::isValidED25519() const {
+    if (type != TWPublicKeyTypeED25519) {
+        return false;
+    }
+    assert(bytes.size() == ed25519Size);
+    ge25519 r;
+    return ge25519_unpack_negative_vartime(&r, bytes.data()) != 0;
 }
 
 } // namespace TW

@@ -17,6 +17,8 @@
 #include "JUB_SDK_test_xrp.hpp"
 #include "JUB_SDK_test_trx.hpp"
 #include "JUB_SDK_test_fil.hpp"
+#include "JUB_SDK_test_dot.hpp"
+#include "JUB_SDK_test_ksm.hpp"
 #include "../../include/JUB_CORE.h"
 
 #include "JUB_SDK_main.h"
@@ -217,6 +219,8 @@ try {
         cout << "|                                         |" << endl;
         cout << "|  60.   ETH_test & ETC_test.             |" << endl;
         cout << "|  61.   ETH_Uniswap_test.                |" << endl;
+        cout << "| 354.   DOT_test.                        |" << endl;
+        cout << "| 434.   KSM_test.                        |" << endl;
         cout << "| 461.   FIL_test.                        |" << endl;
         cout << "|                                         |" << endl;
         cout << "| 144.   XRP_test.                        |" << endl;
@@ -299,6 +303,13 @@ try {
         case 61:
             json_file += "testETH_Uniswap.json";
             ETH_test(deviceID, json_file.c_str());
+        case 354:
+            json_file += "testDOT.json";
+            DOT_test(deviceID, json_file.c_str());
+            break;
+        case 434:
+            json_file += "testKSM.json";
+            KSM_test(deviceID, json_file.c_str());
             break;
         case 461:
             json_file += "testFIL.json";
