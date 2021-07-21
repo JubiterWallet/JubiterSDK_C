@@ -350,7 +350,7 @@ void decToBinary(uint8_t n, std::vector<uint8_t> &v) {
     }
 }
 
-JUB_BIP32_PATH spiltMainPath(std::string mainpath,char ch)
+JUB_BIP32_PATH spiltMainPath(std::string mainpath, char ch)
 {
     int start = 0;
     int end = 0;
@@ -381,6 +381,79 @@ JUB_BIP32_PATH spiltMainPath(std::string mainpath,char ch)
         }
     }
     return path;
+}
+
+//Is it A string containing a number
+bool isString(std::string str)
+{
+    if (!str.length()) return false;
+    if (isNumber(str)) {
+        return false;
+    }
+
+    std::regex reg("^[0-9a-zA-Z]+$");
+    if (std::regex_match(str.begin(),str.end(),reg) && str.length() < 10) {
+        return true;
+    } else
+        return false;
+}
+//Is it a Number
+bool isNumber(std::string str)
+{
+    if (!str.length()) return false;
+    std::regex reg("[0-9]+");
+    if (std::regex_match(str.begin(),str.end(),reg)) {
+//        if (atoi(str.c_str()) < 256) return true;
+        return true;
+    }
+    return false;
+}
+
+std::string appendZero(std::string str , int size)
+{
+    if (str.length() >= size) {
+        return str;
+    }
+    
+    for (unsigned long i = str.length(); i < size; i++) {
+        str.append("0");
+    }
+    return str;
+}
+
+
+std::string get_raw_string(std::string const& s)
+{
+    std::ostringstream out;
+    out << std::hex;
+    for (std::string::const_iterator it = s.begin(); it != s.end(); ++it)
+    {
+        out << (static_cast<short>(*it) & 0xff);
+    }
+    return out.str();
+}
+
+void EndianSwap(std::uint8_t *pData, unsigned long length)
+{
+    unsigned long i,cnt,end,start;
+    cnt = length / 2;
+    start = 0;
+    end  = length - 1;
+    std::uint8_t tmp;
+    for (i = 0; i < cnt; i++)
+    {
+        tmp            = pData[start+i];
+        pData[start+i] = pData[end-i];
+        pData[end-i]   = tmp;
+    }
+}
+std::string polkadot_string_to_hex(long long num)
+{
+    std::string hexStr = numberToHexString(num);
+    if (hexStr.length() % 2) {
+        hexStr.insert(0, "0");
+    }
+    return hexStr;
 }
 
 

@@ -24,6 +24,8 @@ class PublicKey {
     /// The number of bytes in a ed25519 public key.
     static const size_t ed25519Size = 32;
 
+    static const size_t ed25519ExtendedSize = 64;
+
     /// The number of bytes in a secp256k1 and nist256p1 extended public key.
     static const size_t secp256k1ExtendedSize = 65;
 
@@ -85,6 +87,9 @@ class PublicKey {
     bool recover(const Data& signature, const Data& message, int *recid);
     /// Recover public key from signature (SECP256k1Extended)
     static PublicKey recover(const Data& signature, const Data& message);
+    
+    /// Check if this key makes a valid ED25519 key (it is on the curve)
+    bool isValidED25519() const;
 };
 
 inline bool operator==(const PublicKey& lhs, const PublicKey& rhs) {

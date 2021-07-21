@@ -26,8 +26,8 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &QTUMContext::Create);
     }
 
-    BTCContext* CreateContext(const CONTEXT_CONFIG_BTC& cfg, JUB_UINT16 deviceID) {
-        auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(cfg.coinType, deviceID);
+    BTCContext* CreateContext(const JUB_UINT16 deviceID, const CONTEXT_CONFIG_BTC& cfg) {
+        auto token = jub::token::BTCseriesTokenFactory::GetInstance()->CreateToken(deviceID, cfg.coinType);
         return Create(cfg.coinType, cfg, token);
     }
 };  // class xBTCContextFactory end

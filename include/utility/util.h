@@ -13,7 +13,8 @@
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include <bigint/BigIntegerLibrary.hh>
 #include <Data.h>
-
+#include <regex>
+#include <map>
 namespace jub {
 
 #define JUB_VERIFY_RET(x, r)    \
@@ -123,6 +124,20 @@ void decToBinary(uint8_t n, std::vector<uint8_t> &v);
  m / purpose' / coin_type' / account' / change / address_index
  */
 JUB_BIP32_PATH spiltMainPath(std::string mainpath,char ch);
+
+//Is it a string or number
+bool isStringOrNumber(std::string str);
+//Is it a string
+bool isString(std::string str);
+//Is it a number
+bool isNumber(std::string str);
+//apeend zero
+std::string appendZero(std::string str, int size);
+//str to ascii str
+std::string get_raw_string(std::string const& s);
+std::string polkadot_string_to_hex(long long num);
+void EndianSwap(std::uint8_t *pData, unsigned long length);
+
 
 } // namespace jub
 

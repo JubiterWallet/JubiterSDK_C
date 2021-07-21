@@ -13,8 +13,8 @@ class TrezorCryptoXRPImpl :
         public TrezorCryptoToken,
 virtual public JubiterBaseXRPImpl {
 public:
-    TrezorCryptoXRPImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoToken(deviceID, JUB_ENUM_CURVES::SECP256K1) {}
+    TrezorCryptoXRPImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoToken(deviceID, curve) {}
     ~TrezorCryptoXRPImpl() {}
 
     //XRP functions

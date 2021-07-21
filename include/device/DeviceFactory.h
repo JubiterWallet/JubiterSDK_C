@@ -221,6 +221,7 @@ public:
         }
         else if (   std::string::npos != name.find(PREFIX_BIO)
                  || std::string::npos != name.find("hpy2")
+                 || std::string::npos != name.find("HPYG2")
                  ) {
             enumDevice = JUB_ENUM_DEVICE::BIO;
         }

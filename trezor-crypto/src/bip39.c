@@ -224,6 +224,39 @@ void mnemonic_to_seed(const char *mnemonic, const char *passphrase, uint8_t seed
 	free(normalized);
 }
 
+// passphrase must be at most 256 characters otherwise it would be truncated
+// Refer to https://github.com/w3f/schnorrkel.git
+void mnemonic_to_mini_secret(const char *mnemonic, const char *passphrase, uint8_t mini_secret[32], void (*progress_callback)(uint32_t current, uint32_t total))
+{
+    uint8_t entropy[32+1] = {0x0,};
+    int entropyBits = mnemonic_to_entropy(mnemonic, entropy);
+    if (0 == entropyBits) {
+        return;
+    }
+
+    size_t entropylen = entropyBits / 8;
+    size_t passphraselen = strnlen(passphrase, 256);
+    uint8_t salt[8 + 256];
+    memcpy(salt, "mnemonic{}", 8);
+    memcpy(salt + 8, passphrase, passphraselen);
+    CONFIDENTIAL PBKDF2_HMAC_SHA512_CTX pctx;
+    pbkdf2_hmac_sha512_Init(&pctx, (const uint8_t *)entropy, entropylen, salt, passphraselen + 8, 1);
+    if (progress_callback) {
+        progress_callback(0, BIP39_PBKDF2_ROUNDS);
+    }
+    for (int i = 0; i < 16; i++) {
+        pbkdf2_hmac_sha512_Update(&pctx, BIP39_PBKDF2_ROUNDS / 16);
+        if (progress_callback) {
+            progress_callback((i + 1) * BIP39_PBKDF2_ROUNDS / 16, BIP39_PBKDF2_ROUNDS);
+        }
+    }
+    uint8_t secret[512 / 8] = {0x00,};
+    pbkdf2_hmac_sha512_Final(&pctx, secret);
+    memzero(salt, sizeof(salt));
+
+    memcpy(mini_secret, secret, 32);
+}
+
 const char * const *mnemonic_wordlist(void)
 {
 	return wordlist;

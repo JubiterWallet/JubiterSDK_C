@@ -13,8 +13,8 @@ class TrezorCryptoHCImpl :
         public TrezorCryptoBTCImpl,
 virtual public JubiterBaseHCImpl {
 public:
-    TrezorCryptoHCImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoBTCImpl(deviceID) {
+    TrezorCryptoHCImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoBTCImpl(deviceID, curve) {
             _hashType = TWHcashSigHashAll;
     }
     ~TrezorCryptoHCImpl() {}

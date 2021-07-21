@@ -253,6 +253,9 @@ JUB_BYTE JubiterLiteImpl::_getSignType(const char *curve_name) {
     if (0 == strcmp(curve_name, ED25519_NAME)) {
         return JUB_ENUM_CURVES::ED25519;
     }
+    if (0 == strcmp(curve_name, CURVE25519_NAME)) {
+        return JUB_ENUM_CURVES::SR25519;
+    }
 
     return JUB_ENUM_CURVES::SECP256K1;
 }

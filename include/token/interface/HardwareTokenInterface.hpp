@@ -20,7 +20,7 @@ virtual public BaseToken {
 public:
     //for Factory
     template<typename T>
-    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
+    static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID, const JUB_ENUM_CURVES) {
         return std::make_shared<T>(deviceID);
     }
 
