@@ -14,3 +14,6 @@
 [submodule "deps/uint256_t"]
 	path = deps/uint256_t
 	url = https://github.com/calccrypto/uint256_t.git
+[submodule "deps/sr25519-crust"]
+	path = deps/sr25519-crust
+	url = https://github.com/Warchant/sr25519-crust.git
