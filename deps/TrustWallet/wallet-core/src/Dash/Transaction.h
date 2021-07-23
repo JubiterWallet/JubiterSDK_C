@@ -34,7 +34,7 @@ struct Transaction :
     void encodeVersion(Data& data) const override;
     // JuBiter-defined
     void decodeVersion(const Data& data, int& index) override;
-}; // struct DashTransaction end
+}; // struct Transaction end
 
 } // namespace TW::Dash
 

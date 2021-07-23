@@ -144,6 +144,7 @@ typedef const JUB_BYTE JUB_PTR      JUB_BYTE_CPTR;
 
 typedef JUB_BYTE JUB_PTR            JUB_BYTE_PTR;
 typedef const JUB_BYTE JUB_PTR      JUB_BYTE_CPTR;
+typedef JUB_INT32 JUB_PTR           JUB_INT32_PTR;
 typedef JUB_UCHAR JUB_PTR           JUB_UCHAR_PTR;
 typedef JUB_UTF8UCHAR JUB_PTR       JUB_UTF8UCHAR_PTR;
 typedef JUB_ULONG JUB_PTR           JUB_ULONG_PTR;

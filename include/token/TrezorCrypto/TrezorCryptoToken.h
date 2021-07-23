@@ -51,7 +51,8 @@ public:
                                           std::string& xpub, std::string& xprv) override;
 
 protected:
-    virtual JUB_RV _HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint);
+   virtual JUB_RV _HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin);
+
 protected:
     JUB_UINT16 _deviceID;
     JUB_ENUM_CURVES _curve;

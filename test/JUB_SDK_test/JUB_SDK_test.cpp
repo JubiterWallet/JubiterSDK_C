@@ -19,6 +19,7 @@
 #include "JUB_SDK_test_fil.hpp"
 #include "JUB_SDK_test_dot.hpp"
 #include "JUB_SDK_test_ksm.hpp"
+#include "JUB_SDK_test_ckb.hpp"
 #include "../../include/JUB_CORE.h"
 
 #include "JUB_SDK_main.h"
@@ -101,7 +102,7 @@ try {
     cout << "| | gRPC config file (ip_bridge.info):                    | |" << endl;
     cout << "| | ip_bridge.info example:                               | |" << endl;
     cout << "| | 192.168.17.60:5001                                    | |" << endl;
-    cout << "|   ------------------------------------------------------  |" << endl;
+    cout << "|  -------------------------------------------------------  |" << endl;
     cout << "| 31. virtual JuBiter Blade test                            |" << endl;
     cout << "| 32. virtual JuBiter Bio   test                            |" << endl;
     cout << "|                                                           |" << endl;
@@ -204,18 +205,25 @@ try {
         cout << "|   1. get_device_info_test               |" << endl;
         cout << "|  11.     device_fgpt_test               |" << endl;
         cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
         }
         cout << "|   2.   LTC_test.                        |" << endl;
         cout << "|   5.  DASH_test.                        |" << endl;
-        cout << "|  30.   BTCTN_test.                      |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|  30. BTCTN_test.                        |" << endl;
         cout << "|  31.   BTC_test.                        |" << endl;
         cout << "|  32.   BTC_segwit_test.                 |" << endl;
-        cout << "|  33.   BTC_segwitTN_test.               |" << endl;
-        cout << "|  39.   BTC_USDT_test.                   |" << endl;
+        cout << "|  33. BTC_segwitTN_test.                 |" << endl;
+        cout << "|  39.     BTC_USDT_test.                 |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|  88.  QTUM_QRC20_test.                  |" << endl;
         cout << "|2301.  QTUM_test.                        |" << endl;
         cout << "| 145.   BCH_test.                        |" << endl;
         cout << "| 171. Hcash_test.                        |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "| 309.   CKB_test.                        |" << endl;
+        cout << "|3090. CKBTN_test.                        |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|  60.   ETH_test & ETC_test.             |" << endl;
         cout << "|  61.   ETH_Uniswap_test.                |" << endl;
@@ -223,12 +231,15 @@ try {
         cout << "| 434.   KSM_test.                        |" << endl;
         cout << "| 461.   FIL_test.                        |" << endl;
         cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
         cout << "| 144.   XRP_test.                        |" << endl;
         cout << "| 194.   EOS_test.                        |" << endl;
         cout << "| 195.   TRX_test.                        |" << endl;
         cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|  98.  send_apdu_test.                   |" << endl;
         cout << "|  99.  get_version.                      |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|   0.  exit.                             |" << endl;
         cout << "-------------------------------------------" << endl;
@@ -292,8 +303,16 @@ try {
             BTC_test(deviceID, json_file.c_str(), COINBCH);
             break;
         case 171:
-            json_file += "testHCash.json";
+            json_file += "testHcash.json";
             HC_test(deviceID, json_file.c_str());
+            break;
+        case 309:
+            json_file += "testCKB.json";
+            CKB_test(deviceID, json_file.c_str());
+            break;
+        case 3090:
+            json_file += "testCKBNT.json";
+            CKB_test(deviceID, json_file.c_str());
             break;
 
         case 60:

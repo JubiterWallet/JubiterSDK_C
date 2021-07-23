@@ -23,7 +23,10 @@
 #include <TrezorCrypto/hasher.h>
 #include <TrezorCrypto/ripemd160.h>
 
-void hasher_InitParam(Hasher *hasher, HasherType type, const void *param, uint32_t param_size) {
+// JuBiter-modified
+int hasher_InitParam(Hasher *hasher, HasherType type, const void *param, uint32_t param_size) {
+    int ret = 0;
+
 	hasher->type = type;
 	hasher->param = param;
 	hasher->param_size = param_size;
@@ -47,10 +50,10 @@ void hasher_InitParam(Hasher *hasher, HasherType type, const void *param, uint32
 		groestl512_Init(&hasher->ctx.groestl);
 		break;
 	case HASHER_BLAKE2B:
-		blake2b_Init(&hasher->ctx.blake2b, 32);
+		ret = blake2b_Init(&hasher->ctx.blake2b, 32);
 		break;
 	case HASHER_BLAKE2B_PERSONAL:
-		blake2b_InitPersonal(&hasher->ctx.blake2b, 32, hasher->param, hasher->param_size);
+        ret = blake2b_InitPersonal(&hasher->ctx.blake2b, 32, hasher->param, hasher->param_size);
 		break;
     case HASHER_SHA2_KECCAK:
         keccak_256_Init(&hasher->ctx.sha3);
@@ -59,17 +62,22 @@ void hasher_InitParam(Hasher *hasher, HasherType type, const void *param, uint32
         keccak_512_Init(&hasher->ctx.sha3);
         break;
 	}
+    return ret;
 }
 
-void hasher_Init(Hasher *hasher, HasherType type) {
-	hasher_InitParam(hasher, type, NULL, 0);
+// JuBiter-modified
+int hasher_Init(Hasher *hasher, HasherType type) {
+	return hasher_InitParam(hasher, type, NULL, 0);
 }
 
-void hasher_Reset(Hasher *hasher) {
-	hasher_InitParam(hasher, hasher->type, hasher->param, hasher->param_size);
+// JuBiter-modified
+int hasher_Reset(Hasher *hasher) {
+	return hasher_InitParam(hasher, hasher->type, hasher->param, hasher->param_size);
 }
 
-void hasher_Update(Hasher *hasher, const uint8_t *data, size_t length) {
+// JuBiter-modified
+int hasher_Update(Hasher *hasher, const uint8_t *data, size_t length) {
+    int ret = 0;
 	switch (hasher->type) {
 	case HASHER_SHA2:
 	case HASHER_SHA2D:
@@ -90,16 +98,19 @@ void hasher_Update(Hasher *hasher, const uint8_t *data, size_t length) {
 		break;
 	case HASHER_BLAKE2B:
 	case HASHER_BLAKE2B_PERSONAL:
-		blake2b_Update(&hasher->ctx.blake2b, data, length);
+		ret = blake2b_Update(&hasher->ctx.blake2b, data, length);
 		break;
 	case HASHER_SHA2_KECCAK:
 	case HASHER_SHA3_KECCAK:
 		keccak_Update(&hasher->ctx.sha3, data, length);
 		break;
 	}
+    return ret;
 }
 
-void hasher_Final(Hasher *hasher, uint8_t hash[HASHER_DIGEST_LENGTH]) {
+// JuBiter-modified
+int hasher_Final(Hasher *hasher, uint8_t hash[HASHER_DIGEST_LENGTH]) {
+    int ret = 0;
 	switch (hasher->type) {
 	case HASHER_SHA2:
 		sha256_Final(&hasher->ctx.sha2, hash);
@@ -134,19 +145,42 @@ void hasher_Final(Hasher *hasher, uint8_t hash[HASHER_DIGEST_LENGTH]) {
 		break;
 	case HASHER_BLAKE2B:
 	case HASHER_BLAKE2B_PERSONAL:
-		blake2b_Final(&hasher->ctx.blake2b, hash, 32);
+		ret = blake2b_Final(&hasher->ctx.blake2b, hash, 32);
 		break;
 	case HASHER_SHA2_KECCAK:
 	case HASHER_SHA3_KECCAK:
-		keccak_Final(&hasher->ctx.sha3, hash);
+        keccak_Final(&hasher->ctx.sha3, hash);
 		break;
 	}
+    return ret;
 }
 
-void hasher_Raw(HasherType type, const uint8_t *data, size_t length, uint8_t hash[HASHER_DIGEST_LENGTH]) {
+// JuBiter-modified
+int hasher_Raw(HasherType type, const uint8_t *data, size_t length, uint8_t hash[HASHER_DIGEST_LENGTH]) {
+    int ret = 0;
 	Hasher hasher;
+	ret = hasher_Init(&hasher, type);
+    if (0 != ret) {
+        return ret;
+    }
+    ret = hasher_Update(&hasher, data, length);
+    if (0 != ret) {
+        return ret;
+    }
+    return hasher_Final(&hasher, hash);
+}
 
-	hasher_Init(&hasher, type);
-	hasher_Update(&hasher, data, length);
-	hasher_Final(&hasher, hash);
+// JuBiter-modified
+int hasher_InitParam_Raw(Hasher *phasher, const uint8_t *data, size_t length, uint8_t hash[HASHER_DIGEST_LENGTH]) {
+    int ret = 0;
+    Hasher hasher;
+    ret = hasher_InitParam(&hasher, phasher->type, phasher->param, phasher->param_size);
+    if (0 != ret) {
+        return ret;
+    }
+    ret = hasher_Update(&hasher, data, length);
+    if (0 != ret) {
+        return ret;
+    }
+    return hasher_Final(&hasher, hash);
 }

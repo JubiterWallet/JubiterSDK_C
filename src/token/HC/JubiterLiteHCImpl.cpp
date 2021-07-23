@@ -14,7 +14,8 @@ JUB_RV JubiterLiteHCImpl::SignTX(const JUB_BYTE addrFmt,
                                  const std::vector<JUB_UINT16>& vChangeIndex,
                                  const std::vector<std::string>& vChangePath,
                                  const std::vector<JUB_BYTE>& vUnsigedTrans,
-                                 std::vector<JUB_BYTE>& vRaw) {
+                                 std::vector<JUB_BYTE>& vRaw,
+                                 const TWCoinType& coinNet) {
 
     bool witness = false;
     if (p2sh_p2wpkh == type) {
@@ -36,7 +37,8 @@ JUB_RV JubiterLiteHCImpl::SignTX(const JUB_BYTE addrFmt,
                           vChangePath,
                           tx,
                           vInputPublicKey,
-                          vSignatureRaw));
+                          vSignatureRaw,
+                          coinNet));
 
     uchar_vector signedRaw;
     JUB_VERIFY_RV(_serializeTx(!witness,

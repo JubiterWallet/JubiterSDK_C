@@ -100,18 +100,18 @@ JUB_RV JubiterBladeFILImpl::SignTX(const uint64_t& nonce,
         // nonce
         apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_NONCE_41, TW::encodeBENoZero(nonce));
         // value
-        auto loadingZero = [](const uint256_t& x) -> TW::Data {
+        auto lambdaLoadingZero = [](const uint256_t& x) -> TW::Data {
             auto bytes = TW::encodeBENoZero(x);
             bytes.insert(bytes.begin(), 0);
             return bytes;
         };
-        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_VALUE_45, loadingZero(value));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_VALUE_45, lambdaLoadingZero(value));
         // gas limit
-        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_LIMIT_43, loadingZero(glimit));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_LIMIT_43, lambdaLoadingZero(glimit));
         // gas fee cap
-        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_FEE_CAP_4E, loadingZero(gfeeCap));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_FEE_CAP_4E, lambdaLoadingZero(gfeeCap));
         // gas premium
-        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_PREMIUM_4F, loadingZero(gpremium));
+        apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_GAS_PREMIUM_4F, lambdaLoadingZero(gpremium));
         // abi.MethodNum (0 => send)
         apduData << ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_ABI_METHODNUM_4C, {0x00});
         // data (empty)

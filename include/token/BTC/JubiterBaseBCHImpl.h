@@ -14,10 +14,10 @@ public:
         _coin = TWCoinType::TWCoinTypeBitcoinCash;
     };
 
-    virtual JUB_RV CheckAddress(const std::string& address) override;
+    virtual JUB_RV CheckAddress(const std::string& address, const TWCoinType& coinNet) override;
 
 protected:
-    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address) override;
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) override;
 
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,

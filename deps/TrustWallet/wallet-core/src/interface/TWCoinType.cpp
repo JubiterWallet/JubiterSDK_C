@@ -308,6 +308,7 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
     case TWCoinTypeLitecoin:
     case TWCoinTypeTron:
     case TWCoinTypeFilecoin:
+    case TWCoinTypeNervosCKB:
         hdVersionPublic = TWHDVersionXPUB;
         if (witness) {
             hdVersionPublic = TWHDVersionYPUB;
@@ -391,6 +392,7 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
     case TWCoinTypeLitecoin:
     case TWCoinTypeTron:
     case TWCoinTypeFilecoin:
+    case TWCoinTypeNervosCKB:
         hdVersionPrivate = TWHDVersionXPRV;
         if (witness) {
             hdVersionPrivate = TWHDVersionYPRV;

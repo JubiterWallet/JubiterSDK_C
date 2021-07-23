@@ -3,6 +3,7 @@
 #define __ContextBTC__
 
 #include "JUB_SDK_BTC.h"
+#include "JUB_SDK_CKB.h"
 
 #include <string>
 #include <vector>
@@ -29,6 +30,15 @@ public:
            _transType = cfg.transType;
             _unitType = mBTC;
             _coinType = cfg.coinType;
+            _timeout = 120 * 2;
+            _coinNet = TWCoinType::TWCoinTypeBitcoin;
+    }
+    BTCContext(JUB_CHAR_CPTR mainPath, const JUB_ENUM_COINTYPE_BTC& coinType, std::shared_ptr<token::BaseToken> tokenPtr):
+        BaseContext(tokenPtr) {
+            _mainPath = mainPath;
+           _transType = p2pkh;//p2sh_p2wpkh;
+            _unitType = mBTC;
+            _coinType = coinType;
             _timeout = 120 * 2;
     }
     ~BTCContext() {}

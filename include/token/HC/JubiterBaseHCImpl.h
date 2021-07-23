@@ -21,15 +21,17 @@ public:
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,
-                                       uchar_vector& unsignedRaw) override;
+                                       uchar_vector& unsignedRaw,
+                                       const TWCoinType& coinNet) override;
 
 protected:
     virtual JUB_RV _verifyTx(const bool witness,
-                            const uchar_vector& signedRaw,
-                            const std::vector<JUB_UINT64>& vInputAmount,
-                            const std::vector<TW::Data>& vInputPublicKey) override;
+                             const uchar_vector& signedRaw,
+                             const std::vector<JUB_UINT64>& vInputAmount,
+                             const std::vector<TW::Data>& vInputPublicKey,
+                             const TWCoinType& coinNet) override;
 
-    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address) override;
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) override;
 
     virtual JUB_RV _verifyTx(const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,

@@ -35,7 +35,7 @@ constexpr JUB_BYTE kMainnetP2SH_P2WPKH = 0x04;
 #define APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION "01090205"
 
 
-JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
+JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub, const TWCoinType& coinNet) {
 
     JUB_BYTE p2 = 0x00;
     switch (type) {
@@ -67,7 +67,8 @@ JUB_RV JubiterBladeBTCImpl::GetAddress(const JUB_BYTE addrFmt,
                                        const JUB_ENUM_BTC_TRANS_TYPE& type,
                                        const std::string& path,
                                        const JUB_UINT16 tag,
-                                       std::string& address) {
+                                       std::string& address,
+                                       const TWCoinType& coinNet) {
 
     JUB_BYTE p1 = (JUB_BYTE)tag;
     if (_isSupportLegacyAddress()) {
@@ -160,7 +161,8 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
                                    const std::vector<JUB_UINT16>& vChangeIndex,
                                    const std::vector<std::string>& vChangePath,
                                    const std::vector<JUB_BYTE>& vUnsigedTrans,
-                                   std::vector<JUB_BYTE>& vRaw) {
+                                   std::vector<JUB_BYTE>& vRaw,
+                                   const TWCoinType& coinNet) {
     //SWITCH_TO_BTC_APP
 
     constexpr JUB_UINT32 kSendOnceLen = 230;
@@ -300,7 +302,8 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt,
 JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                      const std::vector<JUB_UINT64>& vInputAmount,
                                      const std::vector<std::string>& vInputPath,
-                                     const std::vector<JUB_BYTE>& vSigedTrans) {
+                                     const std::vector<JUB_BYTE>& vSigedTrans,
+                                     const TWCoinType& coinNet) {
 
     bool witness = false;
     if (p2sh_p2wpkh == type) {
@@ -308,14 +311,14 @@ JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
     }
 
     // verify signature
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin,  witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin, witness);
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic( (coinNet?coinNet:_coin), witness);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet?coinNet:_coin), witness);
 
     JUB_RV rv = JUBR_ERROR;
     std::vector<TW::Data> vInputPublicKey;
     for (const auto& inputPath:vInputPath) {
         std::string xpub;
-        rv = GetHDNode(type, inputPath, xpub);
+        rv = GetHDNode(type, inputPath, xpub, coinNet);
         if (JUBR_OK != rv) {
             break;
         }
@@ -336,7 +339,8 @@ JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
     return _verifyTx(witness,
                      vSigedTrans,
                      vInputAmount,
-                     vInputPublicKey);
+                     vInputPublicKey,
+                     coinNet);
 }
 
 

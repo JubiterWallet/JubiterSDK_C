@@ -45,6 +45,7 @@ enum TWCoinType {
     TWCoinTypeHcash = 171,
     TWCoinTypeICON = 74,
     TWCoinTypeIoTeX = 304,
+    TWCoinTypeNervosCKB = 309,
     TWCoinTypeKava = 459,
     TWCoinTypeKin = 2017,
     TWCoinTypeLitecoin = 2,
@@ -126,10 +127,11 @@ enum TWCoinType {
 //TWString *_Nonnull TWCoinTypeDeriveAddressFromPublicKey(enum TWCoinType coin,
 //                                                        struct TWPublicKey *_Nonnull publicKey);
 
+// JuBiter-defined
 /// HRP for this coin type
 TW_EXPORT_PROPERTY
 //enum TWHRP TWCoinTypeHRP(enum TWCoinType coin);
-TWHRP TWCoinTypeHRP(enum TWCoinType coin);
+TWHRP TWCoinTypeHRP(enum TWCoinType coin, enum TWCoinType coinNet=TWCoinType::TWCoinTypeBitcoinTestNet);
 
 /// P2PKH prefix for this coin type
 TW_EXPORT_PROPERTY
