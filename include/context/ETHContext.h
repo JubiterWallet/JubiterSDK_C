@@ -72,6 +72,9 @@ public:
     virtual JUB_RV SetERC721ETHToken(JUB_CHAR_CPTR pTokenName,
                                      JUB_CHAR_CPTR pContractAddress);
 
+    virtual JUB_RV BuildERC1155TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, JUB_CHAR_CPTR value, JUB_CHAR_CPTR data, std::string& abi);
+    virtual JUB_RV BuildERC1155BatchTransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, std::vector<std::string>& tokenIDs, std::vector<std::string>& values, JUB_CHAR_CPTR data, std::string& abi);
+
     virtual JUB_RV ActiveSelf() override;
 
 private:

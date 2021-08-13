@@ -728,6 +728,9 @@
 		77B1C4F7265F81D00093E7A9 /* JubiterBIOEOSImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B1C4F5265F81D00093E7A9 /* JubiterBIOEOSImpl.cpp */; };
 		77B1C4F9265F81DC0093E7A9 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B1C4F8265F81DC0093E7A9 /* JubiterBIOXRPImpl.cpp */; };
 		77B1C4FA265F81DC0093E7A9 /* JubiterBIOXRPImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B1C4F8265F81DC0093E7A9 /* JubiterBIOXRPImpl.cpp */; };
+		77FE725D26C50AFD0011176C /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77FE725B26C50AFD0011176C /* ERC1155Abi.h */; };
+		77FE725E26C50AFD0011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE725C26C50AFD0011176C /* ERC1155Abi.cpp */; };
+		77FE725F26C50AFD0011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE725C26C50AFD0011176C /* ERC1155Abi.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1260,6 +1263,8 @@
 		77B1C4E5265F809D0093E7A9 /* ERC721Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC721Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.h"; sourceTree = "<group>"; };
 		77B1C4F5265F81D00093E7A9 /* JubiterBIOEOSImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOEOSImpl.cpp; path = ../../src/token/EOS/JubiterBIOEOSImpl.cpp; sourceTree = "<group>"; };
 		77B1C4F8265F81DC0093E7A9 /* JubiterBIOXRPImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOXRPImpl.cpp; path = ../../src/token/XRP/JubiterBIOXRPImpl.cpp; sourceTree = "<group>"; };
+		77FE725B26C50AFD0011176C /* ERC1155Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC1155Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.h"; sourceTree = "<group>"; };
+		77FE725C26C50AFD0011176C /* ERC1155Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC1155Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.cpp"; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -2186,6 +2191,8 @@
 				675B056B24286B54004C62D4 /* ERC20Abi.h */,
 				77B1C4E4265F809D0093E7A9 /* ERC721Abi.cpp */,
 				77B1C4E5265F809D0093E7A9 /* ERC721Abi.h */,
+				77FE725C26C50AFD0011176C /* ERC1155Abi.cpp */,
+				77FE725B26C50AFD0011176C /* ERC1155Abi.h */,
 				675B056C24286B54004C62D4 /* RLP.cpp */,
 				675B057324286B55004C62D4 /* RLP.h */,
 				675B057024286B54004C62D4 /* Signer.cpp */,
@@ -2697,6 +2704,7 @@
 				67E0DE42250F19B700D42EF0 /* Transaction.h in Headers */,
 				67E0DE1E250F186100D42EF0 /* XXHash64.h in Headers */,
 				6763935E253464A800C41883 /* Tron.pb.h in Headers */,
+				77FE725D26C50AFD0011176C /* ERC1155Abi.h in Headers */,
 				6718A3BF23A3394000F8A5CD /* ed25519-donna-32bit-tables.h in Headers */,
 				6745C8F0254A661E00D49A75 /* JubiterBIOTRXImpl.h in Headers */,
 				6718A3BC23A3394000F8A5CD /* curve25519-donna-32bit.h in Headers */,
@@ -2829,6 +2837,7 @@
 				67E0DE37250F19B700D42EF0 /* Name.cpp in Sources */,
 				675B056124286B30004C62D4 /* TWHcash.cpp in Sources */,
 				6718A41E23A339ED00F8A5CD /* JUB_SDK_ETH.cpp in Sources */,
+				77FE725F26C50AFD0011176C /* ERC1155Abi.cpp in Sources */,
 				6718A38E23A3391100F8A5CD /* ed25519-sha3.c in Sources */,
 				6745C8E0254A654500D49A75 /* JUB_SDK_TRX.cpp in Sources */,
 				775FD4E52626DDA300D12DDC /* BigIntegerAlgorithms.cc in Sources */,
@@ -3158,6 +3167,7 @@
 				674F1A0923A1080A001702DD /* curve25519-donna-helpers.c in Sources */,
 				6713A82F23A07B760083A34D /* HDKey.cpp in Sources */,
 				675B05432428698C004C62D4 /* JubiterBaseETHImpl.cpp in Sources */,
+				77FE725E26C50AFD0011176C /* ERC1155Abi.cpp in Sources */,
 				670B8FDF2433390200E8EF5C /* JubiterNFCDevice.cpp in Sources */,
 				77AD32392680659F00888326 /* Base64.cpp in Sources */,
 				7771CC8D26789A2A00081F28 /* TrezorCryptoFILImpl.cpp in Sources */,
@@ -3255,7 +3265,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3322,7 +3332,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

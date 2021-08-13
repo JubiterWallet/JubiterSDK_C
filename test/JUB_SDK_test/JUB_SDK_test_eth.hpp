@@ -30,6 +30,12 @@ JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root);
 void   transaction_test_ERC721_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transaction_proc_ERC721_ETH(JUB_UINT16 contextID, Json::Value root);
 
+void   transaction_test_ERC1155_ETH(JUB_UINT16 contextID, Json::Value root);
+JUB_RV transaction_proc_ERC1155_ETH(JUB_UINT16 contextID, Json::Value root);
+
+void   batch_transaction_test_ERC1155_ETH(JUB_UINT16 contextID, Json::Value root);
+JUB_RV batch_transaction_proc_ERC1155_ETH(JUB_UINT16 contextID, Json::Value root);
+
 void   transaction_test_contr_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transaction_proc_contr_ETH(JUB_UINT16 contextID, Json::Value root);
 

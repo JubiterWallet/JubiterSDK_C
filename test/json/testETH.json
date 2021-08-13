@@ -44,6 +44,48 @@
           "addressIndex" : 0
       }
   },
+  "ERC1155" : {
+      "txURL" : "https://etherscan.io/tx/0x1b96ae2b8cefe340f63483ecd0974847c436c5e98589ea66565ad8a9cc3b1642",
+      "nonce" : 839,
+      "gasLimit" : 117519,
+      "gasPriceInWei" : "15015000000",
+      "token_from" : "0x234bab2648ca50fe14b8495bf77a923585105b57",
+      "token_to" : "0x495f947276749ce646f68ac8c248420045cb7b5e",
+      "tokenID" : "15964644461041690086133326033378316518285955682928151354486469200313118097409",
+      "token_value" : "1",
+      "tokenName" : "OpenSea",
+      "contract_address" : "0x495f947276749ce646f68ac8c248420045cb7b5e",
+      "data" : "",
+      "bip32_path" : {
+          "change" : false,
+          "addressIndex" : 0
+      }
+  },
+  "ERC1155Batch" : {
+      "txURL" : "https://etherscan.io/tx/0x418e649179df1c36667432bc30a300b3e140f980bc8fe36d89f1e3d8864e6592",
+      "nonce" : 751,
+      "gasLimit" : 408542,
+      "gasPriceInWei" : "19400000000",
+      "token_from" : "0xa9ae76103f8d246df076756426bbe81ae75a4377",
+      "token_to" : "0xaa1cc5543c558524c3db21d219fcee58af054f2c",
+      "tokenIDs" : [
+          "7237005577332271962312181618558220477810348283108479459424104253140169129984",
+          "7237005577332272188287844092478727975898767518584470439108900253845411594240",
+          "7237005577332273562973124142161815255936651201063415565524742591468969918464",
+          "7237005577332271949757978147784858950138769436693146627219393364212100104192",
+          "7237005577332272225950454504798812558913504057830468935723032920629618671616"
+      ],
+      "token_values" : [
+          "1", "1", "2", "1", "1"
+      ],
+      "tokenName" : "EnjinCoin",
+      "contract_address" : "0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c",
+      "data" : "",
+      "bip32_path" : {
+          "change" : false,
+          "addressIndex" : 0
+      }
+  },
   "contract" : {
       "nonce" : 190,
       "gasLimit" : 298964,

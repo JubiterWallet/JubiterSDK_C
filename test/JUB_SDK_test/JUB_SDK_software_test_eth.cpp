@@ -158,6 +158,16 @@ void software_test_eth(const char* json_sw_file, const char* json_file) {
         return;
     }
 
+    rv = transaction_proc_ERC1155_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = batch_transaction_proc_ERC1155_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
     rv = bytestring_proc_ETH(contextID, root);
     if (JUBR_OK != rv) {
         return;

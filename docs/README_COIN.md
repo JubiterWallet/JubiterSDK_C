@@ -36,6 +36,8 @@ Function list:
     * [JUB_BuildERC20TransferAbiETH](#JUB_BuildERC20TransferAbiETH)
     * [JUB_SetERC721TokenETH](#JUB_SetERC721TokenETH)
     * [JUB_BuildERC721TransferAbiETH](#JUB_BuildERC721TransferAbiETH)
+    * [JUB_BuildERC1155TransferAbiETH](#JUB_BuildERC1155TransferAbiETH)
+    * [JUB_BuildERC1155BatchTransferAbiETH](#JUB_BuildERC1155BatchTransferAbiETH)
     * [JUB_SignContractETH](#JUB_SignContractETH)
 * **EOS related module**
     * [JUB_SignTransactionEOS](#JUB_SignTransactionEOS)
@@ -251,7 +253,7 @@ gasLimit - gas limit.
 gasPriceInWei - gas price in Wei.
 to - to address.
 valueInWei - amount in Wei of ETH tx.
-input - empyt string for ETH tx or ERC-20 ABI from JUB_BuildERC20TransferAbiETH.
+input - empyt string for ETH tx or ERC-20/721/1155 ABI from JUB_BuildERC20(721/1155)TransferAbiETH.
 * **OUT param:**
 raw - signed ETH/ETH token tx.
 * **Return:** JUB_OK or !JUB_OK for error.
@@ -314,7 +316,7 @@ nfTokenName - ERC-721 token name.
 contractAddress - contract address for ERC-721.
 * **OUT param:** none.
 **Return:** JUB_OK or !JUB_OK for error.
-**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-721 token transactions.
+**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-721/1155 token transactions.
 ```
 JUB_RV JUB_SetERC721TokenETH(
     IN JUB_UINT16 contextID,
@@ -333,13 +335,63 @@ tokenID - ERC-721 token ID.
 abi - ERC-721 ABI.
 
 **Return:** JUB_OK or !JUB_OK for error.
-**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-721 token transactions.
+**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-721/1155 token transactions.
 ```
-JUB_RV JUB_BuildERC20TransferAbiETH(
+JUB_RV JUB_BuildERC721TransferAbiETH(
     IN JUB_UINT16 contextID,
     IN JUB_CHAR_CPTR tokenFrom,
     IN JUB_CHAR_CPTR tokenTo,
     IN JUB_CHAR_CPTR tokenID,
+    OUT JUB_CHAR_PTR_PTR abi);
+```
+
+### JUB_BuildERC1155TransferAbiETH
+* **Function:** Build ETH ERC-1155 ABI.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
+tokenFrom - ERC-1155 token from address.
+tokenTo - ERC-1155 token to address.
+tokenID - ERC-1155 token ID.
+tokenValue - ERC-1155 token value.
+data - call data for ERC-1155 token.
+* **OUT param:**
+abi - ERC-1155 ABI.
+
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-1155 token transactions.
+```
+JUB_RV JUB_BuildERC1155TransferAbiETH(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR tokenFrom,
+    IN JUB_CHAR_CPTR tokenTo,
+    IN JUB_CHAR_CPTR tokenID,
+    IN JUB_CHAR_CPTR tokenValue,
+    IN JUB_CHAR_CPTR data,
+    OUT JUB_CHAR_PTR_PTR abi);
+```
+
+### JUB_BuildERC1155BatchTransferAbiETH
+* **Function:** Build ETH ERC-1155 ABI.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
+tokenFrom - ERC-1155 token from address.
+tokenTo - ERC-1155 token to address.
+tokenIDs - ERC-1155 token IDs (tokenID list).
+tokenValues - ERC-1155 token values (token value list).
+data - call data for ERC-1155 token.
+* **OUT param:**
+abi - ERC-1155 ABI.
+
+**Return:** JUB_OK or !JUB_OK for error.
+**Note:** Used in conjunction with JUB_SignTransactionETH for ERC-1155 token batch transactions.
+```
+JUB_RV JUB_BuildERC1155BatchTransferAbiETH(
+    IN JUB_UINT16 contextID,
+    IN JUB_CHAR_CPTR tokenFrom,
+    IN JUB_CHAR_CPTR tokenTo,
+    IN JUB_CHAR_CPTR tokenIDs[], IN JUB_UINT16 idCount,
+    IN JUB_CHAR_CPTR tokenValues[], IN JUB_UINT16 valueCount,
+    IN JUB_CHAR_CPTR data,
     OUT JUB_CHAR_PTR_PTR abi);
 ```
 
