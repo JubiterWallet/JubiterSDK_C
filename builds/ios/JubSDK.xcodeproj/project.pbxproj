@@ -820,6 +820,9 @@
 		77AD324E2680728200888326 /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD324D2680728200888326 /* uint256.h */; };
 		77CFBAD12682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */; };
 		77CFBAD22682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */; };
+		77FE726A26C64C860011176C /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77FE726826C64C850011176C /* ERC1155Abi.h */; };
+		77FE726B26C64C860011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE726926C64C850011176C /* ERC1155Abi.cpp */; };
+		77FE726C26C64C860011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE726926C64C850011176C /* ERC1155Abi.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1420,6 +1423,8 @@
 		77AD32492680725D00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
 		77AD324D2680728200888326 /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256.h; path = "../../deps/TrustWallet/wallet-core/src/uint256.h"; sourceTree = "<group>"; };
 		77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
+		77FE726826C64C850011176C /* ERC1155Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC1155Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.h"; sourceTree = "<group>"; };
+		77FE726926C64C850011176C /* ERC1155Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC1155Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.cpp"; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -2368,6 +2373,8 @@
 				675B056B24286B54004C62D4 /* ERC20Abi.h */,
 				772B68A226738468007D789B /* ERC721Abi.cpp */,
 				772B68A326738468007D789B /* ERC721Abi.h */,
+				77FE726926C64C850011176C /* ERC1155Abi.cpp */,
+				77FE726826C64C850011176C /* ERC1155Abi.h */,
 				675B056C24286B54004C62D4 /* RLP.cpp */,
 				675B057324286B55004C62D4 /* RLP.h */,
 				675B057024286B54004C62D4 /* Signer.cpp */,
@@ -2748,6 +2755,7 @@
 				6718A02323A213F200F8A5CD /* JUB_SDK_BTC.h in Headers */,
 				6718A02923A213F200F8A5CD /* JUB_SDK_ETH.h in Headers */,
 				677DF32124DD1BD1001920A9 /* JubiterBIOETHImpl.h in Headers */,
+				77FE726A26C64C860011176C /* ERC1155Abi.h in Headers */,
 				677DF31E24DC0B88001920A9 /* BLETemplate.h in Headers */,
 				6718A02B23A213F200F8A5CD /* JUB_SDK_XRP.h in Headers */,
 				772B687626738295007D789B /* NumberlikeArray.hh in Headers */,
@@ -3307,6 +3315,7 @@
 				675B056324286B30004C62D4 /* TWHRP.cpp in Sources */,
 				6746216C23C319FA0096DDA2 /* JubiterBladeBTCImpl.cpp in Sources */,
 				6718A38223A3391100F8A5CD /* curve25519-donna-helpers.c in Sources */,
+				77FE726C26C64C860011176C /* ERC1155Abi.cpp in Sources */,
 				676C23DB257126E9008A6297 /* Signer.cpp in Sources */,
 				67639373253464D600C41883 /* asset_issue_contract.pb.cc in Sources */,
 				675B053624286909004C62D4 /* JubiterLiteQTUMImpl.cpp in Sources */,
@@ -3538,6 +3547,7 @@
 				6713A8FB23A0831F0083A34D /* memzero.c in Sources */,
 				67E0DE36250F19B700D42EF0 /* Name.cpp in Sources */,
 				325B55CE249E66FC002A0616 /* scp11.cpp in Sources */,
+				77FE726B26C64C860011176C /* ERC1155Abi.cpp in Sources */,
 				675B053B24286970004C62D4 /* JubiterBaseEOSImpl.cpp in Sources */,
 				674F1A0923A1080A001702DD /* curve25519-donna-helpers.c in Sources */,
 				6713A82F23A07B760083A34D /* HDKey.cpp in Sources */,

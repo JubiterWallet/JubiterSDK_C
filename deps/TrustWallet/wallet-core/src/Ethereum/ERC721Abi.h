@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <cstdint>
 #include <string>
+#include <uint256_t/uint256_t.h>
+#include <uint256.h>
 
 #include "ERC20Abi.h"
 
@@ -88,13 +90,15 @@
 namespace jub {
 namespace eth {
 
+std::vector<uint8_t> toTwosComplement(const uint256_t& number);
+std::vector<uint8_t> toTwosComplement(const std::string& number, const uint8_t base);
 
 class ERC721Abi {
 public:
     virtual ~ERC721Abi();
 
-    static std::vector<uint8_t> serialize(const std::vector<uint8_t>& from, const std::vector<uint8_t>& to, const std::vector<uint8_t>& tokenID, const std::string methodID=ERC721_ABI_METHOD_ID_TRANSFER_FROM);
-    static std::vector<uint8_t> serialize(const std::vector<uint8_t>& from, const std::vector<uint8_t>& to, const std::vector<uint8_t>& tokenID, const std::vector<uint8_t>& data, const std::string methodID=ERC721_ABI_METHOD_ID_TRANSFER_FROM);
+    static std::vector<uint8_t> serialize(const std::vector<uint8_t>& from, const std::vector<uint8_t>& to, const std::string& tokenID, const std::string methodID=ERC721_ABI_METHOD_ID_TRANSFER_FROM);
+    static std::vector<uint8_t> serialize(const std::vector<uint8_t>& from, const std::vector<uint8_t>& to, const std::string& tokenID, const std::vector<uint8_t>& data, const std::string methodID=ERC721_ABI_METHOD_ID_TRANSFER_FROM);
 }; // class ERC721Abi end
 
 

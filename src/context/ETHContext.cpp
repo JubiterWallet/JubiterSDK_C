@@ -3,10 +3,9 @@
 #include "token/JubiterBIO/JubiterBIOToken.h"
 #include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/ETHTokenInterface.hpp"
-#include <uint256_t/uint256_t.h>
-#include <uint256.h>
 #include <Ethereum/ERC20Abi.h>
 #include <Ethereum/ERC721Abi.h>
+#include <Ethereum/ERC1155Abi.h>
 #include "utility/util.h"
 
 
@@ -353,11 +352,7 @@ JUB_RV ETHContext::BuildERC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, 
     std::vector<JUB_BYTE> vFrom = jub::ETHHexStr2CharPtr(from);
     std::vector<JUB_BYTE> vTo   = jub::ETHHexStr2CharPtr(to);
 
-    uint256_t tokenID(pTokenID, 10);
-    TW::Data vTokenID;
-    TW::encode256BE(vTokenID, tokenID, 256);
-
-    uchar_vector vAbi = jub::eth::ERC721Abi::serialize(vFrom, vTo, vTokenID);
+    uchar_vector vAbi = jub::eth::ERC721Abi::serialize(vFrom, vTo, std::string(pTokenID));
     abi = std::string(ETH_PRDFIX) + vAbi.getHex();
 
     return JUBR_OK;
@@ -381,6 +376,46 @@ JUB_RV ETHContext::SetERC721ETHToken(JUB_CHAR_CPTR pTokenName,
     std::string contractAddress = uchar_vector(ETHHexStr2CharPtr(pContractAddress)).getHex();
     JUB_VERIFY_RV(token->SetERC721ETHToken(tokenName,
                                            contractAddress));
+
+    return JUBR_OK;
+}
+
+
+JUB_RV ETHContext::BuildERC1155TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, JUB_CHAR_CPTR value, JUB_CHAR_CPTR data, std::string& abi) {
+
+    CONTEXT_CHECK_TYPE_NONE
+
+    std::vector<JUB_BYTE> vFrom = jub::ETHHexStr2CharPtr(from);
+    std::vector<JUB_BYTE> vTo   = jub::ETHHexStr2CharPtr(to);
+
+    uchar_vector vAbi;
+    if (0 == std::string("").compare(data)) {
+        vAbi = jub::eth::ERC1155Abi::serialize(vFrom, vTo, std::string(pTokenID), std::string(value));
+    }
+    else {
+        vAbi = jub::eth::ERC1155Abi::serialize(vFrom, vTo, std::string(pTokenID), std::string(value), uchar_vector(data));
+    }
+    abi = std::string(ETH_PRDFIX) + vAbi.getHex();
+
+    return JUBR_OK;
+}
+
+
+JUB_RV ETHContext::BuildERC1155BatchTransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, std::vector<std::string>& tokenIDs, std::vector<std::string>& values, JUB_CHAR_CPTR data, std::string& abi) {
+
+    CONTEXT_CHECK_TYPE_NONE
+
+    std::vector<JUB_BYTE> vFrom = jub::ETHHexStr2CharPtr(from);
+    std::vector<JUB_BYTE> vTo   = jub::ETHHexStr2CharPtr(to);
+
+    uchar_vector vAbi;
+    if (0 == std::string("").compare(data)) {
+        vAbi = jub::eth::ERC1155Abi::serialize(vFrom, vTo, tokenIDs, values);
+    }
+    else {
+        vAbi = jub::eth::ERC1155Abi::serialize(vFrom, vTo, tokenIDs, values, uchar_vector(data));
+    }
+    abi = std::string(ETH_PRDFIX) + vAbi.getHex();
 
     return JUBR_OK;
 }
