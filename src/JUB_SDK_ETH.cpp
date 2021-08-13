@@ -389,3 +389,66 @@ JUB_RV JUB_BuildERC721TransferAbiETH(IN JUB_UINT16 contextID,
 
     return JUBR_OK;
 }
+
+
+/*****************************************************************************
+ * @function name : JUB_BuildERC1155TransferAbiETH
+ * @in  param : contextID - context ID
+ *          : tokenFrom - Source address
+ *          : tokenTo - Target address
+ *          : tokenID - ID of the token type
+ *          : tokenValue - Transfer amount
+ *          : data - Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
+ * @out param : abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildERC1155TransferAbiETH(IN JUB_UINT16 contextID,
+                                      IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo,
+                                      IN JUB_CHAR_CPTR tokenID, IN JUB_CHAR_CPTR tokenValue, IN JUB_CHAR_CPTR data,
+                                      OUT JUB_CHAR_PTR_PTR abi) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string strAbi;
+    JUB_VERIFY_RV(context->BuildERC1155TransferAbi(tokenFrom, tokenTo, tokenID, tokenValue, data, strAbi));
+    JUB_VERIFY_RV(_allocMem(abi, strAbi));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_BuildERC1155BatchTransferAbiETH
+ * @in  param : contextID - context ID
+ *          : tokenFrom - Source address
+ *          : tokenTo - Target address
+ *          : tokenID[] - IDs of each token type (order and length must match _values array)
+ *          : tokenValue[] - Transfer amounts per token type (order and length must match _ids array)
+ *          : data - Additional data with no specified format, MUST be sent unaltered in call to `onERC1155Received` on `_to`
+ * @out param : abi
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_BuildERC1155BatchTransferAbiETH(IN JUB_UINT16 contextID,
+                                           IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo,
+                                           IN JUB_CHAR_CPTR tokenIDs[], IN JUB_UINT16 idCount,
+                                           IN JUB_CHAR_CPTR tokenValues[], IN JUB_UINT16 valueCount,
+                                           IN JUB_CHAR_CPTR data,
+                                           OUT JUB_CHAR_PTR_PTR abi) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::vector<std::string> vTokenIDs(tokenIDs, tokenIDs + idCount);
+    std::vector<std::string> vValues(tokenValues, tokenValues + valueCount);
+
+    std::string strAbi;
+    JUB_VERIFY_RV(context->BuildERC1155BatchTransferAbi(tokenFrom, tokenTo, vTokenIDs, vValues, data, strAbi));
+    JUB_VERIFY_RV(_allocMem(abi, strAbi));
+
+    return JUBR_OK;
+}

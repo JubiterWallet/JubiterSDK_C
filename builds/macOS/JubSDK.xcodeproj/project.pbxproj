@@ -1038,6 +1038,10 @@
 		77E926BF26AAB2C8002DF781 /* TransactionCellOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E926A226AAB2C7002DF781 /* TransactionCellOutput.h */; };
 		77E926C026AAB2C8002DF781 /* TransactionCellOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77E926A326AAB2C7002DF781 /* TransactionCellOutput.cpp */; };
 		77E926C126AAB2C8002DF781 /* TransactionCellOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77E926A326AAB2C7002DF781 /* TransactionCellOutput.cpp */; };
+		77FE726426C64B590011176C /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77FE726226C64B580011176C /* ERC1155Abi.h */; };
+		77FE726526C64B590011176C /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77FE726226C64B580011176C /* ERC1155Abi.h */; };
+		77FE726626C64B590011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE726326C64B580011176C /* ERC1155Abi.cpp */; };
+		77FE726726C64B590011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE726326C64B580011176C /* ERC1155Abi.cpp */; };
 		C328A0EB26A800E80081B7AF /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C328A0EA26A800E70081B7AF /* JubiterBIOETHImpl.cpp */; };
 		C328A0EC26A800E80081B7AF /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C328A0EA26A800E70081B7AF /* JubiterBIOETHImpl.cpp */; };
 		C328A0F126A801360081B7AF /* TransactionInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B85F02695783C003F7CF1 /* TransactionInput.cpp */; };
@@ -1686,6 +1690,8 @@
 		77E926A126AAB2C7002DF781 /* Script.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Script.cpp; path = "../../deps/TrustWallet/wallet-core/src/NervosCKB/Script.cpp"; sourceTree = "<group>"; };
 		77E926A226AAB2C7002DF781 /* TransactionCellOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionCellOutput.h; path = "../../deps/TrustWallet/wallet-core/src/NervosCKB/TransactionCellOutput.h"; sourceTree = "<group>"; };
 		77E926A326AAB2C7002DF781 /* TransactionCellOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransactionCellOutput.cpp; path = "../../deps/TrustWallet/wallet-core/src/NervosCKB/TransactionCellOutput.cpp"; sourceTree = "<group>"; };
+		77FE726226C64B580011176C /* ERC1155Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC1155Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.h"; sourceTree = "<group>"; };
+		77FE726326C64B580011176C /* ERC1155Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC1155Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.cpp"; sourceTree = "<group>"; };
 		C328A0EA26A800E70081B7AF /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
 		C38A23E426830BF6003F4BAF /* JUB_SDK_DOT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_DOT.h; path = ../../include/JUB_SDK_DOT.h; sourceTree = "<group>"; };
 		C38A23E926830C04003F4BAF /* JUB_SDK_KSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_KSM.h; path = ../../include/JUB_SDK_KSM.h; sourceTree = "<group>"; };
@@ -2203,6 +2209,8 @@
 				676B42EA2410A22900EBB44D /* ERC20Abi.h */,
 				77B1C4EA265F80B80093E7A9 /* ERC721Abi.cpp */,
 				77B1C4E9265F80B80093E7A9 /* ERC721Abi.h */,
+				77FE726326C64B580011176C /* ERC1155Abi.cpp */,
+				77FE726226C64B580011176C /* ERC1155Abi.h */,
 				676B4289240F922200EBB44D /* RLP.cpp */,
 				676B4290240F922300EBB44D /* RLP.h */,
 				676B42BF240FA30600EBB44D /* Signer.cpp */,
@@ -3278,6 +3286,7 @@
 				671545B623D58B7500810F16 /* JubiterBladeLTCImpl.h in Headers */,
 				777B85FE269579B7003F7CF1 /* Transaction.h in Headers */,
 				6795A82D23D868B400F273E0 /* JubiterBaseBTCImpl.h in Headers */,
+				77FE726526C64B590011176C /* ERC1155Abi.h in Headers */,
 				67189F3023A2100600F8A5CD /* EOSTokenInterface.hpp in Headers */,
 				67189F3123A2100600F8A5CD /* XRPTokenInterface.hpp in Headers */,
 				67189F2E23A2100600F8A5CD /* ETHTokenInterface.hpp in Headers */,
@@ -3385,6 +3394,7 @@
 				674621CF23C31D670096DDA2 /* ETHContext.h in Headers */,
 				674621CD23C31D670096DDA2 /* EOSContext.h in Headers */,
 				67362ABF24D95F8D008DC757 /* JubiterBIOBTCImpl.h in Headers */,
+				77FE726426C64B590011176C /* ERC1155Abi.h in Headers */,
 				C3CA0EF52695D7DB0048F404 /* Signer.h in Headers */,
 				6795A82623D85A3B00F273E0 /* BTCContextFactory.h in Headers */,
 				679DA9712577B36E00B08471 /* JubiterLiteBCHImpl.h in Headers */,
@@ -3961,6 +3971,7 @@
 				C38A242726830C6F003F4BAF /* JUB_SDK_KSM.cpp in Sources */,
 				77E9268926AAB25A002DF781 /* JUB_SDK_CKB.cpp in Sources */,
 				67189F4723A2103F00F8A5CD /* JUB_SDK_EOS.cpp in Sources */,
+				77FE726726C64B590011176C /* ERC1155Abi.cpp in Sources */,
 				67E0DEB2250F6C6600D42EF0 /* TWHDVersion.cpp in Sources */,
 				676B4297240F922300EBB44D /* RLP.cpp in Sources */,
 				6718A00523A211B600F8A5CD /* Hash.cpp in Sources */,
@@ -4207,6 +4218,7 @@
 				772B68182673817F007D789B /* JubiterBIOXRPImpl.cpp in Sources */,
 				77E9268826AAB25A002DF781 /* JUB_SDK_CKB.cpp in Sources */,
 				C38A242626830C6F003F4BAF /* JUB_SDK_KSM.cpp in Sources */,
+				77FE726626C64B590011176C /* ERC1155Abi.cpp in Sources */,
 				67A4BCF0233084B90059A3DB /* JubiterBLEDevice.cpp in Sources */,
 				676B4296240F922300EBB44D /* RLP.cpp in Sources */,
 				6795A82F23D93EBD00F273E0 /* JubiterBaseBTCImpl.cpp in Sources */,

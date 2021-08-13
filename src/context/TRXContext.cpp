@@ -12,8 +12,6 @@
 #include "token/JubiterBIO/JubiterBIOToken.h"
 #include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/TRXTokenInterface.hpp"
-#include <uint256_t/uint256_t.h>
-#include <uint256.h>
 #include <Tron/Signer.h>
 #include <Ethereum/ERC20Abi.h>
 #include <Ethereum/ERC721Abi.h>
@@ -283,11 +281,7 @@ JUB_RV TRXContext::BuildTRC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, 
         return JUBR_ARGUMENTS_BAD;
     }
 
-    uint256_t tokenID(pTokenID, 10);
-    TW::Data vTokenID;
-    TW::encode256BE(vTokenID, tokenID, 256);
-
-    uchar_vector vAbi = jub::eth::ERC721Abi::serialize(vFrom, vTo, vTokenID);
+    uchar_vector vAbi = jub::eth::ERC721Abi::serialize(vFrom, vTo, std::string(pTokenID));
     abi = vAbi.getHex();
 
     return JUBR_OK;
