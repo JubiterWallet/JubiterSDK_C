@@ -35,6 +35,8 @@ const char SECP256K1_EOS_NAME[] = "secp256k1-eos";
 const char SECP256K1_TRX_NAME[] = "secp256k1-tron";
 // JuBiter-defined
 const char SECP256K1_FIL_NAME[] = "secp256k1-filecoin";
+// JuBiter-defined
+const char SECP256K1_CKB_NAME[] = "secp256k1-ckb";
 const char SECP256K1_DECRED_NAME[] = "secp256k1-decred";
 const char SECP256K1_SMART_NAME[] = "secp256k1-smart";
 const char NIST256P1_NAME[] = "nist256p1";

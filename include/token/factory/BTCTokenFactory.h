@@ -17,6 +17,7 @@
 #endif // #if defined(NFC_MODE) end
 
 #include "token/interface/BTCTokenInterface.hpp"
+#include "token/interface/CKBTokenInterface.hpp"
 
 #include "token/BTC/JubiterBladeBTCImpl.h"
 #include "token/BTC/JubiterBladeBCHImpl.h"
@@ -40,6 +41,7 @@
 #include "token/BTC/TrezorCryptoUSDTImpl.h"
 #include "token/BTC/TrezorCryptoDashImpl.h"
 #include "token/BTC/TrezorCryptoQTUMImpl.h"
+#include "token/CKB/TrezorCryptoCKBImpl.h"
 
 
 namespace jub {
@@ -61,6 +63,7 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &TrezorCryptoToken::Create<TrezorCryptoUSDTImpl>);
         Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &TrezorCryptoToken::Create<TrezorCryptoDashImpl>);
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &TrezorCryptoToken::Create<TrezorCryptoQTUMImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINCKB,  &TrezorCryptoToken::Create<TrezorCryptoCKBImpl>);
     }
 }; // class xTrezorCryptoBTCFactory end
 
@@ -115,10 +118,10 @@ public:
 
 class xBTCTokenFactory {
 protected:
-    xTrezorCryptoBTCFactory     trezorFactory;
-    xJuBiterBladeBTCFactory jubiterBLDFactory;
-    xJuBiterBIOBTCFactory   jubiterBIOFactory;
-    xJuBiterLiteBTCFactory jubiterLITEFactory;
+    xTrezorCryptoBTCFactory      trezorFactory;
+    xJuBiterBladeBTCFactory  jubiterBLDFactory;
+      xJuBiterBIOBTCFactory  jubiterBIOFactory;
+     xJuBiterLiteBTCFactory jubiterLITEFactory;
 
 public:
     std::shared_ptr<BaseToken> CreateToken(const JUB_UINT16 deviceID, const JUB_ENUM_COINTYPE_BTC& type, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) {

@@ -190,10 +190,10 @@ void HC_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
     while (true) {
         cout << "--------------------------------------" << endl;
         cout << "|******* Jubiter Wallet Hcash *******|" << endl;
-        cout << "| 1. get_address_test.               |" << endl;
-        cout << "| 2. show_address_test.              |" << endl;
+        cout << "| 1.    get_address_test.            |" << endl;
+        cout << "| 2.   show_address_test.            |" << endl;
         cout << "|                                    |" << endl;
-        cout << "| 3. transaction_test.               |" << endl;
+        cout << "| 3.    transaction_test.            |" << endl;
         cout << "|                                    |" << endl;
         cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;

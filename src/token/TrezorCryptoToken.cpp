@@ -40,8 +40,8 @@ namespace jub {
 namespace token {
 
 
-JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint) {
-    TWCoinType _coinNet = TWCoinType::TWCoinTypeBitcoin;
+JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint, const TWCoinType& coinNet) {
+    TWCoinType _coinNet = coinNet;
 
     JUB_BIP32_PATH spiltPath = spiltMainPath(path, '/');
     if (0 == strcmp(spiltPath.coin_type, "1'")) {
@@ -74,20 +74,19 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
 
             _MasterKey_XPRV = str_pri;
             _MasterKey_XPUB = str_pub;
-            _coin = TWCoinType::TWCoinTypeBitcoinTestNet;
         }
     }
 
     if(JUB_SoftwareTokenType::PRIVATE == _type) {
         return hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name,
-                               TWCoinType2HDVersionPublic( _coin, witness),
-                               TWCoinType2HDVersionPrivate(_coin, witness),
+                               TWCoinType2HDVersionPublic( (_coinNet?_coinNet:_coin), witness),
+                               TWCoinType2HDVersionPrivate((_coinNet?_coinNet:_coin), witness),
                                node, parentFingerprint);
     }
 
     return hdnode_pub_ckd(_MasterKey_XPUB, path, _curve_name,
-                          TWCoinType2HDVersionPublic( _coin, witness),
-                          TWCoinType2HDVersionPrivate(_coin, witness),
+                          TWCoinType2HDVersionPublic( (_coinNet?_coinNet:_coin), witness),
+                          TWCoinType2HDVersionPrivate((_coinNet?_coinNet:_coin), witness),
                           node, parentFingerprint);
 
     return JUBR_ERROR;

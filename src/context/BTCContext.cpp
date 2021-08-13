@@ -20,7 +20,7 @@ JUB_RV BTCContext::GetHDNode(const BIP44_Path& path, std::string& xpub) {
     }
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetHDNode(_transType, strPath, xpub));
+    JUB_VERIFY_RV(token->GetHDNode(_transType, strPath, xpub, _coinNet));
 
     return JUBR_OK;
 }
@@ -35,7 +35,7 @@ JUB_RV BTCContext::GetMainHDNode(std::string& xpub) {
         return JUBR_IMPL_NOT_SUPPORT;
     }
 
-    JUB_VERIFY_RV(token->GetHDNode(_transType, _mainPath, xpub));
+    JUB_VERIFY_RV(token->GetHDNode(_transType, _mainPath, xpub, _coinNet));
 
     return JUBR_OK;
 }
@@ -51,7 +51,7 @@ JUB_RV BTCContext::GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const 
     }
 
     std::string strPath = _FullBip44Path(path);
-    JUB_VERIFY_RV(token->GetAddress(addrFmt, _transType, strPath, tag, address));
+    JUB_VERIFY_RV(token->GetAddress(addrFmt, _transType, strPath, tag, address, _coinNet));
 
     return JUBR_OK;
 }

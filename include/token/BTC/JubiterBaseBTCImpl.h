@@ -23,21 +23,22 @@ public:
                                        const std::vector<INPUT_BTC>& vInputs,
                                        const std::vector<OUTPUT_BTC>& vOutputs,
                                        const JUB_UINT32 lockTime,
-                                       uchar_vector& unsignedRaw) override;
+                                       uchar_vector& unsignedRaw,
+                                       const TWCoinType& coinNet) override;
 
-    virtual JUB_RV CheckAddress(const std::string& address) override;
+    virtual JUB_RV CheckAddress(const std::string& address, const TWCoinType& coinNet) override;
 
 protected:
     virtual JUB_RV _verifyTx(const bool witness,
                              const uchar_vector& signedRaw,
                              const std::vector<JUB_UINT64>& vInputAmount,
-                             const std::vector<TW::Data>& vInputPublicKey);
+                             const std::vector<TW::Data>& vInputPublicKey,
+                             const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin);
 
-
-    virtual JUB_RV _serializeUnsignedTx(const uint32_t coin,
-                                        const std::vector<INPUT_BTC>& vInputs,
-                                        const std::vector<OUTPUT_BTC>& vOutputs,
-                                        TW::Bitcoin::Transaction& tx);
+    virtual JUB_RV _unsignedTx(const uint32_t coin,
+                               const std::vector<INPUT_BTC>& vInputs,
+                               const std::vector<OUTPUT_BTC>& vOutputs,
+                               TW::Bitcoin::Transaction& tx);
 
     virtual JUB_RV _scriptPubKey(const TWCoinType& coin, const TW::PublicKey publicKey, TW::Bitcoin::Script& script);
 
@@ -69,8 +70,8 @@ protected:
                                       uint32_t hdVersionPub=TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
                                       uint32_t hdVersionPrv=TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin));
 
-    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address);
-    virtual JUB_RV _getSegwitAddress(const TW::Data& publicKey, std::string& address);
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet);
+    virtual JUB_RV _getSegwitAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet);
 
 protected:
     uint32_t _hashType = TWBitcoinSigHashTypeAll;

@@ -6,7 +6,7 @@ namespace jub {
 namespace token {
 
 
-JUB_RV JubiterBaseBCHImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
+JUB_RV JubiterBaseBCHImpl::_getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) {
 
     try {
         TW::Bitcoin::CashAddress addr(TW::PublicKey(TW::Data(publicKey), _publicKeyType));
@@ -20,7 +20,7 @@ JUB_RV JubiterBaseBCHImpl::_getAddress(const TW::Data& publicKey, std::string& a
 }
 
 
-JUB_RV JubiterBaseBCHImpl::CheckAddress(const std::string& address) {
+JUB_RV JubiterBaseBCHImpl::CheckAddress(const std::string& address, const TWCoinType& coinNet) {
 
     return !(TW::Bitcoin::CashAddress::isValid(address));
 }

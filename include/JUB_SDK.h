@@ -27,5 +27,7 @@
 #include "JUB_SDK_XRP.h"
 #include "JUB_SDK_TRX.h"
 #include "JUB_SDK_FIL.h"
+#include "JUB_SDK_DOT.h"
+#include "JUB_SDK_CKB.h"
 
 #endif /* JUB_SDK_H */

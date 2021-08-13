@@ -4,6 +4,7 @@
 
 #include "context/BaseContext.h"
 #include "context/BTCContext.h"
+#include "context/CKBContext.h"
 #include "token/factory/BTCTokenFactory.h"
 
 
@@ -33,5 +34,7 @@ public:
 };  // class xBTCContextFactory end
 
 using BTCseriesContextFactory = Singleton<xBTCContextFactory>;
+
+
 } // namespace context end
 } // namespace jub end

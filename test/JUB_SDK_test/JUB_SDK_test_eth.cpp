@@ -528,7 +528,6 @@ JUB_RV uniswap_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
     JUB_CHAR_PTR abi  = (JUB_CHAR_PTR)root["Uniswap"][uniswip]["data"].asCString();
 
     JUB_CHAR_PTR raw = nullptr;
-    try {
     rv = JUB_SignTransactionETH(contextID, path,
                                 nonce, gasLimit, gasPriceInWei,
                                 to, valueInWei, abi,
@@ -540,10 +539,6 @@ JUB_RV uniswap_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
     else {
         cout << "    raw[" << strlen(raw) << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
-    }
-    }
-    catch (...) {
-        int ii = 0;
     }
 
     return rv;

@@ -63,6 +63,7 @@ typedef enum {
     COINUSDT = 0x03,
     COINDASH = 0x04,
     COINQTUM = 0x05,
+    COINCKB  = 0x06,
     Default  = COINBTC
 } JUB_ENUM_COINTYPE_BTC;
 
