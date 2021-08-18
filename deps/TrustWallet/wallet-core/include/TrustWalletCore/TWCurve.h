@@ -17,6 +17,7 @@ TW_EXPORT_ENUM()
 enum TWCurve {
     TWCurveSECP256k1              /* "secp256k1" */,
     TWCurveED25519                /* "ed25519" */,
+    TWCurveSR25519                /* "sr25519" */, ///JuBiter-defined
     TWCurveED25519Blake2bNano     /* "ed25519-blake2b-nano" */,
     TWCurveCurve25519             /* "curve25519" */,
     TWCurveNIST256p1              /* "nist256p1" */,

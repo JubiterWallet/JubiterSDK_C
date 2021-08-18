@@ -110,11 +110,10 @@ void get_address_pubkey_DOT(JUB_UINT16 contextID) {
 
 void transaction_test_DOT(JUB_UINT16 contextID, Json::Value root) {
 
-    JUB_RV rv = JUBR_ERROR;
-//    JUB_RV rv = verify_pin(contextID);
-//    if (JUBR_OK != rv) {
-//        return;
-//    }
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
 //
     rv = transaction_proc_DOT(contextID, root);
     if (JUBR_OK != rv) {
@@ -127,7 +126,7 @@ JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root)
 {
     JUB_RV rv = JUBR_ERROR;
     JUB_TX_DOT tx;
-    JUB_CHAR path[] = "//2567//555555//1234567//dsjkfk123";
+    JUB_CHAR path[] = "";
 //    JUB_CHAR_PTR genesisHash;
 //    JUB_CHAR_PTR blockHash;
 //    JUB_CHAR_PTR to;
@@ -150,7 +149,7 @@ JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root)
     tx.blockNumber = root["DOT"]["era"]["blockNumber"].asUInt();
     tx.value = (char *)root["DOT"]["balance_call"]["transfer"]["value"].asCString();
     tx.eraPeriod = root["DOT"]["era"]["eraPeriod"].asUInt();
-//    tx.tip = 0;
+    tx.tip = (char *)root["DOT"]["tip"].asCString();;
     char* raw = nullptr;
     rv = JUB_SignTransactionDOT(contextID, path, tx, &raw);
     if (JUBR_OK != rv) {

@@ -54,15 +54,13 @@ JUB_RV TrezorCryptoDOTImpl::SetCoinCurvePublicKeyType(JUB_ENUM_COINTYPE_DOT coin
 JUB_RV TrezorCryptoDOTImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
     
     std::string pubStr = _MasterKey_XPUB;
+    std::string derivPrv;
+    std::string derivpub;
     if (JUB_ENUM_CURVES::SR25519 == _curve && !path.empty()) {
-        std::string derivPrv;
-        std::string derivpub;
         JUB_VERIFY_RV(_getSr25519KeypairFromMasterKp(_MasterKey_XPRV, derivPrv, derivpub, path, _curve));
         pubStr = derivpub;
     }
     else if (JUB_ENUM_CURVES::ED25519 == _curve && !path.empty()) {
-        std::string derivPrv;
-        std::string derivpub;
         JUB_VERIFY_RV(_getEd25519PrvKeyFromMasterKey(_MasterKey_XPRV, derivPrv, derivpub, path, _curve));
         pubStr = derivpub;
     }
@@ -105,7 +103,7 @@ JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
                                    const uint64_t& blockNumber,
                                    const std::string& value,
                                    const uint64_t& eraPeriod,
-                                   const uint64_t& tip,
+                                   const std::string& tip,
                                    std::vector<JUB_BYTE>& vSignatureRaw) {
     try {
         TW::SS58Address toAddress;
@@ -117,14 +115,14 @@ JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
             return JUBR_ERROR_ARGS;
         }
         
-        std::string prv = _MasterKey_XPRV.substr(0,128);
+        std::string prv = _MasterKey_XPRV.substr(0,SR25519_SECRET_SIZE * 2);
         std::string pub = _MasterKey_XPUB;
 
         if (JUB_ENUM_CURVES::SR25519 == _curve && !path.empty()) {
             std::string derivPrv;
             std::string derivpub;
             JUB_VERIFY_RV(_getSr25519KeypairFromMasterKp(_MasterKey_XPRV, derivPrv, derivpub, path, _curve));
-            prv = derivPrv.substr(0,128);
+            prv = derivPrv.substr(0,SR25519_SECRET_SIZE * 2);
             pub = derivpub;
             
         } else if (JUB_ENUM_CURVES::ED25519 == _curve && !path.empty()) {
@@ -151,7 +149,8 @@ JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
         } else if (JUB_ENUM_CURVES::SR25519 == _curve) {
             std::vector<uint8_t> sig(SR25519_SIGNATURE_SIZE, 0);
             sr25519_sign(sig.data(), vector_pub.data(), privateData.data(), preimage.data(), sizeof(preimage));
-            vSignatureRaw = sig;
+            TW::Data pubKey = uchar_vector(vector_pub);
+            vSignatureRaw = extrinsic.encodeSignature(pubKey, sig, TWCurveSR25519);
         }
     }
     catch (...) {

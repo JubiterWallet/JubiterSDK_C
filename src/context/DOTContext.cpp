@@ -123,7 +123,7 @@ JUB_RV DOTContext::SignTransaction(std::string path,
         uint64_t blockNumber = tx.blockNumber;
         std::string value = tx.value;
         uint64_t eraPeriod = tx.eraPeriod;
-        uint64_t tip = tx.tip;
+        std::string tip = tx.tip;
         
         JUB_VERIFY_RV(token->SignTX(path,genesisHash, blockHash, to, nonce, specVersion, network, transaction_version, blockNumber, value, eraPeriod, tip, vSignature));
         

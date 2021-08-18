@@ -101,6 +101,7 @@ JUB_RV menu_opt_swi(const int choice, const Json::Value& root, JUB_UINT16_PTR pD
         if (0 == std::string("secp256k1").compare(curves)) { ; }
         else if (0 == std::string("nist256p1").compare(curves)) { curve = JUB_ENUM_CURVES::NIST256P1; }
         else if (0 == std::string("ed25519").compare(curves)  ) { curve = JUB_ENUM_CURVES::ED25519; }
+        else if (0 == std::string("sr25519").compare(curves)  ) { curve = JUB_ENUM_CURVES::SR25519; }
         else { rv = JUBR_ARGUMENTS_BAD; break;}
 
         cout << "[----------------------------- Import xprv or xpub -----------------------------]" << endl;

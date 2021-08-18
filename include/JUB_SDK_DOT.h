@@ -50,7 +50,7 @@ typedef struct stTxDOT {
     JUB_UINT64 blockNumber;
     JUB_CHAR_PTR value;
     JUB_UINT64 eraPeriod; // [Optional]
-    JUB_UINT64 tip;       // [Optional]
+    JUB_CHAR_PTR tip;       // [Optional]
 } JUB_TX_DOT;
 /*****************************************************************************
  * @function name : JUB_CreateContextDOT

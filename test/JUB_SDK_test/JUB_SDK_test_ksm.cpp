@@ -108,12 +108,11 @@ void get_address_pubkey_KSM(JUB_UINT16 contextID) {
 
 void transaction_test_KSM(JUB_UINT16 contextID, Json::Value root) {
 
-    JUB_RV rv = JUBR_ERROR;
-//    JUB_RV rv = verify_pin(contextID);
-//    if (JUBR_OK != rv) {
-//        return;
-//    }
-//
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
     rv = transaction_proc_KSM(contextID, root);
     if (JUBR_OK != rv) {
         return;
@@ -149,7 +148,7 @@ JUB_RV transaction_proc_KSM(JUB_UINT16 contextID, Json::Value root)
     tx.blockNumber = root["KSM"]["era"]["blockNumber"].asUInt();
     tx.value = (char *)root["KSM"]["balance_call"]["transfer"]["value"].asCString();
     tx.eraPeriod = root["KSM"]["era"]["eraPeriod"].asUInt();
-//    tx.tip = 0;
+    tx.tip = (char *)root["KSM"]["tip"].asCString();;
     char* raw = nullptr;
     rv = JUB_SignTransactionKSM(contextID, path, tx, &raw);
     if (JUBR_OK != rv) {

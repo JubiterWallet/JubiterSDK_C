@@ -14,6 +14,7 @@ using namespace TW::Polkadot;
 
 static constexpr uint8_t signedBit = 0x80;
 static constexpr uint8_t sigTypeEd25519 = 0x00;
+static constexpr uint8_t sigTypeSR25519 = 0x01;
 static constexpr uint8_t extrinsicFormat = 4;
 static constexpr uint32_t multiAddrSpecVersion = 28;
 static constexpr uint32_t multiAddrSpecVersionKsm = 2028;
@@ -254,14 +255,34 @@ Data Extrinsic::encodePayload() const {
     return data;
 }
 
-Data Extrinsic::encodeSignature(const PublicKey& signer, const Data& signature) const {
+//Data Extrinsic::encodeSignature(const PublicKey& signer, const Data& signature) const {
+//    Data data;
+//    // version header
+//    append(data, Data{extrinsicFormat | signedBit});
+//    // signer public key
+//    append(data, encodeAccountId(signer.bytes, encodeRawAccount(network, specVersion)));
+//    // signature type
+//    append(data, sigTypeEd25519);
+//    // signature
+//    append(data, signature);
+//    // era / nonce / tip
+//    append(data, encodeEraNonceTip());
+//    // call
+//    append(data, call);
+//    // append length
+//    encodeLengthPrefix(data);
+//    return data;
+//}
+
+// JuBiter-defined
+Data Extrinsic::encodeSignature(const TW::Data& publicKey, const Data& signature, const TWCurve curve) const {
     Data data;
     // version header
     append(data, Data{extrinsicFormat | signedBit});
     // signer public key
-    append(data, encodeAccountId(signer.bytes, encodeRawAccount(network, specVersion)));
+    append(data, encodeAccountId(publicKey, encodeRawAccount(network, specVersion)));
     // signature type
-    append(data, sigTypeEd25519);
+    append(data, curve == TWCurve::TWCurveED25519 ? sigTypeEd25519 : sigTypeSR25519);
     // signature
     append(data, signature);
     // era / nonce / tip

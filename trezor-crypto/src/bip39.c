@@ -250,7 +250,7 @@ void mnemonic_to_mini_secret(const char *mnemonic, const char *passphrase, uint8
             progress_callback((i + 1) * BIP39_PBKDF2_ROUNDS / 16, BIP39_PBKDF2_ROUNDS);
         }
     }
-    uint8_t secret[512 / 8] = {0x00,};
+    uint8_t secret[512 / 16] = {0x00,};
     pbkdf2_hmac_sha512_Final(&pctx, secret);
     memzero(salt, sizeof(salt));
 

@@ -59,7 +59,7 @@ There are two IDs in JuBiter SDK, deviceID and contextID. The first one is used 
 | **JSON for Modern C++** | https://github.com/nlohmann/json.git | Source level integeration, based on v3.9.1. |
 | **C++ Big Integer Library** | https://mattmccutchen.net/bigint | Source level integeration, based on 'bigint-2010.04.30.tar.bz2. |
 | **uint256_t** | https://github.com/calccrypto/uint256_t.git | An unsigned 256 bit integer type for C++. |
-| **sr25519-crust**  | https://github.com/Warchant/sr25519-crust.git | Library level integeration. |
+| **sr25519-crust**  | https://github.com/Warchant/sr25519-crust.git | Library level integeration, based on master. |
 |  |  |  |
 | **Bluetooth communication library** for JuBiter Blade & Bio | --- | JuBiter developed. |
 | **NFC communication library** for JuBiter Lite | --- | JuBiter developed. |

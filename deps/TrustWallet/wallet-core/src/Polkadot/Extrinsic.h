@@ -10,6 +10,7 @@
 #include "../Data.h"
 #include "uint256.h"
 #include  "ScaleCodec.h"
+#include <TrustWalletCore/TWCurve.h>
 
 namespace TW::Polkadot {
 
@@ -73,8 +74,9 @@ class Extrinsic {
     // Payload to sign.
     Data encodePayload() const;
     // Encode final data with signer public key and signature.
-    Data encodeSignature(const PublicKey& signer, const Data& signature) const;
-
+//    Data encodeSignature(const PublicKey& signer, const Data& signature) const;
+    // JuBiter -defined
+    Data encodeSignature(const TW::Data& publicKey, const Data& signature, const TWCurve curve) const;
   protected:
     
     static bool encodeRawAccount(TWSS58AddressType network, uint32_t specVersion);
