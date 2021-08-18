@@ -52,8 +52,10 @@ JUB_RV verify_identity_via_9grids(JUB_UINT16 deviceID) {
 
         JUB_ULONG retry;
         rv = JUB_IdentityVerifyPIN(deviceID, JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_9GRIDS, str, &retry);
-        cout << "[-] JUB_IdentityVerifyPIN() return " << GetErrMsg(rv) << endl;
-        if (JUBR_OK != rv) {
+        cout << "[-] JUB_IdentityVerifyPIN(retry=" << retry << ") return " << GetErrMsg(rv) << endl;
+        if (JUBR_OK == rv
+            ||   0 == retry
+            ) {
             break;
         }
         cout << endl;
@@ -86,7 +88,7 @@ JUB_RV verify_identity_via_apdu(JUB_UINT16 deviceID) {
 
     JUB_ULONG retry;
     rv = JUB_IdentityVerifyPIN(deviceID, JUB_ENUM_IDENTITY_VERIFY_MODE::VIA_APDU, str, &retry);
-    cout << "[-] JUB_IdentityVerifyPIN() return " << GetErrMsg(rv) << endl << endl;
+    cout << "[-] JUB_IdentityVerifyPIN(retry=" << retry << ") return " << GetErrMsg(rv) << endl << endl;
 
     return rv;
 }
