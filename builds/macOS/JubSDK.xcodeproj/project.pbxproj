@@ -988,6 +988,10 @@
 		7731ABB2267386B300C23EEC /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7731ABAE267386B200C23EEC /* ContractAbi.cpp */; };
 		7731ABE52673922000C23EEC /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67ECD14E23CD74C400B7D514 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7731ABE82673925B00C23EEC /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7731ABE72673925B00C23EEC /* libprotobuf.a */; };
+		776F5FA126CCE47700600BD4 /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 776F5F9F26CCE47600600BD4 /* ERC1155Abi.cpp */; };
+		776F5FA226CCE47700600BD4 /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 776F5F9F26CCE47600600BD4 /* ERC1155Abi.cpp */; };
+		776F5FA326CCE47700600BD4 /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 776F5FA026CCE47700600BD4 /* ERC1155Abi.h */; };
+		776F5FA426CCE47700600BD4 /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 776F5FA026CCE47700600BD4 /* ERC1155Abi.h */; };
 		777B864026958D39003F7CF1 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B863E26958D39003F7CF1 /* Transaction.h */; };
 		777B864126958D39003F7CF1 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B863E26958D39003F7CF1 /* Transaction.h */; };
 		777B864226958D39003F7CF1 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B863F26958D39003F7CF1 /* Transaction.cpp */; };
@@ -1554,6 +1558,8 @@
 		7731ABAD267386B100C23EEC /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7731ABAE267386B200C23EEC /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
 		7731ABE72673925B00C23EEC /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
+		776F5F9F26CCE47600600BD4 /* ERC1155Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC1155Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.cpp"; sourceTree = "<group>"; };
+		776F5FA026CCE47700600BD4 /* ERC1155Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC1155Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.h"; sourceTree = "<group>"; };
 		777B863E26958D39003F7CF1 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Dash/Transaction.h"; sourceTree = "<group>"; };
 		777B863F26958D39003F7CF1 /* Transaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transaction.cpp; path = "../../deps/TrustWallet/wallet-core/src/Dash/Transaction.cpp"; sourceTree = "<group>"; };
 		777B864426958D59003F7CF1 /* OutPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutPoint.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/OutPoint.h"; sourceTree = "<group>"; };
@@ -2034,6 +2040,8 @@
 				676B42EA2410A22900EBB44D /* ERC20Abi.h */,
 				7731ABA8267386A300C23EEC /* ERC721Abi.cpp */,
 				7731ABA7267386A300C23EEC /* ERC721Abi.h */,
+				776F5F9F26CCE47600600BD4 /* ERC1155Abi.cpp */,
+				776F5FA026CCE47700600BD4 /* ERC1155Abi.h */,
 				676B4289240F922200EBB44D /* RLP.cpp */,
 				676B4290240F922300EBB44D /* RLP.h */,
 				676B42BF240FA30600EBB44D /* Signer.cpp */,
@@ -2653,8 +2661,8 @@
 			children = (
 				67F59551256E659200AB8FED /* JubiterBaseFILImpl.h */,
 				67F5954F256E659200AB8FED /* JubiterBladeFILImpl.h */,
-				670C450725821924007F19DF /* JubiterLiteFILImpl.h */,
 				67F59550256E659200AB8FED /* JubiterBIOFILImpl.h */,
+				670C450725821924007F19DF /* JubiterLiteFILImpl.h */,
 				67F59553256E659300AB8FED /* TrezorCryptoFILImpl.h */,
 			);
 			name = FIL;
@@ -2763,6 +2771,7 @@
 				676F030023C8ABBC005C8032 /* TrezorCryptoETHImpl.h in Headers */,
 				676F02FE23C8ABBC005C8032 /* JubiterBladeETHImpl.h in Headers */,
 				328D10B9240B922500AB723D /* JubiterBaseETHImpl.h in Headers */,
+				776F5FA426CCE47700600BD4 /* ERC1155Abi.h in Headers */,
 				676F02F823C8ABAF005C8032 /* TrezorCryptoHCImpl.h in Headers */,
 				676F02FA23C8ABAF005C8032 /* JubiterBladeHCImpl.h in Headers */,
 				67189F9923A2114A00F8A5CD /* hasher.h in Headers */,
@@ -3305,6 +3314,7 @@
 				676B4294240F922300EBB44D /* AddressChecksum.h in Headers */,
 				679520152579DC9A00548B5B /* JubiterLiteToken.h in Headers */,
 				674F19E023A106B6001702DD /* memzero.h in Headers */,
+				776F5FA326CCE47700600BD4 /* ERC1155Abi.h in Headers */,
 				67E0DE88250F6C1F00D42EF0 /* TWHcash.h in Headers */,
 				6755ED32233C590F00B418C7 /* trim.hpp in Headers */,
 				67E0DE92250F6C1F00D42EF0 /* TWHRP.h in Headers */,
@@ -3426,6 +3436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67ED0FD825243217009029A7 /* AccountId.cpp in Sources */,
+				776F5FA226CCE47700600BD4 /* ERC1155Abi.cpp in Sources */,
 				679DA97D2577B38A00B08471 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67189FD623A2117500F8A5CD /* hmac.c in Sources */,
 				6718A00D23A211BB00F8A5CD /* Address.cpp in Sources */,
@@ -3648,6 +3659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67ED0FD725243217009029A7 /* AccountId.cpp in Sources */,
+				776F5FA126CCE47700600BD4 /* ERC1155Abi.cpp in Sources */,
 				679DA97C2577B38A00B08471 /* JubiterLiteBTCImpl.cpp in Sources */,
 				67A4BD8C2330A9220059A3DB /* hmac.c in Sources */,
 				67ECD13623CD724100B7D514 /* Bech32.cpp in Sources */,
