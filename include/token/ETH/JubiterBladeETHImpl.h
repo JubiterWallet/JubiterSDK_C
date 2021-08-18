@@ -89,6 +89,28 @@ public:
                                     const std::string& path,
                                     const std::vector<JUB_BYTE>& vTypedData,
                                     const std::vector<JUB_BYTE>& vSignature) override;
+
+protected:
+    virtual JUB_RV _SignTX(const int erc,
+                           const std::vector<JUB_BYTE>& vNonce,
+                           const std::vector<JUB_BYTE>& vGasPrice,
+                           const std::vector<JUB_BYTE>& vGasLimit,
+                           const std::vector<JUB_BYTE>& vTo,
+                           const std::vector<JUB_BYTE>& vValue,
+                           const std::vector<JUB_BYTE>& vData,
+                           const std::vector<JUB_BYTE>& vPath,
+                           const std::vector<JUB_BYTE>& vChainID,
+                           std::vector<JUB_BYTE>& vRaw);
+    virtual JUB_RV _SignTXUpgrade(const int erc,
+                                  const std::vector<JUB_BYTE>& vNonce,
+                                  const std::vector<JUB_BYTE>& vGasPrice,
+                                  const std::vector<JUB_BYTE>& vGasLimit,
+                                  const std::vector<JUB_BYTE>& vTo,
+                                  const std::vector<JUB_BYTE>& vValue,
+                                  const std::vector<JUB_BYTE>& vData,
+                                  const std::vector<JUB_BYTE>& vPath,
+                                  const std::vector<JUB_BYTE>& vChainID,
+                                  std::vector<JUB_BYTE>& vRaw);
 }; // class JubiterBladeETHImpl end
 
 

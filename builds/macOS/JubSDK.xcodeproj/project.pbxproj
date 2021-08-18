@@ -967,6 +967,8 @@
 		7771CCEE26789C6200081F28 /* Cbor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7771CCEB26789C6100081F28 /* Cbor.cpp */; };
 		7771CCEF26789C6200081F28 /* Cbor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7771CCEC26789C6100081F28 /* Cbor.h */; };
 		7771CCF026789C6200081F28 /* Cbor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7771CCEC26789C6100081F28 /* Cbor.h */; };
+		77750A6126CA6481004BD8A8 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77750A6026CA6481004BD8A8 /* JubiterBIOETHImpl.cpp */; };
+		77750A6226CA6481004BD8A8 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77750A6026CA6481004BD8A8 /* JubiterBIOETHImpl.cpp */; };
 		7780092F2689BD0F00B90059 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7780092D2689BD0E00B90059 /* Base64.cpp */; };
 		778009302689BD0F00B90059 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7780092D2689BD0E00B90059 /* Base64.cpp */; };
 		778009312689BD0F00B90059 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 7780092E2689BD0E00B90059 /* Base64.h */; };
@@ -1530,6 +1532,7 @@
 		7771CCDE26789C5100081F28 /* Signer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Signer.h; path = "../../deps/TrustWallet/wallet-core/src/Filecoin/Signer.h"; sourceTree = "<group>"; };
 		7771CCEB26789C6100081F28 /* Cbor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cbor.cpp; path = "../../deps/TrustWallet/wallet-core/src/Cbor.cpp"; sourceTree = "<group>"; };
 		7771CCEC26789C6100081F28 /* Cbor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cbor.h; path = "../../deps/TrustWallet/wallet-core/src/Cbor.h"; sourceTree = "<group>"; };
+		77750A6026CA6481004BD8A8 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
 		7780092D2689BD0E00B90059 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
 		7780092E2689BD0E00B90059 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
 		77883189267356A5004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
@@ -1713,6 +1716,7 @@
 			children = (
 				328D10BA240B928300AB723D /* JubiterBaseETHImpl.cpp */,
 				674621F823C31DDC0096DDA2 /* JubiterBladeETHImpl.cpp */,
+				77750A6026CA6481004BD8A8 /* JubiterBIOETHImpl.cpp */,
 				679DA9822577B42E00B08471 /* JubiterLiteETHImpl.cpp */,
 				674621F723C31DDC0096DDA2 /* TrezorCryptoETHImpl.cpp */,
 			);
@@ -3464,6 +3468,7 @@
 				67E0DEF4250F6CA500D42EF0 /* TransactionOutput.cpp in Sources */,
 				7771CCE426789C5100081F28 /* Signer.cpp in Sources */,
 				67189FDB23A2117500F8A5CD /* rand.c in Sources */,
+				77750A6226CA6481004BD8A8 /* JubiterBIOETHImpl.cpp in Sources */,
 				775FD5032626E76400D12DDC /* BigUnsignedInABase.cc in Sources */,
 				67189FD223A2117200F8A5CD /* ed25519.c in Sources */,
 				67189F4623A2103F00F8A5CD /* JUB_SDK_Hcash.cpp in Sources */,
@@ -3683,6 +3688,7 @@
 				67A4BCE3233084740059A3DB /* JUB_SDK_ETH.cpp in Sources */,
 				7771CCE326789C5100081F28 /* Signer.cpp in Sources */,
 				775FD5022626E76400D12DDC /* BigUnsignedInABase.cc in Sources */,
+				77750A6126CA6481004BD8A8 /* JubiterBIOETHImpl.cpp in Sources */,
 				67A4BD8B2330A9220059A3DB /* memzero.c in Sources */,
 				67A4BDCE2330A9F90059A3DB /* base32.c in Sources */,
 				67A4BD9B2330A9450059A3DB /* base58.c in Sources */,

@@ -165,6 +165,7 @@ protected:
 
     // ERC20 token extension apdu
     const std::string  ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("01040109");
+    const std::string  ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS= std::string("01080000");
     // TRC20 token extension apdu
     const std::string MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN = std::string("01010005");
 }; // class JubiterBladeToken end

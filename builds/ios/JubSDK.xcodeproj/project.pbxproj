@@ -699,6 +699,8 @@
 		7771CCA926789A9B00081F28 /* Cbor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7771CCA626789A9B00081F28 /* Cbor.h */; };
 		7771CCAA26789A9B00081F28 /* Cbor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7771CCA726789A9B00081F28 /* Cbor.cpp */; };
 		7771CCAB26789A9B00081F28 /* Cbor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7771CCA726789A9B00081F28 /* Cbor.cpp */; };
+		77750A6426CA6A16004BD8A8 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77750A6326CA6A16004BD8A8 /* JubiterBIOETHImpl.cpp */; };
+		77750A6526CA6A16004BD8A8 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77750A6326CA6A16004BD8A8 /* JubiterBIOETHImpl.cpp */; };
 		7788319126736633004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 7788318F26736633004FDA80 /* ContractAbi.h */; };
 		7788319226736633004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788319026736633004FDA80 /* ContractAbi.cpp */; };
 		7788319326736633004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788319026736633004FDA80 /* ContractAbi.cpp */; };
@@ -732,6 +734,20 @@
 		77FE725E26C50AFD0011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE725C26C50AFD0011176C /* ERC1155Abi.cpp */; };
 		77FE725F26C50AFD0011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE725C26C50AFD0011176C /* ERC1155Abi.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		77750A6726CB91FB004BD8A8 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# Type a script or drag a script file from your workspace to insert its path.\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		EADCCD7122A7B380008F2EF5 /* CopyFiles */ = {
@@ -1245,6 +1261,7 @@
 		7771CCA526789A9B00081F28 /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Data.h; path = "../../deps/TrustWallet/wallet-core/src/Data.h"; sourceTree = "<group>"; };
 		7771CCA626789A9B00081F28 /* Cbor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cbor.h; path = "../../deps/TrustWallet/wallet-core/src/Cbor.h"; sourceTree = "<group>"; };
 		7771CCA726789A9B00081F28 /* Cbor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cbor.cpp; path = "../../deps/TrustWallet/wallet-core/src/Cbor.cpp"; sourceTree = "<group>"; };
+		77750A6326CA6A16004BD8A8 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
 		7788318F26736633004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7788319026736633004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
 		7797453226301C6E00ECFF34 /* TaggedAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaggedAddresses.h; path = "../../deps/TrustWallet/wallet-core/src/Ripple/TaggedAddresses.h"; sourceTree = "<group>"; };
@@ -1941,6 +1958,7 @@
 			children = (
 				675B05402428698C004C62D4 /* JubiterBaseETHImpl.cpp */,
 				6746217023C31A0D0096DDA2 /* JubiterBladeETHImpl.cpp */,
+				77750A6326CA6A16004BD8A8 /* JubiterBIOETHImpl.cpp */,
 				675B053F2428698C004C62D4 /* JubiterLiteETHImpl.cpp */,
 				6746216F23C31A0D0096DDA2 /* TrezorCryptoETHImpl.cpp */,
 			);
@@ -2765,6 +2783,7 @@
 				EADCCD7122A7B380008F2EF5 /* CopyFiles */,
 			);
 			buildRules = (
+				77750A6726CB91FB004BD8A8 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -2878,6 +2897,7 @@
 				675B057F24286B55004C62D4 /* Signer.cpp in Sources */,
 				675B052824286909004C62D4 /* JubiterBaseBTCImpl.cpp in Sources */,
 				675B0551242869D7004C62D4 /* JubiterBaseXRPImpl.cpp in Sources */,
+				77750A6526CA6A16004BD8A8 /* JubiterBIOETHImpl.cpp in Sources */,
 				677B329A24C85EF500D4EAFB /* JUB_SDK_DEV_BIO.cpp in Sources */,
 				67742D25242DD3F40050F164 /* JUB_SDK_DEV_NFC.cpp in Sources */,
 				6718A35F23A338DF00F8A5CD /* HexCoding.cpp in Sources */,
@@ -3236,6 +3256,7 @@
 				675B057824286B55004C62D4 /* RLP.cpp in Sources */,
 				675B058324286B55004C62D4 /* AddressChecksum.cpp in Sources */,
 				67639374253464D600C41883 /* smart_contract.pb.cc in Sources */,
+				77750A6426CA6A16004BD8A8 /* JubiterBIOETHImpl.cpp in Sources */,
 				6713A83623A07B8F0083A34D /* Fido.cpp in Sources */,
 				675B054A242869C0004C62D4 /* JubiterLiteImpl.cpp in Sources */,
 				675B055E24286B30004C62D4 /* TWData.cpp in Sources */,
