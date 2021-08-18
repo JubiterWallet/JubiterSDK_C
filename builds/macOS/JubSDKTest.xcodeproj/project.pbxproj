@@ -23,6 +23,7 @@
 		67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */; };
 		67E0DFB8250F78DB00D42EF0 /* JUB_SDK_test_trx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFB4250F78DA00D42EF0 /* JUB_SDK_test_trx.cpp */; };
 		67F595A8256E787500AB8FED /* JUB_SDK_test_fil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F595A6256E787500AB8FED /* JUB_SDK_test_fil.cpp */; };
+		776F5FA726CCEA6100600BD4 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 776F5FA626CCEA6100600BD4 /* libprotobuf.a */; };
 		7771CCF92678CE0200081F28 /* JUB_SDK_test_ckb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7771CCF72678CE0200081F28 /* JUB_SDK_test_ckb.cpp */; };
 		7797440B262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77974409262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp */; };
 		77A127352637CC2E00494B23 /* JUB_SDK_test_usdt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A127342637CC2E00494B23 /* JUB_SDK_test_usdt.cpp */; };
@@ -123,8 +124,9 @@
 		67E0DFB6250F78DA00D42EF0 /* JUB_SDK_test_trx.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_trx.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_trx.hpp; sourceTree = "<group>"; };
 		67F595A6256E787500AB8FED /* JUB_SDK_test_fil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_fil.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_fil.cpp; sourceTree = "<group>"; };
 		67F595A7256E787500AB8FED /* JUB_SDK_test_fil.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_fil.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_fil.hpp; sourceTree = "<group>"; };
+		776F5FA626CCEA6100600BD4 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
+		776F5FA826CCEA8600600BD4 /* JUB_SDK_test_ckb.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_ckb.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_ckb.hpp; sourceTree = "<group>"; };
 		7771CCF72678CE0200081F28 /* JUB_SDK_test_ckb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_ckb.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_ckb.cpp; sourceTree = "<group>"; };
-		7771CCF82678CE0200081F28 /* JUB_SDK_test_ckb.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_ckb.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_ckb.hpp; sourceTree = "<group>"; };
 		77974409262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_dev_swi.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_swi.cpp; sourceTree = "<group>"; };
 		7797440A262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_dev_swi.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_swi.hpp; sourceTree = "<group>"; };
 		77A127332637CC2E00494B23 /* JUB_SDK_test_usdt.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_usdt.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_usdt.hpp; sourceTree = "<group>"; };
@@ -142,8 +144,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3CA0ED5269593550048F404 /* libsr25519crust.a in Frameworks */,
-				7731ABCE2673894500C23EEC /* libprotobuf.a in Frameworks */,
 				C328A0E826A7FBCB0081B7AF /* libJubSDK.a in Frameworks */,
+				776F5FA726CCEA6100600BD4 /* libprotobuf.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,8 +288,10 @@
 				67F595A7256E787500AB8FED /* JUB_SDK_test_fil.hpp */,
 				C3873BFD265E696500F9DF75 /* JUB_SDK_test_dot.cpp */,
 				C3873BFE265E696500F9DF75 /* JUB_SDK_test_dot.hpp */,
-				C317B48B2670981D00D14C8B /* JUB_SDK_test_ksm.hpp */,
 				C317B48C2670981E00D14C8B /* JUB_SDK_test_ksm.cpp */,
+				C317B48B2670981D00D14C8B /* JUB_SDK_test_ksm.hpp */,
+				7771CCF72678CE0200081F28 /* JUB_SDK_test_ckb.cpp */,
+				776F5FA826CCEA8600600BD4 /* JUB_SDK_test_ckb.hpp */,
 			);
 			name = JubSDKTest;
 			sourceTree = "<group>";
@@ -358,8 +362,8 @@
 		67A4BE7F2330C5810059A3DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				776F5FA626CCEA6100600BD4 /* libprotobuf.a */,
 				C3CA0ED4269593510048F404 /* libsr25519crust.a */,
-				7731ABCD2673894500C23EEC /* libprotobuf.a */,
 				67B74EDC248109050066EF8E /* libJubSDK.a */,
 			);
 			name = Frameworks;

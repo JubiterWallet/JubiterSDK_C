@@ -25,19 +25,19 @@ JUB_RV JubiterBIOETHImpl::SignTX(const int erc,
 
     // Remove subpackage sending APDU.
     // ETH token extension apdu
-//    if (JubiterBIOToken::_appletVersion >= stVersionExp::FromString(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS)) {
-//        return _SignTXUpgrade(erc,
-//                              vNonce,
-//                              vGasPrice,
-//                              vGasLimit,
-//                              vTo,
-//                              vValue,
-//                              vInput,
-//                              vPath,
-//                              vChainID,
-//                              vRaw);
-//    }
-//    else {
+    if (JubiterBIOToken::_appletVersion >= stVersionExp::FromString(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS)) {
+        return _SignTXUpgrade(erc,
+                              vNonce,
+                              vGasPrice,
+                              vGasLimit,
+                              vTo,
+                              vValue,
+                              vInput,
+                              vPath,
+                              vChainID,
+                              vRaw);
+    }
+    else {
         return _SignTX(erc,
                        vNonce,
                        vGasPrice,
@@ -48,7 +48,7 @@ JUB_RV JubiterBIOETHImpl::SignTX(const int erc,
                        vPath,
                        vChainID,
                        vRaw);
-//    }
+    }
 }
 
 
