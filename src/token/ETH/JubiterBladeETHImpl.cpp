@@ -81,18 +81,6 @@ JUB_RV JubiterBladeETHImpl::SignTX(const int erc,
 
     // ETH token extension apdu
     if (JubiterBladeETHImpl::_appletVersion >= stVersionExp::FromString(JubiterBladeETHImpl::ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS)) {
-        return _SignTX(erc,
-                       vNonce,
-                       vGasPrice,
-                       vGasLimit,
-                       vTo,
-                       vValue,
-                       vInput,
-                       vPath,
-                       vChainID,
-                       vRaw);
-    }
-    else {
         return _SignTXUpgrade(erc,
                               vNonce,
                               vGasPrice,
@@ -103,6 +91,18 @@ JUB_RV JubiterBladeETHImpl::SignTX(const int erc,
                               vPath,
                               vChainID,
                               vRaw);
+    }
+    else {
+        return _SignTX(erc,
+                       vNonce,
+                       vGasPrice,
+                       vGasLimit,
+                       vTo,
+                       vValue,
+                       vInput,
+                       vPath,
+                       vChainID,
+                       vRaw);
     }
 }
 
