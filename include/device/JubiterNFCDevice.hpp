@@ -69,6 +69,7 @@ public:
 public:
     // for NFC device
     virtual unsigned int Initialize(const NFC_DEVICE_INIT_PARAM& params);
+    virtual unsigned int SetParam(const NFC_DEVICE_SET_PARAM& params);
     virtual unsigned int Finalize();
 
     virtual unsigned int Scan();

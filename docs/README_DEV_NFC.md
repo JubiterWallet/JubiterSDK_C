@@ -7,6 +7,7 @@ Function list:
 * [JUB_disconnectNFCDevice](#JUB_disconnectNFCDevice)
 * [JUB_isDeviceNFCConnect](#JUB_isDeviceNFCConnect)
 * [JUB_setNFCAlertMessage](#JUB_setNFCAlertMessage)
+* [JUB_setNFCDeviceParam](#JUB_setNFCDeviceParam)
 * [JUB_SetLabel](#JUB_SetLabel)
 * [JUB_Reset](#JUB_Reset)
 * [JUB_GenerateSeed](#JUB_GenerateSeed)
@@ -76,6 +77,17 @@ msg - message showing in NFC alert view.
 JUB_RV JUB_setNFCAlertMessage(
     JUB_UINT16 deviceID,
     JUB_CHAR_CPTR msg
+);
+```
+
+* **Function:** Set param for lite device(prepare for opening encryption channels).
+* **IN param:**
+param - NFC_DEVICE_SET_PARAM.
+* **OUT param:** none.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_setNFCDeviceParam(
+    IN NFC_DEVICE_SET_PARAM param
 );
 ```
 

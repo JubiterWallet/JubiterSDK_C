@@ -122,6 +122,33 @@ JUB_RV JUB_isDeviceNFCConnect(JUB_UINT16 deviceID) {
 }
 
 
+/*****************************************************************************
+ * @function name : JUB_setNFCDeviceParam
+ * @in  param : param - the param of preparing for opening encryption channels
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_setNFCDeviceParam(IN NFC_DEVICE_SET_PARAM param) {
+
+#if defined(NFC_MODE)
+    CREATE_THREAD_LOCK_GUARD
+    auto nfcDevice = jub::product::prdsFactory::GetInstance()->CreateProduct(JUB_ENUM_COMMODE::NFC);
+    if (   !nfcDevice
+        || !jub::device::xNFCDeviceFactory::CheckTypeid(nfcDevice)
+        ) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->SetParam(param));
+
+    return JUBR_OK;
+#else   // #if defined(NFC_MODE)
+    return JUBR_IMPL_NOT_SUPPORT;
+#endif  // #if defined(NFC_MODE) end
+}
+
+
 JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg) {
 
 #if defined(NFC_MODE)
