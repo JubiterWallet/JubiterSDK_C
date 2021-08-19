@@ -153,7 +153,9 @@ JUB_RV verify_pin(JUB_UINT16 contextID) {
         JUB_ULONG retry;
         rv = JUB_VerifyPIN(contextID, str, &retry);
         cout << "[-] JUB_VerifyPIN() return " << GetErrMsg(rv) << endl;
-        if (JUBR_OK != rv) {
+        if (JUBR_OK == rv
+            ||   0 == retry
+            ) {
             break;
         }
         cout << endl;
