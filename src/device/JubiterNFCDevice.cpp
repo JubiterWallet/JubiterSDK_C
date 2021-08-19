@@ -128,6 +128,12 @@ unsigned int JubiterNFCDevice::Initialize(const NFC_DEVICE_INIT_PARAM& params) {
         return (unsigned int)MatchErrorCode(ret);
     }
 
+    return (unsigned int)ret;
+}
+
+
+unsigned int JubiterNFCDevice::SetParam(const NFC_DEVICE_SET_PARAM& params) {
+
     return SetSCP11Param(params.crt,
                          params.sk,
                          params.hostID,

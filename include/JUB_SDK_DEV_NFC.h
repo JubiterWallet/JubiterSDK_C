@@ -23,12 +23,20 @@ typedef void (*NFC_ScanFuncCallBack)(
     unsigned int devType    /* 设备类型 */
 );
 
-// Remove c++ features for swift framework
+
 typedef struct stNFCDeviceInitParam {
     void* jvm;
     void* context;
     NFC_ScanFuncCallBack scanCallBack;
+//
+//     stNFCDeviceInitParam();
+//    ~stNFCDeviceInitParam() = default;
+} NFC_DEVICE_INIT_PARAM;
+// Remove c++ features for swift framework end
 
+
+// Remove c++ features for swift framework
+typedef struct stNFCDeviceSetParam {
     JUB_CHAR_PTR crt;
     JUB_CHAR_PTR sk;
     JUB_UINT8 keyLength;
@@ -37,8 +45,7 @@ typedef struct stNFCDeviceInitParam {
 //
 //     stNFCDeviceInitParam();
 //    ~stNFCDeviceInitParam() = default;
-} NFC_DEVICE_INIT_PARAM;
-// Remove c++ features for swift framework end
+} NFC_DEVICE_SET_PARAM;
 
 
 JUB_COINCORE_DLL_EXPORT
@@ -54,6 +61,15 @@ JUB_RV JUB_disconnectNFCDevice(JUB_UINT16 deviceID);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_isDeviceNFCConnect(JUB_UINT16 deviceID);
+
+/*****************************************************************************
+ * @function name : JUB_setNFCDeviceParam
+ * @in  param : param - the param of preparing for opening encryption channels
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_setNFCDeviceParam(IN NFC_DEVICE_SET_PARAM param);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg);
