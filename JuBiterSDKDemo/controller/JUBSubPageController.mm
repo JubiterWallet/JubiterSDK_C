@@ -134,10 +134,19 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
         return;
     }
     
+    //通讯库调用
+    NFC_DEVICE_INIT_PARAM param;
+    param.scanCallBack = NFCScanFuncCallBack;
+    rv = JUB_initNFCDevice(param);
+    if (JUBR_OK != rv) {
+        [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() ERROR.]"]];
+        return;
+    }
+    [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() OK.]"]];
+    
 //    [data setSelfClass:self.selfClass];
     [sharedData setOptItem:self.optItem];
-
-    NSString *subID = @"subjectID";
+    
     if ([sharedData deviceCert]) {
         JUB_CHAR_PTR sn = nullptr;
         JUB_CHAR_PTR subjectID = nullptr;
@@ -148,7 +157,7 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
         }
         [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_ParseDeviceCert() OK.]"]];
         
-        subID = [NSString stringWithFormat:@"%s", subjectID];
+        NSString *subID = [NSString stringWithFormat:@"%s", subjectID];
         
         if (sn) {
             JUB_FreeMemory(sn);
@@ -156,30 +165,27 @@ void BLEDiscFuncCallBack(JUB_BYTE_PTR uuid) {
         if (subjectID) {
             JUB_FreeMemory(subjectID);
         }
+        
+//        std::string fileName = "42584E46433230303532353030303031_apk";
+        std::string fileName = "42584E46433230303532353030303031_oce";
+//        std::string fileName = "42584E46433230303532353030303032_apk";
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%s", fileName.c_str()]
+                                                             ofType:@"settings"];
+        Json::Value root = readJSON([filePath UTF8String]);
+        
+        NFC_DEVICE_SET_PARAM param;
+        param.crt = (char*)root["SCP11c"]["OCE"][1][0].asCString();
+        param.sk  = (char*)root["SCP11c"]["OCE"][1][2].asCString();
+        param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
+        param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
+        param.cardGroupID = (char*)[subID UTF8String];
+        rv = JUB_setNFCDeviceParam(param);
+        if (JUBR_OK != rv) {
+            [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_setNFCDeviceParam() ERROR.]"]];
+            return;
+        }
+        [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_setNFCDeviceParam() OK.]"]];
     }
-    
-//    std::string fileName = "42584E46433230303532353030303031_apk";
-    std::string fileName = "42584E46433230303532353030303031_oce";
-//    std::string fileName = "42584E46433230303532353030303032_apk";
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%s", fileName.c_str()]
-                                                         ofType:@"settings"];
-    Json::Value root = readJSON([filePath UTF8String]);
-    
-    //通讯库调用
-    NFC_DEVICE_INIT_PARAM param;
-    param.scanCallBack = NFCScanFuncCallBack;
-    param.crt = (char*)root["SCP11c"]["OCE"][1][0].asCString();
-    param.sk  = (char*)root["SCP11c"]["OCE"][1][2].asCString();
-    param.hostID = (char*)root["SCP11c"]["HostID"].asCString();
-    param.keyLength = root["SCP11c"]["KeyLength"].asUInt();
-    param.cardGroupID = (char*)[subID UTF8String];
-    rv = JUB_initNFCDevice(param);
-    if (JUBR_OK != rv) {
-        [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() ERROR.]"]];
-        return;
-    }
-    [cSelf addMsgData:[NSString stringWithFormat:@"[JUB_initNFCDevice() OK.]"]];
-    
 }
 
 
