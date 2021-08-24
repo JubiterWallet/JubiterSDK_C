@@ -28,7 +28,7 @@ class TransactionInput {
 
     Data lock;
 
-//    TransactionInput() {}
+    TransactionInput() {}
     /// Initializes a transaction input with a previous output, a script and a
     /// sequence number.
     TransactionInput(TW::Bitcoin::OutPoint previousOutput, uint64_t since, Data lock)

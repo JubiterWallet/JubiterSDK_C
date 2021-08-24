@@ -22,6 +22,7 @@
 using namespace TW;
 using namespace TW::NervosCKB;
 
+size_t Script::LOCK_SCRIPT_ITEM_COUNT = 3;
 
 Data Script::hash() const {
 

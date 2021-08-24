@@ -31,6 +31,8 @@ enum ScriptHashType {
 
 class Script {
   public:
+    static size_t LOCK_SCRIPT_ITEM_COUNT;
+
     /// Script raw bytes.
     Data bytes;
 

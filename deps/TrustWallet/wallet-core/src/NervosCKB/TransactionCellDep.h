@@ -31,7 +31,7 @@ class TransactionCellDep {
     /// 1 - DepGroup
     uint8_t depType;
 
-//    TransactionCellDep() {}
+    TransactionCellDep() {}
     /// Initializes a transaction input with a previous output, a script and a
     /// sequence number.
     TransactionCellDep(TW::Bitcoin::OutPoint outPoint, uint8_t depType)

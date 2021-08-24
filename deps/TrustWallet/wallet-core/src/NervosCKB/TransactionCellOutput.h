@@ -7,6 +7,8 @@
 #pragma once
 
 #include "../NervosCKB/Script.h"
+#include "../NervosCKB/Serialization.hpp"
+#include "../NervosCKB/Deserialization.hpp"
 
 #include <memory>
 
@@ -14,6 +16,8 @@ namespace TW::NervosCKB {
 
 /// Bitcoin transaction output.
 struct TransactionOutput {
+    static size_t TXOUTPUT_ITEM_COUNT;
+
     /// Transaction amount.
     uint64_t capacity;
 
@@ -28,7 +32,7 @@ struct TransactionOutput {
     Data data;
 
     /// Initializes an empty transaction output.
-//    TransactionOutput() = default;
+    TransactionOutput() = default;
 
     /// Initializes a transaction output with a value and a script.
     TransactionOutput(uint64_t capacity, Data lock, Data type, Data data) : capacity(capacity), lock(std::move(lock)), type(std::move(type)), data(std::move(data)) {}
@@ -53,12 +57,24 @@ struct TransactionOutput {
     ///
     virtual size_t size();
 
+    static uint8_t capacitySize() {
+        return sizeof(capacity)/sizeof(uint8_t);
+    }
     virtual Data serializeCapacity() const;
+    virtual bool deserializeCapacity(const Data& data);
+
+    static uint8_t lockScriptSize() {
+        return sizeTable({TW::Hash::sha256Size, 1, (4+TW::Hash::sha1Size)});
+    }
     virtual Data serializeLockScript() const;
+    virtual bool deserializeLockScript(const Data& data);
+
     virtual Data serializeTypeScript() const;
+    virtual bool deserializeTypeScript(const Data& data);
 
     /// Serializes the output into the provided buffer.
     virtual Data serialize() const;
+    virtual bool deserialize(const Data& data);
 
     static std::vector<TW::Data> serialize(const TransactionOutput& output);
 };

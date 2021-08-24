@@ -23,6 +23,8 @@ namespace TW::NervosCKB {
 
 
 struct Transaction {
+    static size_t TX_ITEM_COUNT;
+
     /// Transaction data format version (note, this is signed)
     int32_t version = 1;
 
@@ -39,6 +41,8 @@ struct Transaction {
 
     TW::Hash::Hasher hasher = TW::Hash::sha256d;
 
+    Transaction(TW::Hash::Hasher hasher = TW::Hash::sha256d)
+        : version(0), cellDeps(), inputs(), outputs(), hasher(hasher) {}
     Transaction(int32_t version, TW::Hash::Hasher hasher = TW::Hash::sha256d)
         : version(version), cellDeps(), inputs(), outputs(), hasher(hasher) {}
 
@@ -88,15 +92,23 @@ struct Transaction {
 
     /// Serializes the transaction's deps into the provided buffer.
     virtual Data serializeDeps() const;
+    virtual bool deserializeDeps(const Data& data);
+
     /// Serializes the transaction's inputs into the provided buffer.
     virtual Data serializeInputs() const;
+    virtual bool deserializeInputs(const Data& data);
+
     /// Serializes the transaction's outputs into the provided buffer.
     virtual Data serializeOutputs() const;
+    virtual bool deserializeOutputs(const Data& data, size_t& outputCount);
+
     /// Serializes the transaction's outputs data into the provided buffer.
     virtual Data serializeOutputsData() const;
+    virtual bool deserializeOutputsData(const Data& data, const size_t& outputCount);
 
     /// Encodes the transaction into the provided buffer.
     virtual void serialize(Data& data) const;
+    virtual bool deserialize(const Data& data);
 
     nlohmann::json serialize() const noexcept;
 };

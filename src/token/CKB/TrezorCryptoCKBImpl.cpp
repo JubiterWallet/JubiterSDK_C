@@ -41,12 +41,6 @@ JUB_RV TrezorCryptoCKBImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
     hex = uchar_vector(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t)).getHex();
     hex = ETH_PRDFIX + hex;
 
-    //panmin
-    std::string priv = uchar_vector(hdkey.private_key, hdkey.private_key + sizeof(hdkey.private_key)/sizeof(uint8_t)).getHex()
-                     + uchar_vector(hdkey.chain_code,  hdkey.chain_code  + sizeof(hdkey.chain_code )/sizeof(uint8_t)).getHex();
-
-    std::cout << "priv   : " << priv    << std::endl;
-
     return JUBR_OK;
 }
 
@@ -106,8 +100,7 @@ JUB_RV TrezorCryptoCKBImpl::SignTX(const std::vector<std::string>& vInputPath,
         }
     }
 
-    //panmin
-    std::cout << "tx: " << unsignedTx.serialize().dump() << std::endl;
+    rawInJSON = unsignedTx.serialize().dump();
 
     return JUBR_OK;
 }

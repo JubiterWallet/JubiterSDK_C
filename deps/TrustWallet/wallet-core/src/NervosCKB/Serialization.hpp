@@ -136,6 +136,17 @@ inline size_t sizeTable(const std::vector<Data>& table) {
 }
 
 
+inline size_t sizeTable(const Data& table) {
+
+    size_t bodyLength = 0;
+    for (const auto& item : table) {
+        bodyLength += item;
+    }
+
+    return sizeFullLength(table) + bodyLength;
+}
+
+
 inline Data serializeTable(const std::vector<Data>& table) {
 
     if (table.empty()) {

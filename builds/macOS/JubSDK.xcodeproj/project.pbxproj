@@ -986,6 +986,8 @@
 		7788318C267356A5004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77883189267356A5004FDA80 /* ContractAbi.h */; };
 		7788318D267356A5004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788318A267356A5004FDA80 /* ContractAbi.cpp */; };
 		7788318E267356A6004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788318A267356A5004FDA80 /* ContractAbi.cpp */; };
+		77CA983526D33D9C00100BB1 /* Deserialization.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77CA983426D33D9B00100BB1 /* Deserialization.hpp */; };
+		77CA983626D33D9C00100BB1 /* Deserialization.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77CA983426D33D9B00100BB1 /* Deserialization.hpp */; };
 		77E9267226AAB13C002DF781 /* TWNervosCKBSigHashType.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E9267126AAB13C002DF781 /* TWNervosCKBSigHashType.h */; };
 		77E9267326AAB13C002DF781 /* TWNervosCKBSigHashType.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E9267126AAB13C002DF781 /* TWNervosCKBSigHashType.h */; };
 		77E9267526AAB1D6002DF781 /* JUB_SDK_CKB.h in Headers */ = {isa = PBXBuildFile; fileRef = 77E9267426AAB1D6002DF781 /* JUB_SDK_CKB.h */; };
@@ -1664,6 +1666,7 @@
 		77AD323D26806EEF00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
 		77B1C4E9265F80B80093E7A9 /* ERC721Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC721Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.h"; sourceTree = "<group>"; };
 		77B1C4EA265F80B80093E7A9 /* ERC721Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC721Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC721Abi.cpp"; sourceTree = "<group>"; };
+		77CA983426D33D9B00100BB1 /* Deserialization.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Deserialization.hpp; path = "../../deps/TrustWallet/wallet-core/src/NervosCKB/Deserialization.hpp"; sourceTree = "<group>"; };
 		77E9267126AAB13C002DF781 /* TWNervosCKBSigHashType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWNervosCKBSigHashType.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWNervosCKBSigHashType.h"; sourceTree = "<group>"; };
 		77E9267426AAB1D6002DF781 /* JUB_SDK_CKB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JUB_SDK_CKB.h; path = ../../include/JUB_SDK_CKB.h; sourceTree = "<group>"; };
 		77E9267726AAB1FC002DF781 /* CKBContextFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKBContextFactory.h; path = ../../include/context/CKBContextFactory.h; sourceTree = "<group>"; };
@@ -2903,11 +2906,12 @@
 		77E9269426AAB2B8002DF781 /* NervosCKB */ = {
 			isa = PBXGroup;
 			children = (
+				77CA983426D33D9B00100BB1 /* Deserialization.hpp */,
+				77E9269526AAB2C4002DF781 /* Serialization.hpp */,
 				77E926A126AAB2C7002DF781 /* Script.cpp */,
 				77E9269E26AAB2C6002DF781 /* Script.h */,
 				77E9269A26AAB2C5002DF781 /* SegwitAddress.cpp */,
 				77E9269C26AAB2C5002DF781 /* SegwitAddress.h */,
-				77E9269526AAB2C4002DF781 /* Serialization.hpp */,
 				77E926A026AAB2C6002DF781 /* Transaction.cpp */,
 				77E9269726AAB2C5002DF781 /* Transaction.h */,
 				77E9269F26AAB2C6002DF781 /* TransactionCellDep.cpp */,
@@ -3267,6 +3271,7 @@
 				6763933F253460A800C41883 /* Discover.pb.h in Headers */,
 				67ED0FD225243217009029A7 /* Authority.h in Headers */,
 				671545B423D58B7500810F16 /* JubiterBladeQTUMImpl.h in Headers */,
+				77CA983626D33D9C00100BB1 /* Deserialization.hpp in Headers */,
 				671545B223D58B7500810F16 /* TrezorCryptoBCHImpl.h in Headers */,
 				77E9267326AAB13C002DF781 /* TWNervosCKBSigHashType.h in Headers */,
 				777B85F42695783D003F7CF1 /* TransactionInput.h in Headers */,
@@ -3589,6 +3594,7 @@
 				67A4BD682330A1D10059A3DB /* bip39.h in Headers */,
 				67A4BD342330A1720059A3DB /* sha2.h in Headers */,
 				674F19D223A10628001702DD /* modm-donna-32bit.h in Headers */,
+				77CA983526D33D9C00100BB1 /* Deserialization.hpp in Headers */,
 				67A4BD292330A1560059A3DB /* pbkdf2.h in Headers */,
 				67F5953F256E654100AB8FED /* FILContext.h in Headers */,
 				676621E3234C316900AFAFA2 /* BinaryCoding.h in Headers */,

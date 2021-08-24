@@ -6,6 +6,7 @@
 
 #include "../NervosCKB/Transaction.h"
 #include "../NervosCKB/Serialization.hpp"
+#include "../NervosCKB/Deserialization.hpp"
 #include <TrezorCrypto/blake256.h>
 
 #include <cassert>
@@ -16,6 +17,7 @@ using namespace TW::NervosCKB;
 
 extern const uint8_t personal_ckb[16];
 
+size_t Transaction::TX_ITEM_COUNT = 6;
 
 /// Returns the transaction's transaction hash.
 Data Transaction::hash() const {
@@ -134,6 +136,25 @@ Data Transaction::serializeDeps() const {
 }
 
 
+bool Transaction::deserializeDeps(const Data& data) {
+
+    bool b = true;
+
+    auto table = deserializeFixVector(data);
+    for (int i=0; i<table.size(); ++i) {
+        TransactionCellDep dep;
+        if (!dep.decode(table[i])) {
+            b = false;
+            break;
+        }
+        TransactionCellDep *txDep = new TransactionCellDep(dep);
+        cellDeps.push_back(txDep);
+    }
+
+    return b;
+}
+
+
 /// Serializes the transaction's inputs into the provided buffer.
 Data Transaction::serializeInputs() const {
 
@@ -146,6 +167,25 @@ Data Transaction::serializeInputs() const {
 }
 
 
+bool Transaction::deserializeInputs(const Data& data) {
+
+    bool b = true;
+
+    auto table = deserializeFixVector(data);
+    for (int i=0; i<table.size(); ++i) {
+        TransactionInput input;
+        if (!input.decode(table[i])) {
+            b = false;
+            break;
+        }
+        TransactionInput *txInput = new TransactionInput(input);
+        inputs.push_back(txInput);
+    }
+
+    return b;
+}
+
+
 /// Serializes the transaction's outputs into the provided buffer.
 Data Transaction::serializeOutputs() const {
 
@@ -154,7 +194,36 @@ Data Transaction::serializeOutputs() const {
         table.push_back(output->serialize());
     }
 
-    return serializeTable(table);
+    return serializeDynVector(table);
+}
+
+
+bool Transaction::deserializeOutputs(const Data& data, size_t& outputCount) {
+
+    bool b = true;
+
+    auto table = deserializeTableByItemLength(
+        data,
+        sizeTable({
+            TransactionOutput::capacitySize(),
+            TransactionOutput::lockScriptSize(),
+            0}) // type script, unless Nervos DAO Script is used, this item is 0 bytes
+    );
+    if (0 == table.size()) {
+        return false;
+    }
+    outputCount = table.size();
+    for (int i=0; i<table.size(); ++i) {
+        TransactionOutput output;
+        if (!output.deserialize(table[i])) {
+            b = false;
+            break;
+        }
+        TransactionOutput *txOutput = new TransactionOutput(output);
+        outputs.push_back(txOutput);
+    }
+
+    return b;
 }
 
 
@@ -175,6 +244,17 @@ Data Transaction::serializeOutputsData() const {
 }
 
 
+bool Transaction::deserializeOutputsData(const Data& data, const size_t& outputCount) {
+
+    auto table = deserializeDynVector(data, outputCount);
+    for (int i=0; i<table.size(); ++i) {
+        outputs[i]->data = table[i];
+    }
+
+    return true;
+}
+
+
 /// Encodes the transaction into the provided buffer.
 void Transaction::serialize(Data& data) const {
 
@@ -190,6 +270,47 @@ void Transaction::serialize(Data& data) const {
     table.push_back(serializeOutputsData());
 
     data = serializeTable(table);
+}
+
+
+bool Transaction::deserialize(const Data& data) {
+
+    bool b = true;
+
+    auto table = deserializeTableByItemCount(data, Transaction::TX_ITEM_COUNT);
+    size_t outputCount = 0;
+    for (size_t i=0; i<table.size(); ++i) {
+        switch (i) {
+        case 0:     // Version
+        {
+            int index = 0;
+            decodeVersion(table[i], index);
+            break;
+        }
+        case 1:     // Deps
+            b = b && deserializeDeps(table[i]);
+            break;
+        case 2:     // HeaderDeps
+            break;
+        case 3:     // Inputs
+            b = b && deserializeInputs(table[i]);
+            break;
+        case 4:     // Outputs
+            b = b && deserializeOutputs(table[i], outputCount);
+            break;
+        case 5:     // OutputsData
+            b = b && deserializeOutputsData(table[i], outputCount);
+            break;
+        default:
+            b = b && false;
+            break;
+        }
+        if (!b) {
+            break;
+        }
+    }
+
+    return b;
 }
 
 

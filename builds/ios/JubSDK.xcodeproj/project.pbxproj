@@ -795,6 +795,7 @@
 		7770EB6F26AAA4E100324488 /* WitnessArgs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7770EB5926AAA4E100324488 /* WitnessArgs.h */; };
 		7770EB7026AAA4E100324488 /* TransactionCellInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 7770EB5A26AAA4E100324488 /* TransactionCellInput.h */; };
 		7770EB7126AAA4E100324488 /* TransactionCellDep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7770EB5B26AAA4E100324488 /* TransactionCellDep.h */; };
+		77767BD726D4A51100E77B86 /* Deserialization.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77767BD626D4A51100E77B86 /* Deserialization.hpp */; };
 		777B860526958599003F7CF1 /* Transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 777B860326958599003F7CF1 /* Transaction.h */; };
 		777B860626958599003F7CF1 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B860426958599003F7CF1 /* Transaction.cpp */; };
 		777B860726958599003F7CF1 /* Transaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777B860426958599003F7CF1 /* Transaction.cpp */; };
@@ -1406,6 +1407,7 @@
 		7770EB5926AAA4E100324488 /* WitnessArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WitnessArgs.h; path = "../../deps/TrustWallet/wallet-core/src/NervosCKB/WitnessArgs.h"; sourceTree = "<group>"; };
 		7770EB5A26AAA4E100324488 /* TransactionCellInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionCellInput.h; path = "../../deps/TrustWallet/wallet-core/src/NervosCKB/TransactionCellInput.h"; sourceTree = "<group>"; };
 		7770EB5B26AAA4E100324488 /* TransactionCellDep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionCellDep.h; path = "../../deps/TrustWallet/wallet-core/src/NervosCKB/TransactionCellDep.h"; sourceTree = "<group>"; };
+		77767BD626D4A51100E77B86 /* Deserialization.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Deserialization.hpp; path = "../../deps/TrustWallet/wallet-core/src/NervosCKB/Deserialization.hpp"; sourceTree = "<group>"; };
 		777B860326958599003F7CF1 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Dash/Transaction.h"; sourceTree = "<group>"; };
 		777B860426958599003F7CF1 /* Transaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transaction.cpp; path = "../../deps/TrustWallet/wallet-core/src/Dash/Transaction.cpp"; sourceTree = "<group>"; };
 		777B8609269585C0003F7CF1 /* TransactionInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransactionInput.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/TransactionInput.h"; sourceTree = "<group>"; };
@@ -2650,11 +2652,12 @@
 		7770EB4C26AAA46000324488 /* NervosCKB */ = {
 			isa = PBXGroup;
 			children = (
+				77767BD626D4A51100E77B86 /* Deserialization.hpp */,
+				7770EB5026AAA4E000324488 /* Serialization.hpp */,
 				7770EB5326AAA4E000324488 /* Script.cpp */,
 				7770EB5826AAA4E100324488 /* Script.h */,
 				7770EB5226AAA4E000324488 /* SegwitAddress.cpp */,
 				7770EB5426AAA4E000324488 /* SegwitAddress.h */,
-				7770EB5026AAA4E000324488 /* Serialization.hpp */,
 				7770EB5626AAA4E000324488 /* Transaction.cpp */,
 				7770EB4D26AAA4DF00324488 /* Transaction.h */,
 				7770EB5526AAA4E000324488 /* TransactionCellDep.cpp */,
@@ -2948,6 +2951,7 @@
 				67F5960E256FDD3300AB8FED /* Cbor.h in Headers */,
 				6718A37123A338E500F8A5CD /* Data.h in Headers */,
 				67E0DF5A250F6D6C00D42EF0 /* TWPrivateKey.h in Headers */,
+				77767BD726D4A51100E77B86 /* Deserialization.hpp in Headers */,
 				325B55C2249E66D2002A0616 /* tag.h in Headers */,
 				772B688D267383A6007D789B /* JubiterLiteFILImpl.h in Headers */,
 				7770EAF126AAA26900324488 /* KSMContext.h in Headers */,
