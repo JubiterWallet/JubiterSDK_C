@@ -49,7 +49,7 @@ typedef struct stNFCDeviceSetParam {
 
 
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_InitNFCDevice(IN NFC_DEVICE_INIT_PARAM param);
+JUB_RV JUB_initNFCDevice(IN NFC_DEVICE_INIT_PARAM param);
 
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_connectNFCDevice(JUB_BYTE_PTR bUUID,     /**< nfc device UUID */
