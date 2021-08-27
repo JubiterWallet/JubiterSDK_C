@@ -69,32 +69,32 @@ ED25519_FN(ed25519_publickey_ext) (const ed25519_secret_key sk, const ed25519_se
 	ge25519_pack(pk, &A);
 }
 
-void
-ED25519_FN(ed25519_cosi_sign) (const unsigned char *m, size_t mlen, const ed25519_secret_key sk, const ed25519_secret_key nonce, const ed25519_public_key R, const ed25519_public_key pk, ed25519_cosi_signature sig) {
-	bignum256modm r, S, a;
-	hash_512bits extsk, extnonce, hram;
-
-	ed25519_extsk(extsk, sk);
-	ed25519_extsk(extnonce, nonce);
-
-	/* r = nonce */
-	expand256_modm(r, extnonce, 32);
-
-	/* S = H(R,A,m).. */
-	ed25519_hram(hram, R, pk, m, mlen);
-	expand256_modm(S, hram, 64);
-
-	/* S = H(R,A,m)a */
-	expand256_modm(a, extsk, 32);
-	mul256_modm(S, S, a);
-
-	/* S = (r + H(R,A,m)a) */
-	add256_modm(S, S, r);
-
-	/* S = (r + H(R,A,m)a) mod L */
-	contract256_modm(sig, S);
-}
-
+//void
+//ED25519_FN(ed25519_cosi_sign) (const unsigned char *m, size_t mlen, const ed25519_secret_key sk, const ed25519_secret_key nonce, const ed25519_public_key R, const ed25519_public_key pk, ed25519_cosi_signature sig) {
+//	bignum256modm r, S, a;
+//	hash_512bits extsk, extnonce, hram;
+//
+//	ed25519_extsk(extsk, sk);
+//	ed25519_extsk(extnonce, nonce);
+//
+//	/* r = nonce */
+//	expand256_modm(r, extnonce, 32);
+//
+//	/* S = H(R,A,m).. */
+//	ed25519_hram(hram, R, pk, m, mlen);
+//	expand256_modm(S, hram, 64);
+//
+//	/* S = H(R,A,m)a */
+//	expand256_modm(a, extsk, 32);
+//	mul256_modm(S, S, a);
+//
+//	/* S = (r + H(R,A,m)a) */
+//	add256_modm(S, S, r);
+//
+//	/* S = (r + H(R,A,m)a) mod L */
+//	contract256_modm(sig, S);
+//}
+//
 void
 ED25519_FN(ed25519_sign) (const unsigned char *m, size_t mlen, const ed25519_secret_key sk, const ed25519_public_key pk, ed25519_signature RS) {
 	ed25519_hash_context ctx;
