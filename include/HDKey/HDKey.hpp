@@ -19,7 +19,7 @@
 #include <string>
 #include <vector>
 #include <TrustWalletCore/TWHDVersion.h>
-#include "util.h"
+#include "utility/util.h"
 
 namespace jub {
 

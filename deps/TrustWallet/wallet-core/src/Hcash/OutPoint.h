@@ -22,7 +22,7 @@ class OutPoint :
 
     /// Initializes an out-point reference with a hash and an index.
     template <typename T>
-    OutPoint(const T& h, uint32_t index, uint8_t outputTree = 0) : outputTree(outputTree), OutPoint(h, index) {}
+    OutPoint(const T& h, uint32_t index, uint8_t outputTree = 0) : outputTree(outputTree), TW::Bitcoin::OutPoint(h, index) {}
 
     /// Encodes the out-point into the provided buffer.
     virtual void encode(std::vector<uint8_t>& data) const override;
