@@ -44,9 +44,9 @@ inline std::vector<Data> deserializeFixVector(const Data& fixVector) {
 }
 
 
-inline Data getSizes(const uint32_t& fullLength, const Data& elmOffsets) {
+inline std::vector<uint32_t> getSizes(const uint32_t& fullLength, const std::vector<uint32_t>& elmOffsets) {
 
-    Data sizes;
+    std::vector<uint32_t> sizes;
     for (size_t idx=1; idx<=elmOffsets.size(); ++idx) {
         if (elmOffsets.size() == idx) {
             sizes.push_back(fullLength-elmOffsets[idx-1]);
@@ -60,19 +60,17 @@ inline Data getSizes(const uint32_t& fullLength, const Data& elmOffsets) {
 }
 
 
-inline Data deserializeFullLength(const Data& vFullLength, const size_t& itemCount) {
+inline std::vector<uint32_t> deserializeFullLength(const Data& vFullLength, const size_t& itemCount) {
 
     // skip full length
     uint32_t fullLength = decode32LE(&vFullLength[0]);
     uint32_t offset = fullLengthSize;
 
-    Data offsetArray;
+    std::vector<uint32_t> offsetArray;
     for (size_t i=0; i<itemCount; ++i) {
         Data encode;
         uint32_t itemSize = decode32LE(&vFullLength[offset+i*offsetSize]);
-        if (itemSize < 0xFF) {
-            offsetArray.push_back((uint8_t)itemSize);
-        }
+        offsetArray.push_back(itemSize);
     }
 
     return getSizes(fullLength, offsetArray);
@@ -111,14 +109,17 @@ inline std::vector<Data> deserializeTableByItemCount(const Data& data, const siz
         return {};
     }
 
+    auto vFullLength = deserializeFullLength(data, itemCount);
+    if (vFullLength.empty()) {
+        return {};
+    }
+
     uint32_t fullLength = decode32LE(&data[0]);
 
     Data table;
     std::copy(std::begin(data), std::begin(data)+fullLength, std::back_inserter(table));
 
     uint32_t headerLength = fullLengthSize + offsetSize*(uint32_t)itemCount;
-
-    auto vFullLength = deserializeFullLength(data, itemCount);
 
     uint32_t offset = headerLength;
     std::vector<Data> bodys;
