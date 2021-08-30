@@ -56,7 +56,8 @@ JUB_RV JubiterLiteBCHImpl::_SignTx(bool witness,
                                    const std::vector<std::string>& vChangePath,
                                    const TW::Bitcoin::Transaction& tx,
                                    std::vector<TW::Data>& vInputPublicKey,
-                                   std::vector<uchar_vector>& vSignatureRaw) {
+                                   std::vector<uchar_vector>& vSignatureRaw,
+                                   const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ERROR;
 

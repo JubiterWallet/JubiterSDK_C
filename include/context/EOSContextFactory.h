@@ -23,8 +23,8 @@ public:
         Register(_type, &EOSContext::Create);
     }
 
-    EOSContext* CreateContext(const CONTEXT_CONFIG_EOS& cfg, JUB_UINT16 deviceID) {
-        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(_type, deviceID);
+    EOSContext* CreateContext(const JUB_UINT16 deviceID, const CONTEXT_CONFIG_EOS& cfg) {
+        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(deviceID, _type);
         return Create(_type, cfg, token);
     }
 

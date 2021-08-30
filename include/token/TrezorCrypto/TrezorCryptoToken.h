@@ -15,26 +15,22 @@ class TrezorCryptoToken :
 public:
    //for Factory
    template<typename T>
-   static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID) {
-       auto token = std::make_shared<T>(deviceID);
+   static std::shared_ptr<BaseToken> Create(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) {
+       auto token = std::make_shared<T>(deviceID, curve);
        if (nullptr == token) {
            return nullptr;
        }
 
-       return SoftwareTokenInterface::Create<T>(deviceID, token->getCurves());
+       return SoftwareTokenInterface::Create<T>(deviceID, curve);
    }
 
 
 public:
-    TrezorCryptoToken(JUB_UINT16 deviceID, JUB_ENUM_CURVES curves)
+    TrezorCryptoToken(JUB_UINT16 deviceID, JUB_ENUM_CURVES curve)
         : _deviceID(deviceID),
-          _curves(curves) {
+          _curve(curve) {
     }
     ~TrezorCryptoToken() {}
-
-    virtual JUB_ENUM_CURVES getCurves() {
-        return _curves;
-    }
 
     virtual JUB_RV ToMasterKey(const JUB_ENUM_CURVES& curve, const std::string& privOrPub,
                                const JUB_UINT32 xpubPrefix = TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
@@ -51,11 +47,11 @@ public:
                                           std::string& xpub, std::string& xprv) override;
 
 protected:
-   virtual JUB_RV _HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint);
+   virtual JUB_RV _HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin);
 
 protected:
     JUB_UINT16 _deviceID;
-    JUB_ENUM_CURVES _curves;
+    JUB_ENUM_CURVES _curve;
 
     std::string _MasterKey_XPRV{""};
     std::string _MasterKey_XPUB{""};

@@ -23,8 +23,8 @@ public:
         Register(_type, &TRXContext::Create);
     }
 
-    TRXContext* CreateContext(const CONTEXT_CONFIG_TRX& cfg, JUB_UINT16 deviceID) {
-        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(_type, deviceID);
+    TRXContext* CreateContext(const JUB_UINT16 deviceID, const CONTEXT_CONFIG_TRX& cfg) {
+        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(deviceID, _type);
         return Create(_type, cfg, token);
     }
 

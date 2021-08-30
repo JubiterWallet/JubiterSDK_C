@@ -17,6 +17,7 @@ JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some majo
 | 0171 | Hcash | HC | https://h.cash/ |
 | 0194 | EOS | EOS | http://eos.io |
 | 0195 | Tron | TRX | https://tron.network |
+| 0309 | Nervos CKB | CKB | https://www.nervos.org |
 | 0461 | Filecoin | FIL | https://filecoin.io |
 | 2301 | Qtum | QTUM | https://qtum.org |
 | ---- | USDT | USDT | https://tether.to |

@@ -47,6 +47,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/HC SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/XRP SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/TRX SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/FIL SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/CKB SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/HDKey SRC_LIST)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/uint256_t SRC_LIST)
@@ -74,6 +75,7 @@ list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/walle
 list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Tron/ContractWitness.h")
 list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Tron/ContractWitness.cpp")
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Filecoin SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/NervosCKB SRC_LIST)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/JubiterSDK_Common_pb/cpp/Tron/protocol/core SRC_LIST)
@@ -125,6 +127,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ripple)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Tron)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Filecoin)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/NervosCKB)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../gpc/include)
@@ -150,6 +153,7 @@ endif() #if(devOnly)
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_SDK_XRP.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_SDK_TRX.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_SDK_FIL.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_SDK_CKB.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../include/JUB_SDK.h
     )
 

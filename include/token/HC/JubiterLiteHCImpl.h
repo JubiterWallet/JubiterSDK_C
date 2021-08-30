@@ -30,7 +30,8 @@ public:
                           const std::vector<JUB_UINT16>& vChangeIndex,
                           const std::vector<std::string>& vChangePath,
                           const std::vector<JUB_BYTE>& vUnsigedTrans,
-                          std::vector<JUB_BYTE>& vRaw) override;
+                          std::vector<JUB_BYTE>& vRaw,
+                          const TWCoinType& coinNet) override;
 }; // class JubiterLiteHCImpl end
 
 

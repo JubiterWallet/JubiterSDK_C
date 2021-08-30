@@ -51,7 +51,7 @@ struct Transaction :
     /// Decodes the provided buffer into the transaction.
     virtual bool decode(bool witness, const Data& data) override;
 
-}; // struct Transaction end
+}; // struct HcashTransaction end
 
 } // namespace TW::Hcash
 

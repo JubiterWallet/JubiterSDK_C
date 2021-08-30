@@ -49,10 +49,9 @@ JUB_RV JubiterBaseBTCImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data&
 }
 
 
-JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
-
+JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) {
     try {
-        TW::Bitcoin::Address addr(TW::PublicKey(publicKey, _publicKeyType), TWCoinTypeP2pkhPrefix(_coin));
+        TW::Bitcoin::Address addr(TW::PublicKey(publicKey, _publicKeyType), TWCoinTypeP2pkhPrefix((coinNet?coinNet:_coin)));
         address = addr.string();
     }
     catch (...) {
@@ -63,24 +62,24 @@ JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data& publicKey, std::string& a
 }
 
 
-JUB_RV JubiterBaseBTCImpl::CheckAddress(const std::string& address) {
+JUB_RV JubiterBaseBTCImpl::CheckAddress(const std::string& address, const TWCoinType& coinNet) {
+
     //check legacy address
     std::vector<TW::Data> prefixs;
-    prefixs.push_back({TWCoinTypeP2pkhPrefix(_coin)});
-    prefixs.push_back({TWCoinTypeP2shPrefix(_coin)});
+    prefixs.push_back({TWCoinTypeP2pkhPrefix((coinNet?coinNet:_coin))});
+    prefixs.push_back({ TWCoinTypeP2shPrefix((coinNet?coinNet:_coin))});
     JUB_RV rvLegacy = !(TW::Bitcoin::Address::isValid(address, prefixs));
     //check segwit address
-    JUB_RV rvSegwit = !(TW::Bitcoin::SegwitAddress::isValid(address,std::string(stringForHRP(TWCoinTypeHRP(_coin)))));
+    JUB_RV rvSegwit = !(TW::Bitcoin::SegwitAddress::isValid(address,std::string(stringForHRP(TWCoinTypeHRP(_coin, coinNet)))));
 
     return rvLegacy&rvSegwit;
 }
 
 
-JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data& publicKey, std::string& address) {
-
+JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) {
     try {
         // keyhash
-        TW::Bitcoin::SegwitAddress segwitAddr(TW::PublicKey(publicKey, _publicKeyType), OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(_coin))));
+        TW::Bitcoin::SegwitAddress segwitAddr(TW::PublicKey(publicKey, _publicKeyType), OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(_coin, coinNet))));
 
         // redeemScript
         TW::Bitcoin::Script redeemScript = TW::Bitcoin::Script::buildPayToWitnessProgram(segwitAddr.witnessProgram);
@@ -91,7 +90,7 @@ JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data& publicKey, std::str
 
         // address
         TW::Data bytes;
-        bytes.insert(bytes.end(), TWCoinTypeP2shPrefix(_coin));
+        bytes.insert(bytes.end(), TWCoinTypeP2shPrefix((coinNet?coinNet:_coin)));
         bytes.insert(bytes.end(), hRedeemScript.begin(), hRedeemScript.end());
 
         address = TW::Base58::bitcoin.encodeCheck(bytes);
@@ -104,10 +103,10 @@ JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data& publicKey, std::str
 }
 
 
-JUB_RV JubiterBaseBTCImpl::_serializeUnsignedTx(const uint32_t coin,
-                                                const std::vector<INPUT_BTC>& vInputs,
-                                                const std::vector<OUTPUT_BTC>& vOutputs,
-                                                TW::Bitcoin::Transaction& tx) {
+JUB_RV JubiterBaseBTCImpl::_unsignedTx(const uint32_t coin,
+                                       const std::vector<INPUT_BTC>& vInputs,
+                                       const std::vector<OUTPUT_BTC>& vOutputs,
+                                       TW::Bitcoin::Transaction& tx) {
     JUB_RV rv = JUBR_OK;
 
     // inputs
@@ -173,7 +172,8 @@ JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& ty
                                                const std::vector<INPUT_BTC>& vInputs,
                                                const std::vector<OUTPUT_BTC>& vOutputs,
                                                const JUB_UINT32 lockTime,
-                                               uchar_vector& unsignedRaw) {
+                                               uchar_vector& unsignedRaw,
+                                               const TWCoinType& coinNet) {
 
     bool witness = false;
     if (p2sh_p2wpkh == type) {
@@ -181,10 +181,10 @@ JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& ty
     }
 
     TW::Bitcoin::Transaction tx(version, lockTime);
-    JUB_VERIFY_RV(_serializeUnsignedTx(_coin,
-                                       vInputs,
-                                       vOutputs,
-                                       tx));
+    JUB_VERIFY_RV(_unsignedTx((coinNet?coinNet:_coin),
+                              vInputs,
+                              vOutputs,
+                              tx));
 
     tx.encode(witness, unsignedRaw);
 
@@ -342,7 +342,8 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType& coin,
 JUB_RV JubiterBaseBTCImpl::_verifyTx(const bool witness,
                                      const uchar_vector& signedRaw,
                                      const std::vector<JUB_UINT64>& vInputAmount,
-                                     const std::vector<TW::Data>& vInputPublicKey) {
+                                     const std::vector<TW::Data>& vInputPublicKey,
+                                     const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
@@ -357,7 +358,7 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const bool witness,
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return JubiterBaseBTCImpl::_verifyTx(_coin,
+        return JubiterBaseBTCImpl::_verifyTx((coinNet?coinNet:_coin),
                                              &tx,
                                              _hashType,
                                              vInputAmount,

@@ -21,6 +21,8 @@ const char* stringForHRP(enum TWHRP hrp) {
     case TWHRPDigiByte: return HRP_DIGIBYTE;
     case TWHRPGroestlcoin: return HRP_GROESTLCOIN;
     case TWHRPQtum: return HRP_QTUM;
+    case TWHRPCKB: return HRP_CKB;
+    case TWHRPCKBTN: return HRP_CKBTN;
     case TWHRPZilliqa: return HRP_ZILLIQA;
     default: return "";
     }
@@ -47,6 +49,10 @@ enum TWHRP hrpForString(const char *_Nullable string) {
         return TWHRPGroestlcoin;
     } else if (std::strcmp(string, HRP_QTUM) == 0) {
         return TWHRPQtum;
+    } else if (std::strcmp(string, HRP_CKB) == 0) {
+        return TWHRPCKB;
+    } else if (std::strcmp(string, HRP_CKBTN) == 0) {
+        return TWHRPCKBTN;
     } else if (std::strcmp(string, HRP_ZILLIQA) == 0) {
         return TWHRPZilliqa;
     } else {
@@ -54,9 +60,10 @@ enum TWHRP hrpForString(const char *_Nullable string) {
     }
 }
 
+// JuBiter-defined
 /// HRP for this coin type
 //enum TWHRP TWCoinTypeHRP(enum TWCoinType coin);
-TWHRP TWCoinTypeHRP(enum TWCoinType coin) {
+TWHRP TWCoinTypeHRP(enum TWCoinType coin, enum TWCoinType coinNet) {
 
     TWHRP hrp = TWHRP::TWHRPUnknown;
 
@@ -67,9 +74,14 @@ TWHRP TWCoinTypeHRP(enum TWCoinType coin) {
     case TWCoinTypeBinance:
         hrp = TWHRP::TWHRPBinance;
         break;
-    case TWCoinTypeBitcoinTestNet:
+//    case TWCoinTypeBitcoinTestNet:
     case TWCoinTypeBitcoin:
-        hrp = TWHRP::TWHRPBitcoin;
+        if (TWCoinTypeBitcoinTestNet == coinNet) {
+            hrp = TWHRP::TWHRPBitcoinTN;
+        }
+        else {
+            hrp = TWHRP::TWHRPBitcoin;
+        }
         break;
     case TWCoinTypeBitcoinCash:
         hrp = TWHRP::TWHRPBitcoinCash;
@@ -133,6 +145,14 @@ TWHRP TWCoinTypeHRP(enum TWCoinType coin) {
     case TWCoinTypeWanchain:
     case TWCoinTypeZcash:
     case TWCoinTypeZcoin:
+        break;
+    case TWCoinTypeNervosCKB:
+        if (TWCoinTypeBitcoinTestNet == coinNet) {
+            hrp = TWHRP::TWHRPCKBTN;
+        }
+        else {
+            hrp = TWHRP::TWHRPCKB;
+        }
         break;
     case TWCoinTypeZilliqa:
         hrp = TWHRP::TWHRPZilliqa;

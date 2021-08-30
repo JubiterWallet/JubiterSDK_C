@@ -219,9 +219,7 @@ public:
         if (std::string::npos != name.find(PREFIX_BLD)) {
             enumDevice = JUB_ENUM_DEVICE::BLADE;
         }
-        else if (   std::string::npos != name.find(PREFIX_BIO)
-                 || std::string::npos != name.find("hpy2")
-                 ) {
+        else if (std::string::npos != name.find(PREFIX_BIO)) {
             enumDevice = JUB_ENUM_DEVICE::BIO;
         }
         else {

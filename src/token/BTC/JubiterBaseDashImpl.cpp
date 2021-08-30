@@ -10,7 +10,8 @@ JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& t
                                                 const std::vector<INPUT_BTC>& vInputs,
                                                 const std::vector<OUTPUT_BTC>& vOutputs,
                                                 const JUB_UINT32 lockTime,
-                                                uchar_vector& unsignedRaw) {
+                                                uchar_vector& unsignedRaw,
+                                                const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -20,10 +21,10 @@ JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& t
     }
 
     TW::Dash::Transaction tx(version, lockTime);
-    rv = _serializeUnsignedTx(_coin,
-                              vInputs,
-                              vOutputs,
-                              tx);
+    rv = _unsignedTx(_coin,
+                     vInputs,
+                     vOutputs,
+                     tx);
     if (JUBR_OK != rv) {
         return rv;
     }
@@ -33,10 +34,12 @@ JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& t
     return JUBR_OK;
 }
 
+
 JUB_RV JubiterBaseDashImpl::_verifyTx(const bool witness,
                                       const uchar_vector& signedRaw,
                                       const std::vector<JUB_UINT64>& vInputAmount,
-                                      const std::vector<TW::Data>& vInputPublicKey) {
+                                      const std::vector<TW::Data>& vInputPublicKey,
+                                      const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
@@ -51,7 +54,7 @@ JUB_RV JubiterBaseDashImpl::_verifyTx(const bool witness,
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return JubiterBaseBTCImpl::_verifyTx(_coin,
+        return JubiterBaseBTCImpl::_verifyTx((coinNet?coinNet:_coin),
                                              &tx,
                                              _hashType,
                                              vInputAmount,

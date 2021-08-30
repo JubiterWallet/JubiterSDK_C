@@ -128,7 +128,7 @@ JUB_RV JUB_CreateContextXRP(IN CONTEXT_CONFIG_XRP cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::XRPseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    auto context = jub::context::XRPseriesContextFactory::GetInstance()->CreateContext(deviceID, cfg);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->ActiveSelf());

@@ -35,7 +35,7 @@ JUB_RV JUB_CreateContextETH(IN CONTEXT_CONFIG_ETH cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::ETHseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    auto context = jub::context::ETHseriesContextFactory::GetInstance()->CreateContext(deviceID, cfg);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->ActiveSelf());
@@ -172,8 +172,8 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
 //    JUB_CHECK_NULL(valueInWei);// it can be nullptr
     JUB_CHECK_NULL(input);
 
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
-	JUB_CHECK_NULL(context);
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     std::string str_raw;
     JUB_VERIFY_RV(context->SignTransaction(path,

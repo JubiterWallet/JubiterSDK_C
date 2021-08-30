@@ -13,7 +13,8 @@ JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& typ
                                               const std::vector<INPUT_BTC>& vInputs,
                                               const std::vector<OUTPUT_BTC>& vOutputs,
                                               const JUB_UINT32 lockTime,
-                                              uchar_vector& unsignedRaw) {
+                                              uchar_vector& unsignedRaw,
+                                              const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -23,10 +24,10 @@ JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& typ
     }
 
     TW::Hcash::Transaction tx(version, lockTime);
-    rv = _serializeUnsignedTx(_coin,
-                              vInputs,
-                              vOutputs,
-                              tx);
+    rv = _unsignedTx(_coin,
+                     vInputs,
+                     vOutputs,
+                     tx);
     if (JUBR_OK != rv) {
         return rv;
     }
@@ -132,7 +133,8 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const TWCoinType& coin,
 JUB_RV JubiterBaseHCImpl::_verifyTx(const bool witness,
                                     const uchar_vector& signedRaw,
                                     const std::vector<JUB_UINT64>& vInputAmount,
-                                    const std::vector<TW::Data>& vInputPublicKey) {
+                                    const std::vector<TW::Data>& vInputPublicKey,
+                                    const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
@@ -147,7 +149,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const bool witness,
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return JubiterBaseBTCImpl::_verifyTx(_coin,
+        return JubiterBaseBTCImpl::_verifyTx((coinNet?coinNet:_coin),
                                              &tx,
                                              _hashType,
                                              vInputAmount,
@@ -208,7 +210,7 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
 }
 
 
-JUB_RV JubiterBaseHCImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
+JUB_RV JubiterBaseHCImpl::_getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) {
 
     try {
         TW::Hash::Hasher hasherPubkey;

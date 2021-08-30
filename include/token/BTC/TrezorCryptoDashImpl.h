@@ -13,8 +13,8 @@ class TrezorCryptoDashImpl :
         public TrezorCryptoBTCImpl,
 virtual public JubiterBaseDashImpl {
 public:
-    TrezorCryptoDashImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoBTCImpl(deviceID) {}
+    TrezorCryptoDashImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoBTCImpl(deviceID, curve) {}
     ~TrezorCryptoDashImpl() {}
 
     virtual JUB_RV SignTX(const JUB_BYTE addrFmt,
@@ -25,7 +25,8 @@ public:
                           const std::vector<JUB_UINT16>& vChangeIndex,
                           const std::vector<std::string>& vChangePath,
                           const std::vector<JUB_BYTE>& vUnsigedTrans,
-                          std::vector<JUB_BYTE>& vRaw) override;
+                          std::vector<JUB_BYTE>& vRaw,
+                          const TWCoinType& coinNet) override;
 }; // class TrezorCryptoDashImpl end
 
 

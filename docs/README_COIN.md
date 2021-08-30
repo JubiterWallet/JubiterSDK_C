@@ -8,6 +8,7 @@ Coins implementation architecture:
 | BTC Token Factory | BCH | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
 | BTC Token Factory | QTUM | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
 | BTC Token Factory | USDT | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
+| BTC Token Factory | CKB | &#x2612; | &#x2612; | &#x2612; | &#x2611; |
 | ETH Token Factory | ETH | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
 | ETH Token Factory | ETC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
 | ETH Token Factory | FIL | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
@@ -16,15 +17,15 @@ Coins implementation architecture:
 | MISC Token Factory | TRX | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
 | MISC Token Factory | HC | &#x2611; | &#x2611; | &#x2611; | &#x2611; |
 
-In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_Hcash.h](../include/JUB_SDK_Hcash.h),[JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h), [JUB_SDK_FIL.h](../include/JUB_SDK_FIL.h).
+In [JUB_SDK_BTC.h](../include/JUB_SDK_BTC.h), [JUB_SDK_Hcash.h](../include/JUB_SDK_Hcash.h),[JUB_SDK_ETH.h](../include/JUB_SDK_ETH.h), [JUB_SDK_EOS.h](../include/JUB_SDK_EOS.h), [JUB_SDK_XRP.h](../include/JUB_SDK_XRP.h), [JUB_SDK_TRX.h](../include/JUB_SDK_TRX.h), [JUB_SDK_FIL.h](../include/JUB_SDK_FIL.h), [JUB_SDK_CKB.h](../include/JUB_SDK_CKB.h).
 
 Function list:
-* [JUB_CreateContext](#JUB_CreateContextXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
-* [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
-* [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
-* [JUB_GetAddress](#JUB_GetAddressXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL
-* [JUB_CheckAddress](#JUB_CheckAddressXXX)BTC/EOS/FIL
-* [JUB_IsValidAddress](#JUB_IsValidAddressXXX)EOS/FIL
+* [JUB_CreateContext](#JUB_CreateContextXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL/CKB
+* [JUB_GetMainHDNode](#JUB_GetMainHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL/CKB
+* [JUB_GetHDNode](#JUB_GetHDNodeXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL/CKB
+* [JUB_GetAddress](#JUB_GetAddressXXX)BTC/HC/ETH/EOS/XRP/TRX/FIL/CKB
+* [JUB_CheckAddress](#JUB_CheckAddressXXX)BTC/EOS/FIL/CKB
+* [JUB_IsValidAddress](#JUB_IsValidAddressXXX)EOS/FIL/CKB
 * [JUB_SetMyAddress](#JUB_SetMyAddressXXX)BTC/ETH
 * **BTC series related module**
     * [JUB_SetUnitBTC](#JUB_SetUnitBTC)
@@ -61,6 +62,9 @@ Function list:
     * [JUB_SetTRC721Token](#JUB_SetTRC721Token)
     * [JUB_BuildTRC721TransferAbi](#JUB_BuildTRC721TransferAbi)
     * [JUB_SignTransactionTRX](#JUB_SignTransactionTRX)
+* **CKB related module**
+    * [JUB_SignTransactionCKB](#JUB_SignTransactionCKB)
+
 
 ### JUB_CreateContextXXX
 * **Function:** Create context for the specified coin.
@@ -758,5 +762,32 @@ JUB_RV JUB_PackContractTRX(
     IN JUB_UINT16 contextID,
     IN JUB_TX_TRX tx,
     OUT JUB_CHAR_PTR_PTR packedContractInPB
+);
+```
+
+
+## CKB related module
+### JUB_SignTransactionCKB
+* **Function:** Sign transaction for CKB.
+* **IN param:**
+contextID - context ID from JUB_CreateContextCKB.
+version - the version of CKB tx.
+deps - the depend array of CKB tx.
+depCount - the count of the depend array.
+inputs - the input array of CKB tx.
+iCount - the count of the input array.
+outputs - the output array of CKB tx.
+oCount - the count of the output array.
+* **OUT param:**
+raw - signed CKB tx in JSON.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_SignTransactionCKB(
+    IN JUB_UINT16 contextID,
+    IN JUB_UINT32 version,
+    IN CELL_DEP deps[], IN JUB_UINT16 depCount,
+    IN CELL_INPUT inputs[], IN JUB_UINT16 iCount,
+    IN CELL_OUTPUT outputs[], IN JUB_UINT16 oCount,
+    OUT JUB_CHAR_PTR_PTR raw
 );
 ```

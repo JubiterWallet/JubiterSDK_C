@@ -17,6 +17,7 @@
 #include "JUB_SDK_test_xrp.hpp"
 #include "JUB_SDK_test_trx.hpp"
 #include "JUB_SDK_test_fil.hpp"
+#include "JUB_SDK_test_ckb.hpp"
 #include "../../include/JUB_CORE.h"
 
 #include "JUB_SDK_main.h"
@@ -99,7 +100,7 @@ try {
     cout << "| | gRPC config file (ip_bridge.info):                    | |" << endl;
     cout << "| | ip_bridge.info example:                               | |" << endl;
     cout << "| | 192.168.17.60:5001                                    | |" << endl;
-    cout << "|   ------------------------------------------------------  |" << endl;
+    cout << "|  -------------------------------------------------------  |" << endl;
     cout << "| 31. virtual JuBiter Blade test                            |" << endl;
     cout << "| 32. virtual JuBiter Bio   test                            |" << endl;
     cout << "|                                                           |" << endl;
@@ -218,6 +219,9 @@ try {
         cout << "| 145.   BCH_test.                        |" << endl;
         cout << "| 171. Hcash_test.                        |" << endl;
         cout << "|                                         |" << endl;
+        cout << "| 309.   CKB_test.                        |" << endl;
+        cout << "|3090. CKBTN_test.                        |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|  60.   ETH_test & ETC_test.             |" << endl;
         cout << "|  61.   ETH_Uniswap_test.                |" << endl;
@@ -297,6 +301,14 @@ try {
         case 171:
             json_file += "testHcash.json";
             HC_test(deviceID, json_file.c_str());
+            break;
+        case 309:
+            json_file += "testCKB.json";
+            CKB_test(deviceID, json_file.c_str());
+            break;
+        case 3090:
+            json_file += "testCKBNT.json";
+            CKB_test(deviceID, json_file.c_str());
             break;
 
         case 60:

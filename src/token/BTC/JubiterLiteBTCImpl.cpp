@@ -12,8 +12,7 @@ JUB_RV JubiterLiteBTCImpl::SelectApplet() {
 }
 
 
-JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub) {
-
+JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const std::string& path, std::string& xpub, const TWCoinType& coinNet) {
     uint8_t nodeData[128] = {0x00,};
     int nodeDatalen = sizeof(nodeData)/sizeof(uint8_t);
     JUB_VERIFY_RV(JubiterLiteImpl::GetHDNode(_getSignType(SECP256K1_NAME), JUB_ENUM_BTC_TRANS_TYPE::p2pkh, get_curve_by_name(SECP256K1_NAME), path, nodeData, &nodeDatalen));
@@ -23,7 +22,7 @@ JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const 
     if (p2sh_p2wpkh == type) {
         witness = true;
     }
-    JUB_UINT32 version = TWCoinType2HDVersionPublic(_coin, witness);
+    JUB_UINT32 version = TWCoinType2HDVersionPublic((coinNet?coinNet:_coin), witness);
     write_be(nodeData, version);
 
     JUB_CHAR _xpub[200] = { 0, };
@@ -42,7 +41,8 @@ JUB_RV JubiterLiteBTCImpl::GetAddress(const JUB_BYTE addrFmt,
                                       const JUB_ENUM_BTC_TRANS_TYPE& type,
                                       const std::string& path,
                                       const JUB_UINT16 tag,
-                                      std::string& address) {
+                                      std::string& address,
+                                      const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -55,12 +55,12 @@ JUB_RV JubiterLiteBTCImpl::GetAddress(const JUB_BYTE addrFmt,
     switch (type) {
     case p2pkh:
     {
-        rv = _getAddress(publicKey, address);
+        rv = _getAddress(publicKey, address, coinNet);
         break;
     }   // case p2pkh end
     case p2sh_p2wpkh:
     {
-        rv = _getSegwitAddress(publicKey, address);
+        rv = _getSegwitAddress(publicKey, address, coinNet);
         break;
     }   // case p2sh_p2wpkh end
 //    case p2wpkh:
@@ -95,6 +95,9 @@ JUB_RV JubiterLiteBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC& type) {
         break;
     case COINQTUM:
         _coin = TWCoinType::TWCoinTypeQtum;
+        break;
+    case COINCKB:
+        _coin = TWCoinType::TWCoinTypeNervosCKB;
         break;
     case COINUSDT:
     default:
@@ -148,7 +151,8 @@ JUB_RV JubiterLiteBTCImpl::SignTX(const JUB_BYTE addrFmt,
                                   const std::vector<JUB_UINT16>& vChangeIndex,
                                   const std::vector<std::string>& vChangePath,
                                   const std::vector<JUB_BYTE>& vUnsigedTrans,
-                                  std::vector<JUB_BYTE>& vRaw) {
+                                  std::vector<JUB_BYTE>& vRaw,
+                                  const TWCoinType& coinNet) {
 
     bool witness = false;
     if (p2sh_p2wpkh == type) {
@@ -170,7 +174,8 @@ JUB_RV JubiterLiteBTCImpl::SignTX(const JUB_BYTE addrFmt,
                           vChangePath,
                           tx,
                           vInputPublicKey,
-                          vSignatureRaw));
+                          vSignatureRaw,
+                          coinNet));
 
     uchar_vector signedRaw;
     JUB_VERIFY_RV(_serializeTx(witness,
@@ -194,7 +199,8 @@ JUB_RV JubiterLiteBTCImpl::_SignTx(bool witness,
                                    const std::vector<std::string>& vChangePath,
                                    const TW::Bitcoin::Transaction& tx,
                                    std::vector<TW::Data>& vInputPublicKey,
-                                   std::vector<uchar_vector>& vSignatureRaw) {
+                                   std::vector<uchar_vector>& vSignatureRaw,
+                                   const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -213,7 +219,7 @@ JUB_RV JubiterLiteBTCImpl::_SignTx(bool witness,
 
         // script code - scriptPubKey
         TW::Bitcoin::Script scriptCode;
-        rv = _scriptCode(_coin, twpk, scriptCode);
+        rv = _scriptCode((coinNet?coinNet:_coin), twpk, scriptCode);
         if (JUBR_OK != rv) {
             break;
         }
@@ -256,7 +262,8 @@ JUB_RV JubiterLiteBTCImpl::_SignTx(bool witness,
 JUB_RV JubiterLiteBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                     const std::vector<JUB_UINT64>& vInputAmount,
                                     const std::vector<std::string>& vInputPath,
-                                    const std::vector<JUB_BYTE>& vSigedTrans) {
+                                    const std::vector<JUB_BYTE>& vSigedTrans,
+                                    const TWCoinType& coinNet) {
 
     bool witness = false;
     if (p2sh_p2wpkh == type) {
@@ -278,7 +285,8 @@ JUB_RV JubiterLiteBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
     return _verifyTx(witness,
                      vSigedTrans,
                      vInputAmount,
-                     vInputPublicKey);
+                     vInputPublicKey,
+                     coinNet);
 }
 
 

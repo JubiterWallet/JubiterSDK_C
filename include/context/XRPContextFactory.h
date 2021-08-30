@@ -23,8 +23,8 @@ public:
         Register(_type, &XRPContext::Create);
     }
 
-    XRPContext* CreateContext(const CONTEXT_CONFIG_XRP& cfg, JUB_UINT16 deviceID) {
-        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(_type, deviceID);
+    XRPContext* CreateContext(const JUB_UINT16 deviceID, const CONTEXT_CONFIG_XRP& cfg) {
+        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(deviceID, _type);
         return Create(_type, cfg, token);
     }
 

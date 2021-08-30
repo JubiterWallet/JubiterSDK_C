@@ -13,8 +13,8 @@ class TrezorCryptoEOSImpl :
         public TrezorCryptoToken,
 virtual public JubiterBaseEOSImpl {
 public:
-    TrezorCryptoEOSImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoToken(deviceID, JUB_ENUM_CURVES::SECP256K1) {}
+    TrezorCryptoEOSImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoToken(deviceID, curve) {}
     ~TrezorCryptoEOSImpl() {}
 
     //EOS functions

@@ -13,8 +13,8 @@ class TrezorCryptoFILImpl :
         public TrezorCryptoToken,
 virtual public JubiterBaseFILImpl {
 public:
-    TrezorCryptoFILImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoToken(deviceID, JUB_ENUM_CURVES::SECP256K1) {}
+    TrezorCryptoFILImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoToken(deviceID, curve) {}
     ~TrezorCryptoFILImpl() {}
 
     //FIL functions

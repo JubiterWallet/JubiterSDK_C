@@ -3,7 +3,7 @@
 //  JubSDKCore
 //
 //  Created by Pan Min on 2019/12/12.
-//  Copyright © 2019 sherlockirene. All rights reserved.
+//  Copyright © 2019 JuBiter. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
