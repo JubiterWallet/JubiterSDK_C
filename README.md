@@ -3,6 +3,8 @@ JuBiter SDK is an open source, cross-platform, mobile-focused library implementi
 
 # Supported Blockchains
 JuBiter Core supports more than 20 blockchains: Bitcoin, Ethereum, and some major blockchain platforms.
+> #### Special Note for COS v2.0.04 and below:
+> EOS and FIL are not supported for products with COS version V2.0.04 and below.
 
 | Index | Name | Symbol | URL |
 | --- | --- | --- | --- |
