@@ -28,6 +28,11 @@ class OutPoint {
     OutPoint() {}
    ~OutPoint() {}
 
+    // JuBiter-defined
+    bool isValid() const {
+        return !hash.empty();
+    }
+
     /// Initializes an out-point reference with a hash and an index.
     template <typename T>
     OutPoint(const T& h, uint32_t index) {

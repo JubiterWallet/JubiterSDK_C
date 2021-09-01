@@ -108,7 +108,9 @@ public:
 
     std::vector<std::string> ListReaders() {
         // send request
-        auto status = SendRequest(Operation::ListReaders, std::nullopt);
+        if (-1 == SendRequest(Operation::ListReaders, std::nullopt)) {
+            return {};
+        }
 
         // block read response
         auto respData = ReceiveResponse();

@@ -160,6 +160,12 @@ inline void encode64LE(uint64_t val, std::vector<uint8_t>& data) {
     data.push_back(static_cast<uint8_t>((val >> 56)));
 }
 
+inline std::vector<uint8_t> encode64LE(uint64_t val) {
+    std::vector<uint8_t> data;
+    encode64LE(val, data);
+    return data;
+}
+
 /// Decodes a 64-bit little-endian value from the provided buffer.
 inline uint64_t decode64LE(const uint8_t* _Nonnull src) {
     // clang-format off

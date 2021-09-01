@@ -30,7 +30,8 @@ protected:
                            const std::vector<std::string>& vChangePath,
                            const TW::Bitcoin::Transaction& tx,
                            std::vector<TW::Data>& vInputPublicKey,
-                           std::vector<uchar_vector>& vSignatureRaw) override;
+                           std::vector<uchar_vector>& vSignatureRaw,
+                           const TWCoinType& coinNet) override;
 }; // class JubiterLiteBCHImpl end
 
 

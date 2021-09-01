@@ -79,7 +79,7 @@ JUB_RV JUB_CreateContextEOS(IN CONTEXT_CONFIG_EOS cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::EOSseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    auto context = jub::context::EOSseriesContextFactory::GetInstance()->CreateContext(deviceID, cfg);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->ActiveSelf());

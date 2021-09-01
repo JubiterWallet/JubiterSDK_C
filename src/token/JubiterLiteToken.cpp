@@ -162,7 +162,7 @@ JUB_RV JubiterLiteToken::_SendSafeApdu(const APDU *apdu, JUB_UINT16 &wRet, JUB_B
     if (JUBR_OK != device->SendData(vSendApdu.data(), (JUB_ULONG)vSendApdu.size(), _retData, &ulRetDataLen, ulMiliSecondTimeout)) {
         JUB_VERIFY_RV(JUBR_TRANSMIT_DEVICE_ERROR);
     }
-    DEBUG_LOG("APDU Resp[%d]: %s\n", ulRetDataLen, uchar_vector(_retData, ulRetDataLen).getHex().c_str());
+    DEBUG_LOG("APDU Resp[%d]: %s\n", ulRetDataLen, uchar_vector(_retData, (JUB_UINT32)ulRetDataLen).getHex().c_str());
 
     JUB_VERIFY_RV(_apduBuilder->ParseSafeApduResp(_retData, ulRetDataLen,
                                                   retData, pulRetDataLen,

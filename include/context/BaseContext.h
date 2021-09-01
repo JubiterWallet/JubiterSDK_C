@@ -55,7 +55,9 @@ public:
 
 protected:
     std::string _mainPath;
-    JUB_UINT16  _timeout;
+    // Mainnet(TWCoinTypeBitcoin) or Testnet(TWCoinTypeBitcoinTestNet)
+    TWCoinType _coinNet;
+    JUB_UINT16 _timeout;
 
     virtual std::string _FullBip44Path(const BIP44_Path& path);
     virtual std::string _FullBip48Path(const BIP48_Path& path);

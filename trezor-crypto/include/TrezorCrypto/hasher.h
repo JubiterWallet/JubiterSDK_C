@@ -71,12 +71,20 @@ typedef struct {
     uint32_t param_size;
 } Hasher;
 
-void hasher_InitParam(Hasher *hasher, HasherType type, const void *param, uint32_t param_size);
-void hasher_Init(Hasher *hasher, HasherType type);
-void hasher_Reset(Hasher *hasher);
-void hasher_Update(Hasher *hasher, const uint8_t *data, size_t length);
-void hasher_Final(Hasher *hasher, uint8_t hash[HASHER_DIGEST_LENGTH]);
+// JuBiter-modified
+int hasher_InitParam(Hasher *hasher, HasherType type, const void *param, uint32_t param_size);
+// JuBiter-modified
+int hasher_Init(Hasher *hasher, HasherType type);
+// JuBiter-modified
+int hasher_Reset(Hasher *hasher);
+// JuBiter-modified
+int hasher_Update(Hasher *hasher, const uint8_t *data, size_t length);
+// JuBiter-modified
+int hasher_Final(Hasher *hasher, uint8_t hash[HASHER_DIGEST_LENGTH]);
 
-void hasher_Raw(HasherType type, const uint8_t *data, size_t length, uint8_t hash[HASHER_DIGEST_LENGTH]);
+// JuBiter-modified
+int hasher_Raw(HasherType type, const uint8_t *data, size_t length, uint8_t hash[HASHER_DIGEST_LENGTH]);
+// JuBiter-defined
+int hasher_InitParam_Raw(Hasher *hasher, const uint8_t *data, size_t length, uint8_t hash[HASHER_DIGEST_LENGTH]);
 
 #endif

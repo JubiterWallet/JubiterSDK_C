@@ -20,13 +20,14 @@
 		67A4BE882330C99C0059A3DB /* JUB_SDK_test_btc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE862330C99C0059A3DB /* JUB_SDK_test_btc.cpp */; };
 		67A4BE8B2330CCDF0059A3DB /* JUB_SDK_test_eth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE892330CCDF0059A3DB /* JUB_SDK_test_eth.cpp */; };
 		67A4BE902330D1A80059A3DB /* JUB_SDK_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67A4BE8F2330D1A80059A3DB /* JUB_SDK_main.cpp */; };
-		67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67B74EDC248109050066EF8E /* libJubSDK.a */; };
 		67BED7E8237947890051E3DC /* JUB_SDK_test_eos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67BED7E7237947890051E3DC /* JUB_SDK_test_eos.cpp */; };
 		67E0DFB8250F78DB00D42EF0 /* JUB_SDK_test_trx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67E0DFB4250F78DA00D42EF0 /* JUB_SDK_test_trx.cpp */; };
 		67F595A8256E787500AB8FED /* JUB_SDK_test_fil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67F595A6256E787500AB8FED /* JUB_SDK_test_fil.cpp */; };
-		7731ABEA2673927300C23EEC /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7731ABE92673927300C23EEC /* libprotobuf.a */; };
+		7771CCF92678CE0200081F28 /* JUB_SDK_test_ckb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7771CCF72678CE0200081F28 /* JUB_SDK_test_ckb.cpp */; };
+		77767BE426D8CDAD00E77B86 /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77767BE326D8CDAD00E77B86 /* libprotobuf.a */; };
 		7797440B262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77974409262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp */; };
 		77A127352637CC2E00494B23 /* JUB_SDK_test_usdt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A127342637CC2E00494B23 /* JUB_SDK_test_usdt.cpp */; };
+		C328A0E826A7FBCB0081B7AF /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67B74EDC248109050066EF8E /* libJubSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -88,7 +89,9 @@
 		67E0DFB6250F78DA00D42EF0 /* JUB_SDK_test_trx.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_trx.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_trx.hpp; sourceTree = "<group>"; };
 		67F595A6256E787500AB8FED /* JUB_SDK_test_fil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_fil.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_fil.cpp; sourceTree = "<group>"; };
 		67F595A7256E787500AB8FED /* JUB_SDK_test_fil.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_fil.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_fil.hpp; sourceTree = "<group>"; };
-		7731ABE92673927300C23EEC /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
+		7771CCF72678CE0200081F28 /* JUB_SDK_test_ckb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_ckb.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_ckb.cpp; sourceTree = "<group>"; };
+		77767BDB26D8CB6B00E77B86 /* JUB_SDK_test_ckb.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_ckb.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_ckb.hpp; sourceTree = "<group>"; };
+		77767BE326D8CDAD00E77B86 /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
 		77974409262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = JUB_SDK_test_dev_swi.cpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_swi.cpp; sourceTree = "<group>"; };
 		7797440A262FBFFB00ECFF34 /* JUB_SDK_test_dev_swi.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_dev_swi.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_dev_swi.hpp; sourceTree = "<group>"; };
 		77A127332637CC2E00494B23 /* JUB_SDK_test_usdt.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JUB_SDK_test_usdt.hpp; path = ../../test/JUB_SDK_test/JUB_SDK_test_usdt.hpp; sourceTree = "<group>"; };
@@ -100,8 +103,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67B74EDD248109050066EF8E /* libJubSDK.a in Frameworks */,
-				7731ABEA2673927300C23EEC /* libprotobuf.a in Frameworks */,
+				C328A0E826A7FBCB0081B7AF /* libJubSDK.a in Frameworks */,
+				77767BE426D8CDAD00E77B86 /* libprotobuf.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +165,8 @@
 				67E0DFB6250F78DA00D42EF0 /* JUB_SDK_test_trx.hpp */,
 				67F595A6256E787500AB8FED /* JUB_SDK_test_fil.cpp */,
 				67F595A7256E787500AB8FED /* JUB_SDK_test_fil.hpp */,
+				7771CCF72678CE0200081F28 /* JUB_SDK_test_ckb.cpp */,
+				77767BDB26D8CB6B00E77B86 /* JUB_SDK_test_ckb.hpp */,
 			);
 			name = JubSDKTest;
 			sourceTree = "<group>";
@@ -231,7 +236,7 @@
 		67A4BE7F2330C5810059A3DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7731ABE92673927300C23EEC /* libprotobuf.a */,
+				77767BE326D8CDAD00E77B86 /* libprotobuf.a */,
 				67B74EDC248109050066EF8E /* libJubSDK.a */,
 			);
 			name = Frameworks;
@@ -303,6 +308,7 @@
 				67A4BE8B2330CCDF0059A3DB /* JUB_SDK_test_eth.cpp in Sources */,
 				67A4BE882330C99C0059A3DB /* JUB_SDK_test_btc.cpp in Sources */,
 				6715458D23D434BD00810F16 /* JUB_SDK_test_qtum.cpp in Sources */,
+				7771CCF92678CE0200081F28 /* JUB_SDK_test_ckb.cpp in Sources */,
 				67E0DFB8250F78DB00D42EF0 /* JUB_SDK_test_trx.cpp in Sources */,
 				67A4BE902330D1A80059A3DB /* JUB_SDK_main.cpp in Sources */,
 				67A4BE842330C6440059A3DB /* JUB_SDK_test_dev.cpp in Sources */,
@@ -434,11 +440,11 @@
 		67A4BE622330C3870059A3DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (
@@ -469,11 +475,11 @@
 		67A4BE632330C3870059A3DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PL9NCP8CG6;
+				DEVELOPMENT_TEAM = 9PDW9UN78H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				HEADER_SEARCH_PATHS = (

@@ -3,6 +3,7 @@
 #define __ContextBTC__
 
 #include "JUB_SDK_BTC.h"
+#include "JUB_SDK_CKB.h"
 
 #include <string>
 #include <vector>
@@ -29,6 +30,15 @@ public:
            _transType = cfg.transType;
             _unitType = mBTC;
             _coinType = cfg.coinType;
+            _timeout = 120 * 2;
+            _coinNet = TWCoinType::TWCoinTypeBitcoin;
+    }
+    BTCContext(JUB_CHAR_CPTR mainPath, const JUB_ENUM_COINTYPE_BTC& coinType, std::shared_ptr<token::BaseToken> tokenPtr):
+        BaseContext(tokenPtr) {
+            _mainPath = mainPath;
+           _transType = p2pkh;//p2sh_p2wpkh;
+            _unitType = mBTC;
+            _coinType = coinType;
             _timeout = 120 * 2;
     }
     ~BTCContext() {}
@@ -96,8 +106,8 @@ public:
         BTCContext(cfg, tokenPtr) {}
     ~QTUMContext() {}
 
-	virtual JUB_RV SetQRC20Token(IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_CPTR symbol);
-	virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]);
+    virtual JUB_RV SetQRC20Token(IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8 decimal, IN JUB_CHAR_CPTR symbol);
+    virtual JUB_RV BuildQRC20Outputs(JUB_UINT64 gasLimit, JUB_UINT64 gasPrice, IN JUB_CHAR_CPTR contractAddress, JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]);
 }; // class QTUMContext end
 
 

@@ -1,0 +1,59 @@
+{
+    "ver" : 0,
+    "p2sh-segwit" : true,
+    "main_path"   : "m/44'/309'/0'",
+    "main_net"    : true,
+    "deps" : [
+    {
+        "outPoint": {
+            "txHash" : "71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c",
+            "index"  : 0
+        },
+        "depType" : 1
+    }],
+    "inputs" : [
+    {
+        "capacity" : 18313283863090,
+        "previousOutput": {
+            "txHash" : "eb1d0f933a44f5a58eeed77d3ecdeeccbeaf65fe37d4947b481b308f359912a2",
+            "index"  : 0
+        },
+        "lock" : {
+            "codeHash" : "9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType" : 1,
+            "args"     : "9ed8a7e8142d50a02ed423e8b37b8ada98b893b0"
+        },
+        "since":"0x0",
+        "bip32_path" : {
+            "change" : false,
+            "addressIndex" : 0
+        }
+    },
+    {
+        "capacity" : 18313283863090,
+        "previousOutput": {
+            "txHash" : "60a2cf0d25ec2781437e363132f943a41d093056a9f80248e4ba07237729c213",
+            "index"  : 0
+        },
+        "lock" : {
+            "codeHash" : "9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType" : 1,
+            "args"     : "ae8a1ce685370033fa394a75d2368348256589a3"
+        },
+        "since":"0x0",
+        "bip32_path" : {
+            "change" : false,
+            "addressIndex" : 0
+        }
+    }],
+    "outputs" : [
+    {
+        "capacity" : 36626567706510,
+        "lock" : {
+            "codeHash" : "9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+            "hashType" : 1,
+            "args"     : "d2536aeb80d32b0f4c1151d1a8cbcfae7dcf4284"
+        },
+        "data"     : ""
+    }]
+}

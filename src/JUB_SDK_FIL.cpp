@@ -29,7 +29,7 @@ JUB_RV JUB_CreateContextFIL(IN CONTEXT_CONFIG_FIL cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::FILseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    auto context = jub::context::FILseriesContextFactory::GetInstance()->CreateContext(deviceID, cfg);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->ActiveSelf());
@@ -53,8 +53,8 @@ JUB_RV JUB_GetHDNodeFIL(IN JUB_UINT16 contextID,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
     CREATE_THREAD_LOCK_GUARD
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::FILContext>(contextID);
-	JUB_CHECK_NULL(context);
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::FILContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     std::string str_pubkey;
     JUB_VERIFY_RV(context->GetHDNode((JUB_BYTE)format, path, str_pubkey));
@@ -76,8 +76,8 @@ JUB_RV JUB_GetMainHDNodeFIL(IN JUB_UINT16 contextID,
                             OUT JUB_CHAR_PTR_PTR xpub) {
 
     CREATE_THREAD_LOCK_GUARD
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::FILContext>(contextID);
-	JUB_CHECK_NULL(context);
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::FILContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     std::string str_xpub;
     JUB_VERIFY_RV(context->GetMainHDNode((JUB_BYTE)format, str_xpub));
@@ -181,8 +181,8 @@ JUB_RV JUB_SignTransactionFIL(IN JUB_UINT16 contextID,
                               OUT JUB_CHAR_PTR_PTR raw) {
 
     CREATE_THREAD_LOCK_GUARD
-	auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::FILContext>(contextID);
-	JUB_CHECK_NULL(context);
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::FILContext>(contextID);
+    JUB_CHECK_NULL(context);
 
     std::string str_raw;
     JUB_VERIFY_RV(context->SignTransaction(path,

@@ -29,7 +29,7 @@ JUB_RV JUB_CreateContextTRX(IN CONTEXT_CONFIG_TRX cfg,
                             OUT JUB_UINT16* contextID) {
 
     CREATE_THREAD_LOCK_GUARD
-    auto context = jub::context::TRXseriesContextFactory::GetInstance()->CreateContext(cfg, deviceID);
+    auto context = jub::context::TRXseriesContextFactory::GetInstance()->CreateContext(deviceID, cfg);
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->ActiveSelf());

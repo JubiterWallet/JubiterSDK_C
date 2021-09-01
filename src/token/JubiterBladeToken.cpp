@@ -651,9 +651,11 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
                 continue;
             }
             if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {
-                // v2.0.04 of COS couldn't support EOS.
+                // v2.0.04 of COS couldn't support EOS/FIL.
                 if (  "2004" == strFWVersion
-                    && "EOS" == appInfo.coinName
+                    && (   "EOS" == appInfo.coinName
+                        || "FIL" == appInfo.coinName
+                        )
                     ) {
                     continue;
                 }

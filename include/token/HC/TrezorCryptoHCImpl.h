@@ -13,8 +13,8 @@ class TrezorCryptoHCImpl :
         public TrezorCryptoBTCImpl,
 virtual public JubiterBaseHCImpl {
 public:
-    TrezorCryptoHCImpl(JUB_UINT16 deviceID) :
-        TrezorCryptoBTCImpl(deviceID) {
+    TrezorCryptoHCImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve=JUB_ENUM_CURVES::SECP256K1) :
+        TrezorCryptoBTCImpl(deviceID, curve) {
             _hashType = TWHcashSigHashAll;
     }
     ~TrezorCryptoHCImpl() {}
@@ -31,10 +31,11 @@ public:
                           const std::vector<JUB_UINT16>& vChangeIndex,
                           const std::vector<std::string>& vChangePath,
                           const std::vector<JUB_BYTE>& vUnsigedTrans,
-                          std::vector<JUB_BYTE>& vRaw) override;
+                          std::vector<JUB_BYTE>& vRaw,
+                          const TWCoinType& coinNet) override;
 
 private:
-    virtual JUB_RV _HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint) override;
+    virtual JUB_RV _HdnodeCkd(const std::string& path, HDNode* node, JUB_UINT32* parentFingerprint, const TWCoinType& coinNet) override;
     virtual JUB_RV _xpub2dpub(const std::string& xpub, std::string& dpub);
 }; // class TrezorCryptoHCImpl end
 
