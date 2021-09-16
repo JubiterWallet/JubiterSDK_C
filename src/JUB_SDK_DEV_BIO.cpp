@@ -106,6 +106,10 @@ JUB_RV JUB_IdentityShowNineGrids(IN JUB_UINT16 deviceID) {
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_VERIFY_RV(token->IdentityNineGrids(true));
 
@@ -170,6 +174,11 @@ JUB_RV JUB_EnrollFingerprint(IN JUB_UINT16 deviceID,
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
 
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     JUB_VERIFY_RV(token->EnrollFingerprint(fpTimeout,
                                            fgptIndex, ptimes,
                                            fgptID));
@@ -198,6 +207,11 @@ JUB_RV JUB_EnumFingerprint(IN JUB_UINT16 deviceID,
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     std::string str_fgpt_list;
     JUB_VERIFY_RV(token->EnumFingerprint(str_fgpt_list));
@@ -232,6 +246,11 @@ JUB_RV JUB_EraseFingerprint(IN JUB_UINT16 deviceID,
 
     JUB_VERIFY_RV(token->EraseFingerprint(fpTimeout));
 
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     // Clean up the session for device in order to force calling ActiveSelf().
     jub::context::ContextManager::GetInstance()->ClearLast();
 
@@ -260,6 +279,11 @@ JUB_RV JUB_DeleteFingerprint(IN JUB_UINT16 deviceID,
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
 
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
     JUB_VERIFY_RV(token->DeleteFingerprint(fpTimeout, fgptID));
 
     // Clean up the session for device in order to force calling ActiveSelf().
@@ -286,6 +310,11 @@ JUB_RV JUB_VerifyFgptForIntl(IN JUB_UINT16 deviceID,
     CREATE_THREAD_LOCK_GUARD
     auto token = std::make_shared<jub::token::JubiterBIOToken>(deviceID);
     JUB_CHECK_NULL(token);
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
     JUB_ULONG retry = 0;
     JUB_RV rv = token->VerifyFgptForIntl(retry);
