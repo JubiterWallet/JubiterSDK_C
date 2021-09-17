@@ -13,12 +13,15 @@ namespace token {
 class JubiterBIOToken :
     public JubiterBladeToken {
 public:
+    static stAppInfos g_appInfo[];
+
     const JUB_UINT16 DEFAULT_FP_TIMEOUT = 8;
 
     JubiterBIOToken(JUB_UINT16 deviceID);
     virtual ~JubiterBIOToken() = default;
 
     virtual bool   IsBootLoader() override;
+    virtual JUB_RV EnumSupportCoins(std::string& coinList) override;
 
     virtual JUB_RV UIShowMain() override;
 
