@@ -125,7 +125,8 @@ JUB_RV CKBContext::signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt,
                                 vDeps,
                                 vInputs,
                                 vOutputs,
-                                rawInJSON));
+                                rawInJSON,
+                                _coinNet));
 
     return JUBR_OK;
 }
