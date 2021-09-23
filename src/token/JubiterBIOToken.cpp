@@ -2,12 +2,79 @@
 #include "device/DeviceTypeBase.hpp"
 #include "device/JubiterHidDevice.hpp"
 #include "utility/util.h"
+
+#include "token/BTC/JubiterBladeBTCImpl.h"
+#include "token/ETH/JubiterBladeETHImpl.h"
+#include "token/EOS/JubiterBladeEOSImpl.h"
 #include "token/ErrorHandler.h"
+
 #include "tlv.hpp"
 
 
 namespace jub {
 namespace token {
+
+
+stAppInfos JubiterBIOToken::g_appInfo[] = {
+    {
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
+        "BTC",
+        "05000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE))),
+        "ETH",
+        "05000000"
+    },
+    // ETH index position fixed, start adding new apps below:
+    {
+        TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE))),
+        "ETC",
+        "05000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE))),
+        "FIL",
+        "05070001"
+    },
+    // BTC index position fixed, start adding new apps below:
+    {
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
+        "BCH",
+        "05000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
+        "LTC",
+        "05000000",
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
+        "DASH",
+        "05000000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
+        "USDT",
+        "05000000"
+    },
+    // MISC applet, start adding new apps below:
+    {
+        TW::Data(uchar_vector(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE))),
+        "EOS",
+        "05010000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE))),
+        "XRP",
+        "05010000"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_MISC, sizeof(kPKIAID_MISC)/sizeof(JUB_BYTE))),
+        "TRX",
+        "05010000"
+    },
+};
 
 
 JubiterBIOToken::JubiterBIOToken(JUB_UINT16 deviceID)
@@ -40,6 +107,45 @@ bool JubiterBIOToken::IsBootLoader() {
     }
 
     return false;
+}
+
+
+JUB_RV JubiterBIOToken::EnumSupportCoins(std::string& coinList) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    JUB_BYTE fwVersion[4] = {0x00,};
+    JUB_VERIFY_RV(GetFwVersion(fwVersion));
+    std::string strFWVersion = convertToString((char*)fwVersion, sizeof(fwVersion)/sizeof(JUB_BYTE));
+
+    std::string appletList;
+    JUB_VERIFY_RV(EnumApplet(appletList));
+
+    std::vector<std::string> coinNameList;
+    auto vAppList = Split(appletList, " ");
+    for (auto appID : vAppList) {
+        stVersionExp version;
+        rv = GetAppletVersion(appID, version);
+        if (JUBR_OK != rv) {
+            continue;
+        }
+        for (auto appInfo : JubiterBIOToken::g_appInfo) {
+            uchar_vector _appID(appInfo.appID);
+            if (_appID.getHex() != appID) {
+                continue;
+            }
+            if (stVersionExp::FromString(appInfo.minimumAppletVersion) > version) {
+                continue;
+            }
+            if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {
+                coinList += appInfo.coinName;
+                coinList += " ";
+                coinNameList.insert(coinNameList.end(), appInfo.coinName);
+            }
+        }
+    }
+
+    return JUBR_OK;
 }
 
 

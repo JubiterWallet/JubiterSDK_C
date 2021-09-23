@@ -26,7 +26,8 @@ public:
         //JUB_UINT16 ID  = ++_ID;
 
         //std::cout << "Add ID:" << ID << std::endl;
-        _mapList.insert(std::make_pair(++_ID, x));
+        _ID = _mapList.size() + 1;
+        _mapList.insert(std::make_pair(_ID, x));
         return _ID;
     };
 
