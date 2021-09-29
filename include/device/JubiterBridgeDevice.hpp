@@ -42,6 +42,7 @@ public:
     static  std::vector<std::string> EnumDevice(const std::string& ip);
     virtual JUB_RV Connect();
     virtual JUB_RV Disconnect();
+    virtual JUB_RV IsConnect();
     virtual void Reset() {}
 
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,

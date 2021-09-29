@@ -9,7 +9,7 @@
 #include "utility/xManager.hpp"
 
 
-using device_map = Singleton<xManager<JUB_ULONG>>;
+//using device_map = Singleton<xManager<JUB_ULONG>>;
 
 
 namespace jub {
@@ -33,6 +33,7 @@ public:
     /* functions */
     virtual JUB_RV Connect() = 0;
     virtual JUB_RV Disconnect() = 0;
+    virtual JUB_RV IsConnect() = 0;
     virtual bool IsOpenSecureChannel() {
         return false;
     }

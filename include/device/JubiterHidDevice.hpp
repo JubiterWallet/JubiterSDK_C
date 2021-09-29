@@ -37,6 +37,7 @@ public:
     static  std::vector<std::string> EnumDevice(unsigned short productID, unsigned short vendorID = VID);
     virtual JUB_RV Connect() override;
     virtual JUB_RV Disconnect() override;
+    virtual JUB_RV IsConnect() override;
     virtual void Reset() override {}
 
     virtual JUB_RV SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,

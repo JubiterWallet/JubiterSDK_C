@@ -71,6 +71,7 @@ JUB_RV JUB_DisconnetDeviceSWI(IN JUB_UINT16 deviceID) {
     JUB_CHECK_NULL(device);
 
     JUB_VERIFY_RV(device->Disconnect());
+    jub::device::DeviceManager::GetInstance()->ClearOne(deviceID);
 
     return JUBR_OK;
 #else   // #if defined(SWI_MODE)

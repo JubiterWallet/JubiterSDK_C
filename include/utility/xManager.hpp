@@ -23,20 +23,16 @@ public:
         if (65535 == _ID) {
             _ID = 0;
         }
-        //JUB_UINT16 ID  = ++_ID;
-
-        //std::cout << "Add ID:" << ID << std::endl;
-        _ID = _mapList.size() + 1;
-        _mapList.insert(std::make_pair(_ID, x));
+        _mapList.insert(std::make_pair(++_ID, x));
         return _ID;
     };
 
-    JUB_UINT16 AddOne(JUB_UINT16 ID, T* x) {
-        _mapList.insert(std::make_pair(ID, x));
-
-        return ID;
-    };
-
+//    JUB_UINT16 AddOne(JUB_UINT16 ID, T* x) {
+//        _mapList.insert(std::make_pair(ID, x));
+//
+//        return ID;
+//    };
+//
     T* GetLast() {
         return _last;
     };

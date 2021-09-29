@@ -97,6 +97,11 @@ JUB_RV JubiterNFCDevice::Disconnect() {
 }
 
 
+JUB_RV JubiterNFCDevice::IsConnect() {
+    return IsConnect(_handle);
+}
+
+
 JUB_RV JubiterNFCDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                                   OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                                   IN JUB_ULONG ulMilliSecondTimeout) {

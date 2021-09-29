@@ -295,29 +295,35 @@ std::vector<std::string> JubiterBridgeDevice::EnumDevice(const std::string& ip) 
 JUB_RV JubiterBridgeDevice::Connect() {
     auto handle = impl_->Connect(name_);
     if (!handle) {
-        return -1;
+        return JUBR_CONNECT_DEVICE_ERROR;
     }
 
     handle_ = handle.value_or(0);
-    return 0;
+    return JUBR_OK;
 }
 
 
 JUB_RV JubiterBridgeDevice::Disconnect() {
     impl_->DisConnect(name_, handle_);
-    return 0;
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBridgeDevice::IsConnect() {
+
+    return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
 JUB_RV JubiterBridgeDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen, OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen, IN JUB_ULONG ulMiliSecondTimeout) {
     auto resp = impl_->SendApdu(name_, handle_, sendData, ulSendLen);
     if (!resp) {
-        return -1;
+        return JUBR_ERROR;
     }
 
     *pulRetDataLen = resp->size();
     std::copy(resp->begin(), resp->end(), retData);
-    return 0;
+    return JUBR_OK;
 }
 
 

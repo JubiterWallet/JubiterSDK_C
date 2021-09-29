@@ -60,10 +60,11 @@ JUB_RV JUB_connectNFCDevice(JUB_BYTE_PTR bUUID,     /**< nfc device UUID */
 //    LOG_INF("JUB_connectNFCDevice rv: %lu", *pdevHandle);
     JUB_VERIFY_RV(rv);
 
-    *pDeviceID = device_map::GetInstance()->AddOne(pdevHandle);
+//    *pDeviceID = device_map::GetInstance()->AddOne(pdevHandle);
 //    LOG_INF("JUB_connectNFCDevice rv: %hu", *pDeviceID);
 
-    jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, nfcDevice);
+//    jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, nfcDevice);
+    jub::device::DeviceManager::GetInstance()->AddOne(nfcDevice);
 
     return rv;
 #else   // #if defined(NFC_MODE)
@@ -83,9 +84,13 @@ JUB_RV JUB_disconnectNFCDevice(JUB_UINT16 deviceID) {
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
-    JUB_CHECK_NULL(devHandle);
-    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->Disconnect(*devHandle));
+//    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
+//    JUB_CHECK_NULL(devHandle);
+//    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->Disconnect(*devHandle));
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+    JUB_VERIFY_RV(device->Disconnect());
+    jub::device::DeviceManager::GetInstance()->ClearOne(deviceID);
 
     // Clean up the session for device in order to force calling ActiveSelf().
     jub::context::ContextManager::GetInstance()->ClearLast();
@@ -108,12 +113,15 @@ JUB_RV JUB_isDeviceNFCConnect(JUB_UINT16 deviceID) {
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
-    if (NULL == devHandle) {
-        return JUBR_CONNECT_DEVICE_ERROR;
-    }
-
-    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->IsConnect(*devHandle));
+//    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
+//    if (NULL == devHandle) {
+//        return JUBR_CONNECT_DEVICE_ERROR;
+//    }
+//
+//    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->IsConnect(*devHandle));
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+    JUB_VERIFY_RV(device->IsConnect());
 
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)
@@ -160,12 +168,15 @@ JUB_RV JUB_setNFCAlertMessage(JUB_UINT16 deviceID, JUB_CHAR_CPTR msg) {
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
-    if (NULL == devHandle) {
+//    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
+//    if (NULL == devHandle) {
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (NULL == device) {
         return JUBR_CONNECT_DEVICE_ERROR;
     }
 
-    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->SetAlertMessage(*devHandle, (unsigned char*)msg));
+//    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->SetAlertMessage(*devHandle, (unsigned char*)msg));
+    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterNFCDevice*>(nfcDevice))->SetAlertMessage(0, (unsigned char*)msg));
 
     return JUBR_OK;
 #else   // #if defined(NFC_MODE)

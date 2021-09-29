@@ -116,9 +116,10 @@ JUB_RV JUB_connectDevice(JUB_BYTE_PTR devName,
     JUB_RV rv = (dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Connect(devName, bBLEUUID, connectType, pdevHandle, timeout);
     JUB_VERIFY_RV(rv);
 
-    *pDeviceID = device_map::GetInstance()->AddOne(pdevHandle);
-
-    jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, bleDevice);
+//    *pDeviceID = device_map::GetInstance()->AddOne(pdevHandle);
+//
+//    jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, bleDevice);
+    *pDeviceID = jub::device::DeviceManager::GetInstance()->AddOne(bleDevice);
 
     return rv;
 #else   // #if defined(BLE_MODE)
@@ -158,9 +159,13 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
-    JUB_CHECK_NULL(devHandle);
-    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Disconnect(*devHandle));
+//    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
+//    JUB_CHECK_NULL(devHandle);
+//    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->Disconnect(*devHandle));
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+    JUB_VERIFY_RV(device->Disconnect());
+    jub::device::DeviceManager::GetInstance()->ClearOne(deviceID);
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
@@ -180,12 +185,14 @@ JUB_RV JUB_isDeviceConnect(JUB_UINT16 deviceID) {
         return JUBR_ARGUMENTS_BAD;
     }
 
-    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
-    if (NULL == devHandle) {
+//    JUB_ULONG *devHandle = device_map::GetInstance()->GetOne(deviceID);
+//    if (NULL == devHandle) {
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    if (NULL == device) {
         return JUBR_CONNECT_DEVICE_ERROR;
     }
-
-    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->IsConnect(*devHandle));
+//    JUB_VERIFY_RV((dynamic_cast<jub::device::JubiterBLEDevice*>(bleDevice))->IsConnect(*devHandle));
+    JUB_VERIFY_RV(device->IsConnect());
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
