@@ -46,7 +46,7 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
         witness = true;
     }
 
-    if (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) {
+//    if (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) {
         HDNode masterNode;
         JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin);
         JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic( TWCoinType::TWCoinTypeBitcoin);
@@ -69,7 +69,7 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
             _MasterKey_XPRV = str_pri;
             _MasterKey_XPUB = str_pub;
         }
-    }
+//    }
 
     if(JUB_SoftwareTokenType::PRIVATE == _type) {
         return hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name,
