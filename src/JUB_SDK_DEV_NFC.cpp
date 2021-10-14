@@ -90,7 +90,6 @@ JUB_RV JUB_disconnectNFCDevice(JUB_UINT16 deviceID) {
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(device);
     JUB_VERIFY_RV(device->Disconnect());
-    jub::device::DeviceManager::GetInstance()->ClearOne(deviceID);
 
     // Clean up the session for device in order to force calling ActiveSelf().
     jub::context::ContextManager::GetInstance()->ClearLast();

@@ -165,7 +165,6 @@ JUB_RV JUB_disconnectDevice(JUB_UINT16 deviceID) {
     auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
     JUB_CHECK_NULL(device);
     JUB_VERIFY_RV(device->Disconnect());
-    jub::device::DeviceManager::GetInstance()->ClearOne(deviceID);
 
     return JUBR_OK;
 #else   // #if defined(BLE_MODE)
