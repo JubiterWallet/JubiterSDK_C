@@ -26,6 +26,39 @@ JUB_RV JubiterBaseBCHImpl::CheckAddress(const std::string& address, const TWCoin
 }
 
 
+JUB_RV JubiterBaseBCHImpl::_verifyTx(const bool witness,
+                                     const uchar_vector& signedRaw,
+                                     const std::vector<JUB_UINT64>& vInputAmount,
+                                     const std::vector<TW::Data>& vInputPublicKey,
+                                     const TWCoinType& coinNet) {
+
+    JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
+    try {
+        TW::Bitcoin::Transaction tx;
+        if (!tx.decode(witness, signedRaw)) {
+            return rv;
+        }
+
+        std::vector<TW::PublicKey> vInputPubkey;
+        for(const auto& inputPublicKey:vInputPublicKey) {
+            vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
+        }
+
+        return JubiterBaseBCHImpl::_verifyTx((coinNet?coinNet:_coin),
+                                             &tx,
+                                             _hashType,
+                                             vInputAmount,
+                                             vInputPubkey);
+    }
+    catch (...) {
+        rv = JUBR_ERROR;
+    }
+
+    return rv;
+}
+
+
 JUB_RV JubiterBaseBCHImpl::_verifyTx(const TWCoinType& coin,
                                      const TW::Bitcoin::Transaction* tx,
                                      const uint32_t& hashType,
