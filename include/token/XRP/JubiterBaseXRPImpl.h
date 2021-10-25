@@ -22,9 +22,6 @@ public:
                              uchar_vector& preimageRaw) override;
 
 protected:
-    virtual JUB_RV _getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
-                                      uint32_t hdVersionPub=TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
-                                      uint32_t hdVersionPrv=TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin));
     virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address);
 }; // class JubiterBaseXRPImpl end
 

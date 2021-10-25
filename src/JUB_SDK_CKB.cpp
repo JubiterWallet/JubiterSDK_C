@@ -158,11 +158,11 @@ JUB_RV JUB_CheckAddressCKB(IN JUB_UINT16 contextID,
  * @function name : JUB_SignTransactionCKB
  * @in  param : contextID - context ID
  *          : version
+ *          : deps
  *          : inputs
  *          : iCount
  *          : outputs
  *          : oCount
- *          : lockTime
  * @out param : raw
  * @last change :
  *****************************************************************************/
@@ -171,7 +171,6 @@ JUB_RV JUB_SignTransactionCKB(IN JUB_UINT16 contextID,
                               IN CELL_DEP deps[], IN JUB_UINT16 depCount,
                               IN CELL_INPUT inputs[], IN JUB_UINT16 iCount,
                               IN CELL_OUTPUT outputs[], IN JUB_UINT16 oCount,
-                              IN JUB_UINT32 lockTime,
                               OUT JUB_CHAR_PTR_PTR raw) {
 
     CREATE_THREAD_LOCK_GUARD

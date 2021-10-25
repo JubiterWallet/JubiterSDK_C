@@ -123,6 +123,13 @@ PublicKey PublicKey::extended() const {
     }
 }
 
+
+// JuBiter-defined
+bool PublicKey::isValid() {
+    return PublicKey::isValid(bytes, type);
+}
+
+
 // JuBiter-defined
 bool PublicKey::verifyAsDER(const Data& signatureAsDER, const Data& message) const {
     size_t iDerSignatureLen = signatureAsDER.size();

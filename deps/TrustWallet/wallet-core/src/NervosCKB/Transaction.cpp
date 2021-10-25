@@ -25,7 +25,7 @@ Data Transaction::hash() const {
     Data hex;
     serialize(hex);
 
-    TW::Data blake(HASHER_DIGEST_LENGTH);
+    Data blake(HASHER_DIGEST_LENGTH);
     Hasher hasher;
     hasher_InitParam(&hasher, HasherType::HASHER_BLAKE2B_PERSONAL,
                      personal_ckb, sizeof(personal_ckb)/sizeof(uint8_t));
@@ -108,6 +108,20 @@ Data Transaction::getPreImage(size_t index) const {
         }
         Data witness = witnesses[i].serialize();
         s.insert(std::end(s), std::begin(witness), std::end(witness));
+    }
+
+    //panmin
+    std::cout << "Transaction::getPreImage" << index << "[" << s.size() << "]: " << uchar_vector(s).getHex() << std::endl;
+
+    return s;
+}
+
+
+Data Transaction::getPreImageHash(size_t index) const {
+
+    Data s = getPreImage(index);
+    if (0 == s.size()) {
+        return s;
     }
 
     TW::Data blake(HASHER_DIGEST_LENGTH);

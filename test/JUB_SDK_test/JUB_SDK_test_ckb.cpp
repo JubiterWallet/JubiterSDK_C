@@ -224,7 +224,6 @@ JUB_RV transactionCKB_proc(JUB_UINT16 contextID, Json::Value root) {
                                 &deps[0],       depNumber,
                                 &inputs[0],   inputNumber,
                                 &outputs[0], outputNumber,
-                                0,
                                 &raw);
     cout << "[-] JUB_SignTransactionCKB() return " << GetErrMsg(rv) << endl;
 

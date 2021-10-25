@@ -293,8 +293,10 @@ JUB_BYTE JubiterLiteImpl::_getHalfHasher(const HasherType hasherType, TW::Hash::
         break;
     case HASHER_BLAKE2B:
 //        halfHasherType = HASHER_BLAKE2B;
+        break;
     case HASHER_BLAKE2B_PERSONAL:
-//        halfHasherType = HASHER_BLAKE2B_PERSONAL;
+        halfHasherType = HASHER_BLAKE2B_PERSONAL;
+        break;
     case HASHER_SHA2_KECCAK:
     case HASHER_SHA3_KECCAK:
     default:

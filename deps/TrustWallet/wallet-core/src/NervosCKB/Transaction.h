@@ -39,12 +39,16 @@ struct Transaction {
     /// A list of 1 or more transaction outputs or destinations for coins
     std::vector<TransactionOutput*> outputs;
 
-    TW::Hash::Hasher hasher = TW::Hash::sha256d;
+//    TW::Hash::Hasher hasher = TW::Hash::blake2b_personal;
 
-    Transaction(TW::Hash::Hasher hasher = TW::Hash::sha256d)
-        : version(0), cellDeps(), inputs(), outputs(), hasher(hasher) {}
-    Transaction(int32_t version, TW::Hash::Hasher hasher = TW::Hash::sha256d)
-        : version(version), cellDeps(), inputs(), outputs(), hasher(hasher) {}
+//    Transaction(TW::Hash::Hasher hasher = TW::Hash::blake2b_personal)
+//        : version(0), cellDeps(), inputs(), outputs(), hasher(hasher) {}
+    Transaction()
+        : version(0), cellDeps(), inputs(), outputs() {}
+//    Transaction(int32_t version, TW::Hash::Hasher hasher = TW::Hash::blake2b_personal)
+//        : version(version), cellDeps(), inputs(), outputs(), hasher(hasher) {}
+    Transaction(int32_t version)
+        : version(version), cellDeps(), inputs(), outputs() {}
 
     ~Transaction() {
         for (size_t i=0; i<cellDeps.size(); ++i) {
@@ -89,6 +93,7 @@ struct Transaction {
 //    virtual std::vector<WitnessArgs> witnessArgs() const;
 
     Data getPreImage(size_t index) const;
+    Data getPreImageHash(size_t index) const;
 
     /// Serializes the transaction's deps into the provided buffer.
     virtual Data serializeDeps() const;

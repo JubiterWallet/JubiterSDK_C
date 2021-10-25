@@ -1,7 +1,6 @@
 #include "token/HC/JubiterBaseHCImpl.h"
 #include <Bitcoin/Script.h>
 #include <TrustWalletCore/TWCurve.h>
-#include "HDKey/HDKey.hpp"
 
 
 namespace jub {

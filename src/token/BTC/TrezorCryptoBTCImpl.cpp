@@ -1,6 +1,5 @@
 #include "token/BTC/TrezorCryptoBTCImpl.h"
 #include <TrezorCrypto/curves.h>
-#include "HDKey/HDKey.hpp"
 #include "utility/util.h"
 #include <Bitcoin/Script.h>
 #include <Base58Address.h>

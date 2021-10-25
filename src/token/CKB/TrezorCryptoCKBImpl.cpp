@@ -3,7 +3,6 @@
 #include "Bech32Address.h"
 #include <NervosCKB/Transaction.h>
 #include <NervosCKB/WitnessArgs.h>
-#include "HDKey/HDKey.hpp"
 #include <PublicKey.h>
 #include <PrivateKey.h>
 
@@ -58,22 +57,13 @@ JUB_RV TrezorCryptoCKBImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
 }
 
 
-JUB_RV TrezorCryptoCKBImpl::SignTX(const std::vector<std::string>& vInputPath,
-                                   const JUB_UINT32 version,
-                                   const std::vector<CELL_DEP>& vDeps,
-                                   const std::vector<CELL_INPUT>& vInputs,
-                                   const std::vector<CELL_OUTPUT>& vOutputs,
-                                   std::string& rawInJSON,
-                                   const TWCoinType& coinNet) {
+JUB_RV TrezorCryptoCKBImpl::_SignTX(const std::vector<std::string>& vInputPath,
+                                    TW::NervosCKB::Transaction& tx,
+                                    const TWCoinType& coinNet) {
 
-    TW::NervosCKB::Transaction unsignedTx(version);
-    JUB_VERIFY_RV(UnsignedTx(version, vDeps, vInputs, vOutputs, unsignedTx));
+    JUB_RV rv = JUBR_OK;
 
-    if (!unsignedTx.isValid()) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    auto witness = unsignedTx.witnessGroups();
+    auto witness = tx.witnessGroups();
     for (size_t index=0; index<witness.size(); ++index) {
         if (!witness[index].isZero()) {
             // derive key using BTC version
@@ -88,96 +78,66 @@ JUB_RV TrezorCryptoCKBImpl::SignTX(const std::vector<std::string>& vInputPath,
             uchar_vector publicKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
             TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
 
-            Data preImage = unsignedTx.getPreImage(index);
-            TW::Data sign = twprvk.sign(preImage, TWCurve::TWCurveSECP256k1);
+            Data preImageHash = tx.getPreImageHash(index);
+            TW::Data sign = twprvk.sign(preImageHash, TWCurve::TWCurveSECP256k1);
+            if (0 == sign.size()) {
+                rv = JUBR_ERROR;
+                break;
+            }
 
             TW::NervosCKB::WitnessArgs arg = witness[index];
             arg.lock = sign;
-            unsignedTx.witnesses.push_back(arg);
+            tx.witnesses.push_back(arg);
         }
         else {
-            unsignedTx.witnesses.push_back(TW::NervosCKB::WitnessArgs(0x00));
+            tx.witnesses.push_back(TW::NervosCKB::WitnessArgs(0x00));
         }
     }
 
-    rawInJSON = unsignedTx.serialize().dump();
-
-    return JUBR_OK;
+    return rv;
 }
-//
-//
-//JUB_RV TrezorCryptoCKBImpl::_SignTx(bool witness,
-//                                const std::vector<JUB_UINT64>& vInputAmount,
-//                                    const std::vector<std::string>& vInputPath,
-//                                    const std::vector<JUB_UINT16>& vChangeIndex,
-//                                    const std::vector<std::string>& vChangePath,
-//                                    const TW::Bitcoin::Transaction& tx,
-//                                    std::vector<TW::Data>& vInputPublicKey,
-//                                    std::vector<uchar_vector>& vSignatureRaw,
-//                                    const TWCoinType& coinNet) {
-//
-//    JUB_RV rv = JUBR_ERROR;
-//
-//    for (size_t index=0; index<tx.inputs.size(); ++index) {
-//        // derive key using BTC version
-//        HDNode hdkey;
-//        JUB_UINT32 parentFingerprint;
-//        JUB_VERIFY_RV(_HdnodeCkd(vInputPath[index].c_str(), &hdkey, &parentFingerprint, coinNet));
-//
-//        TW::Data prvKey;
-//        prvKey.insert(prvKey.end(), &hdkey.private_key[0], &hdkey.private_key[0]+TW::PrivateKey::size);
-//        TW::PrivateKey twprvk(prvKey);
-//
-//        uchar_vector publicKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
-//        TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
-//
-//        // script code - scriptPubKey
-//        TW::Bitcoin::Script scriptCode;
-//        rv = _scriptCode((coinNet?coinNet:_coin), twpk, scriptCode);
-//        if (JUBR_OK != rv) {
-//            break;
-//        }
-//
-//        TW::Data preImage;
-//        if (!witness) {
-//            preImage = tx.getPreImage(scriptCode, index, _hashType);
-//        }
-//        else {
-//            preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);
-//        }
-//
-//        const auto begin = reinterpret_cast<const uint8_t*>(preImage.data());
-//        TW::Data digest = tx.hasher(begin, preImage.size());
-//        TW::Data sign = twprvk.signAsDER(digest, curveName2TWCurve(_curve_name));
-//        TW::Data signature = pushAll(sign);
-//        if (!twpk.verifyAsDER(signature, digest)) {
-//            rv = JUBR_VERIFY_SIGN_FAILED;
-//            break;
-//        }
-//        else {
-//            rv = JUBR_OK;
-//        }
-//
-//        // move to JubiterBaseBTCImpl::_serializeTx()
-////        if (!witness) {
-////            // P2PKH
-////            tx.inputs[index]->script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(signature, TW::Data(publicKey));
-////        }
-////        else {
-////            // P2WPKH
-////            TW::Data scriptPubkey;
-////            TW::Bitcoin::Script::buildPayToWitnessPubkeyHash(twpk.hash(TW::Data())).encode(scriptPubkey);
-////            tx.inputs[index]->script.bytes = scriptPubkey;
-////
-////            tx.inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(signature, TW::Data(publicKey));
-////        }
-//
-//        vInputPublicKey.push_back(TW::Data(publicKey));
-//        vSignatureRaw.push_back(signature);
-//    }
-//
-//    return rv;
-//}
+
+
+JUB_RV TrezorCryptoCKBImpl::_VerifyTX(const std::vector<std::string>& vInputPath,
+                                      const TW::NervosCKB::Transaction& tx,
+                                      const std::vector<uchar_vector>& vSignatureRaw,
+                                      const TWCoinType& coinNet) {
+
+    JUB_RV rv = JUBR_OK;
+
+    TW::NervosCKB::Transaction signedTx(tx);
+
+    auto witness = signedTx.witnessGroups();
+    if (vSignatureRaw.size() != witness.size()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    std::vector<TW::PublicKey> vInputPublicKey;
+    for (size_t index=0; index<witness.size(); ++index) {
+        // derive key using BTC version
+        HDNode hdkey;
+        JUB_UINT32 parentFingerprint;
+        JUB_VERIFY_RV(_HdnodeCkd(vInputPath[index].c_str(), &hdkey, &parentFingerprint, coinNet));
+
+        uchar_vector publicKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key)/sizeof(uint8_t));
+        TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType);
+
+        vInputPublicKey.push_back(twpk);
+
+        if (!witness[index].isZero()) {
+            TW::NervosCKB::WitnessArgs arg = witness[index];
+            arg.lock = vSignatureRaw[index];
+            signedTx.witnesses.push_back(arg);
+        }
+        else {
+            signedTx.witnesses.push_back(TW::NervosCKB::WitnessArgs(0x00));
+        }
+    }
+
+    JUB_VERIFY_RV(_verifyTX(signedTx, vInputPublicKey, coinNet));
+
+    return rv;
+}
 
 
 } // namespace token end

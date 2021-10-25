@@ -1,7 +1,6 @@
 #include "token/HC/TrezorCryptoHCImpl.h"
 #include <TrustWalletCore/TWCurve.h>
 #include <TrezorCrypto/base58.h>
-#include "HDKey/HDKey.hpp"
 
 namespace jub {
 namespace token {

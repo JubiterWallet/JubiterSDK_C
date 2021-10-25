@@ -36,20 +36,39 @@ public:
                               const std::vector<CELL_OUTPUT>& vOutputs,
                               TW::NervosCKB::Transaction& unsignedTx,
                               const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin);
-//
-//    virtual JUB_RV VerifyTx(const bool witness,
-//                            const uchar_vector& signedRaw,
-//                            const std::vector<JUB_UINT64>& vInputAmount,
-//                            const std::vector<TW::Data>& vInputPublicKey) override;
-//
+
+    virtual JUB_RV SignTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                          const std::vector<std::string>& vInputPath,
+                          const JUB_UINT32 version,
+                          const std::vector<CELL_DEP>& vDeps,
+                          const std::vector<CELL_INPUT>& vInputs,
+                          const std::vector<CELL_OUTPUT>& vOutputs,
+                          std::vector<uchar_vector>& vSignatureRaw,
+                          const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin) override;
+    virtual JUB_RV VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                            const std::vector<std::string>& vInputPath,
+                            const JUB_UINT32 version,
+                            const std::vector<CELL_DEP>& vDeps,
+                            const std::vector<CELL_INPUT>& vInputs,
+                            const std::vector<CELL_OUTPUT>& vOutputs,
+                            const std::vector<uchar_vector>& vSignatureRaw,
+                            const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin) override;
+
 protected:
     virtual JUB_RV _getSegwitAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin);
-//    virtual JUB_RV _verifyTx(const TWCoinType& coin,
-//                             const TW::Bitcoin::Transaction* tx,
-//                             const uint32_t& hashType,
-//                             const std::vector<JUB_UINT64>& vInputAmount,
-//                             const std::vector<TW::PublicKey>& vInputPublicKey) override;
-//
+
+    virtual JUB_RV _SignTX(const std::vector<std::string>& vInputPath,
+                          TW::NervosCKB::Transaction& tx,
+                          const TWCoinType& coinNet) = 0;
+    virtual JUB_RV _VerifyTX(const std::vector<std::string>& vInputPath,
+                             const TW::NervosCKB::Transaction& tx,
+                             const std::vector<uchar_vector>& vSignatureRaw,
+                             const TWCoinType& coinNet) = 0;
+
+    virtual JUB_RV _verifyTX(const TW::NervosCKB::Transaction& tx,
+                             const std::vector<TW::PublicKey>& vInputPublicKey,
+                             const TWCoinType& coinNet);
+
     virtual JUB_RV _unsignedTx(const uint32_t coin,
                                const JUB_UINT32 version,
                                const std::vector<CELL_DEP>& vDeps,

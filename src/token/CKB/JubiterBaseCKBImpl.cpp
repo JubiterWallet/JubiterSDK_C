@@ -1,5 +1,4 @@
 #include "token/CKB/JubiterBaseCKBImpl.h"
-#include "HDKey/HDKey.hpp"
 #include <TrustWalletCore/TWCurve.h>
 #include <TrustWalletCore/TWNervosCKBSigHashType.h>
 #include <NervosCKB/SegwitAddress.h>
@@ -123,6 +122,9 @@ JUB_RV JubiterBaseCKBImpl::_unsignedTx(const uint32_t coin,
 
         tx.outputs.push_back(txOutput);
     }   // for (const auto& output:vOutputs) end
+    if (!tx.isValid()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
     return rv;
 }
@@ -175,80 +177,93 @@ JUB_RV JubiterBaseCKBImpl::UnsignedTx(const JUB_UINT32 version,
     return JUBR_OK;
 }
 
-//JUB_RV JubiterBaseHCImpl::_verifyTx(const TWCoinType& coin,
-//                                    const TW::Bitcoin::Transaction* tx,
-//                                    const uint32_t& hashType,
-//                                    const std::vector<JUB_UINT64>& vInputAmount,
-//                                    const std::vector<TW::PublicKey>& vInputPublicKey) {
-//
-//    JUB_RV rv = JUBR_OK;
-//
-//    for (size_t index=0; index<tx->inputs.size(); ++index) {
-//        rv = JUBR_ERROR;
-//
-//        TW::Data signature;
-//        TW::Data publicKey;
-//        if (!TW::Bitcoin::Script::parseWitnessStackToPayToWitnessScriptHash(tx->inputs[index]->scriptWitness,
-//                                                                            signature, publicKey)) {
-//            rv = JUBR_ERROR;
-//            break;
-//        }
-//
-//        if (vInputPublicKey[index].bytes != publicKey) {
-//            continue;
-//        }
-//
-//        rv = _verifyPayToPublicKeyHashScriptSig(coin,
-//                                                *tx,
-//                                                index, hashType, vInputAmount[index],
-//                                                signature,
-//                                                vInputPublicKey[index],
-//                                                true);
-//        if (JUBR_OK != rv) {
-//            break;
-//        }
-//        else {
-//            rv = JUBR_OK;
-//        }
-//    }
-//
-//    return rv;
-//}
-//
-//
-//JUB_RV JubiterBaseHCImpl::VerifyTx(const bool witness,
-//                                   const uchar_vector& signedRaw,
-//                                   const std::vector<JUB_UINT64>& vInputAmount,
-//                                   const std::vector<TW::Data>& vInputPublicKey) {
-//
-//    JUB_RV rv = JUBR_ARGUMENTS_BAD;
-//
-//    try {
-//        TW::NervosCKB::Transaction tx;
-//        if (!tx.decode(!witness, signedRaw)) {
-//            return rv;
-//        }
-//
-//        std::vector<TW::PublicKey> vInputPubkey;
-//        for(const auto& inputPublicKey:vInputPublicKey) {
-//            vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
-//        }
-//
-//        return _verifyTx((_coinNet?_coinNet:_coin),
-//                         &tx,
-//                         _hashType,
-//                         vInputAmount,
-//                         vInputPubkey);
-//    }
-//    catch (...) {
-//        rv = JUBR_ERROR;
-//    }
-//
-//    return rv;
-//}
-//
-//
+
+JUB_RV JubiterBaseCKBImpl::SignTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                  const std::vector<std::string>& vInputPath,
+                                  const JUB_UINT32 version,
+                                  const std::vector<CELL_DEP>& vDeps,
+                                  const std::vector<CELL_INPUT>& vInputs,
+                                  const std::vector<CELL_OUTPUT>& vOutputs,
+                                  std::vector<uchar_vector>& vSignatureRaw,
+                                  const TWCoinType& coinNet) {
+
+    JUB_RV rv = JUBR_OK;
+
+    try {
+        TW::NervosCKB::Transaction tx;
+        JUB_VERIFY_RV(UnsignedTx(version, vDeps, vInputs, vOutputs, tx));
+
+        JUB_VERIFY_RV(_SignTX(vInputPath, tx, coinNet));
+
+        for (const auto& witness:tx.witnesses) {
+            vSignatureRaw.push_back(witness.lock);
+        }
+    }
+    catch (...) {
+        rv = JUBR_ERROR;
+    }
+
+    return rv;
+}
+
+
+JUB_RV JubiterBaseCKBImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                    const std::vector<std::string>& vInputPath,
+                                    const JUB_UINT32 version,
+                                    const std::vector<CELL_DEP>& vDeps,
+                                    const std::vector<CELL_INPUT>& vInputs,
+                                    const std::vector<CELL_OUTPUT>& vOutputs,
+                                    const std::vector<uchar_vector>& vSignatureRaw,
+                                    const TWCoinType& coinNet) {
+
+    JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
+    try {
+        TW::NervosCKB::Transaction unsignedTx;
+        JUB_VERIFY_RV(UnsignedTx(version, vDeps, vInputs, vOutputs, unsignedTx));
+
+        return _VerifyTX(vInputPath,
+                         unsignedTx,
+                         vSignatureRaw,
+                         coinNet);
+    }
+    catch (...) {
+        rv = JUBR_ERROR;
+    }
+
+    return rv;
+}
+
+
+JUB_RV JubiterBaseCKBImpl::_verifyTX(const TW::NervosCKB::Transaction& tx,
+                                     const std::vector<TW::PublicKey>& vInputPublicKey,
+                                     const TWCoinType& coinNet) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    for (size_t index=0; index<vInputPublicKey.size(); ++index) {
+        TW::PublicKey twpk = TW::PublicKey(vInputPublicKey[index]);
+        if (   !tx.witnesses[index].isZero()
+            && twpk.isValid()
+            ) {
+            Data preImageHash = tx.getPreImageHash(index);
+            TW::Data sign = tx.witnesses[index].lock;
+            if (!twpk.verify(sign, preImageHash)) {
+                rv = JUBR_VERIFY_SIGN_FAILED;
+                break;
+            }
+            else {
+                rv = JUBR_OK;
+            }
+        }
+    }
+
+    return rv;
+}
+
+
 JUB_RV JubiterBaseCKBImpl::_getSegwitAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) {
+
     try {
         auto segwitAddress = TW::NervosCKB::SegwitAddress::fromPublickey(
                                 std::string(stringForHRP(TWCoinTypeHRP(_coin, coinNet))),
@@ -267,6 +282,7 @@ JUB_RV JubiterBaseCKBImpl::_getSegwitAddress(const TW::Data& publicKey, std::str
 
     return JUBR_OK;
 }
+
 
 } // namespace token end
 } // namespace jub end

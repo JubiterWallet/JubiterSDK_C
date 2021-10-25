@@ -2,7 +2,6 @@
 
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
-#include "HDKey/HDKey.hpp"
 
 #include <Polkadot/Signer.h>
 #include "uint256.h"

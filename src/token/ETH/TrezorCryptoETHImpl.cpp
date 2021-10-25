@@ -1,6 +1,5 @@
 #include "token/ETH/TrezorCryptoETHImpl.h"
 #include <Ethereum/Signer.h>
-#include "HDKey/HDKey.hpp"
 
 namespace jub {
 namespace token {

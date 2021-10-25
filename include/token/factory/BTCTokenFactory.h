@@ -34,6 +34,7 @@
 #include "token/BTC/JubiterLiteUSDTImpl.h"
 #include "token/BTC/JubiterLiteDashImpl.h"
 #include "token/BTC/JubiterLiteQTUMImpl.h"
+#include "token/CKB/JubiterLiteCKBImpl.h"
 
 #include "token/BTC/TrezorCryptoBTCImpl.h"
 #include "token/BTC/TrezorCryptoBCHImpl.h"
@@ -112,6 +113,7 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &HardwareTokenInterface::Create<JubiterLiteUSDTImpl>);
         Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &HardwareTokenInterface::Create<JubiterLiteDashImpl>);
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &HardwareTokenInterface::Create<JubiterLiteQTUMImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINCKB,  &HardwareTokenInterface::Create<JubiterLiteCKBImpl>);
     }
 }; // class xJuBiterLiteBTCFactory end
 

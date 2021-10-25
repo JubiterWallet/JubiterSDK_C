@@ -1,7 +1,6 @@
 #pragma once
 #include "token/interface/DOTTokenInterface.hpp"
 #include <TrustWalletCore/TWCoinType.h>
-#include "HDKey/HDKey.hpp"
 
 namespace jub {
 namespace token {

@@ -2,7 +2,6 @@
 
 #include <TrezorCrypto/bip32.h>
 #include <TrezorCrypto/curves.h>
-#include "HDKey/HDKey.hpp"
 #include "utility/util.h"
 
 #include <Ripple/Signer.h>

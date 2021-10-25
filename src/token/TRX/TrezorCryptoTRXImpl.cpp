@@ -1,6 +1,5 @@
 #include "token/TRX/TrezorCryptoTRXImpl.h"
 
-#include "HDKey/HDKey.hpp"
 #include "utility/util.h"
 
 //#include <HexCoding.h>

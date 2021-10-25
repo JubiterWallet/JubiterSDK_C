@@ -25,6 +25,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/interface)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/json/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/sr25519-crust/include/sr25519)
 
 else()  #if(devOnly)
 

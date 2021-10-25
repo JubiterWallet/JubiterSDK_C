@@ -26,29 +26,6 @@ TW::Data JubiterBaseBTCImpl::pushAll(const TW::Data& results) {
 }
 
 
-JUB_RV JubiterBaseBTCImpl::_getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
-                                              uint32_t hdVersionPub, uint32_t hdVersionPrv) {
-
-    try {
-        HDNode hdkey;
-        uint32_t fingerprint = 0;
-        if (0 != hdnode_deserialize(xpub.c_str(),
-                                    hdVersionPub, hdVersionPrv,
-                                    _curve_name, &hdkey, &fingerprint)) {
-            return JUBR_ARGUMENTS_BAD;
-        }
-
-        uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
-        publicKey = TW::Data(vPublicKey);
-    }
-    catch (...) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    return JUBR_OK;
-}
-
-
 JUB_RV JubiterBaseBTCImpl::_getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) {
     try {
         TW::Bitcoin::Address addr(TW::PublicKey(publicKey, _publicKeyType), TWCoinTypeP2pkhPrefix((coinNet?coinNet:_coin)));

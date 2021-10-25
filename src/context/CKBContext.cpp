@@ -4,6 +4,8 @@
 #include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/CKBTokenInterface.hpp"
 
+#include <NervosCKB/Transaction.h>
+#include <NervosCKB/WitnessArgs.h>
 
 namespace jub {
 namespace context {
@@ -113,19 +115,53 @@ JUB_RV CKBContext::signTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt,
     }
 
     //deal inputs
-    std::vector<JUB_UINT64> vInputAmount;
     std::vector<std::string> vInputPath;
     for (auto input : vInputs) {
-        vInputAmount.push_back(input.capacity);
         vInputPath.push_back(_FullBip44Path(input.path));
     }
 
-    JUB_VERIFY_RV(token->SignTX(vInputPath,
+    std::vector<uchar_vector> vSignatureRaw;
+    JUB_VERIFY_RV(token->SignTX(_transType,
+                                vInputPath,
                                 version,
                                 vDeps,
                                 vInputs,
                                 vOutputs,
-                                rawInJSON));
+                                vSignatureRaw,
+                                _coinNet));
+
+#if defined(DEBUG)
+    JUB_VERIFY_RV(token->VerifyTX(_transType,
+                                  vInputPath,
+                                  version,
+                                  vDeps,
+                                  vInputs,
+                                  vOutputs,
+                                  vSignatureRaw,
+                                  _coinNet));
+#endif
+
+    // finish transaction
+    try {
+        TW::Data vUnsignedRaw;
+        JUB_VERIFY_RV(token->SerializeUnsignedTx(version, vDeps, vInputs, vOutputs, vUnsignedRaw, _coinNet));
+
+        TW::NervosCKB::Transaction tx;
+        if (!tx.deserialize(vUnsignedRaw)) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+
+        for (size_t index=0; index<vSignatureRaw.size(); ++index) {
+            TW::NervosCKB::WitnessArgs arg;
+            arg.lock = vSignatureRaw[index];
+            tx.witnesses.push_back(arg);
+        }
+
+        rawInJSON = tx.serialize().dump();
+    }
+    catch (...) {
+        return JUBR_ERROR;
+    }
 
     return JUBR_OK;
 }
