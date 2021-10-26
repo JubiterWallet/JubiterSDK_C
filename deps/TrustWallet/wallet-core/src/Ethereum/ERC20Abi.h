@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <stddef.h>
 #include <stdint.h>
 #include <cstdint>
 #include <array>
