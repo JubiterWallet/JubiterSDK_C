@@ -81,6 +81,21 @@ JUB_RV JubiterBaseBTCImpl::_getSegwitAddress(const TW::Data& publicKey, std::str
         // keyhash
         TW::Bitcoin::SegwitAddress segwitAddr(TW::PublicKey(publicKey, _publicKeyType), OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(_coin, coinNet))));
 
+        address = segwitAddr.string();
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBaseBTCImpl::_getNestedSegwitAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) {
+    try {
+        // keyhash
+        TW::Bitcoin::SegwitAddress segwitAddr(TW::PublicKey(publicKey, _publicKeyType), OpCode::OP_0, std::string(stringForHRP(TWCoinTypeHRP(_coin, coinNet))));
+
         // redeemScript
         TW::Bitcoin::Script redeemScript = TW::Bitcoin::Script::buildPayToWitnessProgram(segwitAddr.witnessProgram);
         if (redeemScript.empty()) {

@@ -72,6 +72,7 @@ protected:
 
     virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet);
     virtual JUB_RV _getSegwitAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet);
+    virtual JUB_RV _getNestedSegwitAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet);
 
 protected:
     uint32_t _hashType = TWBitcoinSigHashTypeAll;

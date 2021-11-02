@@ -31,7 +31,13 @@ public:
             _unitType = mBTC;
             _coinType = cfg.coinType;
             _timeout = 120 * 2;
-            _coinNet = TWCoinType::TWCoinTypeBitcoin;
+            JUB_BIP32_PATH spiltPath = spiltMainPath(_mainPath, '/');
+            if (0 == strcmp(spiltPath.coin_type, "1'")) {
+                _coinNet = TWCoinType::TWCoinTypeBitcoinTestNet;
+            }
+            else {
+                _coinNet = TWCoinType::TWCoinTypeBitcoin;
+            }
     }
     BTCContext(JUB_CHAR_CPTR mainPath, const JUB_ENUM_COINTYPE_BTC& coinType, std::shared_ptr<token::BaseToken> tokenPtr):
         BaseContext(tokenPtr) {

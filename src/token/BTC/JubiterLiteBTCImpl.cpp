@@ -60,7 +60,7 @@ JUB_RV JubiterLiteBTCImpl::GetAddress(const JUB_BYTE addrFmt,
     }   // case p2pkh end
     case p2sh_p2wpkh:
     {
-        rv = _getSegwitAddress(publicKey, address, coinNet);
+        rv = _getNestedSegwitAddress(publicKey, address, coinNet);
         break;
     }   // case p2sh_p2wpkh end
 //    case p2wpkh:

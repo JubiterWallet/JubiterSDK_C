@@ -25,10 +25,16 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE& type, const
 
     hdnode_fill_public_key(&hdkey);
     bool witness = false;
+    bool nested = false;
     if (p2sh_p2wpkh == type) {
         witness = true;
+        nested = true;
     }
-    JUB_UINT32 version = TWCoinType2HDVersionPublic((coinNet?coinNet:_coin), witness);
+    else if (p2wpkh == type) {
+        witness = true;
+        nested = false;
+    }
+    JUB_UINT32 version = TWCoinType2HDVersionPublic((coinNet?coinNet:_coin), witness, nested);
 
     JUB_CHAR _xpub[200] = { 0, };
     if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, version, _xpub, sizeof(_xpub) / sizeof(JUB_CHAR))) {
@@ -59,10 +65,14 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     }
     case p2sh_p2wpkh:
     {
+        rv = _getNestedSegwitAddress(TW::Data(pk), address, coinNet);
+        break;
+    }
+    case p2wpkh:
+    {
         rv = _getSegwitAddress(TW::Data(pk), address, coinNet);
         break;
     }
-//    case p2wpkh:
 //    case p2sh_multisig:
 //    case p2wsh_multisig:
 //    case p2sh_p2wsh_multisig:

@@ -9,8 +9,15 @@
 #include "../NervosCKB/Deserialization.hpp"
 #include <TrezorCrypto/blake256.h>
 
-#include <cassert>
 #include "mSIGNA/stdutils/uchar_vector.h"
+#include <utility>
+#include <string>
+#include <ctime>
+#include <iomanip>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <cstdio>
 
 using namespace TW;
 using namespace TW::NervosCKB;
@@ -108,6 +115,17 @@ Data Transaction::getPreImage(size_t index) const {
         }
         Data witness = witnesses[i].serialize();
         s.insert(std::end(s), std::begin(witness), std::end(witness));
+    }
+
+    return s;
+}
+
+
+Data Transaction::getPreImageHash(size_t index) const {
+
+    Data s = getPreImage(index);
+    if (0 == s.size()) {
+        return s;
     }
 
     TW::Data blake(HASHER_DIGEST_LENGTH);

@@ -200,19 +200,21 @@ try {
         cout << "-------------------------------------------" << endl;
         cout << "|********** Jubiter Wallet Test **********|" << endl;
         if (commode != JUB_ENUM_COMMODE::SWI) {
-        cout << "|   1. get_device_info_test               |" << endl;
-        cout << "|  11.     device_fgpt_test               |" << endl;
+        cout << "|   1.   get_device_info_test             |" << endl;
+        cout << "|  11.       device_fgpt_test             |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         }
         cout << "|   2.   LTC_test.                        |" << endl;
         cout << "|   5.  DASH_test.                        |" << endl;
         cout << "|                                         |" << endl;
-        cout << "|  30. BTCTN_test.                        |" << endl;
+        cout << "|  30.   BTC_test(Test Net).              |" << endl;
         cout << "|  31.   BTC_test.                        |" << endl;
-        cout << "|  32.   BTC_segwit_test.                 |" << endl;
-        cout << "|  33. BTC_segwitTN_test.                 |" << endl;
-        cout << "|  39.     BTC_USDT_test.                 |" << endl;
+        cout << "|  32.   BTC_P2SH_P2WPKH_test.            |" << endl;
+        cout << "|  33.   BTC_P2SH_P2WPKH_test(Test Net).  |" << endl;
+        cout << "|  34.   BTC_P2WPKH_test.                 |" << endl;
+        cout << "|  35.   BTC_P2WPKH_test(Test Net).       |" << endl;
+        cout << "|  39.   BTC_USDT_test.                   |" << endl;
         cout << "|                                         |" << endl;
         cout << "|  88.  QTUM_QRC20_test.                  |" << endl;
         cout << "|2301.  QTUM_test.                        |" << endl;
@@ -220,7 +222,7 @@ try {
         cout << "| 171. Hcash_test.                        |" << endl;
         cout << "|                                         |" << endl;
         cout << "| 309.   CKB_test.                        |" << endl;
-        cout << "|3090. CKBTN_test.                        |" << endl;
+        cout << "|3090.   CKB_test(Test Net).              |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|  60.   ETH_test & ETC_test.             |" << endl;
@@ -234,10 +236,10 @@ try {
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|  98.  send_apdu_test.                   |" << endl;
-        cout << "|  99.  get_version.                      |" << endl;
+        cout << "|  99.   get_version.                     |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
-        cout << "|   0.  exit.                             |" << endl;
+        cout << "|   0. exit.                              |" << endl;
         cout << "-------------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
@@ -282,6 +284,14 @@ try {
             json_file += "testBTCTN49.json";
             BTC_test(deviceID, json_file.c_str(), COINBTC);
             break;
+        case 34:
+            json_file += "testBTC84.json";
+            BTC_test(deviceID, json_file.c_str(), COINBTC);
+            break;
+        case 35:
+            json_file += "testBTCTN84.json";
+            BTC_test(deviceID, json_file.c_str(), COINBTC);
+            break;
         case 39:
             json_file += "testUSDT.json";
             USDT_test(deviceID, json_file.c_str());
@@ -307,7 +317,7 @@ try {
             CKB_test(deviceID, json_file.c_str());
             break;
         case 3090:
-            json_file += "testCKBNT.json";
+            json_file += "testCKBTN.json";
             CKB_test(deviceID, json_file.c_str());
             break;
 
