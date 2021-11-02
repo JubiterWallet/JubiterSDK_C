@@ -110,9 +110,6 @@ Data Transaction::getPreImage(size_t index) const {
         s.insert(std::end(s), std::begin(witness), std::end(witness));
     }
 
-    //panmin
-    std::cout << "Transaction::getPreImage" << index << "[" << s.size() << "]: " << uchar_vector(s).getHex() << std::endl;
-
     return s;
 }
 

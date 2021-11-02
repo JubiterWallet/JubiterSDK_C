@@ -17,12 +17,14 @@ using namespace TW::NervosCKB;
 
 bool SegwitAddress::isValid(const std::string& string) {
     auto dec = Bech32::decode(string);
-    if (dec.second.empty()) {
+//    if (dec.second.empty()) {
+    if (dec.data.empty()) {
         return false;
     }
 
     Data conv;
-    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin(), dec.second.end()))
+//    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin(), dec.second.end()))
+    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.data.begin(), dec.data.end()))
         || 0 == conv[0]
         || TWNervosCKBAddressFormat::TWNervosCKBAddressFullType < conv[0]
         ) {
@@ -51,10 +53,12 @@ bool SegwitAddress::isValid(const std::string& string) {
 
 bool SegwitAddress::isValid(const std::string& string, const std::string& hrp) {
     auto dec = Bech32::decode(string);
-    if (dec.second.empty()) {
+//    if (dec.second.empty()) {
+    if (dec.data.empty()) {
         return false;
     }
-    if (dec.first != hrp) {
+//    if (dec.first != hrp) {
+    if (dec.hrp != hrp) {
         return false;
     }
 
@@ -75,12 +79,14 @@ SegwitAddress::SegwitAddress(const PublicKey& publicKey, int codeHashIndex, std:
 
 std::pair<SegwitAddress, bool> SegwitAddress::decode(const std::string& addr) {
     auto dec = Bech32::decode(addr);
-    if (dec.second.empty()) {
+//    if (dec.second.empty()) {
+    if (dec.data.empty()) {
         return std::make_pair(SegwitAddress(), false);
     }
 
     Data conv;
-    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin(), dec.second.end()))
+//    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin(), dec.second.end()))
+    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.data.begin(), dec.data.end()))
         || 0 == conv[0]
         || TWNervosCKBAddressFormat::TWNervosCKBAddressFullType < conv[0]
         ) {
@@ -104,10 +110,12 @@ std::pair<SegwitAddress, bool> SegwitAddress::decode(const std::string& addr) {
     }
 
     if (TWNervosCKBAddressFormat::TWNervosCKBAddressShort == conv[0]) {
-        return std::make_pair(SegwitAddress(dec.first, conv[0], conv[1], TW::Data(conv.begin()+2, conv.end())), true);
+//        return std::make_pair(SegwitAddress(dec.first, conv[0], conv[1], TW::Data(conv.begin()+2, conv.end())), true);
+        return std::make_pair(SegwitAddress(dec.hrp, conv[0], conv[1], TW::Data(conv.begin()+2, conv.end())), true);
     }
     else {
-        return std::make_pair(SegwitAddress(dec.first, conv[0], TW::Data(conv.begin()+1, conv.begin()+1+TW::Hash::sha256Size), TW::Data(conv.begin()+1+TW::Hash::sha256Size, conv.end())), true);
+//        return std::make_pair(SegwitAddress(dec.first, conv[0], TW::Data(conv.begin()+1, conv.begin()+1+TW::Hash::sha256Size), TW::Data(conv.begin()+1+TW::Hash::sha256Size, conv.end())), true);
+        return std::make_pair(SegwitAddress(dec.hrp, conv[0], TW::Data(conv.begin()+1, conv.begin()+1+TW::Hash::sha256Size), TW::Data(conv.begin()+1+TW::Hash::sha256Size, conv.end())), true);
     }
 }
 
@@ -131,6 +139,7 @@ std::string SegwitAddress::string() const {
     }
 
     Data enc;
+//    Bech32::convertBits<8, 5, true>(enc, payload);
     Bech32::convertBits<8, 5, true>(enc, payload);
     std::string result = Bech32::encode(hrp, enc);
     if (!decode(result).second) {
@@ -142,6 +151,7 @@ std::string SegwitAddress::string() const {
 std::pair<SegwitAddress, bool> SegwitAddress::fromRaw(const std::string& hrp,
                                                       const std::vector<uint8_t>& payload) {
     Data conv;
+//    if (!Bech32::convertBits<5, 8, false>(conv, Data(payload.begin(), payload.end()))
     if (!Bech32::convertBits<5, 8, false>(conv, Data(payload.begin(), payload.end()))
         || 0 == conv[0]
         || TWNervosCKBAddressFormat::TWNervosCKBAddressFullType < conv[0]

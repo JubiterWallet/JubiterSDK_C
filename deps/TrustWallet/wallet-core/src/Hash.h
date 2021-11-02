@@ -173,7 +173,6 @@ Data groestl512(const T& data) {
 /// Computes the SHA256 hash of the SHA256 hash.
 inline Data blake2b_personal(const byte* data, size_t size, const Data& personal) {
 //    return blake2b(data, size, personal);
-    //panmin
     return {};
 }
 

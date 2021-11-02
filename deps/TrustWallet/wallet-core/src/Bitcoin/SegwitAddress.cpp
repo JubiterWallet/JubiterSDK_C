@@ -15,14 +15,18 @@ using namespace TW::Bitcoin;
 
 bool SegwitAddress::isValid(const std::string& string) {
     auto dec = Bech32::decode(string);
-    if (dec.second.empty()) {
+//    if (dec.second.empty()) {
+    if (dec.data.empty()) {
         return false;
     }
 
     Data conv;
-    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin() + 1, dec.second.end())) ||
-        conv.size() < 2 || conv.size() > 40 || dec.second[0] > 16 ||
-        (dec.second[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
+//    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin() + 1, dec.second.end())) ||
+//        conv.size() < 2 || conv.size() > 40 || dec.second[0] > 16 ||
+//        (dec.second[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
+    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.data.begin() + 1, dec.data.end())) ||
+        conv.size() < 2 || conv.size() > 40 || dec.data[0] > 16 ||
+        (dec.data[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
         return false;
     }
 
@@ -31,17 +35,22 @@ bool SegwitAddress::isValid(const std::string& string) {
 
 bool SegwitAddress::isValid(const std::string& string, const std::string& hrp) {
     auto dec = Bech32::decode(string);
-    if (dec.second.empty()) {
+//    if (dec.second.empty()) {
+    if (dec.data.empty()) {
         return false;
     }
-    if (dec.first != hrp) {
+//    if (dec.first != hrp) {
+    if (dec.hrp != hrp) {
         return false;
     }
 
     Data conv;
-    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin() + 1, dec.second.end())) ||
-        conv.size() < 2 || conv.size() > 40 || dec.second[0] > 16 ||
-        (dec.second[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
+//    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin() + 1, dec.second.end())) ||
+//        conv.size() < 2 || conv.size() > 40 || dec.second[0] > 16 ||
+//        (dec.second[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
+    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.data.begin() + 1, dec.data.end())) ||
+        conv.size() < 2 || conv.size() > 40 || dec.data[0] > 16 ||
+        (dec.data[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
         return false;
     }
 
@@ -60,18 +69,23 @@ SegwitAddress::SegwitAddress(const PublicKey& publicKey, int witver, std::string
 
 std::pair<SegwitAddress, bool> SegwitAddress::decode(const std::string& addr) {
     auto dec = Bech32::decode(addr);
-    if (dec.second.empty()) {
+//    if (dec.second.empty()) {
+    if (dec.data.empty()) {
         return std::make_pair(SegwitAddress(), false);
     }
 
     Data conv;
-    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin() + 1, dec.second.end())) ||
-        conv.size() < 2 || conv.size() > 40 || dec.second[0] > 16 ||
-        (dec.second[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
+//    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.second.begin() + 1, dec.second.end())) ||
+//        conv.size() < 2 || conv.size() > 40 || dec.second[0] > 16 ||
+//        (dec.second[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
+    if (!Bech32::convertBits<5, 8, false>(conv, Data(dec.data.begin() + 1, dec.data.end())) ||
+        conv.size() < 2 || conv.size() > 40 || dec.data[0] > 16 ||
+        (dec.data[0] == 0 && conv.size() != 20 && conv.size() != 32)) {
         return std::make_pair(SegwitAddress(), false);
     }
 
-    return std::make_pair(SegwitAddress(dec.first, dec.second[0], conv), true);
+//    return std::make_pair(SegwitAddress(dec.first, dec.second[0], conv), true);
+    return std::make_pair(SegwitAddress(dec.hrp, dec.data[0], conv), true);
 }
 
 std::string SegwitAddress::string() const {

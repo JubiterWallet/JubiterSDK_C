@@ -18,15 +18,18 @@ bool Bech32Address::isValid(const std::string& addr) {
 bool Bech32Address::isValid(const std::string& addr, const std::string& hrp) {
     auto dec = Bech32::decode(addr);
     // check hrp prefix (if given)
-    if (hrp.length() > 0 && dec.first.compare(0, hrp.length(), hrp) != 0) {
+//    if (hrp.length() > 0 && dec.first.compare(0, hrp.length(), hrp) != 0) {
+    if (hrp.length() > 0 && dec.hrp.compare(0, hrp.length(), hrp) != 0) {
         return false;
     }
-    if (dec.second.empty()) {
+//    if (dec.second.empty()) {
+    if (dec.data.empty()) {
         return false;
     }
 
     Data conv;
-    auto success = Bech32::convertBits<5, 8, false>(conv, dec.second);
+//    auto success = Bech32::convertBits<5, 8, false>(conv, dec.second);
+    auto success = Bech32::convertBits<5, 8, false>(conv, dec.data);
     if (!success || conv.size() < 2 || conv.size() > 40) {
         return false;
     }
@@ -37,20 +40,24 @@ bool Bech32Address::isValid(const std::string& addr, const std::string& hrp) {
 bool Bech32Address::decode(const std::string& addr, Bech32Address& obj_out, const std::string& hrp) {
     auto dec = Bech32::decode(addr);
     // check hrp prefix (if given)
-    if (hrp.length() > 0 && dec.first.compare(0, hrp.length(), hrp) != 0) {
+//    if (hrp.length() > 0 && dec.first.compare(0, hrp.length(), hrp) != 0) {
+    if (hrp.length() > 0 && dec.hrp.compare(0, hrp.length(), hrp) != 0) {
         return false;
     }
-    if (dec.second.empty()) {
+//    if (dec.second.empty()) {
+    if (dec.data.empty()) {
         return false;
     }
 
     Data conv;
-    auto success = Bech32::convertBits<5, 8, false>(conv, dec.second);
+//    auto success = Bech32::convertBits<5, 8, false>(conv, dec.second);
+    auto success = Bech32::convertBits<5, 8, false>(conv, dec.data);
     if (!success || conv.size() < 2 || conv.size() > 40) {
         return false;
     }
 
-    obj_out.setHrp(dec.first);
+//    obj_out.setHrp(dec.first);
+    obj_out.setHrp(dec.hrp);
     obj_out.setKey(conv);
     return true;
 }

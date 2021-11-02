@@ -36,6 +36,9 @@ void BTC_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file, JUB_ENUM_COINTYPE_BT
         if (root["p2sh-segwit"].asBool()) {
             cfg.transType = p2sh_p2wpkh;
         }
+        else if (root["p2pkh-segwit"].asBool()) {
+            cfg.transType = p2wpkh;
+        }
         else {
             cfg.transType = p2pkh;
         }

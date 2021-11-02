@@ -287,7 +287,7 @@ std::vector<uint8_t> TWCoinTypeP2pkhPrefixData(enum TWCoinType coin) {
 
 
 // JuBiter-defined
-uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
+uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness, bool nested) {
     uint32_t hdVersionPublic = TWHDVersionNone;
 
     switch (coin) {
@@ -295,6 +295,9 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
         hdVersionPublic = TWHDVersionTPUB;
         if (witness) {
             hdVersionPublic = TWHDVersionUPUB;
+            if (!nested) {
+                hdVersionPublic = TWHDVersionVPUB;
+            }
         }
         break;
     case TWCoinTypeBitcoin:
@@ -312,6 +315,9 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
         hdVersionPublic = TWHDVersionXPUB;
         if (witness) {
             hdVersionPublic = TWHDVersionYPUB;
+            if (!nested) {
+                hdVersionPublic = TWHDVersionZPUB;
+            }
         }
         break;
     case TWCoinTypeHcash:
@@ -371,7 +377,7 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness) {
 
 
 // JuBiter-defined
-uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
+uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness, bool nested) {
     uint32_t hdVersionPrivate = TWHDVersionNone;
 
     switch (coin) {
@@ -379,6 +385,9 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
         hdVersionPrivate = TWHDVersionTPRV;
         if (witness) {
             hdVersionPrivate = TWHDVersionUPRV;
+            if (!nested) {
+                hdVersionPrivate = TWHDVersionVPRV;
+            }
         }
         break;
     case TWCoinTypeBitcoin:
@@ -396,6 +405,9 @@ uint32_t TWCoinType2HDVersionPrivate(enum TWCoinType coin, bool witness) {
         hdVersionPrivate = TWHDVersionXPRV;
         if (witness) {
             hdVersionPrivate = TWHDVersionYPRV;
+            if (!nested) {
+                hdVersionPrivate = TWHDVersionZPRV;
+            }
         }
         break;
     case TWCoinTypeHcash:

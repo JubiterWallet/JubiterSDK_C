@@ -44,12 +44,38 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
     TWCoinType _coinNet = coinNet;
 
     JUB_BIP32_PATH spiltPath = spiltMainPath(path, '/');
-    if (0 == strcmp(spiltPath.coin_type, "1'")) {
-        _coinNet = TWCoinType::TWCoinTypeBitcoinTestNet;
-    }
     bool witness = false;
+    bool nested = false;
     if (0 == strcmp(spiltPath.purpose, "49'")) {
         witness = true;
+        nested = true;
+    }
+    if (0 == strcmp(spiltPath.purpose, "84'")) {
+        witness = true;
+        nested = false;
+    }
+
+    HDNode masterNode;
+    JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin);
+    JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic( TWCoinType::TWCoinTypeBitcoin);
+    std::string curve_name = SECP256K1_NAME;
+    if (0 == hdnode_deserialize(_MasterKey_XPRV.data(), hdVersionPub, hdVersionPrv, curve_name.c_str(), &masterNode, 0x00)) {
+        hdnode_fill_public_key(&masterNode);
+
+        JUB_CHAR str_pri[200] = {0,};
+        JUB_CHAR str_pub[200] = {0,};
+
+        hdVersionPrv = TWCoinType2HDVersionPrivate(_coinNet, witness, nested);
+        hdVersionPub = TWCoinType2HDVersionPublic( _coinNet, witness, nested);
+        if (0 == hdnode_serialize_private(&masterNode, 0x00, hdVersionPrv, str_pri, sizeof(str_pri) / sizeof(JUB_CHAR))) {
+            return JUBR_ERROR;
+        }
+        if (0 == hdnode_serialize_public( &masterNode, 0x00, hdVersionPub, str_pub, sizeof(str_pub) / sizeof(JUB_CHAR))) {
+            return JUBR_ERROR;
+        }
+
+        _MasterKey_XPRV = str_pri;
+        _MasterKey_XPUB = str_pub;
     }
 
     if (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) {
@@ -63,8 +89,8 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
             JUB_CHAR str_pri[200] = {0,};
             JUB_CHAR str_pub[200] = {0,};
 
-            hdVersionPrv = TWCoinType2HDVersionPrivate(_coinNet, witness);
-            hdVersionPub = TWCoinType2HDVersionPublic( _coinNet, witness);
+            hdVersionPrv = TWCoinType2HDVersionPrivate(_coinNet, witness, nested);
+            hdVersionPub = TWCoinType2HDVersionPublic( _coinNet, witness, nested);
             if (0 == hdnode_serialize_private(&masterNode, 0x00, hdVersionPrv, str_pri, sizeof(str_pri) / sizeof(JUB_CHAR))) {
                 return JUBR_ERROR;
             }
@@ -79,14 +105,14 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
 
     if(JUB_SoftwareTokenType::PRIVATE == _type) {
         return hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name,
-                               TWCoinType2HDVersionPublic( (_coinNet?_coinNet:_coin), witness),
-                               TWCoinType2HDVersionPrivate((_coinNet?_coinNet:_coin), witness),
+                               TWCoinType2HDVersionPublic( (_coinNet?_coinNet:_coin), witness, nested),
+                               TWCoinType2HDVersionPrivate((_coinNet?_coinNet:_coin), witness, nested),
                                node, parentFingerprint);
     }
 
     return hdnode_pub_ckd(_MasterKey_XPUB, path, _curve_name,
-                          TWCoinType2HDVersionPublic( (_coinNet?_coinNet:_coin), witness),
-                          TWCoinType2HDVersionPrivate((_coinNet?_coinNet:_coin), witness),
+                          TWCoinType2HDVersionPublic( (_coinNet?_coinNet:_coin), witness, nested),
+                          TWCoinType2HDVersionPrivate((_coinNet?_coinNet:_coin), witness, nested),
                           node, parentFingerprint);
 
     return JUBR_ERROR;

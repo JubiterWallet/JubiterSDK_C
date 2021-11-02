@@ -1,0 +1,54 @@
+{
+    "ver" : 0,
+    "p2sh-segwit" : true,
+    "main_path"   : "m/44'/309'/0'",
+    "main_net"    : false,
+    "param" : {
+        "codeHash":"0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+        "hashType":1,
+    }
+    "deps" : [
+    {
+        "outPoint": {
+            "txHash" : "0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37",
+            "index"  : 0
+        },
+        "depType" : 1
+    }],
+    "inputs" : [
+    {
+        "capacity" : 99999890000,
+        "previousOutput": {
+            "txHash" : "0xddf26198135c8ca9b253cfccbd874bf975fa327c2c09b7e51090ed4311f11dfa",
+            "index"  : 1
+        },
+        "since":"0x0",
+        "bip32_path" : {
+            "change" : false,
+            "addressIndex" : 0
+        }
+    }],
+    "outputs" : [
+    {
+        "capacity":80000000000,
+        "address":"ckt1qyqtgs9f4a255yygvmmfynyfjds82pdh6xqsnk8k5x",
+        "change_address": fasle,
+        "bip32_path":{
+          "change" :false,
+          "addressIndex":0
+        },
+        "type":null,
+        "data"     : ""
+    },
+    {
+        "capacity":19999790000,
+        "address":"ckt1qyqtgs9f4a255yygvmmfynyfjds82pdh6xqsnk8k5x",
+        "change_address": true,
+        "bip32_path":{
+          "change" :false,
+          "addressIndex":0
+        },
+        "type":null,
+        "data"     : ""
+    }]
+}

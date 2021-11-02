@@ -36,6 +36,9 @@ enum TWHDVersion {
     // m/84'/0', P2WPKH
     TWHDVersionZPUB = 0x04b24746,
     TWHDVersionZPRV = 0x04b2430c,
+    // m/84'/1', - testnet
+    TWHDVersionVPUB = 0x045f1cf6,
+    TWHDVersionVPRV = 0x045f18bc,
 
     // Litecoin
     // Litecoin - mainnet
