@@ -301,6 +301,14 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness, bool nes
         }
         break;
     case TWCoinTypeBitcoin:
+        hdVersionPublic = TWHDVersionXPUB;
+        if (witness) {
+            hdVersionPublic = TWHDVersionYPUB;
+            if (!nested) {
+                hdVersionPublic = TWHDVersionZPUB;
+            }
+        }
+        break;
     case TWCoinTypeBitcoinCash:
     case TWCoinTypeQtum:
     case TWCoinTypeDash:
@@ -315,9 +323,6 @@ uint32_t TWCoinType2HDVersionPublic(enum TWCoinType coin, bool witness, bool nes
         hdVersionPublic = TWHDVersionXPUB;
         if (witness) {
             hdVersionPublic = TWHDVersionYPUB;
-            if (!nested) {
-                hdVersionPublic = TWHDVersionZPUB;
-            }
         }
         break;
     case TWCoinTypeHcash:
