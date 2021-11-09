@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include <TrustWalletCore/TWBitcoinSigHashType.h>
+#include "../Data.h"
+#include "../Hash.h"
 #include "Script.h"
 #include "TransactionInput.h"
 #include "TransactionOutput.h"
-#include "../Hash.h"
-#include "../Data.h"
+#include <TrustWalletCore/TWBitcoinSigHashType.h>
 
 #include "SignatureVersion.h"
 #include <vector>
@@ -41,10 +41,10 @@ struct Transaction {
     uint32_t lockTime = 0;
 
     /// A list of 1 or more transaction inputs or sources for coins
-    std::vector<TransactionInput*> inputs;
+    std::vector<TransactionInput *> inputs;
 
     /// A list of 1 or more transaction outputs or destinations for coins
-    std::vector<TransactionOutput*> outputs;
+    std::vector<TransactionOutput *> outputs;
 
     TW::Hash::Hasher hasher = TW::Hash::sha256d;
 
@@ -54,17 +54,19 @@ struct Transaction {
         : version(version), lockTime(lockTime), inputs(), outputs(), hasher(hasher) {}
 
     // JuBiter-defined
-    ~Transaction() {
-        for (size_t i=0; i<inputs.size(); ++i) {
+    virtual ~Transaction() {
+        for (size_t i = 0; i < inputs.size(); ++i) {
             if (inputs[i]) {
-                delete inputs[i]; inputs[i] = nullptr;
+                delete inputs[i];
+                inputs[i] = nullptr;
             }
         }
         inputs.clear();
 
-        for (size_t i=0; i<outputs.size(); ++i) {
+        for (size_t i = 0; i < outputs.size(); ++i) {
             if (outputs[i]) {
-                delete outputs[i]; outputs[i] = nullptr;
+                delete outputs[i];
+                outputs[i] = nullptr;
             }
         }
         outputs.clear();
@@ -75,41 +77,39 @@ struct Transaction {
 
     /// Generates the signature pre-image.
     // JuBiter-defined
-    Data getPreImage(const Script& scriptCode, size_t index, uint32_t hashType) const;
-    virtual Data getPreImage(const Script& scriptCode, size_t index, uint32_t hashType, uint64_t amount) const;
+    Data getPreImage(const Script &scriptCode, size_t index, uint32_t hashType) const;
+    virtual Data getPreImage(const Script &scriptCode, size_t index, uint32_t hashType, uint64_t amount) const;
     Data getPrevoutHash() const;
     Data getSequenceHash() const;
     Data getOutputsHash() const;
 
     // JuBiter-defined
-    virtual void encodeVersion(Data& data) const;
+    virtual void encodeVersion(Data &data) const;
     // JuBiter-defined
-    virtual void decodeVersion(const Data& data, int& index);
+    virtual void decodeVersion(const Data &data, int &index);
 
     /// Encodes the transaction into the provided buffer.
-    virtual void encode(bool witness, Data& data) const;
+    virtual void encode(bool witness, Data &data) const;
 
     // JuBiter-defined
     /// Decodes the provided buffer into the transaction.
-    virtual bool decode(bool witness, const Data& data);
+    virtual bool decode(bool witness, const Data &data);
 
     /// Generates the signature hash for this transaction.
-    Data getSignatureHash(const Script& scriptCode, size_t index, uint32_t hashType,
-                          uint64_t amount, enum SignatureVersion version) const;
+    Data getSignatureHash(const Script &scriptCode, size_t index, uint32_t hashType, uint64_t amount,
+                          enum SignatureVersion version) const;
 
-    void serializeInput(size_t subindex, const Script&, size_t index, uint32_t hashType, Data& data) const;
+    void serializeInput(size_t subindex, const Script &, size_t index, uint32_t hashType, Data &data) const;
 
-//    /// Converts to Protobuf model
-//    Proto::Transaction proto() const;
+    //    /// Converts to Protobuf model
+    //    Proto::Transaction proto() const;
 
-private:
+  private:
     /// Generates the signature hash for Witness version 0 scripts.
-    Data getSignatureHashWitnessV0(const Script& scriptCode, size_t index,
-                                   uint32_t hashType, uint64_t amount) const;
+    Data getSignatureHashWitnessV0(const Script &scriptCode, size_t index, uint32_t hashType, uint64_t amount) const;
 
     /// Generates the signature hash for for scripts other than witness scripts.
-    Data getSignatureHashBase(const Script& scriptCode, size_t index,
-                              uint32_t hashType) const;
+    Data getSignatureHashBase(const Script &scriptCode, size_t index, uint32_t hashType) const;
 };
 
 } // namespace TW::Bitcoin
