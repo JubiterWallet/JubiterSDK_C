@@ -1,6 +1,9 @@
 #include "JUB_SDK_COMM.h"
 #include "token/BTC/JubiterLiteBTCImpl.h"
 #include <TrezorCrypto/base58.h>
+#include <string>
+#include <vector>
+#include <cstring>
 
 namespace jub {
 namespace token {
