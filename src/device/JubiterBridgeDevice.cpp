@@ -67,22 +67,18 @@ std::string ReadServerIP(const std::string& ip) {
     return address;
 }
 
-
-std::map<std::string, uint16_t> ServerIP(const std::string& ip) {
+std::map<std::string, uint16_t> ServerIP(const std::string &ip) {
     std::vector<std::string> split = Split(ip, ":");
-    if (   2 != split.size()
-        || 0 == std::atoi(split[1].c_str())
-        ) {
+    if (2 != split.size() || 0 == std::atoi(split[1].c_str())) {
         return std::map<std::string, uint16_t>{};
     }
 
     return std::map<std::string, uint16_t>{{split[0], std::atoi(split[1].c_str())}};
 }
 
-
-//PCSC device
+// PCSC device
 class JubiterBridgeDevice::Impl final {
-public:
+  public:
     Impl(std::string server, int port) {
         sock_ = socket(AF_INET, SOCK_STREAM, 0);
         struct sockaddr_in server_addr;
@@ -95,16 +91,14 @@ public:
         }
 
         // setup socket address structure
-        memset(&server_addr,0,sizeof(server_addr));
+        memset(&server_addr, 0, sizeof(server_addr));
         server_addr.sin_family = AF_INET;
         server_addr.sin_port = htons(port);
         memcpy(&server_addr.sin_addr, hostEntry->h_addr_list[0], hostEntry->h_length);
 
-        connect(sock_, (sockaddr*)&server_addr, sizeof(server_addr));
+        connect(sock_, (sockaddr *)&server_addr, sizeof(server_addr));
     }
-    ~Impl() {
-        shutdown(sock_, SHUT_RDWR);
-    }
+    ~Impl() { shutdown(sock_, SHUT_RDWR); }
 
     std::vector<std::string> ListReaders() {
         // send request
@@ -114,13 +108,13 @@ public:
 
         // block read response
         auto respData = ReceiveResponse();
-        auto& data = *respData;
+        auto &data = *respData;
         auto resp = std::make_unique<ListReadersResponse>();
         resp->ParseFromArray(data.data(), (int)data.size());
         auto readerCount = resp->readers_size();
         std::vector<std::string> readers;
         for (auto i = 0; i < readerCount; i++) {
-            auto& reader = resp->readers(i);
+            auto &reader = resp->readers(i);
             readers.push_back(reader.name());
         }
 
@@ -135,7 +129,7 @@ public:
         reader.SerializePartialToArray(requestData.data(), reader.ByteSize());
         SendRequest(Operation::Connect, requestData);
         auto respData = ReceiveResponse();
-        auto& data = *respData;
+        auto &data = *respData;
         reader.ParseFromArray(data.data(), (int)data.size());
 
         return reader.handle();
@@ -156,7 +150,8 @@ public:
         ReceiveResponse();
     }
 
-    std::optional<std::vector<unsigned char>> SendApdu(std::string name, unsigned long handle, IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen) {
+    std::optional<std::vector<unsigned char>> SendApdu(std::string name, unsigned long handle,
+                                                       IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen) {
         APDURequest req;
         req.mutable_reader()->set_name(name);
         req.mutable_reader()->set_handle((unsigned int)handle);
@@ -166,18 +161,18 @@ public:
         req.SerializePartialToArray(requestData.data(), req.ByteSize());
         SendRequest(Operation::SendApdu, requestData);
         auto respData = ReceiveResponse();
-        auto& data = *respData;
+        auto &data = *respData;
 
         APDUResponse resp;
         resp.ParseFromArray(data.data(), (int)data.size());
         return std::vector<unsigned char>(resp.resp().begin(), resp.resp().end());
     }
 
-private:
+  private:
     unsigned long SendRequest(Operation opt, std::optional<std::vector<unsigned char>> param) {
         // request format
         // magic|operation(1 byte)|length(2 bytes)|param(pb format)
-        char request[kMaxLength] = { 0 };
+        char request[kMaxLength] = {0};
         auto p = request;
         std::memcpy(p, kMagicCode, kMagicCodeLength);
         p += kMagicCodeLength;
@@ -189,8 +184,7 @@ private:
             *p++ = (unsigned char)(l);
             std::memcpy(p, v.data(), l);
             p += l;
-        }
-        else {
+        } else {
             *p++ = 0;
             *p++ = 0;
         }
@@ -201,7 +195,9 @@ private:
     std::optional<std::vector<unsigned char>> ReceiveResponse() {
         // response format
         // magic|length(2 bytes)|response(pb format)
-        char response[kMaxLength] = {0,};
+        unsigned char response[kMaxLength] = {
+            0,
+        };
         auto p = response;
         bool checked = false;
         do {
@@ -222,9 +218,7 @@ private:
                 continue;
             }
 
-            if (!checked
-                && 0 != std::memcmp(kMagicCode, response, kMagicCodeLength)
-                ) {
+            if (!checked && 0 != std::memcmp(kMagicCode, response, kMagicCodeLength)) {
                 return std::nullopt;
             }
             checked = true;
@@ -249,40 +243,35 @@ private:
         return std::vector<unsigned char>(p, p + l);
     }
 
-    int ResponseLength(char* p) {
+    uint ResponseLength(unsigned char *p) {
 
-        int l = p[kMagicCodeLength];
+        uint l = p[kMagicCodeLength];
         l <<= 8;
         l += p[kMagicCodeLength + 1];
         return l;
     }
 
-private:
+  private:
     int sock_;
 };
 
-
-JubiterBridgeDevice::JubiterBridgeDevice(const std::string& ip, const std::string& name) : ip_(ip), name_(name) {
+JubiterBridgeDevice::JubiterBridgeDevice(const std::string &ip, const std::string &name) : ip_(ip), name_(name) {
     std::map<std::string, uint16_t> pair = ServerIP(ReadServerIP(ip));
-    for (const auto& [key, value] : pair) {
+    for (const auto &[key, value] : pair) {
         impl_ = new JubiterBridgeDevice::Impl(key, value);
         break;
     }
     handle_ = 0;
 }
 
+JubiterBridgeDevice::~JubiterBridgeDevice() { delete impl_; }
 
-JubiterBridgeDevice::~JubiterBridgeDevice() {
-    delete impl_;
-}
-
-
-std::vector<std::string> JubiterBridgeDevice::EnumDevice(const std::string& ip) {
+std::vector<std::string> JubiterBridgeDevice::EnumDevice(const std::string &ip) {
 
     std::vector<std::string> list;
 
     std::map<std::string, uint16_t> pair = ServerIP(ReadServerIP(ip));
-    for (const auto& [key, value] : pair) {
+    for (const auto &[key, value] : pair) {
         auto impl = std::make_unique<JubiterBridgeDevice::Impl>(key, value);
         std::vector<std::string> l = impl->ListReaders();
         list.insert(list.end(), l.begin(), l.end());
@@ -290,7 +279,6 @@ std::vector<std::string> JubiterBridgeDevice::EnumDevice(const std::string& ip) 
 
     return list;
 }
-
 
 JUB_RV JubiterBridgeDevice::Connect() {
     auto handle = impl_->Connect(name_);
@@ -301,7 +289,6 @@ JUB_RV JubiterBridgeDevice::Connect() {
     handle_ = handle.value_or(0);
     return JUBR_OK;
 }
-
 
 JUB_RV JubiterBridgeDevice::Disconnect() {
     impl_->DisConnect(name_, handle_);
@@ -314,8 +301,8 @@ JUB_RV JubiterBridgeDevice::IsConnect() {
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
-
-JUB_RV JubiterBridgeDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen, OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen, IN JUB_ULONG ulMiliSecondTimeout) {
+JUB_RV JubiterBridgeDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen, OUT JUB_BYTE_PTR retData,
+                                     INOUT JUB_ULONG_PTR pulRetDataLen, IN JUB_ULONG ulMiliSecondTimeout) {
     auto resp = impl_->SendApdu(name_, handle_, sendData, ulSendLen);
     if (!resp) {
         return JUBR_ERROR;
@@ -326,24 +313,17 @@ JUB_RV JubiterBridgeDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulS
     return JUBR_OK;
 }
 
-
-unsigned int JubiterBridgeLITEDevice::Initialize(const LITE_DEVICE_INIT_PARAM& params) {
+unsigned int JubiterBridgeLITEDevice::Initialize(const LITE_DEVICE_INIT_PARAM &params) {
 
     if (!_scp11.empty()) {
         return JUBR_OK;
     }
 
-    return SetSCP11Param(params.crt,
-                         params.sk,
-                         params.hostID,
-                         params.keyLength);
+    return SetSCP11Param(params.crt, params.sk, params.hostID, params.keyLength);
 }
 
-
-unsigned int JubiterBridgeLITEDevice::SetSCP11Param(const std::string& crt,
-                                                    const std::string& rk,
-                                                    const std::string& hostID,
-                                                    const uint8_t keyLength) {
+unsigned int JubiterBridgeLITEDevice::SetSCP11Param(const std::string &crt, const std::string &rk,
+                                                    const std::string &hostID, const uint8_t keyLength) {
 
     scp11_crt oceCrt = scp11_crt(uchar_vector(crt));
     if (!oceCrt.decode()) {
@@ -352,13 +332,9 @@ unsigned int JubiterBridgeLITEDevice::SetSCP11Param(const std::string& crt,
 
     uchar_vector kl;
     kl.push_back(keyLength);
-    _scp11 = scp11c(scp11_sharedInfo(uchar_vector("1107"),
-                                     uchar_vector("3C"),
-                                     uchar_vector("88"),
-                                     kl,
-                                     uchar_vector(hostID)),
-                    oceCrt,
-                    uchar_vector(rk));
+    _scp11 =
+        scp11c(scp11_sharedInfo(uchar_vector("1107"), uchar_vector("3C"), uchar_vector("88"), kl, uchar_vector(hostID)),
+               oceCrt, uchar_vector(rk));
     if (_scp11.empty()) {
         return JUBR_ARGUMENTS_BAD;
     }
@@ -368,8 +344,7 @@ unsigned int JubiterBridgeLITEDevice::SetSCP11Param(const std::string& crt,
     return JUBR_OK;
 }
 
+} // namespace device
+} // namespace jub
 
-}  // namespace device end
-}  // namespace jub end
-
-#endif  // #if defined(SIM_MODE) end
+#endif // #if defined(SIM_MODE) end
