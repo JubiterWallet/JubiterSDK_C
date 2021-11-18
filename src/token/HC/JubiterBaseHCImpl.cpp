@@ -162,7 +162,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const bool witness,
 }
 
 
-JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
+JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness, bool nested,
                                        const std::vector<JUB_UINT64>& vInputAmount,
                                        const std::vector<TW::Data>& vInputPublicKey,
                                        const std::vector<uchar_vector>& vSignatureRaw,

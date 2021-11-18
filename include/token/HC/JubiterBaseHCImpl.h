@@ -39,7 +39,7 @@ protected:
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<TW::PublicKey>& vInputPublicKey) override;
 
-    virtual JUB_RV _serializeTx(bool witness,
+    virtual JUB_RV _serializeTx(bool witness, bool nested,
                                 const std::vector<JUB_UINT64>& vInputAmount,
                                 const std::vector<TW::Data>& vInputPublicKey,
                                 const std::vector<uchar_vector>& vSignatureRaw,

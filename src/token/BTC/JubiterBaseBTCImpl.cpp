@@ -364,7 +364,8 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const bool witness, const uchar_vector &sig
     return rv;
 }
 
-JUB_RV JubiterBaseBTCImpl::_serializeTx(bool witness, const std::vector<JUB_UINT64> &vInputAmount,
+JUB_RV JubiterBaseBTCImpl::_serializeTx(bool witness, bool nested,
+                                        const std::vector<JUB_UINT64> &vInputAmount,
                                         const std::vector<TW::Data> &vInputPublicKey,
                                         const std::vector<uchar_vector> &vSignatureRaw, TW::Bitcoin::Transaction *tx,
                                         uchar_vector &signedRaw) {
@@ -377,11 +378,16 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(bool witness, const std::vector<JUB_UINT
                 TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(vSignatureRaw[index], vInputPublicKey[index]);
         } else {
             // P2WPKH
+            if (!nested) {
+            }
+            // P2SH_P2WPKH
+            else {
             TW::PublicKey twpk = TW::PublicKey(vInputPublicKey[index], _publicKeyType);
 
             TW::Data scriptPubkey;
             TW::Bitcoin::Script::buildPayToWitnessPubkeyHash(twpk.hash(TW::Data())).encode(scriptPubkey);
             tx->inputs[index]->script.bytes = scriptPubkey;
+            }
 
             tx->inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(
                 vSignatureRaw[index], vInputPublicKey[index]);
@@ -391,7 +397,9 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(bool witness, const std::vector<JUB_UINT
             }
         }
 
-        if (tx->inputs[index]->script.empty()) {
+        if (nested
+            && tx->inputs[index]->script.empty()
+            ) {
             rv = JUBR_ARGUMENTS_BAD;
             break;
         }

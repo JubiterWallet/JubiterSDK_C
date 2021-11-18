@@ -49,7 +49,8 @@ class JubiterBaseBTCImpl : virtual public BTCTokenInterface {
                              const std::vector<JUB_UINT64> &vInputAmount,
                              const std::vector<TW::PublicKey> &vInputPublicKey);
 
-    virtual JUB_RV _serializeTx(bool witness, const std::vector<JUB_UINT64> &vInputAmount,
+    virtual JUB_RV _serializeTx(bool witness, bool nested,
+                                const std::vector<JUB_UINT64> &vInputAmount,
                                 const std::vector<TW::Data> &vInputPublicKey,
                                 const std::vector<uchar_vector> &vSignatureRaw, TW::Bitcoin::Transaction *tx,
                                 uchar_vector &signedRaw);

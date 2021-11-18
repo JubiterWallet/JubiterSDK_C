@@ -94,8 +94,14 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
                                    const TWCoinType &coinNet) {
 
     bool witness = false;
-    if (p2sh_p2wpkh == type || p2wpkh == type) {
+    bool nested = false;
+    if (p2sh_p2wpkh == type) {
         witness = true;
+        nested = true;
+    }
+    else if (p2wpkh == type) {
+        witness = true;
+        nested = false;
     }
 
     TW::Bitcoin::Transaction tx;
@@ -109,7 +115,8 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
                           vSignatureRaw, coinNet));
 
     uchar_vector signedRaw;
-    JUB_VERIFY_RV(_serializeTx(witness, vInputAmount, vInputPublicKey, vSignatureRaw, &tx, signedRaw));
+    JUB_VERIFY_RV(_serializeTx(witness, nested,
+                               vInputAmount, vInputPublicKey, vSignatureRaw, &tx, signedRaw));
 
     vRaw = signedRaw;
 
@@ -151,7 +158,6 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness, const std::vector<JUB_UINT64> 
         } else {
             preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);
         }
-        std::cout << "pre-image: " << uchar_vector(preImage).getHex() << std::endl;
 
         const auto begin = reinterpret_cast<const uint8_t *>(preImage.data());
         TW::Data digest = tx.hasher(begin, preImage.size());
