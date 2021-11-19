@@ -1,13 +1,13 @@
 {
-  "url" : "https://www.blockchain.com/btc/tx/cc3e8cc67c7d98660db813ae5c5e2637eb0dbef4947e15b623ef288941e8a7b8",
-  "ver" : 1,
+  "url" : "https://live.blockcypher.com/btc-testnet/tx/ec981a3fc30b4a8cd3132918e86358d8c5ba08983fb272dca55b635d2e0f19f2",
+  "ver" : 2,
   "p2pkh-segwit" : true,
   "main_path" : "m/84'/1'/0'",
   "inputs": [
     {
-      "preHash": "c398d1faef16b31ece7d1e586d3b62a82be5f0e2fd56244356b8d26f6592c19b",
-      "preIndex": 0,
-      "amount": 1246264,
+      "preHash": "adfeece0af62b56b2c38b500448e820c436837542ce7c4d3d536f95e2d9bb7b3",
+      "preIndex": 1,
+      "amount": 1705895,
       "bip32_path":{
         "change" :false,
         "addressIndex":0
@@ -16,8 +16,8 @@
   ],
   "outputs": [
     {
-      "address": "tb1qex2zhfj3nh8hnwhs0jsfmjxhe5lqc60hmvaqyq",
-      "amount": 1246000,
+      "address": "tb1qs759pf72vc2ptnr5dw4a7qcvylxwlpulqjx0kq",
+      "amount": 1705100,
       "change_address": false,
       "bip32_path":{
         "change" :false,
