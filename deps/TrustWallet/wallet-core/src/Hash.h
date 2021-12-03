@@ -8,15 +8,16 @@
 
 #include "Data.h"
 
+#include <cstddef>
 #include <functional>
-
+// clang-format off
 namespace TW::Hash {
 
 /// Hashing function.
 typedef TW::Data (*HasherSimpleType)(const TW::byte*, size_t);
 using Hasher = std::function<Data(const byte*, size_t)>;
 
-// Digest size constants, duplicating constants from underlying lib 
+// Digest size constants, duplicating constants from underlying lib
 /// Number of bytes in a SHA1 hash.
 static const size_t sha1Size = 20;
 
@@ -84,6 +85,21 @@ Data xxhash64(const byte* data, const byte* end, uint64_t seed);
 
 /// Computes the XXHash hash concatenated, xxhash64 with seed 0 and 1,
 Data xxhash64concat(const byte* data, const byte* end);
+
+/// Computes taged hash
+Data hash_tag(const char* tag, const byte* data, size_t size);
+
+/// Hash TapTweak
+Data hash_TapTweak(const byte *data, size_t size);
+
+/// Hash TapLeaf
+Data hash_TapLeaf(const byte *data, size_t size);
+
+/// Hash TapBranch
+Data hash_TapBranch(const byte *data, size_t size);
+
+/// Hash TapSigHash
+Data hash_TapSigHash(const byte *data, size_t size);
 
 // Templated versions for any type with data() and size()
 
@@ -153,6 +169,30 @@ Data blake256(const T& data) {
     return blake256(reinterpret_cast<const byte*>(data.data()), data.size());
 }
 
+/// Computes Hash TapTweak
+template <typename T>
+Data hash_TapTweak(const T& data) {
+    return hash_TapTweak(reinterpret_cast<const byte*>(data.data()), data.size());
+}
+
+/// Computes Hash TapLeaf
+template <typename T>
+Data hash_TapLeaf(const T& data) {
+    return hash_TapLeaf(reinterpret_cast<const byte*>(data.data()), data.size());
+}
+
+/// Computes Hash TapSigHash
+template <typename T>
+Data hash_TapBranch(const T& data) {
+    return hash_TapBranch(reinterpret_cast<const byte*>(data.data()), data.size());
+}
+
+/// Computes Hash TapSigHash
+template <typename T>
+Data hash_TapSigHash(const T& data) {
+    return hash_TapSigHash(reinterpret_cast<const byte*>(data.data()), data.size());
+}
+
 /// Computes the Blake2b hash.
 template <typename T>
 Data blake2b(const T& data, size_t size) {
@@ -208,5 +248,10 @@ inline Data groestl512d(const byte* data, size_t size) {
 
 /// Compute the SHA256-based HMAC of a message
 Data hmac256(const Data& key, const Data& message);
+
+/// Generate a taged hasher
+inline Hasher get_tag_hasher(const char* tag) {
+    return std::bind(hash_tag, tag, std::placeholders::_1, std::placeholders::_2);
+}
 
 } // namespace TW::Hash

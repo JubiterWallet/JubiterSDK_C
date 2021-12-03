@@ -1,4 +1,6 @@
 #pragma once
+#include "Data.h"
+#include "TWCoinType.h"
 #include "token/interface/BTCTokenInterface.hpp"
 #include <Bitcoin/Address.h>
 #include <Bitcoin/Transaction.h>
@@ -49,8 +51,7 @@ class JubiterBaseBTCImpl : virtual public BTCTokenInterface {
                              const std::vector<JUB_UINT64> &vInputAmount,
                              const std::vector<TW::PublicKey> &vInputPublicKey);
 
-    virtual JUB_RV _serializeTx(bool witness, bool nested,
-                                const std::vector<JUB_UINT64> &vInputAmount,
+    virtual JUB_RV _serializeTx(bool witness, bool nested, const std::vector<JUB_UINT64> &vInputAmount,
                                 const std::vector<TW::Data> &vInputPublicKey,
                                 const std::vector<uchar_vector> &vSignatureRaw, TW::Bitcoin::Transaction *tx,
                                 uchar_vector &signedRaw);
@@ -58,6 +59,7 @@ class JubiterBaseBTCImpl : virtual public BTCTokenInterface {
     virtual JUB_RV _getAddress(const TW::Data &publicKey, std::string &address, const TWCoinType &coinNet);
     virtual JUB_RV _getSegwitAddress(const TW::Data &publicKey, std::string &address, const TWCoinType &coinNet);
     virtual JUB_RV _getNestedSegwitAddress(const TW::Data &publicKey, std::string &address, const TWCoinType &coinNet);
+    virtual JUB_RV _getTaprootAddress(const TW::Data &publicKey, std::string &address, const TWCoinType &coinNet);
 
   protected:
     uint32_t _hashType = TWBitcoinSigHashTypeAll;
