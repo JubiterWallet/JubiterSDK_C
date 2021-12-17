@@ -216,7 +216,7 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
                                     result.data() + 64, nullptr) == 0;
     } break;
     case TWCurveNone:
-    default: 
+    default:
         break;
     }
 
@@ -275,12 +275,12 @@ Data PrivateKey::signAsDER(const Data& digest, TWCurve curve) const {
     return result;
 }
 
-Data PrivateKey::signSchnorr(const Data& message, TWCurve curve) const {
+Data PrivateKey::signSchnorr(const Data& digest, TWCurve curve) const {
     bool success = false;
     Data sig(64);
     switch (curve) {
     case TWCurveSECP256k1: {
-        success = zil_schnorr_sign(&secp256k1, bytes.data(), message.data(), static_cast<uint32_t>(message.size()), sig.data()) == 0;
+        success = zil_schnorr_sign(&secp256k1, bytes.data(), digest.data(), sig.data()) == 0;
     } break;
 
     case TWCurveNIST256p1:

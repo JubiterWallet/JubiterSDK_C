@@ -13,6 +13,7 @@
 #include <TrustWalletCore/TWPrivateKey.h>
 
 #include <exception>
+#include <vector>
 
 using namespace TW;
 
@@ -118,9 +119,9 @@ TWData *TWPrivateKeySignAsDER(struct TWPrivateKey *_Nonnull pk, TWData *_Nonnull
     }
 }
 
-TWData *TWPrivateKeySignSchnorr(struct TWPrivateKey *_Nonnull pk, TWData *_Nonnull message, enum TWCurve curve) {
-    const auto& msg = *reinterpret_cast<const Data*>(message);
-    auto result = pk->impl.signSchnorr(msg, curve);
+TWData *TWPrivateKeySignSchnorr(struct TWPrivateKey *_Nonnull pk, TWData *_Nonnull digest, enum TWCurve curve) {
+    const auto& d = *reinterpret_cast<const Data*>(digest);
+    auto result = pk->impl.signSchnorr(d, curve);
 
     if (result.empty()) {
         return nullptr;

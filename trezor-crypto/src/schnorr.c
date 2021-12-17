@@ -20,116 +20,188 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "TrezorCrypto/bignum.h"
+#include "TrezorCrypto/ecdsa.h"
+#include "TrezorCrypto/sha2.h"
 #include <TrezorCrypto/schnorr.h>
+#include <stdint.h>
+#include <stdbool.h>
 
-// r = H(Q, kpub, m)
-static void calc_r(const curve_point *Q, const uint8_t pub_key[33],
-                   const uint8_t *msg, const uint32_t msg_len, bignum256 *r) {
-  uint8_t Q_compress[33];
-  compress_coords(Q, Q_compress);
 
+inline bool has_even_y(const curve_point *P) {
+  return bn_is_even(&P->y);
+}
+
+bool lift_x(const ecdsa_curve *curve, const uint8_t *pk, curve_point *P) {
+  if (!ecdsa_read_pubkey(curve, pk, P)) {
+    return false;
+  }
+  if (!has_even_y(P)) {
+    bn_subtract(&curve->prime, &P->y, &P->y);
+  }
+  return true;
+}
+
+
+// r = hash-BIP0340/nonce
+static void calc_r(bignum256 *t,  curve_point *P, const uint8_t *m, bignum256 *r) {
   SHA256_CTX ctx;
+  uint8_t x[32];
   uint8_t digest[SHA256_DIGEST_LENGTH];
+
+  // tag
+  sha256_Raw((uint8_t *)"BIP0340/nonce", 13, digest);
+
   sha256_Init(&ctx);
-  sha256_Update(&ctx, Q_compress, 33);
-  sha256_Update(&ctx, pub_key, 33);
-  sha256_Update(&ctx, msg, msg_len);
+  sha256_Update(&ctx, digest, SHA256_DIGEST_LENGTH);
+  sha256_Update(&ctx, digest, SHA256_DIGEST_LENGTH);
+  bn_write_be(t, x);
+  sha256_Update(&ctx, x, 32);
+  bn_write_be(&P->x , x);
+  sha256_Update(&ctx, x, 32);
+  sha256_Update(&ctx, m, 32);
   sha256_Final(&ctx, digest);
 
   // Convert the raw bigendian 256 bit value to a normalized, partly reduced bignum
   bn_read_be(digest, r);
 }
 
+
+// e = hash-BIP0340/challenge(R||P||m)
+static void calc_e(const bignum256 *r, const curve_point *P, const uint8_t *m, bignum256 *e) {
+  SHA256_CTX ctx;
+  uint8_t digest[SHA256_DIGEST_LENGTH];
+  uint8_t x[32];
+  // tag
+  sha256_Raw((uint8_t *)"BIP0340/challenge", 17, digest);
+
+  sha256_Init(&ctx);
+  sha256_Update(&ctx, digest, SHA256_DIGEST_LENGTH);
+  sha256_Update(&ctx, digest, SHA256_DIGEST_LENGTH);
+  bn_write_be(r, x);
+  sha256_Update(&ctx, x, 32);
+  bn_write_be(&P->x, x);
+  sha256_Update(&ctx, x, 32);
+  sha256_Update(&ctx, m, 32);
+  sha256_Final(&ctx, digest);
+  bn_read_be(digest, e);
+}
+
+// t = d ^ hash-BIP0340/aux(k)
+static void calc_t(const bignum256 *d, const bignum256 *k, bignum256 *t) {
+  SHA256_CTX ctx;
+  uint8_t digest[SHA256_DIGEST_LENGTH];
+  uint8_t kbs[32];
+
+  bn_write_be(k, kbs);
+  // tag
+  sha256_Raw((uint8_t *)"BIP0340/aux", 11, digest);
+
+  // hash-BIP0340/aux(k)
+  sha256_Init(&ctx);
+  sha256_Update(&ctx, digest, SHA256_DIGEST_LENGTH);
+  sha256_Update(&ctx, digest, SHA256_DIGEST_LENGTH);
+  sha256_Update(&ctx, kbs, 32);
+  sha256_Final(&ctx, digest);
+
+  bn_read_be(digest, t);
+  // d ^ t
+  bn_xor(t, d, t);
+}
+
+
+
 // Returns 0 if signing succeeded
-int schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key,
-                 const bignum256 *k, const uint8_t *msg, const uint32_t msg_len,
-                 schnorr_sign_pair *result) {
-  uint8_t pub_key[33];
-  curve_point Q;
-  bignum256 private_key_scalar;
-  bignum256 r_temp;
-  bignum256 s_temp;
-  bignum256 r_kpriv_result;
+int schnorr_sign(const ecdsa_curve *curve, const uint8_t *sk, const bignum256 *k, const uint8_t *m, schnorr_sign_pair *result) {
+  curve_point P;
+  curve_point R;
+  bignum256 d;
+  bignum256 t;
+  bignum256 r;
+  bignum256 s;
+  bignum256 k2;  /* k' */
 
-  bn_read_be(priv_key, &private_key_scalar);
-  ecdsa_get_public_key33(curve, priv_key, pub_key);
+  // d = int(sk)
+  bn_read_be(sk, &d);
 
-  // Compute commitment Q = kG
-  point_multiply(curve, k, &curve->G, &Q);
+  // P = d*G
+  scalar_multiply(curve, &d, &P);
 
-  // Compute challenge r = H(Q, kpub, m)
-  calc_r(&Q, pub_key, msg, msg_len, &r_temp);
-  
-  // Fully reduce the bignum
-  bn_mod(&r_temp, &curve->order);
+  // d = d if has_even_y(P) else d = n - d
+  if (!has_even_y(&P)) bn_subtract(&curve->order, &d, &d);
 
-  // Convert the normalized, fully reduced bignum to a raw bigendian 256 bit value
-  bn_write_be(&r_temp, result->r);
+  // t = d ^ hash-BIP0340/aux(k)
+  calc_t(&d, k, &t);
 
-  // Compute s = k - r*kpriv
-  bn_copy(&r_temp, &r_kpriv_result);
+  // rand = hash-BIP0340/nonce(t, P, m)
+  calc_r(&t, &P, m, &k2);
 
-  // r*kpriv result is partly reduced
-  bn_multiply(&private_key_scalar, &r_kpriv_result, &curve->order);
+  // k' = rand % n
+  bn_fast_mod(&k2, &curve->order);
 
-  // k - r*kpriv result is normalized but not reduced
-  bn_subtractmod(k, &r_kpriv_result, &s_temp, &curve->order);
+  if (bn_is_zero(&k2)) return 1;
 
-  // Partly reduce the result
-  bn_fast_mod(&s_temp, &curve->order);
+  // R = k'*G
+  scalar_multiply(curve, &k2, &R);
 
-  // Fully reduce the result
-  bn_mod(&s_temp, &curve->order);
+  // k = k' if has_even_y(R) else n - k'
+  if (!has_even_y(&R)) bn_subtract(&curve->order, &k2, &k2);
 
-  // Convert the normalized, fully reduced bignum to a raw bigendian 256 bit value
-  bn_write_be(&s_temp, result->s);
+  // e = hash-BIP0340/challenge(R,P,m)
+  calc_e(&R.x, &P, m, &s);
+  // e %= n
+  bn_fast_mod(&s, &curve->order);
 
-  if (bn_is_zero(&r_temp) || bn_is_zero(&s_temp)) return 1;
+  // s = (k+ed)mod n
+  bn_multiply(&d, &s , &curve->order);
+  bn_addmod(&s, &k2, &curve->order);
 
+  if (bn_is_zero(&r) || bn_is_zero(&s)) return 1;
+  bn_write_be(&R.x, result->r);
+  bn_write_be(&s, result->s);
   return 0;
 }
 
 // Returns 0 if verification succeeded
-int schnorr_verify(const ecdsa_curve *curve, const uint8_t *pub_key,
-                   const uint8_t *msg, const uint32_t msg_len,
-                   const schnorr_sign_pair *sign) {
-  curve_point pub_key_point;
-  curve_point sG, Q;
-  bignum256 r_temp;
-  bignum256 s_temp;
-  bignum256 r_computed;
+int schnorr_verify(const ecdsa_curve *curve, const uint8_t *pk, const uint8_t *m, const schnorr_sign_pair *sig) {
+  curve_point P;
+  curve_point R;
+  bignum256 r;
+  bignum256 s;
+  bignum256 e;
 
-  if (msg_len == 0) return 1;
+  bn_read_be(sig->r, &r);
+  bn_read_be(sig->s, &s);
 
-  // Convert the raw bigendian 256 bit values to normalized, partly reduced bignums
-  bn_read_be(sign->r, &r_temp);
-  bn_read_be(sign->s, &s_temp);
-
-  // Check if r,s are in [1, ..., order-1]
-  if (bn_is_zero(&r_temp)) return 2;
-  if (bn_is_zero(&s_temp)) return 3;
-  if (bn_is_less(&curve->order, &r_temp)) return 4;
-  if (bn_is_less(&curve->order, &s_temp)) return 5;
-  if (bn_is_equal(&curve->order, &r_temp)) return 6;
-  if (bn_is_equal(&curve->order, &s_temp)) return 7;
-
-  if (!ecdsa_read_pubkey(curve, pub_key, &pub_key_point)) {
-    return 8;
+  if (bn_is_zero(&r)) return 1;
+  if (bn_is_zero(&s)) return 2;
+  if (!bn_is_less(&r, &curve->prime)) return 3;
+  if (!bn_is_less(&s, &curve->order)) return 4;
+  if (!lift_x(curve, pk, &P)) {
+    return 5;
   }
 
-  // Compute Q = sG + r*kpub
-  point_multiply(curve, &s_temp, &curve->G, &sG);
-  point_multiply(curve, &r_temp, &pub_key_point, &Q);
-  point_add(curve, &sG, &Q);
+  // e = hash-BIP0340/challenge(r, P, m)
+  calc_e(&r, &P, m, &e);
+  // e %= n
+  bn_fast_mod(&e, &curve->order);
 
-  // Compute r' = H(Q, kpub, m)
-  calc_r(&Q, pub_key, msg, msg_len, &r_computed);
+  // R = s*G - e*P
+  bn_subtract(&curve->order, &e, &e);
+  scalar_multiply(curve, &s, &R);
+  point_multiply(curve, &e, &P, &P);
+  point_add(curve, &P, &R);
 
-  // Fully reduce the bignum
-  bn_mod(&r_computed, &curve->order);
+  if (point_is_infinity(&R)) {
+    return 6;
+  }
+  if (!has_even_y(&R)) {
+    return 7;
+  }
+  if (!bn_is_equal(&r, &R.x)){
+    return 8;  // success
+  }
 
-  // Check r == r'
-  if (bn_is_equal(&r_temp, &r_computed)) return 0;  // success
-
-  return 10;
+  // success
+  return 0;
 }

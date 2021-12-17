@@ -1255,16 +1255,13 @@ int der_to_ecdsa_sig(const uint8_t *der, uint8_t *sig)
     return (len1 - len1Zero + len2 - len2Zero);
 }
 
-int zil_schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key, const uint8_t *msg, const uint32_t msg_len, uint8_t *sig)
+int zil_schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key, const uint8_t *digest, uint8_t *sig)
 {
 	int i;
 	bignum256 k;
 
-	uint8_t hash[32];
-	sha256_Raw(msg, msg_len, hash);
-
 	rfc6979_state rng;
-	init_rfc6979(priv_key, hash, &rng);
+	init_rfc6979(priv_key, digest, &rng);
 
 	for (i = 0; i < 10000; i++) {
 		// generate K deterministically
@@ -1275,7 +1272,7 @@ int zil_schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key, const ui
 		}
 
 		schnorr_sign_pair sign;
-		if (schnorr_sign(curve, priv_key, &k, msg, msg_len, &sign) != 0) {
+		if (schnorr_sign(curve, priv_key, &k, digest, &sign) != 0) {
 			continue;
 		}
 
@@ -1296,12 +1293,12 @@ int zil_schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key, const ui
 	return -1;
 }
 
-int zil_schnorr_verify(const ecdsa_curve *curve, const uint8_t *pub_key, const uint8_t *sig, const uint8_t *msg, const uint32_t msg_len)
+int zil_schnorr_verify(const ecdsa_curve *curve, const uint8_t *pub_key, const uint8_t *sig, const uint8_t *digest)
 {
 	schnorr_sign_pair sign;
-	
+
 	memcpy(sign.r, sig, 32);
 	memcpy(sign.s, sig + 32, 32);
 
-	return schnorr_verify(curve, pub_key, msg, msg_len, &sign);
+	return schnorr_verify(curve, pub_key, digest, &sign);
 }
