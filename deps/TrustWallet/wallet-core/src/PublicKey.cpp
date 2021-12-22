@@ -7,21 +7,23 @@
 #include "PublicKey.h"
 #include "Data.h"
 
+#include "TWPublicKeyType.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
 #include <TrezorCrypto/ecdsa.h>
 #include <TrezorCrypto/ed25519-donna/ed25519-blake2b.h>
+#include <TrezorCrypto/ed25519-donna/ed25519-donna.h>
 #include <TrezorCrypto/nist256p1.h>
 #include <TrezorCrypto/secp256k1.h>
 #include <TrezorCrypto/sodium/keypair.h>
-#include "mSIGNA/stdutils/uchar_vector.h"
-#include <TrezorCrypto/ed25519-donna/ed25519-donna.h>
-#include <cstring>
 
+#include <assert.h>
+#include <cstring>
 
 namespace TW {
 
 /// Determines if a collection of bytes makes a valid public key of the
 /// given type.
-bool PublicKey::isValid(const Data& data, enum TWPublicKeyType type) {
+bool PublicKey::isValid(const Data &data, enum TWPublicKeyType type) {
     const auto size = data.size();
     if (size == 0) {
         return false;
@@ -48,7 +50,7 @@ bool PublicKey::isValid(const Data& data, enum TWPublicKeyType type) {
 /// Initializes a public key with a collection of bytes.
 ///
 /// @throws std::invalid_argument if the data is not a valid public key.
-PublicKey::PublicKey(const Data& data, enum TWPublicKeyType type) : type(type) {
+PublicKey::PublicKey(const Data &data, enum TWPublicKeyType type) : type(type) {
     if (!isValid(data, type)) {
         throw std::invalid_argument("Invalid public key data");
     }
@@ -120,29 +122,29 @@ PublicKey PublicKey::extended() const {
     case TWPublicKeyTypeCURVE25519:
     case TWPublicKeyTypeED25519Blake2b:
     case TWPublicKeyTypeED25519Extended:
-       return *this;
+        return *this;
     }
 }
 
+// JuBiter-defined
+bool PublicKey::isValid() { return PublicKey::isValid(bytes, type); }
 
 // JuBiter-defined
-bool PublicKey::isValid() {
-    return PublicKey::isValid(bytes, type);
-}
-
-
-// JuBiter-defined
-bool PublicKey::verifyAsDER(const Data& signatureAsDER, const Data& message) const {
+bool PublicKey::verifyAsDER(const Data &signatureAsDER, const Data &message) const {
     size_t iDerSignatureLen = signatureAsDER.size();
-    uint8_t *derSignature = new uint8_t[iDerSignatureLen+1];
-    memset(derSignature, 0x00, iDerSignatureLen+1);
+    uint8_t *derSignature   = new uint8_t[iDerSignatureLen + 1];
+    memset(derSignature, 0x00, iDerSignatureLen + 1);
     std::copy(signatureAsDER.begin(), signatureAsDER.end(), derSignature);
-    uint8_t sig[TW::Hash::sha512Size] = {0x00,};
+    uint8_t sig[TW::Hash::sha512Size] = {
+        0x00,
+    };
     if (TW::Hash::sha512Size != der_to_ecdsa_sig(derSignature, sig)) {
-        delete[] derSignature; derSignature = nullptr;
+        delete[] derSignature;
+        derSignature = nullptr;
         return false;
     }
-    delete[] derSignature; derSignature = nullptr;
+    delete[] derSignature;
+    derSignature = nullptr;
 
     uchar_vector vSig(sig, TW::Hash::sha512Size);
     Data signature(vSig);
@@ -150,7 +152,7 @@ bool PublicKey::verifyAsDER(const Data& signatureAsDER, const Data& message) con
     return verify(signature, message);
 }
 
-bool PublicKey::verify(const Data& signature, const Data& message) const {
+bool PublicKey::verify(const Data &signature, const Data &message) const {
     switch (type) {
     case TWPublicKeyTypeSECP256k1:
     case TWPublicKeyTypeSECP256k1Extended:
@@ -164,7 +166,7 @@ bool PublicKey::verify(const Data& signature, const Data& message) const {
         return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data(), signature.data()) == 0;
     case TWPublicKeyTypeED25519Extended:
         throw std::logic_error("Not yet implemented");
-        //ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+        // ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
     case TWPublicKeyTypeCURVE25519:
         auto ed25519PublicKey = Data();
         ed25519PublicKey.resize(PublicKey::ed25519Size);
@@ -177,35 +179,36 @@ bool PublicKey::verify(const Data& signature, const Data& message) const {
         auto verifyBuffer = Data();
         append(verifyBuffer, signature);
         verifyBuffer[63] &= 127;
-        return ed25519_sign_open(message.data(), message.size(), ed25519PublicKey.data(),
-                                 verifyBuffer.data()) == 0;
+        return ed25519_sign_open(message.data(), message.size(), ed25519PublicKey.data(), verifyBuffer.data()) == 0;
     }
 }
 
 // JuBiter-defined
-bool PublicKey::verify(const Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64])) const {
+bool PublicKey::verify(const Data &signature, const Data &message,
+                       int (*canonicalChecker)(uint8_t by, uint8_t sig[64])) const {
 
     // graphene adds 31 to the recovery id
     uint8_t by = signature[0];
     by -= 31;
 
     // check if the signature is acceptable or retry
-    uint8_t sig[64] = {0x00,};
-    std::copy(std::begin(signature)+1, std::end(signature), std::begin(sig));
+    uint8_t sig[64] = {
+        0x00,
+    };
+    std::copy(std::begin(signature) + 1, std::end(signature), std::begin(sig));
     if (canonicalChecker && !canonicalChecker(by, sig)) {
         return false;
     }
 
-    return verify(Data(uchar_vector(sig, sizeof(sig)/sizeof(uint8_t))), message, by);
+    return verify(Data(uchar_vector(sig, sizeof(sig) / sizeof(uint8_t))), message, by);
 }
 
 // JuBiter-defined
-bool PublicKey::verify(const Data& signature, const Data& message, const int recid) const {
+bool PublicKey::verify(const Data &signature, const Data &message, const int recid) const {
 
     switch (type) {
     case TWPublicKeyTypeSECP256k1:
-    case TWPublicKeyTypeSECP256k1Extended:
-    {
+    case TWPublicKeyTypeSECP256k1Extended: {
         TW::Data recoverPk(PublicKey::secp256k1ExtendedSize);
         if (0 != ecdsa_recover_pub_from_sig(&secp256k1, recoverPk.data(), signature.data(), message.data(), recid)) {
             return false;
@@ -219,8 +222,7 @@ bool PublicKey::verify(const Data& signature, const Data& message, const int rec
         return (recoverPk == uncompressed);
     }
     case TWPublicKeyTypeNIST256p1:
-    case TWPublicKeyTypeNIST256p1Extended:
-    {
+    case TWPublicKeyTypeNIST256p1Extended: {
         TW::Data recoverPk(PublicKey::secp256k1ExtendedSize);
         if (0 != ecdsa_recover_pub_from_sig(&nist256p1, recoverPk.data(), signature.data(), message.data(), recid)) {
             return false;
@@ -246,7 +248,7 @@ bool PublicKey::verify(const Data& signature, const Data& message, const int rec
     }
 }
 
-bool PublicKey::verifySchnorr(const Data& signature, const Data& message) const {
+bool PublicKey::verifySchnorr(const Data &signature, const Data &message) const {
     switch (type) {
     case TWPublicKeyTypeSECP256k1:
     case TWPublicKeyTypeSECP256k1Extended:
@@ -260,9 +262,9 @@ bool PublicKey::verifySchnorr(const Data& signature, const Data& message) const 
     }
 }
 
-Data PublicKey::hash(const Data& prefix, Hash::Hasher hasher, bool skipTypeByte) const {
+Data PublicKey::hash(const Data &prefix, Hash::Hasher hasher, bool skipTypeByte) const {
     const auto offset = std::size_t(skipTypeByte ? 1 : 0);
-    const auto hash = hasher(bytes.data() + offset, bytes.size() - offset);
+    const auto hash   = hasher(bytes.data() + offset, bytes.size() - offset);
 
     auto result = Data();
     result.reserve(prefix.size() + hash.size());
@@ -272,15 +274,17 @@ Data PublicKey::hash(const Data& prefix, Hash::Hasher hasher, bool skipTypeByte)
 }
 
 // JuBiter-defined
-bool PublicKey::recover(Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64])) {
+bool PublicKey::recover(Data &signature, const Data &message, int (*canonicalChecker)(uint8_t by, uint8_t sig[64])) {
 
     // graphene adds 31 to the recovery id
     int by = signature[0];
     by -= 31;
 
-    uint8_t sig[64] = {0x00,};
-    std::copy(std::begin(signature)+1, std::end(signature), std::begin(sig));
-    if (!recover(Data(uchar_vector(sig, sizeof(sig)/sizeof(uint8_t))), message, &by)) {
+    uint8_t sig[64] = {
+        0x00,
+    };
+    std::copy(std::begin(signature) + 1, std::end(signature), std::begin(sig));
+    if (!recover(Data(uchar_vector(sig, sizeof(sig) / sizeof(uint8_t))), message, &by)) {
         return false;
     }
 
@@ -298,12 +302,11 @@ bool PublicKey::recover(Data& signature, const Data& message, int(*canonicalChec
 
 // JuBiter-defined
 /// Recover the recover id of a signature for the provided message.
-bool PublicKey::recover(const Data& signature, const Data& message, int *recid) {
+bool PublicKey::recover(const Data &signature, const Data &message, int *recid) {
 
     switch (type) {
     case TWPublicKeyTypeSECP256k1:
-    case TWPublicKeyTypeSECP256k1Extended:
-    {
+    case TWPublicKeyTypeSECP256k1Extended: {
         TW::Data uncompressed(PublicKey::secp256k1ExtendedSize);
         if (1 != ecdsa_uncompress_pubkey(&secp256k1, &bytes[0], &uncompressed[0])) {
             return false;
@@ -316,8 +319,7 @@ bool PublicKey::recover(const Data& signature, const Data& message, int *recid) 
         return true;
     }
     case TWPublicKeyTypeNIST256p1:
-    case TWPublicKeyTypeNIST256p1Extended:
-    {
+    case TWPublicKeyTypeNIST256p1Extended: {
         TW::Data uncompressed(PublicKey::secp256k1ExtendedSize);
         if (1 != ecdsa_uncompress_pubkey(&nist256p1, bytes.data(), uncompressed.data())) {
             return false;
@@ -342,7 +344,7 @@ bool PublicKey::recover(const Data& signature, const Data& message, int *recid) 
     }
 }
 
-PublicKey PublicKey::recover(const Data& signature, const Data& message) {
+PublicKey PublicKey::recover(const Data &signature, const Data &message) {
     if (signature.size() < 65) {
         throw std::invalid_argument("signature too short");
     }
@@ -364,6 +366,22 @@ bool PublicKey::isValidED25519() const {
     assert(bytes.size() == ed25519Size);
     ge25519 r;
     return ge25519_unpack_negative_vartime(&r, bytes.data()) != 0;
+}
+
+PublicKey PublicKey::p2trPublicKey() const {
+    curve_point P;
+    bignum256 t;
+    curve_point Q;
+    ecdsa_read_pubkey(&secp256k1, bytes.data(), &P);
+    auto digest = TW::Hash::hash_TapTweak(bytes.data() + 1, 32);
+    bn_read_be(digest.data(), &t);
+    scalar_multiply(&secp256k1, &t, &Q);
+    point_add(&secp256k1, &P, &Q);
+    digest.resize(secp256k1Size);
+    digest[0] = 0x02 | (Q.y.val[0] & 0x01);
+    bn_write_be(&Q.x, digest.data() + 1);
+
+    return PublicKey(digest, TWPublicKeyTypeSECP256k1);
 }
 
 } // namespace TW

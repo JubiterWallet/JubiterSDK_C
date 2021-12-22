@@ -6,7 +6,11 @@
 
 #include "PrivateKey.h"
 
+#include "Hash.h"
 #include "PublicKey.h"
+#include "TWPublicKeyType.h"
+
+#include <assert.h>
 
 #include <TrezorCrypto/bignum.h>
 #include <TrezorCrypto/curves.h>
@@ -21,7 +25,7 @@
 
 using namespace TW;
 
-bool PrivateKey::isValid(const Data& data) {
+bool PrivateKey::isValid(const Data &data) {
     // Check length.  Extended key needs 3*32 bytes.
     if (data.size() != size && data.size() != extendedSize) {
         return false;
@@ -37,8 +41,7 @@ bool PrivateKey::isValid(const Data& data) {
     return false;
 }
 
-bool PrivateKey::isValid(const Data& data, TWCurve curve)
-{
+bool PrivateKey::isValid(const Data &data, TWCurve curve) {
     // check size
     bool valid = isValid(data);
     if (!valid) {
@@ -46,8 +49,7 @@ bool PrivateKey::isValid(const Data& data, TWCurve curve)
     }
 
     const ecdsa_curve *ec_curve = nullptr;
-    switch (curve)
-    {
+    switch (curve) {
     case TWCurveSECP256k1:
         ec_curve = &secp256k1;
         break;
@@ -75,27 +77,24 @@ bool PrivateKey::isValid(const Data& data, TWCurve curve)
     return true;
 }
 
-PrivateKey::PrivateKey(const Data& data) {
+PrivateKey::PrivateKey(const Data &data) {
     if (!isValid(data)) {
         throw std::invalid_argument("Invalid private key data");
     }
     if (data.size() == extendedSize) {
         // special extended case
-        *this = PrivateKey(
-            TW::data(data.data(), 32),
-            TW::data(data.data() + 32, 32),
-            TW::data(data.data() + 64, 32));
+        *this = PrivateKey(TW::data(data.data(), 32), TW::data(data.data() + 32, 32), TW::data(data.data() + 64, 32));
     } else {
         // default case
         bytes = data;
     }
 }
 
-PrivateKey::PrivateKey(const Data& data, const Data& ext, const Data& chainCode) {
+PrivateKey::PrivateKey(const Data &data, const Data &ext, const Data &chainCode) {
     if (!isValid(data) || !isValid(ext) || !isValid(chainCode)) {
         throw std::invalid_argument("Invalid private key or extended key data");
     }
-    bytes = data;
+    bytes          = data;
     extensionBytes = ext;
     chainCodeBytes = chainCode;
 }
@@ -146,14 +145,28 @@ PublicKey PrivateKey::getPublicKey(TWPublicKeyType type) const {
     return PublicKey(result, type);
 }
 
-Data PrivateKey::getSharedKey(const PublicKey& pubKey, TWCurve curve) const {
+PrivateKey PrivateKey::p2trPrivateKey() const {
+    // https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki#address-derivation
+    // Q = P + hash_TapTweak(bytes(P))*G
+    // d' = d + hash_TapTweak(bytes(P))
+    bignum256 d;
+    bignum256 t;
+    auto P      = getPublicKey(TWPublicKeyTypeSECP256k1);
+    auto digest = TW::Hash::hash_TapTweak(P.bytes.data() + 1, 32);
+    bn_read_be(digest.data(), &t);
+    bn_read_be(bytes.data(), &d);
+    bn_addmod(&d, &t, &secp256k1.order);
+    bn_write_be(&d, digest.data());
+    return PrivateKey(digest);
+}
+
+Data PrivateKey::getSharedKey(const PublicKey &pubKey, TWCurve curve) const {
     if (curve != TWCurveSECP256k1) {
         return {};
     }
 
     Data result(PublicKey::secp256k1ExtendedSize);
-    bool success = ecdh_multiply(&secp256k1, bytes.data(),
-                                 pubKey.bytes.data(), result.data()) == 0;
+    bool success = ecdh_multiply(&secp256k1, bytes.data(), pubKey.bytes.data(), result.data()) == 0;
 
     if (success) {
         PublicKey sharedKey(result, TWPublicKeyTypeSECP256k1Extended);
@@ -164,7 +177,9 @@ Data PrivateKey::getSharedKey(const PublicKey& pubKey, TWCurve curve) const {
     return {};
 }
 
-int ecdsa_sign_digest_checked(const ecdsa_curve *curve, const uint8_t *priv_key, const uint8_t *digest, size_t digest_size, uint8_t *sig, uint8_t *pby, int (*is_canonical)(uint8_t by, uint8_t sig[64])) {
+int ecdsa_sign_digest_checked(const ecdsa_curve *curve, const uint8_t *priv_key, const uint8_t *digest,
+                              size_t digest_size, uint8_t *sig, uint8_t *pby,
+                              int (*is_canonical)(uint8_t by, uint8_t sig[64])) {
     if (digest_size < 32) {
         return -1;
     }
@@ -172,14 +187,14 @@ int ecdsa_sign_digest_checked(const ecdsa_curve *curve, const uint8_t *priv_key,
     return ecdsa_sign_digest(curve, priv_key, digest, sig, pby, is_canonical);
 }
 
-Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
+Data PrivateKey::sign(const Data &digest, TWCurve curve) const {
     Data result;
     bool success = false;
     switch (curve) {
     case TWCurveSECP256k1: {
         result.resize(65);
         success = ecdsa_sign_digest_checked(&secp256k1, bytes.data(), digest.data(), digest.size(), result.data(),
-                                    result.data() + 64, nullptr) == 0;
+                                            result.data() + 64, nullptr) == 0;
     } break;
     case TWCurveED25519: {
         result.resize(64);
@@ -190,30 +205,29 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
     case TWCurveED25519Blake2bNano: {
         result.resize(64);
         const auto publicKey = getPublicKey(TWPublicKeyTypeED25519Blake2b);
-        ed25519_sign_blake2b(digest.data(), digest.size(), bytes.data(),
-                             publicKey.bytes.data(), result.data());
+        ed25519_sign_blake2b(digest.data(), digest.size(), bytes.data(), publicKey.bytes.data(), result.data());
         success = true;
     } break;
     case TWCurveED25519Extended: {
         result.resize(64);
         const auto publicKey = getPublicKey(TWPublicKeyTypeED25519Extended);
-        ed25519_sign_ext(digest.data(), digest.size(), bytes.data(), extensionBytes.data(), publicKey.bytes.data(), result.data());
+        ed25519_sign_ext(digest.data(), digest.size(), bytes.data(), extensionBytes.data(), publicKey.bytes.data(),
+                         result.data());
         success = true;
     } break;
     case TWCurveCurve25519: {
         result.resize(64);
         const auto publicKey = getPublicKey(TWPublicKeyTypeED25519);
-        ed25519_sign(digest.data(), digest.size(), bytes.data(), publicKey.bytes.data(),
-                     result.data());
+        ed25519_sign(digest.data(), digest.size(), bytes.data(), publicKey.bytes.data(), result.data());
         const auto sign_bit = publicKey.bytes[31] & 0x80;
-        result[63] = result[63] & 127;
+        result[63]          = result[63] & 127;
         result[63] |= sign_bit;
         success = true;
     } break;
     case TWCurveNIST256p1: {
         result.resize(65);
         success = ecdsa_sign_digest_checked(&nist256p1, bytes.data(), digest.data(), digest.size(), result.data(),
-                                    result.data() + 64, nullptr) == 0;
+                                            result.data() + 64, nullptr) == 0;
     } break;
     case TWCurveNone:
     default:
@@ -226,24 +240,24 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
     return result;
 }
 
-Data PrivateKey::sign(const Data& digest, TWCurve curve, int(*canonicalChecker)(uint8_t by, uint8_t sig[64])) const {
+Data PrivateKey::sign(const Data &digest, TWCurve curve, int (*canonicalChecker)(uint8_t by, uint8_t sig[64])) const {
     Data result;
     bool success = false;
     switch (curve) {
     case TWCurveSECP256k1: {
         result.resize(65);
         success = ecdsa_sign_digest_checked(&secp256k1, bytes.data(), digest.data(), digest.size(), result.data() + 1,
-                                    result.data(), canonicalChecker) == 0;
+                                            result.data(), canonicalChecker) == 0;
     } break;
-    case TWCurveED25519: // not supported
+    case TWCurveED25519:            // not supported
     case TWCurveED25519Blake2bNano: // not supported
-    case TWCurveED25519Extended: // not supported
+    case TWCurveED25519Extended:    // not supported
     case TWCurveCurve25519:         // not supported
         break;
     case TWCurveNIST256p1: {
         result.resize(65);
         success = ecdsa_sign_digest_checked(&nist256p1, bytes.data(), digest.data(), digest.size(), result.data() + 1,
-                                    result.data(), canonicalChecker) == 0;
+                                            result.data(), canonicalChecker) == 0;
     } break;
     case TWCurveNone:
     default:
@@ -259,10 +273,9 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve, int(*canonicalChecker)(
     return result;
 }
 
-Data PrivateKey::signAsDER(const Data& digest, TWCurve curve) const {
+Data PrivateKey::signAsDER(const Data &digest, TWCurve curve) const {
     Data sig(64);
-    bool success =
-        ecdsa_sign_digest(&secp256k1, bytes.data(), digest.data(), sig.data(), nullptr, nullptr) == 0;
+    bool success = ecdsa_sign_digest(&secp256k1, bytes.data(), digest.data(), sig.data(), nullptr, nullptr) == 0;
     if (!success) {
         return {};
     }
@@ -275,7 +288,7 @@ Data PrivateKey::signAsDER(const Data& digest, TWCurve curve) const {
     return result;
 }
 
-Data PrivateKey::signSchnorr(const Data& digest, TWCurve curve) const {
+Data PrivateKey::signSchnorr(const Data &digest, TWCurve curve) const {
     bool success = false;
     Data sig(64);
     switch (curve) {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Data.h"
+#include "JUB_SDK_BTC.h"
 #include "TWCoinType.h"
 #include "token/interface/BTCTokenInterface.hpp"
 #include <Bitcoin/Address.h>
@@ -25,7 +26,7 @@ class JubiterBaseBTCImpl : virtual public BTCTokenInterface {
     virtual JUB_RV CheckAddress(const std::string &address, const TWCoinType &coinNet) override;
 
   protected:
-    virtual JUB_RV _verifyTx(const bool witness, const uchar_vector &signedRaw,
+    virtual JUB_RV _verifyTx(JUB_ENUM_BTC_TRANS_TYPE type, const uchar_vector &signedRaw,
                              const std::vector<JUB_UINT64> &vInputAmount, const std::vector<TW::Data> &vInputPublicKey,
                              const TWCoinType &coinNet = TWCoinType::TWCoinTypeBitcoin);
 
@@ -45,13 +46,17 @@ class JubiterBaseBTCImpl : virtual public BTCTokenInterface {
                                                              const uint64_t amount, const TW::Data &signature,
                                                              const TW::PublicKey publicKey);
 
+    virtual JUB_RV _verifyPayToTaprootKeyPathSpending(const TWCoinType &coin, const TW::Bitcoin::Transaction &tx,
+                                                      const size_t index, const uint32_t &hashType,
+                                                      const uint64_t amount, const TW::Data &signature,
+                                                      const TW::PublicKey publicKey);
     virtual TW::Data pushAll(const TW::Data &results);
 
     virtual JUB_RV _verifyTx(const TWCoinType &coin, const TW::Bitcoin::Transaction *tx, const uint32_t &hashType,
                              const std::vector<JUB_UINT64> &vInputAmount,
                              const std::vector<TW::PublicKey> &vInputPublicKey);
 
-    virtual JUB_RV _serializeTx(bool witness, bool nested, const std::vector<JUB_UINT64> &vInputAmount,
+    virtual JUB_RV _serializeTx(JUB_ENUM_BTC_TRANS_TYPE type, const std::vector<JUB_UINT64> &vInputAmount,
                                 const std::vector<TW::Data> &vInputPublicKey,
                                 const std::vector<uchar_vector> &vSignatureRaw, TW::Bitcoin::Transaction *tx,
                                 uchar_vector &signedRaw);

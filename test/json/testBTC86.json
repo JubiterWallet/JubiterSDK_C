@@ -1,0 +1,29 @@
+{
+  "url" : "https://www.blockchain.com/btc/tx/cc3e8cc67c7d98660db813ae5c5e2637eb0dbef4947e15b623ef288941e8a7b8",
+  "ver" : 1,
+  "p2tr" : true,
+  "main_path" : "m/86'/0'/0'",
+  "inputs": [
+    {
+      "preHash": "410ea47fce8b1e85f951620142e619f7fae553b2280cb0e22c91e9557753cc1b",
+      "preIndex": 1,
+      "amount": 4920000,
+      "bip32_path":{
+        "change" :false,
+        "addressIndex":0
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "address": "bc1qlnllsmj7a7kwmh9mskgsse6w6jxe93ptcyy5du",
+      "amount": 327810,
+      "change_address": false,
+      "bip32_path":{
+        "change" :false,
+        "addressIndex":0
+      }
+    }
+  ],
+  "lock_time": 0
+}

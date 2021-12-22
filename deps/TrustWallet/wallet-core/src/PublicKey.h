@@ -11,7 +11,6 @@
 
 #include <TrustWalletCore/TWPublicKeyType.h>
 
-#include <cassert>
 #include <stdexcept>
 
 namespace TW {
@@ -40,12 +39,12 @@ class PublicKey {
 
     /// Determines if a collection of bytes makes a valid public key of the
     /// given type.
-    static bool isValid(const Data& data, enum TWPublicKeyType type);
+    static bool isValid(const Data &data, enum TWPublicKeyType type);
 
     /// Initializes a public key with a collection of bytes.
     ///
     /// @throws std::invalid_argument if the data is not a valid public key.
-    explicit PublicKey(const Data& data, enum TWPublicKeyType type);
+    explicit PublicKey(const Data &data, enum TWPublicKeyType type);
 
     /// Determines if this is a compressed public key.
     bool isCompressed() const {
@@ -64,43 +63,42 @@ class PublicKey {
     // JuBiter-defined
     /// Verifies a signature for the provided message. The signature is encoded with
     /// DER.
-    bool verifyAsDER(const Data& signatureAsDER, const Data& message) const;
+    bool verifyAsDER(const Data &signatureAsDER, const Data &message) const;
 
     /// Verifies a signature for the provided message.
-    bool verify(const Data& signature, const Data& message) const;
+    bool verify(const Data &signature, const Data &message) const;
     // JuBiter-defined
     /// Verifies a signature for the provided message, including recover id.
-    bool verify(const Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64])) const;
+    bool verify(const Data &signature, const Data &message, int (*canonicalChecker)(uint8_t by, uint8_t sig[64])) const;
     // JuBiter-defined
     /// Verifies a signature for the provided message, include recover id.
-    bool verify(const Data& signature, const Data& message, const int recid) const;
+    bool verify(const Data &signature, const Data &message, const int recid) const;
 
     /// Verifies a schnorr signature for the provided message.
-    bool verifySchnorr(const Data& signature, const Data& message) const;
+    bool verifySchnorr(const Data &signature, const Data &message) const;
 
     /// Computes the public key hash.
     ///
     /// The public key hash is computed by applying the hasher to the public key
     /// bytes and then prepending the prefix.
-    Data hash(const Data& prefix, Hash::Hasher hasher = Hash::sha256ripemd, bool skipTypeByte = false) const;
+    Data hash(const Data &prefix, Hash::Hasher hasher = Hash::sha256ripemd, bool skipTypeByte = false) const;
 
     // JuBiter-defined
     /// Recover the recover id of a signature for the provided message.
-    bool recover(Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64]));
-    bool recover(const Data& signature, const Data& message, int *recid);
+    bool recover(Data &signature, const Data &message, int (*canonicalChecker)(uint8_t by, uint8_t sig[64]));
+    bool recover(const Data &signature, const Data &message, int *recid);
     /// Recover public key from signature (SECP256k1Extended)
-    static PublicKey recover(const Data& signature, const Data& message);
-    
+    static PublicKey recover(const Data &signature, const Data &message);
+
     /// Check if this key makes a valid ED25519 key (it is on the curve)
     bool isValidED25519() const;
+
+    // bip86 derivation p2tr public key
+    PublicKey p2trPublicKey() const;
 };
 
-inline bool operator==(const PublicKey& lhs, const PublicKey& rhs) {
-    return lhs.bytes == rhs.bytes;
-}
-inline bool operator!=(const PublicKey& lhs, const PublicKey& rhs) {
-    return lhs.bytes != rhs.bytes;
-}
+inline bool operator==(const PublicKey &lhs, const PublicKey &rhs) { return lhs.bytes == rhs.bytes; }
+inline bool operator!=(const PublicKey &lhs, const PublicKey &rhs) { return lhs.bytes != rhs.bytes; }
 
 } // namespace TW
 

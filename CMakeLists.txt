@@ -26,6 +26,8 @@ option(protobuf_BUILD_TESTS "Build tests" OFF)
 option(protobuf_BUILD_PROTOC_BINARIES "Build libprotoc and protoc compiler" OFF)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/protobuf/cmake)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/sr25519-crust)
+link_directories(${CMAKE_CURRENT_BINARY_DIR}/debug)
 add_subdirectory(src)
 
 if(devOnly)

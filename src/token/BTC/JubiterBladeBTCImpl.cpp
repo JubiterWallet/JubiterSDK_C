@@ -256,15 +256,15 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
     TW::Data sigRawTx(totalReadLen, 0x00);
 
     constexpr JUB_UINT16 kReadOnceLen = 256;
-    JUB_ULONG ulRetLen = kReadOnceLen;
+    JUB_ULONG ulRetLen                = kReadOnceLen;
 
     apdu.SetApdu(0x00, 0xF9, 0x00, 0x00, 0x00);
-    apdu.le = kReadOnceLen;
+    apdu.le          = kReadOnceLen;
     JUB_UINT16 times = 0;
     for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
         JUB_UINT16 offset = times * kReadOnceLen;
-        apdu.p1 = offset >> 8;
-        apdu.p2 = offset & 0x00ff;
+        apdu.p1           = offset >> 8;
+        apdu.p2           = offset & 0x00ff;
 
         JUB_VERIFY_RV(_SendApdu(&apdu, ret, sigRawTx.data() + times * kReadOnceLen, &ulRetLen));
         JUB_VERIFY_COS_ERROR(ret);
@@ -273,8 +273,8 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
     apdu.le = totalReadLen % kReadOnceLen;
     if (apdu.le) {
         JUB_UINT16 offset = times * kReadOnceLen;
-        apdu.p1 = offset >> 8;
-        apdu.p2 = offset & 0x00ff;
+        apdu.p1           = offset >> 8;
+        apdu.p2           = offset & 0x00ff;
 
         ulRetLen = totalReadLen - times * kReadOnceLen;
 
@@ -322,7 +322,7 @@ JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const std::ve
         return rv;
     }
 
-    return _verifyTx(witness, vSigedTrans, vInputAmount, vInputPublicKey, coinNet);
+    return _verifyTx(type, vSigedTrans, vInputAmount, vInputPublicKey, coinNet);
 }
 
 } // namespace token

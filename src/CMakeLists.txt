@@ -48,6 +48,8 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/HC SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/XRP SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/TRX SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/FIL SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/CKB SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/DOT SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/HDKey SRC_LIST)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/uint256_t SRC_LIST)
@@ -133,6 +135,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Kusama)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/NervosCKB)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/sr25519-crust/include/sr25519)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../trezor-crypto/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../gpc/include)
 
