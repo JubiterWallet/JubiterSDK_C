@@ -188,10 +188,7 @@ JUB_RV JubiterBaseBTCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE &ty
                                                const std::vector<OUTPUT_BTC> &vOutputs, const JUB_UINT32 lockTime,
                                                uchar_vector &unsignedRaw, const TWCoinType &coinNet) {
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type || p2wpkh == type || p2tr == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
 
     TW::Bitcoin::Transaction tx(version, lockTime);
     JUB_VERIFY_RV(_unsignedTx((coinNet ? coinNet : _coin), vInputs, vOutputs, tx));
@@ -250,6 +247,7 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType &
 
     return rv;
 }
+
 JUB_RV JubiterBaseBTCImpl::_verifyPayToWitnessPublicKeyHashScriptSig(const TWCoinType &coin,
                                                                      const TW::Bitcoin::Transaction &tx,
                                                                      const size_t index, const uint32_t &hashType,
@@ -396,9 +394,9 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const TWCoinType &coin, const TW::Bitcoin::
                     rv = JUBR_OK;
                 }
             }
-            //            else if (signedTx.inputs[index].script.matchxxx) {
-            //
-            //            }
+//            else if (signedTx.inputs[index].script.matchxxx) {
+//
+//            }
             else {
                 rv = JUBR_ERROR;
                 continue;
@@ -413,8 +411,10 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(JUB_ENUM_BTC_TRANS_TYPE type, const uchar_v
                                      const std::vector<JUB_UINT64> &vInputAmount,
                                      const std::vector<TW::Data> &vInputPublicKey, const TWCoinType &coinNet) {
 
-    JUB_RV rv    = JUBR_ARGUMENTS_BAD;
-    auto witness = type == p2tr || type == p2wpkh || type == p2sh_p2wpkh;
+    JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
+
     // 目前来看我们组交易，在一个交易里的所有input都是同一类型
     TW::Hash::Hasher hasher =
         type == p2tr ? static_cast<TW::Hash::HasherSimpleType>(TW::Hash::sha256) : TW::Hash::sha256d;
@@ -443,6 +443,9 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(JUB_ENUM_BTC_TRANS_TYPE type, const std:
                                         const std::vector<uchar_vector> &vSignatureRaw, TW::Bitcoin::Transaction *tx,
                                         uchar_vector &signedRaw) {
     JUB_RV rv = JUBR_OK;
+
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
+
     using TW::Bitcoin::Script;
     for (size_t index = 0; index < tx->inputs.size(); ++index) {
         TW::PublicKey twpk = TW::PublicKey(vInputPublicKey[index], _publicKeyType);
@@ -467,7 +470,7 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(JUB_ENUM_BTC_TRANS_TYPE type, const std:
     if (JUBR_OK != rv) {
         return rv;
     }
-    auto witness = type == p2tr || type == p2wpkh || type == p2sh_p2wpkh;
+
     tx->encode(witness, signedRaw);
     if (0 >= signedRaw.size()) {
         return JUBR_ERROR;

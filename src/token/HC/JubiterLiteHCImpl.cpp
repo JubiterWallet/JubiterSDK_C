@@ -15,12 +15,7 @@ JUB_RV JubiterLiteHCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRAN
                                  const std::vector<JUB_BYTE> &vUnsigedTrans, std::vector<JUB_BYTE> &vRaw,
                                  const TWCoinType &coinNet) {
 
-    bool witness = false;
-    bool nested  = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-        nested  = true;
-    }
+    auto witness = type == p2sh_p2wpkh;
 
     TW::Hcash::Transaction tx;
     if (!tx.decode(!witness, vUnsigedTrans)) {

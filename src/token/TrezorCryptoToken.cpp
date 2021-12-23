@@ -279,7 +279,6 @@ JUB_RV TrezorCryptoToken::MnemonicToMasterPrivateKey(const JUB_ENUM_CURVES &curv
         JUB_VERIFY_RV(MnemonicToMiniSecret(passphrase, mnemonic, vSeed, nullptr));
 
         uchar_vector prvData(vSeed.begin(), vSeed.begin() + 32);
-        std::cout << prvData.getHex() << std::endl;
         auto privateKey         = TW::PrivateKey(prvData);
         TW::PublicKey publicKey = privateKey.getPublicKey(TWPublicKeyTypeED25519);
 

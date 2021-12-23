@@ -28,15 +28,9 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE &type, const
     JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint, coinNet));
 
     hdnode_fill_public_key(&hdkey);
-    bool witness = false;
-    bool nested  = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-        nested  = true;
-    } else if (p2tr == type || p2wpkh == type) {
-        witness = true;
-        nested  = false;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
+    auto nested  = type == p2sh_p2wpkh;
+
     JUB_UINT32 version = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness, nested);
 
     JUB_CHAR _xpub[200] = {
@@ -102,15 +96,7 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
                                    const std::vector<JUB_BYTE> &vUnsigedTrans, std::vector<JUB_BYTE> &vRaw,
                                    const TWCoinType &coinNet) {
 
-    bool witness = false;
-    bool nested  = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-        nested  = true;
-    } else if (p2tr == type || p2wpkh == type) {
-        witness = true;
-        nested  = false;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
 
     TW::Bitcoin::Transaction tx;
     if (!tx.decode(witness, vUnsigedTrans)) {
@@ -132,7 +118,6 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
     JUB_VERIFY_RV(_serializeTx(type, vInputAmount, vInputPublicKey, vSignatureRaw, &tx, signedRaw));
 
     vRaw = signedRaw;
-    std::cout << signedRaw.getHex() << std::endl;
 
     return JUBR_OK;
 }
@@ -161,8 +146,6 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness, const std::vector<JUB_UINT64> 
 
         // script code - scriptPubKey
         TW::Bitcoin::Script scriptCode;
-
-        // not correct
         rv = _scriptCode((coinNet ? coinNet : _coin), twpk, scriptCode);
         if (JUBR_OK != rv) {
             break;
@@ -246,10 +229,7 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
                                      const std::vector<std::string> &vInputPath,
                                      const std::vector<JUB_BYTE> &vSigedTrans, const TWCoinType &coinNet) {
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type || p2wpkh == type || p2tr == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
 
     uint32_t hdVersionPub = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness);
     uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness);

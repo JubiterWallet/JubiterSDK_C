@@ -12,10 +12,7 @@ JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE &t
 
     JUB_RV rv = JUBR_ERROR;
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh;
 
     TW::Dash::Transaction tx(version, lockTime);
     rv = _unsignedTx(_coin, vInputs, vOutputs, tx);
@@ -32,8 +29,10 @@ JUB_RV JubiterBaseDashImpl::_verifyTx(JUB_ENUM_BTC_TRANS_TYPE type, const uchar_
                                       const std::vector<JUB_UINT64> &vInputAmount,
                                       const std::vector<TW::Data> &vInputPublicKey, const TWCoinType &coinNet) {
 
-    JUB_RV rv    = JUBR_ARGUMENTS_BAD;
+    JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
     auto witness = type == p2sh_p2wpkh || type == p2wpkh;
+
     try {
         TW::Dash::Transaction tx;
         if (!tx.decode(witness, signedRaw)) {

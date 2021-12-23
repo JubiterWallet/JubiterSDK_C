@@ -15,10 +15,7 @@ JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE &typ
 
     JUB_RV rv = JUBR_ERROR;
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh;
 
     TW::Hcash::Transaction tx(version, lockTime);
     rv = _unsignedTx(_coin, vInputs, vOutputs, tx);
@@ -116,6 +113,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(JUB_ENUM_BTC_TRANS_TYPE type, const uchar_ve
                                     const std::vector<TW::Data> &vInputPublicKey, const TWCoinType &coinNet) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
     try {
         TW::Hcash::Transaction tx;
         if (!tx.decode(true, signedRaw)) {

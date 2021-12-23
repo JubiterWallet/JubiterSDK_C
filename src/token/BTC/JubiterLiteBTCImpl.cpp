@@ -20,10 +20,8 @@ JUB_RV JubiterLiteBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
                                              get_curve_by_name(SECP256K1_NAME), path, nodeData, &nodeDatalen));
 
     // replace version
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh;
+
     JUB_UINT32 version = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness);
     write_be(nodeData, version);
 
@@ -145,12 +143,7 @@ JUB_RV JubiterLiteBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRA
                                   const std::vector<JUB_BYTE> &vUnsigedTrans, std::vector<JUB_BYTE> &vRaw,
                                   const TWCoinType &coinNet) {
 
-    bool witness = false;
-    bool nested  = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-        nested  = true;
-    }
+    auto witness = type == p2sh_p2wpkh;
 
     TW::Bitcoin::Transaction tx;
     if (!tx.decode(witness, vUnsigedTrans)) {
@@ -230,11 +223,6 @@ JUB_RV JubiterLiteBTCImpl::_SignTx(bool witness, const JUB_ENUM_BTC_TRANS_TYPE &
 JUB_RV JubiterLiteBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const std::vector<JUB_UINT64> &vInputAmount,
                                     const std::vector<std::string> &vInputPath,
                                     const std::vector<JUB_BYTE> &vSigedTrans, const TWCoinType &coinNet) {
-
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
 
     std::vector<TW::Data> vInputPublicKey;
     for (const auto &inputPath : vInputPath) {
