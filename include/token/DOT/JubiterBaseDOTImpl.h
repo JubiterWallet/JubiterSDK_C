@@ -14,11 +14,15 @@ public:
 //        _curve_name = (char*)ED25519_NAME;
 //        _publicKeyType = TWPublicKeyType::TWPublicKeyTypeED25519;
     };
+
+    static JUB_RV IsValidAddress(const std::string& address, const TWCoinType& coin, const bool bTest=false);
+    virtual JUB_RV CheckAddress(const std::string& address, const TWCoinType& coin, const TWCoinType& coinNet) override;
+
 protected:
     virtual JUB_RV _getChainCodeFromPolkadptPath(std::string pathStr,std::string& chainCode);
-    virtual JUB_RV _getSr25519KeypairFromMasterKp(const std::string kp, std::string& derivPrv, std::string& derivPub ,const std::string path, JUB_ENUM_CURVES curve);
-    virtual JUB_RV _getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string& derivPrv, std::string& derivPub ,const std::string path, JUB_ENUM_CURVES curve);
-    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address);
+    virtual JUB_RV _getSr25519KeypairFromMasterKp(const std::string kp, std::string& derivPrv, std::string& derivPub, const std::string path, JUB_ENUM_CURVES curve);
+    virtual JUB_RV _getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string& derivPrv, std::string& derivPub, const std::string path, JUB_ENUM_CURVES curve);
+    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType &coinNet);
 }; // class JubiterBaseDOTImpl end
 
 } // namespace token end

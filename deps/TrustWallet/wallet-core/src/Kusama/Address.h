@@ -18,13 +18,13 @@ namespace TW::Kusama {
 class Address: public SS58Address {
   public:
     /// Determines whether a string makes a valid address.
-    static bool isValid(const std::string& string) { return SS58Address::isValid(string, TWSS58AddressTypeKusama); }
+    static bool isValid(const std::string& string, const bool bTest=false) { return SS58Address::isValid(string, (false == bTest) ? TWSS58AddressTypeKusama : TWSS58AddressTypeWestend); }
 
     /// Initializes a Kusama address with a string representation.
-    Address(const std::string& string): SS58Address(string, TWSS58AddressTypeKusama) {}
+    Address(const std::string& string, const bool bTest=false): SS58Address(string, (false == bTest) ? TWSS58AddressTypeKusama : TWSS58AddressTypeWestend) {}
 
     /// Initializes a Kusama address with a public key.
-    Address(const PublicKey& publicKey): SS58Address(publicKey, TWSS58AddressTypeKusama) {}
+    Address(const PublicKey& publicKey, const bool bTest=false): SS58Address(publicKey, (false == bTest) ? TWSS58AddressTypeKusama : TWSS58AddressTypeWestend) {}
 };
 } // namespace TW::Kusama
 

@@ -68,6 +68,16 @@ JUB_RV JUB_GetMainHDNodeKSM(IN JUB_UINT16 contextID,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
+ * @function name : JUB_CheckAddressKSM
+ * @in  param : contextID - context ID
+ *            : address
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressKSM(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address);
+
+/*****************************************************************************
  * @function name : JUB_SetMyAddressKSM
  * @in  param : contextID - context ID
  *          : path
@@ -91,6 +101,15 @@ JUB_RV JUB_SignTransactionKSM(IN JUB_UINT16 contextID,
                               IN JUB_CHAR_PTR path,
                               IN JUB_TX_DOT tx,
                               OUT JUB_CHAR_PTR_PTR raw);
+
+/*****************************************************************************
+ * @function name : JUB_IsValidAddressKSM
+ * @in  param : address
+ * @out param : none
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IsValidAddressKSM(IN JUB_CHAR_CPTR address);
 
 #ifdef __cplusplus
 }

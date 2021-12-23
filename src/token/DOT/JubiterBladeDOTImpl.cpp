@@ -43,7 +43,7 @@ JUB_RV JubiterBladeDOTImpl::SetCoinCurvePublicKeyType(JUB_ENUM_COINTYPE_DOT coin
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
-JUB_RV JubiterBladeDOTImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
+JUB_RV JubiterBladeDOTImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address, const TWCoinType& coinNet) {
 
 //    uchar_vector vPath;
 //    vPath << path;
@@ -64,7 +64,7 @@ JUB_RV JubiterBladeDOTImpl::GetAddress(const std::string& path, const JUB_UINT16
 }
 
 
-JUB_RV JubiterBladeDOTImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
+JUB_RV JubiterBladeDOTImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey, const TWCoinType& coinNet) {
 
 //    //path = "m/44'/354'/0'";
 //    uchar_vector vPath;

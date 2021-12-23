@@ -22,7 +22,7 @@ public:
     xKSMContextFactory() {
         Register(_type, &KSMContext::Create);
     }
-                        
+
     KSMContext* CreateContext(const JUB_UINT16 deviceID, const CONTEXT_CONFIG_DOT& cfg) {
         auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(deviceID, _type, cfg.curve);
         return Create(_type, cfg, token);

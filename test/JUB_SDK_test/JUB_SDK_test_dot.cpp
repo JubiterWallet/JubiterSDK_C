@@ -21,17 +21,18 @@ void DOT_test(JUB_UINT16 deviceID, const char* json_file) {
     }
 
     JUB_UINT16 contextID = 0;
-    
+
     CONTEXT_CONFIG_DOT cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
     cfg.coinType = JUB_ENUM_COINTYPE_DOT::COINDOT;
 //    cfg.curve = JUB_ENUM_CURVES::SR25519;
-    
+    cfg.mainNet = ((true == root["main_net"].asBool()) ? JUB_ENUM_BOOL::BOOL_TRUE : JUB_ENUM_BOOL::BOOL_FALSE);
+
     JUB_UINT64 curveNum = 0;
     cout << "please input curveNum  (0-ED25519 1-SR25519):" << endl;
     cin >> curveNum;
-    cfg.curve = curveNum == 0 ? JUB_ENUM_CURVES::ED25519 : JUB_ENUM_CURVES::SR25519;
-    
+    cfg.curve = ((0 == curveNum) ? JUB_ENUM_CURVES::ED25519 : JUB_ENUM_CURVES::SR25519);
+
     rv = JUB_CreateContextDOT(cfg, deviceID, &contextID);
     cout << "[-] JUB_CreateContextDOT() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -55,7 +56,7 @@ void DOT_test(JUB_UINT16 deviceID, const char* json_file) {
 
         switch (choice) {
         case 0:
-            get_address_pubkey_DOT(contextID);
+            get_address_pubkey_DOT(contextID, root);
             break;
         case 2:
             transaction_test_DOT(contextID, root);
@@ -70,11 +71,11 @@ void DOT_test(JUB_UINT16 deviceID, const char* json_file) {
 }
 
 
-void get_address_pubkey_DOT(JUB_UINT16 contextID) {
+void get_address_pubkey_DOT(JUB_UINT16 contextID, Json::Value root) {
 
     JUB_RV rv = JUBR_ERROR;
 
-    cout << "[----------------------------------- HD Node -----------------------------------]" << endl;
+    cout << "[----------------------------------- Main HD Node -----------------------------------]" << endl;
     JUB_CHAR_PTR pubkey = nullptr;
     rv = JUB_GetMainHDNodeDOT(contextID, JUB_ENUM_PUB_FORMAT::HEX, &pubkey);
     cout << "[-] JUB_GetMainHDNodeDOT() return " << GetErrMsg(rv) << endl;
@@ -83,9 +84,10 @@ void get_address_pubkey_DOT(JUB_UINT16 contextID) {
     }
     cout << "MainXpub in  HEX format:  " << pubkey << endl;
     JUB_FreeMemory(pubkey);
+    cout << "[----------------------------------- Main HD Node -----------------------------------]" << endl;
     cout << endl;
 
-    JUB_CHAR path[] = "//2567//555555//1234567//dsjkfk123";
+    JUB_CHAR_PTR path = (JUB_CHAR_PTR)root["main_path"].asCString();
     JUB_CHAR_PTR address = nullptr;
     rv = JUB_GetAddressDOT(contextID, path, BOOL_FALSE, &address);
     cout << "[-] JUB_GetAddressDOT() return " << GetErrMsg(rv) << endl;
@@ -102,6 +104,15 @@ void get_address_pubkey_DOT(JUB_UINT16 contextID) {
         return;
     }
     cout << "    show address: " << address << endl;
+
+    rv = JUB_CheckAddressDOT(contextID, address);
+    cout << "[-] JUB_CheckAddressDOT() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = JUB_IsValidAddressDOT(address);
+    cout << "[-] JUB_IsValidAddressDOT() return " << GetErrMsg(rv) << endl;
     JUB_FreeMemory(address);
     cout << "[--------------------------------- Address end ---------------------------------]" << endl;
     cout << endl << endl;
@@ -114,7 +125,7 @@ void transaction_test_DOT(JUB_UINT16 contextID, Json::Value root) {
     if (JUBR_OK != rv) {
         return;
     }
-//
+
     rv = transaction_proc_DOT(contextID, root);
     if (JUBR_OK != rv) {
         return;
@@ -122,29 +133,17 @@ void transaction_test_DOT(JUB_UINT16 contextID, Json::Value root) {
 }
 
 
-JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root)
-{
+JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root) {
+
     JUB_RV rv = JUBR_ERROR;
+    JUB_CHAR_PTR path = (JUB_CHAR_PTR)root["main_path"].asCString();
+
     JUB_TX_DOT tx;
-    JUB_CHAR path[] = "";
-//    JUB_CHAR_PTR genesisHash;
-//    JUB_CHAR_PTR blockHash;
-//    JUB_CHAR_PTR to;
-//    JUB_UINT64 nonce;
-//    JUB_UINT32 specVersion;
-//    JUB_UINT64 network;
-//    JUB_UINT32 transaction_version;
-//    JUB_UINT64 blockNumber;
-//    JUB_UINT64 value;
-//    JUB_UINT64 eraPeriod; // [Optional]
-//    JUB_UINT64 tip;       // [Optional]
-    
     tx.genesisHash = (char *)root["DOT"]["genesisHash"].asCString();
     tx.blockHash = (char *)root["DOT"]["blockHash"].asCString();
     tx.to = (char *)root["DOT"]["balance_call"]["transfer"]["to"].asCString();
     tx.nonce = root["DOT"]["nonce"].asUInt();
     tx.specVersion = root["DOT"]["specVersion"].asUInt();
-    tx.network = root["DOT"]["network"].asUInt();
     tx.transaction_version = root["DOT"]["transaction_version"].asUInt();
     tx.blockNumber = root["DOT"]["era"]["blockNumber"].asUInt();
     tx.value = (char *)root["DOT"]["balance_call"]["transfer"]["value"].asCString();

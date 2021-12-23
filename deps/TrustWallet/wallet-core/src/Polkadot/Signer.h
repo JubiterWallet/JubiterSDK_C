@@ -19,11 +19,9 @@ public:
     Signer() = delete;
 
     /// Signs a Proto::SigningInput transaction
+    // JuBiter-modified
 //    static Proto::SigningOutput sign(const Proto::SigningInput& input) noexcept;
-    
-    // JuBiter-defined
     static Data sign(Data private_key,Extrinsic extrinsic) noexcept;
-
 };
 
 } // namespace TW::Polkadot

@@ -22,34 +22,34 @@ typedef enum {
 } JUB_ENUM_COINTYPE_DOT;
 
 typedef struct stContextCfgDOT {
-    JUB_CHAR_PTR             mainPath;
-    JUB_ENUM_COINTYPE_DOT    coinType;// = { JUB_ENUM_COINTYPE_DOT::COINDOT };
-    JUB_ENUM_CURVES          curve; //(sr2551&ed25519)
+    JUB_CHAR_PTR            mainPath;
+    JUB_ENUM_BOOL           mainNet;
+    JUB_ENUM_COINTYPE_DOT   coinType;// = { JUB_ENUM_COINTYPE_DOT::COINDOT };
+    JUB_ENUM_CURVES         curve; //(sr2551 & ed25519)
 } CONTEXT_CONFIG_DOT;
 
-//"adress":"14Ztd3KJDaB9xyJtRkREtSZDdhLSbm7UUKt8Z7AwSv7q85G2",
-//"genesisHash":"91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3",
-//"blockHash":"0x5d2143bb808626d63ad7e1cda70fa8697059d670a992e82cd440fbb95ea40351",
-//"nonce":3,
-//"specVersion":26,
-//"private_key":"70a794d4f1019c3ce002f33062f45029c4f930a56b3d20ec477f7668c6bbc37f",
-//"network":0,
-//"transaction_version":5,
-//"blockNumber":3541050,
-//"eraPeriod":64
-//"to":"13ZLCqJNPsRZYEbwjtZZFpWt9GyFzg5WahXCVWKpWdUJqrQ5",
-//"value":"2000000000"
+typedef enum {
+    BALANCE_XFER            = 0x005, // balanceTransfer
+    UTILITY_BATCH           = 0x01a, // utilityBatch
+    STAKING_BOND            = 0x007, // stakingBond
+    STAKING_BOND_EXTRA      = 0x107, // stakingBondExtra
+    STAKING_UNBOND          = 0x207, // stakingUnbond
+    STAKING_WITHDRAW_UNBOND = 0x307, // stakingWithdrawUnbond
+    STAKING_NOMINATE        = 0x507, // stakingNominate
+    STAKING_CHILL           = 0x607, // stakingChill
+    NS_ITEM_DOT_EXTRINSIC_TYPE
+} JUB_ENUM_DOT_EXTRINSIC_TYPE;
+
 typedef struct stTxDOT {
     JUB_CHAR_PTR genesisHash;
     JUB_CHAR_PTR blockHash;
     JUB_CHAR_PTR to;
     JUB_UINT64 nonce;
     JUB_UINT32 specVersion;
-    JUB_UINT64 network;
     JUB_UINT32 transaction_version;
     JUB_UINT64 blockNumber;
     JUB_CHAR_PTR value;
-    JUB_UINT64 eraPeriod; // [Optional]
+    JUB_UINT64 eraPeriod;   // [Optional]
     JUB_CHAR_PTR tip;       // [Optional]
 } JUB_TX_DOT;
 /*****************************************************************************
@@ -105,6 +105,16 @@ JUB_RV JUB_GetMainHDNodeDOT(IN JUB_UINT16 contextID,
                             OUT JUB_CHAR_PTR_PTR xpub);
 
 /*****************************************************************************
+ * @function name : JUB_CheckAddressDOT
+ * @in  param : contextID - context ID
+ *            : address
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_CheckAddressDOT(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address);
+
+/*****************************************************************************
  * @function name : JUB_SetMyAddressDOT
  * @in  param : contextID - context ID
  *          : path
@@ -128,6 +138,15 @@ JUB_RV JUB_SignTransactionDOT(IN JUB_UINT16 contextID,
                               IN JUB_CHAR_PTR path,
                               IN JUB_TX_DOT tx,
                               OUT JUB_CHAR_PTR_PTR raw);
+
+/*****************************************************************************
+ * @function name : JUB_IsValidAddressDOT
+ * @in  param : address
+ * @out param : none
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_IsValidAddressDOT(IN JUB_CHAR_CPTR address);
 
 #ifdef __cplusplus
 }

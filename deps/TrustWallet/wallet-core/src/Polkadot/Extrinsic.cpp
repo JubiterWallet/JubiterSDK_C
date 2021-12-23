@@ -50,8 +50,10 @@ static std::map<const std::string, Data> kusamaCallIndices = {
     {stakingChill,          Data{0x06, 0x06}},
 };
 
+// modified by JuBiter
 static Data getCallIndex(TWSS58AddressType network, const std::string& key) {
     switch (network) {
+    case TWSS58AddressTypeWestend:
     case TWSS58AddressTypePolkadot:
         return polkadotCallIndices[key];
     case TWSS58AddressTypeKusama:
@@ -78,54 +80,40 @@ Data Extrinsic::encodeEraNonceTip() const {
     return data;
 }
 
-// JuBiter-defined
-Data Extrinsic::encodeCall(TWSS58AddressType netWork,uint32_t specVersion, std::string to, std::string Value)
-{
-    Data data;
-    auto network = TWSS58AddressType(netWork);
-    //Temporarily default transaction type - Balances Transfer
-    data = encodeBalanceCall(network, specVersion, to, Value);
-    return data;
-}
-
-
+// JuBiter-modified
 //Data Extrinsic::encodeCall(const Proto::SigningInput& input) {
-//    // call index from MetadataV11
-//    Data data;
+Data Extrinsic::encodeCall(TWSS58AddressType netWork, uint32_t specVersion, std::string to, std::string Value) {
+    // call index from MetadataV11
+    Data data;
 //    auto network = TWSS58AddressType(input.network());
+    auto network = TWSS58AddressType(netWork);
 //    if (input.has_balance_call()) {
 //        data = encodeBalanceCall(input.balance_call(), network, input.spec_version());
+    //Temporarily default transaction type - Balances Transfer
+    data = encodeBalanceCall(network, specVersion, to, Value);
 //    } else if (input.has_staking_call()) {
 //        data = encodeStakingCall(input.staking_call(), network, input.spec_version());
 //    }
-//    return data;
-//}
-
-// JuBiter-defined
-Data Extrinsic::encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value)
-{
-    Data data;
-    auto address = SS58Address(to, network);
-    auto value = load(Value);
-    append(data,getCallIndex(network, balanceTransfer));
-    append(data, encodeAccountId(address.keyBytes(), encodeRawAccount(network, specVersion)));
-    append(data, encodeCompact(value));
     return data;
 }
 
+// JuBiter-modified
 //Data Extrinsic::encodeBalanceCall(const Proto::Balance& balance, TWSS58AddressType network, uint32_t specVersion) {
-//    Data data;
+Data Extrinsic::encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value) {
+    Data data;
 //    auto transfer = balance.transfer();
 //    auto address = SS58Address(transfer.to_address(), network);
+    auto address = SS58Address(to, network);
 //    auto value = load(transfer.value());
-//    // call index
-//    append(data, getCallIndex(network, balanceTransfer));
-//    // destination
-//    append(data, encodeAccountId(address.keyBytes(), encodeRawAccount(network, specVersion)));
-//    // value
-//    append(data, encodeCompact(value));
-//    return data;
-//}
+    auto value = load(Value);
+    // call index
+    append(data, getCallIndex(network, balanceTransfer));
+    // destination
+    append(data, encodeAccountId(address.keyBytes(), encodeRawAccount(network, specVersion)));
+    // value
+    append(data, encodeCompact(value));
+    return data;
+}
 
 Data Extrinsic::encodeBatchCall(const std::vector<Data>& calls, TWSS58AddressType network) {
     Data data;
@@ -255,24 +243,10 @@ Data Extrinsic::encodePayload() const {
     return data;
 }
 
-//Data Extrinsic::encodeSignature(const PublicKey& signer, const Data& signature) const {
-//    Data data;
-//    // version header
-//    append(data, Data{extrinsicFormat | signedBit});
-//    // signer public key
-//    append(data, encodeAccountId(signer.bytes, encodeRawAccount(network, specVersion)));
-//    // signature type
-//    append(data, sigTypeEd25519);
-//    // signature
-//    append(data, signature);
-//    // era / nonce / tip
-//    append(data, encodeEraNonceTip());
-//    // call
-//    append(data, call);
-//    // append length
-//    encodeLengthPrefix(data);
-//    return data;
-//}
+// JuBiter-modified
+Data Extrinsic::encodeSignature(const PublicKey& signer, const Data& signature, const TWCurve curve) const {
+    return encodeSignature(signer.bytes, signature, curve);
+}
 
 // JuBiter-defined
 Data Extrinsic::encodeSignature(const TW::Data& publicKey, const Data& signature, const TWCurve curve) const {
@@ -280,8 +254,10 @@ Data Extrinsic::encodeSignature(const TW::Data& publicKey, const Data& signature
     // version header
     append(data, Data{extrinsicFormat | signedBit});
     // signer public key
+//    append(data, encodeAccountId(signer.bytes, encodeRawAccount(network, specVersion)));
     append(data, encodeAccountId(publicKey, encodeRawAccount(network, specVersion)));
     // signature type
+//    append(data, sigTypeEd25519);
     append(data, curve == TWCurve::TWCurveED25519 ? sigTypeEd25519 : sigTypeSR25519);
     // signature
     append(data, signature);

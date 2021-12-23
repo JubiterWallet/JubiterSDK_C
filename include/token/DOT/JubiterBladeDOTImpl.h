@@ -29,8 +29,8 @@ public:
     virtual JUB_RV SelectApplet() override;
     virtual JUB_RV SetCoin() override;
     virtual JUB_RV SetCoinCurvePublicKeyType(JUB_ENUM_COINTYPE_DOT coinType, JUB_ENUM_CURVES curve) override;
-    virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) override;
-    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) override;
+    virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin) override;
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin) override;
     virtual JUB_RV SignTX(const std::string &path,
                           const std::string &genesisHash,
                           const std::string &blockHash,

@@ -22,12 +22,12 @@ JUB_RV JubiterLiteDOTImpl::SetCoin() {
 }
 
 JUB_RV JubiterLiteDOTImpl::SetCoinCurvePublicKeyType(JUB_ENUM_COINTYPE_DOT coinType, JUB_ENUM_CURVES curves) {
-    
+
     return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
-JUB_RV JubiterLiteDOTImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) {
+JUB_RV JubiterLiteDOTImpl::GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address, const TWCoinType& coinNet) {
 
 //    TW::Data publicKey;
 //    JUB_VERIFY_RV(JubiterLiteImpl::GetCompPubKey(_getSignType(_curve_name), (JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, publicKey));
@@ -37,9 +37,7 @@ JUB_RV JubiterLiteDOTImpl::GetAddress(const std::string& path, const JUB_UINT16 
 }
 
 
-JUB_RV JubiterLiteDOTImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) {
-
-
+JUB_RV JubiterLiteDOTImpl::GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey, const TWCoinType& coinNet) {
 
     return JUBR_IMPL_NOT_SUPPORT;
 }

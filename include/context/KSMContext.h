@@ -29,12 +29,13 @@ namespace context {
 class KSMContext :
     public BaseContext {
 public:
-    KSMContext(CONTEXT_CONFIG_DOT cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
+    KSMContext(const CONTEXT_CONFIG_DOT& cfg, std::shared_ptr<token::BaseToken> tokenPtr) :
         BaseContext(tokenPtr) {
             _mainPath = cfg.mainPath;
             _coinType = cfg.coinType;
             _curve = cfg.curve;
             _timeout = 120 * 2;
+            _coinNet = (!cfg.mainNet ? TWCoinType::TWCoinTypeBitcoinTestNet : TWCoinType::TWCoinTypeBitcoin);
     }
     ~KSMContext() {}
 
@@ -42,6 +43,8 @@ public:
     virtual JUB_RV SetMyAddress(std::string path, std::string& address);
     virtual JUB_RV GetHDNode(JUB_BYTE format, std::string path, std::string& pubkey);
     virtual JUB_RV GetMainHDNode(JUB_BYTE format, std::string& xpub);
+
+    virtual JUB_RV CheckAddress(const std::string& address);
 
     virtual JUB_RV SignTransaction(std::string path,
                                    const JUB_TX_DOT& tx,

@@ -67,7 +67,7 @@ JUB_RV KSMContext::GetAddress(std::string path, JUB_UINT16 tag, std::string& add
         return JUBR_IMPL_NOT_SUPPORT;
     }
 
-    JUB_VERIFY_RV(token->GetAddress(path, tag, address));
+    JUB_VERIFY_RV(token->GetAddress(path, tag, address, _coinNet));
 
     return JUBR_OK;
 }
@@ -101,6 +101,23 @@ JUB_RV KSMContext::GetHDNode(JUB_BYTE format, std::string path, std::string& pub
 
     return JUBR_OK;
 }
+
+
+JUB_RV KSMContext::CheckAddress(const std::string& address) {
+
+    CONTEXT_CHECK_TYPE_PUBLIC
+
+    auto token = std::dynamic_pointer_cast<jub::token::DOTTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_VERIFY_RV(token->CheckAddress(address, TWCoinType::TWCoinTypeKusama, _coinNet));
+
+    return JUBR_OK;
+}
+
+
 JUB_RV KSMContext::SignTransaction(std::string path,
                                    const JUB_TX_DOT& tx,
                                    std::string& signedRaw) {
@@ -118,21 +135,21 @@ JUB_RV KSMContext::SignTransaction(std::string path,
         std::string to = tx.to;
         uint64_t nonce = tx.nonce;
         uint32_t specVersion = tx.specVersion;
-        uint64_t network = tx.network;
+        uint64_t network = (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) ? TWSS58AddressTypeWestend : JUB_ENUM_COINTYPE_DOT::COINKSM;
         uint32_t transaction_version = tx.transaction_version;
         uint64_t blockNumber = tx.blockNumber;
         std::string value = tx.value;
         uint64_t eraPeriod = tx.eraPeriod;
         std::string tip = tx.tip;
-        
-        JUB_VERIFY_RV(token->SignTX(path,genesisHash, blockHash, to, nonce, specVersion, network, transaction_version, blockNumber, value, eraPeriod, tip, vSignature));
-        
-        signedRaw = uchar_vector(vSignature).getHex();
 
+        JUB_VERIFY_RV(token->SignTX(path,genesisHash, blockHash, to, nonce, specVersion, network, transaction_version, blockNumber, value, eraPeriod, tip, vSignature));
+
+        signedRaw = uchar_vector(vSignature).getHex();
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;
     }
+
     return JUBR_OK;
 }
 

@@ -108,6 +108,24 @@ JUB_RV JUB_GetMainHDNodeDOT(IN JUB_UINT16 contextID,
 }
 
 /*****************************************************************************
+ * @function name : JUB_CheckAddressDOT
+ * @in  param : contextID - context ID
+ *            : address
+ * @out param :
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_CheckAddressDOT(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::DOTContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    JUB_VERIFY_RV(context->CheckAddress(address));
+
+    return JUBR_OK;
+}
+
+/*****************************************************************************
  * @function name : JUB_SignTransactionDOT
  * @in  param : contextID - context ID
  *          : path
@@ -135,6 +153,24 @@ JUB_RV JUB_SignTransactionDOT(IN JUB_UINT16 contextID,
                                            tx,
                                            str_raw));
     JUB_VERIFY_RV(_allocMem(raw, str_raw));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_IsValidAddressDOT
+ * @in  param : address
+ * @out param : none
+ * @last change :
+ *****************************************************************************/
+JUB_RV JUB_IsValidAddressDOT(IN JUB_CHAR_CPTR address) {
+
+    CREATE_THREAD_LOCK_GUARD
+
+    if (JUBR_OK != jub::token::JubiterBaseDOTImpl::IsValidAddress(address, TWCoinType::TWCoinTypePolkadot)) {
+        JUB_VERIFY_RV(jub::token::JubiterBaseDOTImpl::IsValidAddress(address, TWCoinType::TWCoinTypePolkadot, true));
+    }
 
     return JUBR_OK;
 }

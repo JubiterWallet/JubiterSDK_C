@@ -25,12 +25,13 @@ void KSM_test(JUB_UINT16 deviceID, const char* json_file) {
     CONTEXT_CONFIG_DOT cfg;
     cfg.mainPath = (char*)root["main_path"].asCString();
     cfg.coinType = JUB_ENUM_COINTYPE_DOT::COINKSM;
-    
+    cfg.mainNet = ((true == root["main_net"].asBool()) ? JUB_ENUM_BOOL::BOOL_TRUE : JUB_ENUM_BOOL::BOOL_FALSE);
+
     JUB_UINT64 curveNum = 0;
     cout << "please input curveNum  (0-ED25519 1-SR25519):" << endl;
     cin >> curveNum;
     cfg.curve = curveNum == 0 ? JUB_ENUM_CURVES::ED25519 : JUB_ENUM_CURVES::SR25519;
-    
+
     rv = JUB_CreateContextKSM(cfg, deviceID, &contextID);
     cout << "[-] JUB_CreateContextKSM() return " << GetErrMsg(rv) << endl;
     if (JUBR_OK != rv) {
@@ -67,6 +68,8 @@ void KSM_test(JUB_UINT16 deviceID, const char* json_file) {
         }   // switch (choice) end
     }   // while (true) end
 }
+
+
 void get_address_pubkey_KSM(JUB_UINT16 contextID) {
 
     JUB_RV rv = JUBR_ERROR;
@@ -100,6 +103,16 @@ void get_address_pubkey_KSM(JUB_UINT16 contextID) {
         return;
     }
     cout << "    show address: " << address << endl;
+
+    rv = JUB_CheckAddressKSM(contextID, address);
+    cout << "[-] JUB_CheckAddressKSM() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = JUB_IsValidAddressKSM(address);
+    cout << "[-] JUB_IsValidAddressKSM() return " << GetErrMsg(rv) << endl;
+
     JUB_FreeMemory(address);
     cout << "[--------------------------------- Address end ---------------------------------]" << endl;
     cout << endl << endl;
@@ -123,27 +136,14 @@ void transaction_test_KSM(JUB_UINT16 contextID, Json::Value root) {
 JUB_RV transaction_proc_KSM(JUB_UINT16 contextID, Json::Value root)
 {
     JUB_RV rv = JUBR_ERROR;
-    JUB_TX_DOT tx;
-    JUB_CHAR path[] = "//foo//123";
-
-//    JUB_CHAR_PTR genesisHash;
-//    JUB_CHAR_PTR blockHash;
-//    JUB_CHAR_PTR to;
-//    JUB_UINT64 nonce;
-//    JUB_UINT32 specVersion;
-//    JUB_UINT64 network;
-//    JUB_UINT32 transaction_version;
-//    JUB_UINT64 blockNumber;
-//    JUB_UINT64 value;
-//    JUB_UINT64 eraPeriod; // [Optional]
-//    JUB_UINT64 tip;       // [Optional]
+    JUB_CHAR_PTR path = (JUB_CHAR_PTR)root["main_path"].asCString();
     
+    JUB_TX_DOT tx;
     tx.genesisHash = (char *)root["KSM"]["genesisHash"].asCString();
     tx.blockHash = (char *)root["KSM"]["blockHash"].asCString();
     tx.to = (char *)root["KSM"]["balance_call"]["transfer"]["to"].asCString();
     tx.nonce = root["KSM"]["nonce"].asUInt();
     tx.specVersion = root["KSM"]["specVersion"].asUInt();
-    tx.network = root["KSM"]["network"].asUInt();
     tx.transaction_version = root["KSM"]["transaction_version"].asUInt();
     tx.blockNumber = root["KSM"]["era"]["blockNumber"].asUInt();
     tx.value = (char *)root["KSM"]["balance_call"]["transfer"]["value"].asCString();

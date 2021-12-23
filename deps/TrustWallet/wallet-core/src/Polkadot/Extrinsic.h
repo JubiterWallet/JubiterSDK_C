@@ -33,23 +33,7 @@ class Extrinsic {
     // network
     TWSS58AddressType network;
 
-    // JuBiter-defined
-    Extrinsic(Data blockHash, Data genesisHash, uint64_t nonce, uint32_t specVersion, uint32_t transaction_version,  std::string value, SS58Address to, std::string tip, TWSS58AddressType netWork, uint64_t blockNumber, uint64_t eraPeriod)
-    : blockHash(blockHash.begin(), blockHash.end())
-    , genesisHash(genesisHash.begin(),genesisHash.end())
-    , nonce(nonce)
-    , specVersion(specVersion)
-    , version(transaction_version)
-    , tip(load(tip)) {
-        if(blockNumber && eraPeriod) {
-            era = encodeEra(blockNumber, eraPeriod);
-        } else {
-            era = encodeCompact(0);
-        }
-        network = netWork;
-        call = encodeCall(network, specVersion, to.string(), value);
-     }
-
+    // JuBiter-modified
 //    Extrinsic(const Proto::SigningInput& input)
 //        : blockHash(input.block_hash().begin(), input.block_hash().end())
 //        , genesisHash(input.genesis_hash().begin(), input.genesis_hash().end())
@@ -57,33 +41,45 @@ class Extrinsic {
 //        , specVersion(input.spec_version())
 //        , version(input.transaction_version())
 //        , tip(load(input.tip())) {
+    Extrinsic(Data blockHash, Data genesisHash, uint64_t nonce, uint32_t specVersion, uint32_t transaction_version,  std::string value, SS58Address to, std::string tip, TWSS58AddressType netWork, uint64_t blockNumber, uint64_t eraPeriod)
+        : blockHash(blockHash.begin(), blockHash.end())
+        , genesisHash(genesisHash.begin(), genesisHash.end())
+        , nonce(nonce)
+        , specVersion(specVersion)
+        , version(transaction_version)
+        , tip(load(tip)) {
 //        if (input.has_era()) {
+        if (blockNumber && eraPeriod) {
 //            era = encodeEra(input.era().block_number(), input.era().period());
-//        } else {
-//          // immortal era
-//          era = encodeCompact(0);
-//        }
+            era = encodeEra(blockNumber, eraPeriod);
+        } else {
+            // immortal era
+            era = encodeCompact(0);
+        }
 //        network = TWSS58AddressType(input.network());
+        network = netWork;
 //        call = encodeCall(input);
-//    }
-    
-    // JuBiter-defined
-    static Data encodeCall(TWSS58AddressType netWork,uint32_t specVersion, std::string to, std::string value);
+        call = encodeCall(network, specVersion, to.string(), value);
+     }
+
+    // JuBiter-modified
 //    static Data encodeCall(const Proto::SigningInput& input);
-    
+    static Data encodeCall(TWSS58AddressType netWork,uint32_t specVersion, std::string to, std::string value);
+
     // Payload to sign.
     Data encodePayload() const;
+    // JuBiter-modified
     // Encode final data with signer public key and signature.
-//    Data encodeSignature(const PublicKey& signer, const Data& signature) const;
+    Data encodeSignature(const PublicKey& signer, const Data& signature, const TWCurve curve) const;
     // JuBiter -defined
     Data encodeSignature(const TW::Data& publicKey, const Data& signature, const TWCurve curve) const;
   protected:
-    
+
     static bool encodeRawAccount(TWSS58AddressType network, uint32_t specVersion);
-    // JuBiter-defined
-    static Data encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value);
-    
+    // JuBiter-modified
 //    static Data encodeBalanceCall(const Proto::Balance& balance, TWSS58AddressType network, uint32_t specVersion);
+    static Data encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value);
+
 //    static Data encodeStakingCall(const Proto::Staking& staking, TWSS58AddressType network, uint32_t specVersion);
     static Data encodeBatchCall(const std::vector<Data>& calls, TWSS58AddressType network);
     Data encodeEraNonceTip() const;

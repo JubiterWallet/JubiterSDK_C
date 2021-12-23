@@ -29,8 +29,11 @@ public:
     virtual JUB_RV SelectApplet() = 0;
     virtual JUB_RV SetCoin() = 0;
     virtual JUB_RV SetCoinCurvePublicKeyType(JUB_ENUM_COINTYPE_DOT coinType, JUB_ENUM_CURVES curves) = 0;
-    virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
-    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
+    virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin) = 0;
+    virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin) = 0;
+
+    virtual JUB_RV CheckAddress(const std::string& address, const TWCoinType& coin, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin) = 0;
+
     virtual JUB_RV SignTX(const std::string &path,
                           const std::string &genesisHash,
                           const std::string &blockHash,
