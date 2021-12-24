@@ -84,9 +84,15 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     return rv;
 }
 
-JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE &unit) { return JUBR_OK; }
+JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE &unit) {
 
-JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC &type) { return JUBR_OK; }
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC &type) {
+
+    return JUBR_OK;
+}
 
 JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE &type,
                                    const JUB_UINT16 inputCount, const std::vector<JUB_UINT64> &vInputAmount,
@@ -230,9 +236,10 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
                                      const std::vector<JUB_BYTE> &vSigedTrans, const TWCoinType &coinNet) {
 
     auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
+    auto nested  = type == p2sh_p2wpkh;
 
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness);
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic( (coinNet ? coinNet : _coin), witness, nested);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness, nested);
 
     std::vector<TW::Data> vInputPublicKey;
     for (const auto &inputPath : vInputPath) {

@@ -75,7 +75,8 @@ JUB_RV JubiterBaseHCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType &c
     return rv;
 }
 
-JUB_RV JubiterBaseHCImpl::_verifyTx(const TWCoinType &coin, const TW::Bitcoin::Transaction *tx,
+JUB_RV JubiterBaseHCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
+                                    const TWCoinType &coin, const TW::Bitcoin::Transaction *tx,
                                     const uint32_t &hashType, const std::vector<JUB_UINT64> &vInputAmount,
                                     const std::vector<TW::PublicKey> &vInputPublicKey) {
 
@@ -108,7 +109,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const TWCoinType &coin, const TW::Bitcoin::T
     return rv;
 }
 
-JUB_RV JubiterBaseHCImpl::_verifyTx(JUB_ENUM_BTC_TRANS_TYPE type, const uchar_vector &signedRaw,
+JUB_RV JubiterBaseHCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const uchar_vector &signedRaw,
                                     const std::vector<JUB_UINT64> &vInputAmount,
                                     const std::vector<TW::Data> &vInputPublicKey, const TWCoinType &coinNet) {
 
@@ -125,7 +126,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(JUB_ENUM_BTC_TRANS_TYPE type, const uchar_ve
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return JubiterBaseBTCImpl::_verifyTx((coinNet ? coinNet : _coin), &tx, _hashType, vInputAmount, vInputPubkey);
+        return JubiterBaseBTCImpl::_verifyTx(type, (coinNet ? coinNet : _coin), &tx, _hashType, vInputAmount, vInputPubkey);
     } catch (...) {
         rv = JUBR_ERROR;
     }
@@ -133,7 +134,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(JUB_ENUM_BTC_TRANS_TYPE type, const uchar_ve
     return rv;
 }
 
-JUB_RV JubiterBaseHCImpl::_serializeTx(JUB_ENUM_BTC_TRANS_TYPE type, const std::vector<JUB_UINT64> &vInputAmount,
+JUB_RV JubiterBaseHCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const std::vector<JUB_UINT64> &vInputAmount,
                                        const std::vector<TW::Data> &vInputPublicKey,
                                        const std::vector<uchar_vector> &vSignatureRaw, TW::Bitcoin::Transaction *tx,
                                        uchar_vector &signedRaw) {
@@ -172,7 +173,9 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(JUB_ENUM_BTC_TRANS_TYPE type, const std::
         return rv;
     }
 
-    tx->encode(witness, signedRaw);
+    // The serialization of preimage is the opposite of the serialization format of signed transactions,
+    // so witness needs to be reversed here.
+    tx->encode(!witness, signedRaw);
     if (0 >= signedRaw.size()) {
         return JUBR_ERROR;
     }

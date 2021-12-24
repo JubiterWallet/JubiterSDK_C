@@ -39,6 +39,8 @@ JUB_RV TrezorCryptoHCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRA
                                   const std::vector<JUB_BYTE> &vUnsigedTrans, std::vector<JUB_BYTE> &vRaw,
                                   const TWCoinType &coinNet) {
 
+    // The serialization of preimage is the opposite of the serialization format of signed transactions,
+    // so witness needs to be reversed here.
     auto witness = type == p2sh_p2wpkh;
 
     TW::Hcash::Transaction tx;

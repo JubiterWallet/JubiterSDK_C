@@ -18,7 +18,7 @@ class JubiterBaseDashImpl : virtual public JubiterBaseBTCImpl {
                                        const TWCoinType &coinNet) override;
 
   protected:
-    virtual JUB_RV _verifyTx(JUB_ENUM_BTC_TRANS_TYPE type, const uchar_vector &signedRaw,
+    virtual JUB_RV _verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const uchar_vector &signedRaw,
                              const std::vector<JUB_UINT64> &vInputAmount, const std::vector<TW::Data> &vInputPublicKey,
                              const TWCoinType &coinNet) override;
 }; // class JubiterBaseDashImpl end
