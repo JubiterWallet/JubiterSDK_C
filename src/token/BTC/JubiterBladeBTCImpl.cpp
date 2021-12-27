@@ -290,10 +290,11 @@ JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
                                      const TWCoinType &coinNet) {
 
     auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
+    auto  nested = type == p2sh_p2wpkh;
 
     // verify signature
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness);
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic( (coinNet ? coinNet : _coin), witness, nested);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness, nested);
 
     JUB_RV rv = JUBR_ERROR;
     std::vector<TW::Data> vInputPublicKey;

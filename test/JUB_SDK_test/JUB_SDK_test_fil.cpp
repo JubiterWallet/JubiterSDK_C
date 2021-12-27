@@ -204,7 +204,7 @@ JUB_RV transaction_proc_FIL(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     else {
-        cout << "cid[" << strlen(cid) << "]: "  << cid << endl;
+        cout << "cid[" << strlen(cid)/2 << "]: "  << cid << endl;
         JUB_FreeMemory(cid);
     }
 
@@ -224,7 +224,7 @@ JUB_RV transaction_proc_FIL(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     else {
-        cout << "raw[" << strlen(raw) << "]: "  << raw << endl;
+        cout << "raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
 

@@ -158,7 +158,7 @@ JUB_RV transactionHC_proc(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     if (raw) {
-        cout << "    Hcash raw[" << strlen(raw) << "]: " << raw << endl;
+        cout << "    Hcash raw[" << strlen(raw)/2 << "]: " << raw << endl;
         JUB_FreeMemory(raw);
     }
 

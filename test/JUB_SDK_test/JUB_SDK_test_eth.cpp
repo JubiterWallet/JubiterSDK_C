@@ -248,7 +248,7 @@ JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     else {
-        cout << "    ETH raw[" << strlen(raw) << "]: "  << raw << endl;
+        cout << "    ETH raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
 
@@ -577,7 +577,7 @@ JUB_RV transaction_proc_contr_ETH(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     else {
-        cout << "    raw[" << strlen(raw) << "]: " << raw << endl;
+        cout << "    raw[" << strlen(raw)/2 << "]: " << raw << endl;
         JUB_FreeMemory(raw);
     }
 
@@ -618,7 +618,7 @@ JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     else {
-        cout << "    raw[" << strlen(raw) << "]: "  << raw << endl;
+        cout << "    raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
 
@@ -692,7 +692,7 @@ JUB_RV uniswap_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     else {
-        cout << "    raw[" << strlen(raw) << "]: "  << raw << endl;
+        cout << "    raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
 
