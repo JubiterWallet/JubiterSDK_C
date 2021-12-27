@@ -182,14 +182,7 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
         success = false;
     } break;
     case TWCurveCurve25519: {
-        result.resize(64);
-        const auto publicKey = getPublicKey(TWPublicKeyTypeED25519);
-        ed25519_sign(digest.data(), digest.size(), bytes.data(), publicKey.bytes.data(),
-                     result.data());
-        const auto sign_bit = publicKey.bytes[31] & 0x80;
-        result[63] = result[63] & 127;
-        result[63] |= sign_bit;
-        success = true;
+        success = false;
     } break;
     case TWCurveNIST256p1: {
         result.resize(65);
