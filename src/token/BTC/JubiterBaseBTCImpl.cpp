@@ -459,7 +459,7 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
                                         uchar_vector &signedRaw) {
     JUB_RV rv = JUBR_OK;
 
-    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
 
     for (size_t index = 0; index < tx->inputs.size(); ++index) {
         switch (type) {
@@ -484,6 +484,14 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
         case p2wpkh: {
             tx->inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSigWitness(
                 vSignatureRaw[index], vInputPublicKey[index]);
+            if (tx->inputs[index]->scriptWitness.empty()) {
+                rv = JUBR_ARGUMENTS_BAD;
+                break;
+            }
+        } break;
+        case p2tr: {
+            tx->inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToTaprootKeyPathSpendingWitness(
+                vSignatureRaw[index]);
             if (tx->inputs[index]->scriptWitness.empty()) {
                 rv = JUBR_ARGUMENTS_BAD;
                 break;
