@@ -126,7 +126,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const u
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return JubiterBaseBTCImpl::_verifyTx(type, (coinNet ? coinNet : _coin), &tx, _hashType, vInputAmount, vInputPubkey);
+        return _verifyTx(type, (coinNet ? coinNet : _coin), &tx, _hashType, vInputAmount, vInputPubkey);
     } catch (...) {
         rv = JUBR_ERROR;
     }
@@ -139,18 +139,17 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE &type, cons
                                        const std::vector<uchar_vector> &vSignatureRaw, TW::Bitcoin::Transaction *tx,
                                        uchar_vector &signedRaw) {
     JUB_RV rv = JUBR_OK;
-    // why need `NOT` operation
-    auto witness = true;
+
     for (size_t index = 0; index < tx->inputs.size(); ++index) {
         dynamic_cast<TW::Hcash::TransactionInput *>(tx->inputs[index])->value =
             TW::Bitcoin::Amount(vInputAmount[index]);
 
-        if (!witness) {
+//        if (!witness) {
             // P2PKH
-            tx->inputs[index]->script =
-                TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(vSignatureRaw[index], vInputPublicKey[index]);
-        } else {
-            // P2WPKH
+//            tx->inputs[index]->script =
+//                TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(vSignatureRaw[index], vInputPublicKey[index]);
+//        } else {
+//            // P2WPKH
             TW::PublicKey twpk = TW::PublicKey(vInputPublicKey[index], _publicKeyType);
 
             TW::Data scriptPubkey;
@@ -163,7 +162,7 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE &type, cons
                 rv = JUBR_ARGUMENTS_BAD;
                 break;
             }
-        }
+//        }
         if (tx->inputs[index]->script.empty()) {
             rv = JUBR_ARGUMENTS_BAD;
             break;
@@ -173,9 +172,8 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE &type, cons
         return rv;
     }
 
-    // The serialization of preimage is the opposite of the serialization format of signed transactions,
-    // so witness needs to be reversed here.
-    tx->encode(!witness, signedRaw);
+    tx->encode(true,    // decode Hcash signedTx with witness(signature is in wintessScript)
+               signedRaw);
     if (0 >= signedRaw.size()) {
         return JUBR_ERROR;
     }

@@ -15,18 +15,16 @@ JUB_RV JubiterLiteHCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRAN
                                  const std::vector<JUB_BYTE> &vUnsigedTrans, std::vector<JUB_BYTE> &vRaw,
                                  const TWCoinType &coinNet) {
 
-    // The serialization of preimage is the opposite of the serialization format of signed transactions,
-    // so witness needs to be reversed here.
-    auto witness = type == p2sh_p2wpkh;
-
     TW::Hcash::Transaction tx;
-    if (!tx.decode(!witness, vUnsigedTrans)) {
+    if (!tx.decode(false,       // decode Hcash unsignedTx without witness
+                   vUnsigedTrans)) {
         return JUBR_ARGUMENTS_BAD;
     }
 
     std::vector<TW::Data> vInputPublicKey;
     std::vector<uchar_vector> vSignatureRaw;
-    JUB_VERIFY_RV(_SignTx(!witness, type, vInputAmount, vInputPath, vChangeIndex, vChangePath, tx, vInputPublicKey,
+    JUB_VERIFY_RV(_SignTx(true, // sign Hcash Tx with witness
+                          type, vInputAmount, vInputPath, vChangeIndex, vChangePath, tx, vInputPublicKey,
                           vSignatureRaw, coinNet));
 
     uchar_vector signedRaw;

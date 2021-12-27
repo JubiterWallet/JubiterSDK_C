@@ -164,7 +164,6 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness, const std::vector<JUB_UINT64> 
             preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);
         }
 
-        const auto begin   = reinterpret_cast<const uint8_t *>(preImage.data());
         TW::Data digest    = tx.hasher(begin, preImage.size());
         TW::Data sign      = twprvk.signAsDER(digest, curveName2TWCurve(_curve_name));
         TW::Data signature = pushAll(sign);
