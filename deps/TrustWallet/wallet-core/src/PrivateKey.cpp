@@ -179,10 +179,7 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
         success = true;
     } break;
     case TWCurveED25519Extended: {
-        result.resize(64);
-        const auto publicKey = getPublicKey(TWPublicKeyTypeED25519Extended);
-        ed25519_sign_ext(digest.data(), digest.size(), bytes.data(), extensionBytes.data(), publicKey.bytes.data(), result.data());
-        success = true;
+        success = false;
     } break;
     case TWCurveCurve25519: {
         result.resize(64);

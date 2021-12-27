@@ -39,7 +39,7 @@ JUB_RV TrezorCryptoBCHImpl::SignTX(const JUB_BYTE addrFmt,
                           coinNet));
 
     uchar_vector signedRaw;
-    JUB_VERIFY_RV(_serializeTx(witness,
+    JUB_VERIFY_RV(_serializeTx(type,
                                vInputAmount,
                                vInputPublicKey,
                                vSignatureRaw,

@@ -156,7 +156,6 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
         p1 |= _RealAddressFormat(addrFmt);
     }
 
-    bool witness = false;
     JUB_BYTE sigType;
     switch (type) {
     case p2pkh: {
@@ -164,13 +163,11 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
         break;
     } // case p2pkh end
     case p2sh_p2wpkh: {
-        witness = true;
         sigType = kMainnetP2SH_P2WPKH;
         break;
 
     } // case p2sh_p2wpkh end
     case p2wpkh: {
-        witness = true;
         sigType = kMainnetP2WPKH;
         break;
     }
@@ -288,18 +285,18 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
     return JUBR_OK;
 }
 
-JUB_RV
-JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const std::vector<JUB_UINT64> &vInputAmount,
-                              const std::vector<std::string> &vInputPath, const std::vector<JUB_BYTE> &vSigedTrans,
-                              const TWCoinType &coinNet) {
-    bool witness = false;
-    if (p2sh_p2wpkh == type || p2wpkh == type) {
-        witness = true;
-    }
+JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type,
+                                     const std::vector<JUB_UINT64> &vInputAmount,
+                                     const std::vector<std::string> &vInputPath,
+                                     const std::vector<JUB_BYTE> &vSigedTrans,
+                                     const TWCoinType &coinNet) {
+
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
+    auto  nested = type == p2sh_p2wpkh;
 
     // verify signature
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness);
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness, nested);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness, nested);
 
     JUB_RV rv = JUBR_ERROR;
     std::vector<TW::Data> vInputPublicKey;
@@ -322,7 +319,7 @@ JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const std::ve
         return rv;
     }
 
-    return _verifyTx(witness, vSigedTrans, vInputAmount, vInputPublicKey, coinNet);
+    return _verifyTx(type, vSigedTrans, vInputAmount, vInputPublicKey, coinNet);
 }
 
 } // namespace token

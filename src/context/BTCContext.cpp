@@ -188,7 +188,8 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const JUB_
                                              vInputs,
                                              vOutputs,
                                              lockTime,
-                                             unsignedTrans));
+                                             unsignedTrans,
+                                             _coinNet));
 
     uchar_vector vRaw;
     JUB_VERIFY_RV(token->SignTX(addrFmt,
@@ -199,13 +200,15 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT& addrFmt, const JUB_
                                 vChangeIndex,
                                 vChangePath,
                                 unsignedTrans,
-                                vRaw));
+                                vRaw,
+                                _coinNet));
 
 #if defined(DEBUG)
     JUB_VERIFY_RV(token->VerifyTX(_transType,
                                   vInputAmount,
                                   vInputPath,
-                                  vRaw));
+                                  vRaw,
+                                  _coinNet));
 #endif
 
     raw = vRaw.getHex();

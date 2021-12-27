@@ -18,10 +18,7 @@ JUB_RV JubiterBaseHCImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& typ
 
     JUB_RV rv = JUBR_ERROR;
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
 
     TW::Hcash::Transaction tx(version, lockTime);
     rv = _unsignedTx(_coin,
@@ -89,7 +86,8 @@ JUB_RV JubiterBaseHCImpl::_verifyPayToPublicKeyHashScriptSig(const TWCoinType& c
 }
 
 
-JUB_RV JubiterBaseHCImpl::_verifyTx(const TWCoinType& coin,
+JUB_RV JubiterBaseHCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                    const TWCoinType& coin,
                                     const TW::Bitcoin::Transaction* tx,
                                     const uint32_t& hashType,
                                     const std::vector<JUB_UINT64>& vInputAmount,
@@ -130,13 +128,15 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const TWCoinType& coin,
 }
 
 
-JUB_RV JubiterBaseHCImpl::_verifyTx(const bool witness,
+JUB_RV JubiterBaseHCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                     const uchar_vector& signedRaw,
                                     const std::vector<JUB_UINT64>& vInputAmount,
                                     const std::vector<TW::Data>& vInputPublicKey,
                                     const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
 
     try {
         TW::Hcash::Transaction tx;
@@ -149,11 +149,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const bool witness,
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return JubiterBaseBTCImpl::_verifyTx((coinNet?coinNet:_coin),
-                                             &tx,
-                                             _hashType,
-                                             vInputAmount,
-                                             vInputPubkey);
+        return _verifyTx(type, (coinNet?coinNet:_coin), &tx, _hashType, vInputAmount, vInputPubkey);
     }
     catch (...) {
         rv = JUBR_ERROR;
@@ -163,7 +159,7 @@ JUB_RV JubiterBaseHCImpl::_verifyTx(const bool witness,
 }
 
 
-JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
+JUB_RV JubiterBaseHCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                        const std::vector<JUB_UINT64>& vInputAmount,
                                        const std::vector<TW::Data>& vInputPublicKey,
                                        const std::vector<uchar_vector>& vSignatureRaw,
@@ -174,12 +170,12 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
     for (size_t index=0; index<tx->inputs.size(); ++index) {
         dynamic_cast<TW::Hcash::TransactionInput*>(tx->inputs[index])->value = TW::Bitcoin::Amount(vInputAmount[index]);
 
-        if (!witness) {
-            // P2PKH
-            tx->inputs[index]->script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(vSignatureRaw[index], vInputPublicKey[index]);
-        }
-        else {
-            // P2WPKH
+//        if (!witness) {
+//            // P2PKH
+//            tx->inputs[index]->script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(vSignatureRaw[index], vInputPublicKey[index]);
+//        }
+//        else {
+//            // P2WPKH
             TW::PublicKey twpk = TW::PublicKey(vInputPublicKey[index], _publicKeyType);
 
             TW::Data scriptPubkey;
@@ -191,7 +187,7 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
                 rv = JUBR_ARGUMENTS_BAD;
                 break;
             }
-        }
+//        }
         if (tx->inputs[index]->script.empty()) {
             rv = JUBR_ARGUMENTS_BAD;
             break;
@@ -201,7 +197,8 @@ JUB_RV JubiterBaseHCImpl::_serializeTx(bool witness,
         return rv;
     }
 
-    tx->encode(witness, signedRaw);
+    tx->encode(true,    // decode Hcash signedTx with witness(signature is in wintessScript)
+               signedRaw);
     if (0 >= signedRaw.size()) {
         return JUBR_ERROR;
     }

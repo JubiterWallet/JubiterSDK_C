@@ -110,7 +110,7 @@ JUB_RV transactionUSDT_proc(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     if (raw) {
-        cout << "    USDT raw[" << strlen(raw) << "]: " << raw << endl;
+        cout << "    USDT raw[" << strlen(raw)/2 << "]: " << raw << endl;
         JUB_FreeMemory(raw);
     }
 

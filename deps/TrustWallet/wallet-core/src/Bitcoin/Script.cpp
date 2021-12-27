@@ -25,6 +25,9 @@
 
 //#include <cassert>
 //#include <set>
+#include <cstdint>
+#include <string>
+#include <vector>
 
 using namespace TW;
 using namespace TW::Bitcoin;
@@ -257,21 +260,26 @@ Script Script::buildPayToScriptHash(const Data& scriptHash) {
     return script;
 }
 
-Script Script::buildPayToWitnessProgram(const Data& program) {
-    assert(program.size() == 20 || program.size() == 32);
+Script Script::buildPayToWitnessProgram(uint8_t version, const Data& program) {
+    assert(version >= 0 && version <= 16);
+    // https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#witness-program
+    // https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#script-validation-rules
+    assert((version == 0 && (program.size() == 20 || program.size() == 32)) || (version == 1 && program.size() == 32));
+
     Script script;
-    script.bytes.push_back(OP_0);
+    // should push number value which defined in Bitcoin opcode
+    script.bytes.push_back(version == 0 ? OP_0 : 0x50 + version);
     script.bytes.push_back(static_cast<byte>(program.size()));
     script.bytes.insert(script.bytes.end(), program.begin(), program.end());
     return script;
 }
 
 Script Script::buildPayToWitnessPubkeyHash(const Data& hash) {
-    return Script::buildPayToWitnessProgram(hash);
+    return Script::buildPayToWitnessProgram(0, hash);
 }
 
 Script Script::buildPayToWitnessScriptHash(const Data& scriptHash) {
-    return Script::buildPayToWitnessProgram(scriptHash);
+    return Script::buildPayToWitnessProgram(0, scriptHash);
 }
 
 // JuBiter-defined
@@ -392,9 +400,9 @@ Script Script::buildForAddress(const std::string& string, enum TWCoinType coin) 
         }
     } else if (SegwitAddress::isValid(string)) {
         auto result = SegwitAddress::decode(string);
+        auto addr = result.first;
         // address starts with bc/ltc
-        auto program = result.first.witnessProgram;
-        return buildPayToWitnessProgram(program);
+        return buildPayToWitnessProgram(addr.witnessVersion, addr.witnessProgram);
     } else if (CashAddress::isValid(string)) {
         auto address = CashAddress(string);
         auto bitcoinAddress = address.legacyAddress();

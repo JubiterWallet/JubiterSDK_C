@@ -1,5 +1,10 @@
 #include "token/BTC/TrezorCryptoBTCImpl.h"
+#include "Data.h"
+#include "Hash.h"
 #include "JUB_SDK_BTC.h"
+#include "PublicKey.h"
+#include "TWPublicKeyType.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
 #include "utility/util.h"
 #include <Base58Address.h>
 #include <Bitcoin/Script.h>
@@ -23,20 +28,12 @@ JUB_RV TrezorCryptoBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE &type, const
     JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint, coinNet));
 
     hdnode_fill_public_key(&hdkey);
-    bool witness = false;
-    bool nested = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-        nested = true;
-    } else if (p2wpkh == type) {
-        witness = true;
-        nested = false;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
+    auto nested  = type == p2sh_p2wpkh;
+
     JUB_UINT32 version = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness, nested);
 
-    JUB_CHAR _xpub[200] = {
-        0,
-    };
+    JUB_CHAR _xpub[200] = {0,};
     if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, version, _xpub, sizeof(_xpub) / sizeof(JUB_CHAR))) {
         return JUBR_ERROR;
     }
@@ -71,9 +68,9 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
         rv = _getSegwitAddress(TW::Data(pk), address, coinNet);
         break;
     }
-        //    case p2sh_multisig:
-        //    case p2wsh_multisig:
-        //    case p2sh_p2wsh_multisig:
+//    case p2sh_multisig:
+//    case p2wsh_multisig:
+//    case p2sh_p2wsh_multisig:
     default:
         rv = JUBR_ARGUMENTS_BAD;
     } // switch (type) end
@@ -81,9 +78,15 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     return rv;
 }
 
-JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE &unit) { return JUBR_OK; }
+JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE &unit) {
 
-JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC &type) { return JUBR_OK; }
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC &type) {
+
+    return JUBR_OK;
+}
 
 JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE &type,
                                    const JUB_UINT16 inputCount, const std::vector<JUB_UINT64> &vInputAmount,
@@ -93,10 +96,7 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
                                    const std::vector<JUB_BYTE> &vUnsigedTrans, std::vector<JUB_BYTE> &vRaw,
                                    const TWCoinType &coinNet) {
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type || p2wpkh == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
 
     TW::Bitcoin::Transaction tx;
     if (!tx.decode(witness, vUnsigedTrans)) {
@@ -109,7 +109,7 @@ JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
                           vSignatureRaw, coinNet));
 
     uchar_vector signedRaw;
-    JUB_VERIFY_RV(_serializeTx(witness, vInputAmount, vInputPublicKey, vSignatureRaw, &tx, signedRaw));
+    JUB_VERIFY_RV(_serializeTx(type, vInputAmount, vInputPublicKey, vSignatureRaw, &tx, signedRaw));
 
     vRaw = signedRaw;
 
@@ -151,7 +151,6 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness, const std::vector<JUB_UINT64> 
         } else {
             preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);
         }
-        std::cout << "pre-image: " << uchar_vector(preImage).getHex() << std::endl;
 
         const auto begin = reinterpret_cast<const uint8_t *>(preImage.data());
         TW::Data digest = tx.hasher(begin, preImage.size());
@@ -187,17 +186,16 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness, const std::vector<JUB_UINT64> 
     return rv;
 }
 
-JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const std::vector<JUB_UINT64> &vInputAmount,
+JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                     const std::vector<JUB_UINT64> &vInputAmount,
                                      const std::vector<std::string> &vInputPath,
                                      const std::vector<JUB_BYTE> &vSigedTrans, const TWCoinType &coinNet) {
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type || p2wpkh == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
+    auto nested  = type == p2sh_p2wpkh;
 
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness);
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic( (coinNet ? coinNet : _coin), witness, nested);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness, nested);
 
     std::vector<TW::Data> vInputPublicKey;
     for (const auto &inputPath : vInputPath) {
@@ -211,7 +209,7 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
     }
 
     // verify signature
-    return _verifyTx(witness, vSigedTrans, vInputAmount, vInputPublicKey);
+    return _verifyTx(type, vSigedTrans, vInputAmount, vInputPublicKey);
 }
 
 } // namespace token

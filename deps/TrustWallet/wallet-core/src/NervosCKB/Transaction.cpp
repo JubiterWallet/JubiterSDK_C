@@ -121,27 +121,6 @@ Data Transaction::getPreImage(size_t index) const {
 }
 
 
-Data Transaction::getPreImageHash(size_t index) const {
-
-    Data s = getPreImage(index);
-    if (0 == s.size()) {
-        return s;
-    }
-
-    TW::Data blake(HASHER_DIGEST_LENGTH);
-    Hasher hasher;
-    hasher_InitParam(&hasher, HasherType::HASHER_BLAKE2B_PERSONAL,
-                     personal_ckb, sizeof(personal_ckb)/sizeof(uint8_t));
-    if (0 != hasher_InitParam_Raw(&hasher,
-                                  &s[0], s.size(),
-                                  &blake[0])) {
-        return {};
-    }
-
-    return blake;
-}
-
-
 /// Serializes the transaction's deps into the provided buffer.
 Data Transaction::serializeDeps() const {
 

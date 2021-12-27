@@ -1,9 +1,9 @@
 #include "token/BTC/JubiterBaseDashImpl.h"
-
+#include "JUB_SDK_BTC.h"
+#include <vector>
 
 namespace jub {
 namespace token {
-
 
 JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                                 const JUB_UINT32 version,
@@ -15,10 +15,7 @@ JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& t
 
     JUB_RV rv = JUBR_ERROR;
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
 
     TW::Dash::Transaction tx(version, lockTime);
     rv = _unsignedTx(_coin,
@@ -35,13 +32,15 @@ JUB_RV JubiterBaseDashImpl::SerializeUnsignedTx(const JUB_ENUM_BTC_TRANS_TYPE& t
 }
 
 
-JUB_RV JubiterBaseDashImpl::_verifyTx(const bool witness,
+JUB_RV JubiterBaseDashImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                       const uchar_vector& signedRaw,
                                       const std::vector<JUB_UINT64>& vInputAmount,
                                       const std::vector<TW::Data>& vInputPublicKey,
                                       const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
 
     try {
         TW::Dash::Transaction tx;
@@ -50,11 +49,12 @@ JUB_RV JubiterBaseDashImpl::_verifyTx(const bool witness,
         }
 
         std::vector<TW::PublicKey> vInputPubkey;
-        for(const auto& inputPublicKey:vInputPublicKey) {
+        for (const auto& inputPublicKey:vInputPublicKey) {
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return JubiterBaseBTCImpl::_verifyTx((coinNet?coinNet:_coin),
+        return JubiterBaseBTCImpl::_verifyTx(type,
+                                             (coinNet?coinNet:_coin),
                                              &tx,
                                              _hashType,
                                              vInputAmount,

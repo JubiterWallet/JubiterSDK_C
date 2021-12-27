@@ -241,7 +241,7 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) 
         return rv;
     }
     else {
-        cout << "    TRX raw[" << strlen(raw) << "]: "  << raw << endl;
+        cout << "    TRX raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
     cout << endl;

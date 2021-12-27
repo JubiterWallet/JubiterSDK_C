@@ -349,7 +349,7 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     if (raw) {
-        cout << "    BTC/LTC/DASH/... raw[" << strlen(raw) << "]: " << raw << endl;
+        cout << "    BTC/LTC/DASH/... raw[" << strlen(raw)/2 << "]: " << raw << endl;
         JUB_FreeMemory(raw);
     }
 

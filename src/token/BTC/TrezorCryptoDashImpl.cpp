@@ -15,10 +15,7 @@ JUB_RV TrezorCryptoDashImpl::SignTX(const JUB_BYTE addrFmt,
                                     std::vector<JUB_BYTE>& vRaw,
                                     const TWCoinType& coinNet) {
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
 
     TW::Dash::Transaction tx;
     if (!tx.decode(witness, vUnsigedTrans)) {
@@ -38,7 +35,7 @@ JUB_RV TrezorCryptoDashImpl::SignTX(const JUB_BYTE addrFmt,
                           coinNet));
 
     uchar_vector signedRaw;
-    JUB_VERIFY_RV(_serializeTx(witness,
+    JUB_VERIFY_RV(_serializeTx(type,
                                vInputAmount,
                                vInputPublicKey,
                                vSignatureRaw,

@@ -216,7 +216,7 @@ JUB_RV JubiterBaseCKBImpl::UnsignedTx(const JUB_UINT32 version,
 //}
 //
 //
-//JUB_RV JubiterBaseHCImpl::VerifyTx(const bool witness,
+//JUB_RV JubiterBaseHCImpl::VerifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
 //                                   const uchar_vector& signedRaw,
 //                                   const std::vector<JUB_UINT64>& vInputAmount,
 //                                   const std::vector<TW::Data>& vInputPublicKey) {
@@ -234,7 +234,8 @@ JUB_RV JubiterBaseCKBImpl::UnsignedTx(const JUB_UINT32 version,
 //            vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
 //        }
 //
-//        return _verifyTx((_coinNet?_coinNet:_coin),
+//        return _verifyTx(type,
+//                         (_coinNet?_coinNet:_coin),
 //                         &tx,
 //                         _hashType,
 //                         vInputAmount,

@@ -23,7 +23,7 @@ public:
                                        uchar_vector& unsignedRaw,
                                        const TWCoinType& coinNet) override;
 protected:
-    virtual JUB_RV _verifyTx(const bool witness,
+    virtual JUB_RV _verifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                              const uchar_vector& signedRaw,
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<TW::Data>& vInputPublicKey,

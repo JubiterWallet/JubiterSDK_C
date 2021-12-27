@@ -1,5 +1,6 @@
 #pragma once
 #include "JUB_SDK.h"
+#include "HDKey/HDKey.hpp"
 #include <assert.h>
 #include <TrezorCrypto/curves.h>
 #include <TrustWalletCore/TWCoinType.h>
@@ -77,6 +78,28 @@ public:
     virtual ~BaseToken() {}
 
 protected:
+    virtual JUB_RV _getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,
+                                      uint32_t hdVersionPub=TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
+                                      uint32_t hdVersionPrv=TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin)) {
+        try {
+            HDNode hdkey;
+            uint32_t fingerprint = 0;
+            if (0 != hdnode_deserialize(xpub.c_str(),
+                                        hdVersionPub, hdVersionPrv,
+                                        _curve_name, &hdkey, &fingerprint)) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+
+            uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key)/sizeof(uint8_t));
+            publicKey = TW::Data(vPublicKey);
+        }
+        catch (...) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+
+        return JUBR_OK;
+    }
+
     TWCoinType _coin;
     char *_curve_name = (char*)SECP256K1_NAME;
     TWPublicKeyType _publicKeyType = TWPublicKeyType::TWPublicKeyTypeSECP256k1;

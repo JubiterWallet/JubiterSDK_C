@@ -7,14 +7,21 @@
 //
 
 #include <stdio.h>
+#include <cstring>
+#include <string>
 #include <TrezorCrypto/bip39.h>
 #include "token/TrezorCrypto/TrezorCryptoToken.h"
+#include "PrivateKey.h"
 #include "utility/util.h"
 
+extern "C" {
+#include <iostream>
+#include <vector>
+}
 
 JUB_RV _curveToString(JUB_ENUM_CURVES enumCurve, std::string& strCurve) {
 
-    switch(enumCurve) {
+    switch (enumCurve) {
     case JUB_ENUM_CURVES::SECP256K1:
         strCurve = SECP256K1_NAME;
         return JUBR_OK;
@@ -38,15 +45,16 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
     TWCoinType _coinNet = coinNet;
 
     JUB_BIP32_PATH spiltPath = spiltMainPath(path, '/');
+
     bool witness = false;
-    bool nested = false;
+    bool nested  = false;
     if (0 == strcmp(spiltPath.purpose, "49'")) {
         witness = true;
-        nested = true;
+        nested  = true;
     }
     if (0 == strcmp(spiltPath.purpose, "84'")) {
         witness = true;
-        nested = false;
+        nested  = false;
     }
 
     HDNode masterNode;
@@ -72,12 +80,13 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
         _MasterKey_XPUB = str_pub;
     }
 
-//    if (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) {
+    if (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) {
         HDNode masterNode;
         JUB_UINT32 hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin);
-        JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic( TWCoinType::TWCoinTypeBitcoin);
-        std::string curve_name = SECP256K1_NAME;
-        if (0 == hdnode_deserialize(_MasterKey_XPRV.data(), hdVersionPub, hdVersionPrv, curve_name.c_str(), &masterNode, 0x00)) {
+        JUB_UINT32 hdVersionPub = TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin);
+        std::string curve_name  = SECP256K1_NAME;
+        if (0 == hdnode_deserialize(_MasterKey_XPRV.data(), hdVersionPub, hdVersionPrv, curve_name.c_str(), &masterNode,
+                                    0x00)) {
             hdnode_fill_public_key(&masterNode);
 
             JUB_CHAR str_pri[200] = {0,};
@@ -95,9 +104,9 @@ JUB_RV TrezorCryptoToken::_HdnodeCkd(const std::string& path, HDNode* node, JUB_
             _MasterKey_XPRV = str_pri;
             _MasterKey_XPUB = str_pub;
         }
-//    }
+    }
 
-    if(JUB_SoftwareTokenType::PRIVATE == _type) {
+    if (JUB_SoftwareTokenType::PRIVATE == _type) {
         return hdnode_priv_ckd(_MasterKey_XPRV, path, _curve_name,
                                TWCoinType2HDVersionPublic( (_coinNet?_coinNet:_coin), witness, nested),
                                TWCoinType2HDVersionPrivate((_coinNet?_coinNet:_coin), witness, nested),
@@ -120,37 +129,37 @@ JUB_RV TrezorCryptoToken::ToMasterKey(const JUB_ENUM_CURVES& curve, const std::s
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
     switch (curve) {
-    case JUB_ENUM_CURVES::SECP256K1:
-    {
+    case JUB_ENUM_CURVES::SECP256K1: {
         HDNode hdkey;
         uint32_t parentFingerprint;
         // bad data
-        if(0 != hdnode_deserialize(privOrPub.c_str(),
-                                   xpubPrefix, xprvPrefix,
-                                   SECP256K1_NAME, &hdkey, &parentFingerprint)) {
+        if (0 != hdnode_deserialize(privOrPub.c_str(),
+                                    xpubPrefix, xprvPrefix,
+                                    SECP256K1_NAME, &hdkey, &parentFingerprint)) {
             _MasterKey_XPRV = "";
             _MasterKey_XPUB = "";
             _type = JUB_SoftwareTokenType::NONE;
             return rv;
         }
 
-        //xprv
+        // xprv
         JUB_BYTE zero[33] = {0,};
-        if(0 != memcmp(hdkey.private_key, zero, sizeof(hdkey.private_key)/sizeof(uint8_t))) {
+        if (0 != memcmp(hdkey.private_key, zero, sizeof(hdkey.private_key)/sizeof(uint8_t))) {
             hdnode_fill_public_key(&hdkey);
             JUB_CHAR _pk[200] = {0,};
-            if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, xpubPrefix, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
+            if (0 ==
+                hdnode_serialize_public(&hdkey, parentFingerprint, xpubPrefix, _pk, sizeof(_pk) / sizeof(JUB_CHAR))) {
                 _type = JUB_SoftwareTokenType::NONE;
                 return JUBR_ARGUMENTS_BAD;
             }
 
             _MasterKey_XPRV = privOrPub;
             _MasterKey_XPUB = _pk;
-            _type = JUB_SoftwareTokenType::PRIVATE;
+            _type           = JUB_SoftwareTokenType::PRIVATE;
             return JUBR_OK;
         }
 
-        if(0 != memcmp(hdkey.public_key, zero, sizeof(hdkey.public_key)/sizeof(uint8_t))) {
+        if (0 != memcmp(hdkey.public_key, zero, sizeof(hdkey.public_key)/sizeof(uint8_t))) {
             _MasterKey_XPRV = "";
             _MasterKey_XPUB = std::string(privOrPub);
             _type = JUB_SoftwareTokenType::PUBLIC;
@@ -167,6 +176,7 @@ JUB_RV TrezorCryptoToken::ToMasterKey(const JUB_ENUM_CURVES& curve, const std::s
     }
     case JUB_ENUM_CURVES::ED25519:
     {
+        rv = JUBR_IMPL_NOT_SUPPORT;
         break;
     }
     default:
@@ -204,13 +214,16 @@ JUB_RV TrezorCryptoToken::MnemonicToMasterPrivateKey(const JUB_ENUM_CURVES& curv
         break;
     }
     case JUB_ENUM_CURVES::ED25519:
+    {
+        rv = JUBR_IMPL_NOT_SUPPORT;
+        break;
+    }
     default:
         break;
     }
 
     return rv;
 }
-
 
 JUB_RV TrezorCryptoToken::MnemonicToSeed(const std::string& passphrase, const std::string& mnemonic,
                                          uchar_vector& vSeed,

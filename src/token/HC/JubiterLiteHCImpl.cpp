@@ -17,19 +17,15 @@ JUB_RV JubiterLiteHCImpl::SignTX(const JUB_BYTE addrFmt,
                                  std::vector<JUB_BYTE>& vRaw,
                                  const TWCoinType& coinNet) {
 
-    bool witness = false;
-    if (p2sh_p2wpkh == type) {
-        witness = true;
-    }
-
     TW::Hcash::Transaction tx;
-    if (!tx.decode(!witness, vUnsigedTrans)) {
+    if (!tx.decode(false,           // decode Hcash unsignedTx without witness
+                   vUnsigedTrans)) {
         return JUBR_ARGUMENTS_BAD;
     }
 
     std::vector<TW::Data> vInputPublicKey;
     std::vector<uchar_vector> vSignatureRaw;
-    JUB_VERIFY_RV(_SignTx(!witness,
+    JUB_VERIFY_RV(_SignTx(true,     // sign Hcash Tx with witness
                           type,
                           vInputAmount,
                           vInputPath,
@@ -41,7 +37,7 @@ JUB_RV JubiterLiteHCImpl::SignTX(const JUB_BYTE addrFmt,
                           coinNet));
 
     uchar_vector signedRaw;
-    JUB_VERIFY_RV(_serializeTx(!witness,
+    JUB_VERIFY_RV(_serializeTx(type,
                                vInputAmount,
                                vInputPublicKey,
                                vSignatureRaw,

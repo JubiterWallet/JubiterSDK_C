@@ -25,7 +25,7 @@ public:
                                        const TWCoinType& coinNet) override;
 
 protected:
-    virtual JUB_RV _verifyTx(const bool witness,
+    virtual JUB_RV _verifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                              const uchar_vector& signedRaw,
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<TW::Data>& vInputPublicKey,
@@ -33,13 +33,14 @@ protected:
 
     virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType& coinNet) override;
 
-    virtual JUB_RV _verifyTx(const TWCoinType& coin,
+    virtual JUB_RV _verifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                             const TWCoinType& coin,
                              const TW::Bitcoin::Transaction* tx,
                              const uint32_t& hashType,
                              const std::vector<JUB_UINT64>& vInputAmount,
                              const std::vector<TW::PublicKey>& vInputPublicKey) override;
 
-    virtual JUB_RV _serializeTx(bool witness,
+    virtual JUB_RV _serializeTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                 const std::vector<JUB_UINT64>& vInputAmount,
                                 const std::vector<TW::Data>& vInputPublicKey,
                                 const std::vector<uchar_vector>& vSignatureRaw,

@@ -26,13 +26,15 @@ JUB_RV JubiterBaseBCHImpl::CheckAddress(const std::string& address, const TWCoin
 }
 
 
-JUB_RV JubiterBaseBCHImpl::_verifyTx(const bool witness,
+JUB_RV JubiterBaseBCHImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
                                      const uchar_vector& signedRaw,
                                      const std::vector<JUB_UINT64>& vInputAmount,
                                      const std::vector<TW::Data>& vInputPublicKey,
                                      const TWCoinType& coinNet) {
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
+
+    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
 
     try {
         TW::Bitcoin::Transaction tx;
@@ -45,7 +47,8 @@ JUB_RV JubiterBaseBCHImpl::_verifyTx(const bool witness,
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
 
-        return JubiterBaseBCHImpl::_verifyTx((coinNet?coinNet:_coin),
+        return JubiterBaseBCHImpl::_verifyTx(type,
+                                             (coinNet?coinNet:_coin),
                                              &tx,
                                              _hashType,
                                              vInputAmount,
@@ -59,7 +62,8 @@ JUB_RV JubiterBaseBCHImpl::_verifyTx(const bool witness,
 }
 
 
-JUB_RV JubiterBaseBCHImpl::_verifyTx(const TWCoinType& coin,
+JUB_RV JubiterBaseBCHImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                     const TWCoinType& coin,
                                      const TW::Bitcoin::Transaction* tx,
                                      const uint32_t& hashType,
                                      const std::vector<JUB_UINT64>& vInputAmount,

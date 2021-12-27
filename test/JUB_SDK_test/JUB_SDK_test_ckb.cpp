@@ -238,7 +238,7 @@ JUB_RV transactionCKB_proc(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     if (raw) {
-        cout << "Nervos CKB raw[" << strlen(raw) << "]: " << raw << endl;
+        cout << "Nervos CKB raw[" << strlen(raw)/2 << "]: " << raw << endl;
         JUB_FreeMemory(raw);
     }
 

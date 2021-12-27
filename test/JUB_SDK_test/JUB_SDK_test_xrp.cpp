@@ -260,7 +260,7 @@ JUB_RV transaction_proc_XRP(JUB_UINT16 contextID, Json::Value root) {
     if (JUBR_OK != rv) {
         return rv;
     }
-    cout << "    XRP raw[" << strlen(raw) << "]: " << raw << endl;
+    cout << "    XRP raw[" << strlen(raw)/2 << "]: " << raw << endl;
     JUB_FreeMemory(raw);
 
     return JUBR_OK;

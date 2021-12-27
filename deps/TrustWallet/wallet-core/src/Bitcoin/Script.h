@@ -11,6 +11,7 @@
 #include <TrustWalletCore/TWBitcoinOpCodes.h>
 #include <TrustWalletCore/TWCoinType.h>
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <assert.h>
@@ -76,7 +77,7 @@ class Script {
     static Script buildPayToScriptHash(const Data& scriptHash);
 
     /// Builds a pay-to-witness-program script, P2WSH or P2WPKH.
-    static Script buildPayToWitnessProgram(const Data& program);
+    static Script buildPayToWitnessProgram(uint8_t version, const Data& program);
 
     /// Builds a pay-to-witness-public-key-hash (P2WPKH) script from a public
     /// key hash.
@@ -154,7 +155,7 @@ class Script {
   private:
     /// The number of bytes that represent the number of script bytes(decodeVarInt())
     size_t _varIntSize = 0;
-    
+
     /// Extracts a single opcode at the given index including its operand.
     ///
     /// \param index [in/out] index where the operation starts, on return the

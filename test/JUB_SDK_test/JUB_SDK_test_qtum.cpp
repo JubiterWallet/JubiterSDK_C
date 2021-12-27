@@ -97,7 +97,7 @@ JUB_RV transactionQTUM_proc(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
     if (raw) {
-        cout << "    QTUM raw[" << strlen(raw) << "]: " << raw << endl;
+        cout << "    QTUM raw[" << strlen(raw)/2 << "]: " << raw << endl;
         JUB_FreeMemory(raw);
     }
 
