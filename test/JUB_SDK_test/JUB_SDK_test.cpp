@@ -326,7 +326,7 @@ try {
             ETH_test(deviceID, json_file.c_str());
             break;
         case 61:
-            json_file += "testETH_Uniswap.json";
+            json_file += "testETH.json";
             ETH_test(deviceID, json_file.c_str());
             break;
         case 461:
