@@ -91,3 +91,67 @@ q == x(Q)
 c[0] & 1 == y(Q)%2  == 0
 
 // script validation success
+
+https://www.blockchain.com/btc/tx/33e794d097969002ee05d336686fc03c9e15a597c1b9827669460fac98799036
+// a p2tr tx (key path spending)
+
+01000000 // version
+00 // marker
+01 // flag
+01
+  d1f1c1f8cdf6759167b90f52c9ad358a369f95284e841d7a2536cef31c054958 01000000 00 fdffffff
+02
+  #1 output OP_RETURN '/I like Schnorr sigs and I cannot lie. @bitbug42'
+  0000000000000000 31 6a 2f49206c696b65205363686e6f7272207369677320616e6420492063616e6e6f74206c69652e20406269746275673432
+  #2 output p2tr
+  9e06010000000000 22 51 20 a37c3903c8d0db6512e2b40b0dffa05e5a3ab73603ce8c9c4b7771e5412328f9
+01 #1 witness (r, s)
+  40 a60c383f71bac0ec919b1d7dbc3eb72dd56e7aa99583615564f9f99b8ae4e837 b758773a5b2e4c51348854c8389f008e05029db7f464a5ff2e01d5e6e626174a
+ffd30a00 // locktime
+
+verify
+
+// SigMsg(hash_type, ext_flag)
+
+len(sig) = 0x40
+hash_type = 0x00 //default hash type
+
+// SigMsg(0x00, 0)
+Control:
+  hash_type: 00
+Transaction data:
+  version: 01000000
+  nLockTime: ffd30a00
+  // 0x00&0x80 not equal SIGHASH_ANYONECANPAY
+  sha_prevouts: cc49ade8dbd7cc06fa7763c53ad7e79a0030bce4958cea94d46566053dd8a3dc = sha256(d1f1c1f8cdf6759167b90f52c9ad358a369f95284e841d7a2536cef31c05495801000000)
+
+  // NOT amount of outputs. IS intputs amounts spend by this tx
+  // in https://www.blockchain.com/btc/tx/5849051cf3ce36257a1d844e28959f368a35adc9520fb9679175f6cdf8c1f1d1
+  sha_amounts:  b346ac905a5f0e863d3a8fa47c18df8a26ff5a63a01f212414f1d37cf14b4acb = sha256(a059010000000000)
+  // NOT scriptpubkey of outputs. IS inputs lock scripts
+  // in https://www.blockchain.com/btc/tx/5849051cf3ce36257a1d844e28959f368a35adc9520fb9679175f6cdf8c1f1d1
+  sha_scriptpubkeys: 48f58118a4bde743ab3a07a3bd3b133b370bdae6ba01fae001859ef0267d4fd9 = sha256(225120339ce7e165e67d93adb3fef88a6d4beed33f01fa876f05a225242b82a631abc0)
+  sha_sequences: 23e9829bfb4e23fbd3c4848baa035af15d73bcb83e510f7f097f90a21a4280d2 = sha256(fdffffff)
+  // 0x00&0x03 not equal SIGHASH_NONE or SIGHASH_SINGLE
+  sha_outputs: ddc468ad3e113c76adf193dcbbf1d3c0eeebc25b9dffbe22217da7d565638904 = sha256(0000000000000000316a2f49206c696b65205363686e6f7272207369677320616e6420492063616e6e6f74206c69652e204062697462756734329e06010000000000225120a37c3903c8d0db6512e2b40b0dffa05e5a3ab73603ce8c9c4b7771e5412328f9)
+
+Data about #1 input:
+  send_type: 00
+  // // 0x00&0x80 not equal SIGHASH_ANYONECANPA
+  // // not use
+  // outpoint: <empty>
+  // amount: <empty>
+  // scriptPubKey: <empty>
+  // sequence: <empty>
+  //  use index
+  index: 00000000
+
+SigMsg = 0001000000ffd30a00cc49ade8dbd7cc06fa7763c53ad7e79a0030bce4958cea94d46566053dd8a3dcb346ac905a5f0e863d3a8fa47c18df8a26ff5a63a01f212414f1d37cf14b4acb48f58118a4bde743ab3a07a3bd3b133b370bdae6ba01fae001859ef0267d4fd923e9829bfb4e23fbd3c4848baa035af15d73bcb83e510f7f097f90a21a4280d2ddc468ad3e113c76adf193dcbbf1d3c0eeebc25b9dffbe22217da7d5656389040000000000
+
+digest = hash_TapSighash(00||sig_msg)
+       = 0b984c26fb08d5389fa1997f01e5371a5ceda5e710ff228cf2b6096aad4c3c2f
+pub = 339ce7e165e67d93adb3fef88a6d4beed33f01fa876f05a225242b82a631abc0
+sig = a60c383f71bac0ec919b1d7dbc3eb72dd56e7aa99583615564f9f99b8ae4e837b758773a5b2e4c51348854c8389f008e05029db7f464a5ff2e01d5e6e626174a
+
+// use https://raw.githubusercontent.com/bitcoin/bips/master/bip-0340/reference.py
+verify success
