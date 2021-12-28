@@ -10,7 +10,9 @@
 
 #include <TrezorCrypto/ripemd160.h>
 
+#include <assert.h>
 #include <stdexcept>
+#include <string>
 
 using namespace TW;
 using namespace TW::EOS;
