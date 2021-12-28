@@ -7,12 +7,16 @@
 #include "PublicKey.h"
 #include "Data.h"
 
+#include "TWPublicKeyType.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
 #include <TrezorCrypto/ecdsa.h>
 #include <TrezorCrypto/ed25519-donna/ed25519-blake2b.h>
 #include <TrezorCrypto/nist256p1.h>
 #include <TrezorCrypto/secp256k1.h>
 #include <TrezorCrypto/sodium/keypair.h>
-#include "mSIGNA/stdutils/uchar_vector.h"
+
+#include <assert.h>
+#include <cstring>
 
 namespace TW {
 
@@ -107,13 +111,21 @@ PublicKey PublicKey::extended() const {
     case TWPublicKeyTypeNIST256p1Extended:
         return *this;
     case TWPublicKeyTypeED25519:
+    case TWPublicKeyTypeCURVE25519:
     case TWPublicKeyTypeED25519Blake2b:
-       return *this;
+    case TWPublicKeyTypeED25519Extended:
+        return *this;
     }
 }
 
 // JuBiter-defined
-bool PublicKey::verifyAsDER(const Data& signatureAsDER, const Data& message) const {
+bool PublicKey::isValid() {
+
+    return PublicKey::isValid(bytes, type);
+}
+
+// JuBiter-defined
+bool PublicKey::verifyAsDER(const Data &signatureAsDER, const Data &message) const {
     size_t iDerSignatureLen = signatureAsDER.size();
     uint8_t *derSignature = new uint8_t[iDerSignatureLen+1];
     memset(derSignature, 0x00, iDerSignatureLen+1);
@@ -143,6 +155,22 @@ bool PublicKey::verify(const Data& signature, const Data& message) const {
         return ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
     case TWPublicKeyTypeED25519Blake2b:
         return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeED25519Extended:
+        throw std::logic_error("Not yet implemented");
+        // ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeCURVE25519:
+        auto ed25519PublicKey = Data();
+        ed25519PublicKey.resize(PublicKey::ed25519Size);
+        curve25519_pk_to_ed25519(ed25519PublicKey.data(), bytes.data());
+
+        ed25519PublicKey[31] &= 0x7F;
+        ed25519PublicKey[31] |= signature[63] & 0x80;
+
+        // remove sign bit
+        auto verifyBuffer = Data();
+        append(verifyBuffer, signature);
+        verifyBuffer[63] &= 127;
+        return ed25519_sign_open(message.data(), message.size(), ed25519PublicKey.data(), verifyBuffer.data()) == 0;
     }
 }
 
@@ -201,6 +229,12 @@ bool PublicKey::verify(const Data& signature, const Data& message, const int rec
         return ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
     case TWPublicKeyTypeED25519Blake2b:
         return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeCURVE25519:
+        throw std::logic_error("Not yet implemented");
+        return false;
+    case TWPublicKeyTypeED25519Extended:
+        throw std::logic_error("Not yet implemented");
+        return false;
     }
 }
 
@@ -208,7 +242,7 @@ bool PublicKey::verifySchnorr(const Data& signature, const Data& message) const 
     switch (type) {
     case TWPublicKeyTypeSECP256k1:
     case TWPublicKeyTypeSECP256k1Extended:
-        return zil_schnorr_verify(&secp256k1, bytes.data(), signature.data(), message.data(), static_cast<uint32_t>(message.size())) == 0;
+        return zil_schnorr_verify(&secp256k1, bytes.data(), signature.data(), message.data()) == 0;
     case TWPublicKeyTypeNIST256p1:
     case TWPublicKeyTypeNIST256p1Extended:
     case TWPublicKeyTypeED25519:
@@ -291,6 +325,12 @@ bool PublicKey::recover(const Data& signature, const Data& message, int *recid) 
         return ed25519_sign_open(message.data(), message.size(), bytes.data(), signature.data()) == 0;
     case TWPublicKeyTypeED25519Blake2b:
         return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data(), signature.data()) == 0;
+    case TWPublicKeyTypeCURVE25519:
+        throw std::logic_error("Not yet implemented");
+        return false;
+    case TWPublicKeyTypeED25519Extended:
+        throw std::logic_error("Not yet implemented");
+        return false;
     }
 }
 

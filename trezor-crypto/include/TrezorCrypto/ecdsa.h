@@ -101,8 +101,8 @@ int ecdsa_sig_to_der(const uint8_t *sig, uint8_t *der);
 // JuBiter-defined
 int der_to_ecdsa_sig(const uint8_t *der, uint8_t *sig);
 
-int zil_schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key, const uint8_t *msg, const uint32_t msg_len, uint8_t *sig);
-int zil_schnorr_verify(const ecdsa_curve *curve, const uint8_t *pub_key, const uint8_t *sig, const uint8_t *msg, const uint32_t msg_len);
+int zil_schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key, const uint8_t *digest, uint8_t *sig);
+int zil_schnorr_verify(const ecdsa_curve *curve, const uint8_t *pub_key, const uint8_t *sig, const uint8_t *digest);
 
 #ifdef __cplusplus
 } /* extern "C" */

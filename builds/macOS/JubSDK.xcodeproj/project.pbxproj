@@ -962,6 +962,10 @@
 		7731ABDE26738D9500C23EEC /* JUB_SDK_FIL.h in Headers */ = {isa = PBXBuildFile; fileRef = 67F59534256E64CF00AB8FED /* JUB_SDK_FIL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7731ABDF26738E3800C23EEC /* JUB_SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A4BCAD233083730059A3DB /* JUB_SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7731ABE026738EE000C23EEC /* JubSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67ECD14E23CD74C400B7D514 /* JubSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		773F1DF6277ABD500078F6F5 /* TWPublicKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 773F1DF4277ABD4F0078F6F5 /* TWPublicKey.cpp */; };
+		773F1DF7277ABD500078F6F5 /* TWPublicKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 773F1DF4277ABD4F0078F6F5 /* TWPublicKey.cpp */; };
+		773F1DF8277ABD500078F6F5 /* TWPrivateKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 773F1DF5277ABD500078F6F5 /* TWPrivateKey.cpp */; };
+		773F1DF9277ABD500078F6F5 /* TWPrivateKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 773F1DF5277ABD500078F6F5 /* TWPrivateKey.cpp */; };
 		77767BE026D8CD7B00E77B86 /* libJubSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A4BC7C233082130059A3DB /* libJubSDK.a */; };
 		77767BE726D8CDF000E77B86 /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77767BE526D8CDEF00E77B86 /* ERC1155Abi.h */; };
 		77767BE826D8CDF000E77B86 /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77767BE526D8CDEF00E77B86 /* ERC1155Abi.h */; };
@@ -1603,6 +1607,8 @@
 		772B683126738239007D789B /* BigIntegerAlgorithms.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigIntegerAlgorithms.cc; path = ../../deps/bigint/BigIntegerAlgorithms.cc; sourceTree = "<group>"; };
 		772B683226738239007D789B /* BigUnsigned.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BigUnsigned.cc; path = ../../deps/bigint/BigUnsigned.cc; sourceTree = "<group>"; };
 		7731ABCB2673891C00C23EEC /* libprotobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobuf.a; path = ../../outputs/Darwin/Release/libprotobuf.a; sourceTree = "<group>"; };
+		773F1DF4277ABD4F0078F6F5 /* TWPublicKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TWPublicKey.cpp; path = "../../deps/TrustWallet/wallet-core/src/interface/TWPublicKey.cpp"; sourceTree = "<group>"; };
+		773F1DF5277ABD500078F6F5 /* TWPrivateKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TWPrivateKey.cpp; path = "../../deps/TrustWallet/wallet-core/src/interface/TWPrivateKey.cpp"; sourceTree = "<group>"; };
 		77767BE526D8CDEF00E77B86 /* ERC1155Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC1155Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.h"; sourceTree = "<group>"; };
 		77767BE626D8CDF000E77B86 /* ERC1155Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC1155Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.cpp"; sourceTree = "<group>"; };
 		77767BEB26D8CE2D00E77B86 /* uint128_t.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uint128_t.cpp; path = ../../deps/uint256_t/uint128_t.cpp; sourceTree = "<group>"; };
@@ -1702,6 +1708,8 @@
 				67E0DEA0250F6C6500D42EF0 /* TWHcash.cpp */,
 				67E0DEA4250F6C6600D42EF0 /* TWHDVersion.cpp */,
 				67E0DEA3250F6C6500D42EF0 /* TWHRP.cpp */,
+				773F1DF5277ABD500078F6F5 /* TWPrivateKey.cpp */,
+				773F1DF4277ABD4F0078F6F5 /* TWPublicKey.cpp */,
 			);
 			name = interface;
 			sourceTree = "<group>";
@@ -3729,6 +3737,7 @@
 				676B42A3240F922300EBB44D /* AddressChecksum.cpp in Sources */,
 				674621F023C31DBE0096DDA2 /* JubiterBladeEOSImpl.cpp in Sources */,
 				67189FB523A2116900F8A5CD /* aestab.c in Sources */,
+				773F1DF7277ABD500078F6F5 /* TWPublicKey.cpp in Sources */,
 				67BFDE802522E39900E718BA /* TransactionContract.cpp in Sources */,
 				67ED0FD425243217009029A7 /* Authority.cpp in Sources */,
 				67189FD423A2117500F8A5CD /* groestl.c in Sources */,
@@ -3788,6 +3797,7 @@
 				67189FB723A2116D00F8A5CD /* base32.c in Sources */,
 				67189F4123A2103F00F8A5CD /* JUB_SDK_DEV_BLE.cpp in Sources */,
 				676B42EF2410A22900EBB44D /* ERC20Abi.cpp in Sources */,
+				773F1DF9277ABD500078F6F5 /* TWPrivateKey.cpp in Sources */,
 				674621DE23C31D820096DDA2 /* ETHContext.cpp in Sources */,
 				67ECD13F23CD724100B7D514 /* Bech32Address.cpp in Sources */,
 				67189F4F23A2104A00F8A5CD /* ApduBuilder.cpp in Sources */,
@@ -3963,6 +3973,7 @@
 				67A4587E23336DAB00CEB712 /* HDKey.cpp in Sources */,
 				674621FB23C31DDC0096DDA2 /* JubiterBladeETHImpl.cpp in Sources */,
 				674621ED23C31DBE0096DDA2 /* TrezorCryptoEOSImpl.cpp in Sources */,
+				773F1DF6277ABD500078F6F5 /* TWPublicKey.cpp in Sources */,
 				67BFDE7F2522E39900E718BA /* TransactionContract.cpp in Sources */,
 				67ED0FD325243217009029A7 /* Authority.cpp in Sources */,
 				674F19BE23A105F2001702DD /* ed25519-donna-basepoint-table.c in Sources */,
@@ -4022,6 +4033,7 @@
 				674621DD23C31D820096DDA2 /* ETHContext.cpp in Sources */,
 				674C284D2520452600EC8037 /* TransactionRaw.cpp in Sources */,
 				67ECD13E23CD724100B7D514 /* Bech32Address.cpp in Sources */,
+				773F1DF8277ABD500078F6F5 /* TWPrivateKey.cpp in Sources */,
 				676B42EE2410A22900EBB44D /* ERC20Abi.cpp in Sources */,
 				772B68472673823A007D789B /* BigIntegerAlgorithms.cc in Sources */,
 				67A4BD01233086AB0059A3DB /* Debug.cpp in Sources */,

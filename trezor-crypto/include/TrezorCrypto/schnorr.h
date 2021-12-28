@@ -39,12 +39,8 @@ typedef struct {
 // sign/verify returns 0 if operation succeeded
 
 // k is a random from [1, ..., order-1]
-int schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key,
-                 const bignum256 *k, const uint8_t *msg, const uint32_t msg_len,
-                 schnorr_sign_pair *result);
-int schnorr_verify(const ecdsa_curve *curve, const uint8_t *pub_key,
-                   const uint8_t *msg, const uint32_t msg_len,
-                   const schnorr_sign_pair *sign);
+int schnorr_sign(const ecdsa_curve *curve, const uint8_t *sk, const bignum256 *k, const uint8_t *m, schnorr_sign_pair *sig);
+int schnorr_verify(const ecdsa_curve *curve, const uint8_t *pk, const uint8_t *m, const schnorr_sign_pair *sig);
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

@@ -10,6 +10,7 @@
 #include "PublicKey.h"
 
 #include <TrustWalletCore/TWCurve.h>
+#include <string>
 
 namespace TW {
 
@@ -69,7 +70,7 @@ class PrivateKey {
     Data signAsDER(const Data& digest, TWCurve curve) const;
 
     /// Signs a digest using given ECDSA curve, returns schnorr signature
-    Data signSchnorr(const Data& message, TWCurve curve) const;
+    Data signSchnorr(const Data& digest, TWCurve curve) const;
 
     /// Cleanup contents (fill with 0s), called before destruction
     void cleanup();

@@ -11,7 +11,6 @@
 
 #include <TrustWalletCore/TWPublicKeyType.h>
 
-#include <cassert>
 #include <stdexcept>
 
 namespace TW {
@@ -23,6 +22,8 @@ class PublicKey {
 
     /// The number of bytes in a ed25519 public key.
     static const size_t ed25519Size = 32;
+
+    static const size_t ed25519ExtendedSize = 64;
 
     /// The number of bytes in a secp256k1 and nist256p1 extended public key.
     static const size_t secp256k1ExtendedSize = 65;
@@ -57,6 +58,9 @@ class PublicKey {
     PublicKey extended() const;
 
     // JuBiter-defined
+    bool isValid();
+
+    // JuBiter-defined
     /// Verifies a signature for the provided message. The signature is encoded with
     /// DER.
     bool verifyAsDER(const Data& signatureAsDER, const Data& message) const;
@@ -65,7 +69,7 @@ class PublicKey {
     bool verify(const Data& signature, const Data& message) const;
     // JuBiter-defined
     /// Verifies a signature for the provided message, including recover id.
-    bool verify(const Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64])) const;
+    bool verify(const Data& signature, const Data& message, int (*canonicalChecker)(uint8_t by, uint8_t sig[64])) const;
     // JuBiter-defined
     /// Verifies a signature for the provided message, include recover id.
     bool verify(const Data& signature, const Data& message, const int recid) const;
@@ -81,18 +85,20 @@ class PublicKey {
 
     // JuBiter-defined
     /// Recover the recover id of a signature for the provided message.
-    bool recover(Data& signature, const Data& message, int(*canonicalChecker)(uint8_t by, uint8_t sig[64]));
+    bool recover(Data& signature, const Data& message, int (*canonicalChecker)(uint8_t by, uint8_t sig[64]));
     bool recover(const Data& signature, const Data& message, int *recid);
     /// Recover public key from signature (SECP256k1Extended)
     static PublicKey recover(const Data& signature, const Data& message);
+
+    /// Check if this key makes a valid ED25519 key (it is on the curve)
+    bool isValidED25519() const;
+
+    // bip86 derivation p2tr public key
+    PublicKey p2trPublicKey() const;
 };
 
-inline bool operator==(const PublicKey& lhs, const PublicKey& rhs) {
-    return lhs.bytes == rhs.bytes;
-}
-inline bool operator!=(const PublicKey& lhs, const PublicKey& rhs) {
-    return lhs.bytes != rhs.bytes;
-}
+inline bool operator==(const PublicKey& lhs, const PublicKey& rhs) { return lhs.bytes == rhs.bytes; }
+inline bool operator!=(const PublicKey& lhs, const PublicKey& rhs) { return lhs.bytes != rhs.bytes; }
 
 } // namespace TW
 
