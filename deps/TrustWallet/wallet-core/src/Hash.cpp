@@ -142,4 +142,4 @@ Data Hash::hash_TapTweak(const byte *data, size_t size) { return hash_tag("TapTw
 
 Data Hash::hash_TapLeaf(const byte *data, size_t size) { return hash_tag("TapLeaf", data, size); }
 Data Hash::hash_TapBranch(const byte *data, size_t size) { return hash_tag("TapBranch", data, size); }
-Data Hash::hash_TapSigHash(const byte *data, size_t size) { return hash_tag("TapSigHash", data, size); }
+Data Hash::hash_TapSighash(const byte *data, size_t size) { return hash_tag("TapSighash", data, size); }

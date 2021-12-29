@@ -40,7 +40,7 @@ class TrezorCryptoBTCImpl : public TrezorCryptoToken, virtual public JubiterBase
                            const TWCoinType &coinNet);
     JUB_RV _SignTaproot(const std::vector<JUB_UINT64> &vInputAmount, const std::vector<std::string> &vInputPath,
                         const std::vector<JUB_UINT16> &vChangeIndex, const std::vector<std::string> &vChangePath,
-                        const TW::Bitcoin::Transaction &tx, std::vector<TW::Data> &vInputPublicKey,
+                        TW::Bitcoin::Transaction &tx, std::vector<TW::Data> &vInputPublicKey,
                         std::vector<uchar_vector> &vSignatureRaw, const TWCoinType &coinNet);
 
 }; // class TrezorCryptoBTCImpl end

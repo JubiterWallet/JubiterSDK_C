@@ -29,11 +29,11 @@ struct TransactionOutput {
     TransactionOutput(Amount value, Script script) : value(value), script(std::move(script)) {}
 
     /// Encodes the output into the provided buffer.
-    virtual void encode(std::vector<uint8_t>& data) const;
-    
+    virtual void encode(std::vector<uint8_t> &data) const;
+
     // JuBiter-defined
     /// Decodes the provided buffer into the output.
-    virtual bool decode(const std::vector<uint8_t>& data);
+    virtual bool decode(const std::vector<uint8_t> &data);
 
     // JuBiter-defined
     ///

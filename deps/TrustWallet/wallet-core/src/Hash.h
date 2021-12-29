@@ -99,7 +99,7 @@ Data hash_TapLeaf(const byte *data, size_t size);
 Data hash_TapBranch(const byte *data, size_t size);
 
 /// Hash TapSigHash
-Data hash_TapSigHash(const byte *data, size_t size);
+Data hash_TapSighash(const byte *data, size_t size);
 
 // Templated versions for any type with data() and size()
 
@@ -189,8 +189,8 @@ Data hash_TapBranch(const T& data) {
 
 /// Computes Hash TapSigHash
 template <typename T>
-Data hash_TapSigHash(const T& data) {
-    return hash_TapSigHash(reinterpret_cast<const byte*>(data.data()), data.size());
+Data hash_TapSighash(const T& data) {
+    return hash_TapSighash(reinterpret_cast<const byte*>(data.data()), data.size());
 }
 
 /// Computes the Blake2b hash.
