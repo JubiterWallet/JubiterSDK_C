@@ -37,7 +37,7 @@ public:
                             const uchar_vector& signedRaw,
                             const TW::Data& publicKey);
     virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
-                                    const uchar_vector& vTypedData,
+                                    const uchar_vector& vData,
                                     const uchar_vector& vSignature,
                                     const TW::Data& publicKey);
 

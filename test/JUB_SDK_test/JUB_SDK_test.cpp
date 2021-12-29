@@ -210,10 +210,10 @@ void main_test() {
             cout << "-------------------------------------------" << endl;
             cout << "|********** Jubiter Wallet Test **********|" << endl;
             if (commode != JUB_ENUM_COMMODE::SWI) {
-                cout << "|   1.   get_device_info_test             |" << endl;
-                cout << "|  11.       device_fgpt_test             |" << endl;
-                cout << "|                                         |" << endl;
-                cout << "|                                         |" << endl;
+            cout << "|   1.   get_device_info_test             |" << endl;
+            cout << "|  11.       device_fgpt_test             |" << endl;
+            cout << "|                                         |" << endl;
+            cout << "|                                         |" << endl;
             }
             cout << "|   2.   LTC_test.                        |" << endl;
             cout << "|   5.  DASH_test.                        |" << endl;
@@ -238,9 +238,10 @@ void main_test() {
             cout << "|                                         |" << endl;
             cout << "|                                         |" << endl;
             cout << "|  60.   ETH_test & ETC_test.             |" << endl;
-            cout << "|  61.   ETH_Uniswap_test.                |" << endl;
+            cout << "|                                         |" << endl;
             cout << "| 354.   DOT_test.                        |" << endl;
             cout << "| 434.   KSM_test.                        |" << endl;
+            cout << "|                                         |" << endl;
             cout << "| 461.   FIL_test.                        |" << endl;
             cout << "|                                         |" << endl;
             cout << "|                                         |" << endl;
@@ -347,9 +348,6 @@ void main_test() {
                 json_file += "testETH.json";
                 ETH_test(deviceID, json_file.c_str());
                 break;
-            case 61:
-                json_file += "testETH_Uniswap.json";
-                ETH_test(deviceID, json_file.c_str());
             case 354:
                 json_file += "testDOT.json";
                 DOT_test(deviceID, json_file.c_str());

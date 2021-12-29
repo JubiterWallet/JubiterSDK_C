@@ -243,7 +243,7 @@ JUB_RV JUB_SignContractETH(IN JUB_UINT16 contextID,
  * @function name : JUB_SignBytestringETH
  * @in  param : contextID - context ID
  *          : path
- *          : data - typed structured data
+ *          : data - message to be signed
  * @out param : raw
  * @last change :
  *****************************************************************************/

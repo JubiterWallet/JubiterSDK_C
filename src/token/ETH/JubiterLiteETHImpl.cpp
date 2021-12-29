@@ -247,14 +247,14 @@ JUB_RV JubiterLiteETHImpl::SignContractHash(const JUB_BYTE inputType,
 }
 
 
-JUB_RV JubiterLiteETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+JUB_RV JubiterLiteETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
                                           const std::vector<JUB_BYTE>& vPath,
                                           const std::vector<JUB_BYTE>& vChainID,
                                           std::vector<JUB_BYTE>& vSignature) {
 
     try {
         TW::Ethereum::Signer signer(vChainID);
-        TW::Data half = signer.hash(vTypedData);
+        TW::Data half = signer.hash(vData);
 
         std::string path(vPath.begin(), vPath.end());
         std::vector<std::string> vInputPath;
@@ -301,7 +301,7 @@ JUB_RV JubiterLiteETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDat
 
 JUB_RV JubiterLiteETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
                                             const std::string& path,
-                                            const std::vector<JUB_BYTE>& vTypedData,
+                                            const std::vector<JUB_BYTE>& vData,
                                             const std::vector<JUB_BYTE>& vSignature) {
 
     TW::Data publicKey;
@@ -312,7 +312,7 @@ JUB_RV JubiterLiteETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainI
 
     // verify signature
     return JubiterBaseETHImpl::VerifyBytestring(vChainID,
-                                                vTypedData,
+                                                vData,
                                                 vSignature,
                                                 publicKey);
 }

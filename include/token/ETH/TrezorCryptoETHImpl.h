@@ -67,13 +67,13 @@ public:
                                     const std::vector<JUB_BYTE>& vChainID,
                                     std::vector<JUB_BYTE>& vRaw) override;
 
-    virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+    virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vData,
                                   const std::vector<JUB_BYTE>& vPath,
                                   const std::vector<JUB_BYTE>& vChainID,
                                   std::vector<JUB_BYTE>& signatureRaw) override;
     virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
                                     const std::string& path,
-                                    const std::vector<JUB_BYTE>& vTypedData,
+                                    const std::vector<JUB_BYTE>& vData,
                                     const std::vector<JUB_BYTE>& vSignature) override;
 
 protected:

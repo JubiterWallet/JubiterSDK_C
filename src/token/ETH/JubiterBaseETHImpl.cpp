@@ -32,14 +32,14 @@ JUB_RV JubiterBaseETHImpl::VerifyTx(const std::vector<JUB_BYTE>& vChainID,
 
 
 JUB_RV JubiterBaseETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
-                                            const uchar_vector& vTypedData,
+                                            const uchar_vector& vData,
                                             const uchar_vector& vSignature,
                                             const TW::Data& publicKey) {
 
     TW::Ethereum::Signer signer(vChainID);
     if (!signer.verify(vChainID,
                        TW::PublicKey(publicKey, _publicKeyType),
-                       vTypedData,
+                       vData,
                        vSignature)) {
         return JUBR_VERIFY_SIGN_FAILED;
     }

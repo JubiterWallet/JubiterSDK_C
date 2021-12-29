@@ -201,7 +201,7 @@ JUB_RV TrezorCryptoETHImpl::SignContractHash(const JUB_BYTE inputType,
 }
 
 
-JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
                                            const std::vector<JUB_BYTE>& vPath,
                                            const std::vector<JUB_BYTE>& vChainID,
                                            std::vector<JUB_BYTE>& signatureRaw) {
@@ -213,7 +213,7 @@ JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
 
     TW::Ethereum::Signer signer(vChainID);
     signer.sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
-                vTypedData, signatureRaw);
+                vData, signatureRaw);
 
     return JUBR_OK;
 }
@@ -221,7 +221,7 @@ JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
 
 JUB_RV TrezorCryptoETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
                                              const std::string& path,
-                                             const std::vector<JUB_BYTE>& vTypedData,
+                                             const std::vector<JUB_BYTE>& vData,
                                              const std::vector<JUB_BYTE>& vSignature) {
 
     uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
@@ -236,7 +236,7 @@ JUB_RV TrezorCryptoETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChain
 
     // verify signature
     return JubiterBaseETHImpl::VerifyBytestring(vChainID,
-                                                vTypedData,
+                                                vData,
                                                 vSignature,
                                                 publicKey);
 }

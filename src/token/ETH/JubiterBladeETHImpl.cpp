@@ -575,7 +575,7 @@ JUB_RV JubiterBladeETHImpl::SignContractHash(const JUB_BYTE inputType,
 }
 
 
-JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
                                            const std::vector<JUB_BYTE>& vPath,
                                            const std::vector<JUB_BYTE>& vChainID,
                                            std::vector<JUB_BYTE>& signatureRaw) {
@@ -588,7 +588,7 @@ JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
     total += pathTLV.size();
     uchar_vector chainIdTLV = ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_CHAIN_ID_48, vChainID);
     total += chainIdTLV.size();
-    uchar_vector typedDataTLV = ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_MSG_49, vTypedData);
+    uchar_vector typedDataTLV = ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_MSG_49, vData);
     total += typedDataTLV.size();
 
     uchar_vector apduData;
@@ -648,7 +648,7 @@ JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
 
 JUB_RV JubiterBladeETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
                                              const std::string& path,
-                                             const std::vector<JUB_BYTE>& vTypedData,
+                                             const std::vector<JUB_BYTE>& vData,
                                              const std::vector<JUB_BYTE>& vSignature) {
 
     // verify signature
@@ -664,7 +664,7 @@ JUB_RV JubiterBladeETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChain
 
     // verify signature
     return JubiterBaseETHImpl::VerifyBytestring(vChainID,
-                                                vTypedData,
+                                                vData,
                                                 vSignature,
                                                 publicKey);
 }

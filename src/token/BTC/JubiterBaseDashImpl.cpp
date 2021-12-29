@@ -31,7 +31,7 @@ JUB_RV JubiterBaseDashImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const
 
     JUB_RV rv = JUBR_ARGUMENTS_BAD;
 
-    auto witness = type == p2sh_p2wpkh || type == p2wpkh;
+    auto witness = type == p2sh_p2wpkh;
 
     try {
         TW::Dash::Transaction tx;
