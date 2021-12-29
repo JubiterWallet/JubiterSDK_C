@@ -82,12 +82,11 @@ struct Transaction {
     // JuBiter-defined
     Data getPreImage(const Script &scriptCode, size_t index, uint32_t hashType) const;
     virtual Data getPreImage(const Script &scriptCode, size_t index, uint32_t hashType, uint64_t amount) const;
-    Data getSigMsg(const Script &scriptCode, size_t index, uint32_t hashType, uint64_t amount, uint8_t extByte,
-                   Data annex) const;
+    Data getSigMsg(size_t index, uint32_t hashType, uint8_t extByte, Data annex) const;
     Data getPrevoutHash() const;
     Data getSequenceHash() const;
     Data getOutputsHash() const;
-    Data getAmountsHash() const;
+    Data getSpendAmountsHash() const;
     Data getSpendScriptHash() const;
 
     // JuBiter-defined

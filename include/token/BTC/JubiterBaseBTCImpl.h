@@ -48,12 +48,11 @@ class JubiterBaseBTCImpl : virtual public BTCTokenInterface {
 
     virtual JUB_RV _verifyPayToTaprootKeyPathSpending(const TWCoinType &coin, const TW::Bitcoin::Transaction &tx,
                                                       const size_t index, const uint32_t &hashType,
-                                                      const uint64_t amount, const TW::Data &signature,
-                                                      const TW::PublicKey publicKey);
+                                                      const TW::Data &signature, const TW::PublicKey publicKey);
     virtual TW::Data pushAll(const TW::Data &results);
 
-    virtual JUB_RV _verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
-                             const TWCoinType &coin, const TW::Bitcoin::Transaction *tx, const uint32_t &hashType,
+    virtual JUB_RV _verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const TWCoinType &coin,
+                             const TW::Bitcoin::Transaction *tx, const uint32_t &hashType,
                              const std::vector<JUB_UINT64> &vInputAmount,
                              const std::vector<TW::PublicKey> &vInputPublicKey);
 

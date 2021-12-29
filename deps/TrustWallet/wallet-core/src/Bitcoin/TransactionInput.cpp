@@ -7,20 +7,25 @@
 #include "TransactionInput.h"
 
 #include "../BinaryCoding.h"
+#include "TransactionOutput.h"
+#include <memory>
 
 using namespace TW::Bitcoin;
 
+void TransactionInput::spending(uint64_t amount, Script script) {
+    output = std::make_unique<TransactionOutput>(amount, script);
+}
 
-void TransactionInput::encode(Data& data) const {
-    auto& outpoint = reinterpret_cast<const TW::Bitcoin::OutPoint&>(previousOutput);
+void TransactionInput::encode(Data &data) const {
+    auto &outpoint = reinterpret_cast<const TW::Bitcoin::OutPoint &>(previousOutput);
     outpoint.encode(data);
     script.encode(data);
     encode32LE(sequence, data);
 }
 
-void TransactionInput::encodeWitness(Data& data) const {
+void TransactionInput::encodeWitness(Data &data) const {
     encodeVarInt(scriptWitness.size(), data);
-    for (auto& item : scriptWitness) {
+    for (auto &item : scriptWitness) {
         encodeVarInt(item.size(), data);
         std::copy(std::begin(item), std::end(item), std::back_inserter(data));
     }
@@ -28,7 +33,7 @@ void TransactionInput::encodeWitness(Data& data) const {
 
 // JuBiter-defined
 /// Decodes the provided buffer into the transactionInput.
-bool TransactionInput::decode(const Data& data) {
+bool TransactionInput::decode(const Data &data) {
     size_t index = 0;
 
     if (!previousOutput.decode(data)) {
@@ -36,7 +41,7 @@ bool TransactionInput::decode(const Data& data) {
     }
     index += previousOutput.size();
 
-    Data temp(std::begin(data)+index, std::end(data));
+    Data temp(std::begin(data) + index, std::end(data));
     if (!script.decode(temp)) {
         return false;
     }
@@ -49,21 +54,21 @@ bool TransactionInput::decode(const Data& data) {
 
 // JuBiter-defined
 /// Decodes the provided buffer into the witness data.
-bool TransactionInput::decodeWitness(const Data& data) {
+bool TransactionInput::decodeWitness(const Data &data) {
     size_t index = 0;
 
-    size_t size = 0;
+    size_t size       = 0;
     size_t witnessCnt = decodeVarInt(data, size);
     index += size;
 
-    for (size_t i=0; i<witnessCnt; ++i) {
-        Data temp(std::begin(data)+index, std::end(data));
+    for (size_t i = 0; i < witnessCnt; ++i) {
+        Data temp(std::begin(data) + index, std::end(data));
 
-        size_t subIndex = 0;
+        size_t subIndex    = 0;
         size_t witnessSize = decodeVarInt(temp, size);
         subIndex += size;
         Data witness;
-        std::copy(std::begin(temp)+subIndex, std::begin(temp)+subIndex+witnessSize, std::back_inserter(witness));
+        std::copy(std::begin(temp) + subIndex, std::begin(temp) + subIndex + witnessSize, std::back_inserter(witness));
         scriptWitness.push_back(witness);
         subIndex += witnessSize;
         index += subIndex;
@@ -73,9 +78,7 @@ bool TransactionInput::decodeWitness(const Data& data) {
 }
 
 // JuBiter-defined
-size_t TransactionInput::size() {
-    return (previousOutput.size() + script.size() + sizeof(sequence)/sizeof(uint8_t));
-}
+size_t TransactionInput::size() { return (previousOutput.size() + script.size() + sizeof(sequence) / sizeof(uint8_t)); }
 
 // JuBiter-defined
 size_t TransactionInput::sizeWitness() {

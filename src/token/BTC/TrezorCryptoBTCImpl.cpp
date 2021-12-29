@@ -4,13 +4,14 @@
 #include "JUB_SDK_BTC.h"
 #include "PublicKey.h"
 #include "TWPublicKeyType.h"
+#include "Transaction.h"
+#include "TrezorCrypto/bip32.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "utility/util.h"
 #include <Base58Address.h>
 #include <Bitcoin/Script.h>
 #include <PrivateKey.h>
 #include <TrezorCrypto/curves.h>
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -84,15 +85,9 @@ JUB_RV TrezorCryptoBTCImpl::GetAddress(const JUB_BYTE addrFmt, const JUB_ENUM_BT
     return rv;
 }
 
-JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE &unit) {
+JUB_RV TrezorCryptoBTCImpl::SetUnit(const JUB_ENUM_BTC_UNIT_TYPE &unit) { return JUBR_OK; }
 
-    return JUBR_OK;
-}
-
-JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC &type) {
-
-    return JUBR_OK;
-}
+JUB_RV TrezorCryptoBTCImpl::SetCoin(const JUB_ENUM_COINTYPE_BTC &type) { return JUBR_OK; }
 
 JUB_RV TrezorCryptoBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TRANS_TYPE &type,
                                    const JUB_UINT16 inputCount, const std::vector<JUB_UINT64> &vInputAmount,
@@ -164,7 +159,7 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness, const std::vector<JUB_UINT64> 
             preImage = tx.getPreImage(scriptCode, index, _hashType, vInputAmount[index]);
         }
 
-        const auto begin = reinterpret_cast<const uint8_t *>(preImage.data());
+        const auto begin   = reinterpret_cast<const uint8_t *>(preImage.data());
         TW::Data digest    = tx.hasher(begin, preImage.size());
         TW::Data sign      = twprvk.signAsDER(digest, curveName2TWCurve(_curve_name));
         TW::Data signature = pushAll(sign);
@@ -185,13 +180,15 @@ JUB_RV TrezorCryptoBTCImpl::_SignTx(bool witness, const std::vector<JUB_UINT64> 
 JUB_RV TrezorCryptoBTCImpl::_SignTaproot(const std::vector<JUB_UINT64> &vInputAmount,
                                          const std::vector<std::string> &vInputPath,
                                          const std::vector<JUB_UINT16> &vChangeIndex,
-                                         const std::vector<std::string> &vChangePath,
-                                         const TW::Bitcoin::Transaction &tx, std::vector<TW::Data> &vInputPublicKey,
+                                         const std::vector<std::string> &vChangePath, TW::Bitcoin::Transaction &tx,
+                                         std::vector<TW::Data> &vInputPublicKey,
                                          std::vector<uchar_vector> &vSignatureRaw, const TWCoinType &coinNet) {
 
+    using TW::Bitcoin::Script;
     JUB_RV rv = JUBR_ERROR;
-
-    for (size_t index = 0; index < tx.inputs.size(); ++index) {
+    std::vector<TW::PrivateKey> privateKeys;
+    std::vector<TW::PublicKey> publicKeys;
+    for (auto index = 0; index < vInputPath.size(); index++) {
         // derive key using BTC version
         HDNode hdkey;
         JUB_UINT32 parentFingerprint;
@@ -200,31 +197,40 @@ JUB_RV TrezorCryptoBTCImpl::_SignTaproot(const std::vector<JUB_UINT64> &vInputAm
         TW::Data prvKey;
         prvKey.insert(prvKey.end(), &hdkey.private_key[0], &hdkey.private_key[0] + TW::PrivateKey::size);
         TW::PrivateKey twprvk = TW::PrivateKey(prvKey).p2trPrivateKey();
+        privateKeys.push_back(twprvk);
 
         uchar_vector publicKey(hdkey.public_key, hdkey.public_key + sizeof(hdkey.public_key) / sizeof(uint8_t));
         TW::PublicKey twpk = TW::PublicKey(TW::Data(publicKey), _publicKeyType).p2trPublicKey();
+        publicKeys.push_back(twpk);
+        vInputPublicKey.push_back(twpk.bytes);
 
+        auto amount = vInputAmount.at(index);
         // script code - scriptPubKey
-        auto script =
-            TW::Bitcoin::Script::buildPayToTaprootKeyPathSpending({twpk.bytes.begin() + 1, twpk.bytes.begin() + 33});
+        auto script = Script::buildPayToTaprootKeyPathSpending({twpk.bytes.begin() + 1, twpk.bytes.begin() + 33});
+        auto input  = tx.inputs.at(index);
+        input->spending(amount, script);
+    }
 
-        auto preImage = tx.getSigMsg(script, index, _hashType, vInputAmount[index], 1, {});
+    for (size_t index = 0; index < tx.inputs.size(); ++index) {
+        auto pri    = privateKeys.at(index);
+        auto pub    = publicKeys.at(index);
+        auto sigMsg = tx.getSigMsg(index, _hashType, 0, {});
         // https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#taproot-key-path-spending-signature-validation
         // SigMsg(hash_type, ext_flag)
-        preImage.insert(preImage.begin(), (unsigned char)(_hashType));
-        TW::Data digest = TW::Hash::hash_TapSigHash(preImage);
-        TW::Data sig    = twprvk.signSchnorr(digest, curveName2TWCurve(_curve_name));
+        // insert epoch
+        sigMsg.insert(sigMsg.begin(), 0);
+        TW::Data digest = TW::Hash::hash_TapSighash(sigMsg);
+        TW::Data sig    = pri.signSchnorr(digest, curveName2TWCurve(_curve_name));
         if (_hashType != 0)
             sig.push_back((unsigned char)_hashType);
 
-        if (!twpk.verifySchnorr(sig, digest)) {
+        if (!pub.verifySchnorr(sig, digest)) {
             rv = JUBR_VERIFY_SIGN_FAILED;
             break;
         } else {
             rv = JUBR_OK;
         }
 
-        vInputPublicKey.push_back(twpk.bytes);
         vSignatureRaw.push_back(sig);
     }
 
@@ -238,7 +244,7 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
     auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
     auto nested  = type == p2sh_p2wpkh;
 
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic( (coinNet ? coinNet : _coin), witness, nested);
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness, nested);
     uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness, nested);
 
     std::vector<TW::Data> vInputPublicKey;

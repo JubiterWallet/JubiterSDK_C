@@ -6,10 +6,13 @@
 
 #pragma once
 
+#include "../Data.h"
 #include "OutPoint.h"
 #include "Script.h"
-#include "../Data.h"
+#include "TransactionOutput.h"
 
+#include <cstdint>
+#include <memory>
 #include <vector>
 
 namespace TW::Bitcoin {
@@ -32,9 +35,12 @@ class TransactionInput {
     /// Witness stack.
     std::vector<Data> scriptWitness;
 
+    /// which output we spending
+    std::unique_ptr<TransactionOutput> output;
+
     // JuBiter-defined
     TransactionInput() {}
-   ~TransactionInput() {
+    ~TransactionInput() {
         if (!scriptWitness.empty()) {
             scriptWitness.clear();
         }
@@ -45,19 +51,21 @@ class TransactionInput {
     TransactionInput(OutPoint previousOutput, Script script, uint32_t sequence)
         : previousOutput(std::move(previousOutput)), sequence(sequence), script(std::move(script)) {}
 
+    void spending(uint64_t amount, Script script);
+
     /// Encodes the transaction into the provided buffer.
-    virtual void encode(Data& data) const;
+    virtual void encode(Data &data) const;
 
     /// Encodes the witness data into the provided buffer.
-    virtual void encodeWitness(Data& data) const;
+    virtual void encodeWitness(Data &data) const;
 
     // JuBiter-defined
     /// Decodes the provided buffer into the transactionInput.
-    virtual bool decode(const Data& data);
+    virtual bool decode(const Data &data);
 
     // JuBiter-defined
     /// Decodes the provided buffer into the witness data
-    virtual bool decodeWitness(const Data& data);
+    virtual bool decodeWitness(const Data &data);
 
     // JuBiter-defined
     virtual size_t size();

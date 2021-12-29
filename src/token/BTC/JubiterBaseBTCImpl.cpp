@@ -269,24 +269,20 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToWitnessPublicKeyHashScriptSig(const TWCoi
 
 JUB_RV JubiterBaseBTCImpl::_verifyPayToTaprootKeyPathSpending(const TWCoinType &coin,
                                                               const TW::Bitcoin::Transaction &tx, const size_t index,
-                                                              const uint32_t &hashType, const uint64_t amount,
-                                                              const TW::Data &signature,
+                                                              const uint32_t &hashType, const TW::Data &signature,
                                                               const TW::PublicKey publicKey) {
     // notused
     (void)hashType;
 
-    // https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#taproot-key-path-spending-signature-validation
-    auto program    = TW::Data(publicKey.bytes.begin() + 1, publicKey.bytes.begin() + 33);
-    auto scriptCode = TW::Bitcoin::Script::buildPayToTaprootKeyPathSpending(program);
-    TW::Data preImage;
     uint8_t hash_type = signature.size() == 64 ? 0 : signature.at(64);
     if (hash_type == 0 && signature.size() == 65) {
         return JUBR_VERIFY_SIGN_FAILED;
     }
     // key path spending not have annex
-    preImage = tx.getSigMsg(scriptCode, index, hashType, amount, 1, {});
-    preImage.insert(preImage.begin(), hash_type);
-    TW::Data digest = TW::Hash::hash_TapSigHash(preImage);
+    auto sigMsg = tx.getSigMsg(index, hashType, 0, {});
+    // insert epoch
+    sigMsg.insert(sigMsg.begin(), 0);
+    TW::Data digest = TW::Hash::hash_TapSighash(sigMsg);
     if (!publicKey.verifySchnorr(signature, digest)) {
         return JUBR_VERIFY_SIGN_FAILED;
     }
@@ -294,9 +290,9 @@ JUB_RV JubiterBaseBTCImpl::_verifyPayToTaprootKeyPathSpending(const TWCoinType &
     return JUBR_OK;
 }
 
-JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
-                                     const TWCoinType &coin, const TW::Bitcoin::Transaction *tx,
-                                     const uint32_t &hashType, const std::vector<JUB_UINT64> &vInputAmount,
+JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const TWCoinType &coin,
+                                     const TW::Bitcoin::Transaction *tx, const uint32_t &hashType,
+                                     const std::vector<JUB_UINT64> &vInputAmount,
                                      const std::vector<TW::PublicKey> &vInputPublicKey) {
 
     JUB_RV rv = JUBR_OK;
@@ -318,21 +314,22 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
             switch (type) {
             case p2sh_p2wpkh: {
                 // https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#witness-program
-                // The witness must consist of exactly 2 items (≤ 520 bytes each). The first one a signature, and the second
-                // one a public key
-                TW::Bitcoin::Script::parseWitnessStackToPayToWitnessScriptHash(tx->inputs[index]->scriptWitness, signature,
-                                                                               publicKey);
+                // The witness must consist of exactly 2 items (≤ 520 bytes each). The first one a signature, and the
+                // second one a public key
+                TW::Bitcoin::Script::parseWitnessStackToPayToWitnessScriptHash(tx->inputs[index]->scriptWitness,
+                                                                               signature, publicKey);
                 if (vInputPublicKey[index].bytes != publicKey) {
                     return JUBR_ERROR;
                 }
-                rv = _verifyPayToWitnessPublicKeyHashScriptSig(coin, *tx, index, hashType, vInputAmount[index], signature,
-                                                               vInputPublicKey[index]);
+                rv = _verifyPayToWitnessPublicKeyHashScriptSig(coin, *tx, index, hashType, vInputAmount[index],
+                                                               signature, vInputPublicKey[index]);
             } break;
             case p2wpkh: {
                 // https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#witness-program
                 // The witness must consist of exactly 2 items (≤ 520 bytes each).
                 // The first one a signature, and the second one a public key
-                TW::Bitcoin::Script::parseWitnessStackToPayToWitnessScriptHash(tx->inputs[index]->scriptWitness, signature, publicKey);
+                TW::Bitcoin::Script::parseWitnessStackToPayToWitnessScriptHash(tx->inputs[index]->scriptWitness,
+                                                                               signature, publicKey);
                 // P2WPKH
                 if (publicKey.size() != 33 || vInputPublicKey[index].bytes != publicKey) {
                     return JUBR_ERROR;
@@ -346,8 +343,7 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
                 // internal_pubkey. To do so, a witness stack consists of a single element: a BIP340 signature on the
                 // signature hash as defined above
                 auto &signature = tx->inputs[index]->scriptWitness.front();
-                rv = _verifyPayToTaprootKeyPathSpending(coin, *tx, index, hashType, vInputAmount[index], signature,
-                                                        vInputPublicKey[index]);
+                rv = _verifyPayToTaprootKeyPathSpending(coin, *tx, index, hashType, signature, vInputPublicKey[index]);
 
             } break;
             default: {
@@ -359,8 +355,7 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
                 break;
             }
             continue;
-        }
-        else {
+        } else {
             rv = JUBR_OK;
         }
         if (JUBR_OK != rv) {
@@ -420,8 +415,7 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
     return rv;
 }
 
-JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
-                                     const uchar_vector &signedRaw,
+JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const uchar_vector &signedRaw,
                                      const std::vector<JUB_UINT64> &vInputAmount,
                                      const std::vector<TW::Data> &vInputPublicKey, const TWCoinType &coinNet) {
 
@@ -443,8 +437,20 @@ JUB_RV JubiterBaseBTCImpl::_verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
         for (const auto &inputPublicKey : vInputPublicKey) {
             vInputPubkey.push_back(TW::PublicKey(TW::Data(inputPublicKey), _publicKeyType));
         }
+        if (type == p2tr) {
+            for (auto index = 0; index < vInputPublicKey.size(); index++) {
+                auto pub    = vInputPublicKey.at(index);
+                auto amount = vInputAmount.at(index);
+                auto input  = tx.inputs.at(index);
+                // https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#taproot-key-path-spending-signature-validation
+                auto script =
+                    TW::Bitcoin::Script::buildPayToTaprootKeyPathSpending({pub.begin() + 1, pub.begin() + 33});
+                input->spending(amount, script);
+            }
+        }
 
-        return JubiterBaseBTCImpl::_verifyTx(type, (coinNet ? coinNet : _coin), &tx, _hashType, vInputAmount, vInputPubkey);
+        return JubiterBaseBTCImpl::_verifyTx(type, (coinNet ? coinNet : _coin), &tx, _hashType, vInputAmount,
+                                             vInputPubkey);
     } catch (...) {
         rv = JUBR_ERROR;
     }
@@ -464,8 +470,8 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
     for (size_t index = 0; index < tx->inputs.size(); ++index) {
         switch (type) {
         case p2pkh: {
-            tx->inputs[index]->script = TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(
-                vSignatureRaw[index], vInputPublicKey[index]);
+            tx->inputs[index]->script =
+                TW::Bitcoin::Script::buildPayToPublicKeyHashScriptSig(vSignatureRaw[index], vInputPublicKey[index]);
         } break;
         case p2sh_p2wpkh: {
             TW::PublicKey twpk = TW::PublicKey(vInputPublicKey[index], _publicKeyType);
@@ -490,8 +496,8 @@ JUB_RV JubiterBaseBTCImpl::_serializeTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
             }
         } break;
         case p2tr: {
-            tx->inputs[index]->scriptWitness = TW::Bitcoin::Script::buildPayToTaprootKeyPathSpendingWitness(
-                vSignatureRaw[index]);
+            tx->inputs[index]->scriptWitness =
+                TW::Bitcoin::Script::buildPayToTaprootKeyPathSpendingWitness(vSignatureRaw[index]);
             if (tx->inputs[index]->scriptWitness.empty()) {
                 rv = JUBR_ARGUMENTS_BAD;
                 break;

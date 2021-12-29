@@ -117,9 +117,10 @@ Data Transaction::getPreImage(const Script &scriptCode, size_t index, uint32_t h
     return data;
 }
 
-Data Transaction::getSigMsg(const Script &scriptCode, size_t index, uint32_t hashType, uint64_t amount, uint8_t extByte,
-                            Data annex) const {
+Data Transaction::getSigMsg(size_t index, uint32_t hashType, uint8_t extByte, Data annex) const {
     // see: https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#signature-validation-rules
+    auto input  = inputs.at(index);
+    auto amount = input->output->value;
     Data data;
 
     // Control:
@@ -140,7 +141,7 @@ Data Transaction::getSigMsg(const Script &scriptCode, size_t index, uint32_t has
         // sha_prevouts(32)
         append(getPrevoutHash());
         // sha_amounts(32)
-        append(getAmountsHash());
+        append(getSpendAmountsHash());
         // sha_scriptpubkeys(32)
         append(getSpendScriptHash());
         // sha_sequences(32)
@@ -221,10 +222,10 @@ Data Transaction::getOutputsHash() const {
     return hash;
 }
 
-Data Transaction::getAmountsHash() const {
+Data Transaction::getSpendAmountsHash() const {
     Data data;
-    for (auto &output : outputs) {
-        encode64LE(output->value, data);
+    for (auto input : inputs) {
+        encode64LE(input->output->value, data);
     }
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
@@ -232,8 +233,8 @@ Data Transaction::getAmountsHash() const {
 
 Data Transaction::getSpendScriptHash() const {
     Data data;
-    for (auto &output : outputs) {
-        output->script.encode(data);
+    for (auto input : inputs) {
+        input->output->script.encode(data);
     }
     auto hash = TW::Hash::hash(hasher, data);
     return hash;
@@ -302,10 +303,11 @@ bool Transaction::decode(bool witness, const Data &data) {
     if (witness) {
         // [marker]
         marker = data[index];
-        index += (sizeof(marker) / sizeof(int8_t));
+        index += 1;
+
         // [flag]
         flag = data[index];
-        index += (sizeof(flag) / sizeof(int8_t));
+        index += 1;
     }
 
     // [nInputCount]
