@@ -1,8 +1,8 @@
 #pragma once
 //only for BTC series coins now, maybe for all coins later
-#include <string>
 #include <memory>
 
+#include "token/CKB/JubiterBladeCKBImpl.h"
 #include "utility/xFactory.hpp"
 #include "utility/Singleton.h"
 
@@ -81,6 +81,7 @@ public:
         Register(JUB_ENUM_COINTYPE_BTC::COINUSDT, &HardwareTokenInterface::Create<JubiterBladeUSDTImpl>);
         Register(JUB_ENUM_COINTYPE_BTC::COINDASH, &HardwareTokenInterface::Create<JubiterBladeDashImpl>);
         Register(JUB_ENUM_COINTYPE_BTC::COINQTUM, &HardwareTokenInterface::Create<JubiterBladeQTUMImpl>);
+        Register(JUB_ENUM_COINTYPE_BTC::COINCKB, &HardwareTokenInterface::Create<JubiterBladeCKBImpl>);
     }
 }; // class xJuBiterBladeBTCFactory end
 

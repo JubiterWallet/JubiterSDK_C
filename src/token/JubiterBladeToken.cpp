@@ -11,8 +11,13 @@
 #include "utility/Debug.hpp"
 #include "utility/util.h"
 #include "tlv.hpp"
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <cstdlib>
+#include <cstring>
 
-
+//clang-format off
 namespace jub {
 namespace token {
 
@@ -58,6 +63,11 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
         TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
         "USDT",
         "01080002"
+    },
+    {
+        TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC)/sizeof(JUB_BYTE))),
+        "CKB",
+        "01090300"
     },
     // EOS-independent applet JUBR_PKIAID_INVALID
     {
