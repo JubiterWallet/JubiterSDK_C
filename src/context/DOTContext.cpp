@@ -136,14 +136,14 @@ JUB_RV DOTContext::SignTransaction(std::string path,
         std::string to = tx.to;
         uint64_t nonce = tx.nonce;
         uint32_t specVersion = tx.specVersion;
-        uint64_t network = (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) ? TWSS58AddressTypeWestend : JUB_ENUM_COINTYPE_DOT::COINKSM;
+        uint64_t network = (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) ? TWSS58AddressTypeWestend : TWSS58AddressTypePolkadot;
         uint32_t transaction_version = tx.transaction_version;
         uint64_t blockNumber = tx.blockNumber;
         std::string value = tx.value;
         uint64_t eraPeriod = tx.eraPeriod;
         std::string tip = tx.tip;
 
-        JUB_VERIFY_RV(token->SignTX(path,genesisHash, blockHash, to, nonce, specVersion, network, transaction_version, blockNumber, value, eraPeriod, tip, vSignature));
+        JUB_VERIFY_RV(token->SignTX(path, genesisHash, blockHash, nonce, specVersion, network, transaction_version, blockNumber, eraPeriod, tip, to, value, tx.keep_alive, vSignature));
 
         signedRaw = uchar_vector(vSignature).getHex();
     }

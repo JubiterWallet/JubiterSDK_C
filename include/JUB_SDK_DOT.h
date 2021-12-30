@@ -43,14 +43,15 @@ typedef enum {
 typedef struct stTxDOT {
     JUB_CHAR_PTR genesisHash;
     JUB_CHAR_PTR blockHash;
-    JUB_CHAR_PTR to;
     JUB_UINT64 nonce;
     JUB_UINT32 specVersion;
     JUB_UINT32 transaction_version;
     JUB_UINT64 blockNumber;
-    JUB_CHAR_PTR value;
     JUB_UINT64 eraPeriod;   // [Optional]
     JUB_CHAR_PTR tip;       // [Optional]
+    JUB_CHAR_PTR to;
+    JUB_CHAR_PTR value;
+    JUB_BBOOL keep_alive;
 } JUB_TX_DOT;
 /*****************************************************************************
  * @function name : JUB_CreateContextDOT

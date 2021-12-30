@@ -229,18 +229,20 @@ void main_test() {
             cout << "|  39.   BTC_USDT_test.                   |" << endl;
             cout << "|                                         |" << endl;
             cout << "|  88.  QTUM_QRC20_test.                  |" << endl;
-            cout << "|2301.  QTUM_test.                        |" << endl;
+            cout << "| 2301. QTUM_test.                        |" << endl;
             cout << "| 145.   BCH_test.                        |" << endl;
             cout << "| 171. Hcash_test.                        |" << endl;
             cout << "|                                         |" << endl;
             cout << "| 309.   CKB_test.                        |" << endl;
-            cout << "|3090.   CKB_test(Test Net).              |" << endl;
+            cout << "| 3090.  CKB_test(Test Net).              |" << endl;
             cout << "|                                         |" << endl;
             cout << "|                                         |" << endl;
-            cout << "|  60.   ETH_test & ETC_test.             |" << endl;
+            cout << "|  60.  ETH_test & ETC_test.              |" << endl;
             cout << "|                                         |" << endl;
             cout << "| 354.   DOT_test.                        |" << endl;
+            cout << "| 3540.  DOT_test(Test Net).              |" << endl;
             cout << "| 434.   KSM_test.                        |" << endl;
+            cout << "| 4340.  KSM_test(Test Net).              |" << endl;
             cout << "|                                         |" << endl;
             cout << "| 461.   FIL_test.                        |" << endl;
             cout << "|                                         |" << endl;
@@ -352,8 +354,16 @@ void main_test() {
                 json_file += "testDOT.json";
                 DOT_test(deviceID, json_file.c_str());
                 break;
+            case 3540:
+                json_file += "testDOTTN.json";
+                DOT_test(deviceID, json_file.c_str());
+                break;
             case 434:
                 json_file += "testKSM.json";
+                KSM_test(deviceID, json_file.c_str());
+                break;
+            case 4340:
+                json_file += "testKSMTN.json";
                 KSM_test(deviceID, json_file.c_str());
                 break;
             case 461:

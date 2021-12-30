@@ -27,15 +27,16 @@ public:
     virtual JUB_RV SignTX(const std::string &path,
                           const std::string &genesisHash,
                           const std::string &blockHash,
-                          const std::string &to,
                           const uint64_t& nonce,
                           const uint32_t& specVersion,
                           const uint64_t& network,
                           const uint32_t& transaction_version,
                           const uint64_t& blockNumber,
-                          const std::string& value,
                           const uint64_t& eraPeriod,
                           const std::string& tip,
+                          const std::string &to,
+                          const std::string& value,
+                          const bool keep_alive,
                           std::vector<JUB_BYTE>& vSignatureRaw) override;
 }; // class TrezorCryptoDOTImpl end
 

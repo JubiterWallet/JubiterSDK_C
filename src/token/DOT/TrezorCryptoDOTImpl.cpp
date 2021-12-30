@@ -94,24 +94,26 @@ JUB_RV TrezorCryptoDOTImpl::GetHDNode(const JUB_BYTE format, const std::string& 
 JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
                                    const std::string &genesisHash,
                                    const std::string &blockHash,
-                                   const std::string &to,
                                    const uint64_t& nonce,
                                    const uint32_t& specVersion,
                                    const uint64_t& network,
                                    const uint32_t& transaction_version,
                                    const uint64_t& blockNumber,
-                                   const std::string& value,
                                    const uint64_t& eraPeriod,
                                    const std::string& tip,
+                                   const std::string &to,
+                                   const std::string& value,
+                                   const bool keep_alive,
                                    std::vector<JUB_BYTE>& vSignatureRaw) {
 
     try {
+        auto bTest = (TWSS58AddressTypeWestend == network ? true : false);
         TW::SS58Address toAddress;
-        if (TW::Polkadot::Address::isValid(to)) {
-            toAddress = TW::Polkadot::Address(to);
+        if (TW::Polkadot::Address::isValid(to, bTest)) {
+            toAddress = TW::Polkadot::Address(to, bTest);
         }
-        else if (TW::Kusama::Address::isValid(to)) {
-            toAddress = TW::Kusama::Address(to);
+        else if (TW::Kusama::Address::isValid(to, bTest)) {
+            toAddress = TW::Kusama::Address(to, bTest);
         }
         else {
             return JUBR_ERROR_ARGS;
@@ -140,7 +142,8 @@ JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
         auto genesis = uchar_vector(genesisHash);
         auto bHash = uchar_vector(blockHash);
 
-        TW::Polkadot::Extrinsic extrinsic = TW::Polkadot::Extrinsic(bHash, genesis, nonce, specVersion, transaction_version, value, toAddress, "", (TWSS58AddressType)network, blockNumber, eraPeriod);
+        TW::Polkadot::Extrinsic extrinsic = TW::Polkadot::Extrinsic(bHash, genesis, nonce, specVersion, transaction_version, "", (TWSS58AddressType)network, blockNumber, eraPeriod);
+        extrinsic.call = extrinsic.encodeBalanceCall((TWSS58AddressType)network, transaction_version, to, value, keep_alive);
         TW::Data preimage = extrinsic.encodePayload();
 
         if (JUB_ENUM_CURVES::ED25519 == _curve) {

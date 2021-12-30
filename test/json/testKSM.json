@@ -2,6 +2,7 @@
     "main_path" : "//foo//123",
     "main_net"  : true,
     "KSM" : {
+        "keep_alive" : true,
         "address":"14Ztd3KJDaB9xyJtRkREtSZDdhLSbm7UUKt8Z7AwSv7q85G2",
         "genesisHash":"b0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe",
         "blockHash":"4955dd4813f3e91ef3fd5a825b928af2fc50a71380085f753ccef00bb1582891",

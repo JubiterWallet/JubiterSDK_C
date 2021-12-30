@@ -139,6 +139,7 @@ JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root) {
     JUB_CHAR_PTR path = (JUB_CHAR_PTR)root["main_path"].asCString();
 
     JUB_TX_DOT tx;
+    tx.keep_alive = (JUB_BBOOL)root["DOT"]["keep_alive"].asBool();
     tx.genesisHash = (char *)root["DOT"]["genesisHash"].asCString();
     tx.blockHash = (char *)root["DOT"]["blockHash"].asCString();
     tx.to = (char *)root["DOT"]["balance_call"]["transfer"]["to"].asCString();

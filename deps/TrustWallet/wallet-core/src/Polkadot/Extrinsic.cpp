@@ -20,6 +20,7 @@ static constexpr uint32_t multiAddrSpecVersion = 28;
 static constexpr uint32_t multiAddrSpecVersionKsm = 2028;
 
 static const std::string balanceTransfer = "Balances.transfer";
+static const std::string balanceTransferKeepAlive = "Balances.transfer_keep_alive";
 static const std::string utilityBatch = "Utility.batch";
 static const std::string stakingBond = "Staking.bond";
 static const std::string stakingBondExtra = "Staking.bond_extra";
@@ -31,6 +32,7 @@ static const std::string stakingChill = "Staking.chill";
 // Readable decoded call index can be found from https://polkascan.io
 static std::map<const std::string, Data> polkadotCallIndices = {
     {balanceTransfer,       Data{0x05, 0x00}},
+    {balanceTransferKeepAlive, Data{0x05, 0x03}},
     {utilityBatch,          Data{0x1a, 0x00}},
     {stakingBond,           Data{0x07, 0x00}},
     {stakingBondExtra,      Data{0x07, 0x01}},
@@ -42,6 +44,7 @@ static std::map<const std::string, Data> polkadotCallIndices = {
 
 static std::map<const std::string, Data> kusamaCallIndices = {
     {balanceTransfer,       Data{0x04, 0x00}},
+    {balanceTransferKeepAlive, Data{0x04, 0x03}},
     {stakingBond,           Data{0x06, 0x00}},
     {stakingBondExtra,      Data{0x06, 0x01}},
     {stakingUnbond,         Data{0x06, 0x02}},
@@ -80,26 +83,22 @@ Data Extrinsic::encodeEraNonceTip() const {
     return data;
 }
 
-// JuBiter-modified
 //Data Extrinsic::encodeCall(const Proto::SigningInput& input) {
-Data Extrinsic::encodeCall(TWSS58AddressType netWork, uint32_t specVersion, std::string to, std::string Value) {
-    // call index from MetadataV11
-    Data data;
+//    // call index from MetadataV11
+//    Data data;
 //    auto network = TWSS58AddressType(input.network());
-    auto network = TWSS58AddressType(netWork);
 //    if (input.has_balance_call()) {
 //        data = encodeBalanceCall(input.balance_call(), network, input.spec_version());
-    //Temporarily default transaction type - Balances Transfer
-    data = encodeBalanceCall(network, specVersion, to, Value);
+//    //Temporarily default transaction type - Balances Transfer
 //    } else if (input.has_staking_call()) {
 //        data = encodeStakingCall(input.staking_call(), network, input.spec_version());
 //    }
-    return data;
-}
+//    return data;
+//}
 
 // JuBiter-modified
 //Data Extrinsic::encodeBalanceCall(const Proto::Balance& balance, TWSS58AddressType network, uint32_t specVersion) {
-Data Extrinsic::encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value) {
+Data Extrinsic::encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value, bool keep_alive) {
     Data data;
 //    auto transfer = balance.transfer();
 //    auto address = SS58Address(transfer.to_address(), network);
@@ -107,7 +106,12 @@ Data Extrinsic::encodeBalanceCall(TWSS58AddressType network, uint32_t specVersio
 //    auto value = load(transfer.value());
     auto value = load(Value);
     // call index
-    append(data, getCallIndex(network, balanceTransfer));
+    if (keep_alive) {
+        append(data, getCallIndex(network, balanceTransferKeepAlive));
+    }
+    else {
+        append(data, getCallIndex(network, balanceTransfer));
+    }
     // destination
     append(data, encodeAccountId(address.keyBytes(), encodeRawAccount(network, specVersion)));
     // value

@@ -41,7 +41,7 @@ class Extrinsic {
 //        , specVersion(input.spec_version())
 //        , version(input.transaction_version())
 //        , tip(load(input.tip())) {
-    Extrinsic(Data blockHash, Data genesisHash, uint64_t nonce, uint32_t specVersion, uint32_t transaction_version,  std::string value, SS58Address to, std::string tip, TWSS58AddressType netWork, uint64_t blockNumber, uint64_t eraPeriod)
+    Extrinsic(Data blockHash, Data genesisHash, uint64_t nonce, uint32_t specVersion, uint32_t transaction_version,  std::string tip, TWSS58AddressType netWork, uint64_t blockNumber, uint64_t eraPeriod)
         : blockHash(blockHash.begin(), blockHash.end())
         , genesisHash(genesisHash.begin(), genesisHash.end())
         , nonce(nonce)
@@ -59,12 +59,10 @@ class Extrinsic {
 //        network = TWSS58AddressType(input.network());
         network = netWork;
 //        call = encodeCall(input);
-        call = encodeCall(network, specVersion, to.string(), value);
      }
 
     // JuBiter-modified
 //    static Data encodeCall(const Proto::SigningInput& input);
-    static Data encodeCall(TWSS58AddressType netWork,uint32_t specVersion, std::string to, std::string value);
 
     // Payload to sign.
     Data encodePayload() const;
@@ -73,13 +71,13 @@ class Extrinsic {
     Data encodeSignature(const PublicKey& signer, const Data& signature, const TWCurve curve) const;
     // JuBiter -defined
     Data encodeSignature(const TW::Data& publicKey, const Data& signature, const TWCurve curve) const;
-  protected:
 
     static bool encodeRawAccount(TWSS58AddressType network, uint32_t specVersion);
     // JuBiter-modified
 //    static Data encodeBalanceCall(const Proto::Balance& balance, TWSS58AddressType network, uint32_t specVersion);
-    static Data encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value);
+    static Data encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value, bool keep_alive=false);
 
+protected:
 //    static Data encodeStakingCall(const Proto::Staking& staking, TWSS58AddressType network, uint32_t specVersion);
     static Data encodeBatchCall(const std::vector<Data>& calls, TWSS58AddressType network);
     Data encodeEraNonceTip() const;
