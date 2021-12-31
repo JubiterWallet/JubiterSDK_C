@@ -625,7 +625,6 @@
 		67E0DF52250F6D6C00D42EF0 /* TWP2SHPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF41250F6D6900D42EF0 /* TWP2SHPrefix.h */; };
 		67E0DF53250F6D6C00D42EF0 /* TWBitcoinSigHashType.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF42250F6D6A00D42EF0 /* TWBitcoinSigHashType.h */; };
 		67E0DF54250F6D6C00D42EF0 /* TWData.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF43250F6D6A00D42EF0 /* TWData.h */; };
-		67E0DF55250F6D6C00D42EF0 /* TWString.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF44250F6D6A00D42EF0 /* TWString.h */; };
 		67E0DF56250F6D6C00D42EF0 /* TWPublicKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF45250F6D6A00D42EF0 /* TWPublicKey.h */; };
 		67E0DF57250F6D6C00D42EF0 /* TWHRP.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF46250F6D6A00D42EF0 /* TWHRP.h */; };
 		67E0DF58250F6D6C00D42EF0 /* TWHcashSigHashType.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E0DF47250F6D6A00D42EF0 /* TWHcashSigHashType.h */; };
@@ -818,9 +817,9 @@
 		77AD324E2680728200888326 /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD324D2680728200888326 /* uint256.h */; };
 		77CFBAD12682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */; };
 		77CFBAD22682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */; };
-		77FE726A26C64C860011176C /* ERC1155Abi.h in Headers */ = {isa = PBXBuildFile; fileRef = 77FE726826C64C850011176C /* ERC1155Abi.h */; };
-		77FE726B26C64C860011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE726926C64C850011176C /* ERC1155Abi.cpp */; };
-		77FE726C26C64C860011176C /* ERC1155Abi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FE726926C64C850011176C /* ERC1155Abi.cpp */; };
+		A67FF0EE277EF6850021D43E /* libFTTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A67FF0ED277EF6850021D43E /* libFTTransmission.a */; };
+		A67FF0F0277EF6C70021D43E /* libFTNFCTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A67FF0EF277EF6C60021D43E /* libFTNFCTransmission.a */; };
+		A67FF0F4277EF87D0021D43E /* TWString.h in Headers */ = {isa = PBXBuildFile; fileRef = A67FF0F3277EF87D0021D43E /* TWString.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -944,7 +943,6 @@
 		671544EF23D1814200810F16 /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Script.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Script.h"; sourceTree = "<group>"; };
 		671544F023D1814200810F16 /* Script.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Script.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/Script.cpp"; sourceTree = "<group>"; };
 		6718A01923A2120B00F8A5CD /* JubSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JubSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6718A13823A216AD00F8A5CD /* libFTTransmission.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTTransmission.a; path = ../../deps/bleTransmit/ios/libFTTransmission.a; sourceTree = "<group>"; };
 		671E23EE23CEC197001A5F81 /* CashAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CashAddress.h; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/CashAddress.h"; sourceTree = "<group>"; };
 		671E23EF23CEC197001A5F81 /* SegwitAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SegwitAddress.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/SegwitAddress.cpp"; sourceTree = "<group>"; };
 		671E23F023CEC197001A5F81 /* CashAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CashAddress.cpp; path = "../../deps/TrustWallet/wallet-core/src/Bitcoin/CashAddress.cpp"; sourceTree = "<group>"; };
@@ -1265,7 +1263,6 @@
 		67E0DF41250F6D6900D42EF0 /* TWP2SHPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWP2SHPrefix.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWP2SHPrefix.h"; sourceTree = "<group>"; };
 		67E0DF42250F6D6A00D42EF0 /* TWBitcoinSigHashType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWBitcoinSigHashType.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWBitcoinSigHashType.h"; sourceTree = "<group>"; };
 		67E0DF43250F6D6A00D42EF0 /* TWData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWData.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWData.h"; sourceTree = "<group>"; };
-		67E0DF44250F6D6A00D42EF0 /* TWString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWString.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWString.h"; sourceTree = "<group>"; };
 		67E0DF45250F6D6A00D42EF0 /* TWPublicKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWPublicKey.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWPublicKey.h"; sourceTree = "<group>"; };
 		67E0DF46250F6D6A00D42EF0 /* TWHRP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWHRP.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWHRP.h"; sourceTree = "<group>"; };
 		67E0DF47250F6D6A00D42EF0 /* TWHcashSigHashType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWHcashSigHashType.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWHcashSigHashType.h"; sourceTree = "<group>"; };
@@ -1420,8 +1417,9 @@
 		77AD32492680725D00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
 		77AD324D2680728200888326 /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256.h; path = "../../deps/TrustWallet/wallet-core/src/uint256.h"; sourceTree = "<group>"; };
 		77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
-		77FE726826C64C850011176C /* ERC1155Abi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ERC1155Abi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.h"; sourceTree = "<group>"; };
-		77FE726926C64C850011176C /* ERC1155Abi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ERC1155Abi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ERC1155Abi.cpp"; sourceTree = "<group>"; };
+		A67FF0ED277EF6850021D43E /* libFTTransmission.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTTransmission.a; path = ../../deps/bleTransmit/ios/libFTTransmission.a; sourceTree = "<group>"; };
+		A67FF0EF277EF6C60021D43E /* libFTNFCTransmission.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTNFCTransmission.a; path = ../../deps/nfcTransmit/ios/libFTNFCTransmission.a; sourceTree = "<group>"; };
+		A67FF0F3277EF87D0021D43E /* TWString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWString.h; path = "../../deps/TrustWallet/wallet-core/include/TrustWalletCore/TWString.h"; sourceTree = "<group>"; };
 		EADCCD7322A7B380008F2EF5 /* libJubSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJubSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1432,6 +1430,9 @@
 			files = (
 				67EA8ECE256E216800AD9179 /* libprotobuf.a in Frameworks */,
 				67EB5BF72513763500501E9A /* CoreNFC.framework in Frameworks */,
+				A67FF0F0277EF6C70021D43E /* libFTNFCTransmission.a in Frameworks */,
+				A67FF0EE277EF6850021D43E /* libFTTransmission.a in Frameworks */,
+				77767BFD26D8D76D00E77B86 /* libprotobuf.a in Frameworks */,
 				6773C76723BA2E3E00DEF9F0 /* libJubSDK.a in Frameworks */,
 				670B8FCB2432ED2500E8EF5C /* libFTNFCTransmission.a in Frameworks */,
 				6773C76623BA2E3600DEF9F0 /* libFTTransmission.a in Frameworks */,
@@ -1867,7 +1868,7 @@
 				67E0DF45250F6D6A00D42EF0 /* TWPublicKey.h */,
 				67E0DF50250F6D6B00D42EF0 /* TWPublicKeyType.h */,
 				67E0DF4A250F6D6B00D42EF0 /* TWPurpose.h */,
-				67E0DF44250F6D6A00D42EF0 /* TWString.h */,
+				A67FF0F3277EF87D0021D43E /* TWString.h */,
 			);
 			name = TrustWalletCore;
 			sourceTree = "<group>";
@@ -2040,9 +2041,9 @@
 			isa = PBXGroup;
 			children = (
 				67EA8ECD256E216800AD9179 /* libprotobuf.a */,
+				A67FF0ED277EF6850021D43E /* libFTTransmission.a */,
 				67EB5BF62513763500501E9A /* CoreNFC.framework */,
-				670B8FCA2432ED2500E8EF5C /* libFTNFCTransmission.a */,
-				6718A13823A216AD00F8A5CD /* libFTTransmission.a */,
+				A67FF0EF277EF6C60021D43E /* libFTNFCTransmission.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2761,6 +2762,7 @@
 				677DF33124DD266E001920A9 /* ETHContextFactory.h in Headers */,
 				67755DB0253F10B70056F2C0 /* ContractSmart.h in Headers */,
 				6718A02823A213F200F8A5CD /* JUB_SDK_EOS.h in Headers */,
+				A67FF0F4277EF87D0021D43E /* TWString.h in Headers */,
 				772B6887267382B5007D789B /* TaggedAddresses.h in Headers */,
 				677DF30B24DBDB48001920A9 /* tlvparse.hpp in Headers */,
 				6718A43E23A33A2100F8A5CD /* xManager.hpp in Headers */,
@@ -2859,7 +2861,6 @@
 				7770EB0626AAA2B300324488 /* JubiterBIOCKBImpl.h in Headers */,
 				6718A42323A339F300F8A5CD /* Singleton.h in Headers */,
 				6718A42523A339F300F8A5CD /* util.h in Headers */,
-				67E0DF55250F6D6C00D42EF0 /* TWString.h in Headers */,
 				675B058F24286BB7004C62D4 /* xFactory.hpp in Headers */,
 				67EA8EAE256E0E3E00AD9179 /* TRXContext.h in Headers */,
 				6718A3DF23A3394D00F8A5CD /* uchar_vector.h in Headers */,
@@ -3651,7 +3652,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 94JWNJ5L3J;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -3718,7 +3719,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = S47T4UESP3;
+				DEVELOPMENT_TEAM = 94JWNJ5L3J;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

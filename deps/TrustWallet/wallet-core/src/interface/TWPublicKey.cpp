@@ -64,10 +64,10 @@ enum TWPublicKeyType TWPublicKeyKeyType(struct TWPublicKey *_Nonnull publicKey) 
     return publicKey->impl.type;
 }
 
-TWString *_Nonnull TWPublicKeyDescription(struct TWPublicKey *_Nonnull publicKey) {
-    const auto string = TW::hex(publicKey->impl.bytes);
-    return TWStringCreateWithUTF8Bytes(string.c_str());
-}
+//TWString *_Nonnull TWPublicKeyDescription(struct TWPublicKey *_Nonnull publicKey) {
+//    const auto string = TW::hex(publicKey->impl.bytes);
+//    return TWStringCreateWithUTF8Bytes(string.c_str());
+//}
 
 struct TWPublicKey *_Nullable TWPublicKeyRecover(TWData *_Nonnull signature, TWData *_Nonnull message) {
     try {
