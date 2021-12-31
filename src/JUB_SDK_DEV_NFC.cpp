@@ -64,7 +64,7 @@ JUB_RV JUB_connectNFCDevice(JUB_BYTE_PTR bUUID,     /**< nfc device UUID */
 //    LOG_INF("JUB_connectNFCDevice rv: %hu", *pDeviceID);
 
 //    jub::device::DeviceManager::GetInstance()->AddOne(*pDeviceID, nfcDevice);
-    jub::device::DeviceManager::GetInstance()->AddOne(nfcDevice);
+    *pDeviceID = jub::device::DeviceManager::GetInstance()->AddOne(nfcDevice);
 
     return rv;
 #else   // #if defined(NFC_MODE)

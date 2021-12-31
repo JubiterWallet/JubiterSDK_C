@@ -87,7 +87,7 @@ JUB_RV JubiterNFCDevice::Connect() {
 JUB_RV JubiterNFCDevice::Disconnect() {
 
     if (             0 != _handle
-        &&  FT_SUCCESS == FTIsConnectedNFC(_handle)
+        &&  FT_SUCCESS == FTDisconnectNFC(_handle)
         ) {
 
         _handle = 0;
