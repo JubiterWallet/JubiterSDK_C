@@ -811,6 +811,7 @@
 		7788319126736633004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 7788318F26736633004FDA80 /* ContractAbi.h */; };
 		7788319226736633004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788319026736633004FDA80 /* ContractAbi.cpp */; };
 		7788319326736633004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788319026736633004FDA80 /* ContractAbi.cpp */; };
+		778A2904277C5F8F009B9842 /* SS58Address.h in Headers */ = {isa = PBXBuildFile; fileRef = 778A2903277C5F8F009B9842 /* SS58Address.h */; };
 		77AD324A2680725E00888326 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD32482680725D00888326 /* Base64.h */; };
 		77AD324B2680725E00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32492680725D00888326 /* Base64.cpp */; };
 		77AD324C2680725E00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32492680725D00888326 /* Base64.cpp */; };
@@ -1413,6 +1414,7 @@
 		777B8611269585C1003F7CF1 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/Transaction.h"; sourceTree = "<group>"; };
 		7788318F26736633004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7788319026736633004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
+		778A2903277C5F8F009B9842 /* SS58Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SS58Address.h; path = "../../deps/TrustWallet/wallet-core/src/SS58Address.h"; sourceTree = "<group>"; };
 		77AD32482680725D00888326 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
 		77AD32492680725D00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
 		77AD324D2680728200888326 /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256.h; path = "../../deps/TrustWallet/wallet-core/src/uint256.h"; sourceTree = "<group>"; };
@@ -1782,6 +1784,7 @@
 				6713A86E23A07C200083A34D /* PrivateKey.h */,
 				6713A86B23A07C200083A34D /* PublicKey.cpp */,
 				6713A86A23A07C200083A34D /* PublicKey.h */,
+				778A2903277C5F8F009B9842 /* SS58Address.h */,
 				77AD324D2680728200888326 /* uint256.h */,
 				67E0DE1D250F186100D42EF0 /* XXHash64.h */,
 			);
@@ -2957,6 +2960,7 @@
 				677DF34124DD3D53001920A9 /* HCContextFactory.h in Headers */,
 				6718A3CA23A3394000F8A5CD /* hmac.h in Headers */,
 				6718A3A623A3391C00F8A5CD /* blake2_common.h in Headers */,
+				778A2904277C5F8F009B9842 /* SS58Address.h in Headers */,
 				6718A3BA23A3393900F8A5CD /* sha2.h in Headers */,
 				6718A34B23A338D800F8A5CD /* BinaryCoding.h in Headers */,
 				6718A3B023A3392B00F8A5CD /* fe.h in Headers */,

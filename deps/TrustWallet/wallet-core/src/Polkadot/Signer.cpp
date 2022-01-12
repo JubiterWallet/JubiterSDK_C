@@ -15,7 +15,7 @@ static constexpr size_t hashTreshold = 256;
 
 // JuBiter-modified
 //Proto::SigningOutput Signer::sign(const Proto::SigningInput &input) noexcept {
-Data Signer::sign(Data private_key, Extrinsic extrinsic) noexcept {
+Data Signer::sign(const Data& private_key, const Extrinsic& extrinsic) noexcept {
 //    auto privateKey = PrivateKey(Data(input.private_key().begin(), input.private_key().end()));
     auto privateKey = PrivateKey(private_key);
     auto publicKey = privateKey.getPublicKey(TWPublicKeyTypeED25519);
@@ -27,6 +27,9 @@ Data Signer::sign(Data private_key, Extrinsic extrinsic) noexcept {
         payload = Hash::blake2b(payload, 32);
     }
     auto signature = privateKey.sign(payload, TWCurveED25519);
+    if (!publicKey.verify(signature, payload)) {
+        return {};
+    }
 //    auto encoded = extrinsic.encodeSignature(publicKey, signature);
     auto encoded = extrinsic.encodeSignature(publicKey, signature, TWCurveED25519);
 
@@ -34,4 +37,13 @@ Data Signer::sign(Data private_key, Extrinsic extrinsic) noexcept {
 //    protoOutput.set_encoded(encoded.data(), encoded.size());
 //    return protoOutput;
     return encoded;
+}
+
+// JuBiter-defined
+/// Verifies the given signature.
+bool Signer::verify(const Data& public_key, const Extrinsic& extrinsic, const Data& signature) noexcept {
+    auto publicKey = PublicKey(public_key, TWPublicKeyTypeED25519);
+    auto payload = extrinsic.encodePayload();
+
+    return publicKey.verify(signature, payload);
 }

@@ -56,9 +56,10 @@ static std::map<const std::string, Data> kusamaCallIndices = {
 // modified by JuBiter
 static Data getCallIndex(TWSS58AddressType network, const std::string& key) {
     switch (network) {
-    case TWSS58AddressTypeWestend:
+//    case TWSS58AddressTypeWestend:
     case TWSS58AddressTypePolkadot:
         return polkadotCallIndices[key];
+    case TWSS58AddressTypeWestend:
     case TWSS58AddressTypeKusama:
         return kusamaCallIndices[key];
     }
@@ -66,7 +67,8 @@ static Data getCallIndex(TWSS58AddressType network, const std::string& key) {
 
 bool Extrinsic::encodeRawAccount(TWSS58AddressType network, uint32_t specVersion) {
     if ((network == TWSS58AddressTypePolkadot && specVersion >= multiAddrSpecVersion) ||
-        (network == TWSS58AddressTypeKusama && specVersion >= multiAddrSpecVersionKsm)) {
+        (network == TWSS58AddressTypeKusama && specVersion >= multiAddrSpecVersionKsm) ||
+        (network == TWSS58AddressTypeWestend && specVersion >= multiAddrSpecVersion)) {
             return false;
         }
     return true;

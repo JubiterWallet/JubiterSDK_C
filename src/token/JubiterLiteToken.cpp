@@ -692,8 +692,8 @@ JUB_RV JubiterLiteToken::ImportMnemonic(const std::string& pinMix,
     }   // switch (words.size()) end
 
     uint8_t entropy[32+1] = {0x0,};
-    int seed_len = mnemonic_to_entropy(mnemonic.c_str(), entropy);
-    if (0 == seed_len) {
+    int mnemonic_bits_len = mnemonic_to_entropy(mnemonic.c_str(), entropy);
+    if (0 == mnemonic_bits_len) {
         return JUBR_ARGUMENTS_BAD;
     }
     uint8_t seed[512 / 8] = {0x0,};

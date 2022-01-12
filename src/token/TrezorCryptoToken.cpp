@@ -215,8 +215,8 @@ JUB_RV TrezorCryptoToken::ToMasterKey(const JUB_ENUM_CURVES &curve, const std::s
         uchar_vector vSeed(privOrPub);
         // Key derive requires a key of SR25519_KEYPAIR_SIZE length，When using a private key, use 64
         // bytes（SR25519_SECRET_SIZE）
-        uint8_t privateKey[SR25519_KEYPAIR_SIZE];
-        uint8_t publiKey[SR25519_PUBLIC_SIZE];
+        uint8_t privateKey[SR25519_KEYPAIR_SIZE] = {0x00,};
+        uint8_t  publicKey[SR25519_PUBLIC_SIZE]  = {0x00,};
 
         std::vector<uint8_t> kp(SR25519_KEYPAIR_SIZE, 0);
         ///* Size of SR25519 PRIVATE (SECRET) KEY, which consists of [32 bytes key | 32 bytes nonce]
@@ -224,8 +224,8 @@ JUB_RV TrezorCryptoToken::ToMasterKey(const JUB_ENUM_CURVES &curve, const std::s
         memcpy(privateKey, &kp[0], SR25519_KEYPAIR_SIZE);
 
         // memcpy(node.nonce,  &kp[0] + 32, 32);
-        memcpy(publiKey, &kp[0] + 32 + 32, SR25519_PUBLIC_SIZE);
-        uchar_vector vPublicKey(publiKey, sizeof(publiKey) / sizeof(uint8_t));
+        memcpy(publicKey, &kp[0] + 32 + 32, SR25519_PUBLIC_SIZE);
+        uchar_vector vPublicKey(publicKey, sizeof(publicKey) / sizeof(uint8_t));
         uchar_vector vprivateKey(privateKey, sizeof(privateKey) / sizeof(uint8_t));
 
         std::string xpub = vPublicKey.getHex();
@@ -304,8 +304,8 @@ JUB_RV TrezorCryptoToken::MnemonicToMasterPrivateKey(const JUB_ENUM_CURVES &curv
         uchar_vector vSeed;
         // Key derive requires a key of SR25519_KEYPAIR_SIZE length，When using a private key, use 64
         // bytes（SR25519_SECRET_SIZE）
-        uint8_t privateKey[SR25519_KEYPAIR_SIZE];
-        uint8_t publiKey[SR25519_PUBLIC_SIZE];
+        uint8_t privateKey[SR25519_KEYPAIR_SIZE] = {0x00,};
+        uint8_t  publicKey[SR25519_PUBLIC_SIZE]  = {0x00,};
 
         JUB_VERIFY_RV(MnemonicToMiniSecret(passphrase, mnemonic, vSeed, nullptr));
         std::vector<uint8_t> kp(SR25519_KEYPAIR_SIZE, 0);
@@ -314,8 +314,8 @@ JUB_RV TrezorCryptoToken::MnemonicToMasterPrivateKey(const JUB_ENUM_CURVES &curv
         memcpy(privateKey, &kp[0], SR25519_KEYPAIR_SIZE);
 
         // memcpy(node.nonce,  &kp[0] + 32, 32);
-        memcpy(publiKey, &kp[0] + 32 + 32, SR25519_PUBLIC_SIZE);
-        uchar_vector vPublicKey(publiKey, sizeof(publiKey) / sizeof(uint8_t));
+        memcpy(publicKey, &kp[0] + 32 + 32, SR25519_PUBLIC_SIZE);
+        uchar_vector  vPublicKey( publicKey, sizeof( publicKey) / sizeof(uint8_t));
         uchar_vector vprivateKey(privateKey, sizeof(privateKey) / sizeof(uint8_t));
 
         std::string xpub = vPublicKey.getHex();

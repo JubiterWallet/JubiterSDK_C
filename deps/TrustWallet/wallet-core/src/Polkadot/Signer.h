@@ -16,12 +16,15 @@ namespace TW::Polkadot {
 class Signer {
 public:
     /// Hide default constructor
-    Signer() = delete;
+//    Signer() = delete;
 
     /// Signs a Proto::SigningInput transaction
     // JuBiter-modified
 //    static Proto::SigningOutput sign(const Proto::SigningInput& input) noexcept;
-    static Data sign(Data private_key,Extrinsic extrinsic) noexcept;
+    Data sign(const Data& private_key, const Extrinsic& extrinsic) noexcept;
+    // JuBiter-defined
+    /// Verifies the given signature.
+    bool verify(const Data& public_key, const Extrinsic& extrinsic, const Data& signature) noexcept;
 };
 
 } // namespace TW::Polkadot

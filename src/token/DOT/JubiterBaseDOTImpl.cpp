@@ -81,16 +81,16 @@ JUB_RV JubiterBaseDOTImpl::_getSr25519KeypairFromMasterKp(const std::string kp, 
         return JUBR_ERROR;
     }
 
-    uint8_t privateKey[SR25519_SECRET_SIZE];
-    uint8_t publiKey[SR25519_PUBLIC_SIZE];
+    uint8_t privateKey[SR25519_SECRET_SIZE] = {0x00,};
+    uint8_t  publicKey[SR25519_PUBLIC_SIZE] = {0x00,};
     std::vector<uint8_t> kpOut(SR25519_KEYPAIR_SIZE, 0);
-    std::vector<uint8_t> kpIn(SR25519_KEYPAIR_SIZE, 0);
+    std::vector<uint8_t> kpIn( SR25519_KEYPAIR_SIZE, 0);
     kpIn = uchar_vector(kp);
     std::string chainCode;
 
     for (int i = 0; i < pathSeveralVer.size(); i++) {
         memset(privateKey, 0, SR25519_SECRET_SIZE);
-        memset(publiKey, 0, SR25519_PUBLIC_SIZE);
+        memset( publicKey, 0, SR25519_PUBLIC_SIZE);
         std::string pathStr = pathSeveralVer[i];
         chainCode = "";
 
@@ -107,9 +107,9 @@ JUB_RV JubiterBaseDOTImpl::_getSr25519KeypairFromMasterKp(const std::string kp, 
         }
 
         memcpy(privateKey, &kpOut[0], SR25519_SECRET_SIZE);
-        memcpy(publiKey,  &kpOut[0] + SR25519_SECRET_SIZE, SR25519_PUBLIC_SIZE);
+        memcpy( publicKey, &kpOut[0] + SR25519_SECRET_SIZE, SR25519_PUBLIC_SIZE);
 
-        uchar_vector vPublicKey(publiKey, sizeof(publiKey)/sizeof(uint8_t));
+        uchar_vector vPublicKey(publicKey, sizeof(publicKey)/sizeof(uint8_t));
         uchar_vector vprivateKey(privateKey, sizeof(privateKey)/sizeof(uint8_t));
 
         derivPub = vPublicKey.getHex() ;
@@ -152,15 +152,13 @@ JUB_RV JubiterBaseDOTImpl::_getEd25519PrvKeyFromMasterKey(const std::string prvK
 
         uint8_t out[32] = {0x00,};
         blake2b(uchar_vector(msg).data(), (unsigned int)msg.length()/2, &out, 32);
-        uchar_vector out_vector(out, sizeof(out)/sizeof(uint8_t));
-        uchar_vector prvData(out_vector.begin(),out_vector.begin()+32);
-
+        uchar_vector prvData(out, sizeof(out)/sizeof(uint8_t));
         prvIn = prvData.getHex();
 
         auto privateKey = TW::PrivateKey(prvData);
         TW::PublicKey publicKey = privateKey.getPublicKey(TWPublicKeyTypeED25519);
 
-        derivPub = uchar_vector(publicKey.bytes).getHex() ;
+        derivPub = uchar_vector( publicKey.bytes).getHex();
         derivPrv = uchar_vector(privateKey.bytes).getHex();
     }
 

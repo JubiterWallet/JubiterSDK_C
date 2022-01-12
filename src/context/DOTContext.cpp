@@ -130,7 +130,7 @@ JUB_RV DOTContext::SignTransaction(std::string path,
     }
 
     try {
-        std::vector<JUB_BYTE> vSignature;
+        std::vector<JUB_BYTE> vRaw;
         std::string genesisHash = tx.genesisHash;
         std::string blockHash = tx.blockHash;
         std::string to = tx.to;
@@ -143,9 +143,25 @@ JUB_RV DOTContext::SignTransaction(std::string path,
         uint64_t eraPeriod = tx.eraPeriod;
         std::string tip = tx.tip;
 
-        JUB_VERIFY_RV(token->SignTX(path, genesisHash, blockHash, nonce, specVersion, network, transaction_version, blockNumber, eraPeriod, tip, to, value, tx.keep_alive, vSignature));
+        JUB_VERIFY_RV(token->SignTX(path, genesisHash, blockHash, nonce, specVersion, network, transaction_version, blockNumber, eraPeriod, tip, to, value, tx.keep_alive, vRaw));
 
-        signedRaw = uchar_vector(vSignature).getHex();
+//#if defined(DEBUG)
+//        //verify
+//        std::string pubkey;
+//        JUB_VERIFY_RV(token->GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, path, pubkey));
+//        std::cout << "DOTContext::SignTransaction::publicKey[ " << (pubkey.length()/2) << "]: " << pubkey << std::endl;
+//
+//        TW::Polkadot::Extrinsic extrinsic = TW::Polkadot::Extrinsic(uchar_vector(blockHash), uchar_vector(genesisHash), nonce, specVersion, transaction_version, tip, (TWSS58AddressType)network, blockNumber, eraPeriod);
+//        extrinsic.call = extrinsic.encodeBalanceCall((TWSS58AddressType)network, specVersion, to, value, tx.keep_alive);
+//
+//        TW::Polkadot::Signer signer;
+//        // need to decode raw and get signature
+//        if (!signer.verify(TW::Data(uchar_vector(pubkey)), extrinsic, vSignature)) {
+//            return JUBR_VERIFY_SIGN_FAILED;
+//        }
+//#endif
+//
+        signedRaw = uchar_vector(vRaw).getHex();
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;

@@ -145,11 +145,13 @@ int mnemonic_to_entropy(const char *mnemonic, uint8_t *entropy)
 int mnemonic_check(const char *mnemonic)
 {
 	uint8_t bits[32 + 1];
-	int seed_len = mnemonic_to_entropy(mnemonic, bits);
-	if (seed_len != (12 * 11) && seed_len != (15 * 11) && seed_len != (18 * 11) && seed_len != (21 * 11) && seed_len != (24 * 11)) {
+	int mnemonic_bits_len = mnemonic_to_entropy(mnemonic, bits);
+	if (mnemonic_bits_len != (12 * 11) && mnemonic_bits_len != (15 * 11) &&
+        mnemonic_bits_len != (18 * 11) &&
+        mnemonic_bits_len != (21 * 11) && mnemonic_bits_len != (24 * 11)) {
 		return 0;
 	}
-	int words = seed_len / 11;
+	int words = mnemonic_bits_len / 11;
 
 	uint8_t checksum = bits[words * 4 / 3];
 	sha256_Raw(bits, words * 4 / 3, bits);
@@ -234,10 +236,11 @@ void mnemonic_to_mini_secret(const char *mnemonic, const char *passphrase, uint8
         return;
     }
 
-    size_t entropylen = entropyBits / 8;
+    size_t entropylen = (entropyBits / 33) * 32;
+    entropylen /= 8;
     size_t passphraselen = strnlen(passphrase, 256);
     uint8_t salt[8 + 256];
-    memcpy(salt, "mnemonic{}", 8);
+    memcpy(salt, "mnemonic", 8);
     memcpy(salt + 8, passphrase, passphraselen);
     CONFIDENTIAL PBKDF2_HMAC_SHA512_CTX pctx;
     pbkdf2_hmac_sha512_Init(&pctx, (const uint8_t *)entropy, entropylen, salt, passphraselen + 8, 1);

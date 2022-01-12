@@ -142,12 +142,13 @@ JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
         auto genesis = uchar_vector(genesisHash);
         auto bHash = uchar_vector(blockHash);
 
-        TW::Polkadot::Extrinsic extrinsic = TW::Polkadot::Extrinsic(bHash, genesis, nonce, specVersion, transaction_version, "", (TWSS58AddressType)network, blockNumber, eraPeriod);
-        extrinsic.call = extrinsic.encodeBalanceCall((TWSS58AddressType)network, transaction_version, to, value, keep_alive);
+        TW::Polkadot::Extrinsic extrinsic = TW::Polkadot::Extrinsic(bHash, genesis, nonce, specVersion, transaction_version, tip, (TWSS58AddressType)network, blockNumber, eraPeriod);
+        extrinsic.call = extrinsic.encodeBalanceCall((TWSS58AddressType)network, specVersion, to, value, keep_alive);
         TW::Data preimage = extrinsic.encodePayload();
 
         if (JUB_ENUM_CURVES::ED25519 == _curve) {
-            vSignatureRaw = TW::Polkadot::Signer::sign(privateData,extrinsic);
+            TW::Polkadot::Signer signer;
+            vSignatureRaw = signer.sign(privateData, extrinsic);
         }
         else if (JUB_ENUM_CURVES::SR25519 == _curve) {
             std::vector<uint8_t> sig(SR25519_SIGNATURE_SIZE, 0);
