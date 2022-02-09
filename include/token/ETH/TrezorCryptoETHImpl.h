@@ -76,6 +76,15 @@ public:
                                     const std::vector<JUB_BYTE>& vData,
                                     const std::vector<JUB_BYTE>& vSignature) override;
 
+    virtual JUB_RV SignTypedData(const bool& bMetamaskV4Compat,
+                                 const std::string& typedDataInJSON,
+                                 const std::vector<JUB_BYTE>& vPath,
+                                 std::vector<JUB_BYTE>& signatureRaw) override;
+    virtual JUB_RV VerifyTypedData(const bool& bMetamaskV4Compat,
+                                   const std::string& path,
+                                   const std::string& typedDataInJSON,
+                                   const std::vector<JUB_BYTE>& vSignature) override;
+
 protected:
     virtual JUB_RV SignTx(const std::vector<JUB_BYTE>& vNonce,
                           const std::vector<JUB_BYTE>& vGasPrice,

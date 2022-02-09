@@ -138,7 +138,8 @@ std::string get_raw_string(std::string const& s);
 std::string polkadot_string_to_hex(long long num);
 void EndianSwap(std::uint8_t *pData, unsigned long length);
 
-
+int decode_unsigned_big(uint8_t* encode, int encode_len);
+int decode_signed_big(uint8_t* encode, int encode_len);
 } // namespace jub
 
 #endif

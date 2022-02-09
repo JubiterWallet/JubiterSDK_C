@@ -169,7 +169,7 @@ JUB_RV JUB_SignContractETH(IN JUB_UINT16 contextID,
  * @in  param : contextID - context ID
  *          : path
  *          : data - message to be signed
- * @out param : raw
+ * @out param : signature
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
@@ -177,6 +177,22 @@ JUB_RV JUB_SignBytestringETH(IN JUB_UINT16 contextID,
                              IN BIP44_Path path,
                              IN JUB_CHAR_CPTR data,
                              OUT JUB_CHAR_PTR_PTR signature);
+
+
+/*****************************************************************************
+ * @function name : JUB_SignTypedDataETH
+ * @in  param : contextID - context ID
+ *          : path
+ *          : data - typed structured data in JSON
+ * @out param : raw
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTypedDataETH(IN JUB_UINT16 contextID,
+                            IN BIP44_Path path,
+                            IN JUB_CHAR_CPTR dataInJSON,
+                            IN JUB_BBOOL isMetamaskV4Compat,
+                            OUT JUB_CHAR_PTR_PTR signature);
 
 
 /*****************************************************************************

@@ -51,6 +51,7 @@ void ETH_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
         cout << "|    4.                   uniswap_test. |" << endl;
         cout << "|                                       |" << endl;
         cout << "|  191.                bytestring_test. |" << endl;
+        cout << "|  712.                  typedata_test. |" << endl;
 //        cout << "| 8.               set_my_address_test. |" << endl;
 //        cout << "| 8.                  set_timeout_test. |" << endl;
         cout << "|                                       |" << endl;
@@ -88,6 +89,9 @@ void ETH_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
             break;
         case 191:
             bytestring_test_ETH(contextID, root);
+            break;
+        case 712:
+            typedata_test_ETH(contextID, root);
             break;
 //        case 8:
 //            set_my_address_test_ETH(contextID);
@@ -626,6 +630,52 @@ JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
         cout << "    raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
+
+    return rv;
+}
+
+
+//typedata Test
+void typedata_test_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = typedata_proc_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+
+JUB_RV typedata_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["EIP712"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["EIP712"]["bip32_path"]["addressIndex"].asUInt();
+
+    JUB_BBOOL metamask_v4_compat = (JUB_BBOOL)root["EIP712"]["metamask_v4_compat"].asBool();
+
+    //ETH Typed Data Test
+    JUB_CHAR_PTR fileName = (JUB_CHAR_PTR)root["EIP712"]["file"].asCString();
+    std::string data;
+    if (!readFile(std::string(fileName), data)) {
+        return JUBR_ERROR;
+    }
+
+    JUB_CHAR_PTR signature = nullptr;
+    rv = JUB_SignTypedDataETH(contextID, path, data.c_str(), metamask_v4_compat, &signature);
+    cout << "[-] JUB_SignTypedDataETH() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
+    cout << "    raw[" << strlen(signature)/2 << "]: "  << signature << endl;
+    JUB_FreeMemory(signature);
 
     return rv;
 }

@@ -44,9 +44,17 @@ class Signer {
     bool verify(const Data chainID, const PublicKey& publicKey, Transaction& transaction) const noexcept;
 
     // JuBiter-defined
+    /// Computes the bytestring  sign.
     void sign(const PrivateKey &privateKey, const Data& bytestring, Data& signature) const noexcept;
     // JuBiter-defined
     bool verify(const Data chainID, const PublicKey& publicKey, const Data& bytestring, const Data& signature) const noexcept;
+
+    // JuBiter-defined
+    /// Computes the typed-data sign.
+    void sign(const PrivateKey &privateKey, const Data &domainSeparator, const Data &hashStructMsg, Data& signature) const noexcept;
+    // JuBiter-defined
+    /// Computes the typed-data verify.
+    bool verify(const Data chainID, const PublicKey& publicKey, const Data &domainSeparator, const Data &hashStructMsg, const Data& signature) const noexcept;
 
   public:
     /// Signs a hash with the given private key for the given chain identifier.
@@ -71,6 +79,10 @@ class Signer {
     // JuBiter-defined
     /// Computes the bytestring hash.
     Data hash(const Data &bytestring) const noexcept;
+
+    // JuBiter-defined
+    /// Computes the typed-data hash.
+    Data hash(const Data &domainSeparator, const Data &hashStructMsg) const noexcept;
 };
 
 } // namespace TW::Ethereum

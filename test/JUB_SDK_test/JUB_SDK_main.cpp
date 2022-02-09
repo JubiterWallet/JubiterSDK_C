@@ -133,6 +133,71 @@ Json::Value readJSON(JUB_CHAR_CPTR json_file) {
 }
 
 
+bool readFile(JUB_CHAR_PTR name, JUB_CHAR_PTR buf, JUB_ULONG_PTR buflen) {
+
+    FILE *fp = fopen(name, "rb");
+    if (NULL == fp) {
+        return false;
+    }
+
+    if (0 != fseek(fp, SEEK_END, SEEK_END)) {
+        fclose(fp);
+        return false;
+    }
+    long posEnd = ftell(fp);
+    if(0 != fseek(fp, SEEK_SET, SEEK_SET)) {
+        fclose(fp);
+        return false;
+    }
+    long posStart = ftell(fp);
+
+    long len = posEnd - posStart;
+    if (NULL == buf) {
+        *buflen = len;
+        fclose(fp);
+        return true;
+    }
+
+    if (*buflen < len) {
+        fclose(fp);
+        return false;
+    }
+
+    long rlen = fread(buf, 1, len, fp);
+    if (len != rlen) {
+        if ( ferror(fp)     // Error reading test.bin
+//            || feof(fp)     // Error reading test.bin: unexpected end of file
+        ) {
+            fclose(fp);
+            return false;
+        }
+    }
+
+    *buflen = rlen;
+    fclose(fp);
+    return true;
+}
+
+
+bool readFile(const std::string name, std::string& text, const bool b_remove_cr) {
+    string line;
+    std::ifstream fp(name);
+    while (getline (fp, line)) {
+      // Output the text from the file
+        text += line;
+    }
+
+    // Close the file
+    fp.close();
+
+    if (b_remove_cr) {
+        text.erase(std::remove(text.begin(), text.end(), '\n'), text.end());
+    }
+
+    return true;
+}
+
+
 int main() {
 
     while(true) {

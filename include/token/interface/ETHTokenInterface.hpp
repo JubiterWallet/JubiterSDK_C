@@ -92,6 +92,15 @@ public:
                                     const std::string& path,
                                     const std::vector<JUB_BYTE>& vData,
                                     const std::vector<JUB_BYTE>& vSignature) = 0;
+
+    virtual JUB_RV SignTypedData(const bool& bMetamaskV4Compat,
+                                 const std::string& typedDataInJSON,
+                                 const std::vector<JUB_BYTE>& vPath,
+                                 std::vector<JUB_BYTE>& signatureRaw) = 0;
+    virtual JUB_RV VerifyTypedData(const bool& bMetamaskV4Compat,
+                                   const std::string& path,
+                                   const std::string& typedDataInJSON,
+                                   const std::vector<JUB_BYTE>& vSignature) = 0;
 }; // class ETHTokenInterface end
 
 

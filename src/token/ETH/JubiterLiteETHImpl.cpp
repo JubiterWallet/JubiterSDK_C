@@ -318,5 +318,21 @@ JUB_RV JubiterLiteETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainI
 }
 
 
+JUB_RV JubiterLiteETHImpl::SignTypedData(const bool& bMetamaskV4Compat,
+                                         const std::string& typedDataInJSON,
+                                         const std::vector<JUB_BYTE>& vPath,
+                                         std::vector<JUB_BYTE>& signatureRaw) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterLiteETHImpl::VerifyTypedData(const bool& bMetamaskV4Compat,
+                                           const std::string& path,
+                                           const std::string& typedDataInJSON,
+                                           const std::vector<JUB_BYTE>& vSignature) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 } // namespace token end
 } // namespace jub end
