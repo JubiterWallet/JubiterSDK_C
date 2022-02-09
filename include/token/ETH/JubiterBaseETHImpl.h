@@ -37,9 +37,14 @@ public:
                             const uchar_vector& signedRaw,
                             const TW::Data& publicKey);
     virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
-                                    const uchar_vector& vTypedData,
+                                    const uchar_vector& vData,
                                     const uchar_vector& vSignature,
                                     const TW::Data& publicKey);
+
+    virtual JUB_RV VerifyTypedData(const bool& bMetamaskV4Compat,
+                                   const std::string& typedDataInJSON,
+                                   const std::vector<JUB_BYTE>& vSignature,
+                                   const TW::Data& publicKey);
 
 protected:
     virtual JUB_RV _getPubkeyFromXpub(const std::string& xpub, TW::Data& publicKey,

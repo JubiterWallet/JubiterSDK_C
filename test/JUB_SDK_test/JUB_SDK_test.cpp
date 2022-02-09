@@ -226,7 +226,6 @@ try {
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|  60.   ETH_test & ETC_test.             |" << endl;
-        cout << "|  61.   ETH_Uniswap_test.                |" << endl;
         cout << "| 461.   FIL_test.                        |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
@@ -322,10 +321,6 @@ try {
             break;
 
         case 60:
-            json_file += "testETH.json";
-            ETH_test(deviceID, json_file.c_str());
-            break;
-        case 61:
             json_file += "testETH.json";
             ETH_test(deviceID, json_file.c_str());
             break;

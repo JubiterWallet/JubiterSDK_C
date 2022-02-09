@@ -56,6 +56,10 @@ public:
     virtual JUB_RV SignBytestring(const BIP44_Path& path,
                                   const JUB_CHAR_CPTR data,
                                   OUT std::string& signature);
+    virtual JUB_RV SignTypedData(const JUB_BBOOL bMetamaskV4Compat,
+                                 const BIP44_Path& path,
+                                 const JUB_CHAR_CPTR typedDataInJSON,
+                                 OUT std::string& signature);
 
     virtual JUB_RV BuildERC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi);
     virtual JUB_RV SetERC20ETHToken(JUB_CHAR_CPTR pTokenName,

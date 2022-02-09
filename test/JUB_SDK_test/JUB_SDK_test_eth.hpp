@@ -42,6 +42,9 @@ JUB_RV transaction_proc_contr_ETH(JUB_UINT16 contextID, Json::Value root);
 void   bytestring_test_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root);
 
+void   typedata_test_ETH(JUB_UINT16 contextID, Json::Value root);
+JUB_RV typedata_proc_ETH(JUB_UINT16 contextID, Json::Value root);
+
 void   uniswap_test_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV uniswap_proc_ETH(JUB_UINT16 contextID, Json::Value root);
 

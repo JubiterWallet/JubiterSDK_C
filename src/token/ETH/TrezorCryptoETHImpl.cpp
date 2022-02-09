@@ -1,6 +1,7 @@
 #include "token/ETH/TrezorCryptoETHImpl.h"
 #include <Ethereum/Signer.h>
 #include "HDKey/HDKey.hpp"
+#include "Ethereum/EIP712.h"
 
 namespace jub {
 namespace token {
@@ -202,7 +203,7 @@ JUB_RV TrezorCryptoETHImpl::SignContractHash(const JUB_BYTE inputType,
 }
 
 
-JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
                                            const std::vector<JUB_BYTE>& vPath,
                                            const std::vector<JUB_BYTE>& vChainID,
                                            std::vector<JUB_BYTE>& signatureRaw) {
@@ -214,7 +215,7 @@ JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
 
     TW::Ethereum::Signer signer(vChainID);
     signer.sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
-                vTypedData, signatureRaw);
+                vData, signatureRaw);
 
     return JUBR_OK;
 }
@@ -222,7 +223,7 @@ JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
 
 JUB_RV TrezorCryptoETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
                                              const std::string& path,
-                                             const std::vector<JUB_BYTE>& vTypedData,
+                                             const std::vector<JUB_BYTE>& vData,
                                              const std::vector<JUB_BYTE>& vSignature) {
 
     uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
@@ -237,9 +238,72 @@ JUB_RV TrezorCryptoETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChain
 
     // verify signature
     return JubiterBaseETHImpl::VerifyBytestring(vChainID,
-                                                vTypedData,
+                                                vData,
                                                 vSignature,
                                                 publicKey);
+}
+
+
+JUB_RV TrezorCryptoETHImpl::SignTypedData(const bool& bMetamaskV4Compat,
+                                          const std::string& typedDataInJSON,
+                                          const std::vector<JUB_BYTE>& vPath,
+                                          std::vector<JUB_BYTE>& signatureRaw) {
+
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    std::string path(&vPath[0], &vPath[0] + vPath.size());
+    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
+
+    nlohmann::json typedData = nlohmann::json::parse(typedDataInJSON);
+    if (nlohmann::detail::value_t::object != typedData.type()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    if (!eth::EIP712::parseJSON(typedData)) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    uchar_vector hashDomain = eth::EIP712::typed_data_envelope("EIP712Domain", typedData["domain"], bMetamaskV4Compat);
+    if (hashDomain.empty()) {
+        return JUBR_ERROR;
+    }
+
+    uchar_vector hashMessage = eth::EIP712::typed_data_envelope(typedData["primaryType"].get<std::string>().c_str(),
+                                                                typedData["message"],
+                                                                bMetamaskV4Compat);
+    if (hashMessage.empty()) {
+        return JUBR_ERROR;
+    }
+
+    TW::Ethereum::Signer signer({});
+    signer.sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
+                hashDomain, hashMessage,
+                signatureRaw);
+
+    return JUBR_OK;
+}
+
+
+JUB_RV TrezorCryptoETHImpl::VerifyTypedData(const bool& bMetamaskV4Compat,
+                                            const std::string& path,
+                                            const std::string& typedDataInJSON,
+                                            const std::vector<JUB_BYTE>& vSignature) {
+
+    uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
+    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
+
+    std::string xpub;
+    JUB_VERIFY_RV(GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::XPUB, path, xpub));
+
+    TW::Data publicKey;
+    JUB_VERIFY_RV(_getPubkeyFromXpub(xpub, publicKey,
+                                     hdVersionPub, hdVersionPrv));
+
+    // verify signature
+    return JubiterBaseETHImpl::VerifyTypedData(bMetamaskV4Compat,
+                                               typedDataInJSON,
+                                               vSignature,
+                                               publicKey);
 }
 
 

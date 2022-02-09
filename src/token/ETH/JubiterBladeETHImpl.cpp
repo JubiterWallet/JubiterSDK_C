@@ -575,7 +575,7 @@ JUB_RV JubiterBladeETHImpl::SignContractHash(const JUB_BYTE inputType,
 }
 
 
-JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
                                            const std::vector<JUB_BYTE>& vPath,
                                            const std::vector<JUB_BYTE>& vChainID,
                                            std::vector<JUB_BYTE>& signatureRaw) {
@@ -588,8 +588,8 @@ JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
     total += pathTLV.size();
     uchar_vector chainIdTLV = ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_CHAIN_ID_48, vChainID);
     total += chainIdTLV.size();
-    uchar_vector typedDataTLV = ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_MSG_49, vTypedData);
-    total += typedDataTLV.size();
+    uchar_vector dataTLV = ToTlv(JUB_ENUM_APDU_DATA_ETH::TAG_MSG_49, vData);
+    total += dataTLV.size();
 
     uchar_vector apduData;
     apduData << total;
@@ -606,7 +606,7 @@ JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
     }
     apduData.clear();
 
-    apduData << typedDataTLV;
+    apduData << dataTLV;
     unsigned long iCnt = apduData.size()/kSendOnceLen;
     JUB_UINT32 iRemainder = apduData.size()%kSendOnceLen;
     if (iCnt) {
@@ -648,7 +648,7 @@ JUB_RV JubiterBladeETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vTypedDa
 
 JUB_RV JubiterBladeETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
                                              const std::string& path,
-                                             const std::vector<JUB_BYTE>& vTypedData,
+                                             const std::vector<JUB_BYTE>& vData,
                                              const std::vector<JUB_BYTE>& vSignature) {
 
     // verify signature
@@ -664,9 +664,25 @@ JUB_RV JubiterBladeETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChain
 
     // verify signature
     return JubiterBaseETHImpl::VerifyBytestring(vChainID,
-                                                vTypedData,
+                                                vData,
                                                 vSignature,
                                                 publicKey);
+}
+
+
+JUB_RV JubiterBladeETHImpl::SignTypedData(const bool& bMetamaskV4Compat,
+                                          const std::string& typedDataInJSON,
+                                          const std::vector<JUB_BYTE>& vPath,
+                                          std::vector<JUB_BYTE>& signatureRaw) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterBladeETHImpl::VerifyTypedData(const bool& bMetamaskV4Compat,
+                                            const std::string& path,
+                                            const std::string& typedDataInJSON,
+                                            const std::vector<JUB_BYTE>& vSignature) {
+    return JUBR_IMPL_NOT_SUPPORT;
 }
 
 

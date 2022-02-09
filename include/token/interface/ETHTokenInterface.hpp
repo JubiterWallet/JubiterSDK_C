@@ -84,14 +84,23 @@ public:
                                     const std::vector<JUB_BYTE>& vChainID,
                                     std::vector<JUB_BYTE>& vRaw) = 0;
 
-    virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vTypedData,
+    virtual JUB_RV SignBytestring(const std::vector<JUB_BYTE>& vData,
                                   const std::vector<JUB_BYTE>& vPath,
                                   const std::vector<JUB_BYTE>& vChainID,
                                   std::vector<JUB_BYTE>& signatureRaw) = 0;
     virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
                                     const std::string& path,
-                                    const std::vector<JUB_BYTE>& vTypedData,
+                                    const std::vector<JUB_BYTE>& vData,
                                     const std::vector<JUB_BYTE>& vSignature) = 0;
+
+    virtual JUB_RV SignTypedData(const bool& bMetamaskV4Compat,
+                                 const std::string& typedDataInJSON,
+                                 const std::vector<JUB_BYTE>& vPath,
+                                 std::vector<JUB_BYTE>& signatureRaw) = 0;
+    virtual JUB_RV VerifyTypedData(const bool& bMetamaskV4Compat,
+                                   const std::string& path,
+                                   const std::string& typedDataInJSON,
+                                   const std::vector<JUB_BYTE>& vSignature) = 0;
 }; // class ETHTokenInterface end
 
 

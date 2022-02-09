@@ -384,4 +384,26 @@ JUB_BIP32_PATH spiltMainPath(std::string mainpath,char ch)
 }
 
 
+int decode_unsigned_big(uint8_t* encode, int encode_len) {
+  int integer = 0;
+  for (int i = 0; i < encode_len; ++i) {
+    integer += (encode[i] << 8 * (encode_len - i - 1));
+  }
+  return integer;
+}
+
+
+int decode_signed_big(uint8_t* encode, int encode_len) {
+  int integer = 0;
+
+  while (encode_len-- > 0) {
+    uint8_t v = *encode++;
+    v ^= 0xff;
+    integer *= 256;
+    integer += v;
+  }
+  return -(integer + 1);
+}
+
+
 } // namespace jub end

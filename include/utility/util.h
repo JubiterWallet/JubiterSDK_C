@@ -124,6 +124,9 @@ void decToBinary(uint8_t n, std::vector<uint8_t> &v);
  */
 JUB_BIP32_PATH spiltMainPath(std::string mainpath,char ch);
 
+int decode_unsigned_big(uint8_t* encode, int encode_len);
+int decode_signed_big(uint8_t* encode, int encode_len);
+
 } // namespace jub
 
 #endif

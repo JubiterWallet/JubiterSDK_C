@@ -114,7 +114,7 @@ bool Signer::verify(const Data chainID, const PublicKey& publicKey, Transaction&
         v -= (35 + chainID[0] + chainID[0]);
     }
     else {
-        v += 27;
+        v -= 27;
     }
 
     return publicKey.verify(signature, this->hash(transaction), v);
@@ -157,7 +157,7 @@ bool Signer::verify(const Data chainID, const PublicKey& publicKey, const Data& 
         v -= (35 + chainID[0] + chainID[0]);
     }
     else {
-        v += 27;
+        v -= 27;
     }
 
     return publicKey.verify(signature, this->hash(bytestring), v);
@@ -176,6 +176,51 @@ Data Signer::hash(const Data &bytestring) const noexcept {
     auto sz = std::to_string(bytestring.size());
     std::copy(sz.begin(), sz.end(), std::back_inserter(encoded));
     std::copy(bytestring.begin(), bytestring.end(), std::back_inserter(encoded));
+
+    return Hash::keccak256(encoded);
+}
+
+// JuBiter-defined
+/// Computes the typed-data sign.
+void Signer::sign(const PrivateKey &privateKey, const Data &domainSeparator, const Data &hashStructMsg, Data& signature) const noexcept {
+    auto hash = this->hash(domainSeparator, hashStructMsg);
+    auto tuple = Signer::sign(chainID, privateKey, hash);
+
+    signature.clear();
+    // r
+    std::copy(std::get<0>(tuple).begin(), std::get<0>(tuple).end(), std::back_inserter(signature));
+    // s
+    std::copy(std::get<1>(tuple).begin(), std::get<1>(tuple).end(), std::back_inserter(signature));
+    // v
+    std::copy(std::get<2>(tuple).begin(), std::get<2>(tuple).end(), std::back_inserter(signature));
+}
+
+// JuBiter-defined
+/// Computes the typed-data verify.
+bool Signer::verify(const Data chainID, const PublicKey& publicKey, const Data &domainSeparator, const Data &hashStructMsg, const Data& signature) const noexcept {
+
+    int v = signature[signature.size()-1];
+    if (0 != chainID.size()) {
+        v -= (35 + chainID[0] + chainID[0]);
+    }
+    else {
+        v -= 27;
+    }
+
+    return publicKey.verify(signature, this->hash(domainSeparator, hashStructMsg), v);
+}
+
+// JuBiter-defined
+/// Computes the typed-data hash.
+Data Signer::hash(const Data &domainSeparator, const Data &hashStructMsg) const noexcept {
+    auto encoded = Data();
+
+    // encode(domainSeparator : 𝔹²⁵⁶, message : 𝕊) = "\x19\x01" ‖ domainSeparator ‖ hashStruct(message).
+
+    encoded.push_back(0x19);
+    encoded.push_back(0x01);
+    std::copy(domainSeparator.begin(), domainSeparator.end(), std::back_inserter(encoded));
+    std::copy(hashStructMsg.begin(), hashStructMsg.end(), std::back_inserter(encoded));
 
     return Hash::keccak256(encoded);
 }

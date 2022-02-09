@@ -42,6 +42,8 @@ Function list:
     * [JUB_BuildERC1155TransferAbiETH](#JUB_BuildERC1155TransferAbiETH)
     * [JUB_BuildERC1155BatchTransferAbiETH](#JUB_BuildERC1155BatchTransferAbiETH)
     * [JUB_SignContractETH](#JUB_SignContractETH)
+    * [JUB_SignBytestringETH](#JUB_SignBytestringETH)
+    * [JUB_SignTypedDataETH](#JUB_SignTypedDataETH)
 * **FIL related module**
     * [JUB_SignTransactionFIL](#JUB_SignTransactionFIL)
     * [JUB_CalculateTransactionCIDFIL](#JUB_CalculateTransactionCIDFIL)
@@ -458,6 +460,42 @@ JUB_RV JUB_SignContractETH(
     IN JUB_CHAR_CPTR valueInWei,
     IN JUB_CHAR_CPTR input,
     OUT JUB_CHAR_PTR_PTR raw
+);
+```
+
+* **Function:** Sign ETH bytestring.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
+path - path in BIP44.
+data - data to be signed.
+* **OUT param:**
+signature - the signature of signed ETH bytestring.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_SignBytestringETH(
+    IN JUB_UINT16 contextID,
+    IN BIP44_Path path,
+    IN JUB_CHAR_CPTR data,
+    OUT JUB_CHAR_PTR_PTR signature
+);
+```
+
+* **Function:** Sign ETH typed data.
+* **IN param:**
+contextID - context ID from JUB_CreateContextETH.
+path - path in BIP44.
+dataInJSON - typed structured data in JSON.
+isMetamaskV4Compat - metamask v4 compat flag.
+* **OUT param:**
+signature - the signature of signed ETH typed data.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_SignTypedDataETH(
+    IN JUB_UINT16 contextID,
+    IN BIP44_Path path,
+    IN JUB_CHAR_CPTR dataInJSON,
+    IN JUB_BBOOL isMetamaskV4Compat,
+    OUT JUB_CHAR_PTR_PTR signature
 );
 ```
 

@@ -423,7 +423,7 @@ JUB_RV ETHContext::BuildERC1155BatchTransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPT
 
 JUB_RV ETHContext::SignBytestring(const BIP44_Path& path,
                                   JUB_CHAR_CPTR data,
-                                  OUT std::string& strSignature) {
+                                  OUT std::string& signature) {
 
     CONTEXT_CHECK_TYPE_PRIVATE
 
@@ -434,8 +434,8 @@ JUB_RV ETHContext::SignBytestring(const BIP44_Path& path,
 
     JUB_CHECK_NULL(data);
 
-    std::vector<JUB_BYTE> vTypeData = jub::HexStr2CharPtr(data);
-    if (0 >= vTypeData.size()) {
+    std::vector<JUB_BYTE> vData = jub::HexStr2CharPtr(data);
+    if (0 >= vData.size()) {
         return JUBR_ARGUMENTS_BAD;
     }
 
@@ -446,7 +446,7 @@ JUB_RV ETHContext::SignBytestring(const BIP44_Path& path,
     vChainID.push_back(_chainID);
 
     uchar_vector vSignature;
-    JUB_VERIFY_RV(token->SignBytestring(vTypeData,
+    JUB_VERIFY_RV(token->SignBytestring(vData,
                                         vPath,
                                         vChainID,
                                         vSignature));
@@ -454,11 +454,47 @@ JUB_RV ETHContext::SignBytestring(const BIP44_Path& path,
     //verify
     JUB_VERIFY_RV(token->VerifyBytestring(vChainID,
                                           strPath,
-                                          vTypeData,
+                                          vData,
                                           vSignature));
 #endif
 
-    strSignature = std::string(ETH_PRDFIX) + vSignature.getHex();
+    signature = std::string(ETH_PRDFIX) + vSignature.getHex();
+
+    return JUBR_OK;
+}
+
+
+JUB_RV ETHContext::SignTypedData(const JUB_BBOOL bMetamaskV4Compat,
+                                 const BIP44_Path& path,
+                                 const JUB_CHAR_CPTR typedDataInJSON,
+                                 OUT std::string& signature) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::ETHTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_CHECK_NULL(typedDataInJSON);
+
+    std::string strPath = _FullBip44Path(path);
+    std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
+
+    uchar_vector vSignature;
+    JUB_VERIFY_RV(token->SignTypedData(bMetamaskV4Compat,
+                                       typedDataInJSON,
+                                       vPath,
+                                       vSignature));
+#if defined(DEBUG)
+    //verify
+    JUB_VERIFY_RV(token->VerifyTypedData(bMetamaskV4Compat,
+                                         strPath,
+                                         typedDataInJSON,
+                                         vSignature));
+#endif
+
+    signature = std::string(ETH_PRDFIX) + vSignature.getHex();
 
     return JUBR_OK;
 }

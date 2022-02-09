@@ -35,25 +35,28 @@ void ETH_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
     cout << endl;
 
     while (true) {
-        cout << "--------------------------------------" << endl;
-        cout << "|******* Jubiter Wallet ETH  ********|" << endl;
-        cout << "| 0.       show_address_pubkey_test. |" << endl;
-        cout << "|                                    |" << endl;
-        cout << "| 2.               transaction_test. |" << endl;
-        cout << "|                                    |" << endl;
-        cout << "| 3.         transaction_ERC20_test. |" << endl;
-        cout << "|                                    |" << endl;
-        cout << "| 4.        transaction_ERC721_test. |" << endl;
-        cout << "|                                    |" << endl;
-        cout << "| 5.       transaction_ERC1155_test. |" << endl;
-        cout << "| 6. batch_transaction_ERC1155_test. |" << endl;
-        cout << "|                                    |" << endl;
-        cout << "| 7.         transaction_contr_test. |" << endl;
-        cout << "| 8.                bytestring_test. |" << endl;
-//        cout << "| 8.            set_my_address_test. |" << endl;
-//        cout << "| 8.               set_timeout_test. |" << endl;
-        cout << "| 9. return.                         |" << endl;
-        cout << "--------------------------------------" << endl;
+        cout << "----------------------------------------" << endl;
+        cout << "|********* Jubiter Wallet ETH  *********|" << endl;
+        cout << "|    0.       show_address_pubkey_test. |" << endl;
+        cout << "|                                       |" << endl;
+        cout << "|    2.               transaction_test. |" << endl;
+        cout << "|                                       |" << endl;
+        cout << "|   20.         transaction_ERC20_test. |" << endl;
+        cout << "|  721.        transaction_ERC721_test. |" << endl;
+        cout << "|                                       |" << endl;
+        cout << "|1155 .       transaction_ERC1155_test. |" << endl;
+        cout << "|11550. batch_transaction_ERC1155_test. |" << endl;
+        cout << "|                                       |" << endl;
+        cout << "|    3.         transaction_contr_test. |" << endl;
+        cout << "|    4.                   uniswap_test. |" << endl;
+        cout << "|                                       |" << endl;
+        cout << "|  191.                bytestring_test. |" << endl;
+        cout << "|  712.                  typedata_test. |" << endl;
+//        cout << "| 8.               set_my_address_test. |" << endl;
+//        cout << "| 8.                  set_timeout_test. |" << endl;
+        cout << "|                                       |" << endl;
+        cout << "|    9. return.                         |" << endl;
+        cout << "----------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
         int choice = 0;
@@ -66,23 +69,29 @@ void ETH_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
         case 2:
             transaction_test_ETH(contextID, root);
             break;
-        case 3:
+        case 20:
             transaction_test_ERC20_ETH(contextID, root);
             break;
-        case 4:
+        case 721:
             transaction_test_ERC721_ETH(contextID, root);
             break;
-        case 5:
+        case 1155:
             transaction_test_ERC1155_ETH(contextID, root);
             break;
-        case 6:
+        case 11550:
             batch_transaction_test_ERC1155_ETH(contextID, root);
             break;
-        case 7:
+        case 3:
             transaction_test_contr_ETH(contextID, root);
             break;
-        case 8:
+        case 4:
+            uniswap_test_ETH(contextID, root);
+            break;
+        case 191:
             bytestring_test_ETH(contextID, root);
+            break;
+        case 712:
+            typedata_test_ETH(contextID, root);
             break;
 //        case 8:
 //            set_my_address_test_ETH(contextID);
@@ -621,6 +630,52 @@ JUB_RV bytestring_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
         cout << "    raw[" << strlen(raw)/2 << "]: "  << raw << endl;
         JUB_FreeMemory(raw);
     }
+
+    return rv;
+}
+
+
+//typedata Test
+void typedata_test_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = typedata_proc_ETH(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+
+JUB_RV typedata_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["EIP712"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["EIP712"]["bip32_path"]["addressIndex"].asUInt();
+
+    JUB_BBOOL metamask_v4_compat = (JUB_BBOOL)root["EIP712"]["metamask_v4_compat"].asBool();
+
+    //ETH Typed Data Test
+    JUB_CHAR_PTR fileName = (JUB_CHAR_PTR)root["EIP712"]["file"].asCString();
+    std::string data;
+    if (!readFile(std::string(fileName), data)) {
+        return JUBR_ERROR;
+    }
+
+    JUB_CHAR_PTR signature = nullptr;
+    rv = JUB_SignTypedDataETH(contextID, path, data.c_str(), metamask_v4_compat, &signature);
+    cout << "[-] JUB_SignTypedDataETH() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
+    cout << "    raw[" << strlen(signature)/2 << "]: "  << signature << endl;
+    JUB_FreeMemory(signature);
 
     return rv;
 }
