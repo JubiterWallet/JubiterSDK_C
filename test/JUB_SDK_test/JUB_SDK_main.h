@@ -17,6 +17,7 @@
 #include <sstream>
 #include <cstring>
 #include <thread>
+#include <algorithm>
 #include <json/json.h>
 using namespace std;
 

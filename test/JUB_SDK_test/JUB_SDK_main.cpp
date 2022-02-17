@@ -6,8 +6,6 @@
 //  Copyright © 2019 JuBiter. All rights reserved.
 //
 
-#include <iostream>
-#include <fstream>
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_main.h"
 #if SW
