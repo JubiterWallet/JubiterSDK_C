@@ -1,0 +1,25 @@
+{
+    "url" : "https://westend.subscan.io/extrinsic/0xb566c618ff9358b4e4143dd60a4f37f4181f71ea4e44e9f1e9e0bb18c7270d7c",
+    "main_path" : "//polkadot//0",
+    "main_net"  : false,
+    "DOT" : {
+        "keep_alive" : true,
+        "address" : "5HbTyG9Pm36ES4L46bkn8N5oFbKgTLuW9qrcSkdE4rHTaZsL",
+        "genesisHash" : "e143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e",
+        "blockHash" : "8957284053175d7d3a85d0f4a2dadbae981e350fe4460f4cdb866cd07e49b48d",
+        "nonce" : 0,
+        "specVersion" : 9150,
+        "transaction_version" : 8,
+        "tip" : "",
+        "era" : {
+            "blockNumber" : 9300747,
+            "eraPeriod" : 64
+        },
+        "balance_call" : {
+            "transfer" : {
+                "to" : "5Ey4HRP6yYAQtRm98LMVxXVbHXWyGppvgVuruHbCNnppHGe5",
+                "value" : "2000000000"
+            }
+        }
+    }
+}
