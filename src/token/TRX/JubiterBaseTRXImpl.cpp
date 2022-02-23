@@ -129,8 +129,58 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
 
     try {
         switch (contract.type) {
-        case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_CONTRACT:
-        {
+        case JUB_ENUM_TRX_CONTRACT_TYPE::ACCT_PERM_UPDATE_CONTRACT: {
+            JUB_CHECK_NULL(contract.acctPermUpdate.owner_address);
+
+            if (!TW::Tron::Address::isValid(contract.acctPermUpdate.owner_address)) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+
+            std::vector<TW::Tron::Key> owner_keys;
+            for (JUB_UINT16 j=0; j<contract.acctPermUpdate.owner.keyCount; ++j) {
+                owner_keys.push_back(
+                    TW::Tron::Key(
+                        std::string(contract.acctPermUpdate.owner.keys[j].address),
+                        contract.acctPermUpdate.owner.keys[j].weight
+                    )
+                );
+            }
+
+            std::vector<TW::Tron::Permission> actives;
+            for (JUB_UINT16 i=0; i<contract.acctPermUpdate.activeCount; ++i) {
+                std::vector<TW::Tron::Key> keys;
+                for (JUB_UINT16 j=0; j<contract.acctPermUpdate.actives[i].keyCount; ++j) {
+                    keys.push_back(
+                        TW::Tron::Key(
+                            std::string(contract.acctPermUpdate.actives[i].keys[j].address),
+                            contract.acctPermUpdate.actives[i].keys[j].weight
+                        )
+                    );
+                }
+                actives.push_back(
+                    TW::Tron::Permission(
+                        std::string(contract.acctPermUpdate.actives[i].permission_name),
+                        contract.acctPermUpdate.actives[i].threshold,
+                        uchar_vector(contract.acctPermUpdate.actives[i].operations),
+                        keys
+                    )
+                );
+            }
+
+            parameter = TW::Tron::TransactionContract::to_parameter(
+                            TW::Tron::AccountPermissionUpdateContract(
+                                std::string(contract.acctPermUpdate.owner_address),
+                                TW::Tron::Permission(
+                                    std::string(contract.acctPermUpdate.owner.permission_name),
+                                    contract.acctPermUpdate.owner.threshold,
+                                    owner_keys
+                                ),
+                                TW::Tron::Permission(),
+                                actives
+                            )
+                        );
+        } break;
+        case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_CONTRACT: {
             JUB_CHECK_NULL(contract.transfer.owner_address);
             JUB_CHECK_NULL(contract.transfer.to_address);
 
@@ -147,10 +197,8 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                                 contract.transfer.amount
                             )
                         );
-            break;
-        }
-        case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_ASSET_CONTRACT:
-        {
+        } break;
+        case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_ASSET_CONTRACT: {
             JUB_CHECK_NULL(contract.transferAsset.asset_name);
             JUB_CHECK_NULL(contract.transferAsset.owner_address);
             JUB_CHECK_NULL(contract.transferAsset.to_address);
@@ -169,10 +217,8 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                                 contract.transferAsset.amount
                             )
                         );
-            break;
-        }
-        case JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT:
-        {
+        } break;
+        case JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT: {
             JUB_CHECK_NULL(contract.freezeBalance.owner_address);
             JUB_CHECK_NULL(contract.freezeBalance.receiver_address);
 
@@ -194,10 +240,8 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
             parameter.set_type_url(TW::Tron::TransactionContract::to_parameter(value).type_url());
             auto vValue = value.serialize();
             parameter.set_value(&vValue[0], vValue.size());
-            break;
-        }
-        case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT:
-        {
+        } break;
+        case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT: {
             JUB_CHECK_NULL(contract.unfreezeBalance.owner_address);
             JUB_CHECK_NULL(contract.unfreezeBalance.receiver_address);
 
@@ -217,10 +261,8 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
             parameter.set_type_url(TW::Tron::TransactionContract::to_parameter(value).type_url());
             auto vValue = value.serialize();
             parameter.set_value(&vValue[0], vValue.size());
-            break;
-        }
-        case JUB_ENUM_TRX_CONTRACT_TYPE::CREATE_SMART_CONTRACT:
-        {
+        } break;
+        case JUB_ENUM_TRX_CONTRACT_TYPE::CREATE_SMART_CONTRACT: {
             JUB_CHECK_NULL(contract.createSmart.owner_address);
             JUB_CHECK_NULL(contract.createSmart.bytecode);
 
@@ -239,10 +281,8 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                                 contract.createSmart.token_id
                             )
                         );
-            break;
-        }
-        case JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT:
-        {
+        } break;
+        case JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT: {
             JUB_CHECK_NULL(contract.triggerSmart.owner_address);
             JUB_CHECK_NULL(contract.triggerSmart.contract_address);
             JUB_CHECK_NULL(contract.triggerSmart.data);
@@ -263,8 +303,7 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                                 contract.triggerSmart.token_id
                             )
                         );
-            break;
-        }
+        } break;
         default:
             return JUBR_ARGUMENTS_BAD;
         }

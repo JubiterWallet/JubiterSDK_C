@@ -8,6 +8,7 @@
 
 #include <string>
 #include <cstdint>
+#include "ContractAccount.h"
 #include "ContractAssetIssue.h"
 #include "ContractBalance.h"
 //#include "ContractShield.h"

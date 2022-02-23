@@ -5,7 +5,6 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "TransactionContract.hpp"
-#include "AccountId.h"
 
 #include "HexCoding.h"
 
@@ -141,8 +140,7 @@ void TransactionContract::from_internal(const ::protocol::Transaction_Contract& 
     if (contract.has_parameter()) {
         parameter = contract.parameter();
         switch (type) {
-        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract:
-        {
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract: {
             ::protocol::FreezeBalanceContract encode;
             if (!parameter.UnpackTo(&encode)) {
                 break;
@@ -161,10 +159,8 @@ void TransactionContract::from_internal(const ::protocol::Transaction_Contract& 
 
             parameter.clear_value();
             parameter.set_value(&vValue[0], vValue.size());
-            break;
-        }
-        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
-        {
+        } break;
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract: {
             ::protocol::UnfreezeBalanceContract encode;
             if (!parameter.UnpackTo(&encode)) {
                 break;
@@ -183,8 +179,7 @@ void TransactionContract::from_internal(const ::protocol::Transaction_Contract& 
 
             parameter.clear_value();
             parameter.set_value(&vValue[0], vValue.size());
-            break;
-        }
+        } break;
         default:
             break;
         }
@@ -288,42 +283,37 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
     Data::iterator it = contract.begin();
     Data o;
     switch (type) {
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferContract:
-    {
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferContract: {
         TransferContract transfer;
         if (!from_parameter<::protocol::TransferContract>(transfer)) {
             o.clear();
             break;
         }
         o = Contract::serialize<::protocol::TransferContract>(transfer);
-        break;
-    }
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferAssetContract:
-    {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferAssetContract: {
         TransferAssetContract transferAsset;
         if (!from_parameter<::protocol::TransferAssetContract>(transferAsset)) {
             o.clear();
             break;
         }
         o = Contract::serialize<::protocol::TransferAssetContract>(transferAsset);
-        break;
-    }
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_VoteAssetContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_VoteWitnessContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_WitnessCreateContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AssetIssueContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_WitnessUpdateContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ParticipateAssetIssueContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountUpdateContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract:
-    {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_VoteAssetContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_VoteWitnessContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_WitnessCreateContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AssetIssueContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_WitnessUpdateContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ParticipateAssetIssueContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountUpdateContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract: {
         FreezeBalanceContract freezeBalance;
         if (!from_parameter<::protocol::FreezeBalanceContract>(freezeBalance)) {
             o.clear();
@@ -333,10 +323,8 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
         // so we need to override it's serialize()
 //        o = Contract::serialize<::protocol::FreezeBalanceContract>(freezeBalance);
         o = freezeBalance.serialize();
-        break;
-    }
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
-    {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract: {
         UnfreezeBalanceContract unfreezeBalance;
         if (!from_parameter<::protocol::UnfreezeBalanceContract>(unfreezeBalance)) {
             o.clear();
@@ -346,72 +334,73 @@ size_t TransactionContract::parameterValueIndex(const Data& param) {
         // so we need to override it's serialize()
 //        o = Contract::serialize<::protocol::UnfreezeBalanceContract>(unfreezeBalance);
         o = unfreezeBalance.serialize();
-        break;
-    }
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_WithdrawBalanceContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeAssetContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateAssetContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ProposalCreateContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ProposalApproveContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ProposalDeleteContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_SetAccountIdContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_CustomContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_CreateSmartContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TriggerSmartContract:
-    {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_WithdrawBalanceContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeAssetContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateAssetContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ProposalCreateContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ProposalApproveContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ProposalDeleteContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_SetAccountIdContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_CustomContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_CreateSmartContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TriggerSmartContract: {
         TriggerSmartContract triggerSmart;
         if (!from_parameter<::protocol::TriggerSmartContract>(triggerSmart)) {
             o.clear();
             break;
         }
         o = Contract::serialize<::protocol::TriggerSmartContract>(triggerSmart);
-        break;
-    }
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_GetContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateSettingContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ExchangeCreateContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ExchangeInjectContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ExchangeWithdrawContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ExchangeTransactionContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateEnergyLimitContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountPermissionUpdateContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ClearABIContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateBrokerageContract:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ShieldedTransferContract:
-    {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_GetContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateSettingContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ExchangeCreateContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ExchangeInjectContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ExchangeWithdrawContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ExchangeTransactionContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateEnergyLimitContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountPermissionUpdateContract: {
+        AccountPermissionUpdateContract accountPermissionUpdate;
+        if (!from_parameter<::protocol::AccountPermissionUpdateContract>(accountPermissionUpdate)) {
+            o.clear();
+            break;
+        }
+        o = Contract::serialize<::protocol::AccountPermissionUpdateContract>(accountPermissionUpdate);
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ClearABIContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UpdateBrokerageContract: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_ShieldedTransferContract: {
 //        ShieldedTransferContract shieldedTransfer;
 //        if (!from_parameter(shieldedTransfer)) {
 //            o.clear();
 //            break;
 //        }
 //        o = shieldedTransfer.serialize();
-        break;
-    }
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_Transaction_Contract_ContractType_INT_MIN_SENTINEL_DO_NOT_USE_:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_Transaction_Contract_ContractType_INT_MAX_SENTINEL_DO_NOT_USE_:
-        break;
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountCreateContract:
-        break;
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_Transaction_Contract_ContractType_INT_MIN_SENTINEL_DO_NOT_USE_: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_Transaction_Contract_ContractType_INT_MAX_SENTINEL_DO_NOT_USE_: {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountCreateContract: {
+    } break;
     default:
         break;
     }
@@ -459,8 +448,7 @@ pb_length_delimited TransactionContract::getParameter() {
     // When resource == bandwidth, pb will not encode this item,
     // so we need to override it's serialize()
     switch (type) {
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract:
-    {
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract: {
         ::protocol::FreezeBalanceContract encode;
         if (!parameter.UnpackTo(&encode)) {
             break;
@@ -479,11 +467,8 @@ pb_length_delimited TransactionContract::getParameter() {
 
         parameter.clear_value();
         parameter.set_value(&vValue[0], vValue.size());
-
-        break;
-    }
-    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
-    {
+    } break;
+    case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract: {
         ::protocol::UnfreezeBalanceContract encode;
         if (!parameter.UnpackTo(&encode)) {
             break;
@@ -502,8 +487,7 @@ pb_length_delimited TransactionContract::getParameter() {
 
         parameter.clear_value();
         parameter.set_value(&vValue[0], vValue.size());
-        break;
-    }
+    } break;
     default:
         break;
     }

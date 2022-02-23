@@ -45,11 +45,15 @@ void TRX_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
         cout << "|                                     |" << endl;
         cout << "|  1.       transfer_contract_test.   |" << endl;
         cout << "|  2. transfer_asset_contract_test.   |" << endl;
+        cout << "|                                     |" << endl;
         cout << "| 11.   freeze_balance_contract_test. |" << endl;
         cout << "| 12. unfreeze_balance_contract_test. |" << endl;
+        cout << "|                                     |" << endl;
         cout << "| 31. trigger_smart_contr_erc20_test. |" << endl;
         cout << "| 32. trigger_smart_contr_trc20_test. |" << endl;
         cout << "| 33. trigger_smart_contr_trc721_test.|" << endl;
+        cout << "|                                     |" << endl;
+        cout << "| 46. account_perm_update_contr_test. |" << endl;
         cout << "|                                     |" << endl;
         cout << "| 3 . set_my_address_test.            |" << endl;
         cout << "| 4 . set_timeout_test.               |" << endl;
@@ -70,6 +74,7 @@ void TRX_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
         case JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT:
         case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT:
         case JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT:
+        case JUB_ENUM_TRX_CONTRACT_TYPE::ACCT_PERM_UPDATE_CONTRACT:
         case 32:
         case 33:
             transaction_test_TRX(contextID, root, choice);
@@ -211,6 +216,7 @@ JUB_RV transaction_proc_TRX(JUB_UINT16 contextID, Json::Value root, int choice) 
 //           UNFRZ_BLA_CONTRACT = 12, // TransferContract(balance_contract.proto)
 //        CREATE_SMART_CONTRACT = 30, // CreateSmartContract(smart_contract.proto)
 //          TRIG_SMART_CONTRACT = 31, // TriggerSmartContract(smart_contract.proto)
+//    ACCT_PERM_UPDATE_CONTRACT = 46, // AccountPermissionUpdateContract(account_contract.proto)
 //    } JUB_ENUM_TRX_CONTRACT_TYPE;
     int trc = 0;
     if (32 == choice) {
@@ -275,8 +281,7 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
     JUB_CHAR_PTR trcAbi = nullptr;
     string contractAddress = "";
     switch (trc) {
-    case TRC_20:
-    {
+    case TRC_20: {
         contractAddress   = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["contract_address"].asCString();
         string tokenName  = (JUB_CHAR_PTR)root["TRX"]["TRC20"]["tokenName"].asCString();
         JUB_UINT16 unitDP = root["TRX"]["TRC20"]["dp"].asUInt64();
@@ -298,10 +303,8 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
                                        &trcAbi);
         cout << "[-] JUB_BuildTRC20TransferAbi() return " << GetErrMsg(rv) << endl;
         cout << "TRC-20  [" << strlen(trcAbi)/2 << "]: " << trcAbi << std::endl;
-        break;
-    }
-    case TRC_721:
-    {
+    } break;
+    case TRC_721: {
         contractAddress   = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["contract_address"].asCString();
         string tokenName  = (JUB_CHAR_PTR)root["TRX"]["TRC721"]["tokenName"].asCString();
         rv = JUB_SetTRC721Token(contextID,
@@ -321,8 +324,7 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
                                         &trcAbi);
         cout << "[-] JUB_BuildTRC721TransferAbi() return " << GetErrMsg(rv) << endl;
         cout << "TRC-721 [" << strlen(trcAbi)/2 << "]: " << trcAbi << std::endl;
-        break;
-    }
+    } break;
     default:
         break;
     }
@@ -344,64 +346,75 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
     std::string strChoice = std::to_string((unsigned int)choice);
     JUB_CHAR_CPTR sType = strChoice.c_str();
     switch ((JUB_ENUM_TRX_CONTRACT_TYPE)choice) {
-    case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_CONTRACT:
-    {
+    case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_CONTRACT: {
         contrTRX.transfer.owner_address = (JUB_CHAR_PTR)root["TRX"]["contracts"]["owner_address"].asCString();
         contrTRX.transfer.to_address    = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["to_address"].asCString();
         contrTRX.transfer.amount = root["TRX"]["contracts"][sType]["amount"].asUInt64();
-        break;
-    }
-    case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_ASSET_CONTRACT:
-    {
+    } break;
+    case JUB_ENUM_TRX_CONTRACT_TYPE::XFER_ASSET_CONTRACT: {
         contrTRX.transferAsset.asset_name = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["asset_name"].asCString();
         contrTRX.transferAsset.owner_address = (JUB_CHAR_PTR)root["TRX"]["contracts"]["owner_address"].asCString();
         contrTRX.transferAsset.to_address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["to_address"].asCString();
         contrTRX.transferAsset.amount = root["TRX"]["contracts"][sType]["amount"].asUInt64();
-        break;
-    }
-    case JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT:
-    {
+    } break;
+    case JUB_ENUM_TRX_CONTRACT_TYPE::FRZ_BLA_CONTRACT: {
         contrTRX.freezeBalance.owner_address = (JUB_CHAR_PTR)root["TRX"]["contracts"]["owner_address"].asCString();
         contrTRX.freezeBalance.frozen_balance = root["TRX"]["contracts"][sType]["frozen_balance"].asUInt64();
         contrTRX.freezeBalance.frozen_duration = root["TRX"]["contracts"][sType]["frozen_duration"].asUInt64();
         contrTRX.freezeBalance.resource = (JUB_ENUM_RESOURCE_CODE)root["TRX"]["contracts"][sType]["resource"].asUInt64();
         contrTRX.freezeBalance.receiver_address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["receiver_address"].asCString();
-        break;
-    }
-    case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT:
-    {
+    } break;
+    case JUB_ENUM_TRX_CONTRACT_TYPE::UNFRZ_BLA_CONTRACT: {
         contrTRX.unfreezeBalance.owner_address = (JUB_CHAR_PTR)root["TRX"]["contracts"]["owner_address"].asCString();
         contrTRX.unfreezeBalance.resource = (JUB_ENUM_RESOURCE_CODE)root["TRX"]["contracts"][sType]["resource"].asUInt64();
         contrTRX.unfreezeBalance.receiver_address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["receiver_address"].asCString();
-        break;
-    }
-    case JUB_ENUM_TRX_CONTRACT_TYPE::CREATE_SMART_CONTRACT:
-    {
+    } break;
+    case JUB_ENUM_TRX_CONTRACT_TYPE::CREATE_SMART_CONTRACT: {
         contrTRX.createSmart.bytecode = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["bytecode"].asCString();
         contrTRX.createSmart.call_token_value = root["TRX"]["contracts"][sType]["call_token_value"].asUInt64();
         contrTRX.createSmart.token_id = root["TRX"]["contracts"][sType]["token_id"].asUInt64();
-        break;
-    }
-    case JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT:
-    {
+    } break;
+    case JUB_ENUM_TRX_CONTRACT_TYPE::TRIG_SMART_CONTRACT: {
         tx.fee_limit = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["fee_limit"].asCString();
         contrTRX.triggerSmart.owner_address = (JUB_CHAR_PTR)root["TRX"]["contracts"]["owner_address"].asCString();
         switch (trc) {
-        case TRC_20:
-        case TRC_721:
-            contrTRX.triggerSmart.contract_address = (JUB_CHAR_PTR)contractAddress.c_str();
-            contrTRX.triggerSmart.data = trcAbi;
-            break;
-        default:
-            contrTRX.triggerSmart.contract_address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["contract_address"].asCString();
-            contrTRX.triggerSmart.data = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["data"].asCString();
-            break;
+            case TRC_20:
+            case TRC_721: {
+                contrTRX.triggerSmart.contract_address = (JUB_CHAR_PTR)contractAddress.c_str();
+                contrTRX.triggerSmart.data = trcAbi;
+            } break;
+            default: {
+                contrTRX.triggerSmart.contract_address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["contract_address"].asCString();
+                contrTRX.triggerSmart.data = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["data"].asCString();
+            } break;
         }
         contrTRX.triggerSmart.call_value = root["TRX"]["contracts"][sType]["call_value"].asUInt64();
         contrTRX.triggerSmart.call_token_value = root["TRX"]["contracts"][sType]["call_token_value"].asUInt64();
         contrTRX.triggerSmart.token_id = root["TRX"]["contracts"][sType]["token_id"].asUInt64();
-        break;
-    }
+    } break;
+    case JUB_ENUM_TRX_CONTRACT_TYPE::ACCT_PERM_UPDATE_CONTRACT: {
+        contrTRX.acctPermUpdate.owner_address = (JUB_CHAR_PTR)root["TRX"]["contracts"]["owner_address"].asCString();
+
+        contrTRX.acctPermUpdate.owner.permission_name = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["owner"]["permission_name"].asCString();
+        contrTRX.acctPermUpdate.owner.threshold = root["TRX"]["contracts"][sType]["owner"]["threshold"].asUInt64();
+        contrTRX.acctPermUpdate.owner.keyCount = root["TRX"]["contracts"][sType]["owner"]["keys"].size();
+        for (JUB_UINT16 i=0; i<contrTRX.acctPermUpdate.owner.keyCount; ++i) {
+            contrTRX.acctPermUpdate.owner.keys[i].address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["owner"]["keys"][i]["address"].asCString();
+            contrTRX.acctPermUpdate.owner.keys[i].weight = root["TRX"]["contracts"][sType]["owner"]["keys"][i]["weight"].asUInt64();
+        }
+
+        contrTRX.acctPermUpdate.activeCount = root["TRX"]["contracts"][sType]["actives"].size();
+        for (JUB_UINT16 i=0; i<contrTRX.acctPermUpdate.activeCount; ++i) {
+            contrTRX.acctPermUpdate.actives[i].permission_name = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["actives"][i]["permission_name"].asCString();
+            contrTRX.acctPermUpdate.actives[i].threshold = root["TRX"]["contracts"][sType]["actives"][i]["threshold"].asUInt64();
+            contrTRX.acctPermUpdate.actives[i].operations = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["actives"][i]["operations"].asCString();
+            contrTRX.acctPermUpdate.actives[i].keyCount = root["TRX"]["contracts"][sType]["actives"][i]["keys"].size();
+            for (JUB_UINT16 j=0; j<contrTRX.acctPermUpdate.actives[i].keyCount; ++j) {
+                contrTRX.acctPermUpdate.actives[i].keys[j].address = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["actives"][i]["keys"][j]["address"].asCString();
+                contrTRX.acctPermUpdate.actives[i].keys[j].weight = root["TRX"]["contracts"][sType]["actives"][i]["keys"][j]["weight"].asUInt64();
+            }
+        }
+    } break;
     default:
         rv = JUBR_ARGUMENTS_BAD;
         break;

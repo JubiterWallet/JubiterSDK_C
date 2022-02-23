@@ -31,23 +31,23 @@ public:
         length.clear();
     }
 
-    pb_tag getTag() {
+    pb_tag getTag() const {
         return tag;
     }
 
-    std::vector<uint8_t> getValue() {
+    std::vector<uint8_t> getValue() const {
         return value;
     }
 
-    size_t getValueIndex() {
+    size_t getValueIndex() const {
         return (tag.size(fieldType) + length.size());
     }
 
-    size_t getValueIndex(size_t offset) {
+    size_t getValueIndex(size_t offset) const {
         return (offset + getValueIndex());
     }
 
-    std::vector<uint8_t> serialize() {
+    std::vector<uint8_t> serialize() const {
         std::vector<uint8_t> o;
 
         size_t szTag = tag.size(fieldType);
@@ -81,9 +81,9 @@ protected:
     std::vector<uint8_t> value;   /**< TLV data, e.g. in protocol-buffer encode. */
     std::vector<uint8_t> length;
 
-    virtual size_t size() = 0;
-    virtual size_t sizeTag() = 0;
-    virtual size_t sizeValue() = 0;
+    virtual size_t size() const = 0;
+    virtual size_t sizeTag() const = 0;
+    virtual size_t sizeValue() const = 0;
 } pb_buf;
 
 

@@ -10,7 +10,6 @@
         },
         "contracts" :
         {
-            "type" : 1,
             "owner_address" : "TDjfwCF8EcUph49MQj9u3fuNePMDELfAZr",
             "1" : {
                 "to_address" : "TLb2e2uRhzxvrxMcC8VkL2N7zmxYyg3Vfc",
@@ -44,6 +43,66 @@
                 "call_token_value" : 0,
                 "token_id" : 0,
                 "bytecode" : ""
+            },
+            "46" : {
+                "url" : "https://tronscan.org/#/transaction/a5d21bfaa17b8c7b43a18737c5e0a86fb46913d0444d48fb2e006f5d084d2e43",
+                "owner" : {
+                    "keys": [
+                        {
+                            "address": "TDjfwCF8EcUph49MQj9u3fuNePMDELfAZr",
+                            "weight": 1
+                        }
+                    ],
+                    "threshold": 1,
+                    "permission_name" : "owner"
+                },
+                "actives": [
+                    {
+                        "operations": "7fff1fc0033e0300000000000000000000000000000000000000000000000000",
+                        "keys": [
+                            {
+                                "address": "TDjfwCF8EcUph49MQj9u3fuNePMDELfAZr",
+                                "weight": 1
+                            }
+                        ],
+                        "threshold": 1,
+                        "type": "Active",
+                        "permission_name": "active"
+                    },
+                    {
+                      "operations": "77ff07c0023e0300000000000000000000000000000000000000000000000000",
+                      "keys": [
+                        {
+                          "address": "THPp4w3o6u4Mw1hQwWMo72cxnndJ4b3Hqg",
+                          "weight": 45
+                        },
+                        {
+                          "address": "TX1FhsmJLYJim5rpmEZqdM3hqjtBypTPh2",
+                          "weight": 51
+                        },
+                        {
+                          "address": "TAvD7S4HabtuuvsAmMFYAsYqjQ4G8P21xk",
+                          "weight": 4
+                        }
+                      ],
+                      "threshold": 100,
+                      "id": 3,
+                      "type": "Active",
+                      "permission_name": "释放R"
+                    },
+                    {
+                      "operations": "77fb03c0003e0200000000000000000000000000000000000000000000000000",
+                      "keys": [
+                        {
+                          "address": "TGrP8EdM2TTw3CtE6mRyUhQzGJU5nYMBGt",
+                          "weight": 51
+                        }
+                      ],
+                      "threshold": 51,
+                      "type": "Active",
+                      "permission_name": "测试"
+                    }
+                ]
             }
         },
         "bip32_path" : {

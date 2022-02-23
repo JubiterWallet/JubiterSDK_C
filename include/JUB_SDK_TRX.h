@@ -27,7 +27,47 @@ typedef enum {
        UNFRZ_BLA_CONTRACT = 12, // TransferContract(balance_contract.proto)
     CREATE_SMART_CONTRACT = 30, // CreateSmartContract(smart_contract.proto)
       TRIG_SMART_CONTRACT = 31, // TriggerSmartContract(smart_contract.proto)
+ACCT_PERM_UPDATE_CONTRACT = 46, // AccountPermissionUpdateContract(account_contract.proto)
 } JUB_ENUM_TRX_CONTRACT_TYPE;
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+typedef struct stTronKey {
+    JUB_CHAR_PTR address;
+    JUB_INT64 weight;
+//
+//     stTronKey();
+//    ~stTronKey() = default;
+} JUB_KEY_TRX;
+typedef JUB_KEY_TRX* JUB_KEY_TRX_PTR;
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+typedef struct stTronPermission {
+    JUB_CHAR_PTR permission_name;
+    JUB_INT64 threshold;
+    JUB_CHAR_PTR operations;
+    JUB_KEY_TRX keys[5];
+    JUB_UINT16 keyCount;
+//
+//     stTronPermission();
+//    ~stTronPermission() = default;
+} JUB_PERMISSION_TRX;
+typedef JUB_PERMISSION_TRX* JUB_PERMISSION_TRX_PTR;
+// Remove c++ features for swift framework end
+
+// Remove c++ features for swift framework
+typedef struct stTronAccountPermissionUpdateContract {
+    JUB_CHAR_PTR owner_address;
+    JUB_PERMISSION_TRX owner;
+    JUB_PERMISSION_TRX witness;
+    JUB_PERMISSION_TRX actives[5];
+    JUB_UINT16 activeCount;
+//
+//     stTronAccountPermissionUpdateContract();
+//    ~stTronAccountPermissionUpdateContract() = default;
+} JUB_ACCT_PERM_UPDATE_CONTRACT_TRX;
+typedef JUB_ACCT_PERM_UPDATE_CONTRACT_TRX* JUB_ACCT_PERM_UPDATE_CONTRACT_TRX_PTR;
 // Remove c++ features for swift framework end
 
 // Remove c++ features for swift framework
@@ -135,6 +175,7 @@ typedef JUB_TRIG_SMART_CONTRACT_TRX* JUB_TRIG_SMART_CONTRACT_TRX_PTR;
 typedef struct stTronContract {
     JUB_ENUM_TRX_CONTRACT_TYPE type;
     union {
+  JUB_ACCT_PERM_UPDATE_CONTRACT_TRX acctPermUpdate;
               JUB_XFER_CONTRACT_TRX transfer;
         JUB_XFER_ASSET_CONTRACT_TRX transferAsset;
            JUB_FRZ_BLA_CONTRACT_TRX freezeBalance;

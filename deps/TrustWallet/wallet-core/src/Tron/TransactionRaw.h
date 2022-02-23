@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "Authority.h"
+#include "Tron.h"
 #include "TransactionContract.hpp"
 
 

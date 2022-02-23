@@ -71,15 +71,13 @@ JUB_RV JubiterBladeTRXImpl::GetHDNode(const JUB_BYTE format, const std::string& 
     switch (format) {
     case JUB_ENUM_PUB_FORMAT::HEX:
         break;
-    case JUB_ENUM_PUB_FORMAT::XPUB:
-    {
+    case JUB_ENUM_PUB_FORMAT::XPUB: {
         //Version higher than 1.1.7 supports XPub
         stVersionExp vSupportXpub(1, 1, 7);
         if (JubiterBladeToken::_appletVersion < vSupportXpub) {
             return JUBR_ERROR_ARGS;
         }
-        break;
-    }
+    } break;
     default:
         return JUBR_ERROR_ARGS;
     }
@@ -126,6 +124,7 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         //  unfreezeBalance             - 0x0C
         //  createSmart                 - 0x1E
         //  triggerSmart                - 0x1F
+        //  AccountPermissionUpdate     - 0x2E
         //contractTLV
 
         //contractAssistBody
@@ -136,8 +135,7 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         uchar_vector vContractAssist;
         vContractAssist << (uint8_t)tx.raw_data.contracts[0].type;
         switch (tx.raw_data.contracts[0].type) {
-        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferContract:
-        {
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferContract: {
             TW::Tron::TransferContract contract;
             if (!tx.raw_data.contracts[0].from_parameter<::protocol::TransferContract>(contract)) {
                 break;
@@ -169,10 +167,8 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
             vItem << contract.toAddressSize();
 
             vContractAssist << ToTlv(0x01, vItem);
-            break;
-        }
-        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferAssetContract:
-        {
+        } break;
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TransferAssetContract: {
             TW::Tron::TransferAssetContract contract;
             if (!tx.raw_data.contracts[0].from_parameter<::protocol::TransferAssetContract>(contract)) {
                 break;
@@ -214,10 +210,8 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
             vItem << contract.assetNameOffset(contrIndex);
             vItem << contract.assetNameSize();
             vContractAssist << ToTlv(0x03, vItem);
-            break;
-        }
-        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract:
-        {
+        } break;
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_FreezeBalanceContract: {
             TW::Tron::FreezeBalanceContract contract;
             if (!tx.raw_data.contracts[0].from_parameter<::protocol::FreezeBalanceContract>(contract)) {
                 break;
@@ -262,10 +256,8 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
             vItem << contract.receiverAddressOffset(contrIndex);
             vItem << contract.receiverAddressSize();
             vContractAssist << ToTlv(0x01, vItem);
-            break;
-        }
-        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract:
-        {
+        } break;
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_UnfreezeBalanceContract: {
             TW::Tron::UnfreezeBalanceContract contract;
             if (!tx.raw_data.contracts[0].from_parameter<::protocol::UnfreezeBalanceContract>(contract)) {
                 break;
@@ -288,18 +280,14 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
             vItem << contract.receiverAddressOffset(contrIndex);
             vItem << contract.receiverAddressSize();
             vContractAssist << ToTlv(0x01, vItem);
-            break;
-        }
-        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_CreateSmartContract:
-        {
+        } break;
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_CreateSmartContract: {
             //createSmartTLV(TRC-20)    - createSmart.type = 0x1E
             //    smartContract             - martContract.tag = 0x09
             //       smartContractOffset
             //       smartContractLength
-            break;
-        }
-        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TriggerSmartContract:
-        {
+        } break;
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_TriggerSmartContract: {
             TW::Tron::TriggerSmartContract contract;
             if (!tx.raw_data.contracts[0].from_parameter<::protocol::TriggerSmartContract>(contract)) {
                 break;
@@ -374,8 +362,57 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
             vItem << tx.raw_data.feeLimitOffset(0);
             vItem << tx.raw_data.feeLimitSize();
             vContractAssist << ToTlv(0x0A, vItem);
-            break;
-        }
+        } break;
+        case ::protocol::Transaction_Contract_ContractType::Transaction_Contract_ContractType_AccountPermissionUpdateContract: {
+            TW::Tron::AccountPermissionUpdateContract contract;
+            if (!tx.raw_data.contracts[0].from_parameter<::protocol::AccountPermissionUpdateContract>(contract)) {
+                break;
+            }
+
+            // owner.permission_name
+            auto offsetOwnerDotPermissionName = contract.owner.permissionNameOffset(
+                                                    contract.ownerOffset(contrIndex)
+                                                );
+            auto     szOwnerDotPermissionName = contract.owner.permissionNameSize();
+
+            // owner.keys[i].address
+            for (int ownerKeyIndex=0; ownerKeyIndex<contract.owner.keys.size(); ++ownerKeyIndex) {
+                auto offsetOwnerDotKeysDotAddress_i = contract.owner.keys[ownerKeyIndex].addressOffset(
+                                                            contract.owner.keyOffset(
+                                                                contract.ownerOffset(
+                                                                    contrIndex
+                                                                ),
+                                                                ownerKeyIndex
+                                                            )
+                                                        );
+                auto     szOwnerDotKeysDotAddress_i = contract.owner.keys[ownerKeyIndex].addressSize();
+            }
+
+            for (int activeIndex=0; activeIndex<contract.actives.size(); ++activeIndex) {
+                // actives[i].permission_name
+                auto offsetActiveDotPermissionName_i = contract.actives[activeIndex].permissionNameOffset(
+                                                            contract.activeOffset(
+                                                                contrIndex,
+                                                                activeIndex
+                                                            )
+                                                        );
+                auto     szActiveDotPermissionName_i = contract.actives[activeIndex].permissionNameSize();
+
+                // actives[i].key[i].address
+                for (int activeKeyIndex=0; activeKeyIndex<contract.actives[activeIndex].keys.size(); ++activeKeyIndex) {
+                    auto offsetOwnerDotKeysDotAddress_i = contract.actives[activeIndex].keys[activeKeyIndex].addressOffset(
+                                                                contract.actives[activeIndex].keyOffset(
+                                                                    contract.activeOffset(
+                                                                        contrIndex,
+                                                                        activeIndex
+                                                                    ),
+                                                                    activeKeyIndex
+                                                                )
+                                                            );
+                    auto     szOwnerDotKeysDotAddress_i = contract.owner.keys[activeKeyIndex].addressSize();
+                }
+            }
+        } break;
         default:
             break;
         }

@@ -80,13 +80,13 @@ pb_varint::pb_varint(const int field_number,
 }
 
 
-bool pb_varint::empty() {
+bool pb_varint::empty() const {
 
     return (0 == size()) ? true : false;
 }
 
 
-bool pb_varint::isValid() {
+bool pb_varint::isValid() const {
 
     if (0 < size()) {
         return tag.isValid();
@@ -96,14 +96,14 @@ bool pb_varint::isValid() {
 }
 
 
-size_t pb_varint::size() {
+size_t pb_varint::size() const {
 
     return sizeTag()
         +  sizeValue();
 }
 
 
-size_t pb_varint::sizeTag() {
+size_t pb_varint::sizeTag() const {
 
     if (0 < sizeValue()) {
         return tag.size(fieldType);
@@ -113,7 +113,7 @@ size_t pb_varint::sizeTag() {
 }
 
 
-size_t pb_varint::sizeValue() {
+size_t pb_varint::sizeValue() const {
 
     return value.size();
 }

@@ -38,12 +38,12 @@ public:
               const WireFormatLite::FieldType& type,
               const uint32_t v);
 
-    bool empty();
-    bool isValid();
+    bool empty() const;
+    bool isValid() const;
 
-    virtual size_t size() override;
-    virtual size_t sizeTag() override;
-    virtual size_t sizeValue() override;
+    virtual size_t size() const override;
+    virtual size_t sizeTag() const override;
+    virtual size_t sizeValue() const override;
 
 private:
     bool encodeTag(const int field_number,

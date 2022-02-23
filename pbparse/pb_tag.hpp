@@ -70,11 +70,11 @@ public:
          wire_type   = WireFormatLite::WireType::WIRETYPE_VARINT;
     }
 
-    bool isValid() {
+    bool isValid() const {
         return !(0 == field_number);
     }
 
-    size_t size(const WireFormatLite::FieldType& type) {
+    size_t size(const WireFormatLite::FieldType& type) const {
         return WireFormatLite::TagSize(field_number, type);
     }
 
@@ -83,11 +83,11 @@ public:
          wire_type   = WireFormatLite::GetTagWireType(tag);
     }
 
-    uint32_t toTag() {
+    uint32_t toTag() const {
         return WireFormatLite::MakeTag(field_number, wire_type);
     }
 
-    bool toTag(std::vector<uint8_t>& enc) {
+    bool toTag(std::vector<uint8_t>& enc) const {
         return pb_basevarint::encode(toTag(), enc);
     }
 

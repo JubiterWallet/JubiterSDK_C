@@ -54,13 +54,13 @@ pb_length_delimited::pb_length_delimited(const int field_number,
 }
 
 
-bool pb_length_delimited::empty() {
+bool pb_length_delimited::empty() const {
 
     return (0 == size()) ? true : false;
 }
 
 
-bool pb_length_delimited::isValid() {
+bool pb_length_delimited::isValid() const {
 
     if (0 < size()) {
         return tag.isValid()
@@ -72,7 +72,7 @@ bool pb_length_delimited::isValid() {
 }
 
 
-size_t pb_length_delimited::size() {
+size_t pb_length_delimited::size() const {
 
     return   sizeTag()
         + sizeLength()
@@ -80,7 +80,7 @@ size_t pb_length_delimited::size() {
 }
 
 
-size_t pb_length_delimited::sizeTag() {
+size_t pb_length_delimited::sizeTag() const {
 
     if (0 < sizeValue()) {
         return tag.size(fieldType);
@@ -90,12 +90,12 @@ size_t pb_length_delimited::sizeTag() {
 }
 
 
-size_t pb_length_delimited::sizeLength() {
+size_t pb_length_delimited::sizeLength() const {
 
     return length.size();
 }
 
-size_t pb_length_delimited::sizeValue() {
+size_t pb_length_delimited::sizeValue() const {
 
     return value.size();
 }
