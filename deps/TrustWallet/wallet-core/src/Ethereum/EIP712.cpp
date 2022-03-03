@@ -173,7 +173,7 @@ std::vector<uint8_t> EIP712::atomic_typed_data_envelope(const std::string& type_
         auto v = json_value.get<std::string>();
         encode_atomic += encode_atomic_type_data(
                             EthereumDataType::EthereumDataType_STRING,
-                            v.data(),
+                            (void*)v.data(),
                             v.size());
     }
     else if (is_type_t(type_name, "bool")) {
@@ -182,7 +182,7 @@ std::vector<uint8_t> EIP712::atomic_typed_data_envelope(const std::string& type_
         auto v = json_value.get<std::string>();
         encode_atomic += encode_atomic_type_data(
                             EthereumDataType::EthereumDataType_ADDRESS,
-                            v.data(),
+                            (void*)v.data(),
                             v.size());
     }
     else if (is_type_t(type_name, "array")) {
