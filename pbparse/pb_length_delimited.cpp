@@ -72,6 +72,12 @@ bool pb_length_delimited::isValid() const {
 }
 
 
+bool pb_length_delimited::has() const {
+
+    return !(0 == length.size());
+}
+
+
 size_t pb_length_delimited::size() const {
 
     return   sizeTag()

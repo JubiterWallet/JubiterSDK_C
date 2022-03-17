@@ -40,6 +40,7 @@ public:
 
     bool empty() const;
     bool isValid() const;
+    bool has() const;
 
     virtual size_t size() const override;
     virtual size_t sizeTag() const override;

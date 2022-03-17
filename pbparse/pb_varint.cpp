@@ -96,6 +96,12 @@ bool pb_varint::isValid() const {
 }
 
 
+bool pb_varint::has() const {
+
+    return !(0 == length.size());
+}
+
+
 size_t pb_varint::size() const {
 
     return sizeTag()
