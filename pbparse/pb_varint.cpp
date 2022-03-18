@@ -6,19 +6,12 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#include <stdio.h>
 #include "pb_varint.hpp"
+#include <stdio.h>
 
+pb_varint::pb_varint() { clear(); }
 
-pb_varint::pb_varint() {
-
-    clear();
-}
-
-
-pb_varint::pb_varint(const int field_number,
-                     const WireFormatLite::FieldType& type,
-                     const int64_t v) {
+pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const int64_t v) {
 
     clear();
 
@@ -31,10 +24,7 @@ pb_varint::pb_varint(const int field_number,
     }
 }
 
-
-pb_varint::pb_varint(const int field_number,
-                     const WireFormatLite::FieldType& type,
-                     const uint64_t v) {
+pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const uint64_t v) {
 
     clear();
 
@@ -47,10 +37,7 @@ pb_varint::pb_varint(const int field_number,
     }
 }
 
-
-pb_varint::pb_varint(const int field_number,
-                     const WireFormatLite::FieldType& type,
-                     const int32_t v) {
+pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const int32_t v) {
 
     clear();
 
@@ -63,10 +50,7 @@ pb_varint::pb_varint(const int field_number,
     }
 }
 
-
-pb_varint::pb_varint(const int field_number,
-                     const WireFormatLite::FieldType& type,
-                     const uint32_t v) {
+pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const uint32_t v) {
 
     clear();
 
@@ -79,12 +63,7 @@ pb_varint::pb_varint(const int field_number,
     }
 }
 
-
-bool pb_varint::empty() {
-
-    return (0 == size()) ? true : false;
-}
-
+bool pb_varint::empty() { return (0 == size()) ? true : false; }
 
 bool pb_varint::isValid() {
 
@@ -95,13 +74,9 @@ bool pb_varint::isValid() {
     return true;
 }
 
+bool pb_varint::has() const { return !(0 == length.size()); }
 
-size_t pb_varint::size() {
-
-    return sizeTag()
-        +  sizeValue();
-}
-
+size_t pb_varint::size() const { return sizeTag() + sizeValue(); }
 
 size_t pb_varint::sizeTag() {
 
@@ -112,15 +87,9 @@ size_t pb_varint::sizeTag() {
     return 0;
 }
 
+size_t pb_varint::sizeValue() { return value.size(); }
 
-size_t pb_varint::sizeValue() {
-
-    return value.size();
-}
-
-
-bool pb_varint::encodeTag(const int field_number,
-                          const WireFormatLite::FieldType& type) {
+bool pb_varint::encodeTag(const int field_number, const WireFormatLite::FieldType &type) {
 
     WireFormatLite::WireType wire_type;
     switch (type) {
