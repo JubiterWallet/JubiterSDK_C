@@ -28,17 +28,76 @@ typedef struct stContextCfgDOT {
     JUB_ENUM_CURVES         curve; //(sr2551 & ed25519)
 } CONTEXT_CONFIG_DOT;
 
+typedef struct stDotBalancesCall {
+    JUB_CHAR_PTR to;
+    JUB_CHAR_PTR value;
+    JUB_BBOOL keep_alive;
+} JUB_BALANCES_CALL_DOT;
+
 typedef enum {
     BALANCE_XFER            = 0x005, // balanceTransfer
     UTILITY_BATCH           = 0x01a, // utilityBatch
     STAKING_BOND            = 0x007, // stakingBond
     STAKING_BOND_EXTRA      = 0x107, // stakingBondExtra
     STAKING_UNBOND          = 0x207, // stakingUnbond
-    STAKING_WITHDRAW_UNBOND = 0x307, // stakingWithdrawUnbond
+    STAKING_WITHDRAW_UNBONDED = 0x307, // stakingWithdrawUnbonded
     STAKING_NOMINATE        = 0x507, // stakingNominate
     STAKING_CHILL           = 0x607, // stakingChill
+    STAKING_PAYOUT_STAKERS  = 0x1207, // stakingPayoutStakers
     NS_ITEM_DOT_EXTRINSIC_TYPE
 } JUB_ENUM_DOT_EXTRINSIC_TYPE;
+
+typedef enum {
+    BOND                = ((STAKING_BOND            & 0xFF00) >> 8), // Bond
+//    BOND_AND_NOMINATE   = 2, // BondAndNominate
+    BOND_EXTRA          = ((STAKING_BOND_EXTRA      & 0xFF00) >> 8), // BondExtra
+    UNBOND              = ((STAKING_UNBOND          & 0xFF00) >> 8), // Unbond
+    WITHDRAW_UNBONDED   = ((STAKING_WITHDRAW_UNBONDED& 0xFF00) >> 8), // WithdrawUnbonded
+    NOMINATE            = ((STAKING_NOMINATE        & 0xFF00) >> 8), // Nominate
+    CHILL               = ((STAKING_CHILL           & 0xFF00) >> 8), // Chill
+    PAYOUT_STAKERS      = ((STAKING_PAYOUT_STAKERS  & 0xFF00) >> 8), // PayoutStakers
+    NS_ITEM_DOT_STAKING_TYPE
+} JUB_ENUM_DOT_STAKING_TYPE;
+
+typedef struct stDotStakingCall {
+//    typedef struct stDotStakingBond {
+//        JUB_CHAR_PTR controller;
+//        JUB_CHAR_PTR value;
+//        JUB_UINT8 reward_destination;
+//    } JUB_STAKING_CALL_BOND;
+//    typedef struct stDotStakingBondAndNominate {
+//        JUB_CHAR_PTR controller;
+//        JUB_CHAR_PTR value;
+//    } JUB_STAKING_CALL_BOND_AND_NOMINATE;
+    typedef struct stDotStakingBondExtra {
+        JUB_CHAR_PTR value;
+    } JUB_STAKING_CALL_BOND_EXTRA;
+    typedef struct stDotStakingUnbond {
+        JUB_CHAR_PTR value;
+    } JUB_STAKING_CALL_UNBOND;
+    typedef struct stDotStakingWithdrawUnbonded {
+        JUB_INT32 slashing_spans;
+    } JUB_STAKING_CALL_WITHDRAW_UNBOND;
+    typedef struct stDotStakingNominate {
+        JUB_CHAR_PTR nominators[50];
+        JUB_INT32 nominators_n;
+    } JUB_STAKING_CALL_NOMINATE;
+    typedef struct stDotStakingPayoutStakers {
+        JUB_CHAR_PTR validator_stash;
+        JUB_INT32 era;
+    } JUB_STAKING_CALL_PAYOUT_STAKERS;
+
+    JUB_ENUM_DOT_STAKING_TYPE type;
+    union {
+//        JUB_STAKING_CALL_BOND bond;
+//        JUB_STAKING_CALL_BOND_AND_NOMINATE bondAndNominate;
+        JUB_STAKING_CALL_BOND_EXTRA extra;
+        JUB_STAKING_CALL_UNBOND unbond;
+        JUB_STAKING_CALL_WITHDRAW_UNBOND withdrawUnbonded;
+        JUB_STAKING_CALL_NOMINATE nominate;
+        JUB_STAKING_CALL_PAYOUT_STAKERS payoutStakers;
+    };
+} JUB_STAKING_CALL_DOT;
 
 typedef struct stTxDOT {
     JUB_CHAR_PTR genesisHash;
@@ -49,9 +108,12 @@ typedef struct stTxDOT {
     JUB_UINT64 blockNumber;
     JUB_UINT64 eraPeriod;   // [Optional]
     JUB_CHAR_PTR tip;       // [Optional]
-    JUB_CHAR_PTR to;
-    JUB_CHAR_PTR value;
-    JUB_BBOOL keep_alive;
+
+    JUB_ENUM_DOT_EXTRINSIC_TYPE type;
+    union {
+        JUB_BALANCES_CALL_DOT balances;
+        JUB_STAKING_CALL_DOT staking;
+    };
 } JUB_TX_DOT;
 /*****************************************************************************
  * @function name : JUB_CreateContextDOT

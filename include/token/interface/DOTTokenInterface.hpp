@@ -34,6 +34,8 @@ public:
 
     virtual JUB_RV CheckAddress(const std::string& address, const TWCoinType& coin, const TWCoinType& coinNet=TWCoinType::TWCoinTypeBitcoin) = 0;
 
+    virtual JUB_RV SerializeCall(const uint64_t network, const JUB_TX_DOT& txCall, TW::Data& call) = 0;
+
     virtual JUB_RV SignTX(const std::string &path,
                           const std::string &genesisHash,
                           const std::string &blockHash,
@@ -44,9 +46,7 @@ public:
                           const uint64_t& blockNumber,
                           const uint64_t& eraPeriod,
                           const std::string& tip,
-                          const std::string &to,
-                          const std::string& value,
-                          const bool keep_alive,
+                          const TW::Data& call,
                           std::vector<JUB_BYTE>& vSignatureRaw) = 0;
 }; // class DOTTokenInterface end
 

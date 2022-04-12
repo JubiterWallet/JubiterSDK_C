@@ -1,13 +1,10 @@
 {
-    "url" : "https://polkadot.subscan.io/extrinsic/0x9fd06208a6023e489147d8d93f0182b0cb7e45a40165247319b87278e08362d8",
-    "main_path" : "//2567//555555//1234567//dsjkfk123",
+    "main_path" : "//polkadot//0",
     "main_net"  : true,
     "DOT" : {
-        "keep_alive" : true,
         "address" : "14Ztd3KJDaB9xyJtRkREtSZDdhLSbm7UUKt8Z7AwSv7q85G2",
         "genesisHash" : "91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3",
         "blockHash" : "5d2143bb808626d63ad7e1cda70fa8697059d670a992e82cd440fbb95ea40351",
-        "nonce" : 3,
         "specVersion" : 26,
         "transaction_version" : 5,
         "tip" : "",
@@ -17,8 +14,68 @@
         },
         "balance_call" : {
             "transfer" : {
+                "url" : "https://polkadot.subscan.io/extrinsic/0x9fd06208a6023e489147d8d93f0182b0cb7e45a40165247319b87278e08362d8",
+                "nonce" : 3,
                 "to" : "13ZLCqJNPsRZYEbwjtZZFpWt9GyFzg5WahXCVWKpWdUJqrQ5",
-                "value" : "2000000000"
+                "value" : "2000000000",
+                "keep_alive" : false
+            },
+            "transferAll" : {
+                "url" : "https://polkadot.subscan.io/extrinsic/9632425-2",
+                "nonce" : 6,
+                "to" : "14izPbHf2y3kVxQn85C8zsm4nj1BeTmjn7hvcnxYPTenG1Qj",
+                "value" : "1593599962800",
+                "keep_alive" : false
+            },
+            "transferKeepAlive" : {
+                "url" : "https://polkadot.subscan.io/extrinsic/9640077-3",
+                "nonce" : 41,
+                "to" : "169QsJra4jSy7rXw5TxBA3ZEhyRkkNHje79VpCJjauufs6jD",
+                "value" : "8000000000000",
+                "keep_alive" : true
+            }
+        },
+        "staking_call" : {
+            "bondExtra" : {
+                "url" : "https://polkadot.subscan.io/extrinsic/9637193-2",
+                "nonce" : 44,
+                "value" : "300000000000"
+            },
+            "unbond" : {
+                "url" : "https://polkadot.subscan.io/extrinsic/9639605-2",
+                "nonce" : 7,
+                "value" : "128000000000000"
+            },
+            "withdrawUnbonded" : {
+                "url" : "https://polkadot.subscan.io/extrinsic/9633933-5",
+                "nonce" : 5,
+                "slashing_spans" : 0
+            },
+            "nominate" : {
+                "url" : "https://polkadot.subscan.io/extrinsic/9639696-2",
+                "nonce" : 2,
+                "id" : [
+                    "0x5ae7010248daf19a0b83b3d131f63a693785222293af4354035b8dce851fb02b",
+                    "0x8cd2c9b46e07c20f2263540b993c2b25b3cb995ab873314ac10e8d5f1f50a55e",
+                    "0xecdd548c83457ab43caf7867e2bef91ef783025db9659afd89794ec1220acf29",
+                    "0x8a32f59713f0a129fbc395dbc853f51ab53d45d1684c4bc8ddad89fd55fc096f",
+                    "0xac133ebfde441672c055b79ca9a6059850984eead1ae036f48ca1230e7f0556f",
+                    "0x984e16482c99cfad1436111e321a86d87d0fac203bf64538f888e45d793b5413",
+                    "0x3c017930b46ab5a4413bf3153b001287ed5ff7fdbd2734cf69abc843f4ee0447",
+                    "0xa28942a9d2e8c8501860b847eecedc45d602e614b8b0849b959607d0dec3d071",
+                    "0x4866c7c5c93a0984394d5279fbbecb07c1e48368b042566ebb632c2055698b02",
+                    "0x9c665073980c9bdbd5620ef9a860b9f1efbeda8f10e13ef7431f6970d765a257",
+                    "0x0020f1b8ed9726e2781f24a87cd41e31e7ced50351422403e70facbd1b5e562f",
+                    "0x628f36dddf8cdb0242104a2531e7d3efd4860a9a4633be69aaf30f63ccb25a5e",
+                    "0x30cfdb48ff7f33b08499dfc618a8ef9699b8345fa65f0b1339eb8eec3c0e4555",
+                    "0x9c6a3401d06cef30fdbb33901328f3611dae8253708779a5d66179c967582635",
+                    "0x783770544556ce47aae6e9e9c6cc32bb84a3df7ab11a5d30b0618e00e109d66c"
+                ]
+            },
+            "payoutStakers" : {
+                "url" : "https://polkadot.subscan.io/extrinsic/9629236-6",
+                "validator_stash" : "134Bw4gHcAaHBYx6JVK91b1CeC9yWseVdZqyttpaN5zBHn43",
+                "era" : 664
             }
         }
     }

@@ -18,6 +18,8 @@
 #include "JUB_SDK_test_trx.hpp"
 #include "JUB_SDK_test_fil.hpp"
 #include "JUB_SDK_test_ckb.hpp"
+#include "JUB_SDK_test_dot.hpp"
+#include "JUB_SDK_test_ksm.hpp"
 #include "../../include/JUB_CORE.h"
 
 #include "JUB_SDK_main.h"
@@ -200,42 +202,49 @@ try {
         cout << "-------------------------------------------" << endl;
         cout << "|********** Jubiter Wallet Test **********|" << endl;
         if (commode != JUB_ENUM_COMMODE::SWI) {
-        cout << "|   1.   get_device_info_test             |" << endl;
-        cout << "|  11.       device_fgpt_test             |" << endl;
+        cout << "|    1.   get_device_info_test             |" << endl;
+        cout << "|   11.       device_fgpt_test             |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         }
-        cout << "|   2.   LTC_test.                        |" << endl;
-        cout << "|   5.  DASH_test.                        |" << endl;
+        cout << "|    2.  LTC_test.                        |" << endl;
+        cout << "|    5. DASH_test.                        |" << endl;
         cout << "|                                         |" << endl;
-        cout << "|  30.   BTC_test(Test Net).              |" << endl;
-        cout << "|  31.   BTC_test.                        |" << endl;
-        cout << "|  32.   BTC_P2SH_P2WPKH_test.            |" << endl;
-        cout << "|  33.   BTC_P2SH_P2WPKH_test(Test Net).  |" << endl;
-        cout << "|  34.   BTC_P2WPKH_test.                 |" << endl;
-        cout << "|  35.   BTC_P2WPKH_test(Test Net).       |" << endl;
-        cout << "|  39.   BTC_USDT_test.                   |" << endl;
+        cout << "|   30.  BTC_test(Test Net).              |" << endl;
+        cout << "|   31.  BTC_test.                        |" << endl;
+        cout << "|   32.  BTC_P2SH_P2WPKH_test.            |" << endl;
+        cout << "|   33.  BTC_P2SH_P2WPKH_test(Test Net).  |" << endl;
+        cout << "|   34.  BTC_P2WPKH_test.                 |" << endl;
+        cout << "|   35.  BTC_P2WPKH_test(Test Net).       |" << endl;
+        cout << "|   39.  BTC_USDT_test.                   |" << endl;
         cout << "|                                         |" << endl;
-        cout << "|  88.  QTUM_QRC20_test.                  |" << endl;
-        cout << "|2301.  QTUM_test.                        |" << endl;
-        cout << "| 145.   BCH_test.                        |" << endl;
-        cout << "| 171. Hcash_test.                        |" << endl;
+        cout << "|   88. QTUM_QRC20_test.                  |" << endl;
+        cout << "| 2301. QTUM_test.                        |" << endl;
+        cout << "|  145.  BCH_test.                        |" << endl;
+        cout << "|  171.Hcash_test.                        |" << endl;
         cout << "|                                         |" << endl;
-        cout << "| 309.   CKB_test.                        |" << endl;
-        cout << "|3090.   CKB_test(Test Net).              |" << endl;
-        cout << "|                                         |" << endl;
-        cout << "|                                         |" << endl;
-        cout << "|  60.   ETH_test & ETC_test.             |" << endl;
-        cout << "| 461.   FIL_test.                        |" << endl;
+        cout << "|  309.  CKB_test.                        |" << endl;
+        cout << "|  3090. CKB_test(Test Net).              |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
-        cout << "| 144.   XRP_test.                        |" << endl;
-        cout << "| 194.   EOS_test.                        |" << endl;
-        cout << "| 195.   TRX_test.                        |" << endl;
+        cout << "|   60.  ETH_test & ETC_test.             |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
-        cout << "|  98.  send_apdu_test.                   |" << endl;
-        cout << "|  99.   get_version.                     |" << endl;
+        cout << "|  354.  DOT_test.                        |" << endl;
+        cout << "|  3540. DOT_test(Test Net).              |" << endl;
+        cout << "|  434.  KSM_test.                        |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|  461.  FIL_test.                        |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|  144.  XRP_test.                        |" << endl;
+        cout << "|  194.  EOS_test.                        |" << endl;
+        cout << "|  195.  TRX_test.                        |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|   98. send_apdu_test.                   |" << endl;
+        cout << "|   99.  get_version.                     |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|   0. exit.                              |" << endl;
@@ -295,6 +304,7 @@ try {
             json_file += "testUSDT.json";
             USDT_test(deviceID, json_file.c_str());
             break;
+
         case 88:
             json_file += "testQTUM_qrc20.json";
             QTUM_test(deviceID, json_file.c_str());
@@ -311,6 +321,7 @@ try {
             json_file += "testHcash.json";
             HC_test(deviceID, json_file.c_str());
             break;
+
         case 309:
             json_file += "testCKB.json";
             CKB_test(deviceID, json_file.c_str());
@@ -324,6 +335,20 @@ try {
             json_file += "testETH.json";
             ETH_test(deviceID, json_file.c_str());
             break;
+
+        case 354:
+            json_file += "testDOT.json";
+            DOT_test(deviceID, json_file.c_str());
+            break;
+        case 3540:
+            json_file += "testDOTTN.json";
+            DOT_test(deviceID, json_file.c_str());
+            break;
+        case 434:
+            json_file += "testKSM.json";
+            KSM_test(deviceID, json_file.c_str());
+            break;
+
         case 461:
             json_file += "testFIL.json";
             FIL_test(deviceID, json_file.c_str());

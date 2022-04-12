@@ -14,6 +14,12 @@
 
 namespace TW::Polkadot {
 
+enum RewardDestination {
+    STAKED = 0,
+    STASH = 1,
+    CONTROLLER = 2,
+};
+
 // ExtrinsicV4
 class Extrinsic {
   public:
@@ -32,6 +38,17 @@ class Extrinsic {
     Data call;
     // network
     TWSS58AddressType network;
+
+    // JuBiter-added
+    Extrinsic() {
+        blockHash = Data();
+        genesisHash = Data();
+        nonce = 0;
+        specVersion = 0;
+        version = 0;
+        tip = 0;
+        era = Data();
+    }
 
     // JuBiter-modified
 //    Extrinsic(const Proto::SigningInput& input)
@@ -75,11 +92,17 @@ class Extrinsic {
     static bool encodeRawAccount(TWSS58AddressType network, uint32_t specVersion);
     // JuBiter-modified
 //    static Data encodeBalanceCall(const Proto::Balance& balance, TWSS58AddressType network, uint32_t specVersion);
-    static Data encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value, bool keep_alive=false);
+    static Data encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string val, bool keep_alive=false);
+    static Data encodeStakingCall(TWSS58AddressType network, const uint32_t type, const std::string& val);
+    static Data encodeStakingWithdrawUnbondedCall(TWSS58AddressType network, const int32_t slashing_spans);
+    static Data encodeStakingNominateCall(TWSS58AddressType network, uint32_t specVersion, const std::vector<SS58Address>& accountIds);
+    static Data encodeStakingPayoutStakersCall(TWSS58AddressType network,
+                                               const std::vector<uint8_t>& validator_stash, const int32_t era);
+    static Data encodeStakingCall(TWSS58AddressType network);
 
 protected:
 //    static Data encodeStakingCall(const Proto::Staking& staking, TWSS58AddressType network, uint32_t specVersion);
-    static Data encodeBatchCall(const std::vector<Data>& calls, TWSS58AddressType network);
+//    static Data encodeBatchCall(const std::vector<Data>& calls, TWSS58AddressType network);
     Data encodeEraNonceTip() const;
 };
 

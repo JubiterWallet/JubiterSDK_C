@@ -3,10 +3,11 @@
 //  JubSDKTest
 //
 //  Created by Administrator on 2021/3/29.
-//  Copyright © 2021 ft. All rights reserved.
+//  Copyright © 2022 ft. All rights reserved.
 //
 
 #include "JUB_SDK_test_dot.hpp"
+#include "JUB_SDK_test_ksm.hpp"
 #include "JUB_SDK_main.h"
 #include "JUB_SDK_test.h"
 #include "JUB_SDK_test_dev.hpp"
@@ -41,31 +42,47 @@ void DOT_test(JUB_UINT16 deviceID, const char* json_file) {
     cout << endl;
 
     while (true) {
-        cout << "--------------------------------------" << endl;
-        cout << "|******* Jubiter Wallet DOT  ********|" << endl;
-        cout << "|  0. show_address_pubkey_test.      |" << endl;
-        cout << "|                                    |" << endl;
-        cout << "|  2.    transaction_test.           |" << endl;
-        cout << "|                                    |" << endl;
-        cout << "| 9. return.                         |" << endl;
-        cout << "--------------------------------------" << endl;
+        cout << "----------------------------------------" << endl;
+        cout << "|********* Jubiter Wallet DOT *********|" << endl;
+        cout << "|  0. show_address_pubkey_test.        |" << endl;
+        cout << "|                                      |" << endl;
+        cout << "| 51. balances_transfer_test.          |" << endl;
+        cout << "| 52. balances_transferAll_test.       |" << endl;
+        cout << "| 53. balances_transferKeepAlive_test. |" << endl;
+        cout << "|                                      |" << endl;
+        cout << "| 71. staking_bondExtra_test.          |" << endl;
+        cout << "| 72. staking_unbond_test.             |" << endl;
+        cout << "| 73. staking_withdrawUnbonded_test.   |" << endl;
+        cout << "| 74. staking_payoutStakers_test.      |" << endl;
+        cout << "| 75. staking_nominate_test.           |" << endl;
+        cout << "|                                      |" << endl;
+        cout << "| 9. return.                           |" << endl;
+        cout << "----------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
         int choice = 0;
         cin >> choice;
 
         switch (choice) {
-        case 0:
-            get_address_pubkey_DOT(contextID, root);
-            break;
-        case 2:
-            transaction_test_DOT(contextID, root);
-            break;
-        case 9:
-            JUB_ClearContext(contextID);
-            main_test();
-        default:
-            continue;
+            case 0: {
+                get_address_pubkey_DOT(contextID, root);
+            } break;
+            case 51:
+            case 52:
+            case 53:
+            case 71:
+            case 72:
+            case 73:
+            case 74:
+            case 75: {
+                transaction_test_DOT(contextID, root, "DOT", choice);
+            } break;
+            case 9: {
+                JUB_ClearContext(contextID);
+                main_test();
+            default:
+                continue;
+            }
         }   // switch (choice) end
     }   // while (true) end
 }
@@ -119,39 +136,107 @@ void get_address_pubkey_DOT(JUB_UINT16 contextID, Json::Value root) {
 }
 
 
-void transaction_test_DOT(JUB_UINT16 contextID, Json::Value root) {
+void transaction_test_DOT(JUB_UINT16 contextID, Json::Value root, const std::string& coin, int choice) {
 
     JUB_RV rv = verify_pin(contextID);
     if (JUBR_OK != rv) {
         return;
     }
 
-    rv = transaction_proc_DOT(contextID, root);
+    rv = transaction_proc_DOT(contextID, root, coin, choice);
     if (JUBR_OK != rv) {
         return;
     }
 }
 
 
-JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root) {
+JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root, const std::string& coin, int choice) {
 
     JUB_RV rv = JUBR_ERROR;
     JUB_CHAR_PTR path = (JUB_CHAR_PTR)root["main_path"].asCString();
 
     JUB_TX_DOT tx;
-    tx.keep_alive = (JUB_BBOOL)root["DOT"]["keep_alive"].asBool();
-    tx.genesisHash = (char *)root["DOT"]["genesisHash"].asCString();
-    tx.blockHash = (char *)root["DOT"]["blockHash"].asCString();
-    tx.to = (char *)root["DOT"]["balance_call"]["transfer"]["to"].asCString();
-    tx.nonce = root["DOT"]["nonce"].asUInt();
-    tx.specVersion = root["DOT"]["specVersion"].asUInt();
-    tx.transaction_version = root["DOT"]["transaction_version"].asUInt();
-    tx.blockNumber = root["DOT"]["era"]["blockNumber"].asUInt();
-    tx.value = (char *)root["DOT"]["balance_call"]["transfer"]["value"].asCString();
-    tx.eraPeriod = root["DOT"]["era"]["eraPeriod"].asUInt();
-    tx.tip = (char *)root["DOT"]["tip"].asCString();;
+    switch (choice) {
+        case 51: {   // balances.transfer
+            tx.type = BALANCE_XFER;
+            tx.nonce = root[coin]["balance_call"]["transfer"]["nonce"].asUInt();
+            tx.balances.to = (char *)root[coin]["balance_call"]["transfer"]["to"].asCString();
+            tx.balances.value = (char *)root[coin]["balance_call"]["transfer"]["value"].asCString();
+            tx.balances.keep_alive = false;
+        } break;
+        case 52: {  // balances.transferAll
+            tx.type = BALANCE_XFER;
+            tx.nonce = root[coin]["balance_call"]["transferAll"]["nonce"].asUInt();
+            tx.balances.to = (char *)root[coin]["balance_call"]["transferAll"]["to"].asCString();
+            tx.balances.value = "";
+            tx.balances.keep_alive = (JUB_BBOOL)root["DOT"]["balance_call"]["transferAll"]["keep_alive"].asBool();
+        } break;
+        case 53: {  // balances.transferKeepAlive
+            tx.type = BALANCE_XFER;
+            tx.nonce = root[coin]["balance_call"]["transferKeepAlive"]["nonce"].asUInt();
+            tx.balances.to = (char *)root[coin]["balance_call"]["transferKeepAlive"]["to"].asCString();
+            tx.balances.value = (char *)root[coin]["balance_call"]["transferKeepAlive"]["value"].asCString();
+            tx.balances.keep_alive = true;
+        } break;
+        case 71: {  // staking.bondExtra
+            tx.type = STAKING_BOND_EXTRA;
+            tx.nonce = root[coin]["staking_call"]["bondExtra"]["nonce"].asUInt();
+            tx.staking.type = (JUB_ENUM_DOT_STAKING_TYPE)((STAKING_BOND_EXTRA & 0xFF00) >> 8);
+            tx.staking.extra.value = (char *)root[coin]["staking_call"]["bondExtra"]["value"].asCString();
+        } break;
+        case 72: {  // staking.unbond
+            tx.type = STAKING_UNBOND;
+            tx.nonce = root[coin]["staking_call"]["unbond"]["nonce"].asUInt();
+            tx.staking.type = (JUB_ENUM_DOT_STAKING_TYPE)((STAKING_UNBOND & 0xFF00) >> 8);
+            tx.staking.unbond.value = (char *)root[coin]["staking_call"]["unbond"]["value"].asCString();
+        } break;
+        case 73: {  // staking.withdrawUnbonded
+            tx.type = STAKING_WITHDRAW_UNBONDED;
+            tx.nonce = root[coin]["staking_call"]["withdrawUnbonded"]["nonce"].asUInt();
+            tx.staking.type = (JUB_ENUM_DOT_STAKING_TYPE)((STAKING_WITHDRAW_UNBONDED & 0xFF00) >> 8);
+            tx.staking.withdrawUnbonded.slashing_spans = root[coin]["staking_call"]["withdrawUnbonded"]["slashing_spans"].asUInt64();
+        } break;
+        case 74: {  // staking.payoutStakers
+            tx.type = STAKING_PAYOUT_STAKERS;
+            tx.nonce = root[coin]["staking_call"]["payoutStakers"]["nonce"].asUInt();
+            tx.staking.type = (JUB_ENUM_DOT_STAKING_TYPE)((STAKING_PAYOUT_STAKERS & 0xFF00) >> 8);
+            tx.staking.payoutStakers.validator_stash = (char *)root["DOT"]["staking_call"]["payoutStakers"]["validator_stash"].asCString();
+            tx.staking.payoutStakers.era = root[coin]["staking_call"]["payoutStakers"]["era"].asUInt64();
+        } break;
+        case 75: {  // staking.nominate
+            tx.type = STAKING_NOMINATE;
+            tx.nonce = root[coin]["staking_call"]["nominate"]["nonce"].asUInt();
+            tx.staking.type = (JUB_ENUM_DOT_STAKING_TYPE)((STAKING_NOMINATE & 0xFF00) >> 8);
+
+            int nominators_n = root[coin]["staking_call"]["nominate"]["id"].size();
+//            std::vector<JUB_CHAR_PTR> nominators;
+            for (int i = 0; i < nominators_n; i++) {
+//                JUB_CHAR_PTR nominator = (JUB_CHAR_PTR)root["DOT"]["staking_call"]["nominate"]["id"][i].asCString();
+//                nominators.push_back(nominator);
+                tx.staking.nominate.nominators[i] = (JUB_CHAR_PTR)root[coin]["staking_call"]["nominate"]["id"][i].asCString();
+            }
+            tx.staking.nominate.nominators_n = nominators_n;
+        } break;
+        default: {
+            return JUBR_IMPL_NOT_SUPPORT;
+        } break;
+    }
+
+    tx.genesisHash = (char *)root[coin]["genesisHash"].asCString();
+    tx.blockHash = (char *)root[coin]["blockHash"].asCString();
+    tx.specVersion = root[coin]["specVersion"].asUInt();
+    tx.transaction_version = root[coin]["transaction_version"].asUInt();
+    tx.blockNumber = root[coin]["era"]["blockNumber"].asUInt();
+    tx.eraPeriod = root[coin]["era"]["eraPeriod"].asUInt();
+    tx.tip = (char *)root[coin]["tip"].asCString();
+
     char* raw = nullptr;
-    rv = JUB_SignTransactionDOT(contextID, path, tx, &raw);
+    if (0 == coin.compare("DOT")) {
+        rv = JUB_SignTransactionDOT(contextID, path, tx, &raw);
+    }
+    else {
+        rv = JUB_SignTransactionKSM(contextID, path, tx, &raw);
+    }
     if (JUBR_OK != rv) {
         cout << "JUB_SignTransactionDOT() return " << GetErrMsg(rv) << endl;
         return rv;

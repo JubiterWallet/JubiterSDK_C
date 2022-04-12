@@ -101,24 +101,10 @@ JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
                                    const uint64_t& blockNumber,
                                    const uint64_t& eraPeriod,
                                    const std::string& tip,
-                                   const std::string &to,
-                                   const std::string& value,
-                                   const bool keep_alive,
+                                   const TW::Data& call,
                                    std::vector<JUB_BYTE>& vSignatureRaw) {
 
     try {
-        auto bTest = (TWSS58AddressTypeWestend == network ? true : false);
-        TW::SS58Address toAddress;
-        if (TW::Polkadot::Address::isValid(to, bTest)) {
-            toAddress = TW::Polkadot::Address(to, bTest);
-        }
-        else if (TW::Kusama::Address::isValid(to, bTest)) {
-            toAddress = TW::Kusama::Address(to, bTest);
-        }
-        else {
-            return JUBR_ERROR_ARGS;
-        }
-
         std::string prv = _MasterKey_XPRV.substr(0,SR25519_SECRET_SIZE * 2);
         std::string pub = _MasterKey_XPUB;
 
@@ -143,7 +129,7 @@ JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
         auto bHash = uchar_vector(blockHash);
 
         TW::Polkadot::Extrinsic extrinsic = TW::Polkadot::Extrinsic(bHash, genesis, nonce, specVersion, transaction_version, tip, (TWSS58AddressType)network, blockNumber, eraPeriod);
-        extrinsic.call = extrinsic.encodeBalanceCall((TWSS58AddressType)network, specVersion, to, value, keep_alive);
+        extrinsic.call = call;
         TW::Data preimage = extrinsic.encodePayload();
 
         if (JUB_ENUM_CURVES::ED25519 == _curve) {
@@ -152,7 +138,7 @@ JUB_RV TrezorCryptoDOTImpl::SignTX(const std::string &path,
         }
         else if (JUB_ENUM_CURVES::SR25519 == _curve) {
             std::vector<uint8_t> sig(SR25519_SIGNATURE_SIZE, 0);
-            sr25519_sign(sig.data(), vector_pub.data(), privateData.data(), preimage.data(), sizeof(preimage));
+            sr25519_sign(sig.data(), vector_pub.data(), privateData.data(), preimage.data(), preimage.size());
             TW::Data pubKey = uchar_vector(vector_pub);
             vSignatureRaw = extrinsic.encodeSignature(pubKey, sig, TWCurveSR25519);
         }

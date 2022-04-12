@@ -18,6 +18,8 @@ public:
     static JUB_RV IsValidAddress(const std::string& address, const TWCoinType& coin, const bool bTest=false);
     virtual JUB_RV CheckAddress(const std::string& address, const TWCoinType& coin, const TWCoinType& coinNet) override;
 
+    virtual JUB_RV SerializeCall(const uint64_t network, const JUB_TX_DOT& txCall, TW::Data& call) override;
+
 protected:
     virtual JUB_RV _getChainCodeFromPolkadptPath(std::string pathStr,std::string& chainCode);
     virtual JUB_RV _getSr25519KeypairFromMasterKp(const std::string kp, std::string& derivPrv, std::string& derivPub, const std::string path, JUB_ENUM_CURVES curve);

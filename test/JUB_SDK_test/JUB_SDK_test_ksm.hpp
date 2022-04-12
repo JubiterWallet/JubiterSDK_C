@@ -17,7 +17,4 @@ void KSM_test(JUB_UINT16 deviceID, const char* json_file);
 
 void  get_address_pubkey_KSM(JUB_UINT16 contextID);
 
-void   transaction_test_KSM(JUB_UINT16 contextID, Json::Value root);
-JUB_RV transaction_proc_KSM(JUB_UINT16 contextID, Json::Value root);
-
 #endif /* JUB_SDK_test_ksm_hpp */

@@ -73,9 +73,7 @@ JUB_RV JubiterLiteDOTImpl::SignTX(const std::string &path,
                                   const uint64_t& blockNumber,
                                   const uint64_t& eraPeriod,
                                   const std::string& tip,
-                                  const std::string &to,
-                                  const std::string& value,
-                                  const bool keep_alive,
+                                  const TW::Data& call,
                                   std::vector<JUB_BYTE>& vSignatureRaw) {
 
 //    try {

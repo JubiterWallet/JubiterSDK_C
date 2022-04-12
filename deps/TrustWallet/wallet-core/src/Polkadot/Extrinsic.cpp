@@ -21,11 +21,13 @@ static constexpr uint32_t multiAddrSpecVersionKsm = 2028;
 
 static const std::string balanceTransfer = "Balances.transfer";
 static const std::string balanceTransferKeepAlive = "Balances.transfer_keep_alive";
+static const std::string balanceTransferAll = "Balances.transfer_all";
 static const std::string utilityBatch = "Utility.batch";
 static const std::string stakingBond = "Staking.bond";
 static const std::string stakingBondExtra = "Staking.bond_extra";
 static const std::string stakingUnbond = "Staking.unbond";
 static const std::string stakingWithdrawUnbond = "Staking.withdraw_unbonded";
+static const std::string stakingPayoutStakers = "Staking.payout_stakers";
 static const std::string stakingNominate = "Staking.nominate";
 static const std::string stakingChill = "Staking.chill";
 
@@ -33,6 +35,7 @@ static const std::string stakingChill = "Staking.chill";
 static std::map<const std::string, Data> polkadotCallIndices = {
     {balanceTransfer,       Data{0x05, 0x00}},
     {balanceTransferKeepAlive, Data{0x05, 0x03}},
+    {balanceTransferAll,    Data{0x05, 0x04}},
     {utilityBatch,          Data{0x1a, 0x00}},
     {stakingBond,           Data{0x07, 0x00}},
     {stakingBondExtra,      Data{0x07, 0x01}},
@@ -40,17 +43,20 @@ static std::map<const std::string, Data> polkadotCallIndices = {
     {stakingWithdrawUnbond, Data{0x07, 0x03}},
     {stakingNominate,       Data{0x07, 0x05}},
     {stakingChill,          Data{0x07, 0x06}},
+    {stakingPayoutStakers,  Data{0x07, 0x12}},
 };
 
 static std::map<const std::string, Data> kusamaCallIndices = {
     {balanceTransfer,       Data{0x04, 0x00}},
     {balanceTransferKeepAlive, Data{0x04, 0x03}},
+    {balanceTransferAll,    Data{0x04, 0x04}},
     {stakingBond,           Data{0x06, 0x00}},
     {stakingBondExtra,      Data{0x06, 0x01}},
     {stakingUnbond,         Data{0x06, 0x02}},
     {stakingWithdrawUnbond, Data{0x06, 0x03}},
     {stakingNominate,       Data{0x06, 0x05}},
     {stakingChill,          Data{0x06, 0x06}},
+    {stakingPayoutStakers,  Data{0x06, 0x12}},
 };
 
 // modified by JuBiter
@@ -100,15 +106,16 @@ Data Extrinsic::encodeEraNonceTip() const {
 
 // JuBiter-modified
 //Data Extrinsic::encodeBalanceCall(const Proto::Balance& balance, TWSS58AddressType network, uint32_t specVersion) {
-Data Extrinsic::encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string Value, bool keep_alive) {
+Data Extrinsic::encodeBalanceCall(TWSS58AddressType network, uint32_t specVersion, std::string to, std::string val, bool keep_alive) {
     Data data;
 //    auto transfer = balance.transfer();
 //    auto address = SS58Address(transfer.to_address(), network);
     auto address = SS58Address(to, network);
-//    auto value = load(transfer.value());
-    auto value = load(Value);
     // call index
-    if (keep_alive) {
+    if ("" == val) {
+        append(data, getCallIndex(network, balanceTransferAll));
+    }
+    else if (keep_alive) {
         append(data, getCallIndex(network, balanceTransferKeepAlive));
     }
     else {
@@ -116,18 +123,120 @@ Data Extrinsic::encodeBalanceCall(TWSS58AddressType network, uint32_t specVersio
     }
     // destination
     append(data, encodeAccountId(address.keyBytes(), encodeRawAccount(network, specVersion)));
+    if ("" == val) {
+        append(data, keep_alive ? 0x01 : 0x00);
+    }
+    else {
     // value
+//    auto value = load(transfer.value());
+    auto value = load(val);
     append(data, encodeCompact(value));
+    }
     return data;
 }
 
-Data Extrinsic::encodeBatchCall(const std::vector<Data>& calls, TWSS58AddressType network) {
+//Data Extrinsic::encodeBatchCall(const std::vector<Data>& calls, TWSS58AddressType network) {
+//    Data data;
+//    append(data, getCallIndex(network, utilityBatch));
+//    append(data, encodeVector(calls));
+//    return data;
+//}
+
+// JuBiter-added
+Data Extrinsic::encodeStakingCall(TWSS58AddressType network,
+                                  //uint32_t specVersion,
+                                  const uint32_t type, const std::string& val) {
     Data data;
-    append(data, getCallIndex(network, utilityBatch));
-    append(data, encodeVector(calls));
+    switch (type) {
+        case 1: {   // BOND_EXTRA
+//        case Proto::Staking::kBondExtra: {
+//            auto value = load(staking.bond().value());
+            auto value = load(val);
+            // call index
+            append(data, getCallIndex(network, stakingBondExtra));
+            // value
+            append(data, encodeCompact(value));
+//        } break;
+        } break;
+        case 2: {   // UNBOND
+//        case Proto::Staking::kUnbond: {
+//            auto value = load(staking.unbond().value());
+            auto value = load(val);
+            // call index
+            append(data, getCallIndex(network, stakingUnbond));
+            // value
+            append(data, encodeCompact(value));
+//        } break;
+        } break;
+        case 0:     // BOND
+        case 3:     // WITHDRAW_UNBONDED
+        case 5:     // NOMINATE
+        case 6:     // CHILL
+        default: {
+        } break;
+    }
+
     return data;
 }
 
+
+// JuBiter-added
+Data Extrinsic::encodeStakingWithdrawUnbondedCall(TWSS58AddressType network,
+                                                  const int32_t slashing_spans) {
+    Data data;
+//    case Proto::Staking::kWithdrawUnbonded: {
+//        auto spans = staking.withdraw_unbonded().slashing_spans();
+        // call index
+        append(data, getCallIndex(network, stakingWithdrawUnbond));
+        // num_slashing_spans
+        encode32LE(slashing_spans, data);
+//    } break;
+    return data;
+}
+
+
+Data Extrinsic::encodeStakingNominateCall(TWSS58AddressType network, uint32_t specVersion,
+                                  const std::vector<SS58Address>& accountIds) {
+    Data data;
+//    case Proto::Staking::kNominate: {
+//        std::vector<SS58Address> accountIds;
+//        for (auto& n : staking.nominate().nominators()) {
+//            accountIds.push_back(SS58Address(n, network));
+//        }
+        // call index
+        append(data, getCallIndex(network, stakingNominate));
+        // nominators
+        append(data, encodeAccountIds(accountIds, encodeRawAccount(network, specVersion)));
+//    } break;
+    return data;
+}
+
+
+// JuBiter-added
+Data Extrinsic::encodeStakingPayoutStakersCall(TWSS58AddressType network,
+                                               const std::vector<uint8_t>& validator_stash, const int32_t era) {
+    Data data;
+    // call index
+    append(data, getCallIndex(network, stakingPayoutStakers));
+    // validator_stash
+    append(data, validator_stash);
+    // era
+    encode32LE(era, data);
+    return data;
+}
+
+
+Data Extrinsic::encodeStakingCall(TWSS58AddressType network) {
+    Data data;
+//    case Proto::Staking::kChill:
+//        // call index
+//        append(data, getCallIndex(network, stakingChill));
+//        break;
+    return data;
+}
+
+
+// JuBiter-modified
 //Data Extrinsic::encodeStakingCall(const Proto::Staking& staking, TWSS58AddressType network, uint32_t specVersion) {
 //    Data data;
 //    switch (staking.message_oneof_case()) {

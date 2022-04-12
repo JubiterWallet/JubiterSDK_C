@@ -129,22 +129,24 @@ JUB_RV KSMContext::SignTransaction(std::string path,
     }
 
     try {
-        std::vector<JUB_BYTE> vSignature;
+        uint64_t network = (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) ? TWSS58AddressTypeWestend : TWSS58AddressTypeKusama;
+
+        TW::Data call;
+        JUB_VERIFY_RV(token->SerializeCall(network, tx, call));
+
         std::string genesisHash = tx.genesisHash;
         std::string blockHash = tx.blockHash;
-        std::string to = tx.to;
         uint64_t nonce = tx.nonce;
         uint32_t specVersion = tx.specVersion;
-        uint64_t network = (TWCoinType::TWCoinTypeBitcoinTestNet == _coinNet) ? TWSS58AddressTypeWestend : TWSS58AddressTypeKusama;
         uint32_t transaction_version = tx.transaction_version;
         uint64_t blockNumber = tx.blockNumber;
-        std::string value = tx.value;
         uint64_t eraPeriod = tx.eraPeriod;
         std::string tip = tx.tip;
 
-        JUB_VERIFY_RV(token->SignTX(path,genesisHash, blockHash, nonce, specVersion, network, transaction_version, blockNumber, eraPeriod, tip, to, value, tx.keep_alive, vSignature));
+        std::vector<JUB_BYTE> vRaw;
+        JUB_VERIFY_RV(token->SignTX(path, genesisHash, blockHash, nonce, specVersion, network, transaction_version, blockNumber, eraPeriod, tip, call, vRaw));
 
-        signedRaw = uchar_vector(vSignature).getHex();
+        signedRaw = uchar_vector(vRaw).getHex();
     }
     catch (...) {
         return JUBR_ARGUMENTS_BAD;

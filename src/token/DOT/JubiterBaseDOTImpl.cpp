@@ -1,9 +1,9 @@
 #include "token/DOT/JubiterBaseDOTImpl.h"
 
 //#include <bigint/BigIntegerUtils.hh>
-#include <uint256_t/uint256_t.h>
 #include <TrezorCrypto/bip32.h>
 #include <Polkadot/Address.h>
+#include <Polkadot/Extrinsic.h>
 #include <Kusama/Address.h>
 #include <PublicKey.h>
 #include <../PrivateKey.h>
@@ -37,6 +37,83 @@ JUB_RV JubiterBaseDOTImpl::CheckAddress(const std::string& address, const TWCoin
 
     bool bTest = (TWCoinType::TWCoinTypeBitcoin == coinNet) ? false : true;
     return JubiterBaseDOTImpl::IsValidAddress(address, coin, bTest);
+}
+
+
+JUB_RV JubiterBaseDOTImpl::SerializeCall(const uint64_t network, const JUB_TX_DOT& txCall, TW::Data& call) {
+    // bondExtra unbond withdrawUnbonded payoutStakers nominate
+    auto bTest = (TWSS58AddressTypeWestend == network ? true : false);
+
+    switch (txCall.type) {
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::BALANCE_XFER: {
+            TW::SS58Address toAddress;
+            if (TW::Polkadot::Address::isValid(txCall.balances.to, bTest)) {
+                toAddress = TW::Polkadot::Address(txCall.balances.to, bTest);
+            }
+            else if (TW::Kusama::Address::isValid(txCall.balances.to, bTest)) {
+                toAddress = TW::Kusama::Address(txCall.balances.to, bTest);
+            }
+            else {
+                call.clear();
+                return JUBR_ERROR_ARGS;
+            }
+
+            call = TW::Polkadot::Extrinsic::encodeBalanceCall(
+                        (TWSS58AddressType)network, txCall.specVersion,
+                        std::string(txCall.balances.to), (NULL == txCall.balances.value
+                                                        || 0 == std::string(txCall.balances.value).compare("")) ? "" : std::string(txCall.balances.value),
+                        txCall.balances.keep_alive);
+        } break;
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_BOND_EXTRA: {
+            call = TW::Polkadot::Extrinsic::encodeStakingCall(
+                        (TWSS58AddressType)network,
+                        txCall.staking.type, txCall.staking.extra.value);
+        } break;
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_UNBOND: {
+            call = TW::Polkadot::Extrinsic::encodeStakingCall(
+                        (TWSS58AddressType)network,
+                        txCall.staking.type, txCall.staking.unbond.value);
+        } break;
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_WITHDRAW_UNBONDED: {
+            call = TW::Polkadot::Extrinsic::encodeStakingWithdrawUnbondedCall(
+                        (TWSS58AddressType)network,
+                        txCall.staking.withdrawUnbonded.slashing_spans);
+        } break;
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_NOMINATE: {
+            std::vector<TW::SS58Address> accountIds;
+            for (int i=0; i<txCall.staking.nominate.nominators_n; ++i) {
+                std::string nominator = std::string(txCall.staking.nominate.nominators[i]);
+                if (TW::SS58Address::isValid(nominator, (TWSS58AddressType)network)) {
+                    accountIds.push_back(TW::SS58Address(nominator, (TWSS58AddressType)network));
+                }
+                else {
+                    accountIds.push_back(TW::SS58Address(TW::PublicKey(ETHHexStr2CharPtr(nominator), _publicKeyType), (TWSS58AddressType)network));
+                }
+            }
+            call = TW::Polkadot::Extrinsic::encodeStakingNominateCall(
+                        (TWSS58AddressType)network, txCall.specVersion,
+                        accountIds);
+        } break;
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_CHILL: {
+            call = TW::Polkadot::Extrinsic::encodeStakingCall((TWSS58AddressType)network);
+        } break;
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_PAYOUT_STAKERS: {
+            call = TW::Polkadot::Extrinsic::encodeStakingPayoutStakersCall(
+                        (TWSS58AddressType)network,
+                        ETHHexStr2CharPtr(txCall.staking.payoutStakers.validator_stash), txCall.staking.payoutStakers.era);
+        } break;
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::UTILITY_BATCH:
+        case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_BOND:
+        default: {
+            return JUBR_IMPL_NOT_SUPPORT;
+        } break;
+    }
+
+    if (0 == call.size()) {
+        return JUBR_ERROR;
+    }
+
+    return JUBR_OK;
 }
 
 
@@ -132,12 +209,12 @@ JUB_RV JubiterBaseDOTImpl::_getEd25519PrvKeyFromMasterKey(const std::string prvK
         return JUBR_ERROR;
     }
 
-    std::string chainCode;
     //"Ed25519HDKD" is ed25519 fixed value
     std::string HDKDValue = "Ed25519HDKD";
     std::string length = polkadot_string_to_hex(HDKDValue.length() << 2);
     std::string HDKD = get_raw_string(HDKDValue);
 
+    std::string chainCode;
     for (int i = 0; i < pathSeveralVer.size(); i++) {
         std::string pathStr = pathSeveralVer[i];
         chainCode = "";

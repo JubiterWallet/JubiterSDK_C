@@ -17,7 +17,7 @@ void DOT_test(JUB_UINT16 deviceID, const char* json_file);
 
 void  get_address_pubkey_DOT(JUB_UINT16 contextID, Json::Value root);
 
-void   transaction_test_DOT(JUB_UINT16 contextID, Json::Value root);
-JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root);
+void   transaction_test_DOT(JUB_UINT16 contextID, Json::Value root, const std::string& coin, int choice);
+JUB_RV transaction_proc_DOT(JUB_UINT16 contextID, Json::Value root, const std::string& coin, int choice);
 
 #endif /* JUB_SDK_test_dot_hpp */
