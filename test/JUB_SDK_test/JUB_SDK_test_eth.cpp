@@ -674,7 +674,7 @@ JUB_RV typedata_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
         return rv;
     }
 
-    cout << "    raw[" << strlen(signature)/2 << "]: "  << signature << endl;
+    cout << "    raw[" << strlen(signature)/2-1 << "]: "  << signature << endl;
     JUB_FreeMemory(signature);
 
     return rv;

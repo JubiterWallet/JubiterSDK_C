@@ -140,7 +140,7 @@ std::string EIP712::typed_data_struct_envelope(const std::string& st_name) {
 bool EIP712::is_atomic_type(const std::string& type_name) {
     return (0 == std::memcmp(type_name.c_str(), "uint256",   std::string("uint256").size())
         || 0 == std::memcmp(type_name.c_str(), "int256",    std::string("int256").size())
-        || 0 == std::memcmp(type_name.c_str(), "bytes",     std::string("bytes").size())
+        || 0 == type_name.rfind("bytes", 0)
         || 0 == std::memcmp(type_name.c_str(), "string",    std::string("string").size())
         || 0 == std::memcmp(type_name.c_str(), "bool",      std::string("bool").size())
         || 0 == std::memcmp(type_name.c_str(), "address",   std::string("address").size())
@@ -166,8 +166,12 @@ std::vector<uint8_t> EIP712::atomic_typed_data_envelope(const std::string& type_
                             EthereumDataType::EthereumDataType_INT,
                             (void*)(&integer), 1);
     }
-    else if (is_type_t(type_name, "bytes")) {
-//        EthereumDataType_BYTES;
+    else if (0 == type_name.rfind("bytes", 0)) {
+        auto v = json_value.get<std::string>();
+        encode_atomic += encode_atomic_type_data(
+                            EthereumDataType::EthereumDataType_BYTES,
+                            (void*)v.data(),
+                            v.size());
     }
     else if (is_type_t(type_name, "string")) {
         auto v = json_value.get<std::string>();
@@ -177,6 +181,11 @@ std::vector<uint8_t> EIP712::atomic_typed_data_envelope(const std::string& type_
                             v.size());
     }
     else if (is_type_t(type_name, "bool")) {
+        auto v = json_value.get<std::string>();
+        encode_atomic += encode_atomic_type_data(
+                            EthereumDataType::EthereumDataType_BOOL,
+                            (void*)v.data(),
+                            v.size());
     }
     else if (is_type_t(type_name, "address")) {
         auto v = json_value.get<std::string>();
@@ -227,13 +236,22 @@ std::vector<uint8_t> EIP712::encode_atomic_type_data(EthereumDataType type, void
         }
     } break;
     case EthereumDataType_BYTES: {
-//        encode_atomic[0] = p[0];
-//        if (sha3_256_hash_size > (*encode_data_len)) {
-//            return {};
-//        }
-//        memset(encode_data, 0x00, sha3_256_hash_size);
-//        memcpy(encode_data + sha3_256_hash_size - value_len, value, value_len);
-//        *encode_data_len = sha3_256_hash_size;
+        index = 0;
+        std::string str = std::string((char*)value, value_len);
+        if (   NULL != strstr((char*)value, "0x")
+            || NULL != strstr((char*)value, "0X")
+        ) {
+            index += 2;
+        }
+        p = new unsigned char[value_len];
+        memset(p, 0x00, value_len);
+        memcpy(p, ((unsigned char*)value+index), (value_len-index));
+        // zero-padded at the end to byte
+        memset(encode_atomic, 0x00, sha3_256_hash_size);
+        uchar_vector vAddr(std::string((char*)p, (value_len-index)));
+        for (size_t i=0; i<sha3_256_hash_size; ++i) {
+            encode_atomic[i] = vAddr[i];
+        }
     } break;
     case EthereumDataType_STRING: {
         hash((unsigned char*)value, value_len, encode_atomic);
@@ -254,7 +272,7 @@ std::vector<uint8_t> EIP712::encode_atomic_type_data(EthereumDataType type, void
         p = new unsigned char[value_len];
         memset(p, 0x00, value_len);
         memcpy(p, ((unsigned char*)value+index), (value_len-index));
-
+        // zero-padded at the begin to address
         memset(encode_atomic, 0x00, sha3_256_hash_size);
         uchar_vector vAddr(std::string((char*)p, (value_len-index)));
         index = sha3_256_hash_size-vAddr.size();
