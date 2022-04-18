@@ -1,0 +1,48 @@
+{
+  "primaryType": "MetaTransaction",
+  "message": {
+    "nonce": 0,
+    "functionSignature": "0xa22cb465000000000000000000000000207fa8df3a17d96ca7ea4f2893fcdcb78a3041010000000000000000000000000000000000000000000000000000000000000001",
+    "from": "0xfd80c819c71fbd4916e51ceae55bd55c3f5133eb"
+  },
+  "types": {
+    "EIP712Domain": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "version",
+        "type": "string"
+      },
+      {
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "name": "salt",
+        "type": "bytes32"
+      }
+    ],
+    "MetaTransaction": [
+      {
+        "name": "nonce",
+        "type": "uint256"
+      },
+      {
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "name": "functionSignature",
+        "type": "bytes"
+      }
+    ]
+  },
+  "domain": {
+    "salt": "0x0000000000000000000000000000000000000000000000000000000000000089",
+    "name": "OpenSea Collections",
+    "verifyingContract": "0x2953399124f0cbb46d2cbacd8a89cf0599974963",
+    "version": "1"
+  }
+}
