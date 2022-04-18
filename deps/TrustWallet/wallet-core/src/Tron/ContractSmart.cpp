@@ -110,8 +110,8 @@ bool TriggerSmartContract::calculateOffset() {
     pb_length_delimited pbData = getData();
     pb_varint pbCallTokenValue = getCallTokenValue();
     if (  !pbContractAddress.isValid()
-        ||      !pbCallValue.isValid()
-        ||           !pbData.isValid()
+//        ||      !pbCallValue.isValid()  // Not required
+//        ||           !pbData.isValid()  // Not required
         || !pbCallTokenValue.isValid()
         ) {
         return false;
@@ -132,6 +132,7 @@ bool TriggerSmartContract::calculateOffset() {
     if (search(szOwnerAddress+szContractAddress,
                pbCallValue.serialize(),
                callVIndex)
+        && pbCallValue.has()    // Not required
         ) {
         szCallValue = pbCallValue.size();
 
@@ -143,6 +144,7 @@ bool TriggerSmartContract::calculateOffset() {
     if (search(szOwnerAddress+szContractAddress+szCallValue,
                pbData.serialize(),
                dIndex)
+        && pbData.has()         // Not required
         ) {
         szData = pbData.size();
 
