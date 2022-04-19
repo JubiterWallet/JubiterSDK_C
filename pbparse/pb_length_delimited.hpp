@@ -22,7 +22,7 @@ using namespace ::google::protobuf::internal;
 // 2       Length-delimited    string, bytes, embedded messages, packed repeated fields
 typedef struct pb_length_delimited : pb_buf {
 
-  public:
+public:
     pb_length_delimited();
     pb_length_delimited(const int field_number, const WireFormatLite::FieldType &type, const std::string &v);
     pb_length_delimited(const int field_number, const WireFormatLite::FieldType &type, const std::vector<uint8_t> &v);
@@ -31,12 +31,12 @@ typedef struct pb_length_delimited : pb_buf {
     bool isValid() const;
     bool has() const;
 
-    virtual size_t size() override;
-    virtual size_t sizeTag() override;
-    size_t sizeLength();
-    virtual size_t sizeValue() override;
+    virtual size_t size() const override;
+    virtual size_t sizeTag() const override;
+    size_t sizeLength() const;
+    virtual size_t sizeValue() const override;
 
-  private:
+private:
     bool encodeTag(const int field_number, const WireFormatLite::FieldType &type);
 
     bool encodeLength();

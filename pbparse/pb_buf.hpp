@@ -81,9 +81,9 @@ protected:
     std::vector<uint8_t> value;   /**< TLV data, e.g. in protocol-buffer encode. */
     std::vector<uint8_t> length;
 
-    virtual size_t size() = 0;
-    virtual size_t sizeTag() = 0;
-    virtual size_t sizeValue() = 0;
+    virtual size_t size() const = 0;
+    virtual size_t sizeTag() const = 0;
+    virtual size_t sizeValue() const = 0;
 } pb_buf;
 
 

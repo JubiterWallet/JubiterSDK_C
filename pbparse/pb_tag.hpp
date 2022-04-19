@@ -70,11 +70,11 @@ public:
          wire_type   = WireFormatLite::WireType::WIRETYPE_VARINT;
     }
 
-    bool isValid() {
+    bool isValid() const {
         return !(0 == field_number);
     }
 
-    size_t size(const WireFormatLite::FieldType& type) {
+    size_t size(const WireFormatLite::FieldType& type) const {
         return WireFormatLite::TagSize(field_number, type);
     }
 

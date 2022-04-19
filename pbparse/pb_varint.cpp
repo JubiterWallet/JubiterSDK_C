@@ -9,7 +9,11 @@
 #include "pb_varint.hpp"
 #include <stdio.h>
 
-pb_varint::pb_varint() { clear(); }
+pb_varint::pb_varint() {
+
+    clear();
+}
+
 
 pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const int64_t v) {
 
@@ -24,6 +28,7 @@ pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &ty
     }
 }
 
+
 pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const uint64_t v) {
 
     clear();
@@ -36,6 +41,7 @@ pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &ty
         return;
     }
 }
+
 
 pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const int32_t v) {
 
@@ -50,6 +56,7 @@ pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &ty
     }
 }
 
+
 pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const uint32_t v) {
 
     clear();
@@ -63,9 +70,14 @@ pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &ty
     }
 }
 
-bool pb_varint::empty() { return (0 == size()) ? true : false; }
 
-bool pb_varint::isValid() {
+bool pb_varint::empty() const {
+
+    return (0 == size()) ? true : false;
+}
+
+
+bool pb_varint::isValid() const {
 
     if (0 < size()) {
         return tag.isValid();
@@ -74,11 +86,20 @@ bool pb_varint::isValid() {
     return true;
 }
 
-bool pb_varint::has() const { return !(0 == length.size()); }
 
-size_t pb_varint::size() const { return sizeTag() + sizeValue(); }
+bool pb_varint::has() const {
 
-size_t pb_varint::sizeTag() {
+    return !(0 == length.size());
+}
+
+
+size_t pb_varint::size() const  {
+
+    return sizeTag() + sizeValue();
+}
+
+
+size_t pb_varint::sizeTag() const {
 
     if (0 < sizeValue()) {
         return tag.size(fieldType);
@@ -87,24 +108,30 @@ size_t pb_varint::sizeTag() {
     return 0;
 }
 
-size_t pb_varint::sizeValue() { return value.size(); }
+
+size_t pb_varint::sizeValue() const {
+
+    return value.size();
+}
+
 
 bool pb_varint::encodeTag(const int field_number, const WireFormatLite::FieldType &type) {
 
     WireFormatLite::WireType wire_type;
     switch (type) {
-    case WireFormatLite::FieldType::TYPE_INT64:
-    case WireFormatLite::FieldType::TYPE_UINT64:
-    case WireFormatLite::FieldType::TYPE_INT32:
-    case WireFormatLite::FieldType::TYPE_BOOL:
-    case WireFormatLite::FieldType::TYPE_UINT32:
-    case WireFormatLite::FieldType::TYPE_ENUM:
-    case WireFormatLite::FieldType::TYPE_SINT32:
-    case WireFormatLite::FieldType::TYPE_SINT64:
-        wire_type = WireFormatLite::WireType::WIRETYPE_VARINT;
-        break;
-    default:
-        return false;
+        case WireFormatLite::FieldType::TYPE_INT64:
+        case WireFormatLite::FieldType::TYPE_UINT64:
+        case WireFormatLite::FieldType::TYPE_INT32:
+        case WireFormatLite::FieldType::TYPE_BOOL:
+        case WireFormatLite::FieldType::TYPE_UINT32:
+        case WireFormatLite::FieldType::TYPE_ENUM:
+        case WireFormatLite::FieldType::TYPE_SINT32:
+        case WireFormatLite::FieldType::TYPE_SINT64: {
+            wire_type = WireFormatLite::WireType::WIRETYPE_VARINT;
+        } break;
+        default: {
+            return false;
+        }
     }
 
     tag = pb_tag(field_number, wire_type);

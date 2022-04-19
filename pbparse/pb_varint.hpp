@@ -31,9 +31,9 @@ typedef struct pb_varint : pb_buf {
     bool isValid() const;
     bool has() const;
 
-    virtual size_t size() override;
-    virtual size_t sizeTag() override;
-    virtual size_t sizeValue() override;
+    virtual size_t size() const;
+    virtual size_t sizeTag() const;
+    virtual size_t sizeValue() const;
 
   private:
     bool encodeTag(const int field_number, const WireFormatLite::FieldType &type);
