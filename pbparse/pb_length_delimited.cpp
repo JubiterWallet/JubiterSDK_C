@@ -112,13 +112,14 @@ bool pb_length_delimited::encodeTag(const int field_number,
 
     WireFormatLite::WireType wire_type;
     switch (type) {
-    case WireFormatLite::FieldType::TYPE_STRING:
-    case WireFormatLite::FieldType::TYPE_BYTES:
-    case WireFormatLite::FieldType::TYPE_MESSAGE:
-        wire_type = WireFormatLite::WireType::WIRETYPE_LENGTH_DELIMITED;
-        break;
-    default:
-        return false;
+        case WireFormatLite::FieldType::TYPE_STRING:
+        case WireFormatLite::FieldType::TYPE_BYTES:
+        case WireFormatLite::FieldType::TYPE_MESSAGE: {
+            wire_type = WireFormatLite::WireType::WIRETYPE_LENGTH_DELIMITED;
+        } break;
+        default: {
+            return false;
+        }
     }
 
     tag = pb_tag(field_number, wire_type);
@@ -150,6 +151,7 @@ bool pb_length_delimited::encodeLength() {
     length.resize(length.size()+1);
     target = &length[length.size()-1];
     *target = static_cast<uint8_t>(sz);
+
     return true;
 }
 

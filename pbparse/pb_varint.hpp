@@ -42,9 +42,9 @@ public:
     bool isValid() const;
     bool has() const;
 
-    virtual size_t size() const override;
-    virtual size_t sizeTag() const override;
-    virtual size_t sizeValue() const override;
+    virtual size_t size() const;
+    virtual size_t sizeTag() const;
+    virtual size_t sizeValue() const;
 
 private:
     bool encodeTag(const int field_number,

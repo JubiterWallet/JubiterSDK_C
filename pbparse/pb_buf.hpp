@@ -31,23 +31,23 @@ public:
         length.clear();
     }
 
-    pb_tag getTag() const {
+    pb_tag getTag() {
         return tag;
     }
 
-    std::vector<uint8_t> getValue() const {
+    std::vector<uint8_t> getValue() {
         return value;
     }
 
-    size_t getValueIndex() const {
+    size_t getValueIndex() {
         return (tag.size(fieldType) + length.size());
     }
 
-    size_t getValueIndex(size_t offset) const {
+    size_t getValueIndex(size_t offset) {
         return (offset + getValueIndex());
     }
 
-    std::vector<uint8_t> serialize() const {
+    std::vector<uint8_t> serialize() {
         std::vector<uint8_t> o;
 
         size_t szTag = tag.size(fieldType);

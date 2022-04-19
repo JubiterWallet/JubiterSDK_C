@@ -130,18 +130,19 @@ bool pb_varint::encodeTag(const int field_number,
 
     WireFormatLite::WireType wire_type;
     switch (type) {
-    case WireFormatLite::FieldType::TYPE_INT64:
-    case WireFormatLite::FieldType::TYPE_UINT64:
-    case WireFormatLite::FieldType::TYPE_INT32:
-    case WireFormatLite::FieldType::TYPE_BOOL:
-    case WireFormatLite::FieldType::TYPE_UINT32:
-    case WireFormatLite::FieldType::TYPE_ENUM:
-    case WireFormatLite::FieldType::TYPE_SINT32:
-    case WireFormatLite::FieldType::TYPE_SINT64:
-        wire_type = WireFormatLite::WireType::WIRETYPE_VARINT;
-        break;
-    default:
-        return false;
+        case WireFormatLite::FieldType::TYPE_INT64:
+        case WireFormatLite::FieldType::TYPE_UINT64:
+        case WireFormatLite::FieldType::TYPE_INT32:
+        case WireFormatLite::FieldType::TYPE_BOOL:
+        case WireFormatLite::FieldType::TYPE_UINT32:
+        case WireFormatLite::FieldType::TYPE_ENUM:
+        case WireFormatLite::FieldType::TYPE_SINT32:
+        case WireFormatLite::FieldType::TYPE_SINT64: {
+            wire_type = WireFormatLite::WireType::WIRETYPE_VARINT;
+        } break;
+        default: {
+            return false;
+        }
     }
 
     tag = pb_tag(field_number, wire_type);
