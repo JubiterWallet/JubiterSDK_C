@@ -41,7 +41,7 @@ public:
 
     static bool is_atomic_type(const std::string& type_name);
 
-    static std::vector<uint8_t> encode_atomic_type_data(EthereumDataType type, void* value, const size_t value_len);
+    static std::vector<uint8_t> encode_atomic_type_data(const std::string& type_name, void* value, const size_t value_len);
 
     static std::vector<uint8_t> atomic_typed_data_envelope(const std::string& type_name, const nlohmann::json& json_value);
 
