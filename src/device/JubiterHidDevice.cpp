@@ -78,6 +78,11 @@ JUB_RV JubiterHidDevice::Disconnect() {
     return JUBR_OK;
 }
 
+JUB_RV JubiterHidDevice::IsConnect() {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
 JUB_RV JubiterHidDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                                   OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                                   IN JUB_ULONG ulMiliSecondTimeout) {

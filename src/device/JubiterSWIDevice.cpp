@@ -37,6 +37,12 @@ JUB_RV JubiterSWIDevice::Disconnect() {
 }
 
 
+JUB_RV JubiterSWIDevice::IsConnect() {
+
+    return JUBR_OK;
+}
+
+
 JUB_RV JubiterSWIDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                                   OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                                   IN JUB_ULONG ulMiliSecondTimeout) {

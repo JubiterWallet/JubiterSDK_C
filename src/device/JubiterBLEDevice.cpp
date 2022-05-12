@@ -99,6 +99,11 @@ JUB_RV JubiterBLEDevice::Disconnect() {
 }
 
 
+JUB_RV JubiterBLEDevice::IsConnect() {
+    return IsConnect(_handle);
+}
+
+
 JUB_RV JubiterBLEDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen,
                                   OUT JUB_BYTE_PTR retData, INOUT JUB_ULONG_PTR pulRetDataLen,
                                   IN JUB_ULONG ulMiliSecondTimeout) {

@@ -295,6 +295,11 @@ JUB_RV JubiterBridgeDevice::Disconnect() {
     return 0;
 }
 
+JUB_RV JubiterBridgeDevice::IsConnect() {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
 JUB_RV JubiterBridgeDevice::SendData(IN JUB_BYTE_CPTR sendData, IN JUB_ULONG ulSendLen, OUT JUB_BYTE_PTR retData,
                                      INOUT JUB_ULONG_PTR pulRetDataLen, IN JUB_ULONG ulMiliSecondTimeout) {
     auto resp = impl_->SendApdu(name_, handle_, sendData, ulSendLen);
