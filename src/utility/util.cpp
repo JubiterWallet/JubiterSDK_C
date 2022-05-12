@@ -170,7 +170,7 @@ std::string ETHCharPtr2HexStr(std::vector<unsigned char> v) {
 
 /*
  * Hexadecimal string conversion -> std::vector<unsigned char>
- */
+ *//*
 std::vector<unsigned char> ETHHexStr2CharPtr(std::string str) {
     if (str.empty()) {
         return std::vector<unsigned char>();
@@ -184,7 +184,7 @@ std::vector<unsigned char> ETHHexStr2CharPtr(std::string str) {
     }
     _str.erase(pos, strlen(ETH_PRDFIX));
     return HexStr2CharPtr(_str);
-}
+}*/
 
 /*
 // Put an array of strings into a vector

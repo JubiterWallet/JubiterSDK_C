@@ -1,5 +1,4 @@
 #include "token/ETH/TrezorCryptoETHImpl.h"
-#include "Ethereum/EIP712.h"
 #include "HDKey/HDKey.hpp"
 #include <Ethereum/Signer.h>
 #include <string>
@@ -10,7 +9,9 @@ namespace token {
 
 JUB_RV TrezorCryptoETHImpl::SelectApplet() { return JUBR_OK; }
 
+
 JUB_RV TrezorCryptoETHImpl::GetAppletVersion(stVersion &version) { return JUBR_OK; }
+
 
 JUB_RV TrezorCryptoETHImpl::GetAddress(const std::string &path, const JUB_UINT16 tag, std::string &address) {
 
@@ -24,6 +25,7 @@ JUB_RV TrezorCryptoETHImpl::GetAddress(const std::string &path, const JUB_UINT16
 
     return _getAddress(publicKey, address);
 }
+
 
 JUB_RV TrezorCryptoETHImpl::GetHDNode(const JUB_BYTE format, const std::string &path, std::string &pubkey) {
 
@@ -53,6 +55,7 @@ JUB_RV TrezorCryptoETHImpl::GetHDNode(const JUB_BYTE format, const std::string &
     return JUBR_OK;
 }
 
+
 JUB_RV TrezorCryptoETHImpl::SignTx(const std::vector<JUB_BYTE> &vNonce, const std::vector<JUB_BYTE> &vGasPrice,
                                    const std::vector<JUB_BYTE> &vGasLimit, const std::vector<JUB_BYTE> &vTo,
                                    const std::vector<JUB_BYTE> &vValue, const std::vector<JUB_BYTE> &vInput,
@@ -64,14 +67,28 @@ JUB_RV TrezorCryptoETHImpl::SignTx(const std::vector<JUB_BYTE> &vNonce, const st
     std::string path(&vPath[0], &vPath[0] + vPath.size());
     JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
-    TW::Ethereum::Transaction tx(vNonce, vGasPrice, vGasLimit, TW::Ethereum::Address(vTo), vValue, vInput);
-    TW::Ethereum::Signer signer(vChainID);
-    signer.sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))), tx);
+    TW::Ethereum::TransactionNonTyped tx(vNonce,
+                                         vGasPrice,
+                                         vGasLimit,
+                                         TW::Ethereum::Address(vTo),
+                                         vValue,
+                                         vInput);
+    if (!tx.isValid()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
 
-    vRaw = TW::Ethereum::RLP::encode(tx);
+    TW::Ethereum::Signature signature = TW::Ethereum::Signer::sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
+                                                                   vChainID,
+                                                                   std::make_shared<TW::Ethereum::TransactionNonTyped>(tx));
+    if (!signature.isValid()) {
+        return JUBR_SIGN_FAILED;
+    }
+
+    vRaw = tx.encoded(signature, vChainID);
 
     return JUBR_OK;
 }
+
 
 JUB_RV TrezorCryptoETHImpl::SignTX(const int erc, const std::vector<JUB_BYTE> &vNonce,
                                    const std::vector<JUB_BYTE> &vGasPrice, const std::vector<JUB_BYTE> &vGasLimit,
@@ -82,8 +99,93 @@ JUB_RV TrezorCryptoETHImpl::SignTX(const int erc, const std::vector<JUB_BYTE> &v
     return SignTx(vNonce, vGasPrice, vGasLimit, vTo, vValue, vInput, vPath, vChainID, vRaw);
 }
 
+
+JUB_RV TrezorCryptoETHImpl::SignTX(const int erc,
+                                   const std::vector<JUB_BYTE>& vNonce,
+                                   const std::vector<JUB_BYTE>& vGasPrice,
+                                   const std::vector<JUB_BYTE>& vGasLimit,
+                                   const std::vector<JUB_BYTE>& vTo,
+                                   const std::vector<JUB_BYTE>& vValue,
+                                   const std::vector<JUB_BYTE>& vInput,
+                                   const std::string& accessListInJSON,
+                                   const std::vector<JUB_BYTE>& vPath,
+                                   const std::vector<JUB_BYTE>& vChainID,
+                                   std::vector<JUB_BYTE>& vRaw) {
+
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    std::string path(&vPath[0], &vPath[0] + vPath.size());
+    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
+
+    TW::Ethereum::TransactionOptionalAccessList tx(vNonce,
+                                                   vGasPrice,
+                                                   vGasLimit,
+                                                   TW::Ethereum::Address(vTo),
+                                                   vValue,
+                                                   vInput,
+                                                   accessListInJSON);
+    if (!tx.isValid()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    TW::Ethereum::Signature signature = TW::Ethereum::Signer::sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
+                                                                   vChainID,
+                                                                   std::make_shared<TW::Ethereum::TransactionOptionalAccessList>(tx));
+    if (!signature.isValid()) {
+        return JUBR_SIGN_FAILED;
+    }
+
+    vRaw = tx.encoded(signature, vChainID);
+
+    return JUBR_OK;
+}
+
+
+JUB_RV TrezorCryptoETHImpl::SignTX(const int erc,
+                                   const std::vector<JUB_BYTE>& vNonce,
+                                   const std::vector<JUB_BYTE>& vGasLimit,
+                                   const std::vector<JUB_BYTE>& vMaxPriorityFeePerGas,
+                                   const std::vector<JUB_BYTE>& vMaxFeePerGas,
+                                   const std::vector<JUB_BYTE>& vDestination,
+                                   const std::vector<JUB_BYTE>& vValue,
+                                   const std::vector<JUB_BYTE>& vData,
+                                   const std::string& accessListInJSON,
+                                   const std::vector<JUB_BYTE>& vPath,
+                                   const std::vector<JUB_BYTE>& vChainID,
+                                   std::vector<JUB_BYTE>& vRaw) {
+
+    HDNode hdkey;
+    JUB_UINT32 parentFingerprint;
+    std::string path(&vPath[0], &vPath[0] + vPath.size());
+    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
+
+    TW::Ethereum::TransactionEip1559 tx(vNonce,
+                                        vMaxPriorityFeePerGas,
+                                        vMaxFeePerGas,
+                                        vGasLimit,
+                                        TW::Ethereum::Address(vDestination),
+                                        vValue,
+                                        vData,
+                                        accessListInJSON);
+    if (!tx.isValid()) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    TW::Ethereum::Signature signature = TW::Ethereum::Signer::sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
+                                                                   vChainID,
+                                                                   std::make_shared<TW::Ethereum::TransactionEip1559>(tx));
+    if (!signature.isValid()) {
+        return JUBR_SIGN_FAILED;
+    }
+
+    vRaw = tx.encoded(signature, vChainID);
+
+    return JUBR_OK;
+}
+
+
 JUB_RV TrezorCryptoETHImpl::VerifyTX(const std::vector<JUB_BYTE> &vChainID, const std::string &path,
-                                     const std::vector<JUB_BYTE> &vSigedTrans) {
+                                     const std::vector<JUB_BYTE> &vSignedTrans) {
 
     uint32_t hdVersionPub = TWCoinType2HDVersionPublic(_coin);
     uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(_coin);
@@ -95,13 +197,15 @@ JUB_RV TrezorCryptoETHImpl::VerifyTX(const std::vector<JUB_BYTE> &vChainID, cons
     JUB_VERIFY_RV(_getPubkeyFromXpub(xpub, publicKey, hdVersionPub, hdVersionPrv));
 
     // verify signature
-    return VerifyTx(vChainID, vSigedTrans, publicKey);
+    return VerifyTx(vChainID, vSignedTrans, publicKey);
 }
+
 
 JUB_RV TrezorCryptoETHImpl::SetERC20ETHTokens(const ERC20_TOKEN_INFO tokens[], const JUB_UINT16 iCount) {
 
     return JUBR_OK;
 }
+
 
 JUB_RV TrezorCryptoETHImpl::SetERC20ETHToken(const std::string &tokenName, const JUB_UINT16 unitDP,
                                              const std::string &contractAddress) {
@@ -109,10 +213,12 @@ JUB_RV TrezorCryptoETHImpl::SetERC20ETHToken(const std::string &tokenName, const
     return JUBR_OK;
 }
 
+
 JUB_RV TrezorCryptoETHImpl::SetERC721ETHToken(const std::string &tokenName, const std::string &contractAddress) {
 
     return JUBR_OK;
 }
+
 
 JUB_RV TrezorCryptoETHImpl::SignContract(const JUB_BYTE inputType, const std::vector<JUB_BYTE> &vNonce,
                                          const std::vector<JUB_BYTE> &vGasPrice, const std::vector<JUB_BYTE> &vGasLimit,
@@ -122,6 +228,7 @@ JUB_RV TrezorCryptoETHImpl::SignContract(const JUB_BYTE inputType, const std::ve
 
     return SignTx(vNonce, vGasPrice, vGasLimit, vTo, vValue, vInput, vPath, vChainID, vRaw);
 }
+
 
 JUB_RV TrezorCryptoETHImpl::SignContractHash(const JUB_BYTE inputType, const std::vector<JUB_BYTE> &vNonce,
                                              const std::vector<JUB_BYTE> &vGasPrice,
@@ -133,21 +240,30 @@ JUB_RV TrezorCryptoETHImpl::SignContractHash(const JUB_BYTE inputType, const std
     return SignContract(inputType, vNonce, vGasPrice, vGasLimit, vTo, vValue, vInput, vPath, vChainID, vRaw);
 }
 
+
 JUB_RV TrezorCryptoETHImpl::SignBytestring(const std::vector<JUB_BYTE> &vData, const std::vector<JUB_BYTE> &vPath,
-                                           const std::vector<JUB_BYTE> &vChainID, std::vector<JUB_BYTE> &signatureRaw) {
+                                           const std::vector<JUB_BYTE>& vChainID,
+                                           std::vector<JUB_BYTE> &signatureRaw) {
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     std::string path(&vPath[0], &vPath[0] + vPath.size());
     JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
-    TW::Ethereum::Signer signer({});
-    signer.sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))), vData, signatureRaw);
+    TW::Ethereum::Signature signature = TW::Ethereum::Signer::sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
+                                                                   vData);
+    if (!signature.isValid()) {
+        return JUBR_SIGN_FAILED;
+    }
+
+    TW::Ethereum::TransactionPersonal tx(vData);
+    signatureRaw = tx.encoded(signature);
 
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoETHImpl::VerifyBytestring(const std::vector<JUB_BYTE> &vChainID, const std::string &path,
+
+JUB_RV TrezorCryptoETHImpl::VerifyBytestring(const std::string &path,
                                              const std::vector<JUB_BYTE> &vData,
                                              const std::vector<JUB_BYTE> &vSignature) {
 
@@ -161,43 +277,35 @@ JUB_RV TrezorCryptoETHImpl::VerifyBytestring(const std::vector<JUB_BYTE> &vChain
     JUB_VERIFY_RV(_getPubkeyFromXpub(xpub, publicKey, hdVersionPub, hdVersionPrv));
 
     // verify signature
-    return JubiterBaseETHImpl::VerifyBytestring({}, vData, vSignature, publicKey);
+    return JubiterBaseETHImpl::VerifyBytestring(vData,
+                                                vSignature,
+                                                publicKey);
 }
 
+
 JUB_RV TrezorCryptoETHImpl::SignTypedData(const bool &bMetamaskV4Compat, const std::string &typedDataInJSON,
-                                          const std::vector<JUB_BYTE> &vPath, std::vector<JUB_BYTE> &signatureRaw) {
+                                          const std::vector<JUB_BYTE> &vPath,
+                                          const std::vector<JUB_BYTE>& vChainID,
+                                          std::vector<JUB_BYTE> &signatureRaw) {
 
     HDNode hdkey;
     JUB_UINT32 parentFingerprint;
     std::string path(&vPath[0], &vPath[0] + vPath.size());
     JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
 
-    nlohmann::json typedData = nlohmann::json::parse(typedDataInJSON);
-    if (nlohmann::detail::value_t::object != typedData.type()) {
-        return JUBR_ARGUMENTS_BAD;
+    TW::Ethereum::Signature signature = TW::Ethereum::Signer::sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))),
+                                                                   typedDataInJSON,
+                                                                   bMetamaskV4Compat);
+    if (!signature.isValid()) {
+        return JUBR_SIGN_FAILED;
     }
 
-    if (!eth::EIP712::parseJSON(typedData)) {
-        return JUBR_ARGUMENTS_BAD;
-    }
-
-    uchar_vector hashDomain = eth::EIP712::typed_data_envelope("EIP712Domain", typedData["domain"], bMetamaskV4Compat);
-    if (hashDomain.empty()) {
-        return JUBR_ERROR;
-    }
-
-    uchar_vector hashMessage = eth::EIP712::typed_data_envelope(typedData["primaryType"].get<std::string>().c_str(),
-                                                                typedData["message"], bMetamaskV4Compat);
-    if (hashMessage.empty()) {
-        return JUBR_ERROR;
-    }
-
-    TW::Ethereum::Signer signer({});
-    signer.sign(TW::PrivateKey(TW::Data(uchar_vector(hdkey.private_key, TW::PrivateKey::size))), hashDomain,
-                hashMessage, signatureRaw);
+    TW::Ethereum::TransactionTypedData tx(typedDataInJSON);
+    signatureRaw = tx.encoded(signature);
 
     return JUBR_OK;
 }
+
 
 JUB_RV TrezorCryptoETHImpl::VerifyTypedData(const bool &bMetamaskV4Compat, const std::string &path,
                                             const std::string &typedDataInJSON,
@@ -215,6 +323,7 @@ JUB_RV TrezorCryptoETHImpl::VerifyTypedData(const bool &bMetamaskV4Compat, const
     // verify signature
     return JubiterBaseETHImpl::VerifyTypedData(bMetamaskV4Compat, typedDataInJSON, vSignature, publicKey);
 }
+
 
 } // namespace token
 } // namespace jub

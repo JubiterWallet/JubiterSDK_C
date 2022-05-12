@@ -6,7 +6,7 @@
 #include <vector>
 #include "token/interface/BaseToken.h"
 #include "utility/util.h"
-
+#include <Ethereum/Transaction.h>
 
 namespace jub {
 namespace token {
@@ -42,6 +42,8 @@ public:
     virtual JUB_RV GetAppletVersion(stVersion& version) = 0;
     virtual JUB_RV GetAddress(const std::string& path, const JUB_UINT16 tag, std::string& address) = 0;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string& path, std::string& pubkey) = 0;
+
+    // EIP-155/Legacy Transaction
     virtual JUB_RV SignTX(const int erc,
                           const std::vector<JUB_BYTE>& vNonce,
                           const std::vector<JUB_BYTE>& vGasPrice,
@@ -52,9 +54,36 @@ public:
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainID,
                           std::vector<JUB_BYTE>& vRaw) = 0;
+    // EIP-2930/Typed Transaction
+    virtual JUB_RV SignTX(const int erc,
+                          const std::vector<JUB_BYTE>& vNonce,
+                          const std::vector<JUB_BYTE>& vGasPrice,
+                          const std::vector<JUB_BYTE>& vGasLimit,
+                          const std::vector<JUB_BYTE>& vTo,
+                          const std::vector<JUB_BYTE>& vValue,
+                          const std::vector<JUB_BYTE>& vInput,
+                          const std::string& accessListInJSON,
+                          const std::vector<JUB_BYTE>& vPath,
+                          const std::vector<JUB_BYTE>& vChainID,
+                          std::vector<JUB_BYTE>& vRaw) = 0;
+    // EIP-1559/Typed Transaction
+    virtual JUB_RV SignTX(const int erc,
+                          const std::vector<JUB_BYTE>& vNonce,
+                          const std::vector<JUB_BYTE>& vGasLimit,
+                          const std::vector<JUB_BYTE>& vMaxPriorityFeePerGas,
+                          const std::vector<JUB_BYTE>& vMaxFeePerGas,
+                          const std::vector<JUB_BYTE>& vDestination,
+                          const std::vector<JUB_BYTE>& vValue,
+                          const std::vector<JUB_BYTE>& vData,
+                          const std::string& accessListInJSON,
+                          const std::vector<JUB_BYTE>& vPath,
+                          const std::vector<JUB_BYTE>& vChainID,
+                          std::vector<JUB_BYTE>& vRaw) = 0;
+
     virtual JUB_RV VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                             const std::string& path,
                             const std::vector<JUB_BYTE>& vSigedTrans) = 0;
+
     virtual JUB_RV SetERC20ETHTokens(const ERC20_TOKEN_INFO tokens[],
                                      const JUB_UINT16 iCount) = 0;
     virtual JUB_RV SetERC20ETHToken(const std::string& tokenName,
@@ -88,14 +117,14 @@ public:
                                   const std::vector<JUB_BYTE>& vPath,
                                   const std::vector<JUB_BYTE>& vChainID,
                                   std::vector<JUB_BYTE>& signatureRaw) = 0;
-    virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
-                                    const std::string& path,
+    virtual JUB_RV VerifyBytestring(const std::string& path,
                                     const std::vector<JUB_BYTE>& vData,
                                     const std::vector<JUB_BYTE>& vSignature) = 0;
 
     virtual JUB_RV SignTypedData(const bool& bMetamaskV4Compat,
                                  const std::string& typedDataInJSON,
                                  const std::vector<JUB_BYTE>& vPath,
+                                 const std::vector<JUB_BYTE>& vChainID,
                                  std::vector<JUB_BYTE>& signatureRaw) = 0;
     virtual JUB_RV VerifyTypedData(const bool& bMetamaskV4Compat,
                                    const std::string& path,

@@ -11,6 +11,7 @@
 #include "utility/Debug.hpp"
 #include "utility/util.h"
 #include "tlv.hpp"
+#include <TrustWallet/wallet-core/src/HexCoding.h>
 
 
 namespace jub {
@@ -771,7 +772,7 @@ JUB_RV JubiterBladeToken::SetERC20Tokens(const ERC20_TOKEN_INFO tokens[],
     for (JUB_UINT16 i=0; i<iCount; ++i) {
         uchar_vector lvName = Tollv(tokens[i].tokenName);
         uchar_vector address;
-        address << ETHHexStr2CharPtr(tokens[i].contractAddress);
+        address << TW::parse_hex(tokens[i].contractAddress);
 
         apduData << (uint8_t)tokens[i].unitDP;
         apduData << (uint8_t)lvName.size();

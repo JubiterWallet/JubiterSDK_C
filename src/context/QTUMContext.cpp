@@ -4,6 +4,7 @@
 #include <TrezorCrypto/base58.h>
 #include <Bitcoin/Address.h>
 #include "utility/util.h"
+#include <TrustWallet/wallet-core/src/HexCoding.h>
 
 
 namespace jub {
@@ -24,7 +25,7 @@ JUB_RV QTUMContext::SetQRC20Token(IN JUB_CHAR_CPTR contractAddress, IN JUB_UINT8
 //        _contractAddress));
 
     std::string tokenName = std::string(symbol);
-    std::string _contractAddress = uchar_vector(ETHHexStr2CharPtr(std::string(contractAddress))).getHex();
+    std::string _contractAddress = uchar_vector(TW::parse_hex(std::string(contractAddress))).getHex();
 
     auto token = std::dynamic_pointer_cast<token::QTUMTokenInterface>(_tokenPtr);
     JUB_CHECK_NULL(token);

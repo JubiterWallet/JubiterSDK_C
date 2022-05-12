@@ -67,12 +67,16 @@ JUB_RV JubiterLiteETHImpl::GetHDNode(const JUB_BYTE format, const std::string& p
 JUB_RV JubiterLiteETHImpl::_encodeRSV(const std::vector<JUB_BYTE>& vRSV,
                                       const std::vector<JUB_BYTE>& vChainID,
                                       TW::Data& r, TW::Data& s, TW::Data& v) {
+    TW::Ethereum::Signature signature = TW::Ethereum::Signer::signatureDataToStruct(vRSV,
+                                                                                    false, // TW::Ethereum::TransactionNonTyped::usesReplayProtection() is handled by the hardware
+                                                                                    vChainID);
+    if (!signature.isValid()) {
+        return JUBR_SIGN_FAILED;
+    }
 
-    auto tuple = TW::Ethereum::Signer::values(TW::Data(vChainID), TW::Data(vRSV));
-
-    r = std::get<0>(tuple);
-    s = std::get<1>(tuple);
-    v = std::get<2>(tuple);
+    r = signature.r;
+    s = signature.s;
+    v = signature.v;
 
     return JUBR_OK;
 }
@@ -89,14 +93,13 @@ JUB_RV JubiterLiteETHImpl::SignTx(const std::vector<JUB_BYTE>& vNonce,
                                   std::vector<JUB_BYTE>& vRaw) {
 
     try {
-        TW::Ethereum::Transaction tx(vNonce,
-                                     vGasPrice,
-                                     vGasLimit,
-                                     TW::Ethereum::Address(vTo),
-                                     vValue,
-                                     vInput);
-        TW::Ethereum::Signer signer(vChainID);
-        TW::Data half = signer.hash(tx);
+        TW::Ethereum::TransactionNonTyped tx(vNonce,
+                                             vGasPrice,
+                                             vGasLimit,
+                                             TW::Ethereum::Address(vTo),
+                                             vValue,
+                                             vInput);
+        TW::Data half = tx.preHash(vChainID);
 
         std::string path(vPath.begin(), vPath.end());
         std::vector<std::string> vInputPath;
@@ -122,16 +125,19 @@ JUB_RV JubiterLiteETHImpl::SignTx(const std::vector<JUB_BYTE>& vNonce,
                                               vPreImageHash,
                                               vRSV));
 
+        std::vector<TW::Ethereum::Signature> signatures;
         for (const auto& rsv : vRSV) {
+            TW::Ethereum::Signature signature;
             JUB_VERIFY_RV(_encodeRSV(rsv, vChainID,
-                                     tx.r, tx.s, tx.v));
+                                     signature.r, signature.s, signature.v));
 //            if (!signer.verify(TW::PublicKey(publicKey, TWPublicKeyType::TWPublicKeyTypeSECP256k1),
-//                               tx)) {
+//                               tx, signature)) {
 //                return JUBR_VERIFY_SIGN_FAILED;
 //            }
+            signatures.push_back(signature);
         }
 
-        vRaw = TW::Ethereum::RLP::encode(tx);
+        vRaw = tx.encoded(signatures[0], vChainID);
     }
     catch (...) {
         return JUBR_ERROR_ARGS;
@@ -161,6 +167,39 @@ JUB_RV JubiterLiteETHImpl::SignTX(const int erc,
                   vPath,
                   vChainID,
                   vRaw);
+}
+
+
+JUB_RV JubiterLiteETHImpl::SignTX(const int erc,
+                                  const std::vector<JUB_BYTE>& vNonce,
+                                  const std::vector<JUB_BYTE>& vGasPrice,
+                                  const std::vector<JUB_BYTE>& vGasLimit,
+                                  const std::vector<JUB_BYTE>& vTo,
+                                  const std::vector<JUB_BYTE>& vValue,
+                                  const std::vector<JUB_BYTE>& vInput,
+                                  const std::string& accessListInJSON,
+                                  const std::vector<JUB_BYTE>& vPath,
+                                  const std::vector<JUB_BYTE>& vChainID,
+                                  std::vector<JUB_BYTE>& vRaw) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
+JUB_RV JubiterLiteETHImpl::SignTX(const int erc,
+                                  const std::vector<JUB_BYTE>& vNonce,
+                                  const std::vector<JUB_BYTE>& vGasLimit,
+                                  const std::vector<JUB_BYTE>& vMaxPriorityFeePerGas,
+                                  const std::vector<JUB_BYTE>& vMaxFeePerGas,
+                                  const std::vector<JUB_BYTE>& vDestination,
+                                  const std::vector<JUB_BYTE>& vValue,
+                                  const std::vector<JUB_BYTE>& vData,
+                                  const std::string& accessListInJSON,
+                                  const std::vector<JUB_BYTE>& vPath,
+                                  const std::vector<JUB_BYTE>& vChainID,
+                                  std::vector<JUB_BYTE>& vRaw) {
+
+    return JUBR_IMPL_NOT_SUPPORT;
 }
 
 
@@ -253,8 +292,8 @@ JUB_RV JubiterLiteETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
                                           std::vector<JUB_BYTE>& vSignature) {
 
     try {
-        TW::Ethereum::Signer signer(vChainID);
-        TW::Data half = signer.hash(vData);
+        TW::Ethereum::TransactionPersonal tx(vData);
+        TW::Data half = tx.preHash();
 
         std::string path(vPath.begin(), vPath.end());
         std::vector<std::string> vInputPath;
@@ -281,14 +320,15 @@ JUB_RV JubiterLiteETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
                                               vRSV));
 
         for (const auto& rsv : vRSV) {
-            TW::Ethereum::Transaction tx;
-            JUB_VERIFY_RV(_encodeRSV(rsv, vChainID,
-                                     tx.r, tx.s, tx.v));
+            TW::Ethereum::Signature signature;
+            JUB_VERIFY_RV(_encodeRSV(rsv,
+                                     {},    // `v` is not depend chainId
+                                     signature.r, signature.s, signature.v));
 
-            vSignature.resize(tx.r.size()+tx.s.size()+tx.v.size());
-            std::copy(std::begin(tx.r), std::end(tx.r), std::begin(vSignature));
-            std::copy(std::begin(tx.s), std::end(tx.s), std::begin(vSignature)+tx.r.size());
-            std::copy(std::begin(tx.v), std::end(tx.v), std::begin(vSignature)+tx.r.size()+tx.s.size());
+            vSignature.resize(signature.r.size()+signature.s.size()+signature.v.size());
+            std::copy(std::begin(signature.r), std::end(signature.r), std::begin(vSignature));
+            std::copy(std::begin(signature.s), std::end(signature.s), std::begin(vSignature)+signature.r.size());
+            std::copy(std::begin(signature.v), std::end(signature.v), std::begin(vSignature)+signature.r.size()+signature.s.size());
         }
     }
     catch (...) {
@@ -299,8 +339,7 @@ JUB_RV JubiterLiteETHImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
 }
 
 
-JUB_RV JubiterLiteETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
-                                            const std::string& path,
+JUB_RV JubiterLiteETHImpl::VerifyBytestring(const std::string& path,
                                             const std::vector<JUB_BYTE>& vData,
                                             const std::vector<JUB_BYTE>& vSignature) {
 
@@ -311,8 +350,7 @@ JUB_RV JubiterLiteETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainI
                                                  publicKey));
 
     // verify signature
-    return JubiterBaseETHImpl::VerifyBytestring(vChainID,
-                                                vData,
+    return JubiterBaseETHImpl::VerifyBytestring(vData,
                                                 vSignature,
                                                 publicKey);
 }
@@ -321,6 +359,7 @@ JUB_RV JubiterLiteETHImpl::VerifyBytestring(const std::vector<JUB_BYTE>& vChainI
 JUB_RV JubiterLiteETHImpl::SignTypedData(const bool& bMetamaskV4Compat,
                                          const std::string& typedDataInJSON,
                                          const std::vector<JUB_BYTE>& vPath,
+                                         const std::vector<JUB_BYTE>& vChainID,
                                          std::vector<JUB_BYTE>& signatureRaw) {
     return JUBR_IMPL_NOT_SUPPORT;
 }

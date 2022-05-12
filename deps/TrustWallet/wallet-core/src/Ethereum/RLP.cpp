@@ -1,17 +1,15 @@
-// Copyright © 2017-2020 Trust Wallet.
+// Copyright © 2017-2021 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
+#include <assert.h>
 #include "RLP.h"
 
 #include "../Data.h"
 #include "Address.h"
-#include "BinaryCoding.h"
-#include "mSIGNA/stdutils/uchar_vector.h"
-
-//#include <tuple>
+#include "../BinaryCoding.h"
 
 using namespace TW;
 using namespace TW::Ethereum;
@@ -36,88 +34,8 @@ Data RLP::encodeList(const Data& encoded) noexcept {
     return result;
 }
 
-// JuBiter-defined
-Data RLP::decodeList(const Data& decoded) noexcept {
-    uint64_t offset = 0;
-    return removeHeader(decoded, 0xc0, 0xf7, offset);
-}
-
-Data RLP::encode(const Transaction& transaction) noexcept {
-    auto encoded = Data();
-    append(encoded, encode(transaction.nonce));
-    append(encoded, encode(transaction.gasPrice));
-    append(encoded, encode(transaction.gasLimit));
-    append(encoded, encode(transaction.to.bytes));
-    append(encoded, encode(transaction.amount));
-    append(encoded, encode(transaction.payload));
-    append(encoded, encode(transaction.v));
-    append(encoded, encode(transaction.r));
-    append(encoded, encode(transaction.s));
-    return encodeList(encoded);
-}
-
-// JuBiter-defined
-/// Decodes a transaction.
-Transaction RLP::decode(const Data& encoded) noexcept {
-
-    Data toDecode = decodeList(encoded);
-
-    Transaction transaction;
-
-    uint64_t offset = 0;
-    uint64_t headerSize = 0;
-    transaction.nonce    = decode(toDecode, headerSize);
-    offset += headerSize;
-    offset += transaction.nonce.size();
-
-    uchar_vector rGasPrice(toDecode.begin()+offset, toDecode.end());
-    transaction.gasPrice = decode(rGasPrice, headerSize);
-    offset += headerSize;
-    offset += transaction.gasPrice.size();
-
-    uchar_vector rGasLimit(toDecode.begin()+offset, toDecode.end());
-    transaction.gasLimit = decode(rGasLimit, headerSize);
-    offset += headerSize;
-    offset += transaction.gasLimit.size();
-
-    uchar_vector rTo(toDecode.begin()+offset, toDecode.end());
-    transaction.to.bytes = decode<TW::Ethereum::Address::size>(TW::Data(rTo), headerSize);
-    offset += headerSize;
-    offset += transaction.to.bytes.size();
-
-    uchar_vector rAmount(toDecode.begin()+offset, toDecode.end());
-    transaction.amount = decode(rAmount, headerSize);
-    offset += headerSize;
-    offset += transaction.amount.size();
-
-    uchar_vector rPayload(toDecode.begin()+offset, toDecode.end());
-    transaction.payload = decode(rPayload, headerSize);
-    offset += headerSize;
-    offset += transaction.payload.size();
-
-    uchar_vector rV(toDecode.begin()+offset, toDecode.end());
-    transaction.v = decode(rV, headerSize);
-    offset += headerSize;
-    offset += transaction.v.size();
-
-    uchar_vector rR(toDecode.begin()+offset, toDecode.end());
-    transaction.r = decode(rR, headerSize);
-    offset += headerSize;
-    offset += transaction.r.size();
-
-    uchar_vector rS(toDecode.begin()+offset, toDecode.end());
-    transaction.s = decode(rS, headerSize);
-    offset += headerSize;
-    offset += transaction.s.size();
-
-    if (offset != toDecode.size()) {
-        return Transaction();
-    }
-
-    return transaction;
-}
-
 Data RLP::encode(const Data& data) noexcept {
+    // JuBiter-added
     if (data.empty() || (data.size() == 1 && data[0] == 0)) {
         return {0x80};
     }
@@ -138,7 +56,7 @@ Data RLP::encodeHeader(uint64_t size, uint64_t smallTag, uint64_t largeTag) noex
         return {static_cast<uint8_t>(smallTag + size)};
     }
 
-    const auto sizeData = putint(size);
+    const auto sizeData = putVarInt(size);
 
     auto header = Data();
     header.reserve(1 + sizeData.size());
@@ -147,257 +65,139 @@ Data RLP::encodeHeader(uint64_t size, uint64_t smallTag, uint64_t largeTag) noex
     return header;
 }
 
-// JuBiter-defined
-Data RLP::decode(const Data& data, uint64_t& offset) noexcept {
-    if (data.empty() || (data[0] == 0x80)) {
-        offset = 0;
-        return {0};
-    }
-
-    if (data[0] <= 0x7f) {
-        // Fits in single byte, no header
-        offset = 0;
-        return {data[0]};
-    }
-
-    return removeHeader(data, 0x80, 0xb7, offset);
+Data RLP::putVarInt(uint64_t i) noexcept {
+    Data bytes; // accumulate bytes here, in reverse order
+    do {
+        // take LSB byte, append
+        bytes.push_back(i & 0xff);
+        i = i >> 8;
+    } while (i);
+    assert(bytes.size() >= 1 && bytes.size() <= 8);
+    std::reverse(bytes.begin(), bytes.end());
+    return bytes;
 }
 
-// JuBiter-defined
-Data RLP::removeHeader(const Data& header, const uint64_t smallTag, const uint64_t largeTag, uint64_t& headerSize) noexcept {
-
-    auto size = decodeHeader(header, smallTag, largeTag, headerSize);
-    if (0 == size) {
-        return header;
+uint64_t RLP::parseVarInt(size_t size, const Data& data, size_t index) {
+    if (size < 1 || size > 8) {
+        throw std::invalid_argument("invalid length length");
     }
-
-    Data decoded;
-    decoded.insert(decoded.end(), header.begin()+headerSize, header.begin()+headerSize+size);
-    return decoded;
+    if (data.size() - index < size) {
+        throw std::invalid_argument("Not enough data for varInt");
+    }
+    if (size >= 2 && data[index] == 0) {
+        throw std::invalid_argument("multi-byte length must have no leading zero");
+    }
+    uint64_t val = 0;
+    for (auto i = 0; i < size; ++i) {
+        val = val << 8;
+        val += data[index + i];
+    }
+    return static_cast<size_t>(val);
 }
 
-// JuBiter-defined
-uint64_t RLP::decodeHeader(const Data& header, const uint64_t smallTag, const uint64_t largeTag, uint64_t& headerSize) noexcept {
-
-    uint8_t cnt = header[0] - smallTag;
-    if ( 56 > cnt) {
-        headerSize = 1;
-        return cnt;
+RLP::DecodedItem RLP::decodeList(const Data& input) noexcept {
+    RLP::DecodedItem item;
+    auto remainder = input;
+    while(true) {
+        auto listItem = RLP::decode(remainder);
+        // Here we deal with list empty (0xc0).
+        if (0 < listItem.decoded.size()) {
+            item.decoded.push_back(listItem.decoded[0]);
+        }
+        if (listItem.remainder.size() == 0) {
+            break;
+        } else {
+            remainder = listItem.remainder;
+        }
     }
-
-    cnt = header[0] - largeTag;
-    uint8_t* sizeData = new uint8_t[cnt+1];
-    memset(sizeData, 0x00, cnt+1);
-    for (size_t i=1; i<=cnt; ++i) {
-        sizeData[i-1] = header[i];
-    }
-    uint64_t size = 0;
-    switch (cnt) {
-    case 1:
-        size = sizeData[0];
-        break;
-    case 2:
-        size = TW::decode16BE(sizeData);
-        break;
-    case 3:
-        size = TW::decode24BE(sizeData);
-        break;
-    case 4:
-        size = TW::decode32BE(sizeData);
-        break;
-    case 5:
-        size = TW::decode40BE(sizeData);
-        break;
-    case 6:
-        size = TW::decode48BE(sizeData);
-        break;
-    case 7:
-        size = TW::decode56BE(sizeData);
-        break;
-    case 8:
-        size = TW::decode64BE(sizeData);
-        break;
-    default:
-        break;
-    }
-
-    delete [] sizeData; sizeData = nullptr;
-
-    headerSize = cnt + 1;
-
-    return size;
+    return item;
 }
 
-Data RLP::putint(uint64_t i) noexcept {
-    // clang-format off
-    if (i < (1l << 8))
-        return {static_cast<uint8_t>(i)};
-    if (i < (1l << 16))
-        return {
-            static_cast<uint8_t>(i >> 8),
-            static_cast<uint8_t>(i),
-        };
-    if (i < (1l << 24))
-        return {
-            static_cast<uint8_t>(i >> 16),
-            static_cast<uint8_t>(i >> 8),
-            static_cast<uint8_t>(i),
-        };
-    if (i < (1l << 32))
-        return {
-            static_cast<uint8_t>(i >> 24),
-            static_cast<uint8_t>(i >> 16),
-            static_cast<uint8_t>(i >> 8),
-            static_cast<uint8_t>(i),
-        };
-    if (i < (1l << 40))
-        return {
-            static_cast<uint8_t>(i >> 32),
-            static_cast<uint8_t>(i >> 24),
-            static_cast<uint8_t>(i >> 16),
-            static_cast<uint8_t>(i >> 8),
-            static_cast<uint8_t>(i),
-        };
-    if (i < (1l << 48))
-        return {
-            static_cast<uint8_t>(i >> 40),
-            static_cast<uint8_t>(i >> 32),
-            static_cast<uint8_t>(i >> 24),
-            static_cast<uint8_t>(i >> 16),
-            static_cast<uint8_t>(i >> 8),
-            static_cast<uint8_t>(i),
-        };
-    if (i < (1l << 56))
-        return {
-            static_cast<uint8_t>(i >> 48),
-            static_cast<uint8_t>(i >> 40),
-            static_cast<uint8_t>(i >> 32),
-            static_cast<uint8_t>(i >> 24),
-            static_cast<uint8_t>(i >> 16),
-            static_cast<uint8_t>(i >> 8),
-            static_cast<uint8_t>(i),
-        };
+RLP::DecodedItem RLP::decode(const Data& input) noexcept {
+    if (input.size() == 0) {
+        throw std::invalid_argument("can't decode empty rlp data");
+    }
+    RLP::DecodedItem item;
+    auto inputLen = input.size();
+    auto prefix = input[0];
+    if (prefix <= 0x7f) {
+        // 00--7f: a single byte whose value is in the [0x00, 0x7f] range, that byte is its own RLP encoding.
+        item.decoded.push_back(Data{input[0]});
+        item.remainder = subData(input, 1);
+        return item;
+    }
+    if (prefix <= 0xb7) {
+        // 80--b7: short string
+        // string is 0-55 bytes long. A single byte with value 0x80 plus the length of the string followed by the string
+        // The range of the first byte is [0x80, 0xb7]
 
-    return {
-        static_cast<uint8_t>(i >> 56),
-        static_cast<uint8_t>(i >> 48),
-        static_cast<uint8_t>(i >> 40),
-        static_cast<uint8_t>(i >> 32),
-        static_cast<uint8_t>(i >> 24),
-        static_cast<uint8_t>(i >> 16),
-        static_cast<uint8_t>(i >> 8),
-        static_cast<uint8_t>(i),
-    };
-    // clang-format on
-}
+        // empty string
+        if (prefix == 0x80) {
+            item.decoded.emplace_back(Data());
+            item.remainder = subData(input, 1);
+            return item;
+        }
 
-// JuBiter-defined
-uint64_t RLP::getint(Data i) noexcept {
+        auto strLen = prefix - 0x80;
+        if (strLen == 1 && input[1] <= 0x7f) {
+            throw std::invalid_argument("single byte below 128 must be encoded as itself");
+        }
 
-    uint64_t size = 0;
+        if (inputLen < (1 + strLen)) {
+            throw std::invalid_argument(std::string("invalid short string, length ") + std::to_string(strLen));
+        }
+        item.decoded.push_back(subData(input, 1, strLen));
+        item.remainder = subData(input, 1 + strLen);
 
-    uchar_vector vSize(i);
-    uint64_t s = vSize.read_uint8();
-    switch (i.size()) {
-    case 1:
-    {
-        size = s;
-        break;
+        return item;
     }
-    case 2:
-    {
-        size += (s << 8);
-        s = vSize.read_uint8();
-        size += s;
-        break;
+    if (prefix <= 0xbf) {
+        // b8--bf: long string
+        auto lenOfStrLen = size_t(prefix - 0xb7);
+        auto strLen = static_cast<size_t>(parseVarInt(lenOfStrLen, input, 1));
+        if (inputLen < lenOfStrLen || inputLen < (1 + lenOfStrLen + strLen)) {
+            throw std::invalid_argument(std::string("Invalid rlp encoding length, length ") + std::to_string(strLen));
+        }
+        auto data = subData(input, 1 + lenOfStrLen, strLen);
+        item.decoded.push_back(data);
+        item.remainder = subData(input, 1 + lenOfStrLen + strLen);
+        return item;
     }
-    case 3:
-    {
-        size += (s << 16);
-        s = vSize.read_uint8();
-        size += (s << 8);
-        s = vSize.read_uint8();
-        size += s;
-        break;
+    if (prefix <= 0xf7) {
+        // c0--f7: a list between  0-55 bytes long
+        auto listLen = size_t(prefix - 0xc0);
+        if (inputLen < (1 + listLen)) {
+            throw std::invalid_argument(std::string("Invalid rlp string length, length ") + std::to_string(listLen));
+        }
+        // empty list
+        if (listLen == 0) {
+            item.remainder = subData(input, 1);
+            return item;
+        }
+
+        // decode list
+        auto listItem = decodeList(subData(input, 1, listLen));
+        for (auto& data : listItem.decoded) {
+            item.decoded.push_back(data);
+        }
+        item.remainder = subData(input, 1 + listLen);
+        return item;
     }
-    case 4:
-    {
-        size += (s << 24);
-        s = vSize.read_uint8();
-        size += (s << 16);
-        s = vSize.read_uint8();
-        size += (s << 8);
-        s = vSize.read_uint8();
-        size += s;
-        break;
+    // f8--ff
+    auto lenOfListLen = size_t(prefix - 0xf7);
+    auto listLen = static_cast<size_t>(parseVarInt(lenOfListLen, input, 1));
+    if (listLen < 56) {
+        throw std::invalid_argument("length below 56 must be encoded in one byte");
     }
-    case 5:
-    {
-        size += (s << 32);
-        s = vSize.read_uint8();
-        size += (s << 24);
-        s = vSize.read_uint8();
-        size += (s << 16);
-        s = vSize.read_uint8();
-        size += (s << 8);
-        s = vSize.read_uint8();
-        size += s;
-        break;
-    }
-    case 6:
-    {
-        size += (s << 40);
-        s = vSize.read_uint8();
-        size += (s << 32);
-        s = vSize.read_uint8();
-        size += (s << 24);
-        s = vSize.read_uint8();
-        size += (s << 16);
-        s = vSize.read_uint8();
-        size += (s << 8);
-        s = vSize.read_uint8();
-        size += s;
-        break;
-    }
-    case 7:
-    {
-        size += (s << 48);
-        s = vSize.read_uint8();
-        size += (s << 40);
-        s = vSize.read_uint8();
-        size += (s << 32);
-        s = vSize.read_uint8();
-        size += (s << 24);
-        s = vSize.read_uint8();
-        size += (s << 16);
-        s = vSize.read_uint8();
-        size += (s << 8);
-        s = vSize.read_uint8();
-        size += s;
-        break;
-    }
-    case 8:
-    {
-        size += (s << 56);
-        s = vSize.read_uint8();
-        size += (s << 48);
-        s = vSize.read_uint8();
-        size += (s << 40);
-        s = vSize.read_uint8();
-        size += (s << 32);
-        s = vSize.read_uint8();
-        size += (s << 24);
-        s = vSize.read_uint8();
-        size += (s << 16);
-        s = vSize.read_uint8();
-        size += (s << 8);
-        s = vSize.read_uint8();
-        size += s;
-        break;
-    }
-    default:
-        break;
+    if (inputLen < lenOfListLen || inputLen < (1 + lenOfListLen + listLen)) {
+        throw std::invalid_argument(std::string("Invalid rlp list length, length ") + std::to_string(listLen));
     }
 
-    return size;
+    // decode list
+    auto listItem = decodeList(subData(input, 1 + lenOfListLen, listLen));
+    for (auto& data : listItem.decoded) {
+        item.decoded.push_back(data);
+    }
+    item.remainder = subData(input, 1 + lenOfListLen + listLen);
+    return item;
 }

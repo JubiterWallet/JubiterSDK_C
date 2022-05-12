@@ -4,6 +4,8 @@
 #include <NervosCKB/SegwitAddress.h>
 #include <NervosCKB/Serialization.hpp>
 #include <TrezorCrypto/ecdsa.h>
+#include <TrustWallet/wallet-core/src/HexCoding.h>
+
 
 namespace jub {
 namespace token {
@@ -59,7 +61,7 @@ JUB_RV JubiterBaseCKBImpl::_unsignedTx(const uint32_t coin,
     auto lambdaHex2Bytes = [](JUB_CHAR_PTR hex) -> TW::Data {
 
         return (nullptr == hex) ? TW::Data()
-                                : uchar_vector(ETHHexStr2CharPtr(std::string(hex)));
+                                : uchar_vector(TW::parse_hex(std::string(hex)));
     };
 
     tx.version = version;

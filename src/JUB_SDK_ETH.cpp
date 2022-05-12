@@ -191,6 +191,117 @@ JUB_RV JUB_SignTransactionETH(IN JUB_UINT16 contextID,
 
 
 /*****************************************************************************
+ * @function name : JUB_SignTypedTransactionETH (EIP-2718 -- EIP-2930)
+ * @in  param : contextID - context ID
+ *          : path
+ *          : nonce - nonce
+ *          : gasLimit - gas limit
+ *          : gasPriceInWei - gas price in wei
+ *          : to
+ *          : valueInWei - value in wei
+ *          : data
+ *          : accessListInJSON - access list in JSON (See EIP-2930 for definition)
+ * @out param : raw
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTypedTransaction2930ETH(IN JUB_UINT16 contextID,
+                                       IN BIP44_Path path,
+                                       IN JUB_UINT32 nonce,
+                                       IN JUB_UINT32 gasLimit,
+                                       IN JUB_CHAR_CPTR gasPriceInWei,
+                                       IN JUB_CHAR_CPTR to,
+                                       IN JUB_CHAR_CPTR valueInWei,
+                                       IN JUB_CHAR_CPTR data,
+                                       IN JUB_CHAR_CPTR accessListInJSON,
+                                       OUT JUB_CHAR_PTR_PTR raw) {
+
+    CREATE_THREAD_LOCK_GUARD
+    JUB_CHECK_NULL(gasPriceInWei);
+    JUB_CHECK_NULL(to);
+//    JUB_CHECK_NULL(valueInWei);// it can be nullptr
+    JUB_CHECK_NULL(data);
+//    JUB_CHECK_NULL(accessList);
+
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_raw;
+    JUB_VERIFY_RV(context->SignTransaction(path,
+                                           nonce,
+                                           gasLimit,
+                                           gasPriceInWei,
+                                           to,
+                                           valueInWei,
+                                           data,
+                                           accessListInJSON,
+                                           str_raw));
+    JUB_VERIFY_RV(_allocMem(raw, str_raw));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
+ * @function name : JUB_SignTypedTransactionETH (EIP-2718 -- EIP-1559)
+ * @in  param : contextID - context ID
+ *          : path
+ *          : nonce - nonce
+ *          : gasLimit - the maximum amount of gas units that can be consumed by the transaction.
+ *                  Units of gas represent computational steps
+ *          : maxPriorityFeePerGas - the maximum amount of gas to be included as a tip to the miner
+ *          : maxFeePerGas - the maximum amount of gas willing to be paid for the transaction
+ *                      (inclusive of baseFeePerGas and maxPriorityFeePerGas)
+ *          : destination - the receiving address (if an externally-owned account, the transaction will transfer value.
+ *                   If a contract account, the transaction will execute the contract code)
+ *          : valueInWei - amount of ETH to transfer from sender to recipient (in WEI, a denomination of ETH)
+ *          : data - optional field to include arbitrary data
+ *          : accessListInJSON - access list in JSON (See EIP-2930 for definition)
+ * @out param : raw
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTypedTransaction1559ETH(IN JUB_UINT16 contextID,
+                                       IN BIP44_Path path,
+                                       IN JUB_UINT32 nonce,
+                                       IN JUB_UINT32 gasLimit,
+                                       IN JUB_CHAR_CPTR maxPriorityFeePerGas,
+                                       IN JUB_CHAR_CPTR maxFeePerGas,
+                                       IN JUB_CHAR_CPTR destination,
+                                       IN JUB_CHAR_CPTR valueInWei,
+                                       IN JUB_CHAR_CPTR data,
+                                       IN JUB_CHAR_CPTR accessListInJSON,
+                                       OUT JUB_CHAR_PTR_PTR raw) {
+
+    CREATE_THREAD_LOCK_GUARD
+    JUB_CHECK_NULL(maxPriorityFeePerGas);
+    JUB_CHECK_NULL(maxFeePerGas);
+    JUB_CHECK_NULL(destination);
+//    JUB_CHECK_NULL(valueInWei);// it can be nullptr
+    JUB_CHECK_NULL(data);
+//    JUB_CHECK_NULL(accessList);
+
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::ETHContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string str_raw;
+    JUB_VERIFY_RV(context->SignTransaction(path,
+                                           nonce,
+                                           gasLimit,
+                                           maxPriorityFeePerGas,
+                                           maxFeePerGas,
+                                           destination,
+                                           valueInWei,
+                                           data,
+                                           accessListInJSON,
+                                           str_raw));
+    JUB_VERIFY_RV(_allocMem(raw, str_raw));
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
  * @function name : JUB_SignContractETH
  * @in  param : contextID - context ID
  *          : path

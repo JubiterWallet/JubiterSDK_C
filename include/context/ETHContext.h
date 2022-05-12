@@ -43,7 +43,27 @@ public:
                                    JUB_CHAR_CPTR to,
                                    JUB_CHAR_CPTR valueInWei,
                                    JUB_CHAR_CPTR input,
-                                   OUT std::string& raw);
+                                   OUT std::string& strRaw);
+    virtual JUB_RV SignTransaction(const BIP44_Path& path,
+                                   const JUB_UINT32 nonce,
+                                   const JUB_UINT32 gasLimit,
+                                   JUB_CHAR_CPTR gasPriceInWei,
+                                   JUB_CHAR_CPTR to,
+                                   JUB_CHAR_CPTR valueInWei,
+                                   JUB_CHAR_CPTR data,
+                                   JUB_CHAR_CPTR accessListInJSON,
+                                   OUT std::string& strRaw);
+    virtual JUB_RV SignTransaction(const BIP44_Path& path,
+                                   const JUB_UINT32 nonce,
+                                   const JUB_UINT32 gasLimit,
+                                   JUB_CHAR_CPTR maxPriorityFeePerGas,
+                                   JUB_CHAR_CPTR maxFeePerGas,
+                                   JUB_CHAR_CPTR destination,
+                                   JUB_CHAR_CPTR valueInWei,
+                                   JUB_CHAR_CPTR data,
+                                   JUB_CHAR_CPTR accessListInJSON,
+                                   OUT std::string& strRaw);
+
     virtual JUB_RV SignContract(const BIP44_Path& path,
                                 const JUB_UINT32 nonce,
                                 const JUB_UINT32 gasLimit,
@@ -51,7 +71,7 @@ public:
                                 JUB_CHAR_CPTR to,
                                 IN JUB_CHAR_CPTR valueInWei,
                                 IN JUB_CHAR_CPTR input,
-                                OUT std::string& raw);
+                                OUT std::string& strRaw);
 
     virtual JUB_RV SignBytestring(const BIP44_Path& path,
                                   const JUB_CHAR_CPTR data,

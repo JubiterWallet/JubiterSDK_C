@@ -80,6 +80,9 @@ PublicKey::PublicKey(const Data &data, enum TWPublicKeyType type) : type(type) {
     case TWPublicKeyTypeED25519Extended:
         bytes.reserve(ed25519ExtendedSize);
         std::copy(std::begin(data), std::end(data), std::back_inserter(bytes));
+        break;
+    default:
+        break;
     }
 }
 

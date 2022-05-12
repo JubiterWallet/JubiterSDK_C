@@ -281,8 +281,18 @@
       }
   },
   "EIP712" : {
-      "file" : "json//EIP712.json",
+      "file" : "json//EIP712_with_bytes32.json",
       "metamask_v4_compat" : true,
+      "bip32_path" : {
+          "change" : false,
+          "addressIndex" : 0
+      }
+  },
+  "EIP2930" : {
+      "access_list" : "[[\"0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae\",[\"0x0000000000000000000000000000000000000000000000000000000000000003\",\"0x0000000000000000000000000000000000000000000000000000000000000007\"]],[\"0xbb9bc244d798123fde783fcc1c72d3bb8c189413\",[]]]"
+  },
+  "EIP1559" : {
+      "file" : "json//EIP1559.json",
       "bip32_path" : {
           "change" : false,
           "addressIndex" : 0

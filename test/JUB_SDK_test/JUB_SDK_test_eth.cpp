@@ -35,75 +35,95 @@ void ETH_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
     cout << endl;
 
     while (true) {
-        cout << "----------------------------------------" << endl;
-        cout << "|********* Jubiter Wallet ETH  *********|" << endl;
-        cout << "|    0.       show_address_pubkey_test. |" << endl;
-        cout << "|                                       |" << endl;
-        cout << "|    2.               transaction_test. |" << endl;
-        cout << "|                                       |" << endl;
-        cout << "|   20.         transaction_ERC20_test. |" << endl;
-        cout << "|  721.        transaction_ERC721_test. |" << endl;
-        cout << "|                                       |" << endl;
-        cout << "|1155 .       transaction_ERC1155_test. |" << endl;
-        cout << "|11550. batch_transaction_ERC1155_test. |" << endl;
-        cout << "|                                       |" << endl;
-        cout << "|    3.         transaction_contr_test. |" << endl;
-        cout << "|    4.                   uniswap_test. |" << endl;
-        cout << "|                                       |" << endl;
-        cout << "|  191.                bytestring_test. |" << endl;
-        cout << "|  712.                  typedata_test. |" << endl;
-//        cout << "| 8.               set_my_address_test. |" << endl;
-//        cout << "| 8.                  set_timeout_test. |" << endl;
-        cout << "|                                       |" << endl;
-        cout << "|    9. return.                         |" << endl;
-        cout << "----------------------------------------" << endl;
+        cout << "---------------------------------------------------" << endl;
+        cout << "|************** Jubiter Wallet ETH  **************|" << endl;
+        cout << "|    0.                 show_address_pubkey_test. |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|    2.                         transaction_test. |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|   20.                   transaction_ERC20_test. |" << endl;
+        cout << "|  721.                  transaction_ERC721_test. |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|1155 .                 transaction_ERC1155_test. |" << endl;
+        cout << "|11550.           batch_transaction_ERC1155_test. |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|    3.                   transaction_contr_test. |" << endl;
+        cout << "|    4.                             uniswap_test. |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|  191.                          bytestring_test. |" << endl;
+        cout << "|  712.                            typedata_test. |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|2930 .                 transaction_EIP2930_test. |" << endl;
+        cout << "|29300.with_access_list_transaction_EIP2930_test. |" << endl;
+        cout << "|1559 .                 transaction_EIP1559_test. |" << endl;
+        cout << "|15590.with_access_list_transaction_EIP1559_test. |" << endl;
+        cout << "|                                                 |" << endl;
+//        cout << "| 8.                         set_my_address_test. |" << endl;
+//        cout << "| 8.                            set_timeout_test. |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|    9. return.                                   |" << endl;
+        cout << "---------------------------------------------------" << endl;
         cout << "* Please enter your choice:" << endl;
 
         int choice = 0;
         cin >> choice;
 
         switch (choice) {
-        case 0:
-            get_address_pubkey_ETH(contextID);
-            break;
-        case 2:
-            transaction_test_ETH(contextID, root);
-            break;
-        case 20:
-            transaction_test_ERC20_ETH(contextID, root);
-            break;
-        case 721:
-            transaction_test_ERC721_ETH(contextID, root);
-            break;
-        case 1155:
-            transaction_test_ERC1155_ETH(contextID, root);
-            break;
-        case 11550:
-            batch_transaction_test_ERC1155_ETH(contextID, root);
-            break;
-        case 3:
-            transaction_test_contr_ETH(contextID, root);
-            break;
-        case 4:
-            uniswap_test_ETH(contextID, root);
-            break;
-        case 191:
-            bytestring_test_ETH(contextID, root);
-            break;
-        case 712:
-            typedata_test_ETH(contextID, root);
-            break;
-//        case 8:
-//            set_my_address_test_ETH(contextID);
-//            break;
-//        case 8:
-//            set_timeout_test(contextID);
-//            break;
-        case 9:
-            JUB_ClearContext(contextID);
-            main_test();
-        default:
-            continue;
+            case 0: {
+                get_address_pubkey_ETH(contextID);
+            } break;
+            case 2: {
+                transaction_test_ETH(contextID, root);
+            } break;
+            case 20: {
+                transaction_test_ERC20_ETH(contextID, root);
+            } break;
+            case 721: {
+                transaction_test_ERC721_ETH(contextID, root);
+            } break;
+            case 1155: {
+                transaction_test_ERC1155_ETH(contextID, root);
+            } break;
+            case 11550: {
+                batch_transaction_test_ERC1155_ETH(contextID, root);
+            } break;
+            case 2930: {
+                transaction_test_ETH(contextID, root, true);
+            } break;
+            case 29300: {
+                transaction_test_ETH(contextID, root, true, true);
+            } break;
+            case 1559: {
+                transaction_test_EIP1559_ETH(contextID, root);
+            } break;
+            case 15590: {
+                transaction_test_EIP1559_ETH(contextID, root, true);
+            } break;
+            case 3: {
+                transaction_test_contr_ETH(contextID, root);
+            } break;
+            case 4: {
+                uniswap_test_ETH(contextID, root);
+            } break;
+            case 191: {
+                bytestring_test_ETH(contextID, root);
+            } break;
+            case 712: {
+                typedata_test_ETH(contextID, root);
+            } break;
+//            case 8: {
+//                set_my_address_test_ETH(contextID);
+//            } break;
+//            case 8: {
+//                set_timeout_test(contextID);
+//            } break;
+            case 9: {
+                JUB_ClearContext(contextID);
+                main_test();
+            }
+            default: {
+                continue;
+            }
         }   // switch (choice) end
     }   // while (true) end
 }
@@ -220,21 +240,21 @@ void get_address_pubkey_ETH(JUB_UINT16 contextID) {
 }
 
 
-void transaction_test_ETH(JUB_UINT16 contextID, Json::Value root) {
+void transaction_test_ETH(JUB_UINT16 contextID, Json::Value root, bool bOptionalAccessLists, bool bWithAccessList) {
 
     JUB_RV rv = verify_pin(contextID);
     if (JUBR_OK != rv) {
         return;
     }
 
-    rv = transaction_proc_ETH(contextID, root);
+    rv = transaction_proc_ETH(contextID, root, bOptionalAccessLists, bWithAccessList);
     if (JUBR_OK != rv) {
         return;
     }
 }
 
 
-JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
+JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root, bool bOptionalAccessLists, bool bWithAccessList) {
 
     JUB_RV rv = JUBR_ERROR;
 
@@ -251,8 +271,15 @@ JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
     JUB_CHAR_PTR data = (JUB_CHAR_PTR)root["ETH"]["data"].asCString();
 
     JUB_CHAR_PTR raw = nullptr;
-    rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
-    cout << "[-] JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
+    if (!bOptionalAccessLists) {
+        rv = JUB_SignTransactionETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, &raw);
+        cout << "[-] JUB_SignTransactionETH() return " << GetErrMsg(rv) << endl;
+    }
+    else {
+        JUB_CHAR_PTR accessList = (JUB_CHAR_PTR)(bWithAccessList ? root["EIP2930"]["access_list"].asCString() : "");
+        rv = JUB_SignTypedTransaction2930ETH(contextID, path, nonce, gasLimit, gasPriceInWei, to, valueInWei, data, accessList, &raw);
+        cout << "[-] JUB_SignTypedTransaction2930ETH() return " << GetErrMsg(rv) << endl;
+    }
     if (JUBR_OK != rv) {
         return rv;
     }
@@ -748,6 +775,71 @@ JUB_RV uniswap_proc_ETH(JUB_UINT16 contextID, Json::Value root) {
     }
     else {
         cout << "    raw[" << strlen(raw)/2 << "]: "  << raw << endl;
+        JUB_FreeMemory(raw);
+    }
+
+    return rv;
+}
+
+
+//EIP-1559 Test
+void transaction_test_EIP1559_ETH(JUB_UINT16 contextID, Json::Value root, bool bWithAccessList) {
+
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = transaction_proc_EIP1559_ETH(contextID, root, bWithAccessList);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+
+JUB_RV transaction_proc_EIP1559_ETH(JUB_UINT16 contextID, Json::Value _root, bool bWithAccessList) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    JUB_CHAR_PTR fileName = (JUB_CHAR_PTR)_root["EIP1559"]["file"].asCString();
+    Json::Value root = readJSON(fileName);
+    if (root.empty()) {
+        return rv;
+    }
+
+    std::string t_item = (bWithAccessList ? "EIP1559_with_access_list" : "EIP1559");
+    JUB_CHAR_PTR destination = (JUB_CHAR_PTR)root[t_item]["destination"].asCString();
+
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root[t_item]["bip32_path"]["change"].asBool();
+    path.addressIndex = root[t_item]["bip32_path"]["addressIndex"].asUInt();
+
+    uint32_t nonce = root[t_item]["nonce"].asUInt();//.asDouble();
+    uint32_t gasLimit = root[t_item]["gasLimit"].asUInt();//.asDouble();
+    JUB_CHAR_PTR maxPriorityFeePerGas = (JUB_CHAR_PTR)root[t_item]["maxPriorityFeePerGas"].asCString();
+    JUB_CHAR_PTR maxFeePerGas = (JUB_CHAR_PTR)root[t_item]["maxFeePerGas"].asCString();
+    JUB_CHAR_PTR valueInWei = (JUB_CHAR_PTR)root[t_item]["value"].asCString();
+
+    JUB_CHAR_PTR data = (JUB_CHAR_PTR)root[t_item]["data"].asCString();
+    JUB_CHAR_PTR accessListInJSON = (JUB_CHAR_PTR)root[t_item]["access_list"].asCString();
+
+    JUB_CHAR_PTR raw = nullptr;
+    rv = JUB_SignTypedTransaction1559ETH(contextID, path,
+                                         nonce,
+                                         gasLimit,
+                                         maxPriorityFeePerGas,
+                                         maxFeePerGas,
+                                         destination,
+                                         valueInWei,
+                                         data,
+                                         accessListInJSON,
+                                         &raw);
+    cout << "[-] JUB_SignTypedTransaction1559ETH() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+    else {
+        cout << raw << endl;
         JUB_FreeMemory(raw);
     }
 

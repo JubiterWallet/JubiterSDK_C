@@ -1,226 +1,372 @@
-// Copyright © 2017-2020 Trust Wallet.
+// Copyright © 2017-2021 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
 #include "Signer.h"
+#include "HexCoding.h"
+//#include "AnyAddress.h"
+#include <TrustWalletCore/TWCoinType.h>
+//#include <google/protobuf/util/json_util.h>
 
 using namespace TW;
 using namespace TW::Ethereum;
 
-//std::tuple<uint256_t, uint256_t, uint256_t> Signer::values(const uint256_t& chainID,
-//                                                           const Data& signature) noexcept {
+//Proto::SigningOutput Signer::sign(const Proto::SigningInput& input) noexcept {
+//    try {
+//        uint256_t chainID = load(input.chain_id());
+//        auto key = PrivateKey(Data(input.private_key().begin(), input.private_key().end()));
+//        auto transaction = Signer::build(input);
+//
+//        auto signature = sign(key, chainID, transaction);
+//
+//        auto output = Proto::SigningOutput();
+//
+//        auto encoded = transaction->encoded(signature, chainID);
+//        output.set_encoded(encoded.data(), encoded.size());
+//
+//        auto v = store(signature.v, 1);
+//        output.set_v(v.data(), v.size());
+//        auto r = store(signature.r, 32);
+//        output.set_r(r.data(), r.size());
+//        auto s = store(signature.s, 32);
+//        output.set_s(s.data(), s.size());
+//
+//        output.set_data(transaction->payload.data(), transaction->payload.size());
+//
+//        return output;
+//    } catch (std::exception&) {
+//        return Proto::SigningOutput();
+//    }
+//}
+//
+//std::string Signer::signJSON(const std::string& json, const Data& key) {
+//    auto input = Proto::SigningInput();
+//    google::protobuf::util::JsonStringToMessage(json, &input);
+//    input.set_private_key(key.data(), key.size());
+//    auto output = Signer::sign(input);
+//    return hex(output.encoded());
+//}
+//
+//Proto::SigningOutput Signer::compile(const Proto::SigningInput& input, const Data& signature) noexcept {
+//    try {
+//        uint256_t chainID = load(input.chain_id());
+//        auto transaction = Signer::build(input);
+//
+//        // prepare Signature
+//        const Signature sigStruct = signatureDataToStruct(signature, transaction->usesReplayProtection(), chainID);
+//
+//        auto output = Proto::SigningOutput();
+//
+//        auto encoded = transaction->encoded(sigStruct, chainID);
+//        output.set_encoded(encoded.data(), encoded.size());
+//
+//        auto v = store(sigStruct.v, 1);
+//        output.set_v(v.data(), v.size());
+//        auto r = store(sigStruct.r, 32);
+//        output.set_r(r.data(), r.size());
+//        auto s = store(sigStruct.s, 32);
+//        output.set_s(s.data(), s.size());
+//
+//        output.set_data(transaction->payload.data(), transaction->payload.size());
+//        return output;
+//    } catch (std::exception&) {
+//        return Proto::SigningOutput();
+//    }
+//}
+//
+Signature Signer::signatureDataToStruct(const Data& signature, bool includeEip155, const Data& chainID) noexcept {
+    if (!includeEip155) {
+        return signatureDataToStructSimple(signature);
+    }
+    return signatureDataToStructWithEip155(chainID, signature);
+}
+
+Data Signer::structToSignatureData(Signature& signature, bool includeEip155, const Data& chainID) noexcept {
+    if (!includeEip155) {
+        return structToSignatureDataSimple(signature);
+    }
+    return structToSignatureDataWithEip155(chainID, signature);
+}
+
+// JuBiter-modified
+Signature Signer::signatureDataToStructSimple(const Data& signature) noexcept {
+    if (0 == signature.size()) {
+        return Signature{{}, {}, {}};
+    }
 //    boost::multiprecision::uint256_t r, s, v;
 //    import_bits(r, signature.begin(), signature.begin() + 32);
 //    import_bits(s, signature.begin() + 32, signature.begin() + 64);
 //    import_bits(v, signature.begin() + 64, signature.begin() + 65);
-//    v += 27;
-//
-//    boost::multiprecision::uint256_t newV;
-//    if (chainID != 0) {
-//        import_bits(newV, signature.begin() + 64, signature.begin() + 65);
-//        newV += 35 + chainID + chainID;
-//    } else {
-//        newV = v;
-//    }
-//    return std::make_tuple(r, s, newV);
-//}
-// JuBiter-modified
-std::tuple<Data, Data, Data> Signer::values(const Data& chainID,
-const Data& signature) noexcept {
-    Data r, s;
-    uint8_t v;
+    Data r, s, v;
     std::copy(std::begin(signature), std::begin(signature) + 32, std::back_inserter(r));
     std::copy(std::begin(signature) + 32, std::begin(signature) + 64, std::back_inserter(s));
-    v = signature[64];
+    std::copy(std::begin(signature) + 64, std::begin(signature) + 65, std::back_inserter(v));
+    return Signature{r, s, v};
+}
 
-    Data newV;
-    if (0 != chainID.size()) {
-        v += (35 + chainID[0] + chainID[0]);
+Data Signer::structToSignatureDataSimple(const Signature& signature) noexcept {
+    if (signature.empty()) {
+        return {};
     }
-    else {
+    Data sig;
+    std::copy(signature.r.begin(), signature.r.end(), std::back_inserter(sig));
+    std::copy(signature.s.begin(), signature.s.end(), std::back_inserter(sig));
+    std::copy(signature.v.begin(), signature.v.end(), std::back_inserter(sig));
+    return sig;
+}
+
+// JuBiter-modified
+Signature Signer::signatureDataToStructWithEip155(const Data& chainID, const Data& signature) noexcept {
+    Signature rsv = signatureDataToStructSimple(signature);
+    // Embed chainID in V param, for replay protection, legacy (EIP155)
+    uint8_t v = rsv.v[0];
+    if (0 < chainID.size() && (0 != chainID[0])) {
+        v += 35 + chainID[0] + chainID[0];
+    } else {
         v += 27;
     }
-    newV.push_back(v);
-
-    return std::make_tuple(r, s, newV);
+    rsv.v[0] = v;
+    return rsv;
 }
 
-std::tuple<Data, Data, Data>
-Signer::sign(const Data& chainID, const PrivateKey& privateKey, const Data& hash) noexcept {
+Data Signer::structToSignatureDataWithEip155(const Data& chainID, const Signature& signature) noexcept {
+    int v = signature.v[0];
+    if (0 != chainID.size() && (0 != chainID[0])) {
+        v -= (35 + chainID[0] + chainID[0]);
+    }
+    else {
+        v -= 27;
+    }
+
+    Data sig;
+    std::copy(signature.r.begin(), signature.r.end(), std::back_inserter(sig));
+    std::copy(signature.s.begin(), signature.s.end(), std::back_inserter(sig));
+    sig.push_back(v);
+    return sig;
+}
+
+Signature Signer::sign(const PrivateKey& privateKey, const Data& hash, bool includeEip155, const Data& chainID) noexcept {
     auto signature = privateKey.sign(hash, TWCurveSECP256k1);
-    return values(chainID, signature);
+    return signatureDataToStruct(signature, includeEip155, chainID);
 }
 
-//Proto::SigningOutput Signer::sign(const TW::Ethereum::Proto::SigningInput &input) const noexcept {
-//    auto key = PrivateKey(Data(input.private_key().begin(), input.private_key().end()));
-//
-//    auto transaction = Transaction(
-//            /* nonce: */ load(input.nonce()),
-//            /* gasPrice: */ load(input.gas_price()),
-//            /* gasLimit: */ load(input.gas_limit()),
-//            /* to: */ Address(input.to_address()),
-//            /* amount: */ load(input.amount()),
-//            /* payload: */ Data(input.payload().begin(), input.payload().end())
-//    );
-//
-//    sign(key, transaction);
-//
-//    auto protoOutput = Proto::SigningOutput();
-//
-//    auto encoded = RLP::encode(transaction);
-//    protoOutput.set_encoded(encoded.data(), encoded.size());
-//
-//    auto v = store(transaction.v);
-//    protoOutput.set_v(v.data(), v.size());
-//
-//    auto r = store(transaction.r);
-//    protoOutput.set_r(r.data(), r.size());
-//
-//    auto s = store(transaction.s);
-//    protoOutput.set_s(s.data(), s.size());
-//
-//    return protoOutput;
+bool Signer::verify(const PublicKey& publicKey, const Data& hash, bool includeEip155, const Data& chainID, const Data& signature) noexcept {
+    return publicKey.verify(signature, hash);
+}
+
+//// May throw
+//Data addressStringToData(const std::string& asString) {
+//    if (asString.empty()) {
+//        return {};
+//    }
+//    // only ronin address prefix is not 0x
+//    if (asString.compare(0, 2, "0x") != 0) {
+//        return AnyAddress::dataFromString(asString, TWCoinTypeRonin);
+//    }
+//    return AnyAddress::dataFromString(asString, TWCoinTypeEthereum);
 //}
 //
-void Signer::sign(const PrivateKey &privateKey, Transaction &transaction) const noexcept {
-    auto hash = this->hash(transaction);
-    auto tuple = Signer::sign(chainID, privateKey, hash);
+//std::shared_ptr<TransactionBase> Signer::build(const Proto::SigningInput& input) {
+//    Data toAddress = addressStringToData(input.to_address());
+//    uint256_t nonce = load(input.nonce());
+//    uint256_t gasPrice = load(input.gas_price());
+//    uint256_t gasLimit = load(input.gas_limit());
+//    uint256_t maxInclusionFeePerGas = load(input.max_inclusion_fee_per_gas());
+//    uint256_t maxFeePerGas = load(input.max_fee_per_gas());
+//    switch (input.transaction().transaction_oneof_case()) {
+//        case Proto::Transaction::kTransfer:
+//            {
+//                switch (input.tx_mode()) {
+//                    case Proto::TransactionMode::Legacy:
+//                    default:
+//                        return TransactionNonTyped::buildNativeTransfer(
+//                            nonce, gasPrice, gasLimit,
+//                            /* to: */ toAddress,
+//                            /* amount: */ load(input.transaction().transfer().amount()),
+//                            /* optional data: */ Data(input.transaction().transfer().data().begin(), input.transaction().transfer().data().end()));
+//
+//                    case Proto::TransactionMode::Enveloped: // Eip1559
+//                        return TransactionEip1559::buildNativeTransfer(
+//                            nonce, maxInclusionFeePerGas, maxFeePerGas, gasLimit,
+//                            /* to: */ toAddress,
+//                            /* amount: */ load(input.transaction().transfer().amount()),
+//                            /* optional data: */ Data(input.transaction().transfer().data().begin(), input.transaction().transfer().data().end()));
+//                }
+//            }
+//
+//        case Proto::Transaction::kErc20Transfer:
+//            {
+//                Data tokenToAddress = addressStringToData(input.transaction().erc20_transfer().to());
+//                switch (input.tx_mode()) {
+//                    case Proto::TransactionMode::Legacy:
+//                    default:
+//                        return TransactionNonTyped::buildERC20Transfer(
+//                            nonce, gasPrice, gasLimit,
+//                            /* tokenContract: */ toAddress,
+//                            /* toAddress */ tokenToAddress,
+//                            /* amount: */ load(input.transaction().erc20_transfer().amount()));
+//
+//                    case Proto::TransactionMode::Enveloped: // Eip1559
+//                        return TransactionEip1559::buildERC20Transfer(
+//                            nonce, maxInclusionFeePerGas, maxFeePerGas, gasLimit,
+//                            /* tokenContract: */ toAddress,
+//                            /* toAddress */ tokenToAddress,
+//                            /* amount: */ load(input.transaction().erc20_transfer().amount()));
+//                }
+//            }
+//
+//        case Proto::Transaction::kErc20Approve:
+//            {
+//                Data spenderAddress = addressStringToData(input.transaction().erc20_approve().spender());
+//                switch (input.tx_mode()) {
+//                    case Proto::TransactionMode::Legacy:
+//                    default:
+//                        return TransactionNonTyped::buildERC20Approve(
+//                            nonce, gasPrice, gasLimit,
+//                            /* tokenContract: */ toAddress,
+//                            /* toAddress */ spenderAddress,
+//                            /* amount: */ load(input.transaction().erc20_approve().amount()));
+//
+//                    case Proto::TransactionMode::Enveloped: // Eip1559
+//                        return TransactionEip1559::buildERC20Approve(
+//                            nonce, maxInclusionFeePerGas, maxFeePerGas, gasLimit,
+//                            /* tokenContract: */ toAddress,
+//                            /* toAddress */ spenderAddress,
+//                            /* amount: */ load(input.transaction().erc20_approve().amount()));
+//                }
+//            }
+//
+//        case Proto::Transaction::kErc721Transfer:
+//            {
+//                Data tokenToAddress = addressStringToData(input.transaction().erc721_transfer().to());
+//                Data tokenFromAddress = addressStringToData(input.transaction().erc721_transfer().from());
+//                switch (input.tx_mode()) {
+//                    case Proto::TransactionMode::Legacy:
+//                    default:
+//                        return TransactionNonTyped::buildERC721Transfer(
+//                            nonce, gasPrice, gasLimit,
+//                            /* tokenContract: */ toAddress,
+//                            /* fromAddress: */ tokenFromAddress,
+//                            /* toAddress */ tokenToAddress,
+//                            /* tokenId: */ load(input.transaction().erc721_transfer().token_id()));
+//
+//                    case Proto::TransactionMode::Enveloped: // Eip1559
+//                        return TransactionEip1559::buildERC721Transfer(
+//                            nonce, maxInclusionFeePerGas, maxFeePerGas, gasLimit,
+//                            /* tokenContract: */ toAddress,
+//                            /* fromAddress: */ tokenFromAddress,
+//                            /* toAddress */ tokenToAddress,
+//                            /* tokenId: */ load(input.transaction().erc721_transfer().token_id()));
+//                }
+//            }
+//
+//        case Proto::Transaction::kErc1155Transfer:
+//            {
+//                Data tokenToAddress = addressStringToData(input.transaction().erc1155_transfer().to());
+//                Data tokenFromAddress = addressStringToData(input.transaction().erc1155_transfer().from());
+//                switch (input.tx_mode()) {
+//                    case Proto::TransactionMode::Legacy:
+//                    default:
+//                        return TransactionNonTyped::buildERC1155Transfer(
+//                            nonce, gasPrice, gasLimit,
+//                            /* tokenContract: */ toAddress,
+//                            /* fromAddress: */ tokenFromAddress,
+//                            /* toAddress */ tokenToAddress,
+//                            /* tokenId: */ load(input.transaction().erc1155_transfer().token_id()),
+//                            /* value */ load(input.transaction().erc1155_transfer().value()),
+//                            /* data */ Data(input.transaction().erc1155_transfer().data().begin(), input.transaction().erc1155_transfer().data().end()));
+//
+//                    case Proto::TransactionMode::Enveloped: // Eip1559
+//                        return TransactionEip1559::buildERC1155Transfer(
+//                            nonce, maxInclusionFeePerGas, maxFeePerGas, gasLimit,
+//                            /* tokenContract: */ toAddress,
+//                            /* fromAddress: */ tokenFromAddress,
+//                            /* toAddress */ tokenToAddress,
+//                            /* tokenId: */ load(input.transaction().erc1155_transfer().token_id()),
+//                            /* value */ load(input.transaction().erc1155_transfer().value()),
+//                            /* data */ Data(input.transaction().erc1155_transfer().data().begin(), input.transaction().erc1155_transfer().data().end()));
+//                }
+//            }
+//
+//        case Proto::Transaction::kContractGeneric:
+//        default:
+//            {
+//                switch (input.tx_mode()) {
+//                    case Proto::TransactionMode::Legacy:
+//                    default:
+//                        return TransactionNonTyped::buildNativeTransfer(
+//                            nonce, gasPrice, gasLimit,
+//                            /* to: */ toAddress,
+//                            /* amount: */ load(input.transaction().contract_generic().amount()),
+//                            /* transaction: */ Data(input.transaction().contract_generic().data().begin(), input.transaction().contract_generic().data().end()));
+//
+//                    case Proto::TransactionMode::Enveloped: // Eip1559
+//                        return TransactionEip1559::buildNativeTransfer(
+//                            nonce, maxInclusionFeePerGas, maxFeePerGas, gasLimit,
+//                            /* to: */ toAddress,
+//                            /* amount: */ load(input.transaction().contract_generic().amount()),
+//                            /* transaction: */ Data(input.transaction().contract_generic().data().begin(), input.transaction().contract_generic().data().end()));
+//                }
+//            }
+//    }
+//}
 
-    transaction.r = std::get<0>(tuple);
-    transaction.s = std::get<1>(tuple);
-    transaction.v = std::get<2>(tuple);
+Signature Signer::sign(const PrivateKey& privateKey, const Data& chainID, std::shared_ptr<TransactionBase> transaction) noexcept {
+    auto preHash = transaction->preHash(chainID);
+    return Signer::sign(privateKey, preHash, transaction->usesReplayProtection(), chainID);
 }
 
 // JuBiter-defined
-bool Signer::verify(const PublicKey& publicKey, Transaction& transaction) const noexcept {
-    Data signature;
-    std::copy(transaction.r.begin(), transaction.r.end(), std::back_inserter(signature));
-    std::copy(transaction.s.begin(), transaction.s.end(), std::back_inserter(signature));
-    std::copy(transaction.v.begin(), transaction.v.end(), std::back_inserter(signature));
-    return publicKey.verify(signature, this->hash(transaction));
+/// Verify the given signature of a transaction.
+bool Signer::verify(const PublicKey& publicKey, const Data& chainID, std::shared_ptr<TransactionBase> transaction, const Data& signature) noexcept {
+    auto preHash = transaction->preHash(chainID);
+    return Signer::verify(publicKey, preHash, transaction->usesReplayProtection(), chainID, signature);
 }
 
 // JuBiter-defined
-bool Signer::verify(const Data chainID, const PublicKey& publicKey, Transaction& transaction) const noexcept {
-    Data signature;
-    std::copy(transaction.r.begin(), transaction.r.end(), std::back_inserter(signature));
-    std::copy(transaction.s.begin(), transaction.s.end(), std::back_inserter(signature));
-    std::copy(transaction.v.begin(), transaction.v.end(), std::back_inserter(signature));
+/// Signs the given bytestring (Eip191).
+Signature Signer::sign(const PrivateKey& privateKey, const Data& bytestring) noexcept {
+    TransactionPersonal personal(bytestring);
+    auto preHash = personal.preHash();
 
-    int v = signature[signature.size()-1];
-    if (0 != chainID.size()) {
-        v -= (35 + chainID[0] + chainID[0]);
-    }
-    else {
-        v -= 27;
-    }
-
-    return publicKey.verify(signature, this->hash(transaction), v);
+    return Signer::sign(privateKey,
+                        preHash,
+                        personal.usesReplayProtection(),
+                        {});    // `v` is not depend chainId
 }
 
-Data Signer::hash(const Transaction &transaction) const noexcept {
-    auto encoded = Data();
-    append(encoded, RLP::encode(transaction.nonce));
-    append(encoded, RLP::encode(transaction.gasPrice));
-    append(encoded, RLP::encode(transaction.gasLimit));
-    append(encoded, RLP::encode(transaction.to.bytes));
-    append(encoded, RLP::encode(transaction.amount));
-    append(encoded, RLP::encode(transaction.payload));
-    append(encoded, RLP::encode(chainID));
-    // JuBiter-modified
-    append(encoded, RLP::encode(Data{0}));
-    append(encoded, RLP::encode(Data{0}));
-    return Hash::keccak256(RLP::encodeList(encoded));
+/// Verify the given signature of a bytestring (Eip191).
+bool Signer::verify(const PublicKey& publicKey, const Data& bytestring, const Data& signature) noexcept {
+    TransactionPersonal personal(bytestring);
+    auto preHash = personal.preHash();
+    return Signer::verify(publicKey,
+                          preHash,
+                          personal.usesReplayProtection(),
+                          {},   // `v` is not depend chainId
+                          signature);
 }
 
 // JuBiter-defined
-void Signer::sign(const PrivateKey &privateKey, const Data& bytestring, Data& signature) const noexcept {
-    auto hash = this->hash(bytestring);
-    auto tuple = Signer::sign(chainID, privateKey, hash);
-
-    signature.clear();
-    // r
-    std::copy(std::get<0>(tuple).begin(), std::get<0>(tuple).end(), std::back_inserter(signature));
-    // s
-    std::copy(std::get<1>(tuple).begin(), std::get<1>(tuple).end(), std::back_inserter(signature));
-    // v
-    std::copy(std::get<2>(tuple).begin(), std::get<2>(tuple).end(), std::back_inserter(signature));
+/// Signs the given typedData (Eip712).
+Signature Signer::sign(const PrivateKey& privateKey, const std::string& jsonData, const bool &bMetamaskV4Compat) noexcept {
+    TransactionTypedData typedData(jsonData, bMetamaskV4Compat);
+    auto preHash = typedData.preHash();
+    return Signer::sign(privateKey,
+                        preHash,
+                        typedData.usesReplayProtection(),
+                        {});    // `v` is not depend chainId
 }
 
 // JuBiter-defined
-bool Signer::verify(const Data chainID, const PublicKey& publicKey, const Data& bytestring, const Data& signature) const noexcept {
-
-    int v = signature[signature.size()-1];
-    if (0 != chainID.size()) {
-        v -= (35 + chainID[0] + chainID[0]);
-    }
-    else {
-        v -= 27;
-    }
-
-    return publicKey.verify(signature, this->hash(bytestring), v);
-}
-
-// JuBiter-defined
-/// Computes the bytestring hash.
-Data Signer::hash(const Data &bytestring) const noexcept {
-    auto encoded = Data();
-
-    // encode(b : 𝔹⁸ⁿ) = "\x19Ethereum Signed Message:\n" ‖ len(b) ‖ b where len(b) is the ascii-decimal encoding of the number of bytes in b.
-    std::string pr = "Ethereum Signed Message:\n";
-
-    encoded.push_back(0x19);
-    std::copy(pr.begin(), pr.end(), std::back_inserter(encoded));
-    auto sz = std::to_string(bytestring.size());
-    std::copy(sz.begin(), sz.end(), std::back_inserter(encoded));
-    std::copy(bytestring.begin(), bytestring.end(), std::back_inserter(encoded));
-
-    return Hash::keccak256(encoded);
-}
-
-// JuBiter-defined
-/// Computes the typed-data sign.
-void Signer::sign(const PrivateKey &privateKey, const Data &domainSeparator, const Data &hashStructMsg, Data& signature) const noexcept {
-    auto hash = this->hash(domainSeparator, hashStructMsg);
-    auto tuple = Signer::sign(chainID, privateKey, hash);
-
-    signature.clear();
-    // r
-    std::copy(std::get<0>(tuple).begin(), std::get<0>(tuple).end(), std::back_inserter(signature));
-    // s
-    std::copy(std::get<1>(tuple).begin(), std::get<1>(tuple).end(), std::back_inserter(signature));
-    // v
-    std::copy(std::get<2>(tuple).begin(), std::get<2>(tuple).end(), std::back_inserter(signature));
-}
-
-// JuBiter-defined
-/// Computes the typed-data verify.
-bool Signer::verify(const Data chainID, const PublicKey& publicKey, const Data &domainSeparator, const Data &hashStructMsg, const Data& signature) const noexcept {
-
-    int v = signature[signature.size()-1];
-    if (0 != chainID.size()) {
-        v -= (35 + chainID[0] + chainID[0]);
-    }
-    else {
-        v -= 27;
-    }
-
-    return publicKey.verify(signature, this->hash(domainSeparator, hashStructMsg), v);
-}
-
-// JuBiter-defined
-/// Computes the typed-data hash.
-Data Signer::hash(const Data &domainSeparator, const Data &hashStructMsg) const noexcept {
-    auto encoded = Data();
-
-    // encode(domainSeparator : 𝔹²⁵⁶, message : 𝕊) = "\x19\x01" ‖ domainSeparator ‖ hashStruct(message).
-
-    encoded.push_back(0x19);
-    encoded.push_back(0x01);
-    std::copy(domainSeparator.begin(), domainSeparator.end(), std::back_inserter(encoded));
-    std::copy(hashStructMsg.begin(), hashStructMsg.end(), std::back_inserter(encoded));
-
-    return Hash::keccak256(encoded);
+/// Verify the given signature of a typedData (Eip712).
+bool Signer::verify(const PublicKey& publicKey, const std::string& jsonData, const Data& signature, const bool &bMetamaskV4Compat) noexcept {
+    TransactionTypedData typedData(jsonData, bMetamaskV4Compat);
+    auto preHash = typedData.preHash();
+    return Signer::verify(publicKey,
+                          preHash,
+                          typedData.usesReplayProtection(),
+                          {},   // `v` is not depend chainId
+                          signature);
 }

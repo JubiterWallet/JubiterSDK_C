@@ -1,0 +1,39 @@
+{
+      "EIP1559" : {
+          "txURL" : "https://etherscan.io/tx/0x76a66a1cce6e0c35f5ee368bc6aa141e83b702ee96d438973075c9c66ac171d6",
+          "nonce" : 839,
+          "gasLimit" : 21000,
+          "maxPriorityFeePerGas" : "2000000000",
+          "maxFeePerGas" : "38000000000",
+          "gasPriceInWei" : "19580426154",
+          "from" : "0xeb2629a2734e272bcc07bda959863f316f4bd4cf",
+          "destination" : "0x67d99f78a00159e87ab1106229fe6f33c8b84ab1",
+          "value" : "10428450",
+          "data" : "",
+          "access_list" : "",
+          "bip32_path" : {
+              "change" : false,
+              "addressIndex" : 0
+          }
+      },
+      "EIP1559_with_data" : {
+          
+      },
+      "EIP1559_with_access_list" : {
+          "txURL" : "",
+          "nonce" : 839,
+          "gasLimit" : 21000,
+          "maxPriorityFeePerGas" : "2000000000",
+          "maxFeePerGas" : "38000000000",
+          "gasPriceInWei" : "19580426154",
+          "from" : "0xeb2629a2734e272bcc07bda959863f316f4bd4cf",
+          "destination" : "0x67d99f78a00159e87ab1106229fe6f33c8b84ab1",
+          "value" : "10428450",
+          "data" : "",
+          "access_list" : "[[\"0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae\",[\"0x0000000000000000000000000000000000000000000000000000000000000003\",\"0x0000000000000000000000000000000000000000000000000000000000000007\"]],[\"0xbb9bc244d798123fde783fcc1c72d3bb8c189413\",[]]]",
+          "bip32_path" : {
+              "change" : false,
+              "addressIndex" : 0
+          }
+      }
+}

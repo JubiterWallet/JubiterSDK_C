@@ -10,6 +10,7 @@
 #include <Cbor.h>
 #include <string>
 #include "../BinaryCoding.h"
+#include <TrustWallet/wallet-core/src/HexCoding.h>
 
 extern "C" {
 #include "sr25519.h"
@@ -87,7 +88,7 @@ JUB_RV JubiterBaseDOTImpl::SerializeCall(const uint64_t network, const JUB_TX_DO
                     accountIds.push_back(TW::SS58Address(nominator, (TWSS58AddressType)network));
                 }
                 else {
-                    accountIds.push_back(TW::SS58Address(TW::PublicKey(ETHHexStr2CharPtr(nominator), _publicKeyType), (TWSS58AddressType)network));
+                    accountIds.push_back(TW::SS58Address(TW::PublicKey(TW::parse_hex(nominator), _publicKeyType), (TWSS58AddressType)network));
                 }
             }
             call = TW::Polkadot::Extrinsic::encodeStakingNominateCall(
@@ -100,7 +101,7 @@ JUB_RV JubiterBaseDOTImpl::SerializeCall(const uint64_t network, const JUB_TX_DO
         case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_PAYOUT_STAKERS: {
             call = TW::Polkadot::Extrinsic::encodeStakingPayoutStakersCall(
                         (TWSS58AddressType)network,
-                        ETHHexStr2CharPtr(txCall.staking.payoutStakers.validator_stash), txCall.staking.payoutStakers.era);
+                        TW::parse_hex(txCall.staking.payoutStakers.validator_stash), txCall.staking.payoutStakers.era);
         } break;
         case JUB_ENUM_DOT_EXTRINSIC_TYPE::UTILITY_BATCH:
         case JUB_ENUM_DOT_EXTRINSIC_TYPE::STAKING_BOND:
