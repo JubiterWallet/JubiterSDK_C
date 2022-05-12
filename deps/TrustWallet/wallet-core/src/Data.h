@@ -53,15 +53,6 @@ inline bool has_prefix(const Data& data, T& prefix) {
 }
 
 // JuBiter-defined
-inline std::vector<std::size_t> find_all_indexes(const Data& haystack, const Data& needle) {
-    std::vector<std::size_t> indexes{};
-    auto it{haystack.begin()};
-    while ((it = std::search(it, haystack.end(), needle.begin(), needle.end())) != haystack.end())
-        indexes.push_back(std::distance(haystack.begin(), it++));
-    return indexes;
-}
-
-// JuBiter-defined
 // copy from "https://en.cppreference.com/w/cpp/algorithm/search", First version
 template<class ForwardIt1, class ForwardIt2>
 constexpr ForwardIt1 search(ForwardIt1 first, ForwardIt1 last,
@@ -76,6 +67,16 @@ constexpr ForwardIt1 search(ForwardIt1 first, ForwardIt1 last,
         }
         ++first;
     }
+}
+
+// JuBiter-defined
+inline std::vector<std::size_t> find_all_indexes(const Data& haystack, const Data& needle) {
+    std::vector<std::size_t> indexes{};
+    auto it{haystack.begin()};
+//    while ((it = std::search(it, haystack.end(), needle.begin(), needle.end())) != haystack.end())
+    while ((it = TW::search(it, haystack.end(), needle.begin(), needle.end())) != haystack.end())
+        indexes.push_back(std::distance(haystack.begin(), it++));
+    return indexes;
 }
 
 } // namespace TW
