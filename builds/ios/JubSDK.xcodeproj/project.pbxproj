@@ -774,10 +774,11 @@
 		7788319126736633004FDA80 /* ContractAbi.h in Headers */ = {isa = PBXBuildFile; fileRef = 7788318F26736633004FDA80 /* ContractAbi.h */; };
 		7788319226736633004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788319026736633004FDA80 /* ContractAbi.cpp */; };
 		7788319326736633004FDA80 /* ContractAbi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7788319026736633004FDA80 /* ContractAbi.cpp */; };
+		77A0257A2828DE9700997BB2 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A025792828DE9700997BB2 /* Data.cpp */; };
+		77A0257B2828DE9700997BB2 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77A025792828DE9700997BB2 /* Data.cpp */; };
 		77AD324A2680725E00888326 /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD32482680725D00888326 /* Base64.h */; };
 		77AD324B2680725E00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32492680725D00888326 /* Base64.cpp */; };
 		77AD324C2680725E00888326 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77AD32492680725D00888326 /* Base64.cpp */; };
-		77AD324E2680728200888326 /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 77AD324D2680728200888326 /* uint256.h */; };
 		77CFBAD12682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */; };
 		77CFBAD22682DEEA00728690 /* JubiterBIOETHImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */; };
 		A67FF0EE277EF6850021D43E /* libFTTransmission.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A67FF0ED277EF6850021D43E /* libFTTransmission.a */; };
@@ -1348,9 +1349,9 @@
 		777B8611269585C1003F7CF1 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transaction.h; path = "../../deps/TrustWallet/wallet-core/src/Hcash/Transaction.h"; sourceTree = "<group>"; };
 		7788318F26736633004FDA80 /* ContractAbi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContractAbi.h; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.h"; sourceTree = "<group>"; };
 		7788319026736633004FDA80 /* ContractAbi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContractAbi.cpp; path = "../../deps/TrustWallet/wallet-core/src/Ethereum/ContractAbi.cpp"; sourceTree = "<group>"; };
+		77A025792828DE9700997BB2 /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Data.cpp; path = "../../deps/TrustWallet/wallet-core/src/Data.cpp"; sourceTree = "<group>"; };
 		77AD32482680725D00888326 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = "../../deps/TrustWallet/wallet-core/src/Base64.h"; sourceTree = "<group>"; };
 		77AD32492680725D00888326 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = "../../deps/TrustWallet/wallet-core/src/Base64.cpp"; sourceTree = "<group>"; };
-		77AD324D2680728200888326 /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uint256.h; path = "../../deps/TrustWallet/wallet-core/src/uint256.h"; sourceTree = "<group>"; };
 		77CFBAD02682DEEA00728690 /* JubiterBIOETHImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JubiterBIOETHImpl.cpp; path = ../../src/token/ETH/JubiterBIOETHImpl.cpp; sourceTree = "<group>"; };
 		A67FF0ED277EF6850021D43E /* libFTTransmission.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTTransmission.a; path = ../../deps/bleTransmit/ios/libFTTransmission.a; sourceTree = "<group>"; };
 		A67FF0EF277EF6C60021D43E /* libFTNFCTransmission.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFTNFCTransmission.a; path = ../../deps/nfcTransmit/ios/libFTNFCTransmission.a; sourceTree = "<group>"; };
@@ -1689,6 +1690,7 @@
 				6713A89D23A07C8B0083A34D /* BinaryCoding.h */,
 				67F5960A256FDD3200AB8FED /* Cbor.cpp */,
 				67F5960B256FDD3200AB8FED /* Cbor.h */,
+				77A025792828DE9700997BB2 /* Data.cpp */,
 				6713A88A23A07C590083A34D /* Data.h */,
 				671E240923CEC21F001A5F81 /* DerivationPath.cpp */,
 				671E240A23CEC21F001A5F81 /* DerivationPath.h */,
@@ -1700,7 +1702,6 @@
 				6713A86E23A07C200083A34D /* PrivateKey.h */,
 				6713A86B23A07C200083A34D /* PublicKey.cpp */,
 				6713A86A23A07C200083A34D /* PublicKey.h */,
-				77AD324D2680728200888326 /* uint256.h */,
 				67E0DE1D250F186100D42EF0 /* XXHash64.h */,
 			);
 			name = src;
@@ -2885,7 +2886,6 @@
 				6718A3BE23A3394000F8A5CD /* ed25519-blake2b.h in Headers */,
 				7770EB6F26AAA4E100324488 /* WitnessArgs.h in Headers */,
 				67E0DE42250F19B700D42EF0 /* Transaction.h in Headers */,
-				77AD324E2680728200888326 /* uint256.h in Headers */,
 				67E0DE1E250F186100D42EF0 /* XXHash64.h in Headers */,
 				6763935E253464A800C41883 /* Tron.pb.h in Headers */,
 				6718A3BF23A3394000F8A5CD /* ed25519-donna-32bit-tables.h in Headers */,
@@ -3130,6 +3130,7 @@
 				673E49862429EDD700C7F469 /* OutPoint.cpp in Sources */,
 				6718A39523A3391100F8A5CD /* nem.c in Sources */,
 				6718A39023A3391100F8A5CD /* modm-donna-32bit.c in Sources */,
+				77A0257B2828DE9700997BB2 /* Data.cpp in Sources */,
 				67755DA0253F10B70056F2C0 /* ContractSmart.cpp in Sources */,
 				6746216523C319A20096DDA2 /* XRPContext.cpp in Sources */,
 				772B687B26738295007D789B /* BigIntegerUtils.cc in Sources */,
@@ -3330,6 +3331,7 @@
 				674F1A0C23A1080A001702DD /* modm-donna-32bit.c in Sources */,
 				674F19F423A107E5001702DD /* aeskey.c in Sources */,
 				676C23C425712663008A6297 /* FILContext.cpp in Sources */,
+				77A0257A2828DE9700997BB2 /* Data.cpp in Sources */,
 				772B68A426738468007D789B /* ERC721Abi.cpp in Sources */,
 				6713A85923A07BB80083A34D /* JUB_SDK_DEV.cpp in Sources */,
 				7770EB2A26AAA34500324488 /* JubiterBaseCKBImpl.cpp in Sources */,

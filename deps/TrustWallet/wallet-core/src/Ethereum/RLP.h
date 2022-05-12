@@ -1,4 +1,4 @@
-// Copyright © 2017-2020 Trust Wallet.
+// Copyright © 2017-2021 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -49,19 +49,8 @@ struct RLP {
 //
 //    static Data encode(const uint256_t& number) noexcept;
 //
-    /// Encodes a transaction.
-    static Data encode(const Transaction& transaction) noexcept;
-
-    // JuBiter-defined
-    /// Decodes a transaction.
-    static Transaction decode(const Data& transaction) noexcept;
-
     /// Wraps encoded data as a list.
     static Data encodeList(const Data& encoded) noexcept;
-
-    // JuBiter-defined
-    /// Wraps decoded data as a list.
-    static Data decodeList(const Data& decoded) noexcept;
 
     /// Encodes a block of data.
     static Data encode(const Data& data) noexcept;
@@ -73,26 +62,9 @@ struct RLP {
     /// Encodes a static array.
     template <std::size_t N>
     static Data encode(const std::array<uint8_t, N>& data) noexcept {
-        if (N == 1 && data[0] <= 0x7f) {
-            // Fits in single byte, no header
-            return Data(data.begin(), data.end());
-        }
-
-        auto encoded = encodeHeader(data.size(), 0x80, 0xb7);
-        encoded.insert(encoded.end(), data.begin(), data.end());
-        return encoded;
-    }
-
-    // JuBiter-defined
-    /// Decodes to a static array.
-    template <std::size_t N>
-    static std::array<uint8_t, N> decode(const Data& data, uint64_t& headerSize) noexcept {
-        auto array = removeHeader(data, 0x80, 0xb7, headerSize);
-
-        std::array<uint8_t, N> decoded;
-        std::copy(array.begin(), array.end(), decoded.begin());
-
-        return decoded;
+        Data encoded;
+        std::copy(std::begin(data), std::end(data), std::back_inserter(encoded));
+        return encode(encoded);
     }
 
     /// Encodes a list of elements.
@@ -116,22 +88,19 @@ struct RLP {
     /// Encodes a list header.
     static Data encodeHeader(uint64_t size, uint64_t smallTag, uint64_t largeTag) noexcept;
 
-    // JuBiter-defined
-    /// Removes a list header.
-    static Data removeHeader(const Data& header, const uint64_t smallTag, const uint64_t largeTag, uint64_t& headerSize) noexcept;
+    struct DecodedItem {
+        std::vector<Data> decoded;
+        Data remainder;
+    };
 
-    // JuBiter-defined
-    /// Decodes a list header.
-    static uint64_t decodeHeader(const Data& header, const uint64_t smallTag, const uint64_t largeTag, uint64_t& headerSize) noexcept;
+    static RLP::DecodedItem decodeList(const Data& input) noexcept;
+    /// Decodes data, remainder from RLP encoded data
+    static RLP::DecodedItem decode(const Data& data) noexcept;
 
-    /// Returns the representation of an integer using the least number of bytes
-    /// needed.
-    static Data putint(uint64_t i) noexcept;
-
-    // JuBiter-defined
-    /// Returns the least number of bytes using the representation of an integer
-    /// needed.
-    static uint64_t getint(Data i) noexcept;
+    /// Returns the representation of an integer using the least number of bytes needed, between 1 and 8 bytes, big endian
+    static Data putVarInt(uint64_t i) noexcept;
+    /// Parses an integer of given size, between 1 and 8 bytes, big endian
+    static uint64_t parseVarInt(size_t size, const Data& data, size_t index);
 };
 
 } // namespace TW::Ethereum

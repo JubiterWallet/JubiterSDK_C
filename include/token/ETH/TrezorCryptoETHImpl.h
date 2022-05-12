@@ -34,6 +34,30 @@ public:
                           const std::vector<JUB_BYTE>& vPath,
                           const std::vector<JUB_BYTE>& vChainID,
                           std::vector<JUB_BYTE>& vRaw) override;
+    virtual JUB_RV SignTX(const int erc,
+                          const std::vector<JUB_BYTE>& vNonce,
+                          const std::vector<JUB_BYTE>& vGasPrice,
+                          const std::vector<JUB_BYTE>& vGasLimit,
+                          const std::vector<JUB_BYTE>& vTo,
+                          const std::vector<JUB_BYTE>& vValue,
+                          const std::vector<JUB_BYTE>& vInput,
+                          const std::string& accessListInJSON,
+                          const std::vector<JUB_BYTE>& vPath,
+                          const std::vector<JUB_BYTE>& vChainID,
+                          std::vector<JUB_BYTE>& vRaw) override;
+    virtual JUB_RV SignTX(const int erc,
+                          const std::vector<JUB_BYTE>& vNonce,
+                          const std::vector<JUB_BYTE>& vGasLimit,
+                          const std::vector<JUB_BYTE>& vMaxPriorityFeePerGas,
+                          const std::vector<JUB_BYTE>& vMaxFeePerGas,
+                          const std::vector<JUB_BYTE>& vDestination,
+                          const std::vector<JUB_BYTE>& vValue,
+                          const std::vector<JUB_BYTE>& vData,
+                          const std::string& accessListInJSON,
+                          const std::vector<JUB_BYTE>& vPath,
+                          const std::vector<JUB_BYTE>& vChainID,
+                          std::vector<JUB_BYTE>& vRaw) override;
+
     virtual JUB_RV VerifyTX(const std::vector<JUB_BYTE>& vChainID,
                             const std::string& path,
                             const std::vector<JUB_BYTE>& vSigedTrans) override;
@@ -71,14 +95,14 @@ public:
                                   const std::vector<JUB_BYTE>& vPath,
                                   const std::vector<JUB_BYTE>& vChainID,
                                   std::vector<JUB_BYTE>& signatureRaw) override;
-    virtual JUB_RV VerifyBytestring(const std::vector<JUB_BYTE>& vChainID,
-                                    const std::string& path,
+    virtual JUB_RV VerifyBytestring(const std::string& path,
                                     const std::vector<JUB_BYTE>& vData,
                                     const std::vector<JUB_BYTE>& vSignature) override;
 
     virtual JUB_RV SignTypedData(const bool& bMetamaskV4Compat,
                                  const std::string& typedDataInJSON,
                                  const std::vector<JUB_BYTE>& vPath,
+                                 const std::vector<JUB_BYTE>& vChainID,
                                  std::vector<JUB_BYTE>& signatureRaw) override;
     virtual JUB_RV VerifyTypedData(const bool& bMetamaskV4Compat,
                                    const std::string& path,

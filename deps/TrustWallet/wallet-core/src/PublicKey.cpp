@@ -72,6 +72,8 @@ PublicKey::PublicKey(const Data& data, enum TWPublicKeyType type) : type(type) {
         assert(data.size() == ed25519Size); // ensured by isValid() above
         std::copy(std::begin(data), std::end(data), std::back_inserter(bytes));
         break;
+    default:
+        break;
     }
 }
 

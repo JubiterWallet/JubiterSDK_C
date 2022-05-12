@@ -21,8 +21,8 @@ void ETH_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file);
 void set_my_address_test_ETH(JUB_UINT16 contextID);
 void  get_address_pubkey_ETH(JUB_UINT16 contextID);
 
-void   transaction_test_ETH(JUB_UINT16 contextID, Json::Value root);
-JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root);
+void   transaction_test_ETH(JUB_UINT16 contextID, Json::Value root, bool bOptionalAccessLists=false, bool bWithAccessList=false);
+JUB_RV transaction_proc_ETH(JUB_UINT16 contextID, Json::Value root, bool bOptionalAccessLists=false, bool bWithAccessList=false);
 
 void   transaction_test_ERC20_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV transaction_proc_ERC20_ETH(JUB_UINT16 contextID, Json::Value root);
@@ -47,5 +47,8 @@ JUB_RV typedata_proc_ETH(JUB_UINT16 contextID, Json::Value root);
 
 void   uniswap_test_ETH(JUB_UINT16 contextID, Json::Value root);
 JUB_RV uniswap_proc_ETH(JUB_UINT16 contextID, Json::Value root);
+
+void   transaction_test_EIP1559_ETH(JUB_UINT16 contextID, Json::Value root, bool bWithAccessList=false);
+JUB_RV transaction_proc_EIP1559_ETH(JUB_UINT16 contextID, Json::Value root, bool bWithAccessList=false);
 
 #endif /* JUB_SDK_test_eth_hpp */
