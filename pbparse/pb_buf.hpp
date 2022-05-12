@@ -47,7 +47,7 @@ public:
         return (offset + getValueIndex());
     }
 
-    std::vector<uint8_t> serialize() {
+    std::vector<uint8_t> serialize() const {
         std::vector<uint8_t> o;
 
         size_t szTag = tag.size(fieldType);
