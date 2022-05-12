@@ -41,9 +41,9 @@ Data TransactionBase::encoded(const Signature& signature) const {
     }
 
     Data vSignature;
-    std::copy(signature.r.begin(), signature.r.end(), std::back_inserter(vSignature));
-    std::copy(signature.s.begin(), signature.s.end(), std::back_inserter(vSignature));
-    std::copy(signature.v.begin(), signature.v.end(), std::back_inserter(vSignature));
+    std::copy(std::begin(signature.r), std::end(signature.r), std::back_inserter(vSignature));
+    std::copy(std::begin(signature.s), std::end(signature.s), std::back_inserter(vSignature));
+    std::copy(std::begin(signature.v), std::end(signature.v), std::back_inserter(vSignature));
     return vSignature;
 }
 
@@ -58,7 +58,7 @@ bool TransactionBase::decoded(const Data& encoded, Signature& signature) {
         return false;
     }
 
-    std::copy(std::begin(encoded), std::begin(encoded) + 32, std::back_inserter(signature.r));
+    std::copy(std::begin(encoded),      std::begin(encoded) + 32, std::back_inserter(signature.r));
     std::copy(std::begin(encoded) + 32, std::begin(encoded) + 64, std::back_inserter(signature.s));
     std::copy(std::begin(encoded) + 64, std::begin(encoded) + 65, std::back_inserter(signature.v));
     return true;
@@ -271,22 +271,22 @@ bool TransactionTyped::decodeAccessList(const Data& chainID, const Signature& si
     if (0 >= part.size()) {
         return false;
     }
-    auto itInEncoded = std::search(
+    auto itInEncoded = TW::search(
                             std::begin(encoded), std::end(encoded),
                             std::begin(part), std::end(part)
     );
     if (itInEncoded != encoded.end()) {
-        offsetBegin = std::distance(std::begin(encoded), itInEncoded) + part.size();
+        offsetBegin = (itInEncoded - std::begin(encoded)) + part.size();
     }
     // find the index of the end of access list
     size_t offsetEnd = 0;
     auto signatureRaw = signature.serialize();
-    itInEncoded = std::search(
-                        std::begin(encoded)+ offsetBegin, std::end(encoded),
+    itInEncoded = TW::search(
+                        std::begin(encoded)+offsetBegin, std::end(encoded),
                         std::begin(signatureRaw), std::end(signatureRaw)
     );
     if (itInEncoded != signatureRaw.end()) {
-        offsetEnd = std::distance(std::begin(encoded), itInEncoded);
+        offsetEnd = itInEncoded - std::begin(encoded);
     }
 
     auto encodedAccessList = Data(std::begin(encoded)+offsetBegin, std::begin(encoded)+offsetEnd);
@@ -298,12 +298,12 @@ bool TransactionTyped::decodeAccessList(const Data& chainID, const Signature& si
         if (0 == remainder.size()) {
             remainder = encodedAccessList;
         }
-        auto itInAccessList = std::search(
-                                std::begin(remainder), std::end(remainder),
-                                std::begin(access.address.bytes), std::end(access.address.bytes)
+        auto itInAccessList = TW::search(
+                                    std::begin(remainder), std::end(remainder),
+                                    std::begin(access.address.bytes), std::end(access.address.bytes)
         );
         if (itInAccessList != remainder.end()) {
-            offsetBegin = std::distance(std::begin(remainder), itInAccessList) + access.address.bytes.size();
+            offsetBegin = (itInAccessList - std::begin(remainder)) + access.address.bytes.size();
         }
         auto storageKeys = Data(std::begin(remainder)+offsetBegin, std::end(remainder));
         auto storageKeysItems = RLP::decode(storageKeys);

@@ -61,4 +61,21 @@ inline std::vector<std::size_t> find_all_indexes(const Data& haystack, const Dat
     return indexes;
 }
 
+// JuBiter-defined
+// copy from "https://en.cppreference.com/w/cpp/algorithm/search", First version
+template<class ForwardIt1, class ForwardIt2>
+constexpr ForwardIt1 search(ForwardIt1 first, ForwardIt1 last,
+                            ForwardIt2 s_first, ForwardIt2 s_last)
+{
+    while (1) {
+        ForwardIt1 it = first;
+        for (ForwardIt2 s_it = s_first; ; ++it, ++s_it) {
+            if (s_it == s_last) return first;
+            if (it == last)  return last;
+            if (!(*it == *s_it)) break;
+        }
+        ++first;
+    }
+}
+
 } // namespace TW
