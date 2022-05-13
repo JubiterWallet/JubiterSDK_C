@@ -6,8 +6,9 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#include "pb_varint.hpp"
 #include <stdio.h>
+#include "pb_varint.hpp"
+
 
 pb_varint::pb_varint() {
 
@@ -15,7 +16,9 @@ pb_varint::pb_varint() {
 }
 
 
-pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const int64_t v) {
+pb_varint::pb_varint(const int field_number,
+                     const WireFormatLite::FieldType& type,
+                     const int64_t v) {
 
     clear();
 
@@ -29,7 +32,9 @@ pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &ty
 }
 
 
-pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const uint64_t v) {
+pb_varint::pb_varint(const int field_number,
+                     const WireFormatLite::FieldType& type,
+                     const uint64_t v) {
 
     clear();
 
@@ -43,7 +48,9 @@ pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &ty
 }
 
 
-pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const int32_t v) {
+pb_varint::pb_varint(const int field_number,
+                     const WireFormatLite::FieldType& type,
+                     const int32_t v) {
 
     clear();
 
@@ -57,7 +64,9 @@ pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &ty
 }
 
 
-pb_varint::pb_varint(const int field_number, const WireFormatLite::FieldType &type, const uint32_t v) {
+pb_varint::pb_varint(const int field_number,
+                     const WireFormatLite::FieldType& type,
+                     const uint32_t v) {
 
     clear();
 
@@ -93,9 +102,10 @@ bool pb_varint::has() const {
 }
 
 
-size_t pb_varint::size() const  {
+size_t pb_varint::size() const {
 
-    return sizeTag() + sizeValue();
+    return sizeTag()
+        +  sizeValue();
 }
 
 
@@ -115,7 +125,8 @@ size_t pb_varint::sizeValue() const {
 }
 
 
-bool pb_varint::encodeTag(const int field_number, const WireFormatLite::FieldType &type) {
+bool pb_varint::encodeTag(const int field_number,
+                          const WireFormatLite::FieldType& type) {
 
     WireFormatLite::WireType wire_type;
     switch (type) {

@@ -83,11 +83,11 @@ public:
          wire_type   = WireFormatLite::GetTagWireType(tag);
     }
 
-    uint32_t toTag() {
+    uint32_t toTag() const {
         return WireFormatLite::MakeTag(field_number, wire_type);
     }
 
-    bool toTag(std::vector<uint8_t>& enc) {
+    bool toTag(std::vector<uint8_t>& enc) const {
         return pb_basevarint::encode(toTag(), enc);
     }
 

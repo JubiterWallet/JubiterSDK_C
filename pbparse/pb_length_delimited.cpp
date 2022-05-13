@@ -6,10 +6,9 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-#include "pb_length_delimited.hpp"
 #include <stdio.h>
-#include <string>
-#include <vector>
+#include "pb_length_delimited.hpp"
+
 
 pb_length_delimited::pb_length_delimited() {
 
@@ -17,8 +16,9 @@ pb_length_delimited::pb_length_delimited() {
 }
 
 
-pb_length_delimited::pb_length_delimited(const int field_number, const WireFormatLite::FieldType &type,
-                                         const std::string &v) {
+pb_length_delimited::pb_length_delimited(const int field_number,
+                                         const WireFormatLite::FieldType& type,
+                                         const std::string& v) {
 
     clear();
 
@@ -35,8 +35,9 @@ pb_length_delimited::pb_length_delimited(const int field_number, const WireForma
 }
 
 
-pb_length_delimited::pb_length_delimited(const int field_number, const WireFormatLite::FieldType &type,
-                                         const std::vector<uint8_t> &v) {
+pb_length_delimited::pb_length_delimited(const int field_number,
+                                         const WireFormatLite::FieldType& type,
+                                         const std::vector<uint8_t>& v) {
 
     clear();
 
@@ -62,7 +63,9 @@ bool pb_length_delimited::empty() const {
 bool pb_length_delimited::isValid() const {
 
     if (0 < size()) {
-        return tag.isValid() && !(0 == length.size()) && !(0 == value.size());
+        return tag.isValid()
+            && !(0 == length.size())
+            && !(0 ==  value.size());
     }
 
     return true;
@@ -77,7 +80,9 @@ bool pb_length_delimited::has() const {
 
 size_t pb_length_delimited::size() const {
 
-    return sizeTag() + sizeLength() + sizeValue();
+    return   sizeTag()
+        + sizeLength()
+        + sizeValue();
 }
 
 
@@ -96,14 +101,14 @@ size_t pb_length_delimited::sizeLength() const {
     return length.size();
 }
 
-
 size_t pb_length_delimited::sizeValue() const {
 
     return value.size();
 }
 
 
-bool pb_length_delimited::encodeTag(const int field_number, const WireFormatLite::FieldType &type) {
+bool pb_length_delimited::encodeTag(const int field_number,
+                                    const WireFormatLite::FieldType& type) {
 
     WireFormatLite::WireType wire_type;
     switch (type) {
@@ -132,25 +137,26 @@ bool pb_length_delimited::encodeLength() {
     uint8_t *target = &length[0];
     size_t sz = value.size();
     while (sz >= 0x80) {
-        length.resize(length.size() + 1);
+        length.resize(length.size()+1);
         if (nullptr == target) {
             target = &length[0];
-        } else {
-            target = &length[length.size() - 1];
+        }
+        else {
+            target = &length[length.size()-1];
         }
         *target = static_cast<uint8_t>(sz | 0x80);
         sz >>= 7;
         ++target;
     }
-    length.resize(length.size() + 1);
-    target = &length[length.size() - 1];
+    length.resize(length.size()+1);
+    target = &length[length.size()-1];
     *target = static_cast<uint8_t>(sz);
 
     return true;
 }
 
 
-bool pb_length_delimited::encodeValue(const std::string &v, std::vector<uint8_t> &enc) {
+bool pb_length_delimited::encodeValue(const std::string& v, std::vector<uint8_t>& enc) {
 
     enc.resize(v.size());
     std::copy(std::begin(v), std::end(v), std::begin(enc));
@@ -159,7 +165,7 @@ bool pb_length_delimited::encodeValue(const std::string &v, std::vector<uint8_t>
 }
 
 
-bool pb_length_delimited::encodeValue(const std::vector<uint8_t> &v, std::vector<uint8_t> &enc) {
+bool pb_length_delimited::encodeValue(const std::vector<uint8_t>& v, std::vector<uint8_t>& enc) {
 
     enc.resize(v.size());
     std::copy(std::begin(v), std::end(v), std::begin(enc));
