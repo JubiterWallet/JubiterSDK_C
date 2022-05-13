@@ -438,7 +438,7 @@ bool TransactionOptionalAccessList::decoded(const Data& encoded, Signature& sign
     signature.s = decodedItems.decoded[accessIndex+3];
 
     // decode access list
-    bool b = false;
+    bool b = true;
     if (ITEM_ACCESS_LIST_INDEX == accessIndex) {
         b = decodeAccessList(chainId, signature, encoded);
     }
@@ -480,6 +480,9 @@ Data TransactionEip1559::serialize(const Data& chainID) const {
     else {
         append(encoded, encodeAccessList());
     }
+    append(encoded, RLP::encode(Data{0}));
+    append(encoded, RLP::encode(Data{0}));
+    append(encoded, RLP::encode(Data{0}));
 
     Data envelope;
     append(envelope, static_cast<uint8_t>(type));
@@ -569,7 +572,7 @@ bool TransactionEip1559::decoded(const Data& encoded, Signature& signature) {
     signature.s = decodedItems.decoded[accessIndex+3];
 
     // decode access list
-    bool b = false;
+    bool b = true;
     if (ITEM_ACCESS_LIST_INDEX == accessIndex) {
         b = decodeAccessList(chainId, signature, encoded);
     }

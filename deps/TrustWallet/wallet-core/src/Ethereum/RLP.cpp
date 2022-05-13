@@ -4,6 +4,7 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
+#include <assert.h>
 #include "RLP.h"
 
 #include "../Data.h"
