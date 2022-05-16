@@ -271,25 +271,25 @@ bool TransactionTyped::decodeAccessList(const Data& chainID, const Signature& si
     if (0 >= part.size()) {
         return false;
     }
-    auto itInEncoded = TW::search(
-                            std::begin(encoded), std::end(encoded),
-                            std::begin(part), std::end(part)
+    auto itInEncoded = std::search(
+                            encoded.begin(), encoded.end(),
+                            part.begin(), part.end()
     );
     if (itInEncoded != encoded.end()) {
-        offsetBegin = (itInEncoded - std::begin(encoded)) + part.size();
+        offsetBegin = (itInEncoded - encoded.begin()) + part.size();
     }
     // find the index of the end of access list
     size_t offsetEnd = 0;
     auto signatureRaw = signature.serialize();
-    itInEncoded = TW::search(
-                        std::begin(encoded)+offsetBegin, std::end(encoded),
-                        std::begin(signatureRaw), std::end(signatureRaw)
+    itInEncoded = std::search(
+                        encoded.begin()+offsetBegin, encoded.end(),
+                        signatureRaw.begin(), signatureRaw.end()
     );
     if (itInEncoded != signatureRaw.end()) {
-        offsetEnd = itInEncoded - std::begin(encoded);
+        offsetEnd = itInEncoded - encoded.begin();
     }
 
-    auto encodedAccessList = Data(std::begin(encoded)+offsetBegin, std::begin(encoded)+offsetEnd);
+    auto encodedAccessList = Data(encoded.begin()+offsetBegin, encoded.begin()+offsetEnd);
     auto accessListItems = RLP::decode(encodedAccessList);
     Data remainder;
     for (size_t i=0; i<accessListItems.decoded.size(); ++i) {
@@ -298,14 +298,14 @@ bool TransactionTyped::decodeAccessList(const Data& chainID, const Signature& si
         if (0 == remainder.size()) {
             remainder = encodedAccessList;
         }
-        auto itInAccessList = TW::search(
-                                    std::begin(remainder), std::end(remainder),
-                                    std::begin(access.address.bytes), std::end(access.address.bytes)
+        auto itInAccessList = std::search(
+                                    remainder.begin(), remainder.end(),
+                                    access.address.bytes.begin(), access.address.bytes.end()
         );
         if (itInAccessList != remainder.end()) {
-            offsetBegin = (itInAccessList - std::begin(remainder)) + access.address.bytes.size();
+            offsetBegin = (itInAccessList - remainder.begin()) + access.address.bytes.size();
         }
-        auto storageKeys = Data(std::begin(remainder)+offsetBegin, std::end(remainder));
+        auto storageKeys = Data(remainder.begin()+offsetBegin, remainder.end());
         auto storageKeysItems = RLP::decode(storageKeys);
         for (size_t j=0; j<storageKeysItems.decoded.size(); ++j) {
             access.storageKeys.push_back(storageKeysItems.decoded[j]);
