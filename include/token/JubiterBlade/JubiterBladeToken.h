@@ -5,6 +5,8 @@
 #include "token/interface/HardwareTokenInterface.hpp"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "device/ApduBuilder.hpp"
+#include <string>
+#include <vector>
 
 
 namespace jub {
@@ -59,6 +61,7 @@ public:
              INS_SIGN_CONTR_C9 = 0xc9,
         INS_SIGN_CONTR_HASH_CA = 0xca,
                INS_SIGN_MSG_CB = 0xcb,
+               INS_SIGN_712_CC = 0xcc,
     };
     enum JUB_ENUM_APDU_DATA : uint8_t {
         TAG_TX_HASH_07 = 0x07,
