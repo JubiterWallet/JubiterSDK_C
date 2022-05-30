@@ -481,9 +481,6 @@ Data TransactionEip1559::serialize(const Data& chainID) const {
     else {
         append(encoded, encodeAccessList());
     }
-    append(encoded, RLP::encode(Data{0}));
-    append(encoded, RLP::encode(Data{0}));
-    append(encoded, RLP::encode(Data{0}));
 
     Data envelope;
     append(envelope, static_cast<uint8_t>(type));
