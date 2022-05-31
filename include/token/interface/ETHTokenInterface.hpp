@@ -3,10 +3,12 @@
 
 #include "JUB_SDK_ETH.h"
 
+#include <cstdint>
 #include <vector>
 #include "token/interface/BaseToken.h"
 #include "utility/util.h"
 #include <Ethereum/Transaction.h>
+#include <string>
 
 namespace jub {
 namespace token {
@@ -21,6 +23,12 @@ enum JUB_ENUM_APDU_ERC_P1 : uint8_t {
     ERC20  = 0x00,
     ERC721 = 0x01,
     TOKENS_INFO = 0x02,  // Compatible with both ERC20 & ERC721
+};
+
+enum JUB_ENUM_APDU_TYPED_p2 : uint8_t {
+    LEGACY = 0x00,
+    EIP2930 = 0x01,
+    EIP1559 = 0x02,
 };
 
 
