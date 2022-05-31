@@ -28,6 +28,9 @@ enum JUB_ENUM_APDU_DATA_ETH : uint8_t {
          TAG_DOMAIN_NAME_50 = 0x50,
     TAG_DOMAIN_SEPARATOR_51 = 0x51,
      TAG_STRUCT_MSG_HASH_52 = 0x52,
+         TAG_ACCESS_LIST_53 = 0x53,
+MAX_PRIORITY_FEE_PER_GAS_54 = 0x54,
+         MAX_FEE_PER_GAS_55 = 0x55,
 };
 
 class JubiterBaseETHImpl :

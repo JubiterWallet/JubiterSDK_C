@@ -1,9 +1,11 @@
+#include "Address.h"
 #include "Data.h"
 #include "EIP712.h"
 #include "JUB_SDK_COMM.h"
 #include "JUB_SDK_DEV.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include "token/ETH/JubiterBaseETHImpl.h"
+#include "token/interface/ETHTokenInterface.hpp"
 #include "utility/util.h"
 #include <Ethereum/AddressChecksum.h>
 #include <Ethereum/ContractAbi.h>
@@ -12,6 +14,7 @@
 #include <Ethereum/Transaction.h>
 #include <algorithm>
 #include <cstdint>
+#include <iterator>
 #include <string>
 #include <token/ETH/JubiterBladeETHImpl.h>
 #include <token/ErrorHandler.h>
@@ -267,8 +270,122 @@ JUB_RV JubiterBladeETHImpl::SignTX(const int erc, const std::vector<JUB_BYTE> &v
                                    const std::vector<JUB_BYTE> &vInput, const std::string &accessListInJSON,
                                    const std::vector<JUB_BYTE> &vPath, const std::vector<JUB_BYTE> &vChainID,
                                    std::vector<JUB_BYTE> &vRaw) {
+    // COS subpackage size 512 Byte
+    uchar_vector apduData;
+    using Tag = JUB_ENUM_APDU_DATA_ETH;
+    // [path, chainId, nonce, gasPrice, gasLimit, to, value, data, accessList]
+    apduData << ToTlv(Tag::TAG_PATH_47, vPath);
+    apduData << ToTlv(Tag::TAG_CHAIN_ID_48, vChainID);
+    if (0x00 == vNonce[0]) {
+        apduData << (JUB_BYTE)Tag::TAG_NONCE_41;
+        apduData << (JUB_BYTE)0x00;
+    } else {
+        apduData << ToTlv(Tag::TAG_NONCE_41, vNonce);
+    }
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    apduData << ToTlv(Tag::TAG_GAS_PRICE_42, vGasPrice);
+    apduData << ToTlv(Tag::TAG_GAS_LIMIT_43, vGasLimit);
+    apduData << ToTlv(Tag::TAG_TO_44, vTo);
+
+    // If value=0, when sending apdu,
+    // it is clear that this part is empty
+    uchar_vector vValueInWei(vValue);
+    if (1 == vValueInWei.size() && 0 == vValueInWei[0]) {
+        vValueInWei.clear();
+    }
+    apduData << ToTlv(Tag::TAG_VALUE_45, vValueInWei);
+
+    apduData << ToTlv(Tag::TAG_INPUT_46, vInput);
+
+    auto accessList = TW::Ethereum::accessListFromJson(accessListInJSON);
+
+    auto encoded = TW::Data();
+    using RLP = TW::Ethereum::RLP;
+    for (const auto &access : accessList) {
+        auto item = RLP::encode(access.address.bytes);
+        auto storageKeys = RLP::encodeList(access.storageKeys);
+        std::copy(storageKeys.begin(), storageKeys.end(), std::back_inserter(item));
+        auto itemList = RLP::encodeList(item);
+        std::copy(itemList.begin(), itemList.end(), std::back_inserter(encoded));
+    }
+    apduData << ToTlv(Tag::TAG_ACCESS_LIST_53, RLP::encodeList(encoded));
+
+    JUB_BYTE ins = JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A;
+    JUB_BYTE p1 = JUB_ENUM_APDU_ERC_P1::ERC20;
+    switch (erc) {
+    case JUB_ENUM_APDU_ERC_ETH::ERC_721:
+        p1 = JUB_ENUM_APDU_ERC_P1::ERC721;
+    case JUB_ENUM_APDU_ERC_ETH::ERC_20:
+        ins = JUB_ENUM_APDU_CMD::INS_SIGN_ERC20_C8;
+        break;
+    case JUB_ENUM_APDU_ERC_ETH::ERC_INVALID:
+    default:
+        break;
+    }
+
+    // subpackage
+    {
+        constexpr JUB_UINT32 kSendOnceLen = 230;
+        JUB_ULONG offset = 23;
+
+        //  first pack
+        APDU apdu(0x00, 0xF8, 0x01, 0x00, offset, apduData.data());
+        JUB_UINT16 ret = 0;
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        if (0x9000 != ret) {
+            return JUBR_TRANSMIT_DEVICE_ERROR;
+        }
+
+        unsigned long iCnt = (apduData.size() - offset) / kSendOnceLen;
+        JUB_UINT32 iRemainder = (apduData.size() - offset) % kSendOnceLen;
+        if (iCnt) {
+            int bOnce = false;
+            for (unsigned long i = 0; i < iCnt; ++i) {
+                if ((i + 1) == iCnt && 0 == iRemainder) {
+                    bOnce = true;
+                }
+                uchar_vector apduDataPart(&apduData[offset + i * kSendOnceLen], kSendOnceLen);
+                JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, bOnce)); // last data or not.
+            }
+        }
+        if (iRemainder) {
+            uchar_vector apduDataPart(&apduData[offset + iCnt * kSendOnceLen], iRemainder);
+            JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, true)); // last data.
+        }
+        apduData.clear();
+    }
+
+    // one pack can do it
+    APDU apdu(0x00, ins, p1, JUB_ENUM_APDU_TYPED_p2::EIP2930, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_BYTE retData[2048] = {
+        0,
+    };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    // finish transaction
+    try {
+        std::vector<JUB_BYTE> signatureRaw;
+        signatureRaw.insert(signatureRaw.end(), retData, retData + ulRetDataLen);
+
+        auto tx = TW::Ethereum::TransactionOptionalAccessList(vNonce, vGasPrice, vGasLimit, TW::Ethereum::Address{vTo},
+                                                              vValue, vInput, accessListInJSON);
+        // parse signature
+        auto signature = TW::Ethereum::Signer::signatureDataToStruct(
+            signatureRaw,
+            false, // TW::Ethereum::TransactionNonTyped::usesReplayProtection() is handled by the hardware
+            vChainID);
+        if (!signature.isValid()) {
+            return JUBR_SIGN_FAILED;
+        }
+        vRaw = tx.encoded(signature, vChainID);
+    } catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
 }
 
 JUB_RV JubiterBladeETHImpl::SignTX(const int erc, const std::vector<JUB_BYTE> &vNonce,
@@ -280,7 +397,125 @@ JUB_RV JubiterBladeETHImpl::SignTX(const int erc, const std::vector<JUB_BYTE> &v
                                    const std::vector<JUB_BYTE> &vPath, const std::vector<JUB_BYTE> &vChainID,
                                    std::vector<JUB_BYTE> &vRaw) {
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    // COS subpackage size 512 Byte
+    uchar_vector apduData;
+    using Tag = JUB_ENUM_APDU_DATA_ETH;
+    // [path, chain_id, nonce, max_priority_fee_per_gas, max_fee_per_gas, gas_limit, destination, amount, data,
+    // access_list]
+    apduData << ToTlv(Tag::TAG_PATH_47, vPath);
+    apduData << ToTlv(Tag::TAG_CHAIN_ID_48, vChainID);
+    if (0x00 == vNonce[0]) {
+        apduData << (JUB_BYTE)Tag::TAG_NONCE_41;
+        apduData << (JUB_BYTE)0x00;
+    } else {
+        apduData << ToTlv(Tag::TAG_NONCE_41, vNonce);
+    }
+
+    apduData << ToTlv(Tag::MAX_PRIORITY_FEE_PER_GAS_54, vMaxPriorityFeePerGas);
+    apduData << ToTlv(Tag::MAX_FEE_PER_GAS_55, vMaxFeePerGas);
+    apduData << ToTlv(Tag::TAG_GAS_LIMIT_43, vGasLimit);
+    apduData << ToTlv(Tag::TAG_TO_44, vDestination);
+
+    // If value=0, when sending apdu,
+    // it is clear that this part is empty
+    uchar_vector vValueInWei(vValue);
+    if (1 == vValueInWei.size() && 0 == vValueInWei[0]) {
+        vValueInWei.clear();
+    }
+    apduData << ToTlv(Tag::TAG_VALUE_45, vValueInWei);
+
+    apduData << ToTlv(Tag::TAG_INPUT_46, vData);
+
+    auto accessList = TW::Ethereum::accessListFromJson(accessListInJSON);
+
+    auto encoded = TW::Data();
+    using RLP = TW::Ethereum::RLP;
+    for (const auto &access : accessList) {
+        auto item = RLP::encode(access.address.bytes);
+        auto storageKeys = RLP::encodeList(access.storageKeys);
+        std::copy(storageKeys.begin(), storageKeys.end(), std::back_inserter(item));
+        auto itemList = RLP::encodeList(item);
+        std::copy(itemList.begin(), itemList.end(), std::back_inserter(encoded));
+    }
+    apduData << ToTlv(Tag::TAG_ACCESS_LIST_53, RLP::encodeList(encoded));
+
+    JUB_BYTE ins = JUB_ENUM_APDU_CMD::INS_SIGN_TX_2A;
+    JUB_BYTE p1 = JUB_ENUM_APDU_ERC_P1::ERC20;
+    switch (erc) {
+    case JUB_ENUM_APDU_ERC_ETH::ERC_721:
+        p1 = JUB_ENUM_APDU_ERC_P1::ERC721;
+    case JUB_ENUM_APDU_ERC_ETH::ERC_20:
+        ins = JUB_ENUM_APDU_CMD::INS_SIGN_ERC20_C8;
+        break;
+    case JUB_ENUM_APDU_ERC_ETH::ERC_INVALID:
+    default:
+        break;
+    }
+
+    // subpackage
+    {
+        constexpr JUB_UINT32 kSendOnceLen = 230;
+        JUB_ULONG offset = 23;
+
+        //  first pack
+        APDU apdu(0x00, 0xF8, 0x01, 0x00, offset, apduData.data());
+        JUB_UINT16 ret = 0;
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+        if (0x9000 != ret) {
+            return JUBR_TRANSMIT_DEVICE_ERROR;
+        }
+
+        unsigned long iCnt = (apduData.size() - offset) / kSendOnceLen;
+        JUB_UINT32 iRemainder = (apduData.size() - offset) % kSendOnceLen;
+        if (iCnt) {
+            int bOnce = false;
+            for (unsigned long i = 0; i < iCnt; ++i) {
+                if ((i + 1) == iCnt && 0 == iRemainder) {
+                    bOnce = true;
+                }
+                uchar_vector apduDataPart(&apduData[offset + i * kSendOnceLen], kSendOnceLen);
+                JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, bOnce)); // last data or not.
+            }
+        }
+        if (iRemainder) {
+            uchar_vector apduDataPart(&apduData[offset + iCnt * kSendOnceLen], iRemainder);
+            JUB_VERIFY_RV(_TranPack(apduDataPart, 0x00, 0x00, kSendOnceLen, true)); // last data.
+        }
+        apduData.clear();
+    }
+
+    // one pack can do it
+    APDU apdu(0x00, ins, p1, JUB_ENUM_APDU_TYPED_p2::EIP1559, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_BYTE retData[2048] = {
+        0,
+    };
+    JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    JUB_VERIFY_COS_ERROR(ret);
+
+    // finish transaction
+    try {
+        std::vector<JUB_BYTE> signatureRaw;
+        signatureRaw.insert(signatureRaw.end(), retData, retData + ulRetDataLen);
+
+        auto tx =
+            TW::Ethereum::TransactionEip1559(vNonce, vMaxPriorityFeePerGas, vMaxFeePerGas, vGasLimit,
+                                             TW::Ethereum::Address{vDestination}, vValue, vData, accessListInJSON);
+        // parse signature
+        auto signature = TW::Ethereum::Signer::signatureDataToStruct(
+            signatureRaw,
+            false, // TW::Ethereum::TransactionNonTyped::usesReplayProtection() is handled by the hardware
+            vChainID);
+        if (!signature.isValid()) {
+            return JUBR_SIGN_FAILED;
+        }
+        vRaw = tx.encoded(signature, vChainID);
+    } catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
 }
 
 JUB_RV JubiterBladeETHImpl::VerifyTX(const std::vector<JUB_BYTE> &vChainID, const std::string &path,
