@@ -5,10 +5,13 @@
 // file LICENSE at the root of the source code distribution tree.
 
 #include "Signer.h"
+#include "BinaryCoding.h"
 #include "HexCoding.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 //#include "AnyAddress.h"
 #include <TrustWalletCore/TWCoinType.h>
+#include <cstdint>
+#include <iterator>
 #include <string>
 
 //#include <google/protobuf/util/json_util.h>
@@ -105,7 +108,7 @@ Signature Signer::signatureDataToStructSimple(const Data &signature) noexcept {
     Data r, s, v;
     std::copy(std::begin(signature), std::begin(signature) + 32, std::back_inserter(r));
     std::copy(std::begin(signature) + 32, std::begin(signature) + 64, std::back_inserter(s));
-    std::copy(std::begin(signature) + 64, std::begin(signature) + 65, std::back_inserter(v));
+    std::copy(std::begin(signature) + 64, std::end(signature), std::back_inserter(v));
     return Signature{r, s, v};
 }
 
@@ -122,22 +125,39 @@ Data Signer::structToSignatureDataSimple(const Signature &signature) noexcept {
 
 // JuBiter-modified
 Signature Signer::signatureDataToStructWithEip155(const Data &chainID, const Data &signature) noexcept {
-    Signature rsv = signatureDataToStructSimple(signature);
+    Signature sig = signatureDataToStructSimple(signature);
     // Embed chainID in V param, for replay protection, legacy (EIP155)
-    uint8_t v = rsv.v[0];
+    // v' = v + chainid * 2 + 35
+    uint64_t v = 0;
     if (0 < chainID.size() && (0 != chainID[0])) {
-        v += 35 + chainID[0] + chainID[0];
+        v = decodeBENoZero<uint64_t>(chainID);
+        v *= 2;
+        v += 35;
     } else {
         v += 27;
     }
-    rsv.v[0] = v;
-    return rsv;
+    v += sig.v[0];
+    return {sig.r, sig.s, encodeBENoZero(v)};
 }
 
 Data Signer::structToSignatureDataWithEip155(const Data &chainID, const Signature &signature) noexcept {
-    int v = signature.v[0];
+    // v' = v + 35 + chainId * 2
+    // or
+    // v' = v + 27
+    // v = [0, 1]
+    // if v == 0 then v' is odd number
+    // if v == 1 then v' is even number
+    // can get origin v by only sig.v last byte, but can't verify chaind :)
+
+    // auto v = *sig.v.rbegin;
+    // v &= 1; // get last bit
+    // v ^= 1;
+
+    auto v = decodeBENoZero<uint64_t>(signature.v);
     if (0 != chainID.size() && (0 != chainID[0])) {
-        v -= (35 + chainID[0] + chainID[0]);
+        auto c = decodeBENoZero<uint32_t>(chainID);
+        v -= c * 2;
+        v -= 35;
     } else {
         v -= 27;
     }

@@ -9,7 +9,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <vector>
-#include <string>
 #include <algorithm>
 
 /*
@@ -417,4 +416,14 @@ std::vector<uint8_t> encodeBENoZero(T value) {
 
     return data;
 }
+
+template <typename T> T decodeBENoZero(const std::vector<uint8_t> &src) {
+    T v = 0;
+    for (auto c: src) {
+        v <<= 8;
+        v += c;
+    }
+    return v;
+}
+
 } // namespace TW

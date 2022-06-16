@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #ifndef __ContextETH__
 #define __ContextETH__
 
@@ -14,6 +15,7 @@
 #include "token/interface/BaseToken.h"
 
 #include <Ethereum/ContractAbi.h>
+#include <map>
 
 
 namespace jub {
@@ -114,7 +116,7 @@ private:
         return jub::eth::ENUM_CONTRACT_ABI::CREATE_CONTRACT;
     }
 
-    int _chainID;
+    uint32_t _chainID;
     // "methodID" - input type
     std::map<std::string, int> _contrFuncList;
 }; // class ETHContext end
