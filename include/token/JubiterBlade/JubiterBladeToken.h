@@ -5,6 +5,7 @@
 #include "token/interface/HardwareTokenInterface.hpp"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "device/ApduBuilder.hpp"
+#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 
@@ -87,7 +88,8 @@ public:
     virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]) override;
     virtual JUB_RV GetFwVersion(JUB_BYTE fwVersion[4]) override;
 
-    virtual JUB_RV EnumApplet(std::string& appletList) override ;
+    virtual JUB_RV EnumApplet(std::string& appletList) override;
+    virtual JUB_RV EnumAppletInfo(std::string& appletInfoListInJSON) override;
     virtual JUB_RV GetAppletVersion(const std::string& appID, stVersion& version) override;
     virtual JUB_RV EnumSupportCoins(std::string& coinList) override;
     virtual JUB_RV GetDeviceCert(std::string& cert) override;
@@ -165,6 +167,10 @@ protected:
 
     virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length, uchar_vector& version) override;
     virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length);
+    virtual JUB_RV _EnumAppletInfo(std::vector<JUB_APPLET_INFO>& appletInfoList) override;
+    virtual JUB_RV _EncodeAppletInfoInJSON(const std::vector<JUB_APPLET_INFO>& appletInfoList, std::string& appletInfoListInJSON);
+    virtual JUB_RV _AppletId2AppletName(const TW::Data& Id, std::string& name);
+    nlohmann::json _SerializeAppletInfo(const JUB_APPLET_INFO& appletInfo);
 
     std::shared_ptr<ApduBuilder> _apduBuilder;
     JUB_UINT16 _deviceID;

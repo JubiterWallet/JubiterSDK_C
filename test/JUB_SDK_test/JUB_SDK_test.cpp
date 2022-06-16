@@ -48,6 +48,20 @@ void getVersion(JUB_UINT16 deviceID) {
     cout << "[------------------------------- Device Info end -------------------------------]" << endl;
     cout << endl << endl;
 
+    cout << "[-------------------------------- Applet Info ----------------------------------]" << endl;
+    JUB_CHAR_PTR appInfoInJSON;
+    rv = JUB_EnumAppletInfo(deviceID, &appInfoInJSON);
+    cout << "[-] JUB_EnumAppletInfo() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    std::string appletInfo = appInfoInJSON;
+    JUB_FreeMemory(appInfoInJSON);
+
+    cout << "    Applet Info: " <<  appletInfo << endl;
+    cout << "[-------------------------------- Applet Info end ------------------------------]" << endl;
+    cout << endl << endl;
+
     cout << "[-------------------------------- Applet Version -------------------------------]" << endl;
     JUB_CHAR_PTR appList;
     rv = JUB_EnumApplets(deviceID, &appList);

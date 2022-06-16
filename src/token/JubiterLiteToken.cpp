@@ -8,6 +8,7 @@
 #include "scp03/scp03.hpp"
 #include "scp11/scp11c.hpp"
 #include "utility/Debug.hpp"
+#include <TrustWallet/wallet-core/src/HexCoding.h>
 
 namespace jub {
 namespace token {
@@ -516,6 +517,76 @@ JUB_RV JubiterLiteToken::EnumApplet(std::string& appletList) {
     }
 
     return JUBR_OK;
+}
+
+
+JUB_RV JubiterLiteToken::_EnumAppletInfo(std::vector<JUB_APPLET_INFO>& appletInfoList) {
+
+    JUB_RV rv = JUBR_OK;
+
+    // get applet list
+    std::string appletList;
+    JUB_VERIFY_RV(EnumApplet(appletList));
+
+    std::vector<std::string> coinNameList;
+    auto vAppList = Split(appletList, " ");
+
+    // get applet version
+    std::map<std::string, std::string> appletMap;
+    for (auto appID : vAppList) {
+        stVersionExp version;
+        rv = GetAppletVersion(appID, version);
+        if (JUBR_OK != rv) {
+            break;
+        }
+
+        appletMap[appID] = stVersionExp::ToString(version);
+    }
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
+    // applet info list
+    for (auto appInfo : JubiterLiteToken::g_appInfo) {
+        JUB_APPLET_INFO appletInfo;
+
+        for (auto appID : appletMap) {
+            TW::Data hex = TW::parse_hex(appID.first);
+            if (hex == appInfo.appID) {
+                rv = _AppletId2AppletName(hex, appletInfo.name);
+                if (JUBR_OK != rv) {
+                    break;
+                }
+                appletInfo.Id = appID.first;
+
+                appletInfo.version = appID.second;
+
+                appletInfo.symbol = appInfo.coinName;
+                appletInfoList.insert(appletInfoList.end(), appletInfo);
+            }
+        }
+        if (JUBR_OK != rv) {
+            break;
+        }
+    }
+
+    return rv;
+}
+
+
+JUB_RV JubiterLiteToken::_AppletId2AppletName(const TW::Data& Id, std::string& name) {
+
+    JUB_RV rv = JUBR_OK;
+
+    if (TW::Data(uchar_vector(kPKIAID_NFC, sizeof(kPKIAID_NFC))) == Id) {
+        name = std::string("NFC");
+    }
+    else {
+        name = std::string("");
+        rv = JUBR_ARGUMENTS_BAD;
+    }
+
+    return rv;
 }
 
 

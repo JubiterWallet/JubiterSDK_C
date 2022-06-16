@@ -199,6 +199,41 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
 
 
 /*****************************************************************************
+ * @function name : JUB_EnumAppletInfo
+ * @in  param : deviceID - device ID
+ * @out param : appInfoListInfoInJSON - applet info list in JSON
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_EnumAppletInfo(IN JUB_UINT16 deviceID,
+                          OUT JUB_CHAR_PTR_PTR appInfoListInJSON) {
+
+    CREATE_THREAD_LOCK_GUARD
+    auto device = jub::device::DeviceManager::GetInstance()->GetOne(deviceID);
+    JUB_CHECK_NULL(device);
+
+    std::shared_ptr<jub::token::HardwareTokenInterface> token = jub::product::xProductFactory::GetDeviceToken(deviceID);
+    if (!token) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    // Let's go to the main security domain,
+    // instead of judging the return value,
+    // to get the data back
+    JUB_VERIFY_RV(token->SelectMainSecurityDomain());
+
+    std::string appletInfoList;
+    JUB_VERIFY_RV(token->EnumAppletInfo(appletInfoList));
+    JUB_VERIFY_RV(_allocMem(appInfoListInJSON, appletInfoList));
+
+    // Clean up the session for device in order to force calling ActiveSelf().
+    jub::context::ContextManager::GetInstance()->ClearLast();
+
+    return JUBR_OK;
+}
+
+
+/*****************************************************************************
  * @function name : JUB_EnumSupportCoins
  * @in  param : deviceID - device ID
  * @out param : coinsList - coin list
