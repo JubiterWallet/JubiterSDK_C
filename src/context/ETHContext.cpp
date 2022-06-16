@@ -1,4 +1,5 @@
 #include "context/ETHContext.h"
+#include "BinaryCoding.h"
 #include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
 #include "token/JubiterLite/JubiterLiteToken.h"
@@ -8,6 +9,9 @@
 #include <Ethereum/ERC1155Abi.h>
 #include "utility/util.h"
 #include <TrustWallet/wallet-core/src/HexCoding.h>
+#include <string>
+#include <vector>
+#include <cstring>
 
 
 namespace jub {
@@ -151,9 +155,7 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
 
     std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
-
-    std::vector<JUB_BYTE> vChainID;
-    vChainID.push_back(_chainID);
+    auto vChainID = TW::encodeBENoZero(_chainID);
 
     int erc = token::JUB_ENUM_APDU_ERC_ETH::ERC_INVALID;
     if (0 == memcmp(uchar_vector(vInput).getHex().c_str(),
@@ -241,8 +243,7 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
     std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    std::vector<JUB_BYTE> vChainID;
-    vChainID.push_back(_chainID);
+    auto vChainID = TW::encodeBENoZero(_chainID);
 
     int erc = token::JUB_ENUM_APDU_ERC_ETH::ERC_INVALID;
     if (0 == memcmp(uchar_vector(vInput).getHex().c_str(),
@@ -336,8 +337,7 @@ JUB_RV ETHContext::SignTransaction(const BIP44_Path& path,
     std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    std::vector<JUB_BYTE> vChainID;
-    vChainID.push_back(_chainID);
+    auto vChainID = TW::encodeBENoZero(_chainID);
 
     int erc = token::JUB_ENUM_APDU_ERC_ETH::ERC_INVALID;
     if (0 == memcmp(uchar_vector(vData).getHex().c_str(),
@@ -426,8 +426,7 @@ JUB_RV ETHContext::SignContract(const BIP44_Path& path,
     std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    std::vector<JUB_BYTE> vChainID;
-    vChainID.push_back(_chainID);
+    auto vChainID = TW::encodeBENoZero(_chainID);
 
     // parse input
     JUB_BYTE inputType = (JUB_BYTE)jub::eth::ENUM_CONTRACT_ABI::CREATE_CONTRACT;
@@ -629,8 +628,7 @@ JUB_RV ETHContext::SignBytestring(const BIP44_Path& path,
     std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    std::vector<JUB_BYTE> vChainID;
-    vChainID.push_back(_chainID);
+    auto vChainID = TW::encodeBENoZero(_chainID);
 
     uchar_vector vSignature;
     JUB_VERIFY_RV(token->SignBytestring(vData,
@@ -668,8 +666,7 @@ JUB_RV ETHContext::SignTypedData(const JUB_BBOOL bMetamaskV4Compat,
     std::string strPath = _FullBip44Path(path);
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
-    std::vector<JUB_BYTE> vChainID;
-    vChainID.push_back(_chainID);
+    auto vChainID = TW::encodeBENoZero(_chainID);
 
     uchar_vector vSignature;
     JUB_VERIFY_RV(token->SignTypedData(bMetamaskV4Compat,

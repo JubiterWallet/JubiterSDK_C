@@ -20,7 +20,7 @@ extern "C" {
 //typedef struct stContextCfgETH : stContextCfg {
 typedef struct stContextCfgETH {
     JUB_CHAR_PTR            mainPath;
-    int                 chainID;
+    JUB_UINT32              chainID;
 //
 //    stContextCfgETH();
 //    virtual ~stContextCfgETH() {}
