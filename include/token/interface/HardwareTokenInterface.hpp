@@ -15,6 +15,19 @@ namespace jub {
 namespace token {
 
 
+// Remove c++ features for swift framework
+typedef struct stAppletInfo {
+    std::string name;
+    std::string Id;
+    std::string symbol;
+    std::string version;
+//
+//     stAppletInfo();
+//    ~stAppletInfo() = default;
+} JUB_APPLET_INFO;
+typedef JUB_APPLET_INFO* JUB_APPLET_INFO_PTR;
+// Remove c++ features for swift framework end
+
 class HardwareTokenInterface :
 virtual public BaseToken {
 public:
@@ -37,6 +50,7 @@ public:
     virtual JUB_RV GetBleVersion(JUB_BYTE bleVersion[4]) = 0;
     virtual JUB_RV GetFwVersion(JUB_BYTE fwVersion[4]) = 0;
     virtual JUB_RV EnumApplet(std::string& appletList) = 0;
+    virtual JUB_RV EnumAppletInfo(std::string& appletInfoListInJSON) = 0;
     virtual JUB_RV GetAppletVersion(const std::string& appID, stVersion& version) = 0;
     virtual JUB_RV EnumSupportCoins(std::string& coinList) = 0;
     virtual JUB_RV GetDeviceCert(std::string& cert) = 0;
@@ -89,6 +103,7 @@ public:
 
 protected:
     virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length, uchar_vector& version) = 0;
+    virtual JUB_RV _EnumAppletInfo(std::vector<JUB_APPLET_INFO>& appletInfoList) = 0;
 }; // class HardwareTokenInterface end
 
 

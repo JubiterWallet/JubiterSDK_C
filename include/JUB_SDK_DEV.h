@@ -245,6 +245,16 @@ JUB_RV JUB_EnumApplets(IN JUB_UINT16 deviceID,
                        OUT JUB_CHAR_PTR_PTR appList);
 
 /*****************************************************************************
+ * @function name : JUB_EnumAppletInfo
+ * @in  param : deviceID - device ID
+ * @out param : appInfoListInJSON - applet info list
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_EnumAppletInfo(IN JUB_UINT16 deviceID,
+                          OUT JUB_CHAR_PTR_PTR appInfoListInJSON);
+
+/*****************************************************************************
  * @function name : JUB_EnumSupportCoins
  * @in  param : deviceID - device ID
  * @out param : coinsList - coin list

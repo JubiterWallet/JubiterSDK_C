@@ -549,6 +549,30 @@ int hdnode_get_ethereum_pubkeyhash(const HDNode *node, uint8_t *pubkeyhash)
     return pubkey_get_ethereum_pubkeyhash(buf, 65, pubkeyhash);
 }
 
+// JuBiter-defined
+int hdnode_get_tron_pubkeyhash(const HDNode *node, uint8_t *pubkeyhash) {
+  uint8_t buf[65] = {
+      0,
+  };
+  SHA3_CTX ctx;// = {0};
+
+  /* get uncompressed public key */
+  if (1 != ecdsa_uncompress_pubkey(&secp256k1, node->public_key, buf)) {
+    return 0;
+  }
+
+  /* compute sha3 of x and y coordinate without 04 prefix */
+  keccak_256_Init(&ctx);
+  keccak_Update(&ctx, buf + 1, 64);
+  keccak_Final(&ctx, buf);
+
+  /* result are the least significant 160 bits */
+  pubkeyhash[0] = 0x41;
+  memcpy(pubkeyhash + 1, buf + 12, 20);
+
+  return 1;
+}
+
 int hdnode_get_nem_address(HDNode *node, uint8_t version, char *address) {
 	if (node->curve != &ed25519_keccak_info) {
 		return 0;

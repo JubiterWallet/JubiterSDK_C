@@ -83,6 +83,8 @@ void hdnode_fill_public_key(HDNode *node);
 int pubkey_get_ethereum_pubkeyhash(const uint8_t *uncompressed_pubkey, size_t uncompressed_pubkey_len, uint8_t *pubkeyhash);
 // JuBiter-modified
 int hdnode_get_ethereum_pubkeyhash(const HDNode *node, uint8_t *pubkeyhash);
+// JuBiter-defined
+int hdnode_get_tron_pubkeyhash(const HDNode *node, uint8_t *pubkeyhash);
 
 int hdnode_get_nem_address(HDNode *node, uint8_t version, char *address);
 int hdnode_get_nem_shared_key(const HDNode *node, const ed25519_public_key peer_public_key, const uint8_t *salt, ed25519_public_key mul, uint8_t *shared_key);

@@ -20,6 +20,7 @@ Function list:
 * [JUB_IsInitialize](#JUB_IsInitialize)
 * [JUB_IsBootLoader](#JUB_IsBootLoader)
 * [JUB_EnumApplets](#JUB_EnumApplets)
+* [JUB_EnumAppletInfo](#JUB_EnumAppletInfo)
 * [JUB_EnumSupportCoins](#JUB_EnumSupportCoins)
 * [JUB_GetAppletVersion](#JUB_GetAppletVersion)
 * **Common module**
@@ -155,6 +156,20 @@ appList - applet ID list in blank separated.
 JUB_RV JUB_EnumApplets(
     IN JUB_UINT16 deviceID,
     OUT JUB_CHAR_PTR_PTR appList
+);
+```
+
+### JUB_EnumAppletInfo
+* **Function:** Enumerates has been installed applets on device.
+* **IN param:**
+deviceID - device ID from JUB_connectDevice/JUB_connectNFCDevice.
+* **OUT param:**
+appInfoListInJSON - applet Info list in JSON.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_EnumAppletInfo(
+    IN JUB_UINT16 deviceID,
+    OUT JUB_CHAR_PTR_PTR appInfoListInJSON
 );
 ```
 

@@ -581,6 +581,119 @@ JUB_RV JubiterBladeToken::EnumApplet(std::string& appletList) {
 }
 
 
+nlohmann::json JubiterBladeToken::_SerializeAppletInfo(const JUB_APPLET_INFO& appletInfo) {
+
+    nlohmann::json obj;
+    obj["applet_id"] = appletInfo.Id;
+    obj["applet_name"] = appletInfo.name;
+    obj["applet_version"] = appletInfo.version;
+    obj["coin_name"] = appletInfo.symbol;
+
+    return obj;
+}
+
+
+JUB_RV JubiterBladeToken::_EncodeAppletInfoInJSON(const std::vector<JUB_APPLET_INFO>& appletInfoList, std::string& appletInfoListInJSON) {
+
+    JUB_RV rv = JUBR_OK;
+
+    nlohmann::json jsonAppletInfoList = nlohmann::json::array();
+    for (JUB_UINT16 i=0; i<appletInfoList.size(); ++i) {
+        jsonAppletInfoList.push_back(_SerializeAppletInfo(appletInfoList[i]));
+    }
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+    appletInfoListInJSON = jsonAppletInfoList.dump();
+
+    return rv;
+}
+
+
+JUB_RV JubiterBladeToken::EnumAppletInfo(std::string& appletInfoListInJSON) {
+    std::vector<JUB_APPLET_INFO> appletInfoList;
+    JUB_VERIFY_RV(_EnumAppletInfo(appletInfoList));
+    JUB_VERIFY_RV(_EncodeAppletInfoInJSON(appletInfoList, appletInfoListInJSON));
+    return JUBR_OK;
+}
+
+
+JUB_RV JubiterBladeToken::_AppletId2AppletName(const TW::Data& Id, std::string& name) {
+
+    JUB_RV rv = JUBR_OK;
+
+    if (TW::Data(uchar_vector(kPKIAID_BTC, sizeof(kPKIAID_BTC))) == Id) {
+        name = std::string("BTC");
+    }
+    else if (TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH))) == Id) {
+        name = std::string("ETH");
+    }
+    else if (TW::Data(uchar_vector(kPKIAID_MISC, sizeof(kPKIAID_MISC))) == Id) {
+        name = std::string("MISC");
+    }
+    else {
+        name = std::string("");
+        rv = JUBR_ARGUMENTS_BAD;
+    }
+
+    return rv;
+}
+
+
+JUB_RV JubiterBladeToken::_EnumAppletInfo(std::vector<JUB_APPLET_INFO>& appletInfoList) {
+
+    JUB_RV rv = JUBR_OK;
+
+    // get applet list
+    std::string appletList;
+    JUB_VERIFY_RV(EnumApplet(appletList));
+
+    std::vector<std::string> coinNameList;
+    auto vAppList = Split(appletList, " ");
+
+    // get applet version
+    std::map<std::string, std::string> appletMap;
+    for (auto appID : vAppList) {
+        stVersionExp version;
+        rv = GetAppletVersion(appID, version);
+        if (JUBR_OK != rv) {
+            break;
+        }
+
+        appletMap[appID] = stVersionExp::ToString(version);
+    }
+    if (JUBR_OK != rv) {
+        return rv;
+    }
+
+    // applet info list
+    for (auto appInfo : JubiterBladeToken::g_appInfo) {
+        JUB_APPLET_INFO appletInfo;
+
+        for (auto appID : appletMap) {
+            TW::Data hex = TW::parse_hex(appID.first);
+            if (hex == appInfo.appID) {
+                rv = _AppletId2AppletName(hex, appletInfo.name);
+                if (JUBR_OK != rv) {
+                    break;
+                }
+                appletInfo.Id = appID.first;
+
+                appletInfo.version = appID.second;
+
+                appletInfo.symbol = appInfo.coinName;
+                appletInfoList.insert(appletInfoList.end(), appletInfo);
+            }
+        }
+        if (JUBR_OK != rv) {
+            break;
+        }
+    }
+
+    return rv;
+}
+
+
 JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, stVersion& version) {
 
     uchar_vector id(appID);

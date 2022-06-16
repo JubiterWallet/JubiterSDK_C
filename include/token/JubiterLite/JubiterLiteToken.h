@@ -70,6 +70,8 @@ public:
 
 protected:
     virtual JUB_RV _SelectApp(const JUB_BYTE PKIAID[], JUB_BYTE length) override;
+    virtual JUB_RV _EnumAppletInfo(std::vector<JUB_APPLET_INFO>& appletInfoList) override;
+    virtual JUB_RV _AppletId2AppletName(const TW::Data& Id, std::string& name) override;
 
     virtual bool _isOpenSecureChannel();
 
