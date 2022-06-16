@@ -554,7 +554,7 @@ int hdnode_get_tron_pubkeyhash(const HDNode *node, uint8_t *pubkeyhash) {
   uint8_t buf[65] = {
       0,
   };
-  SHA3_CTX ctx = {0};
+  SHA3_CTX ctx;// = {0};
 
   /* get uncompressed public key */
   if (1 != ecdsa_uncompress_pubkey(&secp256k1, node->public_key, buf)) {
