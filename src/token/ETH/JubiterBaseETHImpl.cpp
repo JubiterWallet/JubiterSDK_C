@@ -70,7 +70,8 @@ JUB_RV JubiterBaseETHImpl::VerifyTypedData(const bool& bMetamaskV4Compat,
 
     return (true == TW::Ethereum::Signer::verify(TW::PublicKey(publicKey, _publicKeyType),
                                                  typedDataInJSON,
-                                                 vSignature) ? JUBR_OK : JUBR_VERIFY_SIGN_FAILED);
+                                                 vSignature,
+                                                 bMetamaskV4Compat) ? JUBR_OK : JUBR_VERIFY_SIGN_FAILED);
 }
 
 

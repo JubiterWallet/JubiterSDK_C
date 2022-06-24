@@ -17,12 +17,13 @@ namespace eth {
 typedef enum _EthereumDataType {
     EthereumDataType_UINT   = 1,
     EthereumDataType_INT    = 2,
-    EthereumDataType_BYTES  = 3,
+    EthereumDataType_BYTES  = 3,    // handles 'bytes'
     EthereumDataType_STRING = 4,
     EthereumDataType_BOOL   = 5,
     EthereumDataType_ADDRESS = 6,
     EthereumDataType_ARRAY  = 7,
-    EthereumDataType_STRUCT = 8
+    EthereumDataType_STRUCT = 8,
+    EthereumDataType_BYTESX = 9     // handles 'bytes0' ~ 'bytes32'
 } EthereumDataType;
 
 struct EIP712 {
