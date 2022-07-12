@@ -167,8 +167,9 @@ class TransactionTypedData: public TransactionBase {
 public:
     bool bMetamaskV4Compat;
     // Reuse base class payload as data in JSON to be signed (JSON data)
-    TransactionTypedData(const std::string& dataInJSON, const bool bMetamaskV4Compat=true)
-    : TransactionBase({}, Data(dataInJSON.begin(), dataInJSON.end())) {}
+    TransactionTypedData(const std::string &dataInJSON, const bool bMetamaskV4Compat=true)
+        : bMetamaskV4Compat(bMetamaskV4Compat)
+        , TransactionBase({}, Data(dataInJSON.begin(), dataInJSON.end())) {}
 
     virtual Data preHash() const;
 protected:

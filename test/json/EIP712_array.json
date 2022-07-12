@@ -1,31 +1,103 @@
 {
+    "primaryType": "Order",
+    "message": {
+        "expirationTimeSeconds": "1655632360",
+        "feeRecipientAddress": "0xF715bEb51EC8F63317d66f491E37e7BB048fCc2d",
+        "takerAssetAmount": "1000000000000000000",
+        "takerFee": "0",
+        "makerFee": "25000000000000000",
+        "takerAddress": "0x0000000000000000000000000000000000000000",
+        "salt": "6747040263503161",
+        "takerFeeAssetData": "0x",
+        "makerFeeAssetData": "0xf47261b00000000000000000000000007ceb23fd6bc0add59e62ac25578270cff1b9f619",
+        "makerAddress": "0xFd80c819c71FbD4916E51CEae55bD55C3F5133eB",
+        "senderAddress": "0xF715bEb51EC8F63317d66f491E37e7BB048fCc2d",
+        "makerAssetData": "0xa7cb5fb70000000000000000000000002953399124f0cbb46d2cbacd8a89cf0599974963000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000001fd80c819c71fbd4916e51ceae55bd55c3f5133eb0000000000000600000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "makerAssetAmount": "1",
+        "takerAssetData": "0xf47261b00000000000000000000000007ceb23fd6bc0add59e62ac25578270cff1b9f619"
+    },
     "types": {
+        "Order": [
+            {
+                "name": "makerAddress",
+                "type": "address"
+            },
+            {
+                "name": "takerAddress",
+                "type": "address"
+            },
+            {
+                "name": "feeRecipientAddress",
+                "type": "address"
+            },
+            {
+                "name": "senderAddress",
+                "type": "address"
+            },
+            {
+                "name": "makerAssetAmount",
+                "type": "uint256"
+            },
+            {
+                "name": "takerAssetAmount",
+                "type": "uint256"
+            },
+            {
+                "name": "makerFee",
+                "type": "uint256"
+            },
+            {
+                "name": "takerFee",
+                "type": "uint256"
+            },
+            {
+                "name": "expirationTimeSeconds",
+                "type": "uint256"
+            },
+            {
+                "name": "salt",
+                "type": "uint256"
+            },
+            {
+                "name": "makerAssetData",
+                "type": "bytes"
+            },
+            {
+                "name": "takerAssetData",
+                "type": "bytes"
+            },
+            {
+                "name": "makerFeeAssetData",
+                "type": "bytes"
+            },
+            {
+                "name": "takerFeeAssetData",
+                "type": "bytes"
+            }
+        ],
         "EIP712Domain": [
-            {"name": "name", "type": "string"},
-            {"name": "version", "type": "string"},
-            {"name": "chainId", "type": "uint256"},
-            {"name": "verifyingContract", "type": "address"}
-        ],
-        "Person": [
-            {"name": "name", "type": "string"},
-            {"name": "wallet", "type": "address"}
-        ],
-        "Mail": [
-            {"name": "from", "type": "Person"},
-            {"name": "to", "type": "Person[]"},
-            {"name": "contents", "type": "string"}
+            {
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "name": "version",
+                "type": "string"
+            },
+            {
+                "name": "chainId",
+                "type": "uint256"
+            },
+            {
+                "name": "verifyingContract",
+                "type": "address"
+            }
         ]
     },
-    "primaryType": "Mail",
     "domain": {
-        "name": "Ether Mail",
-        "version": "1",
-        "chainId": 1,
-        "verifyingContract": "0x1e0Ae8205e9726E6F296ab8869160A6423E2337E"
-    },
-    "message": {
-        "from": {"name": "Cow", "wallet": "0xc0004B62C5A39a728e4Af5bee0c6B4a4E54b15ad"},
-        "to": [{"name": "Bob", "wallet": "0x54B0Fa66A065748C40dCA2C7Fe125A2028CF9982"},{"name": "Bob2", "wallet": "0x54B0Fa66A065748C40dCA2C7Fe125A2028CF9982"}],
-        "contents": "Hello, Bob!"
+        "chainId": "137",
+        "name": "0x Protocol",
+        "verifyingContract": "0xfede379e48C873C75F3cc0C81F7C784aD730a8F7",
+        "version": "3.0.0"
     }
 }
