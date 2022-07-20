@@ -85,12 +85,12 @@ extern "C" {
 
 // Remove c++ features for swift framework
 typedef struct stDevicdInfo {
-    JUB_CHAR label[32];
-    JUB_CHAR sn[24];
+    JUB_CHAR label[33];
+    JUB_CHAR sn[25];
     JUB_UINT16 pinRetry;
     JUB_UINT16 pinMaxRetry;
-    JUB_CHAR bleVersion[4];
-    JUB_CHAR firmwareVersion[4];
+    JUB_CHAR bleVersion[5];
+    JUB_CHAR firmwareVersion[5];
 //
 //     stDevicdInfo();
 //    ~stDevicdInfo() = default;

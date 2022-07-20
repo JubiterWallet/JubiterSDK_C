@@ -16,6 +16,8 @@
 
 #include "context/BaseContext.h"
 #include "product/ProductFactory.h"
+#include <string>
+#include <cstring>
 
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
@@ -79,12 +81,12 @@ JUB_RV JUB_GetDeviceInfo(IN JUB_UINT16 deviceID,
     // to get the data back
     JUB_VERIFY_RV(token->SelectMainSecurityDomain());
 
-    JUB_BYTE sn[24] = {0,};
-    JUB_BYTE label[32] = {0,};
+    JUB_BYTE sn[25] = {0,};
+    JUB_BYTE label[33] = {0,};
     JUB_BYTE retry = 0;
     JUB_BYTE maxRetry = 0;
-    JUB_BYTE bleVersion[4] = {0,};
-    JUB_BYTE fwVersion[4] = {0,};
+    JUB_BYTE bleVersion[5] = {0,};
+    JUB_BYTE fwVersion[5] = {0,};
 
     JUB_VERIFY_RV(token->GetPinRetry(retry));
     JUB_VERIFY_RV(token->GetPinMaxRetry(maxRetry));
