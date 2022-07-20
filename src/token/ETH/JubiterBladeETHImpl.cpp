@@ -835,18 +835,21 @@ JUB_RV JubiterBladeETHImpl::SignTypedData(const bool &bMetamaskV4Compat, const s
     }
 
     if (!jub::eth::EIP712::parseJSON(typedData)) {
+        jub::eth::EIP712::clearJSON();
         return JUBR_DATA_INVALID;
     }
 
     TW::Data domainSeparator =
         jub::eth::EIP712::typed_data_envelope("EIP712Domain", typedData["domain"], bMetamaskV4Compat);
     if (domainSeparator.empty()) {
+        jub::eth::EIP712::clearJSON();
         return JUBR_DATA_INVALID;
     }
 
     TW::Data hashStructMessage = jub::eth::EIP712::typed_data_envelope(
         typedData["primaryType"].get<std::string>().c_str(), typedData["message"], bMetamaskV4Compat);
     if (hashStructMessage.empty()) {
+        jub::eth::EIP712::clearJSON();
         return JUBR_DATA_INVALID;
     }
 
@@ -893,9 +896,11 @@ JUB_RV JubiterBladeETHImpl::SignTypedData(const bool &bMetamaskV4Compat, const s
     JUB_ULONG ulRetDataLen = sizeof(retData) / sizeof(JUB_BYTE);
     JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
     if (0x6f09 == ret) {
+        jub::eth::EIP712::clearJSON();
         return JUBR_USER_CANCEL;
     }
     if (0x9000 != ret) {
+        jub::eth::EIP712::clearJSON();
         return JUBR_TRANSMIT_DEVICE_ERROR;
     }
 
@@ -906,6 +911,8 @@ JUB_RV JubiterBladeETHImpl::SignTypedData(const bool &bMetamaskV4Compat, const s
         {retData + 64, retData + 65}, // v
     };
     signatureRaw = tx.encoded(sig);
+
+    jub::eth::EIP712::clearJSON();
     return JUBR_OK;
 }
 

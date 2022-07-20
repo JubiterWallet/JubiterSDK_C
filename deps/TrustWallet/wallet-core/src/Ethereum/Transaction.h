@@ -62,7 +62,10 @@ class TransactionBase {
   public:
     //    TransactionBase(const uint256_t& nonce, const Data& payload): nonce(nonce), payload(payload) {}
     TransactionBase(const Data &nonce, const Data &payload) : nonce(nonce), payload(payload) {}
-    virtual ~TransactionBase() {}
+    virtual ~TransactionBase() {
+        nonce.clear();
+        payload.clear();
+    }
     // JuBiter-modified
     // pre-sign hash of the tx, for signing
     //    virtual Data preHash(const uint256_t chainID) const = 0;
@@ -119,6 +122,11 @@ class TransactionNonTyped : public TransactionBase {
                         const Data &amount, const Data &payload = {})
         : TransactionBase(nonce, payload), gasPrice(std::move(gasPrice)), gasLimit(std::move(gasLimit)),
           to(std::move(to)), amount(std::move(amount)) {}
+    virtual ~TransactionNonTyped() {
+        gasPrice.clear();
+        gasLimit.clear();
+        amount.clear();
+    }
 
     // JuBiter-defined
     bool isValid() const {
@@ -191,6 +199,10 @@ class TransactionTyped : public TransactionBase {
     TransactionTyped(TransactionType type, const Data &nonce, const Data &payload,
                      const std::string &accessListInJSON = "")
         : TransactionBase(nonce, payload), type(type), accessList(accessListFromJson(accessListInJSON)) {}
+    virtual ~TransactionTyped() {
+        accessList.clear();
+    }
+
     virtual bool usesReplayProtection() const override { return false; }
 
   protected:
@@ -244,6 +256,11 @@ class TransactionOptionalAccessList : public TransactionTyped {
                                   const std::string &accessListInJSON = "")
         : TransactionTyped(TxType_OptionalAccessList, nonce, payload, accessListInJSON), gasPrice(std::move(gasPrice)),
           gasLimit(std::move(gasLimit)), to(std::move(to)), amount(std::move(amount)) {}
+    virtual ~TransactionOptionalAccessList() {
+        gasPrice.clear();
+        gasLimit.clear();
+        amount.clear();
+    }
 
     bool isValid() const {
         if (0 == nonce.size() || 0 == gasPrice.size() || 0 == gasLimit.size() || !Address::isValid(to.string())
@@ -296,6 +313,12 @@ class TransactionEip1559 : public TransactionTyped {
         : TransactionTyped(TxType_Eip1559, nonce, payload, accessListInJSON),
           maxInclusionFeePerGas(std::move(maxInclusionFeePerGas)), maxFeePerGas(std::move(maxFeePerGas)),
           gasLimit(std::move(gasLimit)), to(std::move(to)), amount(std::move(amount)) {}
+    virtual ~TransactionEip1559() {
+        maxInclusionFeePerGas.clear();
+        maxFeePerGas.clear();
+        gasLimit.clear();
+        amount.clear();
+    }
 
     // JuBiter-defined
     bool isValid() const {

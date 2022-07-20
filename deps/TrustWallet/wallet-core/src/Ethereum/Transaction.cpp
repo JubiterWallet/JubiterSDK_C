@@ -216,17 +216,20 @@ Data TransactionTypedData::serialize() const {
     }
 
     if (!jub::eth::EIP712::parseJSON(typedData)) {
+        jub::eth::EIP712::clearJSON();
         return {};
     }
 
     Data domainSeparator =
         jub::eth::EIP712::typed_data_envelope("EIP712Domain", typedData["domain"], bMetamaskV4Compat);
     if (domainSeparator.empty()) {
+        jub::eth::EIP712::clearJSON();
         return {};
     }
 
     Data hashStructMessage = jub::eth::EIP712::typed_data_envelope(typedData["primaryType"].get<std::string>().c_str(),
                                                                    typedData["message"], bMetamaskV4Compat);
+    jub::eth::EIP712::clearJSON();
     if (hashStructMessage.empty()) {
         return {};
     }
