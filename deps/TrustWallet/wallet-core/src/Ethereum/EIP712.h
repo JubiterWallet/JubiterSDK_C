@@ -31,6 +31,7 @@ public:
     virtual ~EIP712();
 
     static bool parseJSON(const nlohmann::json& root);
+    static bool clearJSON();
 
     static bool hash(const unsigned char* d, size_t d_len, unsigned char hash_type[sha3_256_hash_size]);
     static std::vector<uint8_t> hash(const unsigned char* d, size_t d_len);

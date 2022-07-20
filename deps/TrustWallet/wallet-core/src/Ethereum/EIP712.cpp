@@ -37,6 +37,12 @@ bool EIP712::parseJSON(const nlohmann::json& root) {
 }
 
 
+bool EIP712::clearJSON() {
+    mapType.clear();
+    return true;
+}
+
+
 bool EIP712::hash(const unsigned char* d, size_t d_len, unsigned char hash_type[sha3_256_hash_size]) {
 
     keccak_256(d, d_len, hash_type);
