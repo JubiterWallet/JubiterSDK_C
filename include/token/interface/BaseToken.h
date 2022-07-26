@@ -110,6 +110,10 @@ protected:
         return JUBR_OK;
     }
 
+    virtual JUB_RV _getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string& derivPrv, std::string& derivPub, const std::string path, JUB_ENUM_CURVES curve) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
     TWCoinType _coin;
     char *_curve_name = (char*)SECP256K1_NAME;
     TWPublicKeyType _publicKeyType = TWPublicKeyType::TWPublicKeyTypeSECP256k1;

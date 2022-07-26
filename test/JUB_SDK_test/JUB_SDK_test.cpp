@@ -18,6 +18,9 @@
 #include "JUB_SDK_test_trx.hpp"
 #include "JUB_SDK_test_fil.hpp"
 #include "JUB_SDK_test_ckb.hpp"
+#include "JUB_SDK_test_dot.hpp"
+#include "JUB_SDK_test_ksm.hpp"
+#include "JUB_SDK_test_sol.hpp"
 #include "../../include/JUB_CORE.h"
 
 #include "JUB_SDK_main.h"
@@ -247,6 +250,12 @@ try {
         cout << "| 194.   EOS_test.                        |" << endl;
         cout << "| 195.   TRX_test.                        |" << endl;
         cout << "|                                         |" << endl;
+        cout << "| 354.   DOT_test.                        |" << endl;
+        cout << "| 434.   KSM_test.                        |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "| 501.   SOL_test.                        |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
         cout << "|  98.  send_apdu_test.                   |" << endl;
         cout << "|  99.   get_version.                     |" << endl;
@@ -354,6 +363,19 @@ try {
         case 195:
             json_file += "testTRX.json";
             TRX_test(deviceID, json_file.c_str());
+            break;
+        case 354:
+            json_file += "testDOT.json";
+            DOT_test(deviceID, json_file.c_str());
+            break;
+        case 434:
+            json_file += "testKSM.json";
+            KSM_test(deviceID, json_file.c_str());
+            break;
+
+        case 501:
+            json_file += "testSOL.json";
+            SOL_test(deviceID, json_file.c_str());
             break;
 
         case 98:

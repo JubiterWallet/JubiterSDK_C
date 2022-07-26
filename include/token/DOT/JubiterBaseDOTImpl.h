@@ -23,7 +23,7 @@ public:
 protected:
     virtual JUB_RV _getChainCodeFromPolkadptPath(std::string pathStr,std::string& chainCode);
     virtual JUB_RV _getSr25519KeypairFromMasterKp(const std::string kp, std::string& derivPrv, std::string& derivPub, const std::string path, JUB_ENUM_CURVES curve);
-    virtual JUB_RV _getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string& derivPrv, std::string& derivPub, const std::string path, JUB_ENUM_CURVES curve);
+    virtual JUB_RV _getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string& derivPrv, std::string& derivPub, const std::string path, JUB_ENUM_CURVES curve) override;
     virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address, const TWCoinType &coinNet);
 }; // class JubiterBaseDOTImpl end
 

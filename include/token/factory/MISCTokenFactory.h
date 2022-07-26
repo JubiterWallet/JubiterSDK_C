@@ -21,6 +21,7 @@
 #include "token/interface/EOSTokenInterface.hpp"
 #include "token/interface/XRPTokenInterface.hpp"
 #include "token/interface/TRXTokenInterface.hpp"
+#include "token/interface/SOLTokenInterface.hpp"
 
 #include "token/HC/JubiterBladeHCImpl.h"
 #include "token/ETH/JubiterBladeETHImpl.h"
@@ -28,6 +29,7 @@
 #include "token/XRP/JubiterBladeXRPImpl.h"
 #include "token/TRX/JubiterBladeTRXImpl.h"
 #include "token/DOT/JubiterBladeDOTImpl.h"
+#include "token/SOL/JubiterBladeSOLImpl.h"
 
 #include "token/HC/JubiterBIOHCImpl.h"
 #include "token/ETH/JubiterBIOETHImpl.h"
@@ -35,6 +37,7 @@
 #include "token/XRP/JubiterBIOXRPImpl.h"
 #include "token/TRX/JubiterBIOTRXImpl.h"
 #include "token/DOT/JubiterBIODOTImpl.h"
+#include "token/SOL/JubiterBIOSOLImpl.h"
 
 #include "token/HC/TrezorCryptoHCImpl.h"
 #include "token/ETH/TrezorCryptoETHImpl.h"
@@ -42,6 +45,7 @@
 #include "token/XRP/TrezorCryptoXRPImpl.h"
 #include "token/TRX/TrezorCryptoTRXImpl.h"
 #include "token/DOT/TrezorCryptoDOTImpl.h"
+#include "token/SOL/TrezorCryptoSOLImpl.h"
 
 #include "token/HC/JubiterLiteHCImpl.h"
 #include "token/ETH/JubiterLiteETHImpl.h"
@@ -49,6 +53,7 @@
 #include "token/XRP/JubiterLiteXRPImpl.h"
 #include "token/TRX/JubiterLiteTRXImpl.h"
 #include "token/DOT/JubiterLiteDOTImpl.h"
+#include "token/SOL/JubiterLiteSOLImpl.h"
 
 #include <TrustWalletCore/TWCoinType.h>
 
@@ -72,6 +77,7 @@ public:
         Register(TWCoinType::TWCoinTypeTron,        &TrezorCryptoToken::Create<TrezorCryptoTRXImpl>);
         Register(TWCoinType::TWCoinTypePolkadot,    &TrezorCryptoToken::Create<TrezorCryptoDOTImpl>);
         Register(TWCoinType::TWCoinTypeKusama,      &TrezorCryptoToken::Create<TrezorCryptoDOTImpl>);
+        Register(TWCoinType::TWCoinTypeSolana,      &TrezorCryptoToken::Create<TrezorCryptoSOLImpl>);
     }
 }; // class xTrezorCryptoMISCFactory end
 
@@ -88,6 +94,7 @@ public:
         Register(TWCoinType::TWCoinTypeTron,        &HardwareTokenInterface::Create<JubiterBladeTRXImpl>);
         Register(TWCoinType::TWCoinTypePolkadot,    &HardwareTokenInterface::Create<JubiterBladeDOTImpl>);
         Register(TWCoinType::TWCoinTypeKusama,      &HardwareTokenInterface::Create<JubiterBladeDOTImpl>);
+        Register(TWCoinType::TWCoinTypeSolana,      &HardwareTokenInterface::Create<JubiterBladeSOLImpl>);
     }
 }; // class xJuBiterBladeMISCFactory end
 
@@ -104,6 +111,7 @@ public:
         Register(TWCoinType::TWCoinTypeTron,        &HardwareTokenInterface::Create<JubiterBIOTRXImpl>);
         Register(TWCoinType::TWCoinTypePolkadot,    &HardwareTokenInterface::Create<JubiterBIODOTImpl>);
         Register(TWCoinType::TWCoinTypeKusama,      &HardwareTokenInterface::Create<JubiterBIODOTImpl>);
+        Register(TWCoinType::TWCoinTypeSolana,      &HardwareTokenInterface::Create<JubiterBIOSOLImpl>);
     }
 }; // class xJuBiterBIOMISCFactory end
 
@@ -121,6 +129,7 @@ public:
         Register(TWCoinType::TWCoinTypeTron,        &HardwareTokenInterface::Create<JubiterLiteTRXImpl>);
         Register(TWCoinType::TWCoinTypePolkadot,    &HardwareTokenInterface::Create<JubiterLiteDOTImpl>);
         Register(TWCoinType::TWCoinTypeKusama,      &HardwareTokenInterface::Create<JubiterLiteDOTImpl>);
+        Register(TWCoinType::TWCoinTypeSolana,      &HardwareTokenInterface::Create<JubiterLiteSOLImpl>);
     }
 }; // class xJuBiterLITEMISCFactory end
 

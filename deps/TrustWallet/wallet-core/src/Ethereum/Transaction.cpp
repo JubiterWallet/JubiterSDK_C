@@ -10,7 +10,6 @@
 #include "EIP712.h"
 #include "HexCoding.h"
 #include "RLP.h"
-#include "mSIGNA/stdutils/uchar_vector.h"
 #include <string>
 #include <vector>
 

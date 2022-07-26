@@ -1,0 +1,9 @@
+{
+  "main_path" : "m/44'/501'/0'",
+  "SOL": {
+      "bip32_path" : {
+          "change" : false,
+          "addressIndex" : 0
+      }
+  }
+}
