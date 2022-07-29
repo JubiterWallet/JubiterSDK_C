@@ -71,6 +71,7 @@ Function list:
     * [JUB_SetTRC721Token](#JUB_SetTRC721Token)
     * [JUB_BuildTRC721TransferAbi](#JUB_BuildTRC721TransferAbi)
     * [JUB_SignTransactionTRX](#JUB_SignTransactionTRX)
+    * [JUB_SignBytestringTRX](#JUB_SignBytestringTRX)
 
 ### JUB_CreateContextXXX
 * **Function:** Create context for the specified coin.
@@ -716,6 +717,24 @@ JUB_RV JUB_SignTransactionTRX(
     IN JUB_UINT16 contextID,
     IN BIP44_Path path,
     IN JUB_CHAR_CPTR packedContractInPb,
+    OUT JUB_CHAR_PTR_PTR rawInJSON
+);
+```
+
+### JUB_SignBytestringTRX
+* **Function:** Sign TRX bytestring(https://github.com/tronprotocol/tips/issues/104).
+* **IN param:**
+contextID - context ID from JUB_CreateContextTRX.
+path - path in BIP44.
+data - bytestring to be signed.
+* **OUT param:**
+rawInJSON - signed TRX bytestring in JSON.
+* **Return:** JUB_OK or !JUB_OK for error.
+```
+JUB_RV JUB_SignBytestringTRX(
+    IN JUB_UINT16 contextID,
+    IN BIP44_Path path,
+    IN JUB_CHAR_CPTR data,
     OUT JUB_CHAR_PTR_PTR rawInJSON
 );
 ```

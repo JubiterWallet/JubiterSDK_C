@@ -1,4 +1,4 @@
-// Copyright © 2017-2020 JuBiter.
+// Copyright © 2017-2022 JuBiter.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -130,4 +130,27 @@ private:
 };  // class TransactionRaw end
 
 
+// JuBiter-defined
+// https://github.com/tronprotocol/tips/issues/104
+class BytestringRaw {
+
+public:
+    BytestringRaw() {}
+    BytestringRaw(const Data& payload)
+        : payload(payload)
+    {}
+    ~BytestringRaw() {
+        clear();
+    }
+
+    void clear() {
+        payload.clear();
+    }
+
+    Data serialize() const;
+
+public:
+    // bytestring
+    Data payload;
+};  // class BytestringRaw end
 } // namespace TW::Tron

@@ -29,4 +29,7 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
                           std::string& packedContract,
                           int trc = TRC_20);
 
+void   bytestring_test_TRX(JUB_UINT16 contextID, Json::Value root);
+JUB_RV bytestring_proc_TRX(JUB_UINT16 contextID, Json::Value root);
+
 #endif /* JUB_SDK_test_trx_hpp */

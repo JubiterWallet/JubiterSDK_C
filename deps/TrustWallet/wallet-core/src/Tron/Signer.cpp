@@ -1,4 +1,4 @@
-// Copyright © 2017-2020 Trust Wallet.
+// Copyright © 2017-2022 Trust Wallet.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -301,4 +301,42 @@ Data Signer::hash(const Transaction& transaction) const noexcept {
 }
 
 
+// JuBiter-defined
+/// Signs the given bytestring.
+bool Signer::sign(const PrivateKey& privateKey, Bytestring& bytestring) const noexcept {
+
+    const auto h = hash(bytestring);
+
+    Data signature = privateKey.sign(h, TWCurveSECP256k1);
+    if (0 > signature.size()) {
+        return false;
+    }
+    bytestring.signature = signature;
+
+    return true;
+}
+
+
+// JuBiter-defined
+/// Verifies the given signature.
+bool Signer::verify(const PublicKey& publicKey, Bytestring& bytestring) const noexcept {
+    Bytestring tempBys(bytestring);
+    const auto serialized = tempBys.to_internal();
+    const auto h = hash(tempBys);
+
+    if (Address(publicKey.recover(bytestring.signature, h)).string() != Address(publicKey.extended()).string()) {
+        return false;
+    }
+
+    return true;
+}
+
+
+// JuBiter-defined
+/// Computes the transaction hash.
+Data Signer::hash(const Bytestring& bytestring) const noexcept {
+    Bytestring tempBys(bytestring);
+    const auto serialized = tempBys.to_internal();
+    return Hash::keccak256(&serialized[0], serialized.size());
+}
 } // namespace TW::Tron end

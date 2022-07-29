@@ -123,6 +123,13 @@ JUB_RV JubiterLiteTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
 }
 
 
+JUB_RV JubiterLiteTRXImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
+                                          const std::vector<JUB_BYTE>& vPath,
+                                          std::vector<uchar_vector>& vSignatureRaw) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 JUB_RV JubiterLiteTRXImpl::SetTRC20Token(const std::string& tokenName,
                                          const JUB_UINT16 unitDP,
                                          const std::string& contractAddress) {

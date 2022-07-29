@@ -327,6 +327,21 @@ JUB_RV JUB_SignTransactionTRX(IN JUB_UINT16 contextID,
 
 
 /*****************************************************************************
+ * @function name : JUB_SignBytestringTRX（https://github.com/tronprotocol/tips/issues/104）
+ * @in  param : contextID - context ID
+ *          : path
+ *          : data - message to be signed
+ * @out param : rawInJSON
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignBytestringTRX(IN JUB_UINT16 contextID,
+                             IN BIP44_Path path,
+                             IN JUB_CHAR_CPTR data,
+                             OUT JUB_CHAR_PTR_PTR rawInJSON);
+
+
+/*****************************************************************************
  * @function name : JUB_SetTRC10Asset
  * @in  param : contextID - context ID
  *          : assetName - TRX asset name

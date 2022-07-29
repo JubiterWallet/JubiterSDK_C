@@ -55,6 +55,8 @@ void TRX_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
         cout << "|                                     |" << endl;
         cout << "| 46. account_perm_update_contr_test. |" << endl;
         cout << "|                                     |" << endl;
+        cout << "|104. bytestring_test.                |" << endl;
+        cout << "|                                     |" << endl;
         cout << "| 3 . set_my_address_test.            |" << endl;
         cout << "| 4 . set_timeout_test.               |" << endl;
         cout << "|                                     |" << endl;
@@ -78,6 +80,9 @@ void TRX_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
         case 32:
         case 33:
             transaction_test_TRX(contextID, root, choice);
+            break;
+        case 104:
+            bytestring_test_TRX(contextID, root);
             break;
         case 9:
             JUB_ClearContext(contextID);
@@ -434,6 +439,46 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
         packedContract = packContractInPb;
     }
     cout << endl;
+
+    return rv;
+}
+
+
+// bytestring Test
+void bytestring_test_TRX(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = verify_pin(contextID);
+    if (JUBR_OK != rv) {
+        return;
+    }
+
+    rv = bytestring_proc_TRX(contextID, root);
+    if (JUBR_OK != rv) {
+        return;
+    }
+}
+
+
+JUB_RV bytestring_proc_TRX(JUB_UINT16 contextID, Json::Value root) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    BIP44_Path path;
+    path.change = (JUB_ENUM_BOOL)root["ETH"]["bip32_path"]["change"].asBool();
+    path.addressIndex = root["ETH"]["bip32_path"]["addressIndex"].asUInt();
+
+    // TRX Test
+    JUB_CHAR_PTR data = (JUB_CHAR_PTR)root["Bytestring"]["data"].asCString();
+
+    JUB_CHAR_PTR raw = nullptr;
+    rv = JUB_SignBytestringTRX(contextID, path, data, &raw);
+    cout << "[-] JUB_SignBytestringTRX() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return rv;
+    } else {
+        cout << "    raw[" << strlen(raw) / 2 << "]: " << raw << endl;
+        JUB_FreeMemory(raw);
+    }
 
     return rv;
 }

@@ -31,6 +31,7 @@ JUB_RV JubiterBladeTRXImpl::SelectApplet() {
     return JUBR_OK;
 }
 
+
 JUB_RV JubiterBladeTRXImpl::GetAppletVersion(stVersion &version) {
 
     uchar_vector appID(kPKIAID_MISC, sizeof(kPKIAID_MISC) / sizeof(JUB_BYTE));
@@ -38,6 +39,7 @@ JUB_RV JubiterBladeTRXImpl::GetAppletVersion(stVersion &version) {
 
     return JUBR_OK;
 }
+
 
 // MISC functions
 JUB_RV JubiterBladeTRXImpl::SetCoin() {
@@ -52,6 +54,7 @@ JUB_RV JubiterBladeTRXImpl::SetCoin() {
     return JUBR_ERROR;
 }
 
+
 JUB_RV JubiterBladeTRXImpl::GetAddress(const std::string &path, const JUB_UINT16 tag, std::string &address) {
 
     uchar_vector vPath;
@@ -65,6 +68,7 @@ JUB_RV JubiterBladeTRXImpl::GetAddress(const std::string &path, const JUB_UINT16
 
     return JUBR_OK;
 }
+
 
 JUB_RV JubiterBladeTRXImpl::GetHDNode(const JUB_BYTE format, const std::string &path, std::string &pubkey) {
 
@@ -94,6 +98,7 @@ JUB_RV JubiterBladeTRXImpl::GetHDNode(const JUB_BYTE format, const std::string &
 
     return JUBR_OK;
 }
+
 
 JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE> &vPath, const std::vector<JUB_BYTE> &vRaw,
                                    std::vector<uchar_vector> &vSignatureRaw) {
@@ -484,6 +489,14 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE> &vPath, const std
     return JUBR_OK;
 }
 
+
+JUB_RV JubiterBladeTRXImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
+                                           const std::vector<JUB_BYTE>& vPath,
+                                           std::vector<uchar_vector>& vSignatureRaw) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+
 JUB_RV JubiterBladeTRXImpl::SetTRC20Token(const std::string &tokenName, const JUB_UINT16 unitDP,
                                           const std::string &contractAddress) {
 
@@ -498,6 +511,7 @@ JUB_RV JubiterBladeTRXImpl::SetTRC20Token(const std::string &tokenName, const JU
     return JubiterBladeToken::SetERC20Token(tokenName.c_str(), unitDP, contractAddress.c_str());
 }
 
+
 JUB_RV JubiterBladeTRXImpl::SetTRC721Token(const std::string &tokenName, const std::string &contractAddress) {
 
     // TRC721 token extension apdu
@@ -510,5 +524,5 @@ JUB_RV JubiterBladeTRXImpl::SetTRC721Token(const std::string &tokenName, const s
 
     return JubiterBladeToken::SetERC721Token(tokenName.c_str(), contractAddress.c_str());
 }
-} // namespace token
-} // namespace jub
+} // namespace token end
+} // namespace jub end

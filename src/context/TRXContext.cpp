@@ -231,6 +231,55 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
 }
 
 
+JUB_RV TRXContext::SignBytestring(const BIP44_Path& path,
+                                  const JUB_CHAR_CPTR data,
+                                  OUT std::string& rawInJSON) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::TRXTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    JUB_CHECK_NULL(data);
+    auto vData = uchar_vector(data);
+
+    std::string strPath = _FullBip44Path(path);
+    std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
+
+    std::vector<uchar_vector> vSignatureRaw;
+    JUB_VERIFY_RV(token->SignBytestring(vData,
+                                        vPath,
+                                        vSignatureRaw));
+
+    // finish transaction
+    try {
+        TW::Tron::Bytestring bys(vData);
+        bys.signature = vSignatureRaw[0];
+
+#if defined(DEBUG)
+        //verify
+        std::string pubkey;
+        JUB_VERIFY_RV(token->GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
+
+        TW::Tron::Signer signer;
+        if (!signer.verify(TW::PublicKey(TW::Data(uchar_vector(pubkey)), TWPublicKeyType::TWPublicKeyTypeSECP256k1),
+                           bys)) {
+            return JUBR_VERIFY_SIGN_FAILED;
+        }
+#endif
+
+        rawInJSON = bys.serialize().dump();
+    }
+    catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+
+    return JUBR_OK;
+}
+
+
 JUB_RV TRXContext::BuildTRC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
 
     CONTEXT_CHECK_TYPE_NONE

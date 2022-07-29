@@ -14,6 +14,6 @@ namespace TW::Tron {
 
 
 nlohmann::json transactionJSON(const ::protocol::Transaction_raw& raw, const TW::Data& txID, const TW::Data& signature);
-
+nlohmann::json bytestringJSON(const TW::Data& raw, const TW::Data& signature);
 
 } // namespace TW::Tron end

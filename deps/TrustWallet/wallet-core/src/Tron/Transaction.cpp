@@ -1,4 +1,4 @@
-// Copyright © 2017-2020 JuBiter.
+// Copyright © 2017-2022 JuBiter.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -43,4 +43,14 @@ nlohmann::json Transaction::serialize() noexcept {
 }
 
 
+// JuBiter-defined
+Data Bytestring::to_internal() const {
+    return raw_data.serialize();
+}
+
+
+// JuBiter-defined
+nlohmann::json Bytestring::serialize() noexcept {
+    return bytestringJSON(raw_data.payload, signature);
+}
 } // namespace TW::Tron end

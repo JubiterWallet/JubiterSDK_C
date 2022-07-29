@@ -1,4 +1,4 @@
-// Copyright © 2017-2020 JuBiter.
+// Copyright © 2017-2022 JuBiter.
 //
 // This file is part of Trust. The full Trust copyright notice, including
 // terms governing use, modification, and redistribution, is contained in the
@@ -465,4 +465,19 @@ pb_varint TransactionRaw::getFeeLimit() const {
 }
 
 
+Data BytestringRaw::serialize() const {
+    auto encoded = Data();
+
+    // encode(b : 𝔹⁸ⁿ) = "\x19TRON Signed Message:\n" ‖ len(b) ‖ b where len(b) is the ascii-decimal encoding of the
+    // number of bytes in b.
+    std::string pr = "TRON Signed Message:\n";
+
+    encoded.push_back(0x19);
+    std::copy(pr.begin(), pr.end(), std::back_inserter(encoded));
+    auto sz = std::to_string(payload.size());
+    std::copy(sz.begin(), sz.end(), std::back_inserter(encoded));
+    std::copy(payload.begin(), payload.end(), std::back_inserter(encoded));
+
+    return encoded;
+}
 } // namespace TW::Tron end

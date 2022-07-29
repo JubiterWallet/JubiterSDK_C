@@ -1,5 +1,6 @@
 #include "token/TRX/TrezorCryptoTRXImpl.h"
 
+#include "HDKey/HDKey.hpp"
 #include "utility/util.h"
 
 //#include <HexCoding.h>
@@ -86,6 +87,7 @@ JUB_RV TrezorCryptoTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
         uchar_vector v(32);
         std::copy(std::begin(twprivk.bytes), std::end(twprivk.bytes), std::begin(v));
+
         TW::Tron::Signer signer;
         if (!signer.sign(twprivk,
                          tx)) {
@@ -93,6 +95,38 @@ JUB_RV TrezorCryptoTRXImpl::SignTX(const std::vector<JUB_BYTE>& vPath,
         }
 
         vSignatureRaw.push_back(tx.signature);
+    }
+    catch (...) {
+        return JUBR_ERROR_ARGS;
+    }
+
+    return JUBR_OK;
+}
+
+
+JUB_RV TrezorCryptoTRXImpl::SignBytestring(const std::vector<JUB_BYTE>& vData,
+                                           const std::vector<JUB_BYTE>& vPath,
+                                           std::vector<uchar_vector>& vSignatureRaw) {
+
+    try {
+        HDNode hdkey;
+        JUB_UINT32 parentFingerprint;
+        std::string path(&vPath[0], &vPath[0] + vPath.size());
+        JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
+
+        uchar_vector privk(hdkey.private_key, hdkey.private_key + 32);
+        TW::PrivateKey twprivk = TW::PrivateKey(TW::Data(privk));
+        uchar_vector v(32);
+        std::copy(std::begin(twprivk.bytes), std::end(twprivk.bytes), std::begin(v));
+
+        TW::Tron::Bytestring bys(vData);
+        TW::Tron::Signer signer;
+        if (!signer.sign(twprivk,
+                         bys)) {
+            return JUBR_ERROR;
+        }
+
+        vSignatureRaw.push_back(bys.signature);
     }
     catch (...) {
         return JUBR_ERROR_ARGS;

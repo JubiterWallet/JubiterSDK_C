@@ -284,4 +284,12 @@ json transactionJSON(const ::protocol::Transaction_raw& raw, const TW::Data& txI
 }
 
 
+// JuBiter-modified
+json bytestringJSON(const TW::Data& raw, const TW::Data& signature) {
+    json bytestringJSON;
+    bytestringJSON["message"] = hex(raw);
+    bytestringJSON["signature"] = json::array({ hex(signature) });
+
+    return bytestringJSON;
+}
 } // namespace TW::Tron end
