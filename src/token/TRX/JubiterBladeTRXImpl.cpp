@@ -503,7 +503,7 @@ JUB_RV JubiterBladeTRXImpl::SetTRC20Token(const std::string &tokenName, const JU
     // TRC20 token extension apdu
     if (typeid(JubiterBladeTRXImpl) == typeid(*this)) {
         if (JubiterBladeToken::_appletVersion <
-            stVersionExp::FromString(JubiterBladeToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+            stVersionExp::FromHex(JubiterBladeToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
             return JUBR_OK;
         }
     }
@@ -517,7 +517,7 @@ JUB_RV JubiterBladeTRXImpl::SetTRC721Token(const std::string &tokenName, const s
     // TRC721 token extension apdu
     if (typeid(JubiterBladeTRXImpl) == typeid(*this)) {
         if (JubiterBladeToken::_appletVersion <
-            stVersionExp::FromString(JubiterBladeToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+            stVersionExp::FromHex(JubiterBladeToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
             return JUBR_OK;
         }
     }

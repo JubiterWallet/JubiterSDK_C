@@ -5,6 +5,7 @@
 #include <TrezorCrypto/curves.h>
 #include <TrustWalletCore/TWCoinType.h>
 #include "mSIGNA/stdutils/uchar_vector.h"
+#include <TrustWallet/wallet-core/src/BinaryCoding.h>
 
 
 //extern struct stVersion;
@@ -46,7 +47,19 @@ struct stVersionExp : stVersion {
         return !(lhs < rhs);
     }
 
-    static stVersionExp FromString(const std::string& versionStr) {
+    friend bool operator!=(const stVersionExp& lhs, const stVersionExp& rhs) {
+        return !(lhs == rhs);
+    }
+
+    static stVersionExp zeroVersion() {
+        stVersionExp v;
+        v.major = 0;
+        v.minor = 0;
+        v.patch = 0;
+        return v;
+    }
+
+    static stVersionExp FromHex(const std::string& versionStr) {
         stVersionExp v;
         // versionStr is hex string of 4 bytes
         assert(versionStr.size() == 8);
@@ -65,6 +78,18 @@ struct stVersionExp : stVersion {
         }
 
         return v;
+    }
+
+    static std::string ToHex(const stVersionExp& version) {
+        std::string str = "";
+        uchar_vector versionBytes(4);
+        versionBytes[0] = version.major;
+        versionBytes[1] = version.minor;
+        uchar_vector vPatch;
+        TW::encode16BE(version.patch, vPatch);
+        memcpy(&versionBytes[2], &vPatch[0], vPatch.size());
+        str = versionBytes.getHex();
+        return str;
     }
 
     static std::string ToString(const stVersionExp& version) {

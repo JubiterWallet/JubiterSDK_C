@@ -20,7 +20,7 @@ JUB_RV JubiterBIOToken::_SelectApp(const JUB_BYTE PKIAID[], const JUB_BYTE lengt
 
     uchar_vector vVersion;
     JUB_VERIFY_RV(JubiterBladeToken::_SelectApp(PKIAID, length, vVersion));
-    JubiterBIOToken::_appletVersion = stVersionExp::FromString(vVersion.getHex());
+    JubiterBIOToken::_appletVersion = stVersionExp::FromHex(vVersion.getHex());
 
     return JUBR_OK;
 }
