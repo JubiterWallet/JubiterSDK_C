@@ -7,7 +7,6 @@
 #include "Signer.h"
 #include "BinaryCoding.h"
 #include "HexCoding.h"
-#include "mSIGNA/stdutils/uchar_vector.h"
 //#include "AnyAddress.h"
 #include <TrustWalletCore/TWCoinType.h>
 #include <cstdint>
