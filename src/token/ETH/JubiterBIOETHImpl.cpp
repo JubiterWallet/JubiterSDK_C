@@ -25,7 +25,7 @@ JUB_RV JubiterBIOETHImpl::SignTX(const int erc,
 
     // Remove subpackage sending APDU.
     // ETH token extension apdu
-    if (JubiterBIOToken::_appletVersion >= stVersionExp::FromString(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS)) {
+    if (JubiterBIOToken::_appletVersion >= stVersionExp::FromHex(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS)) {
         return _SignTXUpgrade(erc,
                               vNonce,
                               vGasPrice,
@@ -56,7 +56,7 @@ JUB_RV JubiterBIOETHImpl::SetERC20ETHTokens(const ERC20_TOKEN_INFO tokens[],
                                             const JUB_UINT16 iCount) {
 
     // ETH token extension apdu
-    if (JubiterBIOToken::_appletVersion >= stVersionExp::FromString(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS)) {
+    if (JubiterBIOToken::_appletVersion >= stVersionExp::FromHex(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKENS)) {
         return JubiterBladeETHImpl::SetERC20Tokens(tokens, iCount);
     }
     else if (1 == iCount) {
@@ -73,7 +73,7 @@ JUB_RV JubiterBIOETHImpl::SetERC20ETHToken(const std::string& tokenName,
 
     // ERC20 token extension apdu
     if (typeid(JubiterBIOETHImpl) == typeid(*this)) {
-        if (JubiterBIOToken::_appletVersion < stVersionExp::FromString(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+        if (JubiterBIOToken::_appletVersion < stVersionExp::FromHex(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
             return JUBR_OK;
         }
     }
@@ -86,7 +86,7 @@ JUB_RV JubiterBIOETHImpl::SetERC721ETHToken(const std::string& tokenName, const 
 
     // ERC20 token extension apdu
     if (typeid(JubiterBIOETHImpl) == typeid(*this)) {
-        if (JubiterBIOToken::_appletVersion < stVersionExp::FromString(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+        if (JubiterBIOToken::_appletVersion < stVersionExp::FromHex(JubiterBIOToken::ETH_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
             return JUBR_OK;
         }
     }

@@ -37,7 +37,7 @@ stAppInfos JubiterBladeToken::g_appInfo[] = {
     {
         TW::Data(uchar_vector(kPKIAID_ETH, sizeof(kPKIAID_ETH)/sizeof(JUB_BYTE))),
         "FIL",
-        "01010000"
+        "01080007"
     },
     // BTC index position fixed, start adding new apps below:
     {
@@ -325,7 +325,7 @@ JUB_RV JubiterBladeToken::_SelectApp(const JUB_BYTE PKIAID[], const JUB_BYTE len
 
     uchar_vector vVersion;
     JUB_VERIFY_RV(JubiterBladeToken::_SelectApp(PKIAID, length, vVersion));
-    JubiterBladeToken::_appletVersion = stVersionExp::FromString(vVersion.getHex());
+    JubiterBladeToken::_appletVersion = stVersionExp::FromHex(vVersion.getHex());
 
     return JUBR_OK;
 }
@@ -660,7 +660,7 @@ JUB_RV JubiterBladeToken::_EnumAppletInfo(std::vector<JUB_APPLET_INFO>& appletIn
             break;
         }
 
-        appletMap[appID] = stVersionExp::ToString(version);
+        appletMap[appID] = stVersionExp::ToHex(version);
     }
     if (JUBR_OK != rv) {
         return rv;
@@ -673,13 +673,19 @@ JUB_RV JubiterBladeToken::_EnumAppletInfo(std::vector<JUB_APPLET_INFO>& appletIn
         for (auto appID : appletMap) {
             TW::Data hex = TW::parse_hex(appID.first);
             if (hex == appInfo.appID) {
+                // compare the version
+                if (   stVersionExp::FromHex(appInfo.minimumAppletVersion)!= stVersionExp::zeroVersion()
+                    && stVersionExp::FromHex(appInfo.minimumAppletVersion) > stVersionExp::FromHex(appID.second)
+                    ) {
+                    continue;
+                }
                 rv = _AppletId2AppletName(hex, appletInfo.name);
                 if (JUBR_OK != rv) {
                     break;
                 }
                 appletInfo.Id = appID.first;
 
-                appletInfo.version = appID.second;
+                appletInfo.version = stVersionExp::ToString(stVersionExp::FromHex(appID.second));
 
                 appletInfo.symbol = appInfo.coinName;
                 appletInfoList.insert(appletInfoList.end(), appletInfo);
@@ -731,7 +737,7 @@ JUB_RV JubiterBladeToken::GetAppletVersion(const std::string& appID, stVersion& 
         vVersion = uchar_vector(&retData[4], 4);
     }
 
-    version = stVersionExp::FromString(vVersion.getHex());
+    version = stVersionExp::FromHex(vVersion.getHex());
 
     return JUBR_OK;
 }
@@ -761,7 +767,7 @@ JUB_RV JubiterBladeToken::EnumSupportCoins(std::string& coinList) {
             if (_appID.getHex() != appID) {
                 continue;
             }
-            if (stVersionExp::FromString(appInfo.minimumAppletVersion) > version) {
+            if (stVersionExp::FromHex(appInfo.minimumAppletVersion) > version) {
                 continue;
             }
             if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {

@@ -21,7 +21,7 @@ JUB_RV JubiterBIOTRXImpl::SetTRC20Token(const std::string& tokenName,
 
     // TRC20 token extension apdu
     if (typeid(JubiterBIOTRXImpl) == typeid(*this)) {
-        if (JubiterBIOToken::_appletVersion < stVersionExp::FromString(JubiterBIOToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+        if (JubiterBIOToken::_appletVersion < stVersionExp::FromHex(JubiterBIOToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
             return JUBR_OK;
         }
     }
@@ -35,7 +35,7 @@ JUB_RV JubiterBIOTRXImpl::SetTRC721Token(const std::string& tokenName,
 
     // TRC721 token extension apdu
     if (typeid(JubiterBIOTRXImpl) == typeid(*this)) {
-        if (JubiterBIOToken::_appletVersion < stVersionExp::FromString(JubiterBIOToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
+        if (JubiterBIOToken::_appletVersion < stVersionExp::FromHex(JubiterBIOToken::MISC_APPLET_VERSION_SUPPORT_EXT_TOKEN)) {
             return JUBR_OK;
         }
     }

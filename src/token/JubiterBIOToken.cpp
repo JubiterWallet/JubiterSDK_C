@@ -87,7 +87,7 @@ JUB_RV JubiterBIOToken::_SelectApp(const JUB_BYTE PKIAID[], const JUB_BYTE lengt
 
     uchar_vector vVersion;
     JUB_VERIFY_RV(JubiterBladeToken::_SelectApp(PKIAID, length, vVersion));
-    JubiterBIOToken::_appletVersion = stVersionExp::FromString(vVersion.getHex());
+    JubiterBIOToken::_appletVersion = stVersionExp::FromHex(vVersion.getHex());
 
     return JUBR_OK;
 }
@@ -134,7 +134,7 @@ JUB_RV JubiterBIOToken::EnumSupportCoins(std::string& coinList) {
             if (_appID.getHex() != appID) {
                 continue;
             }
-            if (stVersionExp::FromString(appInfo.minimumAppletVersion) > version) {
+            if (stVersionExp::FromHex(appInfo.minimumAppletVersion) > version) {
                 continue;
             }
             if (coinNameList.end() == std::find(coinNameList.begin(), coinNameList.end(), appInfo.coinName)) {
