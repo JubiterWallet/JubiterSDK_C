@@ -219,15 +219,19 @@ Data TransactionTypedData::serialize() const {
         return {};
     }
 
-    Data domainSeparator =
-        jub::eth::EIP712::typed_data_envelope("EIP712Domain", typedData["domain"], bMetamaskV4Compat);
+    Data domainSeparator = jub::eth::EIP712::typed_data_envelope(
+                            jub::eth::EIP712::EIP712Domain(),
+                    typedData[jub::eth::EIP712::domainEnter()],
+                    bMetamaskV4Compat);
     if (domainSeparator.empty()) {
         jub::eth::EIP712::clearJSON();
         return {};
     }
 
-    Data hashStructMessage = jub::eth::EIP712::typed_data_envelope(typedData["primaryType"].get<std::string>().c_str(),
-                                                                   typedData["message"], bMetamaskV4Compat);
+    Data hashStructMessage = jub::eth::EIP712::typed_data_envelope(
+                    typedData[jub::eth::EIP712::primaryTypeEnter()].get<std::string>().c_str(),
+                    typedData[jub::eth::EIP712::messageEnter()],
+                    bMetamaskV4Compat);
     jub::eth::EIP712::clearJSON();
     if (hashStructMessage.empty()) {
         return {};

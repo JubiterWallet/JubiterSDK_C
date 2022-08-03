@@ -121,6 +121,8 @@ std::string EIP712::typed_data_struct_envelope(const std::string& st_name) {
     for (int i=0; i<mapType[st_name].size(); ++i) {
         std::string sub_type = "";
         auto type_name = mapType[st_name][i]["type"].get<std::string>();
+        bool b_array_type = !(std::string::npos == type_name.find("[]"));
+        type_name = b_array_type ? type_name.substr(0, type_name.size()-std::string("[]").size()) : type_name;
         if (!is_atomic_type(type_name)) {
             auto typed_data_envelope = typed_data_struct_envelope(type_name.c_str());
             auto it = std::find(subTypes.begin(), subTypes.end(), typed_data_envelope);
@@ -137,6 +139,8 @@ std::string EIP712::typed_data_struct_envelope(const std::string& st_name) {
     }
     encode_type += ')';
 
+    // order the rest of the types
+    subTypes.sort();
     for (const auto& item:subTypes) {
         encode_type += item;
     }
@@ -146,8 +150,8 @@ std::string EIP712::typed_data_struct_envelope(const std::string& st_name) {
 
 
 bool EIP712::is_atomic_type(const std::string& type_name) {
-    return (0 == std::memcmp(type_name.c_str(), "uint256",   std::string("uint256").size())
-        || 0 == std::memcmp(type_name.c_str(), "int256",    std::string("int256").size())
+    return (0 == type_name.rfind("uint", 0)
+        || 0 == type_name.rfind("int", 0)
         || 0 == std::memcmp(type_name.c_str(), "bytes",     std::string("bytes").size())
         || 0 == type_name.rfind("bytes", 0)
         || 0 == std::memcmp(type_name.c_str(), "string",    std::string("string").size())
@@ -163,7 +167,7 @@ std::vector<uint8_t> EIP712::atomic_typed_data_envelope(const std::string& type_
 
 #define is_type_t(t, type) t == type
 
-    if (is_type_t(type_name, "uint256")) {
+    if (0 == type_name.rfind("uint", 0)) {
         std::vector<uint8_t> value;
         switch (json_value.type()) {
             case nlohmann::json::value_t::number_unsigned: {
@@ -181,7 +185,7 @@ std::vector<uint8_t> EIP712::atomic_typed_data_envelope(const std::string& type_
                             EthereumDataType::EthereumDataType_UINT,
                             (void*)(&value[0]), value.size());
     }
-    else if (is_type_t(type_name, "int256")) {
+    else if (0 == type_name.rfind("int", 0)) {
         std::vector<uint8_t> value;
         switch (json_value.type()) {
             case nlohmann::json::value_t::number_integer: {

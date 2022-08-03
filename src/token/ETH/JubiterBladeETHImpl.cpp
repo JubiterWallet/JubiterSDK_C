@@ -839,21 +839,25 @@ JUB_RV JubiterBladeETHImpl::SignTypedData(const bool &bMetamaskV4Compat, const s
         return JUBR_DATA_INVALID;
     }
 
-    TW::Data domainSeparator =
-        jub::eth::EIP712::typed_data_envelope("EIP712Domain", typedData["domain"], bMetamaskV4Compat);
+    TW::Data domainSeparator = jub::eth::EIP712::typed_data_envelope(
+                        jub::eth::EIP712::EIP712Domain(),
+                        typedData[jub::eth::EIP712::domainEnter()],
+                        bMetamaskV4Compat);
     if (domainSeparator.empty()) {
         jub::eth::EIP712::clearJSON();
         return JUBR_DATA_INVALID;
     }
 
     TW::Data hashStructMessage = jub::eth::EIP712::typed_data_envelope(
-        typedData["primaryType"].get<std::string>().c_str(), typedData["message"], bMetamaskV4Compat);
+                        typedData[jub::eth::EIP712::primaryTypeEnter()].get<std::string>().c_str(),
+                        typedData[jub::eth::EIP712::messageEnter()],
+                        bMetamaskV4Compat);
     if (hashStructMessage.empty()) {
         jub::eth::EIP712::clearJSON();
         return JUBR_DATA_INVALID;
     }
 
-    auto domainName = typedData.at("domain").at("name").get<std::string>();
+    auto domainName = typedData.at(jub::eth::EIP712::domainEnter()).at("name").get<std::string>();
     auto name = TW::Data(domainName.size());
     std::copy(domainName.begin(), domainName.end(), name.begin());
 

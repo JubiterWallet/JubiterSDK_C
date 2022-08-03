@@ -30,6 +30,20 @@ struct EIP712 {
 public:
     virtual ~EIP712();
 
+    static std::string EIP712Domain() {
+        return "EIP712Domain";
+    }
+
+    static std::string domainEnter() {
+        return "domain";
+    }
+    static std::string primaryTypeEnter() {
+        return "primaryType";
+    }
+    static std::string messageEnter() {
+        return "message";
+    }
+
     static bool parseJSON(const nlohmann::json& root);
     static bool clearJSON();
 
