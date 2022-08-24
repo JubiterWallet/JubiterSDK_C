@@ -6,10 +6,13 @@
 
 #pragma once
 
-#include "Transaction.h"
 #include "../Data.h"
-#include "../Hash.h"
 #include "../PrivateKey.h"
+#include "PublicKey.h"
+#include "Transaction.h"
+#include <string>
+#include <vector>
+
 //#include "../proto/Solana.pb.h"
 
 namespace TW::Solana {
@@ -18,16 +21,16 @@ namespace TW::Solana {
 class Signer {
   public:
     /// Signs the given transaction.
-    static void sign(const std::vector<PrivateKey>& privateKeys, Transaction& transaction);
+    static void sign(const std::vector<PrivateKey> &privateKeys, Transaction &transaction);
+
+    static bool verify(const std::vector<PublicKey> &pubKeys, const Transaction &transaction);
 
     /// Signs a json Proto::SigningInput with private key
-    static std::string signJSON(const std::string& json, const Data& key);
+    static std::string signJSON(const std::string &json, const Data &key);
 
-    static void signUpdateBlockhash(const std::vector<PrivateKey>& privateKeys,
-                                    Transaction& transaction, Solana::Hash& recentBlockhash);
-    static Data signRawMessage(const std::vector<PrivateKey>& privateKeys, const Data messageData);
-
-//    static Proto::SigningOutput sign(const Proto::SigningInput& input) noexcept;
+    static void signUpdateBlockhash(const std::vector<PrivateKey> &privateKeys, Transaction &transaction,
+                                    Solana::Hash &recentBlockhash);
+    static Data signRawMessage(const std::vector<PrivateKey> &privateKeys, const Data messageData);
 };
 
 } // namespace TW::Solana

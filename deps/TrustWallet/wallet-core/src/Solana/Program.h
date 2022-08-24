@@ -9,30 +9,32 @@
 #include "Address.h"
 #include "Transaction.h"
 
+#include <cstdint>
+#include <tuple>
 #include <vector>
 
 namespace TW::Solana {
 
 class StakeProgram {
-public:
-    static Address addressFromValidatorSeed(const Address& fromAddress,
-                                            const Address& validatorAddress,
-                                            const Address& programId);
+  public:
+    static Address addressFromValidatorSeed(const Address &fromAddress, const Address &validatorAddress,
+                                            const Address &programId);
 
-    static Address addressFromRecentBlockhash(const Address& fromAddress, const Hash& recentBlockhash, const Address& programId);
+    static Address addressFromRecentBlockhash(const Address &fromAddress, const Hash &recentBlockhash,
+                                              const Address &programId);
 };
 
-
 class TokenProgram {
-public:
+  public:
     /// Derive default token address for main address and token
-    static Address defaultTokenAddress(const Address& mainAddress, const Address& tokenMintAddress);
+    static Address defaultTokenAddress(const Address &mainAddress, const Address &tokenMintAddress);
 
     /// Create a new valid address, if neeed, trying several
-    static Address findProgramAddress(const std::vector<TW::Data>& seeds, const Address& programId);
+    static std::tuple<Address, uint8_t> findProgramAddress(const std::vector<TW::Data> &seeds,
+                                                           const Address &programId);
 
     /// Create a new address for program, with given seeds
-    static Address createProgramAddress(const std::vector<TW::Data>& seeds, const Address& programId);
+    static Address createProgramAddress(const std::vector<TW::Data> &seeds, const Address &programId);
 };
 
 } // namespace TW::Solana

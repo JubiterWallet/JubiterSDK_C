@@ -6,32 +6,58 @@
 
 #include "Transaction.h"
 
-#include "Hash.h"
-#include "Signer.h"
 #include "../BinaryCoding.h"
 #include "../PublicKey.h"
-
+#include "Data.h"
+#include "Hash.h"
+#include "Signer.h"
+#include "Solana/Address.h"
+#include <algorithm>
+#include <array>
+#include <cstdint>
+#include <iterator>
 #include <vector>
 
 using namespace TW;
 using namespace TW::Solana;
 using namespace std;
 
-uint8_t CompiledInstruction::findAccount(const Address& address) {
-    auto it = std::find(addresses.begin(), addresses.end(), address);
-    if (it == addresses.end()) {
-        throw std::invalid_argument("address not found");
+size_t getShortVecLength(const unsigned char *p) {
+    auto v = *p++;
+    if (v & 0x80) {
+        v <<= 7;
+        v |= *p;
     }
-    assert(it != addresses.end());
-    auto dist = std::distance(addresses.begin(), it);
-    assert(dist < 256);
-    return (uint8_t)dist;
+
+    return v;
 }
 
-void Message::addAccount(const AccountMeta& account) {
+CompiledInstruction CompiledInstruction::Compile(const Instruction &instruction,
+                                                 const std::vector<Address> &addresses) {
+    auto accountIndex = [&](auto &address) {
+        auto it = std::find(addresses.begin(), addresses.end(), address);
+        if (it == addresses.end()) {
+            throw std::invalid_argument("address not found");
+        }
+        auto dist = std::distance(addresses.begin(), it);
+        return (uint8_t)dist;
+    };
+
+    auto programIdIndex = accountIndex(instruction.programId);
+    auto accounts       = std::vector<uint8_t>();
+
+    for (auto &account : instruction.accounts) {
+        accounts.push_back(accountIndex(account.account));
+    }
+    return {programIdIndex, accounts, instruction.data};
+}
+
+void Message::addAccount(const AccountMeta &account) {
     bool inSigned = (std::find(signedAccounts.begin(), signedAccounts.end(), account.account) != signedAccounts.end());
-    bool inUnsigned = (std::find(unsignedAccounts.begin(), unsignedAccounts.end(), account.account) != unsignedAccounts.end());
-    bool inReadOnly = (std::find(readOnlyAccounts.begin(), readOnlyAccounts.end(), account.account) != readOnlyAccounts.end());
+    bool inUnsigned =
+        (std::find(unsignedAccounts.begin(), unsignedAccounts.end(), account.account) != unsignedAccounts.end());
+    bool inReadOnly =
+        (std::find(readOnlyAccounts.begin(), readOnlyAccounts.end(), account.account) != readOnlyAccounts.end());
     if (account.isSigner) {
         if (!inSigned) {
             signedAccounts.push_back(account.account);
@@ -47,38 +73,34 @@ void Message::addAccount(const AccountMeta& account) {
     }
 }
 
-void Message::addAccountKeys(const Address& account) {
+void Message::addAccountKeys(const Address &account) {
     if (std::find(accountKeys.begin(), accountKeys.end(), account) == accountKeys.end()) {
         accountKeys.push_back(account);
     }
 }
 
 void Message::compileAccounts() {
-    for (auto& instr: instructions) {
-        for (auto& address: instr.accounts) {
+    for (auto &instr : instructions) {
+        for (auto &address : instr.accounts) {
             addAccount(address);
         }
     }
     // add programIds (read-only, at end)
-    for (auto& instr: instructions) {
+    for (auto &instr : instructions) {
         addAccount(AccountMeta{instr.programId, false, true});
     }
 
-    header = MessageHeader{
-        (uint8_t)signedAccounts.size(),
-        0,
-        (uint8_t)readOnlyAccounts.size()
-    };
+    header = MessageHeader{(uint8_t)signedAccounts.size(), 0, (uint8_t)readOnlyAccounts.size()};
 
     // merge the three buckets
     accountKeys.clear();
-    for(auto& a: signedAccounts) {
+    for (auto &a : signedAccounts) {
         addAccountKeys(a);
     }
-    for(auto& a: unsignedAccounts) {
+    for (auto &a : unsignedAccounts) {
         addAccountKeys(a);
     }
-    for(auto& a: readOnlyAccounts) {
+    for (auto &a : readOnlyAccounts) {
         addAccountKeys(a);
     }
 
@@ -87,12 +109,94 @@ void Message::compileAccounts() {
 
 void Message::compileInstructions() {
     compiledInstructions.clear();
-    for (auto instruction: instructions) {
-        compiledInstructions.emplace_back(CompiledInstruction(instruction, accountKeys));
+    for (auto instruction : instructions) {
+        compiledInstructions.emplace_back(CompiledInstruction::Compile(instruction, accountKeys));
     }
 }
 
-std::string Transaction::serialize() const {
+Transaction Transaction::decode(const Data &raw) {
+    if (raw.size() < 65 + 3 + 1 + 32 * 2 + 3) {
+        throw "Invalid transaction";
+    }
+
+    auto *p   = raw.data();
+    auto *end = p + raw.size();
+
+    // sig count
+    auto count = getShortVecLength(p);
+    p += count > 0x7f ? 2 : 1;
+
+    // sig contents
+    auto sigs = std::vector<Signature>();
+    for (auto i = 0; i < count; i++) {
+        auto sig = Signature(Data{p, p + 64});
+        sigs.push_back(sig);
+        p += 64;
+    }
+
+    // Message
+    // MessageHeader
+    auto header = MessageHeader{
+        *p++,
+        *p++,
+        *p++,
+    };
+
+    // accounts
+    auto pubKeys = std::vector<PublicKey>();
+
+    count = getShortVecLength(p);
+    p += count > 0x7f ? 2 : 1;
+
+    for (auto i = 0; i < count; i++) {
+        auto key = PublicKey(Data{p, p + 32}, TWPublicKeyTypeED25519);
+        pubKeys.push_back(key);
+        p += 32;
+    }
+
+    // recent hash
+    auto content = std::array<uint8_t, Hash::size>();
+    std::copy(p, p + 32, content.begin());
+    auto recentHash = Hash{content};
+    p += 32;
+
+    auto instructions = std::vector<CompiledInstruction>();
+    // instructions
+    count = getShortVecLength(p);
+    p += count > 0x7f ? 2 : 1;
+
+    for (auto i = 0; i < count; i++) {
+        auto programId = *p++;
+        // shadow outside `count`
+        auto count = getShortVecLength(p);
+        p += count > 0x7f ? 2 : 1;
+        auto accountIndexs = Data{p, p + count};
+
+        p += count;
+        count = getShortVecLength(p);
+        p += count > 0x7f ? 2 : 1;
+        auto data = Data{p, p + count};
+        p += count;
+        instructions.push_back({programId, accountIndexs, data});
+    }
+
+    if (p != end) {
+        throw "Invalid transaction";
+    }
+
+    auto msg      = Message{};
+    msg.header    = header;
+    auto accounts = std::vector<Address>{};
+    std::transform(pubKeys.begin(), pubKeys.end(), std::back_inserter(accounts),
+                   [](auto &key) { return Address{key}; });
+
+    msg.recentBlockhash      = recentHash;
+    msg.compiledInstructions = instructions;
+
+    return Transaction{msg, sigs};
+}
+
+std::vector<uint8_t> Transaction::serialize() const {
     Data buffer;
 
     append(buffer, shortVecLength<Signature>(this->signatures));
@@ -102,7 +206,7 @@ std::string Transaction::serialize() const {
     }
     append(buffer, this->messageData());
 
-    return Base58::bitcoin.encode(buffer);
+    return buffer;
 }
 
 Data Transaction::messageData() const {
@@ -116,8 +220,7 @@ Data Transaction::messageData() const {
         Data account_key_vec(account_key.bytes.begin(), account_key.bytes.end());
         append(buffer, account_key_vec);
     }
-    Data recentBlockhash(this->message.recentBlockhash.bytes.begin(),
-                         this->message.recentBlockhash.bytes.end());
+    Data recentBlockhash(this->message.recentBlockhash.bytes.begin(), this->message.recentBlockhash.bytes.end());
     append(buffer, recentBlockhash);
 
     // apppend compiled instructions
@@ -133,15 +236,12 @@ Data Transaction::messageData() const {
     return buffer;
 }
 
-uint8_t Transaction::getAccountIndex(Address publicKey) {
-    auto item =
-        std::find(this->message.accountKeys.begin(), this->message.accountKeys.end(), publicKey);
+uint8_t Transaction::getAccountIndex(Address publicKey) const {
+    auto item = std::find(this->message.accountKeys.begin(), this->message.accountKeys.end(), publicKey);
     if (item == this->message.accountKeys.end()) {
         throw std::invalid_argument("publicKey not found in message.accountKeys");
     }
     return (uint8_t)std::distance(this->message.accountKeys.begin(), item);
 }
 
-bool Signature::operator==(const Signature& v) const {
-    return bytes == v.bytes;
-}
+bool Signature::operator==(const Signature &v) const { return bytes == v.bytes; }
