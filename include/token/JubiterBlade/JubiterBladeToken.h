@@ -33,6 +33,7 @@ typedef enum class enumCoinTypeMisc {
     COINEOS = 0x01,
     COINXRP = 0x02,
     COINTRX = 0x03,
+    COINSOL = 0x04,
     Default = COIN
 } JUB_ENUM_COINTYPE_MISC;
 

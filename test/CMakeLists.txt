@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 
+set (CMAKE_CXX_STANDARD 11)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/deps/jsoncpp/include)
 include_directories(${CMAKE_SOURCE_DIR}/deps)
@@ -31,7 +32,7 @@ if(APPLE)
         target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto libprotobuf ${HID_API_LIB_STATIC} "-framework CoreFoundation" "-framework IOKit")
 else()
     #其他平台链接静态库
-    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto libprotobuf sr25519crust ${HID_API_LIB_STATIC})  
+    target_link_libraries(JUB_test PRIVATE JUB_SDK TrezorCrypto libprotobuf sr25519crust ${HID_API_LIB_STATIC})
 endif(APPLE)
 
 

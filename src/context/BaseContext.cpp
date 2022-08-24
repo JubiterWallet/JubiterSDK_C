@@ -116,7 +116,7 @@ JUB_RV BaseContext::SetTimeout(const JUB_UINT16 timeout) {
 std::string BaseContext::_FullBip44Path(const BIP44_Path& path) {
 
     return _mainPath + "/"
-        + std::to_string(path.change) + "/"
+        + std::to_string((uint32_t)path.change) + "/"
         + std::to_string(path.addressIndex);
 }
 

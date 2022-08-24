@@ -4,7 +4,9 @@
 
 #include "JUB_SDK.h"
 
+#include <vector>
 #include <map>
+#include <utility>
 
 template <class T>
 class xManager {

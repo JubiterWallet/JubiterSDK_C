@@ -1,45 +1,50 @@
-#include <token/SOL/JubiterBaseSOLImpl.h>
-#include <TrezorCrypto/bip32.h>
+
+#include "Data.h"
+#include "JUB_SDK_BTC.h"
+#include "JUB_SDK_COMM.h"
+#include "TWPublicKeyType.h"
 #include <PublicKey.h>
 #include <Solana/Address.h>
-#include <Solana/Transaction.h>
 #include <Solana/Signer.h>
+#include <Solana/Transaction.h>
+#include <TrezorCrypto/bip32.h>
+#include <string>
+#include <token/SOL/JubiterBaseSOLImpl.h>
 
 namespace jub {
 namespace token {
-
-
-JUB_RV JubiterBaseSOLImpl::VerifyTx(const uchar_vector& signedRaw,
-                                    const TW::Data& publicKey) {
-
-    return JUBR_IMPL_NOT_SUPPORT;
-}
-
-
-JUB_RV JubiterBaseSOLImpl::_getAddress(const TW::Data& publicKey, std::string& address) {
+JUB_RV JubiterBaseSOLImpl::VerifyTx(const uchar_vector &signedRaw, const TW::Data &publicKey) {
 
     try {
-//        TW::PublicKey pubkey(publicKey, _publicKeyType);
-//        TW::PublicKey pubkeyExt = pubkey.extended();
-//        uint8_t extendedPubkey[TW::PublicKey::secp256k1ExtendedSize] = {0x00,};
-//        std::copy(std::begin(pubkeyExt.bytes), std::end(pubkeyExt.bytes), std::begin(extendedPubkey));
-//
-//        JUB_BYTE ethKeyHash[20] = { 0, };
-//        if (1 != pubkey_get_ethereum_pubkeyhash(extendedPubkey, TW::PublicKey::secp256k1ExtendedSize,
-//                                                ethKeyHash)) {
-//            return JUBR_ARGUMENTS_BAD;
-//        }
-//
-//        uchar_vector _address(ethKeyHash, ethKeyHash + 20);
-//        address = TW::Solana::checksumed(TW::Solana::Address(_address), TW::Solana::ChecksumType::eip55);
-    }
-    catch (...) {
-        return JUBR_ARGUMENTS_BAD;
+        auto tx       = TW::Solana::Transaction::decode(signedRaw);
+        auto key      = TW::PublicKey(publicKey, TWPublicKeyTypeED25519);
+        auto addr     = TW::Solana::Address{publicKey};
+        auto index    = tx.getAccountIndex(addr);
+        auto sig      = tx.signatures.at(index);
+        auto sigBytes = TW::Data{sig.bytes.begin(), sig.bytes.end()};
+
+        return key.verify(sigBytes, tx.messageData()) ? JUBR_OK : JUBR_VERIFY_SIGN_FAILED;
+    } catch (...) {
+        return JUBR_VERIFY_SIGN_FAILED;
     }
 
-    return JUBR_IMPL_NOT_SUPPORT;
+    return JUBR_OK;
 }
 
+JUB_RV JubiterBaseSOLImpl::_getAddress(const TW::Data &publicKey, std::string &address) {
+    try {
+        auto _address = TW::Solana::Address(publicKey);
 
-} // namespace token end
-} // namespace jub end
+        address = _address.string();
+    } catch (...) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+    return JUBR_OK;
+}
+
+JUB_RV JubiterBaseSOLImpl::CheckAddress(const std::string &address) {
+    return TW::Solana::Address::isValid(address) ? JUBR_OK : JUBR_ARGUMENTS_BAD;
+}
+
+} // namespace token
+} // namespace jub

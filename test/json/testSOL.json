@@ -1,9 +1,27 @@
 {
   "main_path" : "m/44'/501'/0'",
   "SOL": {
-      "bip32_path" : {
-          "change" : false,
-          "addressIndex" : 0
-      }
-  }
+      "bip32_path" : "m/44'/501'/0'/0'/1'",
+      "recent_hash": "8qXCG1RPh6yru3hYDQNB3B8wRZ6aWqpWARcM2BQYW1vQ",
+      "dest": "2GH2KW8iQH693iZAUXzU925LZ1UifdmuUhTetB7gzmMK",
+      "amount": 100000000
+  },
+    "TOKEN-TRANSFER": {
+        "bip32_path":"m/44'/501'/0'/0'/1'",
+        "token_name": "GST",
+        "token_mint": "AFbX8oGjGpmVFywbVouvhQSRmiW2aR1mohfahi4Y2AdB",
+        "recent_hash": "8qXCG1RPh6yru3hYDQNB3B8wRZ6aWqpWARcM2BQYW1vQ",
+        "source": "8D8RL4uuCoeyRTi7YAKgodJJ692BPLKDhjmX8RELnQ6M",
+        "dest": "7xSuX3cmFYd4wdz7Th4mKhEMwdMHhNhchoKUEt6J3h5K",
+        "amount": 100000000,
+        "decimal": 9
+    },
+    "ASSOCIATED-TOKEN-CREATE": {
+        "bip32_path": "m/44'/501'/0'/0'/1'",
+        "token_name": "GST",
+        "decimal": 9,
+        "token_mint": "m1y6hxUN1ed3PTJ2kLXXsBYiEfFDbLWRxpASyRUz9uV",
+        "recent_hash": "8qXCG1RPh6yru3hYDQNB3B8wRZ6aWqpWARcM2BQYW1vQ",
+        "owner": "3RBpAXgQyoD9tD2cYaDJYzbFdMRcd37p5YB57AYSLMRh"
+    }
 }

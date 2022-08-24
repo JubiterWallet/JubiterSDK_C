@@ -10,6 +10,7 @@
 #define JUB_SDK_SOL_h
 
 #include "JUB_SDK.h"
+#include "JUB_SDK_COMM.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -76,8 +77,7 @@ JUB_RV JUB_CreateContextSOL(IN CONTEXT_CONFIG_SOL cfg,
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetHDNodeSOL(IN JUB_UINT16 contextID,
                         IN JUB_ENUM_PUB_FORMAT format,
-                        IN BIP44_Path path,
-//                        IN BIP48_Path path,
+                        IN JUB_CHAR_PTR path,
                         OUT JUB_CHAR_PTR_PTR pubkey);
 
 
@@ -105,8 +105,7 @@ JUB_RV JUB_GetMainHDNodeSOL(IN JUB_UINT16 contextID,
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_GetAddressSOL(IN JUB_UINT16 contextID,
-                         IN BIP44_Path path,
-//                         IN BIP48_Path path,
+                         IN JUB_CHAR_PTR path,
                          IN JUB_ENUM_BOOL bShow,
                          OUT JUB_CHAR_PTR_PTR address);
 
@@ -121,59 +120,81 @@ JUB_RV JUB_GetAddressSOL(IN JUB_UINT16 contextID,
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_CheckAddressSOL(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address);
 
+/*****************************************************************************
+ * @function name : JUB_SetTokenSOL
+ * @in  param : contextID - context ID
+ *          : tokenName - TRX token name
+ *          : decimal
+ *          : tokenMint
+ * @out param : none.
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SetTokenSOL(IN JUB_UINT16 contextID,
+                       IN JUB_CHAR_CPTR name,
+                       IN JUB_UINT16 decimal,
+                       IN JUB_CHAR_CPTR tokenMint);
 
-///*****************************************************************************
-// * @function name : JUB_SetMyAddressSOL
-// * @in  param : contextID - context ID
-// *            : path
-// * @out param : address
-// * @last change :
-// *****************************************************************************/
-//JUB_COINCORE_DLL_EXPORT
-//JUB_RV JUB_SetMyAddressSOL(IN JUB_UINT16 contextID,
-//                           IN BIP44_Path path,
-////                           IN BIP48_Path path,
-//                           OUT JUB_CHAR_PTR_PTR address);
-//
-//
 /*****************************************************************************
  * @function name : JUB_SignTransactionSOL
  * @in  param : contextID - context ID
- *          : path
- *          : chainID - chain ID
- *          : expiration - expiration, eg, 300(s)
- *          : referenceBlockId   - reference block ID
- *          : referenceBlockTime - reference block time
- *          : actionsInJSON - array of actions
- * @out param : rawInJSON
+ *          : path - path of funding account
+ *          : recentHash - recent block hash of Solana network
+ *          : dest - receipt account
+ *          : amount - transfer amount in lamports
+ * @out param : txRaw signed Solana tx
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
 JUB_RV JUB_SignTransactionSOL(IN JUB_UINT16 contextID,
-                              IN BIP44_Path path,
-                              IN JUB_CHAR_CPTR chainID,
-                              IN JUB_CHAR_CPTR expiration,
-                              IN JUB_CHAR_CPTR referenceBlockId,
-                              IN JUB_CHAR_CPTR referenceBlockTime,
-                              IN JUB_CHAR_CPTR actionsInJSON,
-                              OUT JUB_CHAR_PTR_PTR rawInJSON);
+                              IN JUB_CHAR_CPTR path,
+                              IN JUB_CHAR_CPTR recentHash,
+                              IN JUB_CHAR_CPTR dest,
+                              IN JUB_UINT64 amount,
+                              OUT JUB_CHAR_PTR_PTR txRaw);
 
+/*****************************************************************************
+ * @function name : JUB_SignTransactionTokenSOL
+ * @in  param : contextID - context ID
+ *          : path - path of funding account
+ *          : recentHash - recent block hash of Solana network
+ *          : tokenMint - the token mint
+ *          : source - the source account
+ *          : dest - receipt account
+ *          : amount - token transfer amount
+ *          : decimal - token decimal
+ * @out param : txRaw signed Solana tx
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTransactionTokenSOL(IN JUB_UINT16 contextID,
+                                   IN JUB_CHAR_CPTR path,
+                                   IN JUB_CHAR_CPTR recentHash,
+                                   IN JUB_CHAR_CPTR tokenMint,
+                                   IN JUB_CHAR_CPTR srouce,
+                                   IN JUB_CHAR_CPTR dest,
+                                   IN JUB_UINT64 amount,
+                                   IN JUB_UINT8 decimal,
+                                   OUT JUB_CHAR_PTR_PTR txRaw);
 
-///*****************************************************************************
-// * @function name : JUB_BuildActionSOL
-// * @in  param : contextID - context ID
-// *          : actions - action array
-// *          : actionCount - the count of action array
-// * @out param : actionsInJSON
-// * @last change :
-// *****************************************************************************/
-//JUB_COINCORE_DLL_EXPORT
-//JUB_RV JUB_BuildActionSOL(IN JUB_UINT16 contextID,
-//                          IN JUB_ACTION_EOS_PTR actions,
-//                          IN JUB_UINT16 actionCount,
-//                          OUT JUB_CHAR_PTR_PTR actionsInJSON);
-//
-//
+/*****************************************************************************
+ * @function name : JUB_SignTransactionAssociatedTokenSOL
+ * @in  param : contextID - context ID
+ *          : path - path of funding account
+ *          : recentHash - recent block hash of Solana network
+ *          : owner - owner address
+ *          : token - token address
+ * @out param : txRaw signed Solana tx
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_SignTransactionAssociatedTokenCreateSOL(IN JUB_UINT16 contextID,
+                                                   IN JUB_CHAR_CPTR path,
+                                                   IN JUB_CHAR_CPTR recentHash,
+                                                   IN JUB_CHAR_CPTR owner,
+                                                   IN JUB_CHAR_CPTR tokenMint,
+                                                   OUT JUB_CHAR_PTR_PTR txRaw);
+
 /*****************************************************************************
  * @function name : JUB_IsValidAddressSOL
  * @in  param : address

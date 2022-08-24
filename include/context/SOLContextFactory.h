@@ -24,7 +24,7 @@ public:
     }
 
     SOLContext* CreateContext(const JUB_UINT16 deviceID, const CONTEXT_CONFIG_SOL& cfg) {
-        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(deviceID, _type);
+        auto token = jub::token::MISCseriesTokenFactory::GetInstance()->CreateToken(deviceID, _type, ED25519);
         return Create(_type, cfg, token);
     }
 

@@ -50,6 +50,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/TRX SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/FIL SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/CKB SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/DOT SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/token/SOL SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/HDKey SRC_LIST)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/uint256_t SRC_LIST)
@@ -70,6 +71,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ethereum SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Ripple SRC_LIST)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Tron SRC_LIST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Solana SRC_LIST)
 list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Tron/ContractShield.h")
 list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Tron/ContractShield.cpp")
 list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../deps/TrustWallet/wallet-core/src/Tron/ContractVoteAsset.h")
@@ -184,23 +186,23 @@ endif() #if(devOnly)
 #    if(IOS)
 
 #        FIND_LIBRARY(BT_LIB_STATIC
-#        NAMES FTTransmission 
+#        NAMES FTTransmission
 #        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/../deps/bleTransmit/ios
-#        )   
+#        )
 #        MESSAGE( STATUS "FTTransmission = ${BT_LIB_STATIC}.")
 
 #        FIND_LIBRARY(NFC_LIB_STATIC
-#        NAMES FTNFCTransmission 
+#        NAMES FTNFCTransmission
 #        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/../deps/nfcTransmit/ios
-#        )   
+#        )
 #        MESSAGE( STATUS "NFCFTTransmission = ${NFC_LIB_STATIC}.")
 
-#        target_link_libraries(JubSDK PRIVATE libprotobuf TrezorCrypto ${BT_LIB_STATIC} ${NFC_LIB_STATIC} "-framework CoreFoundation" "-framework IOKit")   
+#        target_link_libraries(JubSDK PRIVATE libprotobuf TrezorCrypto ${BT_LIB_STATIC} ${NFC_LIB_STATIC} "-framework CoreFoundation" "-framework IOKit")
 #    else()#MacOS
 
 #        FIND_LIBRARY(HID_API_LIB_STATIC
 #        NAMES hidapi hidapi-hidraw
-#        )   
+#        )
 #        MESSAGE( STATUS "hidapi = ${HID_API_LIB_STATIC}.")
 #        target_link_libraries(JubSDK PRIVATE libprotobuf TrezorCrypto ${HID_API_LIB_STATIC}  "-framework CoreFoundation" "-framework IOKit")
 #    endif()

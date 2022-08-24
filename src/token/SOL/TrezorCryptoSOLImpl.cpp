@@ -1,5 +1,14 @@
 #include "token/SOL/TrezorCryptoSOLImpl.h"
+#include "Data.h"
 #include "HDKey/HDKey.hpp"
+#include "JUB_SDK_COMM.h"
+#include "PrivateKey.h"
+#include "Solana/Address.h"
+#include "Solana/Program.h"
+#include "Solana/Transaction.h"
+#include "TrezorCrypto/bip32.h"
+#include "mSIGNA/stdutils/uchar_vector.h"
+#include "utility/util.h"
 #include <Solana/Signer.h>
 #include <string>
 #include <vector>
@@ -9,61 +18,118 @@ namespace token {
 
 JUB_RV TrezorCryptoSOLImpl::SelectApplet() { return JUBR_OK; }
 
-
 JUB_RV TrezorCryptoSOLImpl::GetAppletVersion(stVersion &version) { return JUBR_OK; }
-
+JUB_RV TrezorCryptoSOLImpl::SetCoin() { return JUBR_OK; }
 
 JUB_RV TrezorCryptoSOLImpl::GetAddress(const std::string &path, const JUB_UINT16 tag, std::string &address) {
+    std::string derivPrv;
+    std::string derivpub;
+    JUB_VERIFY_RV(_getEd25519PrvKeyFromMasterKey(_MasterKey_XPRV, derivPrv, derivpub, path, _curve));
 
-    // tag used by hardware,this imp not use.
-//    if (JUB_ENUM_CURVES::ED25519 == _curve && !path.empty()) {
-//        JUB_VERIFY_RV(_getEd25519PrvKeyFromMasterKey(_MasterKey_XPRV, derivPrv, derivpub, path, _curve));
-//        pubStr = derivpub;
-//    }
-//
-//    uchar_vector pub(pubStr);
-//    TW::Data publicKey(pub);
-//    return _getAddress(publicKey, address, coinNet);
-
-    HDNode hdkey;
-    JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
-
-    uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key) / sizeof(uint8_t));
-    TW::Data publicKey(vPublicKey);
-
-    return _getAddress(publicKey, address);
+    uchar_vector pub(derivpub);
+    // only need 32 bytes
+    return _getAddress({pub.begin() + 1, pub.end()}, address);
 }
-
 
 JUB_RV TrezorCryptoSOLImpl::GetHDNode(const JUB_BYTE format, const std::string &path, std::string &pubkey) {
 
-    HDNode hdkey;
-    JUB_UINT32 parentFingerprint;
-    JUB_VERIFY_RV(_HdnodeCkd(path, &hdkey, &parentFingerprint));
-
-    //    typedef enum {
-    //        HEX = 0x00,
-    //        XPUB = 0x01
-    //    } JUB_ENUM_PUB_FORMAT;
-    if (0x00 == format) { // hex
-        uchar_vector pk(hdkey.public_key, hdkey.public_key + 33);
-        pubkey = pk.getHex();
-        pubkey = ETH_PRDFIX + pubkey;
-    } else { // xpub
-        JUB_CHAR _pk[200] = {
-            0,
-        };
-        if (0 == hdnode_serialize_public(&hdkey, parentFingerprint, TWHDVersion::TWHDVersionXPUB, _pk,
-                                         sizeof(_pk) / sizeof(JUB_CHAR))) {
-            return JUBR_ERROR;
-        }
-        pubkey = std::string(_pk);
+    if (!path.empty()) {
+        std::string derivPrv;
+        std::string derivpub;
+        JUB_VERIFY_RV(_getEd25519PrvKeyFromMasterKey(_MasterKey_XPRV, derivPrv, derivpub, path, _curve));
+        pubkey = derivpub;
+    } else {
+        pubkey = _MasterKey_XPUB;
     }
 
     return JUBR_OK;
 }
 
+JUB_RV TrezorCryptoSOLImpl::_getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string &derivPrv,
+                                                           std::string &derivPub, const std::string path,
+                                                           JUB_ENUM_CURVES curve) {
+    JUB_NOT_USED(curve);
+    // drive from master key, see caller
+    uchar_vector seed(prvKey);
+    HDNode node;
+    hdnode_from_seed(seed.data(), seed.size(), _curve_name, &node);
+    auto paths = parsePath(path);
+    for (auto path : paths) {
+        if (!hdnode_private_ckd(&node, path)) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+    }
+    hdnode_fill_public_key(&node);
+    derivPrv = uchar_vector{node.private_key, node.private_key + 32}.getHex();
+    derivPub = uchar_vector{node.public_key, node.public_key + 33}.getHex();
+
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoSOLImpl::SetTokenInfo(const std::string &tokenName, JUB_UINT8 unitDP, const std::string &tokenMint) {
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoSOLImpl::SignTransferTx(const std::string &path, const std::vector<JUB_BYTE> &recentHash,
+                                           const std::vector<JUB_BYTE> &dest, JUB_UINT64 amount,
+                                           std::vector<JUB_BYTE> &raw) {
+    using namespace TW::Solana;
+    auto from = std::string{};
+    JUB_VERIFY_RV(GetAddress(path, JUB_FALSE, from));
+
+    auto h = Hash{};
+    std::copy(recentHash.begin(), recentHash.end(), h.bytes.begin());
+    auto msg = Message::createTransfer(Address{from}, Address{dest}, amount, h);
+
+    auto tx = Transaction{msg};
+    JUB_VERIFY_RV(SignTx(path, tx));
+    raw = tx.serialize();
+    return JUBR_OK;
+}
+JUB_RV TrezorCryptoSOLImpl::SignTokenTransferTx(const std::string &path, const std::vector<JUB_BYTE> &recentHash,
+                                                const std::vector<JUB_BYTE> token, const std::vector<JUB_BYTE> &from,
+                                                const std::vector<JUB_BYTE> &dest, JUB_UINT64 amount, JUB_UINT8 decimal,
+                                                std::vector<JUB_BYTE> &raw) {
+    using namespace TW::Solana;
+    auto signer = std::string{};
+    JUB_VERIFY_RV(GetAddress(path, JUB_FALSE, signer));
+    auto h = Hash{};
+    std::copy(recentHash.begin(), recentHash.end(), h.bytes.begin());
+    auto msg =
+        Message::createTokenTransfer(Address{signer}, Address{token}, Address{from}, Address{dest}, amount, decimal, h);
+
+    auto tx = Transaction{msg};
+    JUB_VERIFY_RV(SignTx(path, tx));
+    raw = tx.serialize();
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoSOLImpl::SignCreateTokenAccountTx(const std::string &path, const std::vector<JUB_BYTE> &recentHash,
+                                                     const std::vector<JUB_BYTE> &owner,
+                                                     const std::vector<JUB_BYTE> &token, std::vector<JUB_BYTE> &raw) {
+    using namespace TW::Solana;
+    auto signer = std::string{};
+    JUB_VERIFY_RV(GetAddress(path, JUB_FALSE, signer));
+    auto h = Hash{};
+    std::copy(recentHash.begin(), recentHash.end(), h.bytes.begin());
+    auto tokenAccount = TokenProgram::defaultTokenAddress(Address{owner}, Address{token});
+    auto msg = Message::createTokenCreateAccount(Address{signer}, Address{owner}, Address{token}, tokenAccount, h);
+
+    auto tx = Transaction{msg};
+    JUB_VERIFY_RV(SignTx(path, tx));
+    raw = tx.serialize();
+    return JUBR_OK;
+}
+
+JUB_RV TrezorCryptoSOLImpl::SignTx(const std::string &path, TW::Solana::Transaction &tx) {
+    std::string key, pubKey;
+    JUB_VERIFY_RV(_getEd25519PrvKeyFromMasterKey(_MasterKey_XPRV, key, pubKey, path, _curve));
+    auto bytes   = uchar_vector{key};
+    auto privKey = TW::PrivateKey{TW::Data{bytes}};
+
+    TW::Solana::Signer::sign({privKey}, tx);
+    return JUBR_OK;
+}
 
 } // namespace token
 } // namespace jub

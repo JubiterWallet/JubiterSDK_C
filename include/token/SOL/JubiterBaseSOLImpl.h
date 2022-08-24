@@ -1,29 +1,24 @@
 #pragma once
-#include <sys/types.h>
 #include "token/interface/SOLTokenInterface.hpp"
 #include <TrustWalletCore/TWCoinType.h>
 #include <string>
-#include <vector>
-
+#include <sys/types.h>
 
 namespace jub {
 namespace token {
 
-class JubiterBaseSOLImpl :
-virtual public SOLTokenInterface {
-public:
+class JubiterBaseSOLImpl : virtual public SOLTokenInterface {
+  public:
     JubiterBaseSOLImpl() {
-        _coin = TWCoinType::TWCoinTypeSolana;
-        _curve_name = (char*)ED25519_NAME;
+        _coin       = TWCoinType::TWCoinTypeSolana;
+        _curve_name = (char *)ED25519_NAME;
     };
+    virtual JUB_RV VerifyTx(const uchar_vector &signedRaw, const TW::Data &publicKey);
+    virtual JUB_RV CheckAddress(const std::string &address) override;
 
-    virtual JUB_RV VerifyTx(const uchar_vector& signedRaw,
-                            const TW::Data& publicKey);
-
-protected:
-    virtual JUB_RV _getAddress(const TW::Data& publicKey, std::string& address);
+  protected:
+    virtual JUB_RV _getAddress(const TW::Data &publicKey, std::string &address);
 }; // class JubiterBaseSOLImpl end
 
-
-} // namespace token end
-} // namespace jub end
+} // namespace token
+} // namespace jub

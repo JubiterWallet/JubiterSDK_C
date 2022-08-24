@@ -6,15 +6,10 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <sstream>
-#include <iostream>
-#include <cstring>
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include <bigint/BigIntegerLibrary.hh>
 #include <Data.h>
 #include <regex>
-#include <map>
 namespace jub {
 
 #define JUB_VERIFY_RET(x, r)    \
@@ -39,6 +34,9 @@ do {                                    \
         return JUBR_MEMORY_NULL_PTR;    \
     }                                   \
 } while (0)
+
+#define JUB_NOT_USED(x)                         \
+    (void)(x)
 
 #define JUB_UNREFERENCED_PARAMETER(P) (P)
 
