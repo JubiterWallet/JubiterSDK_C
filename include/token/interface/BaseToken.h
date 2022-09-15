@@ -6,8 +6,8 @@
 #include <TrustWallet/wallet-core/src/BinaryCoding.h>
 #include <TrustWalletCore/TWCoinType.h>
 #include <assert.h>
-#include <string>
 #include <cstring>
+#include <string>
 
 // extern struct stVersion;
 struct stVersionExp : stVersion {
@@ -107,26 +107,6 @@ class BaseToken {
     virtual ~BaseToken() {}
 
   protected:
-    virtual JUB_RV
-    _getPubkeyFromXpub(const std::string &xpub, TW::Data &publicKey,
-                       uint32_t hdVersionPub = TWCoinType2HDVersionPublic(TWCoinType::TWCoinTypeBitcoin),
-                       uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate(TWCoinType::TWCoinTypeBitcoin)) {
-        try {
-            HDNode hdkey;
-            uint32_t fingerprint = 0;
-            if (0 != hdnode_deserialize(xpub.c_str(), hdVersionPub, hdVersionPrv, _curve_name, &hdkey, &fingerprint)) {
-                return JUBR_ARGUMENTS_BAD;
-            }
-
-            uchar_vector vPublicKey(hdkey.public_key, sizeof(hdkey.public_key) / sizeof(uint8_t));
-            publicKey = TW::Data(vPublicKey);
-        } catch (...) {
-            return JUBR_ARGUMENTS_BAD;
-        }
-
-        return JUBR_OK;
-    }
-
     virtual JUB_RV _getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string &derivPrv,
                                                   std::string &derivPub, const std::string path,
                                                   JUB_ENUM_CURVES curve) {

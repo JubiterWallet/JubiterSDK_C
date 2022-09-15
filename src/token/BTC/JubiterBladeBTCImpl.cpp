@@ -12,6 +12,9 @@
 #include <vector>
 
 #include "JUB_SDK_BTC.h"
+#include "PublicKey.h"
+#include "TWCoinType.h"
+#include "TWPublicKeyType.h"
 #include "token/ErrorHandler.h"
 #include "utility/util.h"
 
@@ -286,35 +289,26 @@ JUB_RV JubiterBladeBTCImpl::SignTX(const JUB_BYTE addrFmt, const JUB_ENUM_BTC_TR
 }
 
 JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const std::vector<JUB_UINT64> &vInputAmount,
-                                     const std::vector<std::string> &vInputPath, const std::vector<JUB_BYTE> &vSigedTrans,
-                                     const TWCoinType &coinNet) {
+                                     const std::vector<std::string> &vInputPath,
+                                     const std::vector<JUB_BYTE> &vSigedTrans, const TWCoinType &coinNet) {
 
     auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
-    auto  nested = type == p2sh_p2wpkh;
+    auto nested  = type == p2sh_p2wpkh;
 
     // verify signature
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic( (coinNet ? coinNet : _coin), witness, nested);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness, nested);
+    // hardware generate mainnet xpub
+    auto coin = coinNet ? coinNet : _coin;
+    if (coin == TWCoinTypeBitcoinTestNet) {
+        coin = TWCoinTypeBitcoin;
+    }
+    auto pubVer = TWCoinType2HDVersionPublic(coin, witness, nested);
 
-    JUB_RV rv = JUBR_ERROR;
     std::vector<TW::Data> vInputPublicKey;
     for (const auto &inputPath : vInputPath) {
         std::string xpub;
-        rv = GetHDNode(type, inputPath, xpub, coinNet);
-        if (JUBR_OK != rv) {
-            break;
-        }
-
-        TW::Data publicKey;
-        rv = _getPubkeyFromXpub(xpub, publicKey, hdVersionPub, hdVersionPrv);
-        if (JUBR_OK != rv) {
-            break;
-        }
-
-        vInputPublicKey.push_back(publicKey);
-    }
-    if (JUBR_OK != rv) {
-        return rv;
+        JUB_VERIFY_RV(GetHDNode(type, inputPath, xpub, coinNet));
+        auto pk = TW::PublicKey::FromXpub(xpub, _curve_name, pubVer);
+        vInputPublicKey.push_back(pk.bytes);
     }
 
     return _verifyTx(type, vSigedTrans, vInputAmount, vInputPublicKey, coinNet);

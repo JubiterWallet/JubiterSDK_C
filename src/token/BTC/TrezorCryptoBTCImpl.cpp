@@ -244,22 +244,17 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
     auto witness = type == p2sh_p2wpkh || type == p2wpkh || type == p2tr;
     auto nested  = type == p2sh_p2wpkh;
 
-    uint32_t hdVersionPub = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness, nested);
-    uint32_t hdVersionPrv = TWCoinType2HDVersionPrivate((coinNet ? coinNet : _coin), witness, nested);
+    auto pubVer = TWCoinType2HDVersionPublic((coinNet ? coinNet : _coin), witness, nested);
 
     std::vector<TW::Data> vInputPublicKey;
     for (const auto &inputPath : vInputPath) {
         std::string xpub;
         JUB_VERIFY_RV(GetHDNode(type, inputPath, xpub, coinNet));
-
-        TW::Data publicKey;
-        JUB_VERIFY_RV(_getPubkeyFromXpub(xpub, publicKey, hdVersionPub, hdVersionPrv));
+        auto pk = TW::PublicKey::FromXpub(xpub, _curve_name, pubVer);
         if (type == p2tr) {
-            auto pk   = TW::PublicKey(publicKey, TWPublicKeyTypeSECP256k1).p2trPublicKey();
-            publicKey = pk.bytes;
+            pk = pk.p2trPublicKey();
         }
-
-        vInputPublicKey.push_back(publicKey);
+        vInputPublicKey.push_back(pk.bytes);
     }
 
     // verify signature

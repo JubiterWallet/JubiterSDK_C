@@ -9,9 +9,12 @@
 #include "Data.h"
 #include "Hash.h"
 
+#include <TrustWalletCore/TWHDVersion.h>
 #include <TrustWalletCore/TWPublicKeyType.h>
 
+#include <cstdint>
 #include <stdexcept>
+#include <string>
 
 namespace TW {
 
@@ -40,6 +43,9 @@ class PublicKey {
     /// Determines if a collection of bytes makes a valid public key of the
     /// given type.
     static bool isValid(const Data &data, enum TWPublicKeyType type);
+
+    /// Get public key from xpub
+    static PublicKey FromXpub(const std::string &xpub, const std::string curveName, uint32_t pubVer = TWHDVersionXPUB);
 
     /// Initializes a public key with a collection of bytes.
     ///

@@ -8,6 +8,7 @@
 #include "Data.h"
 
 #include "TWPublicKeyType.h"
+#include "TrezorCrypto/bip32.h"
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include <TrezorCrypto/ecdsa.h>
 #include <TrezorCrypto/ed25519-donna/ed25519-blake2b.h>
@@ -17,7 +18,11 @@
 #include <TrezorCrypto/sodium/keypair.h>
 
 #include <assert.h>
+#include <cstdint>
 #include <cstring>
+#include <exception>
+#include <stdexcept>
+#include <string>
 
 namespace TW {
 
@@ -45,6 +50,18 @@ bool PublicKey::isValid(const Data &data, enum TWPublicKeyType type) {
     default:
         return false;
     }
+}
+
+/// Get public key from xpub
+PublicKey PublicKey::FromXpub(const std::string &xpub, const std::string curveName, uint32_t pubVer) {
+    HDNode node;
+    // public not private
+    auto ret = hdnode_deserialize(xpub.c_str(), pubVer, 0, curveName.c_str(), &node, nullptr);
+    if (ret != 0) {
+        throw std::invalid_argument("Invalid x-path");
+    }
+    auto pub = node.public_key;
+    return PublicKey{{pub, pub + 33}, TWPublicKeyTypeSECP256k1};
 }
 
 /// Initializes a public key with a collection of bytes.
