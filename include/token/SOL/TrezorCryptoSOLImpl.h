@@ -23,9 +23,6 @@ class TrezorCryptoSOLImpl : public TrezorCryptoToken, virtual public JubiterBase
 
     virtual JUB_RV GetAddress(const std::string &path, const JUB_UINT16 tag, std::string &address) override;
     virtual JUB_RV GetHDNode(const JUB_BYTE format, const std::string &path, std::string &pubkey) override;
-    virtual JUB_RV _getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string &derivPrv,
-                                                  std::string &derivPub, const std::string path,
-                                                  JUB_ENUM_CURVES curve) override;
     virtual JUB_RV SetTokenInfo(const std::string &name, JUB_UINT8 decimal,
                                 const std::string &tokenMint) override final;
 
@@ -46,6 +43,9 @@ class TrezorCryptoSOLImpl : public TrezorCryptoToken, virtual public JubiterBase
                                             std::vector<JUB_BYTE> &raw) override final;
 
     JUB_RV SignTx(const std::string &path, TW::Solana::Transaction &tx);
+
+    JUB_RV DeriveChildKey(const std::string &prvKey, const std::string &path, std::string &derivPrv,
+                          std::string &derivPub);
 }; // class TrezorCryptoSOLImpl end
 
 } // namespace token

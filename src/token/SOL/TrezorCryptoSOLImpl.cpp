@@ -24,7 +24,7 @@ JUB_RV TrezorCryptoSOLImpl::SetCoin() { return JUBR_OK; }
 JUB_RV TrezorCryptoSOLImpl::GetAddress(const std::string &path, const JUB_UINT16 tag, std::string &address) {
     std::string derivPrv;
     std::string derivpub;
-    JUB_VERIFY_RV(_getEd25519PrvKeyFromMasterKey(_MasterKey_XPRV, derivPrv, derivpub, path, _curve));
+    JUB_VERIFY_RV(DeriveChildKey(_MasterKey_XPRV, path, derivPrv, derivpub));
 
     uchar_vector pub(derivpub);
     // only need 32 bytes
@@ -36,7 +36,7 @@ JUB_RV TrezorCryptoSOLImpl::GetHDNode(const JUB_BYTE format, const std::string &
     if (!path.empty()) {
         std::string derivPrv;
         std::string derivpub;
-        JUB_VERIFY_RV(_getEd25519PrvKeyFromMasterKey(_MasterKey_XPRV, derivPrv, derivpub, path, _curve));
+        JUB_VERIFY_RV(DeriveChildKey(_MasterKey_XPRV, path, derivPrv, derivpub));
         pubkey = derivpub;
     } else {
         pubkey = _MasterKey_XPUB;
@@ -45,10 +45,8 @@ JUB_RV TrezorCryptoSOLImpl::GetHDNode(const JUB_BYTE format, const std::string &
     return JUBR_OK;
 }
 
-JUB_RV TrezorCryptoSOLImpl::_getEd25519PrvKeyFromMasterKey(const std::string prvKey, std::string &derivPrv,
-                                                           std::string &derivPub, const std::string path,
-                                                           JUB_ENUM_CURVES curve) {
-    JUB_NOT_USED(curve);
+JUB_RV TrezorCryptoSOLImpl::DeriveChildKey(const std::string &prvKey, const std::string &path, std::string &derivPrv,
+                                           std::string &derivPub) {
     // drive from master key, see caller
     uchar_vector seed(prvKey);
     HDNode node;
@@ -123,7 +121,7 @@ JUB_RV TrezorCryptoSOLImpl::SignCreateTokenAccountTx(const std::string &path, co
 
 JUB_RV TrezorCryptoSOLImpl::SignTx(const std::string &path, TW::Solana::Transaction &tx) {
     std::string key, pubKey;
-    JUB_VERIFY_RV(_getEd25519PrvKeyFromMasterKey(_MasterKey_XPRV, key, pubKey, path, _curve));
+    JUB_VERIFY_RV(DeriveChildKey(_MasterKey_XPRV, path, key, pubKey));
     auto bytes   = uchar_vector{key};
     auto privKey = TW::PrivateKey{TW::Data{bytes}};
 
