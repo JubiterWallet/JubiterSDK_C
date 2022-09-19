@@ -9,7 +9,7 @@
 namespace jub {
 namespace token {
 
-class JubiterBladeTRXImpl : public JubiterBladeToken, virtual public JubiterBaseTRXImpl {
+class JubiterBladeTRXImpl : virtual public JubiterBladeToken, public JubiterBaseTRXImpl {
   public:
     JubiterBladeTRXImpl(const JUB_UINT16 deviceID) : JubiterBladeToken(deviceID) {}
     ~JubiterBladeTRXImpl() {}

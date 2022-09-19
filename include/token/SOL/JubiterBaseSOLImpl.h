@@ -7,7 +7,7 @@
 namespace jub {
 namespace token {
 
-class JubiterBaseSOLImpl : virtual public SOLTokenInterface {
+class JubiterBaseSOLImpl : public SOLTokenInterface {
   public:
     JubiterBaseSOLImpl() {
         _coin       = TWCoinType::TWCoinTypeSolana;

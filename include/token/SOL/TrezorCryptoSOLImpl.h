@@ -11,7 +11,7 @@
 namespace jub {
 namespace token {
 
-class TrezorCryptoSOLImpl : public TrezorCryptoToken, virtual public JubiterBaseSOLImpl {
+class TrezorCryptoSOLImpl : public TrezorCryptoToken, public JubiterBaseSOLImpl {
   public:
     TrezorCryptoSOLImpl(JUB_UINT16 deviceID, const JUB_ENUM_CURVES curve = JUB_ENUM_CURVES::ED25519)
         : TrezorCryptoToken(deviceID, curve) {}

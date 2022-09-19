@@ -6,7 +6,7 @@
 namespace jub {
 namespace token {
 
-class JubiterBaseDOTImpl : virtual public DOTTokenInterface {
+class JubiterBaseDOTImpl : public DOTTokenInterface {
   public:
     JubiterBaseDOTImpl() {
         _coin = TWCoinType::TWCoinTypePolkadot;

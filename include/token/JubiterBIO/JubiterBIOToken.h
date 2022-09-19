@@ -7,7 +7,7 @@
 namespace jub {
 namespace token {
 
-class JubiterBIOToken : public JubiterBladeToken {
+class JubiterBIOToken : virtual public JubiterBladeToken {
   public:
     static stAppInfos g_appInfo[];
 

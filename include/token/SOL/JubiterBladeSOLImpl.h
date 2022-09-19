@@ -9,7 +9,7 @@
 namespace jub {
 namespace token {
 
-class JubiterBladeSOLImpl : public JubiterBladeToken, virtual public JubiterBaseSOLImpl {
+class JubiterBladeSOLImpl : virtual public JubiterBladeToken, public JubiterBaseSOLImpl {
   public:
     JubiterBladeSOLImpl(JUB_UINT16 deviceID) : JubiterBladeToken(deviceID) {}
 

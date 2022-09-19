@@ -1,7 +1,5 @@
 #pragma once
-#include "JUB_SDK_BTC.h"
 #include "token/BTC/JubiterBaseBTCImpl.h"
-#include "token/interface/BTCTokenInterface.hpp"
 #include <Hcash/Transaction.h>
 #include <TrustWalletCore/TWHcashSigHashType.h>
 #include <string>
@@ -29,8 +27,7 @@ class JubiterBaseHCImpl : virtual public JubiterBaseBTCImpl {
 
     virtual JUB_RV _getAddress(const TW::Data &publicKey, std::string &address, const TWCoinType &coinNet) override;
 
-    virtual JUB_RV _verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type,
-                             const TWCoinType &coin,
+    virtual JUB_RV _verifyTx(const JUB_ENUM_BTC_TRANS_TYPE &type, const TWCoinType &coin,
                              const TW::Bitcoin::Transaction *tx, const uint32_t &hashType,
                              const std::vector<JUB_UINT64> &vInputAmount,
                              const std::vector<TW::PublicKey> &vInputPublicKey) override;

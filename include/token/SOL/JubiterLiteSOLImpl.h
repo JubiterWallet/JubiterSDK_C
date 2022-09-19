@@ -1,5 +1,6 @@
 #pragma once
 #include "JUB_SDK_COMM.h"
+#include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterLite/JubiterLiteImpl.h"
 #include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/SOL/JubiterBaseSOLImpl.h"
@@ -11,9 +12,9 @@
 namespace jub {
 namespace token {
 
-class JubiterLiteSOLImpl : public JubiterLiteImpl, virtual public JubiterBaseSOLImpl {
+class JubiterLiteSOLImpl : public JubiterLiteImpl, public JubiterBaseSOLImpl {
   public:
-    JubiterLiteSOLImpl(JUB_UINT16 deviceID) : JubiterLiteImpl(deviceID) {}
+    JubiterLiteSOLImpl(JUB_UINT16 deviceID) : JubiterLiteImpl(deviceID), JubiterBladeToken(deviceID) {}
 
     // SOL functions
     virtual JUB_RV SelectApplet() override;

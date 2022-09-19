@@ -2,23 +2,19 @@
 
 #include <memory>
 
-#include "token/JubiterBIO/JubiterBIOToken.h"
 #include "token/FIL/JubiterBladeFILImpl.h"
+#include "token/JubiterBIO/JubiterBIOToken.h"
+#include "token/JubiterBlade/JubiterBladeToken.h"
 
 namespace jub {
 namespace token {
 
-
-class JubiterBIOFILImpl :
-        public JubiterBIOToken,
-virtual public JubiterBladeFILImpl {
-public:
-    JubiterBIOFILImpl(JUB_UINT16 deviceID) :
-        JubiterBIOToken(deviceID),
-        JubiterBladeFILImpl(deviceID) {}
+class JubiterBIOFILImpl : public JubiterBIOToken, public JubiterBladeFILImpl {
+  public:
+    JubiterBIOFILImpl(JUB_UINT16 deviceID)
+        : JubiterBIOToken(deviceID), JubiterBladeFILImpl(deviceID), JubiterBladeToken(deviceID) {}
     virtual ~JubiterBIOFILImpl() = default;
 }; // class JubiterBIOFILImpl end
 
-
-} // namespace token end
-} // namespace jub end
+} // namespace token
+} // namespace jub
