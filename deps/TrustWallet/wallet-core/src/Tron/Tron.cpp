@@ -308,9 +308,11 @@ void Permission::from_internal(const ::protocol::Permission& permission) {
     ::protocol::Permission encode;
 
     // Permission.type
-//    encode.set_type(type);
+    encode.clear_type();
+    encode.set_type(type);
     // Permission.id
-//    encode.set_id(identity);
+    encode.clear_id();
+    encode.set_id(identity);
     // Permission.permission_name
     encode.clear_permission_name();
     if (0 < permission_name.size()) {

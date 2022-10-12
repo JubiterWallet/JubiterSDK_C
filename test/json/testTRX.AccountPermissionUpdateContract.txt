@@ -50,17 +50,17 @@ message AccountPermissionUpdateContract {
 //            10 33                                                                 (Key.weight)
 
 
-//packedContractInPB[436]:
-//0a0223bc22082b72b05b7674b2574090f288f7d42e5a9503082e1290030a3c747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e4163636f756e745065726d697373696f6e557064617465436f6e747261637412cf020a15412951299aca154f795560460308861fce0f94875a12241a056f776e657220013a190a15412951299aca154f795560460308861fce0f94875a100122471a06616374697665200132207fff1fc0033e03000000000000000000000000000000000000000000000000003a190a15412951299aca154f795560460308861fce0f94875a1001227e1a07e9878ae694be522064322077ff07c0023e03000000000000000000000000000000000000000000000000003a190a1541517022c709604f183690f5616d79c951da5c33b9102d3a190a1541e6bdbaf86fbcdea974926a29422774af2944373f10333a190a15410a66f839ddaa429ab2319fd8c7d810e4611fe7b4100422471a06e6b58be8af952033322077fb03c0003e02000000000000000000000000000000000000000000000000003a190a15414b7e6b6c7d6f243d9709359fa7e85fc9fcfe1080103370a5b885f7d42e
-//0a02 23bc                                                     (raw.ref_block_bytes)
+//packedContractInPB[449]:
+//0a0223bc22082b72b05b7674b2574090f288f7d42e5aa203082e129d030a3c747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e4163636f756e745065726d697373696f6e557064617465436f6e747261637412dc020a15412951299aca154f795560460308861fce0f94875a12241a056f776e657220013a190a15412951299aca154f795560460308861fce0f94875a1001224b080210021a06616374697665200132207fff1fc0033e03000000000000000000000000000000000000000000000000003a190a15412951299aca154f795560460308861fce0f94875a1001228201080210031a07e9878ae694be522064322077ff07c0023e03000000000000000000000000000000000000000000000000003a190a1541517022c709604f183690f5616d79c951da5c33b9102d3a190a1541e6bdbaf86fbcdea974926a29422774af2944373f10333a190a15410a66f839ddaa429ab2319fd8c7d810e4611fe7b41004224b080210041a06e6b58be8af952033322077fb03c0003e02000000000000000000000000000000000000000000000000003a190a15414b7e6b6c7d6f243d9709359fa7e85fc9fcfe1080103370a5b885f7d42e
+//0a 02 23bc                                                    (raw.ref_block_bytes)
 //22 08 2b72b05b7674b257                                        (raw.ref_block_hash)
 //40 90f288f7d42e                                               (raw.expiration)
-//5a 9503                                                       (repeated raw.Contract length)
+//5a a203                                                       (repeated raw.Contract length)
 //        08 2e
-//        12 9003                                                   (Contract.parameter length)
+//        12 9d03                                                   (Contract.parameter length)
 //                0a 3c                                                 (Contract.parameter.typeUrl length = 60)
 //                      747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e4163636f756e745065726d697373696f6e557064617465436f6e7472616374    (type.googleapis.com/protocol.AccountPermissionUpdateContract)
-//                12 cf02                                                                       (Contract.parameter.AccountPermissionUpdateContract length)
+//                12 dc02                                                                       (Contract.parameter.AccountPermissionUpdateContract length)
 //                        0a 15 412951299aca154f795560460308861fce0f94875a                          (Contract.parameter.AccountPermissionUpdateContract.owner_address)
 //12 24 1a056f776e657220013a190a15412951299aca154f795560460308861fce0f94875a1001
 //                        12 24                                                                     (Contract.parameter.AccountPermissionUpdateContract.owner length=36)
@@ -69,34 +69,40 @@ message AccountPermissionUpdateContract {
 //                              3a 19                                                                   (Permission.keys)
 //                                    0a 15 412951299aca154f795560460308861fce0f94875a                      (Key.address)
 //                                    10 01                                                                 (Key.weight)
-//22 47 1a06616374697665200132207fff1fc0033e03000000000000000000000000000000000000000000000000003a190a15412951299aca154f795560460308861fce0f94875a1001
-//                        22 47                                                                     (Contract.parameter.AccountPermissionUpdateContract.actives.0 length=71)
+//22 4b 080210021a06616374697665200132207fff1fc0033e03000000000000000000000000000000000000000000000000003a190a15412951299aca154f795560460308861fce0f94875a1001
+//                        22 4b
+//                              08 02                                                                   (Permission.type)
+//                              10 02                                                                   (Permission.id)
 //                              1a 06 616374697665                                                      (Permission.permission_name)
 //                              20 01                                                                   (Permission.threshold)
 //                              32 20 7fff1fc0033e0300000000000000000000000000000000000000000000000000  (Permission.operations)
 //                              3a 19                                                                   (Permission.keys)
 //                                    0a 15 412951299aca154f795560460308861fce0f94875a                      (Key.address)
 //                                    10 01                                                                 (Key.weight)
-//22 7e 1a07e9878ae694be522064322077ff07c0023e03000000000000000000000000000000000000000000000000003a190a1541517022c709604f183690f5616d79c951da5c33b9102d3a190a1541e6bdbaf86fbcdea974926a29422774af2944373f10333a190a15410a66f839ddaa429ab2319fd8c7d810e4611fe7b41004
-//                        22 7e                                                                     (Contract.parameter.AccountPermissionUpdateContract.actives.1 length=126)
+//22 82 01080210031a07e9878ae694be522064322077ff07c0023e03000000000000000000000000000000000000000000000000003a190a1541517022c709604f183690f5616d79c951da5c33b9102d3a190a1541e6bdbaf86fbcdea974926a29422774af2944373f10333a190a15410a66f839ddaa429ab2319fd8c7d810e4611fe7b41004224b08021004
+//                        22 8201
+//                              08 02                                                                   (Permission.type)
+//                              10 03                                                                   (Permission.id)
 //                              1a 07 e9878ae694be52                                                    (Permission.permission_name)
 //                              20 64                                                                   (Permission.threshold)
 //                              32 20 77ff07c0023e0300000000000000000000000000000000000000000000000000  (Permission.operations)
 //                              3a 19                                                                   (Permission.keys)
 //                                    0a 15 41517022c709604f183690f5616d79c951da5c33b9                      (Key.address)
 //                                    10 2d                                                                 (Key.weight)
-//                              3a 19
+//                              3a 19                                                                   (Permission.keys)
 //                                    0a 15 41e6bdbaf86fbcdea974926a29422774af2944373f                      (Key.address)
 //                                    10 33                                                                 (Key.weight)
-//                              3a 19
+//                              3a 19                                                                   (Permission.keys)
 //                                    0a 15 410a66f839ddaa429ab2319fd8c7d810e4611fe7b4                      (Key.address)
 //                                    10 04                                                                 (Key.weight)
-//22 47 1a06e6b58be8af952033322077fb03c0003e02000000000000000000000000000000000000000000000000003a190a15414b7e6b6c7d6f243d9709359fa7e85fc9fcfe10801033
-//                        22 47                                                                     (Contract.parameter.AccountPermissionUpdateContract.actives.2 length=71)
+//22 4b 080210041a06e6b58be8af952033322077fb03c0003e02000000000000000000000000000000000000000000000000003a190a15414b7e6b6c7d6f243d9709359fa7e85fc9fcfe10801033
+//                        22 4b
+//                              08 02                                                                   (Permission.type)
+//                              10 04                                                                   (Permission.id)
 //                              1a 06 e6b58be8af95                                                      (Permission.permission_name)
 //                              20 33                                                                   (Permission.threshold)
 //                              32 20 77fb03c0003e0200000000000000000000000000000000000000000000000000  (Permission.operations)
-//                              3a 19
+//                              3a 19                                                                   (Permission.keys)
 //                                    0a 15 414b7e6b6c7d6f243d9709359fa7e85fc9fcfe1080                      (Key.address)
 //                                    10 33                                                                 (Key.weight)
 //70 a5b885f7d42e                                               (raw.timestamp)

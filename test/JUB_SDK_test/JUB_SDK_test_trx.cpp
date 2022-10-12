@@ -400,6 +400,19 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
     case JUB_ENUM_TRX_CONTRACT_TYPE::ACCT_PERM_UPDATE_CONTRACT: {
         contrTRX.acctPermUpdate.owner_address = (JUB_CHAR_PTR)root["TRX"]["contracts"]["owner_address"].asCString();
 
+        auto strType = root["TRX"]["contracts"][sType]["owner"]["type"].asString();
+//        if (0 == strType.compare("Owner")) {
+            contrTRX.acctPermUpdate.owner.type = JUB_PERMISSION_TRX::PermissionType::Owner;
+//        }
+//        else
+        if (0 == strType.compare("Witness")) {
+            contrTRX.acctPermUpdate.owner.type = JUB_PERMISSION_TRX::PermissionType::Witness;
+        }
+        else if (0 == strType.compare("Active")) {
+            contrTRX.acctPermUpdate.owner.type = JUB_PERMISSION_TRX::PermissionType::Active;
+        }
+        contrTRX.acctPermUpdate.owner.identity = root["TRX"]["contracts"][sType]["contracts"]["id"].asInt();
+
         contrTRX.acctPermUpdate.owner.permission_name = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["owner"]["permission_name"].asCString();
         contrTRX.acctPermUpdate.owner.threshold = root["TRX"]["contracts"][sType]["owner"]["threshold"].asUInt64();
         contrTRX.acctPermUpdate.owner.keyCount = root["TRX"]["contracts"][sType]["owner"]["keys"].size();
@@ -410,6 +423,19 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
 
         contrTRX.acctPermUpdate.activeCount = root["TRX"]["contracts"][sType]["actives"].size();
         for (JUB_UINT16 i=0; i<contrTRX.acctPermUpdate.activeCount; ++i) {
+            strType = root["TRX"]["contracts"][sType]["actives"][i]["type"].asString();
+//            if (0 == strType.compare("Owner")) {
+                contrTRX.acctPermUpdate.actives[i].type = JUB_PERMISSION_TRX::PermissionType::Owner;
+//            }
+//            else
+            if (0 == strType.compare("Witness")) {
+                contrTRX.acctPermUpdate.actives[i].type = JUB_PERMISSION_TRX::PermissionType::Witness;
+            }
+            else if (0 == strType.compare("Active")) {
+                contrTRX.acctPermUpdate.actives[i].type = JUB_PERMISSION_TRX::PermissionType::Active;
+            }
+            contrTRX.acctPermUpdate.actives[i].identity = root["TRX"]["contracts"][sType]["actives"][i]["id"].asInt();
+
             contrTRX.acctPermUpdate.actives[i].permission_name = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["actives"][i]["permission_name"].asCString();
             contrTRX.acctPermUpdate.actives[i].threshold = root["TRX"]["contracts"][sType]["actives"][i]["threshold"].asUInt64();
             contrTRX.acctPermUpdate.actives[i].operations = (JUB_CHAR_PTR)root["TRX"]["contracts"][sType]["actives"][i]["operations"].asCString();

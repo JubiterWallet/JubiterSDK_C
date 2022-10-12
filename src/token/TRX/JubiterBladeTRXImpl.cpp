@@ -409,7 +409,6 @@ JUB_RV JubiterBladeTRXImpl::SignTX(const std::vector<JUB_BYTE> &vPath, const std
                 vItem.clear();
                 // keys
                 for (int keyIndex = 0; keyIndex < active.keys.size(); ++keyIndex) {
-                    std::cout << "active key index: " << index << std::endl;
                     auto keyOffset = active.keyOffset(activeOffset, keyIndex);
                     auto &key      = active.keys.at(keyIndex);
                     auto offset    = key.addressOffset(keyOffset);

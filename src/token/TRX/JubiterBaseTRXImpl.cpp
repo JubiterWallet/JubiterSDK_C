@@ -159,6 +159,8 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                 }
                 actives.push_back(
                     TW::Tron::Permission(
+                        (protocol::Permission_PermissionType)contract.acctPermUpdate.actives[i].type,
+                        (int32_t)contract.acctPermUpdate.actives[i].identity,
                         std::string(contract.acctPermUpdate.actives[i].permission_name),
                         contract.acctPermUpdate.actives[i].threshold,
                         uchar_vector(contract.acctPermUpdate.actives[i].operations),
@@ -171,6 +173,8 @@ JUB_RV JubiterBaseTRXImpl::SerializeContract(const JUB_CONTRACT_TRX& contract,
                             TW::Tron::AccountPermissionUpdateContract(
                                 std::string(contract.acctPermUpdate.owner_address),
                                 TW::Tron::Permission(
+                                    (protocol::Permission_PermissionType)contract.acctPermUpdate.owner.type,
+                                    (int32_t)contract.acctPermUpdate.owner.identity,
                                     std::string(contract.acctPermUpdate.owner.permission_name),
                                     contract.acctPermUpdate.owner.threshold,
                                     owner_keys

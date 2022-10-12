@@ -44,6 +44,13 @@ typedef JUB_KEY_TRX* JUB_KEY_TRX_PTR;
 
 // Remove c++ features for swift framework
 typedef struct stTronPermission {
+    enum PermissionType {
+        Owner = 0,
+        Witness = 1,
+        Active = 2,
+    };
+    PermissionType type;
+    JUB_INT32 identity;
     JUB_CHAR_PTR permission_name;
     JUB_INT64 threshold;
     JUB_CHAR_PTR operations;

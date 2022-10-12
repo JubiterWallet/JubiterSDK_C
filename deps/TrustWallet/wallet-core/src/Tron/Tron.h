@@ -176,19 +176,27 @@ public:
         , operations(operations)
         , keys(keys)
     {}
-    Permission(const std::string& permission_name,
+    Permission(const protocol::Permission_PermissionType type,
+               const int32_t identity,
+               const std::string& permission_name,
                const int64_t threshold,
                const std::vector<uint8_t>& operations,
                const std::vector<Key>& keys)
-        : permission_name(permission_name)
+        : type(type)
+        , identity(identity)
+        , permission_name(permission_name)
         , threshold(threshold)
         , operations(operations)
         , keys(keys)
     {}
-    Permission(const std::string& permission_name,
+    Permission(const protocol::Permission_PermissionType type,
+               const int32_t identity,
+               const std::string& permission_name,
                const int64_t threshold,
                const std::vector<Key>& keys)
-        : permission_name(permission_name)
+        : type(type)
+        , identity(identity)
+        , permission_name(permission_name)
         , threshold(threshold)
         , keys(keys)
     {}
