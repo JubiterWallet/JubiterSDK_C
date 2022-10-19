@@ -8,12 +8,12 @@
 
 #include "JUB_SDK_TRX.h"
 
-#include "utility/util.h"
 #include "utility/mutex.h"
+#include "utility/util.h"
 
 #include "context/TRXContextFactory.h"
 #include "token/TRX/JubiterBaseTRXImpl.h"
-
+#include <string>
 
 JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
 
@@ -24,9 +24,7 @@ JUB_RV _allocMem(JUB_CHAR_PTR_PTR memPtr, const std::string &strBuf);
  * @out param : contextID
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_CreateContextTRX(IN CONTEXT_CONFIG_TRX cfg,
-                            IN JUB_UINT16 deviceID,
-                            OUT JUB_UINT16* contextID) {
+JUB_RV JUB_CreateContextTRX(IN CONTEXT_CONFIG_TRX cfg, IN JUB_UINT16 deviceID, OUT JUB_UINT16 *contextID) {
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::TRXseriesContextFactory::GetInstance()->CreateContext(deviceID, cfg);
@@ -38,7 +36,6 @@ JUB_RV JUB_CreateContextTRX(IN CONTEXT_CONFIG_TRX cfg,
     return JUBR_OK;
 }
 
-
 /*****************************************************************************
  * @function name : JUB_GetHDNodeTRX
  * @in  param : contextID - context ID
@@ -48,10 +45,8 @@ JUB_RV JUB_CreateContextTRX(IN CONTEXT_CONFIG_TRX cfg,
  * @out param : pubkey
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_GetHDNodeTRX(IN JUB_UINT16 contextID,
-                        IN JUB_ENUM_PUB_FORMAT format,
-                        IN BIP44_Path path,
-//                        IN BIP48_Path path,
+JUB_RV JUB_GetHDNodeTRX(IN JUB_UINT16 contextID, IN JUB_ENUM_PUB_FORMAT format, IN BIP44_Path path,
+                        //                        IN BIP48_Path path,
                         OUT JUB_CHAR_PTR_PTR pubkey) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -65,7 +60,6 @@ JUB_RV JUB_GetHDNodeTRX(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-
 /*****************************************************************************
  * @function name : JUB_GetMainHDNodeTRX
  * @in  param : contextID - context ID
@@ -74,9 +68,7 @@ JUB_RV JUB_GetHDNodeTRX(IN JUB_UINT16 contextID,
  * @out param : xpub
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_GetMainHDNodeTRX(IN JUB_UINT16 contextID,
-                            IN JUB_ENUM_PUB_FORMAT format,
-                            OUT JUB_CHAR_PTR_PTR xpub) {
+JUB_RV JUB_GetMainHDNodeTRX(IN JUB_UINT16 contextID, IN JUB_ENUM_PUB_FORMAT format, OUT JUB_CHAR_PTR_PTR xpub) {
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
@@ -89,7 +81,6 @@ JUB_RV JUB_GetMainHDNodeTRX(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-
 /*****************************************************************************
  * @function name : JUB_GetAddressTRX
  * @in  param : contextID - context ID
@@ -98,11 +89,9 @@ JUB_RV JUB_GetMainHDNodeTRX(IN JUB_UINT16 contextID,
  * @out param : address
  * @last change :
  *****************************************************************************/
-JUB_RV JUB_GetAddressTRX(IN JUB_UINT16 contextID,
-                         IN BIP44_Path    path,
-//                         IN BIP48_Path    path,
-                         IN JUB_ENUM_BOOL bShow,
-                         OUT JUB_CHAR_PTR_PTR address) {
+JUB_RV JUB_GetAddressTRX(IN JUB_UINT16 contextID, IN BIP44_Path path,
+                         //                         IN BIP48_Path    path,
+                         IN JUB_ENUM_BOOL bShow, OUT JUB_CHAR_PTR_PTR address) {
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
@@ -114,7 +103,6 @@ JUB_RV JUB_GetAddressTRX(IN JUB_UINT16 contextID,
 
     return JUBR_OK;
 }
-
 
 /*****************************************************************************
  * @function name : JUB_CheckAddressTRX
@@ -137,7 +125,6 @@ JUB_RV JUB_CheckAddressTRX(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OU
     return JUBR_OK;
 }
 
-
 ///*****************************************************************************
 // * @function name : JUB_SetMyAddressTRX
 // * @in  param : contextID - context ID
@@ -145,7 +132,7 @@ JUB_RV JUB_CheckAddressTRX(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OU
 // * @out param : address
 // * @last change :
 // *****************************************************************************/
-//JUB_RV JUB_SetMyAddressTRX(IN JUB_UINT16 contextID,
+// JUB_RV JUB_SetMyAddressTRX(IN JUB_UINT16 contextID,
 //                           IN BIP44_Path path,
 ////                           IN BIP48_Path path,
 //                           OUT JUB_CHAR_PTR_PTR address) {
@@ -171,9 +158,7 @@ JUB_RV JUB_CheckAddressTRX(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address, OU
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SignTransactionTRX(IN JUB_UINT16 contextID,
-                              IN BIP44_Path path,
-                              IN JUB_CHAR_CPTR packedContractInPb,
+JUB_RV JUB_SignTransactionTRX(IN JUB_UINT16 contextID, IN BIP44_Path path, IN JUB_CHAR_CPTR packedContractInPb,
                               OUT JUB_CHAR_PTR_PTR rawInJSON) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -181,14 +166,11 @@ JUB_RV JUB_SignTransactionTRX(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     std::string str_raw;
-    JUB_VERIFY_RV(context->SignTransaction(path,
-                                           packedContractInPb,
-                                           str_raw));
+    JUB_VERIFY_RV(context->SignTransaction(path, packedContractInPb, str_raw));
     JUB_VERIFY_RV(_allocMem(rawInJSON, str_raw));
 
     return JUBR_OK;
 }
-
 
 /*****************************************************************************
  * @function name : JUB_SignBytestringTRX（https://github.com/tronprotocol/tips/issues/104）
@@ -199,9 +181,7 @@ JUB_RV JUB_SignTransactionTRX(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SignBytestringTRX(IN JUB_UINT16 contextID,
-                             IN BIP44_Path path,
-                             IN JUB_CHAR_CPTR data,
+JUB_RV JUB_SignBytestringTRX(IN JUB_UINT16 contextID, IN BIP44_Path path, IN JUB_CHAR_CPTR data,
                              OUT JUB_CHAR_PTR_PTR rawInJSON) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -209,14 +189,11 @@ JUB_RV JUB_SignBytestringTRX(IN JUB_UINT16 contextID,
     JUB_CHECK_NULL(context);
 
     std::string str_raw;
-    JUB_VERIFY_RV(context->SignBytestring(path,
-                                          data,
-                                           str_raw));
+    JUB_VERIFY_RV(context->SignBytestring(path, data, str_raw));
     JUB_VERIFY_RV(_allocMem(rawInJSON, str_raw));
 
     return JUBR_OK;
 }
-
 
 /*****************************************************************************
  * @function name : JUB_SetTRC10Asset
@@ -228,9 +205,7 @@ JUB_RV JUB_SignBytestringTRX(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SetTRC10Asset(IN JUB_UINT16 contextID,
-                         IN JUB_CHAR_CPTR assetName,
-                         IN JUB_UINT16 unitDP,
+JUB_RV JUB_SetTRC10Asset(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR assetName, IN JUB_UINT16 unitDP,
                          IN JUB_CHAR_CPTR assetID) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -241,7 +216,6 @@ JUB_RV JUB_SetTRC10Asset(IN JUB_UINT16 contextID,
 
     return JUBR_OK;
 }
-
 
 /*****************************************************************************
  * @function name : JUB_SetTRC20Token
@@ -255,9 +229,7 @@ JUB_RV JUB_SetTRC10Asset(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SetTRC20Token(IN JUB_UINT16 contextID,
-                         IN JUB_CHAR_CPTR tokenName,
-                         IN JUB_UINT16 unitDP,
+JUB_RV JUB_SetTRC20Token(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR tokenName, IN JUB_UINT16 unitDP,
                          IN JUB_CHAR_CPTR contractAddress) {
 
     CREATE_THREAD_LOCK_GUARD
@@ -269,7 +241,6 @@ JUB_RV JUB_SetTRC20Token(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-
 /*****************************************************************************
  * @function name : JUB_BuildTRC20TransferAbi
  * @in  param : contextID - context ID
@@ -279,9 +250,8 @@ JUB_RV JUB_SetTRC20Token(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_BuildTRC20TransferAbi(IN JUB_UINT16 contextID,
-                         IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
-                         OUT JUB_CHAR_PTR_PTR abi) {
+JUB_RV JUB_BuildTRC20TransferAbi(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenValue,
+                                 OUT JUB_CHAR_PTR_PTR abi) {
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
@@ -294,7 +264,6 @@ JUB_RV JUB_BuildTRC20TransferAbi(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-
 /*****************************************************************************
  * @function name : JUB_SetTRC721Token
  * @in  param : contextID - context ID
@@ -304,9 +273,7 @@ JUB_RV JUB_BuildTRC20TransferAbi(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_SetTRC721Token(IN JUB_UINT16 contextID,
-                          IN JUB_CHAR_CPTR nfTokenName,
-                          IN JUB_CHAR_CPTR contractAddress) {
+JUB_RV JUB_SetTRC721Token(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR nfTokenName, IN JUB_CHAR_CPTR contractAddress) {
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
@@ -316,7 +283,6 @@ JUB_RV JUB_SetTRC721Token(IN JUB_UINT16 contextID,
 
     return JUBR_OK;
 }
-
 
 /*****************************************************************************
  * @function name : JUB_BuildTRC721TransferAbi
@@ -328,9 +294,8 @@ JUB_RV JUB_SetTRC721Token(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_BuildTRC721TransferAbi(IN JUB_UINT16 contextID,
-                                  IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo, IN JUB_CHAR_CPTR tokenID,
-                                  OUT JUB_CHAR_PTR_PTR abi) {
+JUB_RV JUB_BuildTRC721TransferAbi(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR tokenFrom, IN JUB_CHAR_CPTR tokenTo,
+                                  IN JUB_CHAR_CPTR tokenID, OUT JUB_CHAR_PTR_PTR abi) {
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
@@ -343,7 +308,6 @@ JUB_RV JUB_BuildTRC721TransferAbi(IN JUB_UINT16 contextID,
     return JUBR_OK;
 }
 
-
 /*****************************************************************************
  * @function name : JUB_PackContractTRX
  * @in  param : contextID - context ID
@@ -352,22 +316,18 @@ JUB_RV JUB_BuildTRC721TransferAbi(IN JUB_UINT16 contextID,
  * @last change :
  *****************************************************************************/
 JUB_COINCORE_DLL_EXPORT
-JUB_RV JUB_PackContractTRX(IN JUB_UINT16 contextID,
-                           IN JUB_TX_TRX tx,
-                           OUT JUB_CHAR_PTR_PTR packedContractInPB) {
+JUB_RV JUB_PackContractTRX(IN JUB_UINT16 contextID, IN JUB_TX_TRX tx, OUT JUB_CHAR_PTR_PTR packedContractInPB) {
 
     CREATE_THREAD_LOCK_GUARD
     auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::TRXContext>(contextID);
     JUB_CHECK_NULL(context);
 
     std::string str_packcontract;
-    JUB_VERIFY_RV(context->PackTransactionRaw(tx,
-                                              str_packcontract));
+    JUB_VERIFY_RV(context->PackTransactionRaw(tx, str_packcontract));
     JUB_VERIFY_RV(_allocMem(packedContractInPB, str_packcontract));
 
     return JUBR_OK;
 }
-
 
 /*****************************************************************************
  * @function name : JUB_IsValidAddressTRX
@@ -381,8 +341,7 @@ JUB_RV JUB_IsValidAddressTRX(IN JUB_CHAR_CPTR address, OUT JUB_CHAR_PTR_PTR addr
     CREATE_THREAD_LOCK_GUARD
 
     std::string str_addrInHex;
-    JUB_VERIFY_RV(jub::token::JubiterBaseTRXImpl::IsValidAddress(address,
-                                                                 str_addrInHex));
+    JUB_VERIFY_RV(jub::token::JubiterBaseTRXImpl::IsValidAddress(address, str_addrInHex));
     JUB_VERIFY_RV(_allocMem(addrInHex, str_addrInHex));
 
     return JUBR_OK;
