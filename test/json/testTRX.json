@@ -11,6 +11,7 @@
         "contracts" :
         {
             "owner_address" : "TDjfwCF8EcUph49MQj9u3fuNePMDELfAZr",
+            "permission_id" : 2,
             "1" : {
                 "to_address" : "TLb2e2uRhzxvrxMcC8VkL2N7zmxYyg3Vfc",
                 "amount" : 1000000000000000000

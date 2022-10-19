@@ -6,21 +6,20 @@
 //  Copyright © 2020 JuBiter. All rights reserved.
 //
 
-
 #include "context/TRXContext.h"
-#include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterBIO/JubiterBIOToken.h"
+#include "token/JubiterBlade/JubiterBladeToken.h"
 #include "token/JubiterLite/JubiterLiteToken.h"
 #include "token/interface/TRXTokenInterface.hpp"
-#include <Tron/Signer.h>
+#include "utility/util.h"
 #include <Ethereum/ERC20Abi.h>
 #include <Ethereum/ERC721Abi.h>
-#include "utility/util.h"
-
+#include <Tron/Signer.h>
+#include <string>
+#include <vector>
 
 namespace jub {
 namespace context {
-
 
 JUB_RV TRXContext::ActiveSelf() {
 
@@ -36,14 +35,14 @@ JUB_RV TRXContext::ActiveSelf() {
         return rv;
     }
 
-    if (   std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr)
-        || std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)
-        ) {
+    if (std::dynamic_pointer_cast<token::JubiterBladeToken>(_tokenPtr) ||
+        std::dynamic_pointer_cast<token::JubiterBIOToken>(_tokenPtr)) {
         JUB_VERIFY_RV(SetTimeout(_timeout));
     }
 
 #if defined(NFC_MODE)
-    // For NFC devices, the session is cleaned up so that the ActiveSelf() function can be started at every session level operation.
+    // For NFC devices, the session is cleaned up so that the ActiveSelf() function can be started at every session
+    // level operation.
     if (std::dynamic_pointer_cast<token::JubiterLiteToken>(_tokenPtr)) {
         jub::context::ContextManager::GetInstance()->ClearLast();
     }
@@ -52,8 +51,7 @@ JUB_RV TRXContext::ActiveSelf() {
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
+JUB_RV TRXContext::GetMainHDNode(const JUB_BYTE format, std::string &xpub) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -67,8 +65,7 @@ JUB_RV TRXContext::GetMainHDNode(const JUB_BYTE format, std::string& xpub) {
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std::string& address) {
+JUB_RV TRXContext::GetAddress(const BIP44_Path &path, const JUB_UINT16 tag, std::string &address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -83,8 +80,7 @@ JUB_RV TRXContext::GetAddress(const BIP44_Path& path, const JUB_UINT16 tag, std:
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
+JUB_RV TRXContext::SetMyAddress(const BIP44_Path &path, std::string &address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -99,8 +95,7 @@ JUB_RV TRXContext::SetMyAddress(const BIP44_Path& path, std::string& address) {
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std::string& pubkey) {
+JUB_RV TRXContext::GetHDNode(const JUB_BYTE format, const BIP44_Path &path, std::string &pubkey) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -115,8 +110,7 @@ JUB_RV TRXContext::GetHDNode(const JUB_BYTE format, const BIP44_Path& path, std:
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::GetAddress(const BIP48_Path& path, const JUB_UINT16 tag, std::string& address) {
+JUB_RV TRXContext::GetAddress(const BIP48_Path &path, const JUB_UINT16 tag, std::string &address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -131,8 +125,7 @@ JUB_RV TRXContext::GetAddress(const BIP48_Path& path, const JUB_UINT16 tag, std:
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::SetMyAddress(const BIP48_Path& path, std::string& address) {
+JUB_RV TRXContext::SetMyAddress(const BIP48_Path &path, std::string &address) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -147,8 +140,7 @@ JUB_RV TRXContext::SetMyAddress(const BIP48_Path& path, std::string& address) {
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::CheckAddress(const std::string& address, std::string& addressInHex) {
+JUB_RV TRXContext::CheckAddress(const std::string &address, std::string &addressInHex) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -162,8 +154,7 @@ JUB_RV TRXContext::CheckAddress(const std::string& address, std::string& address
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::GetHDNode(const JUB_BYTE format, const BIP48_Path& path, std::string& pubkey) {
+JUB_RV TRXContext::GetHDNode(const JUB_BYTE format, const BIP48_Path &path, std::string &pubkey) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -178,10 +169,7 @@ JUB_RV TRXContext::GetHDNode(const JUB_BYTE format, const BIP48_Path& path, std:
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
-                                   JUB_CHAR_CPTR packedContractInPb,
-                                   std::string& rawInJSON) {
+JUB_RV TRXContext::SignTransaction(const BIP44_Path &path, JUB_CHAR_CPTR packedContractInPb, std::string &rawInJSON) {
     CONTEXT_CHECK_TYPE_PRIVATE
 
     auto token = std::dynamic_pointer_cast<jub::token::TRXTokenInterface>(_tokenPtr);
@@ -195,13 +183,10 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
     uchar_vector vRaw;
-    JUB_VERIFY_RV(token->SerializePreimage(packedContractInPb,
-                                           vRaw));
+    JUB_VERIFY_RV(token->SerializePreimage(packedContractInPb, vRaw));
 
     std::vector<uchar_vector> vSignatureRaw;
-    JUB_VERIFY_RV(token->SignTX(vPath,
-                                vRaw,
-                                vSignatureRaw));
+    JUB_VERIFY_RV(token->SignTX(vPath, vRaw, vSignatureRaw));
 
     // finish transaction
     try {
@@ -210,7 +195,7 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
         tx.signature = vSignatureRaw[0];
 
 #if defined(DEBUG)
-        //verify
+        // verify
         std::string pubkey;
         JUB_VERIFY_RV(token->GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
 
@@ -222,18 +207,14 @@ JUB_RV TRXContext::SignTransaction(const BIP44_Path& path,
 #endif
 
         rawInJSON = tx.serialize().dump();
-    }
-    catch (...) {
+    } catch (...) {
         return JUBR_ARGUMENTS_BAD;
     }
 
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::SignBytestring(const BIP44_Path& path,
-                                  const JUB_CHAR_CPTR data,
-                                  OUT std::string& rawInJSON) {
+JUB_RV TRXContext::SignBytestring(const BIP44_Path &path, const JUB_CHAR_CPTR data, OUT std::string &rawInJSON) {
 
     CONTEXT_CHECK_TYPE_PRIVATE
 
@@ -249,9 +230,7 @@ JUB_RV TRXContext::SignBytestring(const BIP44_Path& path,
     std::vector<JUB_BYTE> vPath(strPath.begin(), strPath.end());
 
     std::vector<uchar_vector> vSignatureRaw;
-    JUB_VERIFY_RV(token->SignBytestring(vData,
-                                        vPath,
-                                        vSignatureRaw));
+    JUB_VERIFY_RV(token->SignBytestring(vData, vPath, vSignatureRaw));
 
     // finish transaction
     try {
@@ -259,7 +238,7 @@ JUB_RV TRXContext::SignBytestring(const BIP44_Path& path,
         bys.signature = vSignatureRaw[0];
 
 #if defined(DEBUG)
-        //verify
+        // verify
         std::string pubkey;
         JUB_VERIFY_RV(token->GetHDNode((JUB_BYTE)JUB_ENUM_PUB_FORMAT::HEX, strPath, pubkey));
 
@@ -271,31 +250,26 @@ JUB_RV TRXContext::SignBytestring(const BIP44_Path& path,
 #endif
 
         rawInJSON = bys.serialize().dump();
-    }
-    catch (...) {
+    } catch (...) {
         return JUBR_ARGUMENTS_BAD;
     }
 
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::BuildTRC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string& abi) {
+JUB_RV TRXContext::BuildTRC20TransferAbi(JUB_CHAR_CPTR to, JUB_CHAR_CPTR value, std::string &abi) {
 
     CONTEXT_CHECK_TYPE_NONE
     TW::Tron::Address toAddr(to);
-    std::vector<JUB_BYTE> vTo = uchar_vector(toAddr.bytes.begin(), toAddr.bytes.end());
+    std::vector<JUB_BYTE> vTo    = uchar_vector(toAddr.bytes.begin(), toAddr.bytes.end());
     std::vector<JUB_BYTE> vValue = jub::HexStr2CharPtr(DecStringToHexString(std::string(value)));
-    uchar_vector vAbi = jub::eth::ERC20Abi::serialize(vTo, vValue);
-    abi = vAbi.getHex();
+    uchar_vector vAbi            = jub::eth::ERC20Abi::serialize(vTo, vValue);
+    abi                          = vAbi.getHex();
 
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::SetTRC20Token(JUB_CHAR_CPTR pTokenName,
-                                 const JUB_UINT16 unitDP,
-                                 JUB_CHAR_CPTR pContractAddress) {
+JUB_RV TRXContext::SetTRC20Token(JUB_CHAR_CPTR pTokenName, const JUB_UINT16 unitDP, JUB_CHAR_CPTR pContractAddress) {
 
     CONTEXT_CHECK_TYPE_PRIVATE
 
@@ -307,38 +281,32 @@ JUB_RV TRXContext::SetTRC20Token(JUB_CHAR_CPTR pTokenName,
     JUB_CHECK_NULL(pTokenName);
     JUB_CHECK_NULL(pContractAddress);
 
-    std::string tokenName = std::string(pTokenName);
+    std::string tokenName       = std::string(pTokenName);
     std::string contractAddress = uchar_vector(TW::Tron::Address::toHex(std::string(pContractAddress))).getHex();
 
-    JUB_VERIFY_RV(token->SetTRC20Token(tokenName,
-                                       unitDP,
-                                       contractAddress));
+    JUB_VERIFY_RV(token->SetTRC20Token(tokenName, unitDP, contractAddress));
 
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::BuildTRC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID, std::string& abi) {
+JUB_RV TRXContext::BuildTRC721TransferAbi(JUB_CHAR_CPTR from, JUB_CHAR_CPTR to, JUB_CHAR_CPTR pTokenID,
+                                          std::string &abi) {
 
     CONTEXT_CHECK_TYPE_NONE
 
     std::vector<JUB_BYTE> vFrom = TW::Tron::Address::toHexWithoutPrefix(from);
     std::vector<JUB_BYTE> vTo   = TW::Tron::Address::toHexWithoutPrefix(to);
-    if (   0 == vFrom.size()
-        || 0 ==   vTo.size()
-        ) {
+    if (0 == vFrom.size() || 0 == vTo.size()) {
         return JUBR_ARGUMENTS_BAD;
     }
 
     uchar_vector vAbi = jub::eth::ERC721Abi::serialize(vFrom, vTo, std::string(pTokenID));
-    abi = vAbi.getHex();
+    abi               = vAbi.getHex();
 
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::SetTRC721Token(JUB_CHAR_CPTR pTokenName,
-                                  JUB_CHAR_CPTR pContractAddress) {
+JUB_RV TRXContext::SetTRC721Token(JUB_CHAR_CPTR pTokenName, JUB_CHAR_CPTR pContractAddress) {
 
     CONTEXT_CHECK_TYPE_PRIVATE
 
@@ -350,18 +318,15 @@ JUB_RV TRXContext::SetTRC721Token(JUB_CHAR_CPTR pTokenName,
     JUB_CHECK_NULL(pTokenName);
     JUB_CHECK_NULL(pContractAddress);
 
-    std::string tokenName = std::string(pTokenName);
+    std::string tokenName       = std::string(pTokenName);
     std::string contractAddress = uchar_vector(TW::Tron::Address::toHex(std::string(pContractAddress))).getHex();
 
-    JUB_VERIFY_RV(token->SetTRC721Token(tokenName,
-                                        contractAddress));
+    JUB_VERIFY_RV(token->SetTRC721Token(tokenName, contractAddress));
 
     return JUBR_OK;
 }
 
-
-JUB_RV TRXContext::PackTransactionRaw(const JUB_TX_TRX& tx,
-                                      std::string& packedContractInPB) {
+JUB_RV TRXContext::PackTransactionRaw(const JUB_TX_TRX &tx, std::string &packedContractInPB) {
 
     CONTEXT_CHECK_TYPE_PUBLIC
 
@@ -371,16 +336,13 @@ JUB_RV TRXContext::PackTransactionRaw(const JUB_TX_TRX& tx,
     }
 
     try {
-        JUB_VERIFY_RV(token->PackTransactionRaw(tx,
-                                                packedContractInPB));
-    }
-    catch (...) {
+        JUB_VERIFY_RV(token->PackTransactionRaw(tx, packedContractInPB));
+    } catch (...) {
         return JUBR_ARGUMENTS_BAD;
     }
 
     return JUBR_OK;
 }
 
-
-} // namespace context end
-} // namespace jub end
+} // namespace context
+} // namespace jub
