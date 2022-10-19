@@ -16,6 +16,8 @@ using namespace std;
 #include "JUB_SDK_test_trx.hpp"
 
 #include "JUB_SDK_main.h"
+#include <string>
+#include <cstring>
 
 
 void TRX_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file) {
@@ -410,6 +412,7 @@ JUB_RV pack_contract_proc(JUB_UINT16 contextID, Json::Value root,
         return rv;
     }
     contrTRX.type = (JUB_ENUM_TRX_CONTRACT_TYPE)choice;
+    contrTRX.permissionId = root["TRX"]["contracts"].get("permission_id", 0).asInt();
 
     tx.contracts = &contrTRX;
     tx.contractCount = 1;

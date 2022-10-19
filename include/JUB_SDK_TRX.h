@@ -10,6 +10,7 @@
 #define JUB_SDK_TRX_h
 
 #include "JUB_SDK.h"
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -142,6 +143,7 @@ typedef struct stTronContract {
       JUB_CREATE_SMART_CONTRACT_TRX createSmart;
         JUB_TRIG_SMART_CONTRACT_TRX triggerSmart;
     };
+    int32_t permissionId;
 //
 //     stTronContract();
 //    ~stTronContract() = default;

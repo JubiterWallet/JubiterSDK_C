@@ -9,6 +9,10 @@
 #include <PublicKey.h>
 #include <../PrivateKey.h>
 #include <../HexCoding.h>
+#include <string>
+#include <ctime>
+#include <iomanip>
+#include <vector>
 
 namespace jub {
 namespace token {
@@ -120,7 +124,7 @@ JUB_RV JubiterBaseTRXImpl::PackTransactionRaw(const JUB_TX_TRX& tx,
             TW::Tron::TransactionContract contract;
             contract.type = tx.contracts[i].type;
             JUB_VERIFY_RV(SerializeContract(tx.contracts[i], contract.parameter));
-            contract.permission_id = 0;
+            contract.permission_id = tx.contracts[i].permissionId;
             vContracts.push_back(contract);
         }
 
