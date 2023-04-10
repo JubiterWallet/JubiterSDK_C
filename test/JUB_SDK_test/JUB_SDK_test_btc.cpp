@@ -16,10 +16,6 @@
 #include <iostream>
 #include <vector>
 
-void transactionMultisig_test(JUB_UINT16 contextID, Json::Value root) {
-    ;
-}
-
 void BTC_MultiSig_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file, JUB_ENUM_COINTYPE_BTC coinType) {
 
     JUB_RV rv = JUBR_ERROR;
@@ -71,7 +67,6 @@ void BTC_MultiSig_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file, JUB_ENUM_CO
         cout << "| 2.        show_address_test.       |" << endl;
         cout << "|                                    |" << endl;
         cout << "| 3.         transaction_test.       |" << endl;
-        cout << "| 4.multisig_transaction_test.       |" << endl;
         cout << "|                                    |" << endl;
         cout << "| 9. return.                         |" << endl;
         cout << "--------------------------------------" << endl;
@@ -90,8 +85,6 @@ void BTC_MultiSig_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file, JUB_ENUM_CO
         case 3:
             transaction_test(contextID, root);
             break;
-        case 4:
-            transactionMultisig_test(contextID, root);
         default:
             continue;
         } // switch (choice) end
