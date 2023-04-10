@@ -1255,6 +1255,57 @@ int der_to_ecdsa_sig(const uint8_t *der, uint8_t *sig)
     return (len1 - len1Zero + len2 - len2Zero);
 }
 
+// JuBiter-defined
+int ecdsa_der_to_sig(const uint8_t *der, uint8_t *sig)
+{
+    int length;
+    int offset = 2;
+    int delta = 0;
+    if (der[offset + 2] == 0)
+    {
+        length = der[offset + 1] - 1;
+        offset += 3;
+    }
+    else
+    {
+        length = der[offset + 1];
+        offset += 2;
+    }
+    if ((length < 0) || (length > 32))
+    {
+        return 0;
+    }
+    while ((length + delta) < 32)
+    {
+        sig[delta++] = 0;
+    }
+    memmove(sig + delta, der + offset, length);
+
+    delta = 0;
+    offset += length;
+    if (der[offset + 2] == 0)
+    {
+        length = der[offset + 1] - 1;
+        offset += 3;
+    }
+    else
+    {
+        length = der[offset + 1];
+        offset += 2;
+    }
+    if ((length < 0) || (length > 32))
+    {
+        return 0;
+    }
+    while ((length + delta) < 32)
+    {
+        sig[32 + delta++] = 0;
+    }
+    memmove(sig + 32 + delta, der + offset, length);
+
+    return 1;
+}
+
 int zil_schnorr_sign(const ecdsa_curve *curve, const uint8_t *priv_key, const uint8_t *digest, uint8_t *sig)
 {
 	int i;

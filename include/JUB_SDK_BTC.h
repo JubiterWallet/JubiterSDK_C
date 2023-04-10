@@ -70,17 +70,25 @@ typedef enum {
     p2sh_p2wpkh,
     p2wpkh,
     p2tr,
+    p2sh_multisig,
+    p2wsh_multisig,
     trans_type_ns_item
-    /*
-         p2sh_multisig,
-         p2wsh_multisig,
-         p2sh_p2wsh_multisig,
-    */
+/*
+     p2sh_p2wsh_multisig,
+*/
 } JUB_ENUM_BTC_TRANS_TYPE;
 
 typedef enum { BTC = 0x00, cBTC, mBTC, uBTC, Satoshi, ns } JUB_ENUM_BTC_UNIT_TYPE;
 
 typedef enum { OWN = 0x00, LEGACY, DFLT = OWN } JUB_ENUM_BTC_ADDRESS_FORMAT;
+
+typedef struct stContextCfgMultiSigExt {
+    unsigned long m;
+    unsigned long n;
+    JUB_CHAR vCosignerMainXpub[15][128]; // xpub/xprv 78 bytes, base58 encoding up to 118
+    int cosignerCnt;
+    JUB_CHAR_CPTR coSignedTx;
+} CONTEXT_CONFIG_MULTISIG_EXT;
 
 // Remove c++ features for swift framework
 // typedef struct stContextCfgBTC : stContextCfg {
@@ -88,20 +96,23 @@ typedef struct stContextCfgBTC {
     JUB_CHAR_PTR mainPath;
     JUB_ENUM_COINTYPE_BTC coinType; // = { JUB_ENUM_COINTYPE_BTC::COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE transType;
-    //
-    //    stContextCfgBTC();
-    //    stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
-    //                    JUB_CHAR_PTR _mainPath,
-    //                    JUB_ENUM_BTC_TRANS_TYPE _transType);
-    //    virtual ~stContextCfgBTC() {}
+
+    CONTEXT_CONFIG_MULTISIG_EXT multiSigExt;
+//
+//    stContextCfgBTC();
+//    stContextCfgBTC(JUB_ENUM_COINTYPE_BTC _coinType,
+//                    JUB_CHAR_PTR _mainPath,
+//                    JUB_ENUM_BTC_TRANS_TYPE _transType);
+//    virtual ~stContextCfgBTC() {}
 } CONTEXT_CONFIG_BTC;
 // Remove c++ features for swift framework end
 
 typedef enum {
     P2PKH   = 0x00,
     RETURN0 = 0x01,
-    //    P2SH_MULTISIG = 0x02,
+    P2SH_MULTISIG = 0x02,
     QRC20 = 0x03,
+    P2WSH_MULTISIG = 0x04,
 } JUB_ENUM_SCRIPT_BTC_TYPE;
 
 // Remove c++ features for swift framework

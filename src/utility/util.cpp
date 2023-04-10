@@ -311,6 +311,31 @@ TW::Data ToTlv(uint8_t tag, const TW::Data &data) {
 }
 
 
+TW::Data Tolv(const TW::Data &data) {
+
+    TW::Data tlvData;
+
+    unsigned int len = static_cast<unsigned int>(data.size());
+
+    if (0x100 <= len) {   // max size: two bytes 2^16
+        tlvData.push_back(0x82);
+        tlvData.push_back(len >> 8);
+        tlvData.push_back(len & 0xFF);
+    }
+    else if (0x80 < len) {
+        tlvData.push_back(0x81);
+        tlvData.push_back(len);
+    }
+    else {
+        tlvData.push_back(len);
+    }
+
+    tlvData.insert(tlvData.end(), data.begin(), data.end());
+
+    return tlvData;
+}
+
+
 TW::Data Tollv(const std::string& strData) {
 
     TW::Data vData;
@@ -329,6 +354,17 @@ TW::Data Tollv(const std::string& strData) {
     llvData.insert(llvData.end(), vData.begin(), vData.end());
 
     return llvData;
+}
+
+
+std::vector<std::string> getVectorFromMap(const std::string key,
+                                          std::map<std::string, std::vector<std::string>> mapString) {
+    std::vector<std::string> vValue;
+    auto search = mapString.find(key);
+    if (search != mapString.end()) {
+        vValue = search->second;
+    }
+    return vValue;
 }
 
 

@@ -20,7 +20,13 @@ JUB_RV BTCContext::GetHDNode(const BIP44_Path &path, std::string &xpub) {
         return JUBR_IMPL_NOT_SUPPORT;
     }
 
-    std::string strPath = _FullBip44Path(path);
+    std::string strPath;
+    if (p2sh_multisig == _transType) {
+    strPath = multiSigExt->_FullBip44Path(_mainPath, path);
+    }
+    else {
+    strPath = _FullBip44Path(path);
+    }
     JUB_VERIFY_RV(token->GetHDNode(_transType, strPath, xpub, _coinNet));
 
     return JUBR_OK;
@@ -48,6 +54,11 @@ JUB_RV BTCContext::GetAddress(const JUB_ENUM_BTC_ADDRESS_FORMAT &addrFmt, const 
     auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
     if (!token) {
         return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    if (p2sh_multisig == _transType) {
+        return multiSigExt->GetAddress(_tokenPtr, _mainPath ,
+                                       addrFmt, _transType, path, tag, address, _coinNet);
     }
 
     std::string strPath = _FullBip44Path(path);
@@ -126,6 +137,23 @@ JUB_RV BTCContext::ActiveSelf() {
     return JUBR_OK;
 }
 
+JUB_RV BTCContext::PreparatoryFlow() {
+
+    if (p2sh_multisig != _transType) {
+        return JUBR_OK;
+    }
+
+    JUB_CHECK_NULL(_tokenPtr);
+
+    // get main xpub
+    std::string mainXpub;
+    JUB_VERIFY_RV(GetMainHDNode(mainXpub));
+
+    JUB_VERIFY_RV(multiSigExt->PreparatoryFlow(mainXpub));
+
+    return JUBR_OK;
+}
+
 JUB_RV BTCContext::BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]) {
 
     CONTEXT_CHECK_TYPE_NONE
@@ -157,6 +185,11 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT &addrFmt, const JUB_
     auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
     if (!token) {
         return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    if (p2sh_multisig == _transType) {
+        return multiSigExt->SignTX(_tokenPtr, _mainPath, _coinType,
+                                   addrFmt, _transType, version, vInputs, vOutputs, lockTime, raw);
     }
 
     // deal inputs
@@ -194,6 +227,25 @@ JUB_RV BTCContext::SignTX(const JUB_ENUM_BTC_ADDRESS_FORMAT &addrFmt, const JUB_
 #endif
 
     raw = vRaw.getHex();
+
+    return JUBR_OK;
+}
+
+JUB_RV BTCContext::ParseTransaction(const std::string& incRaw,
+                                    std::vector<INPUT_BTC>& vInputs,
+                                    std::vector<OUTPUT_BTC>& vOutputs,
+                                    JUB_UINT32_PTR plockTime) {
+
+    CONTEXT_CHECK_TYPE_PRIVATE
+
+    auto token = std::dynamic_pointer_cast<jub::token::BTCTokenInterface>(_tokenPtr);
+    if (!token) {
+        return JUBR_IMPL_NOT_SUPPORT;
+    }
+
+    if (p2sh_multisig == _transType) {
+        return multiSigExt->ParseTransaction(_tokenPtr, incRaw, vInputs, vOutputs, plockTime);
+    }
 
     return JUBR_OK;
 }

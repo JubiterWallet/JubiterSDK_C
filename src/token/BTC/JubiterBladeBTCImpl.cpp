@@ -38,12 +38,16 @@ constexpr JUB_BYTE kMainnetP2WPKH = 0x02;
 constexpr JUB_BYTE kMainnetP2SH_P2WPKH = 0x04;
 // constexpr JUB_BYTE kMainnetP2SH_P2WSH = 0x05;
 
+constexpr JUB_BYTE kMainnetP2SH_Multisig = 0x11;
+
 #define APPLET_BTC_SUPPORT_LEGACY_ADDRESS_VERSION "01090205"
 
 JUB_RV JubiterBladeBTCImpl::GetHDNode(const JUB_ENUM_BTC_TRANS_TYPE &type, const std::string &path, std::string &xpub,
                                       const TWCoinType &coinNet) {
     JUB_BYTE p2 = 0x00;
     switch (type) {
+    case p2sh_multisig:
+    case p2wsh_multisig:
     case p2pkh: {
         p2 = 0x00; // xpub  format
         break;
@@ -312,6 +316,256 @@ JUB_RV JubiterBladeBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
     }
 
     return _verifyTx(type, vSigedTrans, vInputAmount, vInputPublicKey, coinNet);
+}
+
+JUB_RV JubiterBladeBTCImpl::GetAddressMultiSig(const JUB_BYTE addrFmt,
+                                               const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                               const std::string& path,
+                                               const JUB_UINT16 tag,
+                                               const uchar_vector& vRedeemScriptTlv,
+                                               std::string& address,
+                                               const TWCoinType &coinNet) {
+
+    constexpr JUB_UINT32 kSendOnceLen = 230;
+
+    JUB_BYTE p1 = 0x01;
+    if (_isSupportLegacyAddress()) {
+        p1 |= _RealAddressFormat(addrFmt);
+    }
+
+    JUB_BYTE sigType;
+    switch (type) {
+    case p2sh_multisig:
+    case p2wsh_multisig:
+    {
+        sigType = kMainnetP2SH_Multisig;
+        break;
+    } // case p2sh_multisig end
+    default:
+        return JUBR_IMPL_NOT_SUPPORT;
+    } // switch (type) end
+
+    uchar_vector apduData;
+    //path LV
+    uchar_vector pathLV;
+    pathLV << (JUB_BYTE)(path.size());
+    pathLV << path;
+
+    apduData << (JUB_BYTE)tag;
+    apduData << ToTlv(0x0F, pathLV);
+
+    //  first pack
+    APDU apdu(0x00, 0xF7, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    if (0x9000 != ret) {
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+    }
+    apduData.clear();
+
+    //redeemScript TLV
+    uchar_vector redeemScriptTlv;
+    redeemScriptTlv << Tolv(vRedeemScriptTlv);
+
+    apduData << ToTlv(0x1F, redeemScriptTlv);
+
+//    apdu.SetApdu(0x00, 0xF7, 0x03, sigType, (JUB_ULONG)apduData.size(), apduData.data(), 0x00);
+    JUB_BYTE retData[2048] = {0,};
+    JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
+
+    JUB_BYTE highMark = 0x00;
+    if (_isSupportLegacyAddress()) {
+        highMark |= _RealAddressFormat(addrFmt);
+    }
+    JUB_VERIFY_RV(_TranPackApdu(0x00, 0xF7,
+                                apduData,
+                                highMark,
+                                sigType,
+                                kSendOnceLen,
+                                retData, &ulRetDataLen,
+                                true)); // last data.
+//    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+//    if (0x9000 != ret) {
+//        return JUBR_TRANSMIT_DEVICE_ERROR;
+//    }
+
+    address = (JUB_CHAR_PTR)retData;
+
+    return JUBR_OK;
+}
+
+JUB_RV JubiterBladeBTCImpl::SignTXMultiSig(const JUB_BYTE addrFmt,
+                                           const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                           const JUB_UINT16 inputCount,
+                                           const std::vector<JUB_UINT64>& vInputAmount,
+                                           const std::vector<std::string>& vInputPath,
+                                           const std::vector<uchar_vector>& vRedeemScriptTlv,
+                                           const std::vector<JUB_UINT16>& vChangeIndex,
+                                           const std::vector<std::string>& vChangePath,
+                                           const std::vector<uchar_vector>& vChangeRedeemScriptTlv,
+                                           const std::vector<JUB_BYTE>& vUnsigedTrans,
+                                           std::vector<uchar_vector>& vSignatureRaw,
+                                           const TWCoinType& coinNet) {
+
+    constexpr JUB_UINT32 kSendOnceLen = 230;
+
+    JUB_BYTE p1 = 0x01;
+    if (_isSupportLegacyAddress()) {
+        p1 |= _RealAddressFormat(addrFmt);
+    }
+
+    JUB_BYTE sigType;
+    switch (type) {
+    case p2sh_multisig:
+    case p2wsh_multisig:
+    {
+        sigType = kMainnetP2SH_Multisig;
+        break;
+    } // case p2sh_multisig end
+    default:
+        return JUBR_IMPL_NOT_SUPPORT;
+    } // switch (type) end
+
+    // number of input
+    uchar_vector apduData;
+    apduData << (JUB_BYTE)(inputCount);
+    // amountTLV
+    uchar_vector amountTLV;
+    for (auto amount : vInputAmount) {
+        amountTLV << (uint64_t)amount;
+    }
+
+    apduData << ToTlv(0x0e, amountTLV);
+
+    //  first pack
+    APDU apdu(0x00, 0xF8, p1, sigType, (JUB_ULONG)apduData.size(), apduData.data());
+    JUB_UINT16 ret = 0;
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret));
+    if (0x9000 != ret) {
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+    }
+    apduData.clear();
+
+    // pathTLV
+    uchar_vector pathLV;
+    for (auto path : vInputPath) {
+        pathLV << (JUB_BYTE)(path.size());
+        pathLV << path;
+    }
+
+    apduData << ToTlv(0x0F, pathLV);
+
+    JUB_BYTE highMark = 0x00;
+    if (_isSupportLegacyAddress()) {
+        highMark |= _RealAddressFormat(addrFmt);
+    }
+    JUB_VERIFY_RV(_TranPack(apduData, highMark, sigType, kSendOnceLen));
+    apduData.clear();
+
+    //tx TLV
+    apduData << ToTlv(0x0D, vUnsigedTrans);
+
+    JUB_VERIFY_RV(_TranPack(apduData, highMark, sigType, kSendOnceLen));
+    apduData.clear();
+
+    //change TLV
+    uchar_vector changeLV;
+    changeLV << (JUB_BYTE)vChangeIndex.size();
+    for (size_t i = 0; i < vChangeIndex.size(); i++) {
+        changeLV << (JUB_BYTE)vChangeIndex[i];
+        changeLV << (JUB_BYTE)vChangePath[i].length();
+        changeLV << vChangePath[i];
+
+        //redeemScriptTlv for change
+        changeLV << Tolv(vChangeRedeemScriptTlv[i]);
+    }
+
+    uchar_vector changeIndexTLV;
+    changeIndexTLV = ToTlv(0x10, changeLV);
+    apduData << changeIndexTLV;
+
+    JUB_VERIFY_RV(_TranPack(apduData, highMark, sigType, kSendOnceLen));
+    apduData.clear();
+
+    //redeemScript TLV
+    uchar_vector redeemScriptTlv;
+    for (int i=0; i<vRedeemScriptTlv.size(); ++i) {
+        //redeemScriptTlv
+        redeemScriptTlv << Tolv(vRedeemScriptTlv[i]);
+    }
+    apduData << ToTlv(0x1F, redeemScriptTlv);
+
+    JUB_VERIFY_RV(_TranPack(apduData, highMark, sigType, kSendOnceLen, true)); // last data.
+    apduData.clear();
+
+    //  sign transactions
+    JUB_BYTE retData[2] = {0,};
+    JUB_ULONG ulRetDataLen = sizeof(retData)/sizeof(JUB_BYTE);
+    apdu.SetApdu(0x00, 0x2A, 0x00, 0x00, 0);
+    JUB_VERIFY_RV(_SendApdu(&apdu, ret, retData, &ulRetDataLen));
+    if (0x6f09 == ret) {
+        return JUBR_USER_CANCEL;
+    }
+    if (0x9000 != ret) {
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+    }
+
+    // get transactions (pack by pack)
+    if (2 != ulRetDataLen) { // total length
+        return JUBR_TRANSMIT_DEVICE_ERROR;
+    }
+
+    JUB_UINT16 totalReadLen = TW::decode16BE(retData);
+    TW::Data signedRaw(totalReadLen, 0x00);
+
+    constexpr JUB_UINT16 kReadOnceLen = 256;
+    apdu.le = kReadOnceLen;
+    JUB_ULONG ulRetLen = kReadOnceLen;
+
+    apdu.SetApdu(0x00, 0xE9, 0x00, 0x00, 0x00);
+    JUB_UINT16 times = 0;
+    for (times = 0; times < (totalReadLen / kReadOnceLen); times++) {
+
+        JUB_UINT16 offset = times * kReadOnceLen;
+        apdu.p1 = offset >> 8;
+        apdu.p2 = offset & 0x00ff;
+
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret, signedRaw.data() + times * kReadOnceLen, &ulRetLen));
+        if (0x9000 != ret) {
+            return JUBR_TRANSMIT_DEVICE_ERROR;
+        }
+    }
+
+    apdu.le = totalReadLen % kReadOnceLen;
+    if (apdu.le) {
+        JUB_UINT16 offset = times * kReadOnceLen;
+        apdu.p1 = offset >> 8;
+        apdu.p2 = offset & 0x00ff;
+
+        ulRetLen = totalReadLen - times * kReadOnceLen;
+
+        JUB_VERIFY_RV(_SendApdu(&apdu, ret, signedRaw.data() + times * kReadOnceLen, &ulRetLen));
+        if (0x9000 != ret) {
+            return JUBR_TRANSMIT_DEVICE_ERROR;
+        }
+    }
+
+    //vSignatureRaw
+    uint8_t len = 0;
+    uint8_t offset = 0;
+    uint8_t offsetTotal = 0;
+    for (JUB_UINT16 i=0; i<inputCount; ++i) {
+        uint8_t* b = signedRaw.data() + offsetTotal;
+        len = *b;
+
+        offset = len + 1;
+        uchar_vector signatureRaw(b + 1, b + offset);
+        offsetTotal += offset;
+
+        vSignatureRaw.push_back(signatureRaw);
+    }
+
+    return JUBR_OK;
 }
 
 } // namespace token

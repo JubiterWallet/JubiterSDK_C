@@ -231,6 +231,10 @@ try {
         cout << "|  33.   BTC_P2SH_P2WPKH_test(Test Net).  |" << endl;
         cout << "|  34.   BTC_P2WPKH_test.                 |" << endl;
         cout << "|  35.   BTC_P2WPKH_test(Test Net).       |" << endl;
+        cout << "|                                         |" << endl;
+        cout << "|  36.   BTC_multisig_test.               |" << endl;
+        cout << "|  37.   BTC_multisig_done_test.          |" << endl;
+        cout << "|                                         |" << endl;
         cout << "|  39.   BTC_USDT_test.                   |" << endl;
         cout << "|                                         |" << endl;
         cout << "|  88.  QTUM_QRC20_test.                  |" << endl;
@@ -314,6 +318,17 @@ try {
             json_file += "testBTCTN84.json";
             BTC_test(deviceID, json_file.c_str(), COINBTC);
             break;
+
+        case 36:
+            json_file += "testBTC45_1.json";
+            BTC_MultiSig_test(deviceID, json_file.c_str(), COINBTC);
+            break;
+
+        case 37:
+            json_file += "testBTC45_2.json";
+            BTC_MultiSig_test(deviceID, json_file.c_str(), COINBTC);
+            break;
+
         case 39:
             json_file += "testUSDT.json";
             USDT_test(deviceID, json_file.c_str());

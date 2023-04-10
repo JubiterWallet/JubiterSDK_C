@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <map>
 #include "mSIGNA/stdutils/uchar_vector.h"
 #include <bigint/BigIntegerLibrary.hh>
 #include <Data.h>
@@ -113,9 +114,14 @@ std::string ETHCharPtr2HexStr(std::vector<unsigned char> v);
 std::vector<unsigned char> ETHHexStr2CharPtr(std::string str);
 */
 
+TW::Data Tolv(const TW::Data &data);
 TW::Data ToTlv(uint8_t tag, const TW::Data &data);
 std::vector<TW::Data> ParseTlv(const TW::Data &data);
 TW::Data Tollv(const std::string& strData);
+
+// vector op
+std::vector<std::string> getVectorFromMap(const std::string key,
+                                          std::map<std::string, std::vector<std::string>> mapString);
 
 void decToBinary(uint8_t n, std::vector<uint8_t> &v);
 /**

@@ -22,6 +22,38 @@ class JubiterBaseBTCImpl : virtual public BTCTokenInterface {
                                        const std::vector<INPUT_BTC> &vInputs, const std::vector<OUTPUT_BTC> &vOutputs,
                                        const JUB_UINT32 lockTime, uchar_vector &unsignedRaw,
                                        const TWCoinType &coinNet) override;
+    virtual JUB_RV SerializeTx(const JUB_ENUM_COINTYPE_BTC coinType,
+                               const JUB_ENUM_BTC_TRANS_TYPE type,
+                               const JUB_UINT32 version,
+                               const unsigned long m,
+                               const std::vector<INPUT_BTC>& vInputs,
+                               const MAP_COSIGNER_SIGNATURE& mapCosignerSignatures,
+                               const std::vector<uchar_vector>& vRedeemScript,
+                               const std::vector<OUTPUT_BTC>& vOutputs,
+                               const JUB_UINT32 lockTime,
+                               uchar_vector& signedIncRaw) override;
+    virtual JUB_RV SerializePreimage(const JUB_ENUM_COINTYPE_BTC coinType,
+                                     const JUB_ENUM_BTC_TRANS_TYPE type, const JUB_UINT32 version,
+                                     const std::size_t for_sign_input_index,
+                                     const std::vector<INPUT_BTC>& vInputs,
+                                     const std::vector<uchar_vector>& vRedeemScript,
+                                     const std::vector<OUTPUT_BTC>& vOutputs,
+                                     const JUB_UINT32 lockTime,
+                                     uchar_vector& preimageRaw,
+                                     const bool bWitness = false) override;
+
+    // !!Not handling witness yet
+    virtual JUB_RV DeserializeTx(bool bWitness,
+                                 const std::string hexTx,
+                                 std::vector<INPUT_BTC>& vInputs,
+                                 std::vector<OUTPUT_BTC>& vOutputs,
+                                 JUB_UINT32_PTR plockTime) override;
+    // !!Not handling witness yet
+    virtual JUB_RV DeserializeTx(bool bWitness,
+                                 const std::vector<uchar_vector>& vRedeemScript,
+                                 const std::string hexIncTx,
+                                 MAP_COSIGNER_SIGNATURE& mapCosignerSignature,
+                                 uchar_vector& unsignedTx) override;
 
     virtual JUB_RV CheckAddress(const std::string &address, const TWCoinType &coinNet) override;
 

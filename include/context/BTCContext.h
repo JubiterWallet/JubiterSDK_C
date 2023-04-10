@@ -7,12 +7,14 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "utility/Singleton.h"
 #include "utility/xManager.hpp"
 
 #include "context/BaseContext.h"
 #include "token/interface/BaseToken.h"
+#include "context/BTCContextMultiSigExt.h"
 
 #include "utility/util.h"
 
@@ -38,6 +40,11 @@ public:
             else {
                 _coinNet = TWCoinType::TWCoinTypeBitcoin;
             }
+
+            if (p2sh_multisig == _transType) {
+                auto ext = std::make_unique<BTCContextMultiSigExt>(cfg.multiSigExt);
+                multiSigExt.swap(ext);
+            }
     }
     BTCContext(JUB_CHAR_CPTR mainPath, const JUB_ENUM_COINTYPE_BTC& coinType, std::shared_ptr<token::BaseToken> tokenPtr):
         BaseContext(tokenPtr) {
@@ -60,11 +67,18 @@ public:
 
     virtual JUB_RV BuildUSDTOutputs(IN JUB_CHAR_CPTR USDTTo, IN JUB_UINT64 amount, OUT OUTPUT_BTC outputs[2]);
     virtual JUB_RV ActiveSelf() override;
+    virtual JUB_RV PreparatoryFlow() override;
+    virtual JUB_RV ParseTransaction(const std::string& incRaw,
+                                    std::vector<INPUT_BTC>& vInputs,
+                                    std::vector<OUTPUT_BTC>& vOutputs,
+                                    JUB_UINT32_PTR plockTime) override;
 
 protected:
     JUB_ENUM_COINTYPE_BTC    _coinType{ COINBTC };
     JUB_ENUM_BTC_TRANS_TYPE _transType{ p2pkh };
     JUB_ENUM_BTC_UNIT_TYPE   _unitType{ mBTC };
+
+    std::unique_ptr<BTCContextMultiSigExt> multiSigExt = nullptr;
 }; // class BTCContext end
 
 

@@ -261,5 +261,30 @@ JUB_RV TrezorCryptoBTCImpl::VerifyTX(const JUB_ENUM_BTC_TRANS_TYPE &type, const 
     return _verifyTx(type, vSigedTrans, vInputAmount, vInputPublicKey);
 }
 
+JUB_RV TrezorCryptoBTCImpl::GetAddressMultiSig(const JUB_BYTE addrFmt,
+                                               const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                               const std::string& path,
+                                               const JUB_UINT16 tag,
+                                               const uchar_vector& vRedeemScriptTlv,
+                                               std::string& address,
+                                               const TWCoinType &coinNet) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
+JUB_RV TrezorCryptoBTCImpl::SignTXMultiSig(const JUB_BYTE addrFmt,
+                                           const JUB_ENUM_BTC_TRANS_TYPE& type,
+                                           const JUB_UINT16 inputCount,
+                                           const std::vector<JUB_UINT64>& vInputAmount,
+                                           const std::vector<std::string>& vInputPath,
+                                           const std::vector<uchar_vector>& vRedeemScriptTlv,
+                                           const std::vector<JUB_UINT16>& vChangeIndex,
+                                           const std::vector<std::string>& vChangePath,
+                                           const std::vector<uchar_vector>& vChangeRedeemScriptTlv,
+                                           const std::vector<JUB_BYTE>& vUnsigedTrans,
+                                           std::vector<uchar_vector>& vSignatureRaw,
+                                           const TWCoinType& coinNet) {
+    return JUBR_IMPL_NOT_SUPPORT;
+}
+
 } // namespace token
 } // namespace jub

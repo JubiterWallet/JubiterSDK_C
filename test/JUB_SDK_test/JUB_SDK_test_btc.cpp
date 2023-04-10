@@ -3,7 +3,7 @@
 //  JubSDKTest
 //
 //  Created by panmin on 2019/9/17.
-//  Copyright © 2019 JuBiter. All rights reserved.
+//  Copyright © 2023 JuBiter. All rights reserved.
 //
 
 #include "JUB_SDK_test_btc.hpp"
@@ -15,6 +15,88 @@
 #include <cstring>
 #include <iostream>
 #include <vector>
+
+void transactionMultisig_test(JUB_UINT16 contextID, Json::Value root) {
+    ;
+}
+
+void BTC_MultiSig_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file, JUB_ENUM_COINTYPE_BTC coinType) {
+
+    JUB_RV rv = JUBR_ERROR;
+
+    Json::Value root = readJSON(json_file);
+    if (root.empty()) {
+        return;
+    }
+
+    JUB_UINT16 contextID = 0;
+
+    CONTEXT_CONFIG_BTC cfg = {0};
+    cfg.mainPath = (JUB_CHAR_PTR)root["main_path"].asCString();
+    cfg.coinType = coinType;
+
+    if (COINBCH == coinType) {
+        cfg.transType = p2pkh;
+    } else {
+        if (root["p2sh-segwit"].asBool()) {
+            cfg.transType = p2wsh_multisig;
+        } else if (root["p2sh-multisig"].asBool()) {
+            cfg.transType = p2sh_multisig;
+        } else {
+            cfg.transType = p2sh_multisig;
+        }
+    }
+
+    cfg.multiSigExt.m = root["m"].asUInt();
+    cfg.multiSigExt.n = root["n"].asUInt();
+
+    cfg.multiSigExt.cosignerCnt = root["cosigners"].size();
+    for (int i = 0; i < cfg.multiSigExt.cosignerCnt; i++) {
+        strcpy(cfg.multiSigExt.vCosignerMainXpub[i], root["cosigners"][i].asCString());
+    }
+    
+    cfg.multiSigExt.coSignedTx = root.isMember("inc_tx")? root["inc_tx"].asCString() : nullptr;
+    
+    rv = JUB_CreateContextBTC(cfg, deviceID, &contextID);
+    cout << "[-] JUB_CreateContextBTC() return " << GetErrMsg(rv) << endl;
+    if (JUBR_OK != rv) {
+        return;
+    }
+    cout << endl;
+    
+    while (true) {
+        cout << "--------------------------------------" << endl;
+        cout << "|*** Jubiter Wallet BTC (MultiSig) **|" << endl;
+        cout << "| 1.         get_address_test.       |" << endl;
+        cout << "| 2.        show_address_test.       |" << endl;
+        cout << "|                                    |" << endl;
+        cout << "| 3.         transaction_test.       |" << endl;
+        cout << "| 4.multisig_transaction_test.       |" << endl;
+        cout << "|                                    |" << endl;
+        cout << "| 9. return.                         |" << endl;
+        cout << "--------------------------------------" << endl;
+        cout << "* Please enter your choice:" << endl;
+
+        int choice = 0;
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            get_address_test(contextID, root);
+            break;
+        case 2:
+            show_address_test(contextID);
+            break;
+        case 3:
+            transaction_test(contextID, root);
+            break;
+        case 4:
+            transactionMultisig_test(contextID, root);
+        default:
+            continue;
+        } // switch (choice) end
+    }     // while (true) end
+}
 
 void BTC_test(JUB_UINT16 deviceID, JUB_CHAR_CPTR json_file, JUB_ENUM_COINTYPE_BTC coinType) {
 
@@ -106,7 +188,7 @@ void get_address_test(JUB_UINT16 contextID, Json::Value root) {
     if (JUBR_OK != rv) {
         return;
     }
-    cout << "MainXpub in  HEX format:  " << pubkey << endl;
+    cout << "MainXpub in format:  " << pubkey << endl;
     JUB_FreeMemory(pubkey);
     cout << endl;
 
@@ -302,7 +384,12 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
 
     for (int i = 0; i < inputNumber; i++) {
         INPUT_BTC input;
+        if (!root["inputs"][i]["multisig"].asBool()) {
         input.type              = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
+        }
+        else {
+        input.type              = JUB_ENUM_SCRIPT_BTC_TYPE::P2SH_MULTISIG;
+        }
         input.preHash           = (JUB_CHAR_PTR)root["inputs"][i]["preHash"].asCString();
         input.preIndex          = root["inputs"][i]["preIndex"].asInt();
         input.path.change       = (JUB_ENUM_BOOL)root["inputs"][i]["bip32_path"]["change"].asBool();
@@ -316,7 +403,13 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
 
     for (int i = 0; i < outputNumber; i++) {
         OUTPUT_BTC output;
+        if (!root["inputs"][i]["multisig"].asBool()) {
         output.type                    = JUB_ENUM_SCRIPT_BTC_TYPE::P2PKH;
+        }
+        else {
+        output.type                    = JUB_ENUM_SCRIPT_BTC_TYPE::P2SH_MULTISIG;
+        }
+
         output.stdOutput.address       = (JUB_CHAR_PTR)root["outputs"][i]["address"].asCString();
         output.stdOutput.amount        = root["outputs"][i]["amount"].asUInt64();
         output.stdOutput.changeAddress = (JUB_ENUM_BOOL)root["outputs"][i]["change_address"].asBool();
@@ -336,7 +429,9 @@ JUB_RV transaction_proc(JUB_UINT16 contextID, Json::Value root) {
         cout << "    User cancel the transaction !" << endl;
         return rv;
     }
-    if (JUBR_OK != rv || nullptr == raw) {
+    if (((JUBR_OK != rv) && (JUBR_MULTISIG_OK != rv))
+        || nullptr == raw
+        ) {
         cout << "    error sign tx" << endl;
         return rv;
     }

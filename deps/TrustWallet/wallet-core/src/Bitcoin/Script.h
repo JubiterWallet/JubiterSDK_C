@@ -91,6 +91,9 @@ class Script {
     // JuBiter-defined
     /// Builds a redeem script for pay-to-script-hash (P2SH).
     static Script buildRedeemScript(const uint8_t m, const uint8_t n, const std::vector<Data> &publicKeys);
+    // JuBiter-defined
+    /// Builds a redeem script tlv (applet use) for pay-to-script-hash (P2SH).
+    static Script buildRedeemScript(const uint8_t m, const uint8_t n, const std::vector<Data> &publicKeys, const uint8_t orderedIndex);
 
     // JuBiter-defined
     /// Builds a scriptSig for pay-to-public-key-hash (P2PKH) script.

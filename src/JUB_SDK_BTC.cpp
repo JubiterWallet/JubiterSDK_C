@@ -3,7 +3,7 @@
 //  JubSDK
 //
 //  Created by Pan Min on 2019/7/17.
-//  Copyright © 2019 JuBiter. All rights reserved.
+//  Copyright © 2023 JuBiter. All rights reserved.
 //
 
 #include "JUB_SDK_BTC.h"
@@ -96,6 +96,7 @@ JUB_RV JUB_CreateContextBTC(IN CONTEXT_CONFIG_BTC cfg,
     JUB_CHECK_NULL(context);
 
     JUB_VERIFY_RV(context->ActiveSelf());
+    JUB_VERIFY_RV(context->PreparatoryFlow());
     *contextID = jub::context::ContextManager::GetInstance()->AddOne(context);
 
     return JUBR_OK;
@@ -242,6 +243,35 @@ JUB_RV JUB_SignTransactionBTC(IN JUB_UINT16 contextID,
     JUB_VERIFY_RV(context->SignTX(JUB_ENUM_BTC_ADDRESS_FORMAT::OWN, version, vInputs, vOutputs, lockTime, str_raw));
 
     JUB_VERIFY_RV(_allocMem(raw, str_raw));
+
+    return JUBR_OK;
+}
+
+/*****************************************************************************
+ * @function name : JUB_ParseTransactionBTC
+ * @in  param : contextID - context ID
+ *            : incRaw
+ * @out param : inputs
+ *            : outputs
+ *            : plockTime
+ * @last change :
+ *****************************************************************************/
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_ParseTransactionBTC(IN JUB_UINT16 contextID,
+                               IN JUB_CHAR_PTR incRaw,
+                               OUT std::vector<INPUT_BTC>& inputs,
+                               OUT std::vector<OUTPUT_BTC>& outputs,
+                               OUT JUB_UINT32_PTR plockTime) {
+
+    CREATE_THREAD_LOCK_GUARD
+
+    auto context = jub::context::ContextManager::GetInstance()->GetOneSafe<jub::context::BTCContext>(contextID);
+    JUB_CHECK_NULL(context);
+
+    std::string hexIncRaw(incRaw);
+    JUB_VERIFY_RV(context->ParseTransaction(hexIncRaw,
+                                            inputs, outputs,
+                                            plockTime));
 
     return JUBR_OK;
 }

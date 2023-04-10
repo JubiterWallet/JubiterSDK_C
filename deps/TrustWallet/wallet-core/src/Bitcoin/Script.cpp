@@ -279,13 +279,37 @@ Script Script::buildPayToTaprootKeyPathSpending(const Data &program) {
 // JuBiter-defined
 /// Builds a redeem script for pay-to-script-hash (P2SH).
 Script Script::buildRedeemScript(const uint8_t m, const uint8_t n, const std::vector<Data> &publicKeys) {
+    uint8_t op_m = OP_RESERVED + m;
+    uint8_t op_n = OP_RESERVED + n;
     //[m] [pubkey1] [pubkey2] ... [pubkeyn] [n] [OP_CHECKMULTISIG]
     Script script;
-    script.bytes.push_back(m);
+    script.bytes.push_back(op_m);
     for (const auto &publicKey : publicKeys) {
+        script.bytes.push_back(publicKey.size());
         script.bytes.insert(script.bytes.end(), publicKey.begin(), publicKey.end());
     }
-    script.bytes.push_back(n);
+    script.bytes.push_back(op_n);
+    script.bytes.push_back(OP_CHECKMULTISIG);
+    return script;
+}
+
+// JuBiter-defined
+/// Builds a redeem script tlv (applet use) for pay-to-script-hash (P2SH).
+Script Script::buildRedeemScript(const uint8_t m, const uint8_t n, const std::vector<Data> &publicKeys, const uint8_t orderedIndex) {
+    uint8_t op_m = OP_RESERVED + m;
+    uint8_t op_n = OP_RESERVED + n;
+    //redeemScriptTlv: orderedIndex [m] <pubkey1> <pubkey2> ... <pubkeyn> [n] [OP_CHECKMULTISIG]
+    Script script;
+    script.bytes.push_back(orderedIndex);
+    script.bytes.push_back(op_m);
+    for(size_t i=0; i<publicKeys.size(); ++i) {
+        if (i == orderedIndex) {
+            continue;
+        }
+        script.bytes.insert(script.bytes.end(), publicKeys[i].size());
+        script.bytes.insert(script.bytes.end(), publicKeys[i].begin(), publicKeys[i].end());
+    }
+    script.bytes.push_back(op_n);
     script.bytes.push_back(OP_CHECKMULTISIG);
     return script;
 }

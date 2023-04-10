@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../../../../FT-JubiterWallet/HyperPay-Jub_SDK_CXX/build-mac/deps/protobuf/cmake/protobuf.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:JubSDK.xcodeproj">
    </FileRef>
    <FileRef
