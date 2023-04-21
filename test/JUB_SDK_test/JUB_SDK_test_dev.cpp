@@ -187,6 +187,41 @@ JUB_RV verify_fgpt(JUB_UINT16 contextID) {
     return rv;
 }
 
+void merge_multi_sig(const char* json_file) {
+    auto root = readJSON(json_file);
+    if (!root.isArray()) {
+        cout << "invalid format in :" << json_file << endl;
+        return;
+    }
+    auto signedTxs = std::vector<const char*>();
+    for (auto& tx: root) {
+        if (!tx.isString()) {
+            cout << "invalid format in :" << json_file << endl;
+            return;
+        }
+        signedTxs.push_back(tx.asCString());
+    }
+    if (signedTxs.empty()) {
+        cout << "not have sigs:" << json_file << endl;
+        return;
+    }
+    
+    auto merged = (char*)signedTxs.front();
+    auto needFree = std::vector<char*>();
+    std::for_each(++signedTxs.begin(), signedTxs.end(), [&](const char* tx) {
+        auto rv = JUB_MergMultiSignedTxBTC(merged, tx, &merged);
+        // remeber free `merged`
+        if (rv != JUBR_OK) {
+            cout << "[-] JUB_MergMultiSignedTxBTC() return " << GetErrMsg(rv) << endl;
+            return;
+        }
+        needFree.push_back(merged);
+    });
+    
+    cout << "merged multi transaction: " << endl;
+    cout << merged << endl;
+}
+
 void set_timeout_test(JUB_UINT16 contextID) {
 
     cout << "* Please enter timeout in second ( < 600 ):" << endl;

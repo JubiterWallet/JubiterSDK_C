@@ -1,0 +1,121 @@
+
+// https://gist.github.com/gavinandresen/3966071
+// version
+01000000
+// 1 input
+01
+  // #0 input
+  // previous
+  // hash
+  aca7f3b45654c230e0886a57fb988c3044ef5e8f7f39726d305c61d5e818903c
+  // index
+  00000000
+  // redeem script size
+  fd 5d01
+    // unused value
+    00
+    // #0 sig
+    48 304502200187af928e9d155c4b1ac9c1c9118153239aba76774f775d7c1f9c3e106ff33c0221008822b0f658edec22274d0b6ae9de10ebf2da06b1bbdaaba4e50eb078f39e3d78 01
+    // #1 sig
+    47 30440220795f0f4f5941a77ae032ecb9e33753788d7eb5cb0c78d805575d6b00a1d9bfed02203e1f4ad9332d1416ae01e27038e945bc9db59c732728a383a6f1ed2fb99da7a4 01
+    // scirpt pub size
+    4c c9
+      // m
+      52
+      // #0 pk
+      41 0491bba2510912a5bd37da1fb5b1673010e43d2c6d812c514e91bfa9f2eb129e1c183329db55bd868e209aac2fbc02cb33d98fe74bf23f0c235d6126b1d8334f86
+      // #1 pk
+      41 04865c40293a680cb9c020e7b1e106d8c1916d3cef99aa431a56d253e69256dac09ef122b1a986818a7cb624532f062c1d1f8722084861c5c3291ccffef4ec6874
+      // #2 pk
+      41 048d2455d2403e08708fc1f556002f1b6cd83f992d085097f9974ab08a28838f07896fbab08f39495e15fa6fad6edbfb1e754e35fa1c7844c41f322a1863d46213
+      // n
+      53
+      // op_checkmultisig
+      ae
+  // sequence
+  ffffffff
+// 1 output
+01
+  // #0 output
+  // amount
+  40420f0000000000
+  // scriptpubkey
+  19 76 a9 14 ae56b4db13554d321c402db3961187aed1bbed5b 88 ac
+// locktime
+00000000
+
+
+///// test 97
+// version
+01000000
+// 2 inputs
+02
+  // #0 input
+  // previous
+  // hash
+  a3006410ed525ef55b11d5bf22d0814a51378345379d86950759d55e78080a21
+  // index
+  01000000
+  // script size
+  da
+    // unused value
+    00
+    // #0 sig
+    47 304402202ae1a29b8cc53a72c7e99205c4cc8d522d021f2a3626e07f57476a0208b551f902201acc0408a6fbd6d539ad71f6b1bd25939f0b1b4870aa80fc2fcf312cf685348c01
+    // #1 sig
+    48 3045022100ca26e60c5fca0db95102156b64636da04ebe0dace695c64a7c567f73083213c402204c171f06663485cef1c9cd74a16680bd074e2e63b46dd821ebd4bc3dbd71634401
+    // script pub size
+    47
+      // m
+      52
+      // #0 pk
+      21 038a4903b5229ae2bdfafc7f49871f1e257f223bdf3e01b1c1a68f4bcd8e1dcc41
+      // #1 pk
+      21 03e92385c1be5d69a33bda552aecdf2b00b99a028213202375641dcef386fdf65c
+      // n
+      52
+      // op_checkmultisig
+      ae
+  // sequence
+  ffffffff
+  // #1 input
+  // previous
+  // hash
+  a3006410ed525ef55b11d5bf22d0814a51378345379d86950759d55e78080a21
+  // index
+  00000000
+  // script size
+  da
+    // unused value
+    00
+    // #0 sig
+    47 3044022033dc148a861bb4baafa0e8361a848b32a68a0398716c96a5529d75542be67bca022039d84bf1b20c83fe3399f4698ae83f1feb719dd933aac4a6ccdd788143dff31e01
+    // #1 sig
+    48 3045022100e258161088046c867c2b3948c809ab95459fa48c80c362fe15d85e4994758c960220757f879584b7cffd89f40f730110651392987b99658a1bf853b1ed5a41a7c7df01
+    // script pub size
+    47
+      // m
+      52
+      // #0 pk
+      21 038a4903b5229ae2bdfafc7f49871f1e257f223bdf3e01b1c1a68f4bcd8e1dcc41
+      // #1 pk
+      21 03e92385c1be5d69a33bda552aecdf2b00b99a028213202375641dcef386fdf65c
+      // n
+      52
+      // op_checkmultisig
+      ae
+  // sequence
+  ffffffff
+// 2 outputs
+02
+  // #0 output
+  // amount
+  d449000000000000
+  // scriptpubkey
+  17 a914759f425791f7dad69ad03f27324d9b911edbefad87
+  // #1 output
+  472a000000000000
+  // scriptpubkey
+  17 a914759f425791f7dad69ad03f27324d9b911edbefad87
+// locktime
+00000000

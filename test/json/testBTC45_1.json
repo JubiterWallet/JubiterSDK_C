@@ -6,7 +6,7 @@
     "m" : 2,
     "n" : 2,
     "cosigners" : [
-    "xpub68tcYByoEffXCVCVc8cA25NACBPGD3yF3HKEGsFQbDndonVYrEBLQcGyr6qizzyrkc3GZrebSSUEijMLis9ZahHSzRiKfeT8UPQLiS564LT"],
+    "xpub68zcanouKDQRj1R4nqrwFLDgKPb1xmjE145r1R4ygExnaFKbybVBS24EDyYGb7RhcUTL4xEh3qT4NMKhyuaXY7DronU2jfct7J6v9C5GsUC"],
     "inputs" : [
     {
         "multisig" : true,

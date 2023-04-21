@@ -261,6 +261,7 @@ try {
         cout << "| 501.   SOL_test.                        |" << endl;
         cout << "|                                         |" << endl;
         cout << "|                                         |" << endl;
+        cout << "|  97.  merge_multi_sig                   |" << endl;
         cout << "|  98.  send_apdu_test.                   |" << endl;
         cout << "|  99.   get_version.                     |" << endl;
         cout << "|                                         |" << endl;
@@ -392,7 +393,10 @@ try {
             json_file += "testSOL.json";
             SOL_test(deviceID, json_file.c_str());
             break;
-
+        case 97:
+            json_file += "testMergeMultiSig.json";
+            merge_multi_sig(json_file.c_str());
+            break;
         case 98:
             send_apdu_test(deviceID);
             break;

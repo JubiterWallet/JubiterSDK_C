@@ -24,8 +24,8 @@ JUB_RV verify_pin(JUB_UINT16 contextID);
 JUB_RV verify_fgpt(JUB_UINT16 contextID);
 
 void get_device_info_test(JUB_UINT16 deviceID);
-void     set_timeout_test(JUB_UINT16 contextID);
-
+void set_timeout_test(JUB_UINT16 contextID);
+void merge_multi_sig(const char* json_file);
 void send_apdu_test(JUB_UINT16 deviceID);
 
 #endif /* JUB_SDK_test_dev_hpp */

@@ -294,6 +294,9 @@ JUB_RV JUB_BuildQRC20Outputs(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR contractA
                              IN JUB_CHAR_CPTR symbol, IN JUB_UINT64 gasLimit, IN JUB_UINT64 gasPrice,
                              IN JUB_CHAR_CPTR to, IN JUB_CHAR_CPTR value, OUT OUTPUT_BTC outputs[1]);
 
+JUB_COINCORE_DLL_EXPORT
+JUB_RV JUB_MergMultiSignedTxBTC(IN JUB_CHAR_CPTR tx1, IN JUB_CHAR_CPTR tx2, OUT JUB_CHAR_PTR_PTR merged);
+
 #ifdef __cplusplus
 }
 #endif // #ifdef __cplusplus

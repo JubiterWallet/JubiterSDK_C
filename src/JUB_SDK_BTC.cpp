@@ -362,3 +362,171 @@ JUB_RV JUB_CheckAddressBTC(IN JUB_UINT16 contextID, IN JUB_CHAR_CPTR address) {
 
     return JUBR_OK;
 }
+
+JUB_RV JUB_MergMultiSignedTxBTC(IN JUB_CHAR_CPTR signedTx1, IN JUB_CHAR_CPTR signedTx2, OUT JUB_CHAR_PTR_PTR mergedTx) {
+    
+    // step 0: decode transaction
+    auto decodeTx = [](auto signedTx) {
+        auto tx = std::make_unique<TW::Bitcoin::Transaction>();
+        auto bytes = uchar_vector(signedTx);
+        if (!tx->decode(false, bytes)) {delete tx.release();};
+        return tx;
+    };
+    
+    auto tx1 = decodeTx(signedTx1);
+    auto tx2 = decodeTx(signedTx2);
+    if (!tx1 || !tx2) return JUBR_ARGUMENTS_BAD;
+    
+    // step 1: verify transaction
+    // verify transaction
+    // or caller make sure transaction is valided
+    
+    // step 2: make sure smae transaction signed by co-signer
+    auto unsignedTx = [](decltype(tx1)& tx) {
+        auto bytes = Data();
+        // version
+        tx->encodeVersion(bytes);
+        // inputs
+        encodeVarInt(tx->inputs.size(), bytes);
+        for(auto input: tx->inputs) {
+            // previous output
+            input->previousOutput.encode(bytes);
+            // placeholder script
+            bytes.push_back(0x00);
+            // sequence
+            encode32LE(input->sequence, bytes);
+        }
+        // outputs
+        encodeVarInt(tx->outputs.size(), bytes);
+        for(auto output: tx->outputs) {
+            output->encode(bytes);
+        }
+        //locktime
+        encode32LE(tx->lockTime, bytes);
+        return bytes;
+    };
+    
+    if (unsignedTx(tx1) != unsignedTx(tx2)) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+    
+    // tx1 tx2 is signd the same `transaction`, and all verified
+    // all inputs must be m-n multi. if not can't merge and bordcast
+    // step 3: check inputs
+    if (!std::all_of(tx1->inputs.begin(), tx1->inputs.end(), [](auto input) {
+        return input->script.isMultisigProgram();
+    })) {
+        return JUBR_ARGUMENTS_BAD;
+    }
+    
+    // step 4: get signatures and public keys from every inputs
+    // index, sigs, pks, m, n
+    using InputItems = std::tuple<int, std::vector<Data>, std::vector<Data>, int, int>;
+    auto items = std::vector<InputItems>();
+    for(auto i = 0; i < tx1->inputs.size(); i++) {
+        std::vector<Data> sigs, sigs1, sigs2;
+        std::vector<Data> pks1, pks2;
+        int m1, n1, m2, n2;
+        {
+            auto input = tx1->inputs[i];
+            if(!input->script.matchMultisigScriptSig(sigs1, pks1, m1, n1)) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+        }
+        {
+            auto input = tx2->inputs[i];
+            if(!input->script.matchMultisigScriptSig(sigs2, pks2, m2, n2)) {
+                return JUBR_ARGUMENTS_BAD;
+            }
+        }
+        
+        if (pks1 != pks2) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+        if (m1 != m2 || n1 != n2) {
+            return JUBR_ARGUMENTS_BAD;
+        }
+        // merge signature
+        std::copy(sigs1.begin(), sigs1.end(), std::back_inserter(sigs));
+        std::copy(sigs2.begin(), sigs2.end(), std::back_inserter(sigs));
+        // pks m n
+        items.push_back({i, sigs, pks1, m1, n1});
+    }
+    
+    // step 6: check pks order. not need we trust all tx is signed under same rule
+    // for (auto& item: items) {
+    //    auto pks = std::get<2>(item);
+    //    if (!std::is_sorted(pks.begin(), pks.end())) {
+    //        return JUBR_ARGUMENTS_BAD;
+    //    }
+    // }
+    
+    // step 7: sort sigs
+    auto sortSigs = [&tx1](InputItems& input) {
+        // tx1 and tx2 is same
+        auto [i, sigs, pks, m, n] = input;
+        // get hash type from sig
+        // hashType must same
+        auto hashType = std::vector<uint32_t>();
+        std::transform(sigs.begin(), sigs.end(), std::back_inserter(hashType), [](auto sig){
+            return static_cast<uint32_t>(sig.back());
+        });
+        
+        auto redeeScript = TW::Bitcoin::Script::buildRedeemScript(m, n, pks);
+        auto preimage = tx1->getPreImage(redeeScript, i, hashType.front()); // hash all
+        auto digest = Data(32);
+        hasher_Raw(HasherType::HASHER_SHA2D, preimage.data(), preimage.size(), digest.data());
+        // make sure tx is verified, so all sigs can verify
+        // <matched-key-index, sig>, `zip` can use since c++23, so sad
+        auto indexedSigs = std::vector<std::tuple<int, Data>>();
+        // can't use std::transferm, pks is local, can't capture
+        for(auto& sig: sigs) {
+            auto index = 0;
+            auto rs = Data(0x40);
+            // tx is verified, sig must valided
+            ecdsa_der_to_sig(sig.data(), rs.data());
+            for (auto& pk: pks) {
+                extern ecdsa_curve secp256k1;
+                if (0 == ecdsa_verify_digest(&secp256k1, pk.data(), rs.data(), digest.data())) {
+                    indexedSigs.push_back({index, sig});
+                    break;
+                }
+                index++;
+            }
+        }
+        
+        auto sortedSigs = std::vector<Data>();
+        std::sort(indexedSigs.begin(), indexedSigs.end(), [](auto& a, auto& b) {
+            // up
+            return std::get<0>(a) < std::get<0>(b);
+        });
+        
+        std::transform(indexedSigs.begin(), indexedSigs.end(), std::back_inserter(sortedSigs), [](auto& indexSig){
+            return std::get<1>(indexSig);
+        });
+        
+        return InputItems{i, sortedSigs, pks, m, n};
+    };
+    // replace inplace
+    std::transform(items.begin(), items.end(), items.begin(), sortSigs);
+    
+    // step 8: merge tx
+    auto merged = TW::Bitcoin::Transaction(tx1->version, tx1->lockTime);
+    for (auto& item: items) {
+        auto [i, sigs, pks, m, n] = item;
+        auto script = TW::Bitcoin::Script::buildPayToScriptMultisigScriptSig(sigs, pks, m, n);
+        auto previousOutput = tx1->inputs[i]->previousOutput;
+        auto sequence = tx1->inputs[i]->sequence;
+        auto input = new TW::Bitcoin::TransactionInput(previousOutput, script, sequence);
+        merged.inputs.push_back(input);
+    }
+    for (auto output: tx1->outputs) {
+        merged.outputs.push_back(new TW::Bitcoin::TransactionOutput(output->value, output->script));
+    }
+    
+    // encode
+    auto bytes = uchar_vector();
+    merged.encode(false, bytes);
+    JUB_VERIFY_RV(_allocMem(mergedTx, bytes.getHex()));
+    return JUBR_OK;
+}

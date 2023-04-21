@@ -46,6 +46,9 @@ class Script {
 
     /// Determines whether this is a witness programm script.
     bool isWitnessProgram() const;
+    
+    /// Determines whether this is a m-n program script.
+    bool isMultisigProgram() const;
 
     /// Matches the script to a pay-to-public-key (P2PK) script.
     bool matchPayToPubkey(Data &publicKey) const;
@@ -64,6 +67,9 @@ class Script {
 
     /// Matches the script to a multisig script.
     bool matchMultisig(std::vector<Data> &publicKeys, int &required) const;
+    
+    /// Matches the script to a multisig script.
+    bool matchMultisigScriptSig(std::vector<Data> &publicKeys, std::vector<Data> &signatures, int &m, int& n) const;
 
     // JuBiter-defined
     /// Matches the script to a scriptSig for a pay-to-public-key-hash (P2PKH).
@@ -122,6 +128,7 @@ class Script {
     // JuBiter-defined
     static bool parseWitnessStackToPayToWitnessScriptHash(const std::vector<Data> &scriptWitness, Data &signature,
                                                           Data &publicKey);
+    static Script buildPayToScriptMultisigScriptSig(const std::vector<Data> &signatures, const std::vector<Data>& publicKeys, int m, int n);
 
     /// Encodes the script.
     void encode(Data &data) const;

@@ -41,6 +41,12 @@ bool Script::isPayToWitnessScriptHash() const {
     return bytes.size() == 22 && bytes[0] == OP_0 && bytes[1] == 0x14;
 }
 
+bool Script::isMultisigProgram() const {
+    // x sig1 sig2 ... m pub1 pub2 ... n
+    if (bytes.size() < 0x91) return false;
+    return bytes.back() == OP_CHECKMULTISIG;
+}
+
 bool Script::isWitnessProgram() const {
     // [nVersion][Data]
     if (bytes.size() < 4 || bytes.size() > 42) {
@@ -114,6 +120,7 @@ static inline int decodeNumber(uint8_t opcode) {
     return static_cast<int>(opcode) - static_cast<int>(OP_1 - 1);
 }
 
+// only support one signature
 bool Script::matchMultisig(std::vector<Data> &keys, int &required) const {
     keys.clear();
     required = 0;
@@ -156,6 +163,40 @@ bool Script::matchMultisig(std::vector<Data> &keys, int &required) const {
 
     return true;
 }
+
+bool Script::matchMultisigScriptSig(std::vector<Data> &sigs, std::vector<Data> &keys, int &m, int& n) const {
+    sigs.clear();
+    keys.clear();
+    m = 0;
+
+    if (bytes.size() < 1 || bytes.back() != OP_CHECKMULTISIG) {
+        return false;
+    }
+
+    size_t it = 0;
+    uint8_t opcode;
+    Data operand;
+    // skip unused value
+    it += 1;
+    // sigs
+    // 0 sig1 sig2 ... m pub1 pub2 ... n
+    while (true) {
+        auto op = getScriptOp(it, opcode, operand);
+        // der encoded signature
+        if (!op || operand[0] != 0x30) {
+            break;
+        }
+        sigs.push_back(operand);
+    }
+    
+    auto redeem = Script(std::move(operand));
+    if (!redeem.matchMultisig(keys, n)) {
+        return false;
+    }
+    m = keys.size();
+    return true;
+}
+
 
 // JuBiter-defined
 /// Matches the script to a scriptSig for a pay-to-public-key-hash (P2PKH).
@@ -363,6 +404,20 @@ Script Script::buildReturn0(const Data &data, const Data &check, int offset) {
     script.bytes.push_back(OP_RETURN);
     script.bytes.push_back(data.size());
     script.bytes.insert(script.bytes.end(), data.begin(), data.end());
+    return script;
+}
+
+Script Script::buildPayToScriptMultisigScriptSig(const std::vector<Data> &signatures, const std::vector<Data>& publicKeys, int m, int n) {
+    Script script;
+    // https://en.bitcoin.it/wiki/Script OP_CHECKMULTISIG
+    // x sig1, sig2 ... m pub1, pub2 ... n OP_CHECKMULTISIG
+    // push a unused value
+    script.bytes.push_back(OP_0);
+    for (auto& sig: signatures) {
+        script += Script(Data(sig));
+    }
+    auto redeem = buildRedeemScript(m, n, publicKeys);
+    script += redeem;
     return script;
 }
 
